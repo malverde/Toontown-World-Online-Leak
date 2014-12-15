@@ -50,7 +50,8 @@ class LocalAccountDB:
             callback({'success': True,
                       'accountId': int(self.dbm[cookie]),
                       'databaseId': cookie,
-                      'adminAccess': 100})
+                      'adminAccess': min((700 if not self.dbm else 100), minAccessLevel)
+                      }
         else:
             # Nope, let's return w/o account ID:
             callback({'success': True,
