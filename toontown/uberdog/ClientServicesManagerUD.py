@@ -50,13 +50,13 @@ class LocalAccountDB:
             callback({'success': True,
                       'accountId': int(self.dbm[cookie]),
                       'databaseId': cookie,
-                      'adminAccess': 507})
+                      'adminAccess': 0})
         else:
             # Nope, let's return w/o account ID:
             callback({'success': True,
                       'accountId': 0,
                       'databaseId': cookie,
-                      'adminAccess': 507})
+                      'adminAccess': 0})
 
     def storeAccountID(self, databaseId, accountId, callback):
         self.dbm[databaseId] = str(accountId)
