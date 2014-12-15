@@ -149,6 +149,7 @@ class LoginAccountFSM(OperationFSM):
         self.databaseId = result.get('databaseId', 0)
 	accountId = result.get('accountId', 0)
         self.adminAccess = result.get('adminAccess', 0)
+        self.userAccess = result.get('userAccess', 900)
         self.betaKeyQuest = result.get('betaKeyQuest', 0)
 
         # Do they have the minimum access needed to play?
@@ -183,7 +184,7 @@ class LoginAccountFSM(OperationFSM):
                         'LAST_LOGIN': time.ctime(),
                         'BETA_KEY_QUEST': self.betaKeyQuest,
                         'ACCOUNT_ID': str(self.databaseId),
-                        'ADMIN_ACCESS': self.adminAccess}
+                        'ADMIN_ACCESS': self.userAccess}
 
         self.csm.air.dbInterface.createObject(
             self.csm.air.dbId,
