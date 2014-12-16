@@ -25,38 +25,33 @@ REPORT_REASONS = [
 
 
 # --- ACCOUNT DATABASES ---
-class LocalAccountDB:
-    def __init__(self, csm):
-        self.csm = csm
-		
-		# This uses dbm, so we open the DB file:
-        filename = simbase.config.GetString('accountdb-local-file',
-                                            'dev-accounts.db')
-        if platform == 'darwin':
-            self.dbm = dumbdbm.open(filename, 'c')
-        else:
-            self.dbm = anydbm.open(filename, 'c')
+class LocalAccountDB(AccountDB):
+    notify = directNotify.newCategory('LocalAccountDB')
 
-    def lookup(self, cookie, callback):
-        if cookie.startswith('.'):
-            # Beginning a cookie with . symbolizes "invalid"
-            callback({'success': False,
-                      'reason': 'Invalid cookie specified!'})
-            return
+    def lookup(self, username, callback):
+        # Let's check if this user's ID is in your account database bridge:
+        if str(username) not in self.dbm:
 
-        # See if the cookie is in the DBM:
-        if cookie in self.dbm:
-            # Return it w/ account ID!
-            callback({'success': True,
-                      'accountId': int(self.dbm[cookie]),
-                      'databaseId': cookie,
-                      'adminAccess': 900})
+            # Nope. Let's associate them with a brand new Account object!
+            response = {
+                'success': True,
+                'userId': username,
+                'accountId': 0,
+                'accessLevel': min((700 if not self.dbm else 100), minAccessLevel)
+            }
+            callback(response)
+            return response
+
         else:
-            # Nope, let's return w/o account ID:
-            callback({'success': True,
-                      'accountId': 0,
-                      'databaseId': cookie,
-                      'adminAccess': 900})
+
+            # We have an account already, let's return what we've got:
+            response = {
+                'success': True,
+                'userId': username,
+                'accountId': int(self.dbm[str(username)]),
+            }
+            callback(response)
+            return response
 
     def storeAccountID(self, databaseId, accountId, callback):
         self.dbm[databaseId] = str(accountId)
