@@ -937,9 +937,3 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
     def handleQuietZoneDone(self):
         how = base.cr.handlerArgs['how']
         self.fsm.request(how, [base.cr.handlerArgs])
- 
-<<<<<<< HEAD
- 
-=======
-
->>>>>>> fab4b939e646e340eee075ca6b136544be29f420
