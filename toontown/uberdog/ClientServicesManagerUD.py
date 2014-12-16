@@ -61,7 +61,7 @@ class LocalAccountDB(AccountDB):
                 'success': True,
                 'userId': username,
                 'accountId': 0,
-                'adminAccess': min((700 if not self.dbm else 100), minAccessLevel)
+                'accessLevel': min((700 if not self.dbm else 100), minAccessLevel)
             }
             callback(response)
             return response
@@ -165,19 +165,20 @@ class LoginAccountFSM(OperationFSM):
             self.demand('Kill', result.get('reason', 'The accounts database rejected your cookie.'))
             return
 
-        self.databaseId = result.get('databaseId', 0)
-	accountId = result.get('accountId', 0)
-        self.adminAccess = result.get('adminAccess', 0)
-        self.userAccess = result.get('userAccess', 0)
-        self.betaKeyQuest = result.get('betaKeyQuest', 0)
-
+       self.userId = result.get('userId', 0)
+        self.accountId = result.get('accountId', 0)
+        self.accessLevel = result.get('accessLevel', 0)
+        if self.accountId:
+            self.demand('RetrieveAccount')
+        else:
+            self.demand('CreateAccount')
         # Do they have the minimum access needed to play?
         if self.adminAccess < simbase.config.GetInt('minimum-access', 0):
             self.csm.air.writeServerEvent('insufficient-access', self.target, self.cookie)
             self.demand('Kill', result.get('reason', 'You have insufficient access to login.'))
             return
 
-        if accountId:
+        if self.accountId:
             self.accountId = accountId
             self.demand('RetrieveAccount')
         else:
@@ -201,7 +202,7 @@ class LoginAccountFSM(OperationFSM):
                         'ACCOUNT_AV_SET_DEL': [],
                         'CREATED': time.ctime(),
                         'LAST_LOGIN': time.ctime(),
-                        'BETA_KEY_QUEST': self.betaKeyQuest,
+                        
                         'ACCOUNT_ID': str(self.databaseId),
                         'ADMIN_ACCESS': self.userAccess}
 
