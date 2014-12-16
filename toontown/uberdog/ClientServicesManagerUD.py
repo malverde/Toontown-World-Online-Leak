@@ -165,7 +165,7 @@ class LoginAccountFSM(OperationFSM):
             self.demand('Kill', result.get('reason', 'The accounts database rejected your cookie.'))
             return
 
-       self.userId = result.get('userId', 0)
+        self.userId = result.get('userId', 0)
         self.accountId = result.get('accountId', 0)
         self.accessLevel = result.get('accessLevel', 0)
         if self.accountId:
