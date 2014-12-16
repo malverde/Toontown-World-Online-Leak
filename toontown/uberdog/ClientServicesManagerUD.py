@@ -25,6 +25,30 @@ REPORT_REASONS = [
 
 
 # --- ACCOUNT DATABASES ---
+class AccountDB:
+    notify = directNotify.newCategory('AccountDB')
+
+    def __init__(self, csm):
+        self.csm = csm
+
+        filename = simbase.config.GetString(
+            'account-bridge-filename', 'account-bridge.db')
+        self.dbm = anydbm.open(filename, 'c')
+
+    def lookup(self, username, callback):
+        pass  # Inheritors should override this.
+
+    def storeAccountID(self, userId, accountId, callback):
+        self.dbm[str(userId)] = str(accountId)  # anydbm only allows strings.
+        if getattr(self.dbm, 'sync', None):
+            self.dbm.sync()
+            callback(True)
+        else:
+            self.notify.warning('Unable to associate user {0} with account {1}!'.format(userId, accountId))
+            callback(False)
+
+
+
 class LocalAccountDB(AccountDB):
     notify = directNotify.newCategory('LocalAccountDB')
 
