@@ -32,7 +32,7 @@ class AccountDB:
         self.csm = csm
 
         filename = simbase.config.GetString(
-            'account-bridge-filename', 'account-bridge.db')
+            'account-bridge-filename', 'dev-accounts.db') 
         self.dbm = anydbm.open(filename, 'c')
 
     def lookup(self, username, callback):
