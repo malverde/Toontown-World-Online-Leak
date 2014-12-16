@@ -61,7 +61,7 @@ class LocalAccountDB(AccountDB):
                 'success': True,
                 'userId': username,
                 'accountId': 0,
-                'accessLevel': min((700 if not self.dbm else 100), minAccessLevel)
+                'adminAccess': min((700 if not self.dbm else 100), minAccessLevel)
             }
             callback(response)
             return response
