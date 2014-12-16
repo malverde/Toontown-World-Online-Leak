@@ -4979,14 +4979,12 @@ def dna(part, value):
         dna.armColor = value
         dna.legColor = value
     elif part=='gloves': # Incase anyone tries to change glove color for whatever reason...
-        return "DNA: Change of glove colors are not allowed."
-        # If you ever want to be able to edit gloves, feel free to comment out this return.
-        # However, since DToonAI checks ToonDNA, this would be impossible unless changes
-        # are made.
-        value = int(value)
-        if not 0 <= value <= 26:
-            return "DNA: Color index out of range."
-        dna.gloveColor = value
+      value = value.title()
+      if value not in ToonDNA.colorToInt.keys():
+          return 'Invalid glove color: {0}'.format(value)
+      dna.gloveColor = ToonDNA.colorToInt[value]
+      target.b_setDNAString(dna.makeNetString())
+      return 'Glove color set to: {0}'.format(value)   
 
     # Body Sizes, Species & Gender (y u want to change gender pls)
     elif part=='gender':
