@@ -62,6 +62,7 @@ want-findfour-table #f
 # This is a temporary 'fix' for DistributedSmoothNodes... probably not the permanent solution to our problem, but it works for now.
 smooth-lag 0.4
 want-keep-alive #f
+ai-sleep 0.01
 
 # Developer Modifications
 # A few fun things for our developer build. These shouldn't go in public_client.
