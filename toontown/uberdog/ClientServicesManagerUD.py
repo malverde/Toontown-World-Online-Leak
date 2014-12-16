@@ -22,7 +22,7 @@ REPORT_REASONS = [
     'MODERATION_FOUL_LANGUAGE', 'MODERATION_PERSONAL_INFO',
     'MODERATION_RUDE_BEHAVIOR', 'MODERATION_BAD_NAME', 'MODERATION_HACKING',
 ]
-
+minAccessLevel = simbase.config.GetInt('account-server-min-access-level', 0)
 
 # --- ACCOUNT DATABASES ---
 class AccountDB:
