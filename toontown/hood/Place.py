@@ -938,4 +938,8 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         how = base.cr.handlerArgs['how']
         self.fsm.request(how, [base.cr.handlerArgs])
  
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> fab4b939e646e340eee075ca6b136544be29f420
