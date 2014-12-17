@@ -241,16 +241,16 @@ class LoginAccountFSM(OperationFSM):
 			
 	    self.demand('SetAccount')
 
-    def enterSetAccount(self):
+    #def enterSetAccount(self):
         # First, if there's anybody on the account, kill them for redundant login:
-        datagram = PyDatagram()
-        datagram.addServerHeader(
-            self.csm.GetAccountConnectionChannel(self.accountId),
-            self.csm.air.ourChannel,
-            CLIENTAGENT_EJECT)
-        datagram.addUint16(100)
-        datagram.addString('This account has been logged in from elsewhere.')
-        self.csm.air.send(datagram)
+     #   datagram = PyDatagram()
+      #  datagram.addServerHeader(
+       #     self.csm.GetAccountConnectionChannel(self.accountId),
+        #    self.csm.air.ourChannel,
+         #   CLIENTAGENT_EJECT)
+       # datagram.addUint16(100)
+       # datagram.addString('This account has been logged in from elsewhere.')
+       # self.csm.air.send(datagram)
 
         # Next, add this connection to the account channel.
         datagram = PyDatagram()
