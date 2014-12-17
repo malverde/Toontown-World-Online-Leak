@@ -5495,7 +5495,7 @@ def sos(count, name):
     return "You were given {0} {1} SOS cards.".format(count, name)
     
 
-@magicWord(category=CATEGORY_ADMIN, types=[str])
+@magicWord(category=CATEGORY_SYSADMIN, types=[str])
 def trackBonus(track):
     """
     Modify the invoker's track bonus level.
