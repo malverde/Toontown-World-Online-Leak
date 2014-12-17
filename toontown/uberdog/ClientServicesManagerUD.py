@@ -198,7 +198,7 @@ class LoginAccountFSM(OperationFSM):
             return
 
         self.account = fields
-        self.demand('SetAccount')
+        self.demand('SetAccount', None, None)
 
     def enterCreateAccount(self):
         self.account = {'ACCOUNT_AV_SET': [0]*6,
