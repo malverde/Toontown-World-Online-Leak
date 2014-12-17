@@ -5493,4 +5493,24 @@ def sos(count, name):
         invoker.NPCFriendsDict[npcId] = count
     invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
     return "You were given {0} {1} SOS cards.".format(count, name)
+    
+
+@magicWord(category=CATEGORY_ADMINISTRATOR, types=[str])
+def trackBonus(track):
+    """
+    Modify the invoker's track bonus level.
+    """
+    trackLength = ToontownBattleGlobals.UBER_GAG_LEVEL_INDEX
+    numTracks = ToontownBattleGlobals.NUM_GAG_TRACKS
+    invoker = spellbook.getInvoker()
+    if track == 'all' or track.isdigit() and 0 <= int(track) < numTracks:
+        if len(track) > 1:
+            trackBonusLevel = [trackLength] * numTracks
+        else:
+            trackBonusLevel = [-1] * numTracks
+            trackBonusLevel[int(track)] = trackLength
+    else:
+        return 'Invalid track!'
+    invoker.b_setTrackBonusLevel(trackBonusLevel)
+    return 'Your track bonus level has been set!'
 
