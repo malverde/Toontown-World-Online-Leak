@@ -201,15 +201,15 @@ class LoginAccountFSM(OperationFSM):
         self.demand('SetAccount')
 
     def enterCreateAccount(self):
-        self.account = {'ACCOUNT_AV_SET': [0]*6,
-                        'ESTATE_ID': 0,
-                        'ACCOUNT_AV_SET_DEL': [],
-                        'CREATED': time.ctime(),
-                        'LAST_LOGIN': time.ctime(),
-                        
-                        'ACCOUNT_ID': str(self.userId),
-                        'ADMIN_ACCESS': self.accessLevel}
-
+        self.account = {
+            'ACCOUNT_AV_SET': [0]*6,
+            'ESTATE_ID': 0,
+            'ACCOUNT_AV_SET_DEL': [],
+            'CREATED': time.ctime(time.mktime(time.gmtime())),
+            'LAST_LOGIN': time.ctime(time.mktime(time.gmtime())),
+            'ACCOUNT_ID': str(self.userId),
+            'ACCESS_LEVEL': self.accessLevel
+        }
         self.csm.air.dbInterface.createObject(
             self.csm.air.dbId,
             self.csm.air.dclassesByName['AccountUD'],
@@ -242,19 +242,21 @@ class LoginAccountFSM(OperationFSM):
 	    self.demand('SetAccount')
 
     def enterSetAccount(self):
-        # First, if there's anybody on the account, kill 'em for redundant login:
-        dg = PyDatagram()
-        dg.addServerHeader(self.csm.GetAccountConnectionChannel(self.accountId),
-                           self.csm.air.ourChannel, CLIENTAGENT_EJECT)
-        dg.addUint16(100)
-        dg.addString('This account has been logged in elsewhere.')
-        self.csm.air.send(dg)
+        # First, if there's anybody on the account, kill them for redundant login:
+        datagram = PyDatagram()
+        datagram.addServerHeader(
+            self.csm.GetAccountConnectionChannel(self.accountId),
+            self.csm.air.ourChannel,
+            CLIENTAGENT_EJECT)
+        datagram.addUint16(100)
+        datagram.addString('This account has been logged in from elsewhere.')
+        self.csm.air.send(datagram)
 
         # Next, add this connection to the account channel.
-        dg = PyDatagram()
-        dg.addServerHeader(self.target, self.csm.air.ourChannel, CLIENTAGENT_OPEN_CHANNEL)
-        dg.addChannel(self.csm.GetAccountConnectionChannel(self.accountId))
-        self.csm.air.send(dg)
+        datagram = PyDatagram()
+        datagram.addServerHeader(self.target, self.csm.air.ourChannel, CLIENTAGENT_OPEN_CHANNEL)
+        datagram.addChannel(self.csm.GetAccountConnectionChannel(self.accountId))
+        self.csm.air.send(datagram)
 
         # Subscribe to any "staff" channels that the account has access to.
         access = self.account.get('ADMIN_ACCESS', 0)
@@ -281,11 +283,11 @@ class LoginAccountFSM(OperationFSM):
         dg = PyDatagram()
         dg.addServerHeader(self.target, self.csm.air.ourChannel, CLIENTAGENT_SET_CLIENT_ID)
         dg.addChannel(self.accountId << 32) # accountId in high 32 bits, 0 in low (no avatar)
-        self.csm.air.send(dg)
+        self.csm.air.send(datagram)
 
         # Un-sandbox them!
-        dg = PyDatagram()
-        dg.addServerHeader(self.target, self.csm.air.ourChannel, CLIENTAGENT_SET_STATE)
+        datagram = PyDatagram()
+        datagram.addServerHeader(self.target, self.csm.air.ourChannel, CLIENTAGENT_SET_STATE)
         dg.addUint16(2) # ESTABLISHED state. BIG FAT SECURITY RISK!!!
         self.csm.air.send(dg)
 
