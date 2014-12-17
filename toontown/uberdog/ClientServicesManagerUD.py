@@ -7,6 +7,7 @@ from toontown.makeatoon.NameGenerator import NameGenerator
 from toontown.toonbase import TTLocalizer
 from otp.distributed import OtpDoGlobals
 from sys import platform
+from os import *
 import dumbdbm
 import anydbm
 import time
