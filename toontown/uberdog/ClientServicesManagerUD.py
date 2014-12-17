@@ -232,7 +232,7 @@ class LoginAccountFSM(OperationFSM):
         self.demand('StoreAccountID')
 
     def enterStoreAccountID(self):
-        self.csm.accountDB.storeAccountID(self.databaseId, self.accountId, self.__handleStored)
+        self.csm.accountDB.storeAccountID(self.userId, self.accountId, self.__handleStored)
 
     def __handleStored(self, success=True):
         if not success:
