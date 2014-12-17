@@ -207,7 +207,7 @@ class LoginAccountFSM(OperationFSM):
                         'LAST_LOGIN': time.ctime(),
                         
                         'ACCOUNT_ID': str(self.accountId),
-                        'ADMIN_ACCESS': self.userAccess}
+                        'ADMIN_ACCESS': self.accessLevel}
 
         self.csm.air.dbInterface.createObject(
             self.csm.air.dbId,
@@ -295,7 +295,7 @@ class LoginAccountFSM(OperationFSM):
             self.csm.air.dclassesByName['AccountUD'],
             {'LAST_LOGIN': time.ctime(),
              'ACCOUNT_ID': str(self.userId),
-             'ADMIN_ACCESS': self.userAccess,
+             'ADMIN_ACCESS': self.accessLevel,
              'BETA_KEY_QUEST': self.betaKeyQuest})
 
         # Add a POST_REMOVE to the connection channel to execute the NetMessenger
