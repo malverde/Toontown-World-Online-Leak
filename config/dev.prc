@@ -3,7 +3,7 @@
 # as well as deployment/server.prc if necessary.
 
 # Client settings
-window-title Toontown World Online [DEV BUILD]
+window-title Toontown World Online [Pre-Alpha]
 server-version ttw-alpha-2.0.0
 sync-video #f
 want-dev #f

@@ -3,7 +3,7 @@
 # Config.prc should be reproduced here.
 
 # Client settings
-window-title Toontown Rewritten [BETA]
+window-title Toontown World[Pre-Alpha]
 server-version SERVER_VERSION_HERE
 audio-library-name p3openal_audio
 sync-video #f
@@ -72,3 +72,4 @@ force-player-understandable #t
 # Holidays and Events
 force-holiday-decorations 6
 want-arg-manager #f
+show-total-population #t
