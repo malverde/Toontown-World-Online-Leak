@@ -5,14 +5,14 @@ This README would normally document whatever steps are necessary to get your app
 ### What is this repository for? ###
 
 * Quick summary
-* Version
+* Version 2.0.0 pre alpha
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
 ### How do I get set up? ###
 
 * Summary of set up
 * Configuration
-* Dependencies
+* Dependencies Panda3d astron
 * Database configuration
 * How to run tests
 * Deployment instructions
