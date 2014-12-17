@@ -85,8 +85,8 @@ class RemoteAccountDB:
                 gsUserId = 0
             callback({'success': True,
                       'databaseId': response['user_id'],
-                      'accountId': gsUserId,
-                      'adminAccess': response['adminAccess']})
+                      'accountId': gsUserId  })
+                     
     def storeAccountID(self, databaseId, accountId, callback):
         response = self.__executeHttpRequest("associate_user/%s/with/%s" % (databaseId, accountId), str(databaseId) + str(accountId))
         if not response:
