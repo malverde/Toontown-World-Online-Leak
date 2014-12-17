@@ -206,7 +206,7 @@ class LoginAccountFSM(OperationFSM):
                         'CREATED': time.ctime(),
                         'LAST_LOGIN': time.ctime(),
                         
-                        'ACCOUNT_ID': str(self.accountId),
+                        'ACCOUNT_ID': str(self.userId),
                         'ADMIN_ACCESS': self.accessLevel}
 
         self.csm.air.dbInterface.createObject(
