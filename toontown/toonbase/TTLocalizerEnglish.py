@@ -2010,7 +2010,7 @@ PetPanelOwner = 'Show Owner'
 PetPanelDetail = 'Pet Details'
 PetPanelScratch = 'Scratch'
 PetDetailPanelTitle = 'Trick Training'
-PettwickStrings = {0: 'Jump',
+PetTrickStrings = {0: 'Jump',
  1: 'Beg',
  2: 'Play dead',
  3: 'Rollover',
@@ -2445,7 +2445,7 @@ SuitAttackNames = {'Audit': 'Audit!',
  'FreezeAssets': 'Freeze Assets!',
  'Gavel': 'Gavel!',
  'GlowerPower': 'Glower Power!',
- 'Guilttwip': 'Guilt Trip!',
+ 'GuiltTrip': 'Guilt Trip!',
  'HalfWindsor': 'Half Windsor!',
  'HangUp': 'Hang Up!',
  'HeadShrink': 'Head Shrink!',
@@ -2703,7 +2703,7 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
                  'Peeka-boo, I see you.',
                  'Look into my eyes...',
                  'Shall we take a peek at your future?'],
- 'Guilttwip': ["I'll lay a real guilt trip on you!",
+ 'GuiltTrip': ["I'll lay a real guilt trip on you!",
                'Feeling guilty?',
                "It's all your fault!",
                'I always blame everything on you.',
@@ -4117,7 +4117,7 @@ FriendInviterPlayer = 'Player'
 FriendInviterThatPlayer = 'That player'
 FriendInviterBegin = 'What type of friend would you like to make?'
 FriendInviterToonFriendInfo = 'A friend only in Toontown'
-FriendInviterPlayerFriendInfo = 'A friend across the toontown world network'
+FriendInviterPlayerFriendInfo = 'A friend across the Toontown World network'
 FriendInviterToonTooMany = 'You have too many toon friends to add another one now. You will have to remove some toon friends if you want to make friends with %s. You could also try making player friends them.'
 FriendInviterPlayerTooMany = 'You have too many player friends to add another one now. You will have to remove some player friends if you want to make friends with %s. You could also try making toon friends with them.'
 FriendInviterToonAlready = '%s is already your toon friend.'
@@ -4182,7 +4182,7 @@ LauncherPhaseNames = {0: 'Initialization',
  12: Bossbot + ' HQ',
  13: 'Parties'}
 LauncherProgress = '%(name)s (%(current)s of %(total)s)'
-LauncherStartingMessage = "Starting toontown world... "
+LauncherStartingMessage = "Starting Toontown World... "
 LauncherDownloadFile = 'Downloading update for ' + LauncherProgress + '...'
 LauncherDownloadFileBytes = 'Downloading update for ' + LauncherProgress + ': %(bytes)s'
 LauncherDownloadFilePercent = 'Downloading update for ' + LauncherProgress + ': %(percent)s%%'
@@ -4192,16 +4192,16 @@ LauncherExtractingFile = 'Extracting update for ' + LauncherProgress + '...'
 LauncherExtractingPercent = 'Extracting update for ' + LauncherProgress + ': %(percent)s%%'
 LauncherPatchingFile = 'Applying update for ' + LauncherProgress + '...'
 LauncherPatchingPercent = 'Applying update for ' + LauncherProgress + ': %(percent)s%%'
-LauncherConnectProxyAttempt = 'Connecting to toontown world: %s (proxy: %s) attempt: %s'
-LauncherConnectAttempt = 'Connecting to toontown world: %s attempt %s'
-LauncherDownloadServerFileList = 'Updating toontown world...'
-LauncherCreatingDownloadDb = 'Updating toontown world...'
-LauncherDownloadClientFileList = 'Updating toontown world...'
-LauncherFinishedDownloadDb = 'Updating toontown world... '
-LauncherStartingGame = 'Starting toontown world...'
-LauncherRecoverFiles = 'Updating toontown world. Recovering files...'
+LauncherConnectProxyAttempt = 'Connecting to Toontown World: %s (proxy: %s) attempt: %s'
+LauncherConnectAttempt = 'Connecting to Toontown World: %s attempt %s'
+LauncherDownloadServerFileList = 'Updating Toontown World...'
+LauncherCreatingDownloadDb = 'Updating Toontown World...'
+LauncherDownloadClientFileList = 'Updating Toontown World...'
+LauncherFinishedDownloadDb = 'Updating Toontown World... '
+LauncherStartingGame = 'Starting Toontown World...'
+LauncherRecoverFiles = 'Updating Toontown World. Recovering files...'
 LauncherCheckUpdates = 'Checking for updates for ' + LauncherProgress
-LauncherVerifyPhase = 'Updating toontown world...'
+LauncherVerifyPhase = 'Updating Toontown World...'
 LoadingDownloadWatcherUpdate = 'Loading %s'
 AvatarChoiceMakeAToon = 'Make A\nToon'
 AvatarChoicePlayThisToon = 'Play\nThis Toon'
@@ -4394,7 +4394,7 @@ MusicEncntrGeneralBg = 'Encounter With Cogs'
 MusicTcSzActivity = 'Toontorial Medley'
 MusicTcSz = 'Strolling Along'
 MusicCreateAToon = 'The New Toon in Town'
-MusicttwTheme = 'The toontown world Theme'
+MusicTtrTheme = 'The Toontown World Theme'
 MusicTtTheme = 'The Toontown Theme'
 MusicMinigameRace = 'Slow and Steady'
 MusicMgPairing = 'Remember Me?'
@@ -5683,7 +5683,7 @@ QuestScriptTutorialBlocker_3 = "Oh! You don't know how to use SpeedChat!"
 QuestScriptTutorialBlocker_4 = 'Click on the button to say something.'
 QuestScriptTutorialBlocker_5 = 'Very good!\x07Where you are going there are many Toons to talk to.'
 QuestScriptTutorialBlocker_6 = "If you want to chat with other Toons using the keyboard, there's another button you can use."
-QuestScriptTutorialBlocker_7 = "It's called the SpeedChat Plus button. You need to turn on Speedchat Plus in your Account Manager on the toontown world Website to use it."
+QuestScriptTutorialBlocker_7 = "It's called the SpeedChat Plus button. You need to turn on Speedchat Plus in your Account Manager on the Toontown World Website to use it."
 QuestScriptTutorialBlocker_8 = 'Good luck! See you later!'
 QuestScriptGagShop_1 = 'Welcome to the Gag Shop!'
 QuestScriptGagShop_1a = 'This is where Toons come to buy gags to use against the Cogs.'
@@ -5794,7 +5794,7 @@ EmoteTypeName = 'Acting Lessons'
 BeanTypeName = 'Jellybeans'
 PoleTypeName = 'Fishing Pole'
 WindowViewTypeName = 'Window View'
-PettwickTypeName = 'Doodle Training'
+PetTrickTypeName = 'Doodle Training'
 GardenTypeName = 'Garden Supplies'
 RentalTypeName = 'Rental Item'
 GardenStarterTypeName = 'Gardening Kit'
@@ -5811,7 +5811,7 @@ CatalogItemTypeNames = {0: 'INVALID_ITEM',
  8: 'MOULDING',
  9: 'WAINSCOTING',
  10: PoleTypeName,
- 11: PettwickTypeName,
+ 11: PetTrickTypeName,
  12: BeanTypeName,
  13: GardenTypeName,
  14: RentalTypeName,
@@ -6928,7 +6928,7 @@ CatalogPurchaseNoTrunk = 'In order to wear this item, you need to buy a trunk.\n
 CatalogPurchaseTrunkFull = 'Your trunk is full. If you purchase this item, you\xe2\x80\x99ll need to delete another item from your trunk to make more room.\n\nDo you still want to purchase this item?'
 CatalogAcceptClosetFull = 'Your closet is full.  You must go inside and delete something from your closet to make room for this item before you can take it out of your mailbox.'
 CatalogAcceptNoTrunk = "You don't have a trunk. You must buy a trunk before you can take this item out of your mailbox."
-CatalogAccepttwunkFull = 'Your trunk is full.  You must delete something from your trunk before you can take this item out of your mailbox.'
+CatalogAcceptTrunkFull = 'Your trunk is full.  You must delete something from your trunk before you can take this item out of your mailbox.'
 CatalogAcceptShirt = 'You are now wearing your new hat.  The hat you were wearing before has been moved to your trunk.'
 CatalogAcceptShorts = 'You are now wearing your new shorts.  What you were wearing before has been moved to your closet.'
 CatalogAcceptSkirt = 'You are now wearing your new skirt.  What you were wearing before has been moved to your closet.'
@@ -7693,7 +7693,7 @@ NPCToonNames = {20000: 'Tutorial Tom',
  7008: 'Ima Cagedtoon',
  7009: 'Jimmy Thelock',
 91913: 'Shockley', # 9/19/13 = Closing of Toontown, just a random number to start with so we don't take up other IDs
-91914: 'Sir Max',  # Feel free to add other ttw members in as needed.
+91914: 'Sir Max',  # Feel free to add other TTW members in as needed.
 91915: 'McQuack',
 91916: 'Hawkheart'}
 zone2TitleDict = {2513: ('Toon Hall', ''),
@@ -8086,7 +8086,7 @@ zone2TitleDict = {2513: ('Toon Hall', ''),
  9630: ('Rock to Sleep Quarry', ''),
  9631: ('Down Time Watch Repair', ''),
  9633: ('The Dreamland Screening Room', ''),
- 9634: ('Mind Over Mattwess', ''),
+ 9634: ('Mind Over Mattress', ''),
  9636: ('Insomniac Insurance', ''),
  9639: ('House of Hibernation', ''),
  9640: ('Nightstand Furniture Company', ''),
@@ -8285,7 +8285,7 @@ def GetPossesive(name, place):
     return possesive
 
 
-Pettwait2descriptions = {'hungerThreshold': ('Always Hungry',
+PetTrait2descriptions = {'hungerThreshold': ('Always Hungry',
                      'Often Hungry',
                      'Sometimes Hungry',
                      'Rarely Hungry'),
@@ -8407,7 +8407,7 @@ TipDict = {TIP_NONE: ('',),
                'Open or close your Shticker Book by pressing the "F8" key.',
                'You can look up by pressing the "Page Up" key and look down by pressing the "Page Down" key.',
                'Press the "Control" key to jump.',
-               'Press the "F9" key to take a screenshot, which will be saved in your toontown world folder on your computer.',
+               'Press the "F9" key to take a screenshot, which will be saved in your Toontown World folder on your computer.',
                'You can change your screen resolution, adjust audio, and control other options on the Options Page in the Shticker Book.',
                "Try on your friend's clothing at the closet in their house.",
                'You can go to your house using the "Go Home" button on your map.',
@@ -8421,7 +8421,7 @@ TipDict = {TIP_NONE: ('',),
                'Change to different views of your Toon by pressing the Tab Key.',
                'Sometimes you can find several different ToonTasks offered for the same reward. Shop around!',
                'Finding friends with similar ToonTasks is a fun way to progress through the game.',
-               'You never need to save your Toontown progress. The toontown world servers continually save all the necessary information.',
+               'You never need to save your Toontown progress. The Toontown World servers continually save all the necessary information.',
                'You can whisper to other Toons either by clicking on them or by selecting them from your Friends List.',
                'Some SpeedChat phrases play emotion animations on your Toon.',
                'If the area you are in is crowded, try changing Districts. Go to the District Page in the Shticker Book and select a different one.',
@@ -8904,7 +8904,7 @@ Races = 'races'
 Total = 'total'
 GrandTouring = 'Grand Touring'
 
-def gettwackGenreString(genreId):
+def getTrackGenreString(genreId):
     genreStrings = ['Speedway', 'Country', 'City']
     return genreStrings[genreId].lower()
 
@@ -8915,11 +8915,11 @@ def getTunnelSignName(trackId, padId):
     elif trackId == 1 and padId == 0:
         return 'tunnel_countrysign1'
     else:
-        genreId = RaceGlobals.gettwackGenre(trackId)
-        return 'tunnel%s_%ssign' % (padId + 1, RaceGlobals.gettwackGenreString(genreId))
+        genreId = RaceGlobals.getTrackGenre(trackId)
+        return 'tunnel%s_%ssign' % (padId + 1, RaceGlobals.getTrackGenreString(genreId))
 
 
-KarttwophyDescriptions = [str(RaceGlobals.QualifiedRaces[0]) + ' ' + RaceHoodSpeedway + ' ' + Race + ' ' + RaceQualified,
+KartTrophyDescriptions = [str(RaceGlobals.QualifiedRaces[0]) + ' ' + RaceHoodSpeedway + ' ' + Race + ' ' + RaceQualified,
  str(RaceGlobals.QualifiedRaces[1]) + ' ' + RaceHoodSpeedway + ' ' + Races + ' ' + RaceQualified,
  str(RaceGlobals.QualifiedRaces[2]) + ' ' + RaceHoodSpeedway + ' ' + Races + ' ' + RaceQualified,
  str(RaceGlobals.QualifiedRaces[0]) + ' ' + RaceHoodRural + ' ' + Race + ' ' + RaceQualified,
@@ -9175,7 +9175,7 @@ GardeningWaterSkill = 'Water Skill'
 GardeningShovelSkill = 'Shovel Skill'
 GardeningNoSkill = 'No Skill Up'
 GardeningPlantFlower = 'Plant\nFlower'
-GardeningPlanttwee = 'Plant\nTree'
+GardeningPlantTree = 'Plant\nTree'
 GardeningPlantItem = 'Plant\nItem'
 PlantingGuiOk = 'Plant'
 PlantingGuiCancel = 'Cancel'
