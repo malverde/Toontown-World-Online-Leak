@@ -5,7 +5,7 @@ from direct.distributed.PyDatagram import *
 from toontown.toon.ToonDNA import ToonDNA
 from toontown.makeatoon.NameGenerator import NameGenerator
 from toontown.toonbase import TTLocalizer
-from otp.distributed import OtpDoGlobals
+from otp.distributed import OtpDoGlobalse
 from sys import platform
 from os import *
 import dumbdbm
@@ -142,11 +142,11 @@ class OperationFSM(FSM):
             self.csm.killAccount(self.target, reason)
         self.demand('Off')
 
-    def enterOff(self, csm, target):
-        if self.TARGET_CONNECTION:
-            del self.csm.connection2fsm[self.target]
-        else:
-            del self.csm.account2fsm[self.target]
+#    def enterOff(self, csm, target):
+#        if self.TARGET_CONNECTION:
+#            del self.csm.connection2fsm[self.target]
+#        else:
+#            del self.csm.account2fsm[self.target]
 
 class LoginAccountFSM(OperationFSM):
     TARGET_CONNECTION = True
