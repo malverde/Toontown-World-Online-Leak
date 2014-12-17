@@ -142,7 +142,7 @@ class OperationFSM(FSM):
             self.csm.killAccount(self.target, reason)
         self.demand('Off')
 
-    def enterOff(self, self.target):
+    def enterOff(self, csm, target):
         if self.TARGET_CONNECTION:
             del self.csm.connection2fsm[self.target]
         else:
