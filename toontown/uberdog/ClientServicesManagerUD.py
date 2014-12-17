@@ -295,8 +295,8 @@ class LoginAccountFSM(OperationFSM):
             self.csm.air.dclassesByName['AccountUD'],
             {'LAST_LOGIN': time.ctime(),
              'ACCOUNT_ID': str(self.userId),
-             'ADMIN_ACCESS': self.accessLevel,
-             'BETA_KEY_QUEST': self.betaKeyQuest})
+             'ADMIN_ACCESS': self.accessLevel})
+            
 
         # Add a POST_REMOVE to the connection channel to execute the NetMessenger
         # message when the account connection goes RIP on the Client Agent.
