@@ -178,8 +178,11 @@ class LoginAccountFSM(OperationFSM):
             self.demand('Kill', result.get('reason', 'You have insufficient access to login.'))
             return
 
+        self.userId = result.get('userId', 0)
+        self.accountId = result.get('accountId', 0)
+        self.accessLevel = result.get('accessLevel', 0)
         if self.accountId:
-            self.accountId = accountId
+            
             self.demand('RetrieveAccount')
         else:
             self.demand('CreateAccount')
