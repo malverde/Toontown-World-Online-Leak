@@ -294,8 +294,8 @@ class LoginAccountFSM(OperationFSM):
             self.accountId,
             self.csm.air.dclassesByName['AccountUD'],
             {'LAST_LOGIN': time.ctime(),
-             'ACCOUNT_ID': str(self.databaseId),
-             'ADMIN_ACCESS': self.adminAccess,
+             'ACCOUNT_ID': str(self.userId),
+             'ADMIN_ACCESS': self.userAccess,
              'BETA_KEY_QUEST': self.betaKeyQuest})
 
         # Add a POST_REMOVE to the connection channel to execute the NetMessenger
