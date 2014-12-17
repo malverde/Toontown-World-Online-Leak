@@ -69,11 +69,11 @@ ai-sleep 0.01
 estate-day-night #t
 want-instant-parties #t
 show-total-population #t
-want-toontorial #f
+want-toontorial #t
 
 
 # Chat stuff
-want-whitelist #f
+want-whitelist #t
 want-blacklist-sequence #f
 force-avatar-understandable #t
 force-player-understandable #t
