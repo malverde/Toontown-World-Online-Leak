@@ -3,7 +3,7 @@
 # as well as deployment/server.prc if necessary.
 
 # Client settings
-window-title Toontown World Online [DEV BUILD]
+window-title Toontown World Online [Pre-Alpha]
 server-version ttw-alpha-2.0.0
 sync-video #f
 want-dev #f
@@ -62,6 +62,7 @@ want-findfour-table #f
 # This is a temporary 'fix' for DistributedSmoothNodes... probably not the permanent solution to our problem, but it works for now.
 smooth-lag 0.4
 want-keep-alive #f
+ai-sleep 0.04
 
 # Developer Modifications
 # A few fun things for our developer build. These shouldn't go in public_client.
@@ -69,7 +70,7 @@ estate-day-night #t
 want-instant-parties #t
 show-total-population #t
 want-toontorial #f
-
+want-doomsday #f
 
 # Chat stuff
 want-whitelist #f
