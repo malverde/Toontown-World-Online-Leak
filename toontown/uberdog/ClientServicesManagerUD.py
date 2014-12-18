@@ -50,7 +50,7 @@ class LocalAccountDB:
             callback({'success': True,
                       'accountId': int(self.dbm[cookie]),
                       'databaseId': cookie,
-                      'adminAccess': 
+                      'adminAccess': 0
                       })
         else:
             # Nope, let's return w/o account ID:
