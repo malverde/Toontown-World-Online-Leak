@@ -84,4 +84,4 @@ force-holiday-decorations 6
 want-arg-manager #t
 want-mega-invasions #t
 mega-invasion-cog-type tm
-want-doomsday #t﻿
+want-doomsday #f﻿
