@@ -152,12 +152,8 @@ class LoginAccountFSM(OperationFSM):
         self.adminAccess = result.get('adminAccess', 0)
         self.betaKeyQuest = result.get('betaKeyQuest', 0)
 
-        # Do they have the minimum access needed to play?
-        if self.adminAccess < simbase.config.GetInt('minimum-access', 0):
-            self.csm.air.writeServerEvent('insufficient-access', self.target, self.cookie)
-            self.demand('Kill', result.get('reason', 'You have insufficient access to login.'))
-            return
-
+       
+        
         if accountId:
             self.accountId = accountId
             self.demand('RetrieveAccount')
@@ -737,8 +733,9 @@ class LoadAvatarFSM(AvatarOperationFSM):
         adminAccess = self.account.get('ADMIN_ACCESS', 0)
         adminAccess = adminAccess - adminAccess % 100
 
- 
-
+        self.csm.air.sendActivate(self.avId, 0, 0,
+                                   self.csm.air.dclassesByName['DistributedToonUD'],
+                                   {'setAdminAccess': [self.account.get('ADMIN_ACCESS', 0)]})
 
         # Next, add them to the avatar channel:
         dg = PyDatagram()
