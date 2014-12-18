@@ -50,13 +50,14 @@ class LocalAccountDB:
             callback({'success': True,
                       'accountId': int(self.dbm[cookie]),
                       'databaseId': cookie,
-                      'adminAccess': 100})
+                      'adminAccess': 0
+                      })
         else:
             # Nope, let's return w/o account ID:
             callback({'success': True,
                       'accountId': 0,
                       'databaseId': cookie,
-                      'adminAccess': 100})
+                      'adminAccess': 0 })
 
     def storeAccountID(self, databaseId, accountId, callback):
         self.dbm[databaseId] = str(accountId)
@@ -151,12 +152,8 @@ class LoginAccountFSM(OperationFSM):
         self.adminAccess = result.get('adminAccess', 0)
         self.betaKeyQuest = result.get('betaKeyQuest', 0)
 
-        # Do they have the minimum access needed to play?
-        if self.adminAccess < simbase.config.GetInt('minimum-access', 100):
-            self.csm.air.writeServerEvent('insufficient-access', self.target, self.cookie)
-            self.demand('Kill', result.get('reason', 'You have insufficient access to login.'))
-            return
-
+       
+        
         if accountId:
             self.accountId = accountId
             self.demand('RetrieveAccount')
@@ -232,7 +229,7 @@ class LoginAccountFSM(OperationFSM):
         self.csm.air.send(dg)
 
         # Subscribe to any "staff" channels that the account has access to.
-        access = self.account.get('ADMIN_ACCESS', 0)
+        access = self.account.get('ADMIN_ACCESS, 0')
         if access >= 200:
             # Subscribe to the moderator channel.
             dg = PyDatagram()
@@ -271,7 +268,7 @@ class LoginAccountFSM(OperationFSM):
             self.csm.air.dclassesByName['AccountUD'],
             {'LAST_LOGIN': time.ctime(),
              'ACCOUNT_ID': str(self.databaseId),
-             'ADMIN_ACCESS': self.adminAccess,
+             
              'BETA_KEY_QUEST': self.betaKeyQuest})
 
         # Add a POST_REMOVE to the connection channel to execute the NetMessenger
@@ -736,11 +733,9 @@ class LoadAvatarFSM(AvatarOperationFSM):
         adminAccess = self.account.get('ADMIN_ACCESS', 0)
         adminAccess = adminAccess - adminAccess % 100
 
-        # Activate the avatar on the DBSS:
         self.csm.air.sendActivate(self.avId, 0, 0,
-                                  self.csm.air.dclassesByName['DistributedToonUD'],
-                                  {'setAdminAccess': [self.account.get('ADMIN_ACCESS', 0)]})
-
+                                   self.csm.air.dclassesByName['DistributedToonUD'],
+                                   {'setAdminAccess': [self.account.get('ADMIN_ACCESS', 0)]})
 
         # Next, add them to the avatar channel:
         dg = PyDatagram()
