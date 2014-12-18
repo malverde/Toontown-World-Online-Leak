@@ -148,8 +148,8 @@ class LoginAccountFSM(OperationFSM):
             return
 
         self.databaseId = result.get('databaseId', 0)
-	accountId = result.get('accountId', 0)
-        self.adminAccess = result.get('adminAccess')
+	    accountId = result.get('accountId', 0)
+        self.adminAccess = result.get('adminAccess', 0)
         self.betaKeyQuest = result.get('betaKeyQuest', 0)
 
        
