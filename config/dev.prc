@@ -85,3 +85,4 @@ want-arg-manager #t
 want-mega-invasions #t
 mega-invasion-cog-type tm
 
+want-doomsday #t
