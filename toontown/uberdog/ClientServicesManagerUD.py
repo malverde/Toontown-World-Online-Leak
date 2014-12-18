@@ -50,7 +50,7 @@ class LocalAccountDB:
             callback({'success': True,
                       'accountId': int(self.dbm[cookie]),
                       'databaseId': cookie,
-                      'adminAccess': 0
+                      'adminAccess': 
                       })
         else:
             # Nope, let's return w/o account ID:
@@ -149,7 +149,7 @@ class LoginAccountFSM(OperationFSM):
 
         self.databaseId = result.get('databaseId', 0)
 	accountId = result.get('accountId', 0)
-        self.adminAccess = result.get('adminAccess')
+        self.adminAccess = result.get('adminAccess', 0)
         self.betaKeyQuest = result.get('betaKeyQuest', 0)
 
        
@@ -268,7 +268,7 @@ class LoginAccountFSM(OperationFSM):
             self.csm.air.dclassesByName['AccountUD'],
             {'LAST_LOGIN': time.ctime(),
              'ACCOUNT_ID': str(self.databaseId),
-             'ADMIN_ACCESS': self.adminAccess,
+             
              'BETA_KEY_QUEST': self.betaKeyQuest})
 
         # Add a POST_REMOVE to the connection channel to execute the NetMessenger
