@@ -151,7 +151,7 @@ class LoginAccountFSM(OperationFSM):
         self.betaKeyQuest = result.get('betaKeyQuest', 0)
 
         # Do they have the minimum access needed to play?
-        if self.adminAccess < simbase.config.GetInt('minimum-access', 100):
+        if self.adminAccess < simbase.config.GetInt('minimum-access', 0):
             self.csm.air.writeServerEvent('insufficient-access', self.target, self.cookie)
             self.demand('Kill', result.get('reason', 'You have insufficient access to login.'))
             return
