@@ -14,7 +14,7 @@ import hmac
 import hashlib
 import json
 from ClientServicesManager import FIXED_KEY
-
+minAccessLevel = simbase.config.GetInt('account-server-min-access-level', 0)
 def judgeName(name):
     return True
 
@@ -49,13 +49,14 @@ class LocalAccountDB:
             # Return it w/ account ID!
             callback({'success': True,
                       'accountId': int(self.dbm[cookie]),
-                      'databaseId': cookie })
+                      'databaseId': cookie  })
                      
         else:
             # Nope, let's return w/o account ID:
             callback({'success': True,
                       'accountId': 0,
-                      'databaseId': cookie })
+                      'databaseId': cookie 
+                      'adminAccess': min((700 if not self.dbm else 100), minAccessLevel)                })
                       
 
     def storeAccountID(self, databaseId, accountId, callback):
@@ -85,8 +86,8 @@ class RemoteAccountDB:
                 gsUserId = 0
             callback({'success': True,
                       'databaseId': response['user_id'],
-                      'accountId': gsUserId  })
-                     
+                      'accountId': gsUserId,
+                      'adminAccess': response['adminAccess']})
     def storeAccountID(self, databaseId, accountId, callback):
         response = self.__executeHttpRequest("associate_user/%s/with/%s" % (databaseId, accountId), str(databaseId) + str(accountId))
         if not response:
