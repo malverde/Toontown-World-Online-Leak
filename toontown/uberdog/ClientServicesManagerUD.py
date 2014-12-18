@@ -14,7 +14,7 @@ import hmac
 import hashlib
 import json
 from ClientServicesManager import FIXED_KEY
-minAccessLevel = simbase.config.GetInt('account-server-min-access-level', 0)
+
 def judgeName(name):
     return True
 
@@ -49,15 +49,13 @@ class LocalAccountDB:
             # Return it w/ account ID!
             callback({'success': True,
                       'accountId': int(self.dbm[cookie]),
-                      'databaseId': cookie  })
-                     
+                      'databaseId': cookie })
         else:
             # Nope, let's return w/o account ID:
             callback({'success': True,
                       'accountId': 0,
-                      'databaseId': cookie 
-                      'adminAccess': min((700 if not self.dbm else 100), minAccessLevel)                })
-                      
+                      'databaseId': cookie,
+                      'adminAccess': 0})
 
     def storeAccountID(self, databaseId, accountId, callback):
         self.dbm[databaseId] = str(accountId)
@@ -153,7 +151,10 @@ class LoginAccountFSM(OperationFSM):
         self.betaKeyQuest = result.get('betaKeyQuest', 0)
 
         # Do they have the minimum access needed to play?
-      
+        if self.adminAccess < simbase.config.GetInt('minimum-access', 100):
+            self.csm.air.writeServerEvent('insufficient-access', self.target, self.cookie)
+            self.demand('Kill', result.get('reason', 'You have insufficient access to login.'))
+            return
 
         if accountId:
             self.accountId = accountId
