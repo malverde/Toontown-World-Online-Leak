@@ -67,7 +67,7 @@ ai-sleep 0.04
 # Developer Modifications
 # A few fun things for our developer build. These shouldn't go in public_client.
 estate-day-night #t
-want-instant-parties #t
+want-instant-parties #f
 show-total-population #t
 want-toontorial #f
 want-doomsday #f
@@ -82,5 +82,5 @@ force-player-understandable #t
 # Holidays and Events
 force-holiday-decorations 6
 want-arg-manager #t
-want-mega-invasions #t
+want-mega-invasions #f
 mega-invasion-cog-type tm
