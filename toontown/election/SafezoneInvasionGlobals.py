@@ -5,7 +5,8 @@ FinaleSuitSpawnPoint = (-138.0, 4.0, 0.5, -90.0)
 
 # The position of the Finale suit
 # Spawns at SuitSpawnPoints # 3
-FinaleSuitDestinations = [
+FinaleSuitDestinations = [# This message is displayed upon trying to leave Toontown Central
+LeaveToontownCentralAlert = "There isn't anywh
     (-96.2, -52.3),
     (-36.5, -56.0),
     (  7.1,  -1.4),
@@ -202,8 +203,7 @@ ToonHealAmount = 3 # How much healing does a pie on a Toon do?
 CogSkyFile = 'phase_3.5/models/props/BR_sky'
 InvasionMusicEnter = 'phase_4/audio/bgm/DD_main_temp.ogg' # TODO: Break into separate parts for a better loop
 
-# This message is displayed upon trying to leave Toontown Central
-LeaveToontownCentralAlert = "There isn't anywhere to go! Shops are closed for the election today."
+ere to go! Shops are closed for the election today."
 
 # A message for Anth's credit sequence. Might end up unused.
 Thanks = "Thank you so much for attending the elections! We'd like to thank you all for supporting us! See you all soon!"

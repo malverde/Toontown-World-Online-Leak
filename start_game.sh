@@ -11,4 +11,4 @@ echo Username: $ttrUsername$
 echo Client Agent IP: $TTR_GAMESERVER$
 echo ===============================
 python -m toontown.toonbase.ToontownStart.py
-sleep
+sleep 1
