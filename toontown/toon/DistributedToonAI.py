@@ -4941,7 +4941,7 @@ def dna(part, value):
     # This is where the fun begins, woo!
     """Set a specific part of DNA for the target toon. Be careful, you don't want to break anyone!"""
 
-    av = spellbook.getTarget()
+   
 
     dna = ToonDNA.ToonDNA()
     dna.makeFromNetString(av.getDNAString())
