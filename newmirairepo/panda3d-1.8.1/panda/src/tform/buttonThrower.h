@@ -1,0 +1,145 @@
+// Filename: buttonThrower.h
+// Created by:  drose (12Mar02)
+//
+////////////////////////////////////////////////////////////////////
+//
+// PANDA 3D SOFTWARE
+// Copyright (c) Carnegie Mellon University.  All rights reserved.
+//
+// All use of this software is subject to the terms of the revised BSD
+// license.  You should have received a copy of this license along
+// with this source code in a file named "LICENSE."
+//
+////////////////////////////////////////////////////////////////////
+
+#ifndef BUTTONTHROWER_H
+#define BUTTONTHROWER_H
+
+#include "pandabase.h"
+
+#include "dataNode.h"
+#include "modifierButtons.h"
+#include "buttonEventList.h"
+#include "pvector.h"
+#include "pmap.h"
+#include "eventParameter.h"
+
+////////////////////////////////////////////////////////////////////
+//       Class : ButtonThrower
+// Description : Throws Panda Events for button down/up events
+//               generated within the data graph.
+//
+//               This is a DataNode which is intended to be parented
+//               to the data graph below a device which is generating
+//               a sequence of button events, like a MouseAndKeyboard
+//               device.  It simply takes each button it finds and
+//               throws a corresponding event based on the button name
+//               via the throw_event() call.
+////////////////////////////////////////////////////////////////////
+class EXPCL_PANDA_TFORM ButtonThrower : public DataNode {
+PUBLISHED:
+  ButtonThrower(const string &name);
+  ~ButtonThrower();
+
+  INLINE void set_button_down_event(const string &button_down_event);
+  INLINE const string &get_button_down_event() const;
+  INLINE void set_button_up_event(const string &button_up_event);
+  INLINE const string &get_button_up_event() const;
+  INLINE void set_button_repeat_event(const string &button_repeat_event);
+  INLINE const string &get_button_repeat_event() const;
+  INLINE void set_keystroke_event(const string &keystroke_event);
+  INLINE const string &get_keystroke_event() const;
+  INLINE void set_candidate_event(const string &candidate_event);
+  INLINE const string &get_candidate_event() const;
+  INLINE void set_move_event(const string &move_event);
+  INLINE const string &get_move_event() const;
+
+  INLINE void set_prefix(const string &prefix);
+  INLINE const string &get_prefix() const;
+  INLINE void set_specific_flag(bool specific_flag);
+  INLINE bool get_specific_flag() const;
+
+  INLINE void set_time_flag(bool time_flag);
+  INLINE bool get_time_flag() const;
+  
+
+  void add_parameter(const EventParameter &obj);
+  int get_num_parameters() const;
+  EventParameter get_parameter(int n) const;
+  MAKE_SEQ(get_parameters, get_num_parameters, get_parameter);
+
+  INLINE const ModifierButtons &get_modifier_buttons() const;
+  INLINE void set_modifier_buttons(const ModifierButtons &mods);
+
+  INLINE void set_throw_buttons_active(bool flag);
+  INLINE bool get_throw_buttons_active() const;
+
+  bool add_throw_button(const ModifierButtons &mods, const ButtonHandle &button);
+  bool remove_throw_button(const ModifierButtons &mods, const ButtonHandle &button);
+  bool has_throw_button(const ModifierButtons &mods, const ButtonHandle &button) const;
+  bool has_throw_button(const ButtonHandle &button) const;
+  void clear_throw_buttons();
+
+public:
+  virtual void write(ostream &out, int indent_level = 0) const;
+
+private:
+  void do_specific_event(const string &event_name, double time);
+  void do_general_event(const ButtonEvent &button_event, 
+                        const string &event_name);
+
+private:
+  string _button_down_event;
+  string _button_up_event;
+  string _button_repeat_event;
+  string _keystroke_event;
+  string _candidate_event;
+  string _move_event;
+  bool _specific_flag;
+  string _prefix;
+  bool _time_flag;
+  ModifierButtons _mods;
+
+  typedef pvector<EventParameter> ParameterList;
+  ParameterList _parameters;
+
+  typedef pvector<ModifierButtons> ThrowButtonDef;
+  typedef pmap<ButtonHandle, ThrowButtonDef> ThrowButtons;
+  ThrowButtons _throw_buttons;
+  bool _throw_buttons_active;
+
+protected:
+  // Inherited from DataNode
+  virtual void do_transmit_data(DataGraphTraverser *trav,
+                                const DataNodeTransmit &input,
+                                DataNodeTransmit &output);
+
+private:
+  // inputs
+  int _button_events_input;
+
+  // outputs
+  int _button_events_output;
+  PT(ButtonEventList) _button_events;
+
+public:
+  static TypeHandle get_class_type() {
+    return _type_handle;
+  }
+  static void init_type() {
+    DataNode::init_type();
+    register_type(_type_handle, "ButtonThrower",
+                  DataNode::get_class_type());
+  }
+  virtual TypeHandle get_type() const {
+    return get_class_type();
+  }
+  virtual TypeHandle force_init_type() {init_type(); return get_class_type();}
+
+private:
+  static TypeHandle _type_handle;
+};
+
+#include "buttonThrower.I"
+
+#endif

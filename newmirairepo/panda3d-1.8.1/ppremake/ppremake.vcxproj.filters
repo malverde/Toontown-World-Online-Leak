@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Template Files">
+      <UniqueIdentifier>{bdf8d029-bacd-4daf-8a82-daa7738bc552}</UniqueIdentifier>
+      <Extensions>txt</Extensions>
+    </Filter>
+    <Filter Include="HTML Files">
+      <UniqueIdentifier>{4a9f2862-3b09-4c63-ba38-cf738d6590b2}</UniqueIdentifier>
+      <Extensions>htm</Extensions>
+    </Filter>
+    <Filter Include="Image Files">
+      <UniqueIdentifier>{ff824ab7-0111-4271-8d31-0f8a6e15b5ac}</UniqueIdentifier>
+      <Extensions>bmp</Extensions>
+    </Filter>
+    <Filter Include="Script Files">
+      <UniqueIdentifier>{02c0069b-7d38-42d1-b354-7c6c0c7f8a91}</UniqueIdentifier>
+      <Extensions>js</Extensions>
+    </Filter>
+    <Filter Include="Miscellaneous Files">
+      <UniqueIdentifier>{9cc65379-9037-4d2b-b8d8-02f8cef9ea96}</UniqueIdentifier>
+      <Extensions>vsz;vsdir;ico;vcproj;csproj;css;inf</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Templates\1033\ReadMe.txt">
+      <Filter>Template Files</Filter>
+    </None>
+    <None Include="Scripts\1033\default.js">
+      <Filter>Script Files</Filter>
+    </None>
+    <None Include="default.vcproj">
+      <Filter>Miscellaneous Files</Filter>
+    </None>
+    <None Include="ppremake.ico">
+      <Filter>Miscellaneous Files</Filter>
+    </None>
+    <None Include="ppremake.vsdir">
+      <Filter>Miscellaneous Files</Filter>
+    </None>
+    <None Include="ppremake.vsz">
+      <Filter>Miscellaneous Files</Filter>
+    </None>
+    <None Include="Templates\1033\Templates.inf">
+      <Filter>Miscellaneous Files</Filter>
+    </None>
+    <None Include="dSearchPath.I" />
+    <None Include="filename.I" />
+    <None Include="globPattern.I" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="check_include.cxx" />
+    <ClCompile Include="dSearchPath.cxx" />
+    <ClCompile Include="executionEnvironment.cxx" />
+    <ClCompile Include="filename.cxx" />
+    <ClCompile Include="globPattern.cxx" />
+    <ClCompile Include="gnu_getopt.c" />
+    <ClCompile Include="gnu_regex.c" />
+    <ClCompile Include="md5.c" />
+    <ClCompile Include="ppCommandFile.cxx" />
+    <ClCompile Include="ppDependableFile.cxx" />
+    <ClCompile Include="ppDirectory.cxx" />
+    <ClCompile Include="ppDirectoryTree.cxx" />
+    <ClCompile Include="ppFilenamePattern.cxx" />
+    <ClCompile Include="ppMain.cxx" />
+    <ClCompile Include="ppNamedScopes.cxx" />
+    <ClCompile Include="ppremake.cxx" />
+    <ClCompile Include="ppScope.cxx" />
+    <ClCompile Include="ppSubroutine.cxx" />
+    <ClCompile Include="sedAddress.cxx" />
+    <ClCompile Include="sedCommand.cxx" />
+    <ClCompile Include="sedContext.cxx" />
+    <ClCompile Include="sedProcess.cxx" />
+    <ClCompile Include="sedScript.cxx" />
+    <ClCompile Include="tokenize.cxx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="check_include.h" />
+    <ClInclude Include="config_msvc.h" />
+    <ClInclude Include="dSearchPath.h" />
+    <ClInclude Include="executionEnvironment.h" />
+    <ClInclude Include="filename.h" />
+    <ClInclude Include="globPattern.h" />
+    <ClInclude Include="gnu_getopt.h" />
+    <ClInclude Include="gnu_regex.h" />
+    <ClInclude Include="md5.h" />
+    <ClInclude Include="ppCommandFile.h" />
+    <ClInclude Include="ppDependableFile.h" />
+    <ClInclude Include="ppDirectory.h" />
+    <ClInclude Include="ppDirectoryTree.h" />
+    <ClInclude Include="ppFilenamePattern.h" />
+    <ClInclude Include="ppMain.h" />
+    <ClInclude Include="ppNamedScopes.h" />
+    <ClInclude Include="ppremake.h" />
+    <ClInclude Include="ppScope.h" />
+    <ClInclude Include="ppSubroutine.h" />
+    <ClInclude Include="sedAddress.h" />
+    <ClInclude Include="sedCommand.h" />
+    <ClInclude Include="sedContext.h" />
+    <ClInclude Include="sedProcess.h" />
+    <ClInclude Include="sedScript.h" />
+    <ClInclude Include="tokenize.h" />
+  </ItemGroup>
+</Project>

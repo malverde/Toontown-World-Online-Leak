@@ -1,0 +1,73 @@
+// Filename: lmatrix3_ext_src.I
+// Created by:  rdb (02Jan11)
+//
+////////////////////////////////////////////////////////////////////
+//
+// PANDA 3D SOFTWARE
+// Copyright (c) Carnegie Mellon University.  All rights reserved.
+//
+// All use of this software is subject to the terms of the revised BSD
+// license.  You should have received a copy of this license along
+// with this source code in a file named "LICENSE."
+//
+////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////
+//     Function: LMatrix3::Row::__setitem__
+//       Access: Public
+//  Description:
+////////////////////////////////////////////////////////////////////
+INLINE void EXT_NESTED_METHOD_ARGS(FLOATNAME(LMatrix3), Row,
+__setitem__, int i, FLOATTYPE v) {
+  nassertv(i >= 0 && i < 3);
+  this->_row[i] = v;
+}
+
+////////////////////////////////////////////////////////////////////
+//     Function: LMatrix3::__reduce__
+//       Access: Published
+//  Description: This special Python method is implement to provide
+//               support for the pickle module.
+////////////////////////////////////////////////////////////////////
+PyObject *EXT_CONST_METHOD_ARGS(FLOATNAME(LMatrix3),
+__reduce__, PyObject *self) {
+  // We should return at least a 2-tuple, (Class, (args)): the
+  // necessary class object whose constructor we should call
+  // (e.g. this), and the arguments necessary to reconstruct this
+  // object.
+  PyObject *this_class = PyObject_Type(self);
+  if (this_class == NULL) {
+    return NULL;
+  }
+
+  PyObject *result = Py_BuildValue("(O(fffffffff))", this_class, 
+    this->_m(0, 0), this->_m(0, 1), this->_m(0, 2),
+    this->_m(1, 0), this->_m(1, 1), this->_m(1, 2),
+    this->_m(2, 0), this->_m(2, 1), this->_m(2, 2));
+
+  Py_DECREF(this_class);
+  return result;
+}
+
+////////////////////////////////////////////////////////////////////
+//     Function: LMatrix3::python_repr
+//       Access: Published
+//  Description:
+////////////////////////////////////////////////////////////////////
+void EXT_CONST_METHOD_ARGS(FLOATNAME(LMatrix3),
+python_repr, ostream &out, const string &class_name) {
+  out << class_name << "(" 
+      << MAYBE_ZERO(this->_m(0, 0)) << ", "
+      << MAYBE_ZERO(this->_m(0, 1)) << ", "
+      << MAYBE_ZERO(this->_m(0, 2)) << ", "
+
+      << MAYBE_ZERO(this->_m(1, 0)) << ", "
+      << MAYBE_ZERO(this->_m(1, 1)) << ", "
+      << MAYBE_ZERO(this->_m(1, 2)) << ", "
+
+      << MAYBE_ZERO(this->_m(2, 0)) << ", "
+      << MAYBE_ZERO(this->_m(2, 1)) << ", "
+      << MAYBE_ZERO(this->_m(2, 2)) << ")";
+}
+
