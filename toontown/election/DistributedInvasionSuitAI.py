@@ -16,7 +16,7 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI, InvasionSuitBase, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedInvasionSuitAI")
 
     def __init__(self, air, invasion):
-        DistributedSuitBaseAI.__init__(self, air, self.air)
+        DistributedSuitBaseAI.__init__(self, air, invasion)
         InvasionSuitBase.__init__(self)
         FSM.__init__(self, 'InvasionSuitFSM')
         self.invasion = invasion
