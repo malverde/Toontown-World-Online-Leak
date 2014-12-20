@@ -1,0 +1,14 @@
+*.exe
+*.lib
+*.obj
+*.dll
+*.sdf
+*.opensdf
+*.pdb
+*.o
+*.suo
+ipch/*
+Win32-*/
+*.pyd
+
+#did I miss anything?
