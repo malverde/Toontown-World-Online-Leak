@@ -1,0 +1,120 @@
+ToontownStart: Polling for game2 to finish...
+ToontownStart: Game2 is finished.
+ToontownStart: Starting the game.
+ToontownStart: setting default font
+TTLocalizer: Running in language: english
+from toontown.toonbase.TTLocalizerEnglish import *
+OTPLocalizer: Running in language: english
+from otp.otpbase.OTPLocalizerEnglish import *
+ToontownStart: Loading default gui sounds
+ToontownStart: serverVersion:  ttw-alpha-2.0.0
+{401000001: <toontown.distributed.ToontownDistrict.ToontownDistrict instance at 0x121648830>}
+local
+2
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 24.8 fps|0.011d|3 avs||317|321||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+Battle Event localtoon-battle-event-3
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+Battle Event localtoon-battle-event-9
+chooseFireOpenShot <function allGroupLowShot at 0x11a341758>
+chooseFireOpenShot <function avatarCloseUpThreeQuarterLeftFireShot at 0x11a3437d0>
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 30.5 fps|0.006d|3 avs||617|621||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+Battle Event localtoon-battle-event-15
+frame rate: 33.6 fps|0.106d|2 avs||917|921||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 47.5 fps|0.009d|0 avs||1217|1221||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy._run_module_as_main:151,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy._get_module_details:101,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.get_loader:464,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.find_loader:474,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.iter_importers:430,toontown/toonbase/ToontownStart.<module>:132,otp/otpbase/OTPBase.run:238,/Developer/Panda3D/direct/task/Task.run:503,/Developer/Panda3D/direct/task/Task.step:461,/Developer/Panda3D/direct/showbase/ShowBase.__ivalLoop:1803,/Developer/Panda3D/direct/interval/IntervalManager.step:96,/Developer/Panda3D/direct/interval/IntervalManager.__doPythonCallbacks:119,/Developer/Panda3D/direct/interval/MetaInterval.privPostEvent:518,/Developer/Panda3D/direct/interval/MetaInterval.__doPythonCallbacks:494,/Developer/Panda3D/direct/interval/Interval.privDoEvent:207,/Developer/Panda3D/direct/interval/FunctionInterval.privInstant:88,toontown/parties/DistributedPartyCannonActivity.d_setLanded:396
+/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy._run_module_as_main:151,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy._get_module_details:101,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.get_loader:464,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.find_loader:474,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.iter_importers:430,toontown/toonbase/ToontownStart.<module>:132,otp/otpbase/OTPBase.run:238,/Developer/Panda3D/direct/task/Task.run:503,/Developer/Panda3D/direct/task/Task.step:461,/Developer/Panda3D/direct/showbase/ShowBase.__ivalLoop:1803,/Developer/Panda3D/direct/interval/IntervalManager.step:96,/Developer/Panda3D/direct/interval/IntervalManager.__doPythonCallbacks:119,/Developer/Panda3D/direct/interval/MetaInterval.privPostEvent:518,/Developer/Panda3D/direct/interval/MetaInterval.__doPythonCallbacks:494,/Developer/Panda3D/direct/interval/Interval.privDoEvent:207,/Developer/Panda3D/direct/interval/FunctionInterval.privInstant:88,toontown/parties/DistributedPartyCannonActivity.d_setLanded:396
+/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy._run_module_as_main:151,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy._get_module_details:101,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.get_loader:464,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.find_loader:474,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.iter_importers:430,toontown/toonbase/ToontownStart.<module>:132,otp/otpbase/OTPBase.run:238,/Developer/Panda3D/direct/task/Task.run:503,/Developer/Panda3D/direct/task/Task.step:461,/Developer/Panda3D/direct/showbase/ShowBase.__ivalLoop:1803,/Developer/Panda3D/direct/interval/IntervalManager.step:96,/Developer/Panda3D/direct/interval/IntervalManager.__doPythonCallbacks:119,/Developer/Panda3D/direct/interval/MetaInterval.privPostEvent:518,/Developer/Panda3D/direct/interval/MetaInterval.__doPythonCallbacks:494,/Developer/Panda3D/direct/interval/Interval.privDoEvent:207,/Developer/Panda3D/direct/interval/FunctionInterval.privInstant:88,toontown/parties/DistributedPartyCannonActivity.d_setLanded:396
+/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy._run_module_as_main:151,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy._get_module_details:101,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.get_loader:464,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.find_loader:474,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.iter_importers:430,toontown/toonbase/ToontownStart.<module>:132,otp/otpbase/OTPBase.run:238,/Developer/Panda3D/direct/task/Task.run:503,/Developer/Panda3D/direct/task/Task.step:461,/Developer/Panda3D/direct/showbase/ShowBase.__ivalLoop:1803,/Developer/Panda3D/direct/interval/IntervalManager.step:96,/Developer/Panda3D/direct/interval/IntervalManager.__doPythonCallbacks:119,/Developer/Panda3D/direct/interval/MetaInterval.privPostEvent:518,/Developer/Panda3D/direct/interval/MetaInterval.__doPythonCallbacks:494,/Developer/Panda3D/direct/interval/Interval.privDoEvent:207,/Developer/Panda3D/direct/interval/FunctionInterval.privInstant:88,toontown/parties/DistributedPartyCannonActivity.d_setLanded:396
+/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy._run_module_as_main:151,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy._get_module_details:101,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.get_loader:464,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.find_loader:474,/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.iter_importers:430,toontown/toonbase/ToontownStart.<module>:132,otp/otpbase/OTPBase.run:238,/Developer/Panda3D/direct/task/Task.run:503,/Developer/Panda3D/direct/task/Task.step:461,/Developer/Panda3D/direct/showbase/ShowBase.__ivalLoop:1803,/Developer/Panda3D/direct/interval/IntervalManager.step:96,/Developer/Panda3D/direct/interval/IntervalManager.__doPythonCallbacks:119,/Developer/Panda3D/direct/interval/MetaInterval.privPostEvent:518,/Developer/Panda3D/direct/interval/MetaInterval.__doPythonCallbacks:494,/Developer/Panda3D/direct/interval/Interval.privDoEvent:207,/Developer/Panda3D/direct/interval/FunctionInterval.privInstant:88,toontown/parties/DistributedPartyCannonActivity.d_setLanded:396
+frame rate: 42.8 fps|0.006d|0 avs||1517|1521||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+ignoring InputState-forward

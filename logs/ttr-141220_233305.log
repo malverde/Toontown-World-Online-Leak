@@ -1,0 +1,35 @@
+ToontownStart: Polling for game2 to finish...
+ToontownStart: Game2 is finished.
+ToontownStart: Starting the game.
+ToontownStart: setting default font
+TTLocalizer: Running in language: english
+from toontown.toonbase.TTLocalizerEnglish import *
+OTPLocalizer: Running in language: english
+from otp.otpbase.OTPLocalizerEnglish import *
+ToontownStart: Loading default gui sounds
+ToontownStart: serverVersion:  ttw-alpha-2.0.0
+Traceback (most recent call last):
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py", line 151, in _run_module_as_main
+    mod_name, loader, code, fname = _get_module_details(mod_name)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py", line 101, in _get_module_details
+    loader = get_loader(mod_name)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.py", line 464, in get_loader
+    return find_loader(fullname)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.py", line 474, in find_loader
+    for importer in iter_importers(fullname):
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.py", line 430, in iter_importers
+    __import__(pkg)
+  File "toontown/toonbase/ToontownStart.py", line 106, in <module>
+    from toontown.distributed import ToontownClientRepository
+  File "toontown/distributed/ToontownClientRepository.py", line 41, in <module>
+    from toontown.makeatoon import MakeAToon
+  File "toontown/makeatoon/MakeAToon.py", line 6, in <module>
+    from toontown.toon import LocalToon
+  File "toontown/toon/LocalToon.py", line 24, in <module>
+    from toontown.shtiker import MapPage
+  File "toontown/shtiker/MapPage.py", line 9, in <module>
+    from toontown.election import SafezoneInvasionGlobals
+  File "toontown/election/SafezoneInvasionGlobals.py", line 9
+    LeaveToontownCentralAlert = "There isn't anywh
+                              ^
+SyntaxError: invalid syntax

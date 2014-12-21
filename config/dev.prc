@@ -83,4 +83,12 @@ force-player-understandable #t
 force-holiday-decorations 6
 want-arg-manager #t
 want-mega-invasions #f
-mega-invasion-cog-type tm
+
+# Server:
+server-timezone BST/EDT/-5
+server-port 7199
+account-server-endpoint https://toontownworldonline.com/api/
+account-bridge-filename astron/databases/account-bridge.db
+
+# Cog battles:
+base-xp-multiplier 1.0
