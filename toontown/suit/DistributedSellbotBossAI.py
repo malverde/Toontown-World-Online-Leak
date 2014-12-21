@@ -418,7 +418,7 @@ def skipVP():
     boss.b_setState('PrepareBattleThree')
     return 'Skipping the first round...'
 
-@magicWord(category=CATEGORY_SYSADMIN, types=[])
+@magicWord(category=CATEGORY_ADMIN, types=[])
 def endvp():
     toon = spellbook.getTarget()
     if toon:

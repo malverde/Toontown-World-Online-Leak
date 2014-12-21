@@ -5,7 +5,7 @@ import os
 if __debug__:
     # __debug__ is only 1 in dev builds; Mirai's builder will set it to 0
     # (and it will, in fact, remove entire if __debug__: sections)
-    loadPrcFile('config/public_client.prc')
+    loadPrcFile('config/dev.prc')
 
 # The VirtualFileSystem, which has already initialized, doesn't see the mount
 # directives in the config(s) yet. We have to force it to load those manually:
