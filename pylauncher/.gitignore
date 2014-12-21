@@ -1,7 +1,0 @@
-*.pyc
-*.mf
-*.dll
-*.exe
-*.bin
-build
-dist
