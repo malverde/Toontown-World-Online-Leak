@@ -1,0 +1,102 @@
+ToontownStart: Polling for game2 to finish...
+ToontownStart: Game2 is finished.
+ToontownStart: Starting the game.
+ToontownStart: setting default font
+TTLocalizer: Running in language: english
+from toontown.toonbase.TTLocalizerEnglish import *
+OTPLocalizer: Running in language: english
+from otp.otpbase.OTPLocalizerEnglish import *
+ToontownStart: Loading default gui sounds
+ToontownStart: serverVersion:  ttw-alpha-2.0.0
+{401000001: <toontown.distributed.ToontownDistrict.ToontownDistrict instance at 0x12b0cfb00>}
+local
+1
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+fisherman origin:  render/scene/daisysGarden/5000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+ToonAvatarDetailPanel None
+Exception occurred while processing Func-beginFireworkShow-95 of Sequence-633:
+Sequence-633:
+  0.000 Sequence-633 {
+  0.000   Sequence-630 {
+  0.000     *Func-setSystemMessage-79
+  0.000     Parallel-629 {
+  0.000       LerpColorScaleInterval-949: color_scale to 0 0 0 1 dur 2.5
+  0.000       LerpColorScaleInterval-950: color_scale to 0.25 0.25 0.35 1 dur 2.5
+  0.000       LerpColorScaleInterval-951: color_scale to 0.85 0.85 0.85 1 dur 2.5
+  0.000       *Func-__lightDecorationOn__-80
+  2.500     }
+  2.500     *Func-setBackgroundColor-81
+  2.500     *Func-__checkDDFog-82
+  2.500     *Func-setFar-83
+  2.500     *Func-hide-84
+  2.500     *Func-setSystemMessage-85
+  2.500     *Func-stop-86
+  2.500     Wait dur 2
+  4.500     *Func-playMusic-87
+  4.500   }
+  4.500   *Func-beginFireworkShow-95
+  4.500   Wait dur 68.26
+ 72.760   Sequence-632 {
+ 72.760     *Func-show-88
+ 72.760     Parallel-631 {
+ 72.760       LerpColorScaleInterval-952: color_scale to 1 1 1 1 dur 2.5
+ 72.760       LerpColorScaleInterval-953: color_scale to 1 1 1 1 dur 2.5
+ 72.760       LerpColorScaleInterval-954: color_scale to 1 1 1 1 dur 2.5
+ 75.260     }
+ 75.260     *Func-__restoreDDFog-89
+ 75.260     *Func-restoreCameraLens-90
+ 75.260     *Func-setBackgroundColor-91
+ 75.260     *Func-stop-92
+ 75.260     *Func-setSystemMessage-93
+ 75.260     Wait dur 2
+ 77.260     *Func-playMusic-94
+ 77.260   }
+ 77.260 }
+
+Traceback (most recent call last):
+  File "/Developer/Panda3D/direct/showbase/ShowBase.py", line 1803, in __ivalLoop
+    IntervalManager.ivalMgr.step()
+  File "/Developer/Panda3D/direct/interval/IntervalManager.py", line 96, in step
+    self.__doPythonCallbacks()
+  File "/Developer/Panda3D/direct/interval/IntervalManager.py", line 124, in __doPythonCallbacks
+    self.ivals[index].privPostEvent()
+  File "/Developer/Panda3D/direct/interval/MetaInterval.py", line 518, in privPostEvent
+    self.__doPythonCallbacks()
+  File "/Developer/Panda3D/direct/interval/MetaInterval.py", line 494, in __doPythonCallbacks
+    ival.privDoEvent(t, eventType)
+  File "/Developer/Panda3D/direct/interval/Interval.py", line 207, in privDoEvent
+    self.privInstant()
+  File "/Developer/Panda3D/direct/interval/FunctionInterval.py", line 88, in privInstant
+    self.function(*self.extraArgs, **self.kw)
+  File "toontown/effects/FireworkShowMixin.py", line 198, in beginFireworkShow
+    if isinstance(hood, TTHood.TTHood):
+NameError: global name 'TTHood' is not defined
+Traceback (most recent call last):
+  File "otp/otpbase/OTPBase.py", line 238, in run
+    taskMgr.run()
+  File "/Developer/Panda3D/direct/task/Task.py", line 503, in run
+    self.step()
+  File "/Developer/Panda3D/direct/task/Task.py", line 461, in step
+    self.mgr.poll()
+  File "/Developer/Panda3D/direct/showbase/ShowBase.py", line 1803, in __ivalLoop
+    IntervalManager.ivalMgr.step()
+  File "/Developer/Panda3D/direct/interval/IntervalManager.py", line 96, in step
+    self.__doPythonCallbacks()
+  File "/Developer/Panda3D/direct/interval/IntervalManager.py", line 124, in __doPythonCallbacks
+    self.ivals[index].privPostEvent()
+  File "/Developer/Panda3D/direct/interval/MetaInterval.py", line 518, in privPostEvent
+    self.__doPythonCallbacks()
+  File "/Developer/Panda3D/direct/interval/MetaInterval.py", line 494, in __doPythonCallbacks
+    ival.privDoEvent(t, eventType)
+  File "/Developer/Panda3D/direct/interval/Interval.py", line 207, in privDoEvent
+    self.privInstant()
+  File "/Developer/Panda3D/direct/interval/FunctionInterval.py", line 88, in privInstant
+    self.function(*self.extraArgs, **self.kw)
+  File "toontown/effects/FireworkShowMixin.py", line 198, in beginFireworkShow
+    if isinstance(hood, TTHood.TTHood):
+NameError: global name 'TTHood' is not defined
+/usr/bin/python: No module named toontown.toonbase.ToontownStart.py

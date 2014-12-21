@@ -1,0 +1,100 @@
+ToontownStart: Polling for game2 to finish...
+ToontownStart: Game2 is finished.
+ToontownStart: Starting the game.
+ToontownStart: setting default font
+TTLocalizer: Running in language: english
+from toontown.toonbase.TTLocalizerEnglish import *
+OTPLocalizer: Running in language: english
+from otp.otpbase.OTPLocalizerEnglish import *
+ToontownStart: Loading default gui sounds
+ToontownStart: serverVersion:  ttw-alpha-2.0.0
+{401000001: <toontown.distributed.ToontownDistrict.ToontownDistrict instance at 0x128680b00>}
+local
+1
+fisherman origin:  render/scene/daisysGarden/5000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 20.5 fps|0.166d|0 avs||333|335||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+Battle Event localtoon-battle-event-3
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+Battle Event localtoon-battle-event-9
+Battle Event localtoon-battle-event-15
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 28.9 fps|0.017d|4 avs||633|635||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+frame rate: 30.2 fps|0.008d|3 avs||933|935||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 34.5 fps|0.006d|2 avs||1233|1235||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+ToonAvatarDetailPanel None
+0.40000000596
+0.40000000596
+frame rate: 20.5 fps|0.023d|2 avs||1533|1535||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Traceback (most recent call last):
+  File "/Developer/Panda3D/direct/showbase/EventManager.py", line 61, in eventLoopTask
+    self.doEvents()
+  File "/Developer/Panda3D/direct/showbase/EventManager.py", line 55, in doEvents
+    processFunc(self.eventQueue.dequeueEvent())
+  File "/Developer/Panda3D/direct/showbase/EventManager.py", line 122, in processEvent
+    messenger.send(eventName, paramList)
+  File "/Developer/Panda3D/direct/showbase/Messenger.py", line 397, in send
+    self.__dispatch(acceptorDict, event, sentArgs, foundWatch)
+  File "/Developer/Panda3D/direct/showbase/Messenger.py", line 482, in __dispatch
+    method (*(extraArgs + sentArgs))
+  File "otp/speedchat/SCTerminal.py", line 90, in onMouseClick
+    self.handleSelect()
+  File "otp/speedchat/SCStaticTextTerminal.py", line 18, in handleSelect
+    messenger.send(self.getEventName(SCStaticTextMsgEvent), [self.textId])
+  File "/Developer/Panda3D/direct/showbase/Messenger.py", line 397, in send
+    self.__dispatch(acceptorDict, event, sentArgs, foundWatch)
+  File "/Developer/Panda3D/direct/showbase/Messenger.py", line 482, in __dispatch
+    method (*(extraArgs + sentArgs))
+  File "toontown/uberdog/ARGManager.py", line 51, in phraseSaid
+    position, speedchatIndex, destination = Hood2Details.get(base.cr.playGame.getPlace().getZoneId(), [None, None, None])
+AttributeError: 'NoneType' object has no attribute 'getZoneId'
+Traceback (most recent call last):
+  File "otp/otpbase/OTPBase.py", line 238, in run
+    taskMgr.run()
+  File "/Developer/Panda3D/direct/task/Task.py", line 503, in run
+    self.step()
+  File "/Developer/Panda3D/direct/task/Task.py", line 461, in step
+    self.mgr.poll()
+  File "/Developer/Panda3D/direct/showbase/EventManager.py", line 61, in eventLoopTask
+    self.doEvents()
+  File "/Developer/Panda3D/direct/showbase/EventManager.py", line 55, in doEvents
+    processFunc(self.eventQueue.dequeueEvent())
+  File "/Developer/Panda3D/direct/showbase/EventManager.py", line 122, in processEvent
+    messenger.send(eventName, paramList)
+  File "/Developer/Panda3D/direct/showbase/Messenger.py", line 397, in send
+    self.__dispatch(acceptorDict, event, sentArgs, foundWatch)
+  File "/Developer/Panda3D/direct/showbase/Messenger.py", line 482, in __dispatch
+    method (*(extraArgs + sentArgs))
+  File "otp/speedchat/SCTerminal.py", line 90, in onMouseClick
+    self.handleSelect()
+  File "otp/speedchat/SCStaticTextTerminal.py", line 18, in handleSelect
+    messenger.send(self.getEventName(SCStaticTextMsgEvent), [self.textId])
+  File "/Developer/Panda3D/direct/showbase/Messenger.py", line 397, in send
+    self.__dispatch(acceptorDict, event, sentArgs, foundWatch)
+  File "/Developer/Panda3D/direct/showbase/Messenger.py", line 482, in __dispatch
+    method (*(extraArgs + sentArgs))
+  File "toontown/uberdog/ARGManager.py", line 51, in phraseSaid
+    position, speedchatIndex, destination = Hood2Details.get(base.cr.playGame.getPlace().getZoneId(), [None, None, None])
+AttributeError: 'NoneType' object has no attribute 'getZoneId'
+/usr/bin/python: No module named toontown.toonbase.ToontownStart.py
