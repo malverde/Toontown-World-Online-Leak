@@ -90,5 +90,5 @@ server-port 7199
 account-server-endpoint https://toontownworldonline.com/api/
 account-bridge-filename astron/databases/account-bridge.db
 
-# Cog battles:
-base-xp-multiplier 1.0
+# Cog battles :
+base-xp-multiplier 4.0
