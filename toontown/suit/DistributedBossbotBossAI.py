@@ -996,3 +996,22 @@ def skipCEO(battle='next'):
 
     boss.exitIntroduction()
     
+@magicWord(category=CATEGORY_ADMIN, types=[])
+def feedCogs():
+    boss = None
+    for do in simbase.air.doId2do.values():
+        if isinstance(do, DistributedBossbotBossAI):
+             if invoker.doId in do.involvedToons:
+                 boss = do
+                 break
+    else:
+         return 'You aren\'t in a CEO!'
+ 
+    if boss.state != 'BattleTwo':
+         return 'You need to be in round 2!'
+ 
+    for table in boss.tables:
+         for i in xrange(table.numChairs):
+             if table.getDinerStatus(i) in (table.HUNGRY, table.ANGRY):
+                 table.foodServed(i)
+    return 'Serving cogs...'    
