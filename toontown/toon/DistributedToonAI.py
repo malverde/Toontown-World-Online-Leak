@@ -5514,7 +5514,7 @@ def trackBonus(track):
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
 
-@magicWord(category=CATEGORY_ADMINISTRATOR, types=[str, str])
+@magicWord(category=CATEGORY_ADMIN, types=[str, str])
 def config(var, val):
     """
     Allow config variables to be changed in-game.
