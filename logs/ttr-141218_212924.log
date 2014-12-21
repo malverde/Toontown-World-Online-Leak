@@ -1,0 +1,155 @@
+ToontownStart: Polling for game2 to finish...
+ToontownStart: Game2 is finished.
+ToontownStart: Starting the game.
+ToontownStart: setting default font
+TTLocalizer: Running in language: english
+from toontown.toonbase.TTLocalizerEnglish import *
+OTPLocalizer: Running in language: english
+from otp.otpbase.OTPLocalizerEnglish import *
+ToontownStart: Loading default gui sounds
+ToontownStart: serverVersion:  ttw-alpha-2.0.0
+{401000001: <toontown.distributed.ToontownDistrict.ToontownDistrict instance at 0x10a179b00>}
+local
+2
+ToonAvatarDetailPanel None
+frame rate: 44.2 fps|0.008d|2 avs||325|330||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+local
+local
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+local
+frame rate: 48.2 fps|0.019d|3 avs||625|630||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+local
+local
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+frame rate: 50.7 fps|0.006d|4 avs||925|930||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+adjusting item index -1
+exiting due to lack of items
+local
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+local
+-----------Starting closet interaction-----------
+avid: 100000032, gender: m
+current top = 31,27,22,27 and  bot = 19,27,
+topsList = [4, 9, 4, 9]
+bottomsList = [5, 4, 20, 27]
+-------------------------------------------------
+local
+-----------ending trunk interaction-----------
+avid: 100000032, gender: m
+current top = 31,27,22,27 and  bot = 19,27,
+topsList = [4, 9, 4, 9]
+bottomsList = [5, 4, 20, 27]
+-------------------------------------------------
+adjusting item index -1
+exiting due to lack of items
+local
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 55.6 fps|0.004d|4 avs||1225|1230||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+ignoring InputState-forward
+{401000001: <toontown.distributed.ToontownDistrict.ToontownDistrict instance at 0x10a179b00>}
+local
+2
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+frame rate: 19.1 fps|0.011d|8 avs||1710|1715||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+ignoring InputState-forward
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+{401000001: <toontown.distributed.ToontownDistrict.ToontownDistrict instance at 0x10a179b00>}
+local
+2
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 29.4 fps|0.010d|8 avs||2027|2032||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+frame rate: 29.0 fps|0.021d|8 avs||2327|2332||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+Traceback (most recent call last):
+  File "toontown/minigame/MinigamePhysicsWorldBase.py", line 118, in __simulationTask
+    self.postStep()
+  File "toontown/minigame/DistributedIceGame.py", line 1053, in postStep
+    self.notify.error('Couldn\'t find any collisions!')
+  File "/Developer/Panda3D/direct/directnotify/Notifier.py", line 136, in error
+    raise exception(errorString)
+StandardError: Couldn't find any collisions!
+Traceback (most recent call last):
+  File "otp/otpbase/OTPBase.py", line 238, in run
+    taskMgr.run()
+  File "/Developer/Panda3D/direct/task/Task.py", line 503, in run
+    self.step()
+  File "/Developer/Panda3D/direct/task/Task.py", line 461, in step
+    self.mgr.poll()
+  File "toontown/minigame/MinigamePhysicsWorldBase.py", line 118, in __simulationTask
+    self.postStep()
+  File "toontown/minigame/DistributedIceGame.py", line 1053, in postStep
+    self.notify.error('Couldn\'t find any collisions!')
+  File "/Developer/Panda3D/direct/directnotify/Notifier.py", line 136, in error
+    raise exception(errorString)
+StandardError: Couldn't find any collisions!
+/usr/bin/python: No module named toontown.toonbase.ToontownStart.py
