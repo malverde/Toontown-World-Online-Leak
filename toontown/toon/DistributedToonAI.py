@@ -5514,3 +5514,49 @@ def trackBonus(track):
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
 
+@magicWord(category=CATEGORY_ADMINISTRATOR, types=[str, str])
+def config(var, val):
+    """
+    Allow config variables to be changed in-game.
+
+    var -- the config variable's name.
+    val -- the config variable's value.
+
+    Examples:
+
+    ~config want-game-tables t (enables tables)
+    ~config want-game-tables f (disables tables)
+    """
+    import shutil
+    fileSrc = 'config/config_dev.prc'
+    found = False
+
+    if len(val) == 1 and not val.isdigit():
+        val = ' #{0}\n'.format(val)
+    else:
+        val = ' {0}\n'.format(val)
+
+    newConfig = var + val
+    shutil.move(fileSrc, fileSrc + '~')
+    destination = open(fileSrc, 'w')
+    source = open(fileSrc + '~', 'r')
+
+    for line in source:
+        lenLine = False
+        if len(line.split()) > 1:
+            lenLine = len(line.split()[0])
+        if var in line and len(var) == lenLine:
+            destination.write(newConfig)
+            found = True
+        else:
+            destination.write(line)
+
+    source.close()
+    destination.close()
+
+    if not found:
+        with open(fileSrc, 'a') as f:
+            f.write('\n' + newConfig)
+
+    loadPrcFile(fileSrc)
+    return 'Wrote config: {0}'.format(newConfig)
