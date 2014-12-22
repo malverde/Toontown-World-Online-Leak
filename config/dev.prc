@@ -87,4 +87,4 @@ want-mega-invasions #f
 
 
 # Cog battles :
-base-xp-multiplier 4.0
+gag-bonus 2
