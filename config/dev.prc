@@ -34,7 +34,7 @@ default-model-extension .bam
 
 
 # Server settings
-want-rpc-server #f
+want-rpc-server #t
 rpc-server-endpoint http://localhost:8080/
 eventlog-host 127.0.0.1
 want-cheesy-expirations #t
@@ -80,7 +80,11 @@ force-player-understandable #t
 
 
 # Holidays and Events
-force-holiday-decorations 6
+force-holiday-decorations 4
 want-arg-manager #t
 want-mega-invasions #f
-mega-invasion-cog-type tm
+
+
+
+# Cog battles :
+gag-bonus 2

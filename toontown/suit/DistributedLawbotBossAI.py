@@ -922,7 +922,7 @@ def skipcJ():
     boss.b_setState('PrepareBattleThree')
     return 'Skipping the first round...'
 	
-@magicWord(category=CATEGORY_SYSADMIN, types=[])
+@magicWord(category=CATEGORY_ADMIN, types=[])
 def endcj():
     toon = spellbook.getTarget()
     if toon:
@@ -937,7 +937,6 @@ def endcj():
         return "CJ not found!"
         
     return "Error!"
- 
 @magicWord(category=CATEGORY_ADMIN, types=[int])
 def fillJury(jurors=12):
     invoker = spellbook.getInvoker()
@@ -948,7 +947,8 @@ def fillJury(jurors=12):
                 boss = do
                 break
     else:
-        return 'You aren\'t in a CJ!'
+       return 'You aren\'t in a CJ!'
+
 
     if boss.state != 'BattleTwo':
         return 'You need to be in round 2!'
