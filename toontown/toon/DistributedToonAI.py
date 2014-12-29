@@ -4944,7 +4944,7 @@ def dna(part, value):
    
 
     dna = ToonDNA.ToonDNA()
-    dna.makeFromNetString(av.getDNAString())
+    dna.makeFromNetString(avatar.getDNAString())
 
     def isValidColor(colorIndex):
         if not 0 <= colorIndex <= 26: # This could actually be selected from ToonDNA, but I prefer this :D
