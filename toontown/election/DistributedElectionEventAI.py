@@ -232,7 +232,7 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
     def getState(self):
         return (self.state, self.stateTime)
 
-@magicWord(category=CATEGORY_MODERATION, types=[str])
+@magicWord(category=CATEGORY_ADMIN, types=[str])
 def election(state):
     if not config.GetBool('want-doomsday', False):
         simbase.air.writeServerEvent('warning', avId=spellbook.getInvoker().doId, issue='Attempted to change the election state while doomsday is disabled.')
