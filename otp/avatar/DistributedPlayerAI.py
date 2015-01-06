@@ -141,7 +141,7 @@ def accId():
     accountId = spellbook.getTarget().DISLid
     return "%s has the accountId of %d" % (spellbook.getTarget().getName(), accountId)
 
-@magicWord(category=CATEGORY_SYSADMIN, types=[str])
+@magicWord(category=CATEGORY_ADMIN, types=[str])
 def system(message):
     """
     Broadcasts a message to the server.

@@ -3,8 +3,8 @@
 # Config.prc should be reproduced here.
 
 # Client settings
-window-title Toontown Rewritten [BETA]
-server-version SERVER_VERSION_HERE
+window-title Toontown World[Pre-Alpha]
+server-version ttw-alpha-2.0.0
 audio-library-name p3openal_audio
 sync-video #f
 want-dev #f
@@ -72,3 +72,13 @@ force-player-understandable #t
 # Holidays and Events
 force-holiday-decorations 6
 want-arg-manager #f
+show-total-population #t
+
+# Server:
+server-timezone BST/EDT/-5
+server-port 7199
+account-server-endpoint https://toontownworldonline.com/api/
+account-bridge-filename astron/databases/account-bridge.db
+
+# Cog battles:
+base-xp-multiplier 1.0

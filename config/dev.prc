@@ -3,7 +3,7 @@
 # as well as deployment/server.prc if necessary.
 
 # Client settings
-window-title Toontown World Online [DEV BUILD]
+window-title Toontown World Online [Pre-Alpha]
 server-version ttw-alpha-2.0.0
 sync-video #f
 want-dev #f
@@ -34,7 +34,7 @@ default-model-extension .bam
 
 
 # Server settings
-want-rpc-server #f
+want-rpc-server #t
 rpc-server-endpoint http://localhost:8080/
 eventlog-host 127.0.0.1
 want-cheesy-expirations #t
@@ -62,14 +62,15 @@ want-findfour-table #f
 # This is a temporary 'fix' for DistributedSmoothNodes... probably not the permanent solution to our problem, but it works for now.
 smooth-lag 0.4
 want-keep-alive #f
+ai-sleep 0.04
 
 # Developer Modifications
 # A few fun things for our developer build. These shouldn't go in public_client.
 estate-day-night #t
-want-instant-parties #t
+want-instant-parties #f
 show-total-population #t
 want-toontorial #f
-
+want-doomsday #f
 
 # Chat stuff
 want-whitelist #f
@@ -79,7 +80,11 @@ force-player-understandable #t
 
 
 # Holidays and Events
-force-holiday-decorations 6
+force-holiday-decorations 4
 want-arg-manager #t
-want-mega-invasions #t
-mega-invasion-cog-type tm
+want-mega-invasions #f
+
+
+
+# Cog battles :
+#gag-bonus 2

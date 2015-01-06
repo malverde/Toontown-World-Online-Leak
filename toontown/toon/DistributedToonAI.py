@@ -4941,10 +4941,10 @@ def dna(part, value):
     # This is where the fun begins, woo!
     """Set a specific part of DNA for the target toon. Be careful, you don't want to break anyone!"""
 
-    av = spellbook.getTarget()
+   
 
     dna = ToonDNA.ToonDNA()
-    dna.makeFromNetString(av.getDNAString())
+    dna.makeFromNetString(avatar.getDNAString())
 
     def isValidColor(colorIndex):
         if not 0 <= colorIndex <= 26: # This could actually be selected from ToonDNA, but I prefer this :D
@@ -4979,14 +4979,12 @@ def dna(part, value):
         dna.armColor = value
         dna.legColor = value
     elif part=='gloves': # Incase anyone tries to change glove color for whatever reason...
-        return "DNA: Change of glove colors are not allowed."
-        # If you ever want to be able to edit gloves, feel free to comment out this return.
-        # However, since DToonAI checks ToonDNA, this would be impossible unless changes
-        # are made.
-        value = int(value)
-        if not 0 <= value <= 26:
-            return "DNA: Color index out of range."
-        dna.gloveColor = value
+      value = value.title()
+      if value not in ToonDNA.colorToInt.keys():
+          return 'Invalid glove color: {0}'.format(value)
+      dna.gloveColor = ToonDNA.colorToInt[value]
+      target.b_setDNAString(dna.makeNetString())
+      return 'Glove color set to: {0}'.format(value)   
 
     # Body Sizes, Species & Gender (y u want to change gender pls)
     elif part=='gender':
@@ -5495,4 +5493,24 @@ def sos(count, name):
         invoker.NPCFriendsDict[npcId] = count
     invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
     return "You were given {0} {1} SOS cards.".format(count, name)
+    
+
+@magicWord(category=CATEGORY_ADMIN, types=[str])
+def trackBonus(track):
+    """
+    Modify the invoker's track bonus level.
+    """
+    trackLength = ToontownBattleGlobals.UBER_GAG_LEVEL_INDEX
+    numTracks = ToontownBattleGlobals.NUM_GAG_TRACKS
+    invoker = spellbook.getInvoker()
+    if track == 'all' or track.isdigit() and 0 <= int(track) < numTracks:
+        if len(track) > 1:
+            trackBonusLevel = [trackLength] * numTracks
+        else:
+            trackBonusLevel = [-1] * numTracks
+            trackBonusLevel[int(track)] = trackLength
+    else:
+        return 'Invalid track!'
+    invoker.b_setTrackBonusLevel(trackBonusLevel)
+    return 'Your track bonus level has been set!'
 

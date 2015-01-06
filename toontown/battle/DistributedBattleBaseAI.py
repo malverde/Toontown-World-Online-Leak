@@ -54,6 +54,9 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         '''if self.air.holidayManager.isMoreXpHolidayRunning():
             mult = getMoreXpHolidayMultiplier()
             self.battleCalc.setSkillCreditMultiplier(mult)'''
+	#if simbase.config.GetInt('gag-bonus', 0):
+     #	 mult = simbase.config.GetInt('gag-bonus', 0)
+     #	self.battleCalc.setSkillCreditMultiplier(mult)            
         self.fsm = None
         self.clearAttacks()
         self.ignoreFaceOffDone = 0
