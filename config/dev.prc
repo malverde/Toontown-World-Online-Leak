@@ -52,7 +52,7 @@ want-pets #f
 want-news-tab #f
 want-news-page #f
 want-accessories #t
-want-parties #t
+want-parties #f
 want-gardening #f
 want-gifting #t
 want-picnic-games #f
@@ -69,7 +69,7 @@ ai-sleep 0.04
 estate-day-night #t
 want-instant-parties #f
 show-total-population #t
-want-toontorial #f
+want-toontorial #t
 want-doomsday #f
 
 # Chat stuff
