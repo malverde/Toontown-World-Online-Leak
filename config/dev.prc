@@ -69,7 +69,7 @@ ai-sleep 0.04
 estate-day-night #t
 want-instant-parties #f
 show-total-population #t
-want-toontorial #t
+want-toontorial #f
 want-doomsday #f
 
 # Chat stuff
