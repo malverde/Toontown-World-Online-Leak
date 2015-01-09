@@ -62,7 +62,7 @@ class TraitDistribution:
     def getGlobalMinMax(self):
         return (self.GlobalMinMax[0], self.GlobalMinMax[1])
 
-    def _geTTWaitPercent(self, traitValue):
+    def _getTraitPercent(self, traitValue):
         gMin, gMax = self.getGlobalMinMax()
         if traitValue < gMin:
             gMin = traitValue
@@ -72,14 +72,14 @@ class TraitDistribution:
 
     def getPercentile(self, traitValue):
         if self.TraitType is TraitDistribution.TraitTypes.INCREASING:
-            return self._geTTWaitPercent(traitValue)
+            return self._getTraitPercent(traitValue)
         else:
-            return 1.0 - self._geTTWaitPercent(traitValue)
+            return 1.0 - self._getTraitPercent(traitValue)
 
     def getQuality(self, traitValue):
         TraitQuality = TraitDistribution.TraitQuality
         TraitCutoffs = self.TraitCutoffs[self.TraitType]
-        percent = self._geTTWaitPercent(traitValue)
+        percent = self._getTraitPercent(traitValue)
         if self.TraitType is TraitDistribution.TraitTypes.INCREASING:
             if percent <= TraitCutoffs[TraitQuality.VERY_BAD]:
                 return TraitQuality.VERY_BAD
@@ -103,7 +103,7 @@ class TraitDistribution:
             return TraitQuality.AVERAGE
 
     def getExtremeness(self, traitValue):
-        percent = self._geTTWaitPercent(traitValue)
+        percent = self._getTraitPercent(traitValue)
         if percent < 0.5:
             howExtreme = (0.5 - percent) * 2.0
         else:
@@ -214,7 +214,7 @@ class PetTraits:
 
         return traitValues
 
-    def geTTWaitValue(self, traitName):
+    def getTraitValue(self, traitName):
         return self.traits[traitName].value
 
     def getExtremeTraits(self):
