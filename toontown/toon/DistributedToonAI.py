@@ -4944,7 +4944,7 @@ def dna(part, value):
    
 
     dna = ToonDNA.ToonDNA()
-    dna.makeFromNetString(av.getDNAString())
+    dna.makeFromNetString(avatar.getDNAString())
 
     def isValidColor(colorIndex):
         if not 0 <= colorIndex <= 26: # This could actually be selected from ToonDNA, but I prefer this :D
@@ -5166,7 +5166,7 @@ def sostoons():
 @magicWord(category=CATEGORY_CHARACTERSTATS)
 def unites():
     """Restock all CFO phrases."""
-    spellbook.getTarget().restockAllResistanceMessages(99)
+    spellbook.getTarget().restockAllResistanceMessages(9999)
     return 'Restocked all unites successfully!'
 
 @magicWord(category=CATEGORY_OVERRIDE)
@@ -5472,14 +5472,14 @@ def phrase(phraseStringOrId):
         av.d_setCustomMessages(av.customMessages)
         return "Added new phrase to %s's custom phrases." % av.getName()
 
-@magicWord(category=CATEGORY_SYSADMIN, types=[int, str])
+@magicWord(category=CATEGORY_ADMIN, types=[int, str])
 def sos(count, name):
     """
     Modifies the invoker's specified SOS card count.
     """
     invoker = spellbook.getInvoker()
-    if not 0 <= count <= 100:
-        return 'Your SOS count must be in xrange (0-100).'
+    if not 0 <= count <= 1000:
+        return 'Your SOS count must be in xrange (0-999).'
     for npcId, npcName in TTLocalizer.NPCToonNames.items():
         if name.lower() == npcName.lower():
             if npcId not in NPCToons.npcFriends:
@@ -5514,49 +5514,3 @@ def trackBonus(track):
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
 
-@magicWord(category=CATEGORY_ADMIN, types=[str, str])
-def config(var, val):
-    """
-    Allow config variables to be changed in-game.
-
-    var -- the config variable's name.
-    val -- the config variable's value.
-
-    Examples:
-
-    ~config want-game-tables t (enables tables)
-    ~config want-game-tables f (disables tables)
-    """
-    import shutil
-    fileSrc = 'config/config_dev.prc'
-    found = False
-
-    if len(val) == 1 and not val.isdigit():
-        val = ' #{0}\n'.format(val)
-    else:
-        val = ' {0}\n'.format(val)
-
-    newConfig = var + val
-    shutil.move(fileSrc, fileSrc + '~')
-    destination = open(fileSrc, 'w')
-    source = open(fileSrc + '~', 'r')
-
-    for line in source:
-        lenLine = False
-        if len(line.split()) > 1:
-            lenLine = len(line.split()[0])
-        if var in line and len(var) == lenLine:
-            destination.write(newConfig)
-            found = True
-        else:
-            destination.write(line)
-
-    source.close()
-    destination.close()
-
-    if not found:
-        with open(fileSrc, 'a') as f:
-            f.write('\n' + newConfig)
-
-    loadPrcFile(fileSrc)
-    return 'Wrote config: {0}'.format(newConfig)
