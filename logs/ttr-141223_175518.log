@@ -1,0 +1,61 @@
+ToontownStart: Polling for game2 to finish...
+ToontownStart: Game2 is finished.
+ToontownStart: Starting the game.
+ToontownStart: setting default font
+TTLocalizer: Running in language: english
+from toontown.toonbase.TTLocalizerEnglish import *
+OTPLocalizer: Running in language: english
+from otp.otpbase.OTPLocalizerEnglish import *
+ToontownStart: Loading default gui sounds
+ToontownStart: serverVersion:  ttw-alpha-2.0.0
+{401000001: <toontown.distributed.ToontownDistrict.ToontownDistrict instance at 0x12083d830>}
+local
+1
+fisherman origin:  render/scene/theBurrrgh/3000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+Battle Event localtoon-battle-event-3
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 10.9 fps|0.288d|0 avs||477|518||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+Battle Event localtoon-battle-event-9
+chooseFireOpenShot <function allGroupLowShot at 0x1194e4758>
+chooseFireOpenShot <function avatarCloseUpThreeQuarterLeftFireShot at 0x1194e67d0>
+chooseFireOpenShot <function avatarBehindShot at 0x1194e4ed8>
+chooseFireOpenShot <function allGroupLowShot at 0x1194e4758>
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 25.6 fps|0.008d|3 avs||773|813||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+frame rate: 18.1 fps|0.010d|3 avs||1073|1113||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+Battle Event localtoon-battle-event-15
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+Battle Event localtoon-battle-event-21
+chooseFireOpenShot <function avatarCloseUpThrowShot at 0x1194e4c08>
+chooseFireOpenShot <function avatarCloseUpThreeQuarterLeftFireShot at 0x1194e67d0>
+Traceback (most recent call last):
+  File "/Developer/Panda3D/direct/showbase/ShowBase.py", line 1827, in __collisionLoop
+    self.shadowTrav.traverse(self.render)
+AssertionError: has_mat() at line 593 of built/include/transformState.I
+Traceback (most recent call last):
+  File "otp/otpbase/OTPBase.py", line 238, in run
+    taskMgr.run()
+  File "/Developer/Panda3D/direct/task/Task.py", line 503, in run
+    self.step()
+  File "/Developer/Panda3D/direct/task/Task.py", line 461, in step
+    self.mgr.poll()
+  File "/Developer/Panda3D/direct/showbase/ShowBase.py", line 1827, in __collisionLoop
+    self.shadowTrav.traverse(self.render)
+AssertionError: has_mat() at line 593 of built/include/transformState.I
+/usr/bin/python: No module named toontown.toonbase.ToontownStart.py
