@@ -32,7 +32,7 @@ class ToontownAccess:
         return []
 
     def sendUpdate(self, fieldName, args = [], sendToId = None):
-        if base.cr and hasaTTW(base, 'localAvatar'):
+        if base.cr and hasattr(base, 'localAvatar'):
             dg = base.localAvatar.dclass.clientFormatUpdate(fieldName, sendToId or base.localAvatar.doId, args)
             base.cr.send(dg)
 
@@ -45,7 +45,7 @@ class ToontownAccess:
          ToontownGlobals.GoofySpeedway,
          ToontownGlobals.Tutorial]
         specialZones = [ToontownGlobals.SellbotLobby]
-        if hasaTTW(base.cr, 'newsManager') and base.cr.newsManager:
+        if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
             if ToontownGlobals.SELLBOT_NERF_HOLIDAY in holidayIds:
                 specialZones.append(ToontownGlobals.SellbotHQ)
@@ -54,7 +54,7 @@ class ToontownAccess:
             myHoodId = ZoneUtil.getCanonicalHoodId(zoneId)
         else:
             myHoodId = ZoneUtil.getCanonicalHoodId(place.zoneId)
-        if hasaTTW(place, 'id'):
+        if hasattr(place, 'id'):
             myHoodId = place.id
         if myHoodId in allowedZones:
             allowed = True

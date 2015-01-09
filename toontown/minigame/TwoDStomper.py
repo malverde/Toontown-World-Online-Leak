@@ -10,7 +10,7 @@ STUCK_DOWN = 3
 class TwoDStomper(DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('TwoDStomper')
 
-    def __init__(self, stomperMgr, index, stomperATTWibs, model):
+    def __init__(self, stomperMgr, index, stomperAttribs, model):
         self.game = stomperMgr.section.sectionMgr.game
         self.index = index
         stomperName = 'stomper-' + str(self.index)
@@ -20,7 +20,7 @@ class TwoDStomper(DirectObject):
         self.stashCollisionsIval = None
         self.removeHeadFloor = 0
         self.stomperState = STUCK_DOWN
-        self.setupStomper(stomperATTWibs)
+        self.setupStomper(stomperAttribs)
         return
 
     def destroy(self):
@@ -50,16 +50,16 @@ class TwoDStomper(DirectObject):
             self.model = None
         return
 
-    def setupStomper(self, stomperATTWibs):
-        stomperType = stomperATTWibs[0]
-        self.pos = Point3(stomperATTWibs[1][0], stomperATTWibs[1][1], stomperATTWibs[1][2])
-        self.period = stomperATTWibs[2]
-        typeATTWibs = ToonBlitzGlobals.StomperTypes[stomperType]
-        self.motionType = typeATTWibs[0]
-        self.scale = typeATTWibs[1]
-        self.headStartZ, self.headEndZ = typeATTWibs[2]
-        self.shaftStartScaleZ, self.shaftEndScaleZ = typeATTWibs[3]
-        self.numCollSolids = typeATTWibs[4]
+    def setupStomper(self, stomperAttribs):
+        stomperType = stomperAttribs[0]
+        self.pos = Point3(stomperAttribs[1][0], stomperAttribs[1][1], stomperAttribs[1][2])
+        self.period = stomperAttribs[2]
+        typeAttribs = ToonBlitzGlobals.StomperTypes[stomperType]
+        self.motionType = typeAttribs[0]
+        self.scale = typeAttribs[1]
+        self.headStartZ, self.headEndZ = typeAttribs[2]
+        self.shaftStartScaleZ, self.shaftEndScaleZ = typeAttribs[3]
+        self.numCollSolids = typeAttribs[4]
         self.stompSound = loader.loadSfx('phase_4/audio/sfx/CHQ_FACT_stomper_small.ogg')
         self.model.setPos(self.pos)
         self.model.setScale(self.scale)

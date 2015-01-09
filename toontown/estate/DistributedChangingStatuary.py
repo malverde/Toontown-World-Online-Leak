@@ -31,8 +31,8 @@ class DistributedChangingStatuary(DistributedStatuary.DistributedStatuary):
 
     def hideParts(self):
         stage = -1
-        aTTWib = GardenGlobals.PlantATTWibutes[self.typeIndex]
-        growthThresholds = aTTWib['growthThresholds']
+        attrib = GardenGlobals.PlantAttributes[self.typeIndex]
+        growthThresholds = attrib['growthThresholds']
         for index, threshold in enumerate(growthThresholds):
             if self.growthLevel < threshold:
                 stage = index

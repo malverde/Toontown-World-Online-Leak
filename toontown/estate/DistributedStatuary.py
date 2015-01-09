@@ -34,20 +34,20 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
             colNode.reparentTo(scoreNodePath)
         self.model.setScale(self.worldScale)
         self.model.reparentTo(self.rotateNode)
-        aTTWib = GardenGlobals.PlantATTWibutes[self.typeIndex]
+        attrib = GardenGlobals.PlantAttributes[self.typeIndex]
         self.stick2Ground()
 
     def setTypeIndex(self, typeIndex):
         self.typeIndex = typeIndex
-        self.name = GardenGlobals.PlantATTWibutes[typeIndex]['name']
-        self.plantType = GardenGlobals.PlantATTWibutes[typeIndex]['plantType']
-        self.modelPath = GardenGlobals.PlantATTWibutes[typeIndex]['model']
+        self.name = GardenGlobals.PlantAttributes[typeIndex]['name']
+        self.plantType = GardenGlobals.PlantAttributes[typeIndex]['plantType']
+        self.modelPath = GardenGlobals.PlantAttributes[typeIndex]['model']
         self.pinballScore = None
-        if GardenGlobals.PlantATTWibutes[typeIndex].has_key('pinballScore'):
-            self.pinballScore = GardenGlobals.PlantATTWibutes[typeIndex]['pinballScore']
+        if GardenGlobals.PlantAttributes[typeIndex].has_key('pinballScore'):
+            self.pinballScore = GardenGlobals.PlantAttributes[typeIndex]['pinballScore']
         self.worldScale = 1.0
-        if GardenGlobals.PlantATTWibutes[typeIndex].has_key('worldScale'):
-            self.worldScale = GardenGlobals.PlantATTWibutes[typeIndex]['worldScale']
+        if GardenGlobals.PlantAttributes[typeIndex].has_key('worldScale'):
+            self.worldScale = GardenGlobals.PlantAttributes[typeIndex]['worldScale']
         return
 
     def getTypeIndex(self):
@@ -122,7 +122,7 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
 
     def doResultDialog(self):
         self.startInteraction()
-        itemName = GardenGlobals.PlantATTWibutes[self.typeIndex]['name']
+        itemName = GardenGlobals.PlantAttributes[self.typeIndex]['name']
         stringToShow = TTLocalizer.getResultPlantedSomethingSentence(itemName)
         self.resultDialog = TTDialog.TTDialog(style=TTDialog.Acknowledge, text=stringToShow, command=self.resultsCallback)
 

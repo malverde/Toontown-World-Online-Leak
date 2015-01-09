@@ -17,7 +17,7 @@ class PeonyEffect(PooledEffect, EffectController):
         self.effectModel = model.find('**/tt_t_efx_ext_fireworkStars_01')
         self.effectModel.reparentTo(self)
         self.effectModel.setColorScale(0, 0, 0, 0)
-        self.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd, ColorBlendATTWib.OIncomingAlpha, ColorBlendATTWib.OOne))
+        self.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd, ColorBlendAttrib.OIncomingAlpha, ColorBlendAttrib.OOne))
         self.setBillboardPointWorld()
         self.setDepthWrite(0)
         self.setLightOff()

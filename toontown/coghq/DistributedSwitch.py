@@ -14,7 +14,7 @@ class DistributedSwitch(DistributedSwitchBase.DistributedSwitchBase, BasicEntiti
 
     def __init__(self, cr):
         BasicEntities.DistributedNodePathEntity.__init__(self, cr)
-        self.fsm = ClassicFSM.ClassicFSM('DistributedSwitch', [State.State('off', self.enterOff, self.exitOff, ['playing', 'aTTWact']), State.State('aTTWact', self.enterATTWact, self.exitATTWact, ['playing']), State.State('playing', self.enterPlaying, self.exitPlaying, ['aTTWact'])], 'off', 'off')
+        self.fsm = ClassicFSM.ClassicFSM('DistributedSwitch', [State.State('off', self.enterOff, self.exitOff, ['playing', 'attract']), State.State('attract', self.enterAttract, self.exitAttract, ['playing']), State.State('playing', self.enterPlaying, self.exitPlaying, ['attract'])], 'off', 'off')
         self.fsm.enterInitialState()
         self.node = None
         self.triggerName = ''
@@ -25,7 +25,7 @@ class DistributedSwitch(DistributedSwitchBase.DistributedSwitchBase, BasicEntiti
         self.setState(self.initialState, self.initialStateTimestamp)
         del self.initialState
         del self.initialStateTimestamp
-        self.accept('exit%s' % (self.getName(),), self.exiTTWigger)
+        self.accept('exit%s' % (self.getName(),), self.exitTrigger)
         self.acceptAvatar()
 
     def takedown(self):
@@ -88,7 +88,7 @@ class DistributedSwitch(DistributedSwitchBase.DistributedSwitchBase, BasicEntiti
     def enterTrigger(self, args = None):
         self.sendUpdate('requestInteract')
 
-    def exiTTWigger(self, args = None):
+    def exitTrigger(self, args = None):
         self.sendUpdate('requestExit')
 
     def enterOff(self):
@@ -97,14 +97,14 @@ class DistributedSwitch(DistributedSwitchBase.DistributedSwitchBase, BasicEntiti
     def exitOff(self):
         pass
 
-    def enterATTWact(self, ts):
+    def enterAttract(self, ts):
         track = self.switchOffTrack()
         if track is not None:
             track.start(ts)
             self.track = track
         return
 
-    def exitATTWact(self):
+    def exitAttract(self):
         if self.track:
             self.track.finish()
         self.track = None
@@ -125,6 +125,6 @@ class DistributedSwitch(DistributedSwitchBase.DistributedSwitchBase, BasicEntiti
 
     if __dev__:
 
-        def aTTWibChanged(self, aTTWib, value):
+        def attribChanged(self, attrib, value):
             self.takedown()
             self.setup()

@@ -87,7 +87,7 @@ class House(Place.Place):
 
     def exit(self):
         self.ignoreAll()
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.requestFinalState()
         self._telemLimiter.destroy()
         del self._telemLimiter
@@ -95,7 +95,7 @@ class House(Place.Place):
         NametagGlobals.setMasterArrowsOn(0)
 
     def setState(self, state):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.request(state)
 
     def getZoneId(self):
@@ -119,7 +119,7 @@ class House(Place.Place):
         Place.Place.enterTeleportOut(self, requestStatus, self.__teleportOutDone)
 
     def __teleportOutDone(self, requestStatus):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.requestFinalState()
         self.notify.debug('House: teleportOutDone: requestStatus = %s' % requestStatus)
         hoodId = requestStatus['hoodId']
@@ -161,7 +161,7 @@ class House(Place.Place):
         self.enablePeriodTimer()
 
     def __handleFallingAsleepCloset(self, arg):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.request('walk')
         messenger.send('closetAsleep')
         base.localAvatar.forceGotoSleep()

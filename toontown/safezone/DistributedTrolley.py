@@ -66,7 +66,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
             ref = self.trolleyCar.attachNewNode('key' + `i` + 'ref')
             ref.iPosHpr(key)
             self.keyRef.append(ref)
-            self.keyInit.append(key.geTTWansform())
+            self.keyInit.append(key.getTransform())
 
         self.frontWheels = self.trolleyCar.findAllMatches('**/front_wheels')
         self.numFrontWheels = self.frontWheels.getNumPaths()
@@ -77,7 +77,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
             ref = self.trolleyCar.attachNewNode('frontWheel' + `i` + 'ref')
             ref.iPosHpr(wheel)
             self.frontWheelRef.append(ref)
-            self.frontWheelInit.append(wheel.geTTWansform())
+            self.frontWheelInit.append(wheel.getTransform())
 
         self.backWheels = self.trolleyCar.findAllMatches('**/back_wheels')
         self.numBackWheels = self.backWheels.getNumPaths()
@@ -88,7 +88,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
             ref = self.trolleyCar.attachNewNode('backWheel' + `i` + 'ref')
             ref.iPosHpr(wheel)
             self.backWheelRef.append(ref)
-            self.backWheelInit.append(wheel.geTTWansform())
+            self.backWheelInit.append(wheel.getTransform())
 
         trolleyAnimationReset = Func(self.resetAnimation)
         trolleyEnterStartPos = Point3(-20, 14, -1)
@@ -120,7 +120,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         dist = Vec3(trolleyExitEndPos - trolleyExitStartPos).length()
         wheelAngle = dist / (2.0 * math.pi * 0.95) * 360
         trolleyExitAnimateInterval = LerpFunctionInterval(self.animateTrolley, duration=TROLLEY_EXIT_TIME, blendType='easeIn', extraArgs=[keyAngle, wheelAngle], name='TrolleyAnimate')
-        self.trolleyExiTTWack = Parallel(trolleyExitPos, trolleyExitBellInterval, trolleyExitAwayInterval, trolleyExitAnimateInterval, name=self.uniqueName('trolleyExit'))
+        self.trolleyExitTrack = Parallel(trolleyExitPos, trolleyExitBellInterval, trolleyExitAwayInterval, trolleyExitAnimateInterval, name=self.uniqueName('trolleyExit'))
 
     def disable(self):
         DistributedObject.DistributedObject.disable(self)
@@ -136,9 +136,9 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         self.trolleyEnterTrack.pause()
         self.trolleyEnterTrack = None
         del self.trolleyEnterTrack
-        self.trolleyExiTTWack.pause()
-        self.trolleyExiTTWack = None
-        del self.trolleyExiTTWack
+        self.trolleyExitTrack.pause()
+        self.trolleyExitTrack = None
+        del self.trolleyExitTrack
         del self.trolleyStation
         del self.trolleyCar
         del self.keys
@@ -165,7 +165,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         self.fsm.request(state, [globalClockDelta.localElapsedTime(timestamp)])
 
     def allowedToEnter(self):
-        if hasaTTW(base, 'ttAccess') and base.ttAccess and base.ttAccess.canAccess():
+        if hasattr(base, 'ttAccess') and base.ttAccess and base.ttAccess.canAccess():
             return True
         return False
 
@@ -228,7 +228,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
                     self.notify.warning("Can't board the trolley while in the '%s' state." % self.fsm.getCurrentState().getName())
                     self.loader.place.fsm.request('walk')
                     return
-                if hasaTTW(self.loader.place, 'trolley') and self.loader.place.trolley:
+                if hasattr(self.loader.place, 'trolley') and self.loader.place.trolley:
                     self.loader.place.trolley.fsm.request('boarding', [self.trolleyCar])
                     self.localToonOnBoard = 1
                     self.loader.place.trolley.fsm.request('boarded')
@@ -264,7 +264,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
     def notifyToonOffTrolley(self, toon):
         toon.setAnimState('neutral', 1.0)
         if toon == base.localAvatar:
-            if hasaTTW(self.loader.place, 'trolley') and self.loader.place.trolley:
+            if hasattr(self.loader.place, 'trolley') and self.loader.place.trolley:
                 self.loader.place.trolley.handleOffTrolley()
             self.localToonOnBoard = 0
         else:
@@ -283,7 +283,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
             track.delayDelete = DelayDelete.DelayDelete(toon, 'Trolley.emptySlot')
             self.storeToonTrack(avId, track)
             track.start()
-            if avId == base.localAvatar.getDoId() and hasaTTW(self.loader.place, 'trolley') and self.loader.place.trolley:
+            if avId == base.localAvatar.getDoId() and hasattr(self.loader.place, 'trolley') and self.loader.place.trolley:
                 self.loader.place.trolley.fsm.request('exiting')
         else:
             DistributedTrolley.notify.warning('toon: ' + str(avId) + " doesn't exist, and" + ' cannot exit the trolley!')
@@ -365,13 +365,13 @@ class DistributedTrolley(DistributedObject.DistributedObject):
         del self.clockNode
 
     def enterLeaving(self, ts):
-        self.trolleyExiTTWack.start(ts)
+        self.trolleyExitTrack.start(ts)
         if self.localToonOnBoard:
-            if hasaTTW(self.loader.place, 'trolley') and self.loader.place.trolley:
+            if hasattr(self.loader.place, 'trolley') and self.loader.place.trolley:
                 self.loader.place.trolley.fsm.request('trolleyLeaving')
 
     def exitLeaving(self):
-        self.trolleyExiTTWack.finish()
+        self.trolleyExitTrack.finish()
 
     def animateTrolley(self, t, keyAngle, wheelAngle):
         for i in range(self.numKeys):
@@ -391,13 +391,13 @@ class DistributedTrolley(DistributedObject.DistributedObject):
 
     def resetAnimation(self):
         for i in range(self.numKeys):
-            self.keys[i].seTTWansform(self.keyInit[i])
+            self.keys[i].setTransform(self.keyInit[i])
 
         for i in range(self.numFrontWheels):
-            self.frontWheels[i].seTTWansform(self.frontWheelInit[i])
+            self.frontWheels[i].setTransform(self.frontWheelInit[i])
 
         for i in range(self.numBackWheels):
-            self.backWheels[i].seTTWansform(self.backWheelInit[i])
+            self.backWheels[i].setTransform(self.backWheelInit[i])
 
     def getStareAtNodeAndOffset(self):
         return (self.trolleyCar, Point3(0, 0, 4))

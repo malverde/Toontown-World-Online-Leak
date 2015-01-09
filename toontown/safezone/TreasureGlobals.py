@@ -59,7 +59,7 @@ TreasureModels = {
 
 SafeZoneTreasureSpawns = {
     ToontownGlobals.ToontownCentral: (
-        TreasureTT, 3, # TTTWeasure heals 3 each...
+        TreasureTT, 3, # TTTreasure heals 3 each...
         [
             (-61.3,  -9.1,  1.2),
             (-90.7, -5.7, -0.58),

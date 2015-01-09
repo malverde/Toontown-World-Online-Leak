@@ -26,14 +26,14 @@ class AmbientSound(BasicEntities.NodePathEntity):
         return
 
     def destroySound(self):
-        if hasaTTW(self, 'soundIval'):
+        if hasattr(self, 'soundIval'):
             self.soundIval.pause()
             del self.soundIval
-        if hasaTTW(self, 'sound'):
+        if hasattr(self, 'sound'):
             del self.sound
 
     if __dev__:
 
-        def aTTWibChanged(self, *args):
+        def attribChanged(self, *args):
             self.destroySound()
             self.initSound()

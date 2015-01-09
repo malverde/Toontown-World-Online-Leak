@@ -93,11 +93,11 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
             self.visId = 0
 
     def createSoundInterval(self, origAnimNameWithPath, maximumDuration):
-        if not hasaTTW(base, 'localAvatar'):
+        if not hasattr(base, 'localAvatar'):
             return Sequence()
         sfxVolume = 1.0
         cutoff = 45
-        if not hasaTTW(self, 'soundPath'):
+        if not hasattr(self, 'soundPath'):
             self.soundPath = self.path.replace('/models/char', '/audio/sfx')
         origAnimName = origAnimNameWithPath.split('/')[-1]
         theSound = self.origAnimNameToSound.get(origAnimName)

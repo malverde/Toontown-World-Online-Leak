@@ -26,5 +26,5 @@ class DistributedTrophyMgr(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.delete(self)
         return
 
-    def d_requesTTWophyScore(self):
-        self.sendUpdate('requesTTWophyScore', [])
+    def d_requestTrophyScore(self):
+        self.sendUpdate('requestTrophyScore', [])

@@ -52,7 +52,7 @@ class TrackFrame(DirectFrame):
             self.toon.play(anim, None, fromFrame, toFrame - 1)
         return
 
-    def seTTWained(self, trackId):
+    def setTrained(self, trackId):
         if self.toon == None:
             self.makeToon()
         if not base.launcher or base.launcher and base.launcher.getPhaseComplete(5):
@@ -155,16 +155,16 @@ class TrackPage(ShtikerPage.ShtikerPage):
         self.trackText['text'] = TTLocalizer.TrackPageClear
 
     def updatePage(self):
-        trackId, trackProgress = base.localAvatar.geTTWackProgress()
+        trackId, trackProgress = base.localAvatar.getTrackProgress()
         if trackId == -1:
             self.clearPage()
         else:
             trackName = ToontownBattleGlobals.Tracks[trackId].capitalize()
             self.trackText['text'] = TTLocalizer.TrackPageTraining % (trackName, trackName)
-            trackProgressArray = base.localAvatar.geTTWackProgressAsArray()
+            trackProgressArray = base.localAvatar.getTrackProgressAsArray()
             for index in range(1, MAX_FRAMES - 2):
                 if trackProgressArray[index - 1]:
-                    self.trackFrames[index].seTTWained(trackId)
+                    self.trackFrames[index].setTrained(trackId)
                 else:
                     self.trackFrames[index].setUntrained(trackId)
 

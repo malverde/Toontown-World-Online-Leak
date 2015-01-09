@@ -1,4 +1,4 @@
-from pandac.PandaModules import DecalEffect, DepthWriteATTWib
+from pandac.PandaModules import DecalEffect, DepthWriteAttrib
 from direct.directnotify import DirectNotifyGlobal
 from toontown.building import DistributedBuilding
 

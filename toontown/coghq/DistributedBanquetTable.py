@@ -197,7 +197,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         else:
             diner.pose('landing', 0)
         locator = self.tableGroup.find('**/chair_%d' % (i + 1))
-        locatorScale = locator.getNeTTWansform().getScale()[0]
+        locatorScale = locator.getNetTransform().getScale()[0]
         correctHeadingNp = locator.attachNewNode('correctHeading')
         self.chairLocators[i] = correctHeadingNp
         heading = self.rotationsPerSeatIndex[i]
@@ -450,9 +450,9 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.prepareForPhaseFour()
         if self.avId == localAvatar.doId:
             self.tableGroup.setAlphaScale(0.3)
-            self.tableGroup.seTTWansparency(1)
+            self.tableGroup.setTransparency(1)
             taskMgr.doMethodLater(5, self.__allowDetect, self.triggerName)
-            self.fadeTrack = Sequence(Func(self.tableGroup.seTTWansparency, 1), self.tableGroup.colorScaleInterval(0.2, VBase4(1, 1, 1, 0.3)))
+            self.fadeTrack = Sequence(Func(self.tableGroup.setTransparency, 1), self.tableGroup.colorScaleInterval(0.2, VBase4(1, 1, 1, 0.3)))
             self.fadeTrack.start()
             self.allowLocalRequestControl = False
         else:
@@ -576,7 +576,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
     def goToFinalBattle(self):
         if self.cr:
             place = self.cr.playGame.getPlace()
-            if place and hasaTTW(place, 'fsm'):
+            if place and hasattr(place, 'fsm'):
                 if place.fsm.getCurrentState().getName() == 'crane':
                     place.setState('finalBattle')
 
@@ -832,7 +832,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         spray = sprayRot
         spray.setColor(color)
         if color[3] < 1.0:
-            spray.seTTWansparency(1)
+            spray.setTransparency(1)
 
         def showSpray(sprayScale, sprayRot, sprayProp, origin, target, parent):
             if callable(origin):

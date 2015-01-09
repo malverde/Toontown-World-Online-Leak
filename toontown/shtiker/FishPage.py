@@ -22,16 +22,16 @@ class FishPage(ShtikerPage.ShtikerPage):
         return
 
     def enter(self):
-        if not hasaTTW(self, 'title'):
+        if not hasattr(self, 'title'):
             self.load()
         self.setMode(self.mode, 1)
         self.accept(localAvatar.uniqueName('fishTankChange'), self.updatePage)
         ShtikerPage.ShtikerPage.enter(self)
 
     def exit(self):
-        if hasaTTW(self, 'picker'):
+        if hasattr(self, 'picker'):
             self.picker.hide()
-        if hasaTTW(self, 'browser'):
+        if hasattr(self, 'browser'):
             self.browser.hide()
         self.ignore(localAvatar.uniqueName('fishTankChange'))
         ShtikerPage.ShtikerPage.exit(self)
@@ -65,7 +65,7 @@ class FishPage(ShtikerPage.ShtikerPage):
         return
 
     def createFishPicker(self):
-        if not hasaTTW(self, 'picker'):
+        if not hasattr(self, 'picker'):
             self.picker = FishPicker.FishPicker(self)
             self.picker.setPos(-0.555, 0, 0.1)
             self.picker.setScale(0.95)
@@ -73,14 +73,14 @@ class FishPage(ShtikerPage.ShtikerPage):
         return
 
     def createFishBrowser(self):
-        if not hasaTTW(self, 'browser'):
+        if not hasattr(self, 'browser'):
             self.browser = FishBrowser.FishBrowser(self)
             self.browser.setScale(1.1)
             self.collectedTotal = DirectLabel(parent=self.browser, relief=None, text='', text_scale=0.06, pos=(0, 0, -0.61))
         return
 
     def createFishTrophyFrame(self):
-        if not hasaTTW(self, 'trophyFrame'):
+        if not hasattr(self, 'trophyFrame'):
             self.trophyFrame = DirectFrame(parent=self, relief=None, image=self.trophyCase, image_pos=(0, 1, 0), image_scale=0.034)
             self.trophyFrame.hide()
             self.trophies = []
@@ -110,35 +110,35 @@ class FishPage(ShtikerPage.ShtikerPage):
         self.show()
         if mode == FishPage_Tank:
             self.title['text'] = TTLocalizer.FishPageTitleTank
-            if not hasaTTW(self, 'picker'):
+            if not hasattr(self, 'picker'):
                 self.createFishPicker()
             self.picker.show()
-            if hasaTTW(self, 'browser'):
+            if hasattr(self, 'browser'):
                 self.browser.hide()
-            if hasaTTW(self, 'trophyFrame'):
+            if hasattr(self, 'trophyFrame'):
                 self.trophyFrame.hide()
             self.tankTab['state'] = DGG.DISABLED
             self.collectionTab['state'] = DGG.NORMAL
             self.trophyTab['state'] = DGG.NORMAL
         elif mode == FishPage_Collection:
             self.title['text'] = TTLocalizer.FishPageTitleCollection
-            if hasaTTW(self, 'picker'):
+            if hasattr(self, 'picker'):
                 self.picker.hide()
-            if not hasaTTW(self, 'browser'):
+            if not hasattr(self, 'browser'):
                 self.createFishBrowser()
             self.browser.show()
-            if hasaTTW(self, 'trophyFrame'):
+            if hasattr(self, 'trophyFrame'):
                 self.trophyFrame.hide()
             self.tankTab['state'] = DGG.NORMAL
             self.collectionTab['state'] = DGG.DISABLED
             self.trophyTab['state'] = DGG.NORMAL
         elif mode == FishPage_Trophy:
             self.title['text'] = TTLocalizer.FishPageTitleTrophy
-            if hasaTTW(self, 'picker'):
+            if hasattr(self, 'picker'):
                 self.picker.hide()
-            if hasaTTW(self, 'browser'):
+            if hasattr(self, 'browser'):
                 self.browser.hide()
-            if not hasaTTW(self, 'trophyFrame'):
+            if not hasattr(self, 'trophyFrame'):
                 self.createFishTrophyFrame()
             self.trophyFrame.show()
             self.tankTab['state'] = DGG.NORMAL
@@ -148,9 +148,9 @@ class FishPage(ShtikerPage.ShtikerPage):
 
     def unload(self):
         self.avatar = None
-        if hasaTTW(self, 'trophies'):
+        if hasattr(self, 'trophies'):
             del self.trophies
-        if hasaTTW(self, 'trophyCase'):
+        if hasattr(self, 'trophyCase'):
             del self.trophyCase
         self.tankTab.destroy()
         self.collectionTab.destroy()
@@ -159,22 +159,22 @@ class FishPage(ShtikerPage.ShtikerPage):
         return
 
     def updatePage(self):
-        if hasaTTW(self, 'collectedTotal'):
+        if hasattr(self, 'collectedTotal'):
             self.collectedTotal['text'] = TTLocalizer.FishPageCollectedTotal % (len(base.localAvatar.fishCollection), FishGlobals.getTotalNumFish())
-        if hasaTTW(self, 'rod'):
+        if hasattr(self, 'rod'):
             rod = base.localAvatar.fishingRod
             rodName = TTLocalizer.FishingRodNameDict[rod]
             rodWeightRange = FishGlobals.getRodWeightRange(rod)
             self.rod['text'] = TTLocalizer.FishPageRodInfo % (rodName, rodWeightRange[0], rodWeightRange[1])
         if self.mode == FishPage_Tank:
-            if hasaTTW(self, 'picker'):
+            if hasattr(self, 'picker'):
                 newTankFish = base.localAvatar.fishTank.getFish()
                 self.picker.update(newTankFish)
         elif self.mode == FishPage_Collection:
-            if hasaTTW(self, 'browser'):
+            if hasattr(self, 'browser'):
                 self.browser.update()
         elif self.mode == FishPage_Trophy:
-            if hasaTTW(self, 'trophies'):
+            if hasattr(self, 'trophies'):
                 for trophy in self.trophies:
                     trophy.setLevel(-1)
 

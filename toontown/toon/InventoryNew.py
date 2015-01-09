@@ -220,7 +220,7 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
              TrackColors[track][2],
              1), state=DGG.NORMAL, relief=None)
             trackFrame.bind(DGG.WITHIN, self.enterTrackFrame, extraArgs=[track])
-            trackFrame.bind(DGG.WITHOUT, self.exiTTWackFrame, extraArgs=[track])
+            trackFrame.bind(DGG.WITHOUT, self.exitTrackFrame, extraArgs=[track])
             self.trackRows.append(trackFrame)
             adjustLeft = -0.065
             self.trackNameLabels.append(DirectLabel(text=TextEncoder.upper(Tracks[track]), parent=self.trackRows[track], pos=(-0.72 + adjustLeft, -0.1, 0.01), scale=TTLocalizer.INtrackNameLabels, relief=None, text_fg=(0.2, 0.2, 0.2, 1), text_font=getInterfaceFont(), text_align=TextNode.ALeft, textMayChange=0))
@@ -406,14 +406,14 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
             self.storePurchaseDeactivateButtons()
         elif self.previousActivateMode == 'storePurchaseBroke':
             self.storePurchaseBrokeDeactivateButtons()
-        elif self.previousActivateMode == 'planTTWee':
-            self.planTTWeeDeactivateButtons()
+        elif self.previousActivateMode == 'plantTree':
+            self.plantTreeDeactivateButtons()
         else:
             self.notify.error('No such mode as %s' % self.previousActivateMode)
         return None
 
     def __activateButtons(self):
-        if hasaTTW(self, 'activateMode'):
+        if hasattr(self, 'activateMode'):
             if self.activateMode == 'book':
                 self.bookActivateButtons()
             elif self.activateMode == 'bookDelete':
@@ -434,8 +434,8 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
                 self.storePurchaseActivateButtons()
             elif self.activateMode == 'storePurchaseBroke':
                 self.storePurchaseBrokeActivateButtons()
-            elif self.activateMode == 'planTTWee':
-                self.planTTWeeActivateButtons()
+            elif self.activateMode == 'plantTree':
+                self.plantTreeActivateButtons()
             else:
                 self.notify.error('No such mode as %s' % self.activateMode)
         return None
@@ -941,7 +941,7 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
         self.battleFrame.hide()
         self.stopAndClearPropBonusIval()
 
-    def planTTWeeActivateButtons(self):
+    def plantTreeActivateButtons(self):
         self.reparentTo(aspect2d)
         self.setPos(0, 0, 0.1)
         self.setScale(1)
@@ -979,14 +979,14 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
 
         return
 
-    def planTTWeeDeactivateButtons(self):
+    def plantTreeDeactivateButtons(self):
         self.passButton['text'] = TTLocalizer.InventoryPass
         self.invFrame.reparentTo(self)
         self.battleFrame.hide()
 
     def itemIsUsable(self, track, level):
         if self.gagTutMode:
-            trackAccess = self.toon.geTTWackAccess()
+            trackAccess = self.toon.getTrackAccess()
             return trackAccess[track] >= level + 1
         curSkill = self.toon.experience.getExp(track)
         if curSkill < Levels[track][level]:
@@ -1222,8 +1222,8 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
     def enterTrackFrame(self, track, guiItem):
         messenger.send('enterTrackFrame', [track])
 
-    def exiTTWackFrame(self, track, guiItem):
-        messenger.send('exiTTWackFrame', [track])
+    def exitTrackFrame(self, track, guiItem):
+        messenger.send('exitTrackFrame', [track])
 
     def checkPropBonus(self, track):
         result = False

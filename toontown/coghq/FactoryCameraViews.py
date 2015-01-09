@@ -14,7 +14,7 @@ class FactoryCameraViews:
            Point3(0.0, -13.9563484192, 12.749215126),
            Point3(0.0, 1.5, 15.75),
            Point3(0.0, 1.5, -3.9375),
-           1), ['localToonLeftBattle']], ['lookouTTWigger', (Point3(0, -17.7, 28.8),
+           1), ['localToonLeftBattle']], ['lookoutTrigger', (Point3(0, -17.7, 28.8),
            Point3(0, 10, 0),
            Point3(0.0, 1.5, 15.75),
            Point3(0.0, 1.5, -3.9375),

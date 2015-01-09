@@ -13,17 +13,17 @@ from toontown.coghq import LaserGameAvoid
 from toontown.coghq import LaserGameDrag
 import random
 
-class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEntities.NodePathATTWibs):
+class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEntities.NodePathAttribs):
 
     def __init__(self, level, entId):
         BattleBlockerAI.BattleBlockerAI.__init__(self, level, entId)
         node = hidden.attachNewNode('DistributedLaserFieldAI')
         NodePath.__init__(self, node)
-        if not hasaTTW(self, 'switchId'):
+        if not hasattr(self, 'switchId'):
             self.switchId = 0
         self.gridScale = 1
         self.game = LaserGameRoll.LaserGameRoll(self.trapDisable, self.trapFire, self.sendField, self.setGrid)
-        if not hasaTTW(self, 'gridGame'):
+        if not hasattr(self, 'gridGame'):
             self.gridGame = 'Roll'
         self.enabled = 1
         self.hasShownSuits = 0
@@ -39,7 +39,7 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEn
              'Avoid',
              'Drag'])
         self.gridGame = gameName
-        if hasaTTW(self, 'game'):
+        if hasattr(self, 'game'):
             self.game.delete()
             self.game = None
         if gameName == 'Drag':
@@ -104,7 +104,7 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEn
 
     def __detect(self, task):
         isThereAnyToons = False
-        if hasaTTW(self, 'level'):
+        if hasattr(self, 'level'):
             toonInRange = 0
             for avId in self.level.presentAvIds:
                 if avId in self.air.doId2do:

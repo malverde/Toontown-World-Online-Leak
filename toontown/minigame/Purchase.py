@@ -586,7 +586,7 @@ class Purchase(PurchaseBase):
             toon.detachNode()
 
         del self.toons
-        if hasaTTW(self, 'toonsKeep'):
+        if hasattr(self, 'toonsKeep'):
             for delayDelete in self.toonsKeep:
                 delayDelete.destroy()
 
@@ -611,7 +611,7 @@ class Purchase(PurchaseBase):
         NametagGlobals.setOnscreenChatForced(0)
 
     def _handleClientCleanup(self):
-        if hasaTTW(self, 'toonsKeep'):
+        if hasattr(self, 'toonsKeep'):
             for delayDelete in self.toonsKeep:
                 delayDelete.destroy()
 
@@ -699,7 +699,7 @@ class Purchase(PurchaseBase):
         self.enableBackToPlayground()
 
     def doMetagamePlayAgain(self):
-        if hasaTTW(self, 'metagamePlayAgainResult'):
+        if hasattr(self, 'metagamePlayAgainResult'):
             return self.metagamePlayAgainResult
         numToons = 0
         for avId in self.ids:
@@ -802,7 +802,7 @@ class PurchaseHeadFrame(DirectFrame):
         self.destroy()
 
     def removeAvKeep(self):
-        if hasaTTW(self, 'avKeep'):
+        if hasattr(self, 'avKeep'):
             self.notify.debug('destroying avKeep %s' % self.avKeep)
             self.avKeep.destroy()
             del self.avKeep

@@ -20,7 +20,7 @@ REWARD_TIMEOUT = 30
 
 class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
     notify = directNotify.newCategory('DistributedGolfCourseAI')
-    defaulTTWansitions = {'Off': ['WaitJoin'],
+    defaultTransitions = {'Off': ['WaitJoin'],
      'WaitJoin': ['WaitReadyCourse', 'Cleanup'],
      'WaitReadyCourse': ['WaitReadyHole', 'Cleanup'],
      'WaitReadyHole': ['PlayHole',
@@ -100,7 +100,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
 
     def delete(self):
         self.notify.debug('GOLF COURSE: delete: deleting AI GolfCourse object')
-        if hasaTTW(self, 'rewardBarrier'):
+        if hasattr(self, 'rewardBarrier'):
             self.rewardBarrier.cleanup()
             del self.rewardBarrier
         if self.currentHole:
@@ -200,10 +200,10 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
             else:
                 self.notify.debug('allBalls are in holes, calling holeOver')
                 self.holeOver()
-        if hasaTTW(self, 'rewardBarrier'):
+        if hasattr(self, 'rewardBarrier'):
             if self.rewardBarrier:
                 self.rewardBarrier.clear(avId)
-        if hasaTTW(self, '__barrier'):
+        if hasattr(self, '__barrier'):
             if self.__barrier:
                 self.__.clear(avId)
 
@@ -268,7 +268,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
         self.notify.debug('GOLF COURSE: setAvatarJoined: avatar id joined: ' + str(avId))
         self.avStateDict[avId] = JOINED
         self.notify.debug('GOLF COURSE: setAvatarJoined: new states: ' + str(self.avStateDict))
-        if hasaTTW(self, '_DistributedGolfCourseAI__barrier') and self.__barrier:
+        if hasattr(self, '_DistributedGolfCourseAI__barrier') and self.__barrier:
             self.__barrier.clear(avId)
         else:
             self.notify.warning('setAvatarJoined avId=%d but barrier is invalid' % avId)
@@ -339,7 +339,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
 
     def exitWaitReadyHole(self):
         self.notify.debugStateCall(self)
-        if hasaTTW(self, '__barrier'):
+        if hasattr(self, '__barrier'):
             self.__barrier.cleanup()
             self.__barrier = None
         return
@@ -635,7 +635,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
     def setDoneReward(self):
         avId = self.air.getAvatarIdFromSender()
         self.notify.debug('got rewardDone from %d' % avId)
-        if hasaTTW(self, 'rewardBarrier'):
+        if hasattr(self, 'rewardBarrier'):
             self.rewardBarrier.clear(avId)
         self.sendUpdate('setCourseAbort', [avId])
 
@@ -901,8 +901,8 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
         if self.state == 'Cleanup':
             pass
         else:
-            if self.state in self.defaulTTWansitions:
-                if newState in self.defaulTTWansitions[self.state]:
+            if self.state in self.defaultTransitions:
+                if newState in self.defaultTransitions[self.state]:
                     self.demand(newState)
                     doingDemand = True
             elif self.state == None:

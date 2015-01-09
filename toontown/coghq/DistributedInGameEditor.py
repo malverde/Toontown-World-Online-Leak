@@ -16,11 +16,11 @@ class InGameEditorEntityBase(InGameEditorElement):
     def __init__(self):
         InGameEditorElement.__init__(self)
 
-    def aTTWibChanged(self, aTTWib, value):
-        Entity.Entity.aTTWibChanged(self, aTTWib, value)
-        print 'aTTWibChange: %s %s, %s = %s' % (self.level.getEntityType(self.entId),
+    def attribChanged(self, attrib, value):
+        Entity.Entity.attribChanged(self, attrib, value)
+        print 'attribChange: %s %s, %s = %s' % (self.level.getEntityType(self.entId),
          self.entId,
-         aTTWib,
+         attrib,
          repr(value))
 
     def getTypeName(self):
@@ -41,7 +41,7 @@ class InGameEditorEntityBase(InGameEditorElement):
             newName = newName[len(prefix):]
         oldName = self.privGetEntityName()
         if oldName != newName:
-            self.level.setATTWibEdit(self.entId, 'name', newName)
+            self.level.setAttribEdit(self.entId, 'name', newName)
 
     def setParentEntId(self, parentEntId):
         self.parentEntId = parentEntId
@@ -75,8 +75,8 @@ class InGameEditorEditMgr(EditMgr.EditMgr, InGameEditorEntityBase):
         EditMgr.EditMgr.destroy(self)
 
 
-class ATTWibModifier(Entity.Entity, InGameEditorEntityBase):
-    notify = DirectNotifyGlobal.directNotify.newCategory('ATTWibModifier')
+class AttribModifier(Entity.Entity, InGameEditorEntityBase):
+    notify = DirectNotifyGlobal.directNotify.newCategory('AttribModifier')
 
     def __init__(self, level, entId):
         Entity.Entity.__init__(self, level, entId)
@@ -87,31 +87,31 @@ class ATTWibModifier(Entity.Entity, InGameEditorEntityBase):
 
     def setValue(self, value):
         if len(self.typeName) == 0:
-            ATTWibModifier.notify.warning('no typeName set')
+            AttribModifier.notify.warning('no typeName set')
             return
         entTypeReg = self.level.entTypeReg
         if self.typeName not in entTypeReg.getAllTypeNames():
-            ATTWibModifier.notify.warning('invalid typeName: %s' % self.typeName)
+            AttribModifier.notify.warning('invalid typeName: %s' % self.typeName)
             return
         typeDesc = entTypeReg.getTypeDesc(self.typeName)
-        if len(self.aTTWibName) == 0:
-            ATTWibModifier.notify.warning('no aTTWibName set')
+        if len(self.attribName) == 0:
+            AttribModifier.notify.warning('no attribName set')
             return
-        if self.aTTWibName not in typeDesc.getATTWibNames():
-            ATTWibModifier.notify.warning('invalid aTTWibName: %s' % self.aTTWibName)
+        if self.attribName not in typeDesc.getAttribNames():
+            AttribModifier.notify.warning('invalid attribName: %s' % self.attribName)
             return
         if len(value) == 0:
-            ATTWibModifier.notify.warning('no value set')
+            AttribModifier.notify.warning('no value set')
 
-        def setATTWib(entId, typeName = self.typeName, aTTWibName = self.aTTWibName, value = eval(value), recursive = self.recursive):
+        def setAttrib(entId, typeName = self.typeName, attribName = self.attribName, value = eval(value), recursive = self.recursive):
             if typeName == self.level.getEntityType(entId):
-                self.level.setATTWibEdit(entId, aTTWibName, value)
+                self.level.setAttribEdit(entId, attribName, value)
             if recursive:
                 entity = self.level.getEntity(entId)
                 for child in entity.getChildren():
-                    setATTWib(child.entId)
+                    setAttrib(child.entId)
 
-        setATTWib(self.parentEntId)
+        setAttrib(self.parentEntId)
 
 
 def getInGameEditorEntityCreatorClass(level):
@@ -127,7 +127,7 @@ def getInGameEditorEntityCreatorClass(level):
                 self.entType2Ctor[type] = InGameEditorEntity
 
             self.entType2Ctor['editMgr'] = InGameEditorEditMgr
-            self.entType2Ctor['aTTWibModifier'] = ATTWibModifier
+            self.entType2Ctor['attribModifier'] = AttribModifier
 
     return InGameEditorEntityCreator
 
@@ -251,11 +251,11 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
         if self.editorInitialized and self.editorIsLocalToon():
             self.axis.removeNode()
             del self.axis
-            if hasaTTW(self, 'entTypeReg'):
+            if hasattr(self, 'entTypeReg'):
                 del self.entTypeReg
             self.editorInitialized = 0
             Level.Level.destroyLevel(self)
-            if hasaTTW(self, 'editor'):
+            if hasattr(self, 'editor'):
                 self.editor.quit()
                 del self.editor
         DistributedObject.DistributedObject.disable(self)
@@ -270,7 +270,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
             return
         if isinstance(entity, NodePath):
             return entity
-        if hasaTTW(entity, 'getNodePath'):
+        if hasattr(entity, 'getNodePath'):
             return entity.getNodePath()
         return
 
@@ -349,7 +349,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
             if entityNP in self.nodePathId2EntId:
                 del self.nodePathId2EntId[entityNP.id()]
             if ent is self.selectedEntity:
-                self.editor.clearATTWibEditPane()
+                self.editor.clearAttribEditPane()
                 self.selectedEntity = None
             ent._parentEntity.removeChild(ent)
             del ent._parentEntity
@@ -359,10 +359,10 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
 
     def handleEntitySelect(self, entity):
         self.selectedEntity = entity
-        if hasaTTW(self, 'identifyIval'):
+        if hasattr(self, 'identifyIval'):
             self.identifyIval.finish()
         if entity is self:
-            self.editor.clearATTWibEditPane()
+            self.editor.clearAttribEditPane()
         else:
             entityNP = self.getEntInstanceNP(entity.entId)
             if entityNP is not None:
@@ -386,7 +386,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
 
                 self.identifyIval = Sequence(Func(putAxis), Parallel(self.identifyIval, WaitInterval(1000.5)), Func(takeAxis))
                 self.identifyIval.start()
-            self.editor.updateATTWibEditPane(entity.entId, self.levelSpec, self.entTypeReg)
+            self.editor.updateAttribEditPane(entity.entId, self.levelSpec, self.entTypeReg)
             entType = self.getEntityType(entity.entId)
             menu = self.editor.menuBar.component('Entity-menu')
             index = menu.index('Remove Selected Entity')
@@ -396,12 +396,12 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
                 menu.entryconfigure(index, state='normal')
         return
 
-    def privSendATTWibEdit(self, entId, aTTWib, value):
+    def privSendAttribEdit(self, entId, attrib, value):
         self.specModified = 1
         valueStr = repr(value)
-        self.notify.debug("sending edit: %s: '%s' = %s" % (entId, aTTWib, valueStr))
+        self.notify.debug("sending edit: %s: '%s' = %s" % (entId, attrib, valueStr))
         self.sendUpdate('setEdit', [entId,
-         aTTWib,
+         attrib,
          valueStr,
          self.editUsername])
 
@@ -410,19 +410,19 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
             if callable(action):
                 action()
             else:
-                entId, aTTWib, value = action
-                self.privSendATTWibEdit(entId, aTTWib, value)
+                entId, attrib, value = action
+                self.privSendAttribEdit(entId, attrib, value)
 
-    def setUndoableATTWibEdit(self, old2new, new2old):
+    def setUndoableAttribEdit(self, old2new, new2old):
         self.redoStack = []
         self.undoStack.append((new2old, old2new))
         self.privExecActionList(old2new)
 
-    def setATTWibEdit(self, entId, aTTWib, value, canUndo = 1):
-        oldValue = eval(repr(self.levelSpec.getEntitySpec(entId)[aTTWib]))
-        new2old = [(entId, aTTWib, oldValue)]
-        old2new = [(entId, aTTWib, value)]
-        self.setUndoableATTWibEdit(old2new, new2old)
+    def setAttribEdit(self, entId, attrib, value, canUndo = 1):
+        oldValue = eval(repr(self.levelSpec.getEntitySpec(entId)[attrib]))
+        new2old = [(entId, attrib, oldValue)]
+        old2new = [(entId, attrib, value)]
+        self.setUndoableAttribEdit(old2new, new2old)
         if not canUndo:
             self.undoStack = []
 
@@ -463,7 +463,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
         if parentEntId is None:
             try:
                 parentEntId = self.selectedEntity.entId
-            except ATTWibuteError:
+            except AttributeError:
                 self.editor.showWarning('Please select a valid parent entity first.', 'error')
                 return
 
@@ -481,7 +481,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
         old2new = [setEntCreateHandler, (self.editMgrEntity.entId, 'requestNewEntity', {'entType': entType,
            'parentEntId': parentEntId,
            'username': self.editUsername})]
-        self.setUndoableATTWibEdit(old2new, new2old)
+        self.setUndoableAttribEdit(old2new, new2old)
         return
 
     def setEntityCreatorUsername(self, entId, editUsername):
@@ -496,7 +496,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
     def removeSelectedEntity(self):
         try:
             selectedEntId = self.selectedEntity.entId
-        except ATTWibuteError:
+        except AttributeError:
             self.editor.showWarning('Please select a valid entity to be removed first.', 'error')
             return -1
 
@@ -508,7 +508,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
     def removeSelectedEntityTree(self):
         try:
             selectedEntId = self.selectedEntity.entId
-        except ATTWibuteError:
+        except AttributeError:
             self.editor.showWarning('Please select a valid entity to be removed first.', 'error')
             return -1
 
@@ -529,16 +529,16 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
             return
         removeAction = (self.editMgrEntity.entId, 'removeEntity', {'entId': entId})
         old2new = [removeAction]
-        oldATTWibs = []
+        oldAttribs = []
         spec = self.levelSpec.getEntitySpecCopy(entId)
         del spec['type']
-        for aTTWib, value in spec.items():
-            oldATTWibs.append((aTTWib, value))
+        for attrib, value in spec.items():
+            oldAttribs.append((attrib, value))
 
-        def setNewEntityId(entId, self = self, removeAction = removeAction, oldATTWibs = oldATTWibs):
+        def setNewEntityId(entId, self = self, removeAction = removeAction, oldAttribs = oldAttribs):
             removeAction[2]['entId'] = entId
-            for aTTWib, value in spec.items():
-                self.privSendATTWibEdit(entId, aTTWib, value)
+            for attrib, value in spec.items():
+                self.privSendAttribEdit(entId, attrib, value)
 
         def setEntCreateHandler(self = self, handler = setNewEntityId):
             self.entCreateHandlerQ.append(handler)
@@ -546,7 +546,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
         new2old = [setEntCreateHandler, (self.editMgrEntity.entId, 'requestNewEntity', {'entType': self.getEntityType(entId),
            'parentEntId': parentEntId,
            'username': self.editUsername})]
-        self.setUndoableATTWibEdit(old2new, new2old)
+        self.setUndoableAttribEdit(old2new, new2old)
 
     def makeCopyOfEntName(self, name):
         prefix = 'copy of '
@@ -587,7 +587,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
         try:
             selectedEntId = self.selectedEntity.entId
             parentEntId = self.selectedEntity._parentEntity.entId
-        except ATTWibuteError:
+        except AttributeError:
             self.editor.showWarning('Please select a valid entity to be removed first.', 'error')
             return
 
@@ -596,19 +596,19 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
             return
         removeAction = (self.editMgrEntity.entId, 'removeEntity', {'entId': selectedEntId})
         new2old = [removeAction]
-        copyATTWibs = self.levelSpec.getEntitySpecCopy(selectedEntId)
-        copyATTWibs['comment'] = ''
-        copyATTWibs['name'] = self.makeCopyOfEntName(copyATTWibs['name'])
-        typeDesc = self.entTypeReg.getTypeDesc(copyATTWibs['type'])
-        aTTWibDescs = typeDesc.getATTWibDescDict()
-        for aTTWibName, aTTWibDesc in aTTWibDescs.items():
-            if aTTWibDesc.getDatatype() == 'const':
-                del copyATTWibs[aTTWibName]
+        copyAttribs = self.levelSpec.getEntitySpecCopy(selectedEntId)
+        copyAttribs['comment'] = ''
+        copyAttribs['name'] = self.makeCopyOfEntName(copyAttribs['name'])
+        typeDesc = self.entTypeReg.getTypeDesc(copyAttribs['type'])
+        attribDescs = typeDesc.getAttribDescDict()
+        for attribName, attribDesc in attribDescs.items():
+            if attribDesc.getDatatype() == 'const':
+                del copyAttribs[attribName]
 
-        def setNewEntityId(entId, self = self, removeAction = removeAction, copyATTWibs = copyATTWibs):
+        def setNewEntityId(entId, self = self, removeAction = removeAction, copyAttribs = copyAttribs):
             removeAction[2]['entId'] = entId
-            for aTTWibName, value in copyATTWibs.items():
-                self.privSendATTWibEdit(entId, aTTWibName, value)
+            for attribName, value in copyAttribs.items():
+                self.privSendAttribEdit(entId, attribName, value)
 
         def setEntCreateHandler(self = self, handler = setNewEntityId):
             self.entCreateHandlerQ.append(handler)
@@ -616,24 +616,24 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
         old2new = [setEntCreateHandler, (self.editMgrEntity.entId, 'requestNewEntity', {'entType': self.getEntityType(selectedEntId),
            'parentEntId': parentEntId,
            'username': self.editUsername})]
-        self.setUndoableATTWibEdit(old2new, new2old)
+        self.setUndoableAttribEdit(old2new, new2old)
 
     def specPrePickle(self, spec):
-        for aTTWibName, value in spec.items():
-            spec[aTTWibName] = repr(value)
+        for attribName, value in spec.items():
+            spec[attribName] = repr(value)
 
         return spec
 
     def specPostUnpickle(self, spec):
-        for aTTWibName, value in spec.items():
-            spec[aTTWibName] = eval(value)
+        for attribName, value in spec.items():
+            spec[attribName] = eval(value)
 
         return spec
 
     def handleImportEntities(self):
         try:
             selectedEntId = self.selectedEntity.entId
-        except ATTWibuteError:
+        except AttributeError:
             self.editor.showWarning('Please select a valid entity first.', 'error')
             return
 
@@ -662,21 +662,21 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
                 del spec['type']
                 del spec['parentEntId']
                 typeDesc = self.entTypeReg.getTypeDesc(entType)
-                for aTTWibName, aTTWibDesc in typeDesc.getATTWibDescDict().items():
-                    if aTTWibDesc.getDatatype() == 'const':
-                        if aTTWibName in spec:
-                            del spec[aTTWibName]
+                for attribName, attribDesc in typeDesc.getAttribDescDict().items():
+                    if attribDesc.getDatatype() == 'const':
+                        if attribName in spec:
+                            del spec[attribName]
 
                 def handleEntityInsertComplete(newEntId, oldEntId = entId, oldEntId2new = oldEntId2new, spec = spec, treeEntry = treeEntry, addEntities = addEntities):
                     oldEntId2new[oldEntId] = newEntId
 
-                    def assignATTWibs(entId = newEntId, oldEntId = oldEntId, spec = spec, treeEntry = treeEntry):
-                        for aTTWibName in spec:
-                            self.setATTWibEdit(entId, aTTWibName, spec[aTTWibName])
+                    def assignAttribs(entId = newEntId, oldEntId = oldEntId, spec = spec, treeEntry = treeEntry):
+                        for attribName in spec:
+                            self.setAttribEdit(entId, attribName, spec[attribName])
 
                         addEntities(treeEntry[oldEntId], newEntId)
 
-                    self.acceptOnce(self.getEntityCreateEvent(newEntId), assignATTWibs)
+                    self.acceptOnce(self.getEntityCreateEvent(newEntId), assignAttribs)
 
                 self.insertEntity(entType, parentEntId=parentEntId, callback=handleEntityInsertComplete)
 
@@ -685,7 +685,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
     def handleExportEntity(self):
         try:
             selectedEntId = self.selectedEntity.entId
-        except ATTWibuteError:
+        except AttributeError:
             self.editor.showWarning('Please select a valid entity first.', 'error')
             return
 
@@ -711,7 +711,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
     def handleExportEntityTree(self):
         try:
             selectedEntId = self.selectedEntity.entId
-        except ATTWibuteError:
+        except AttributeError:
             self.editor.showWarning('Please select a valid entity first.', 'error')
             return
 
@@ -745,7 +745,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
     def moveAvToSelected(self):
         try:
             selectedEntId = self.selectedEntity.entId
-        except ATTWibuteError:
+        except AttributeError:
             self.editor.showWarning('Please select a valid entity first.', 'error')
             return
 
@@ -760,15 +760,15 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
         return
 
     def requestSpecSave(self):
-        self.privSendATTWibEdit(LevelConstants.EditMgrEntId, 'requestSave', None)
+        self.privSendAttribEdit(LevelConstants.EditMgrEntId, 'requestSave', None)
         self.specModified = 0
         return
 
-    def setATTWibChange(self, entId, aTTWib, valueStr, username):
+    def setAttribChange(self, entId, attrib, valueStr, username):
         if username == self.editUsername:
             print 'we got our own edit back!'
         value = eval(valueStr)
-        self.levelSpec.setATTWibChange(entId, aTTWib, value, username)
+        self.levelSpec.setAttribChange(entId, attrib, value, username)
 
     def getTypeName(self):
         return 'Level'

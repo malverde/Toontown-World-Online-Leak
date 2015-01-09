@@ -97,7 +97,7 @@ class InventoryBase(DirectObject.DirectObject):
             track = Tracks.index(track)
         max = self.getMax(track, level)
         unpaid = self.toon.getGameAccess() != ToontownGlobals.AccessFull
-        if hasaTTW(self.toon, 'experience') and hasaTTW(self.toon.experience, 'getExpLevel'):
+        if hasattr(self.toon, 'experience') and hasattr(self.toon.experience, 'getExpLevel'):
             if self.toon.experience.getExpLevel(track) >= level and self.toon.hasTrackAccess(track):
                 if self.numItem(track, level) <= max - amount:
                     if self.totalProps + amount <= self.toon.getMaxCarry() or level > LAST_REGULAR_GAG_LEVEL:
@@ -164,7 +164,7 @@ class InventoryBase(DirectObject.DirectObject):
         else:
             return 0
 
-    def geTTWackAndLevel(self, propName):
+    def getTrackAndLevel(self, propName):
         for track in range(0, len(Tracks)):
             if AvProps[track].count(propName):
                 return (tracks, AvProps[track].index(propName))
@@ -292,7 +292,7 @@ class InventoryBase(DirectObject.DirectObject):
         self.calcTotalProps()
         return None
 
-    def NPCMaxOutInv(self, targeTTWack = -1):
+    def NPCMaxOutInv(self, targetTrack = -1):
         result = 0
         for level in range(5, -1, -1):
             anySpotsAvailable = 1
@@ -300,7 +300,7 @@ class InventoryBase(DirectObject.DirectObject):
                 anySpotsAvailable = 0
                 trackResults = []
                 for track in range(len(Tracks)):
-                    if targeTTWack != -1 and targeTTWack != track:
+                    if targetTrack != -1 and targetTrack != track:
                         continue
                     result = self.addItem(track, level)
                     trackResults.append(result)

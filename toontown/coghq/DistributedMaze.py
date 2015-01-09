@@ -117,8 +117,8 @@ class DistributedMaze(DistributedNodePathEntity):
 
     def __handleToonEnterance(self, collEntry):
         if not self.gameStarted:
-            self.notify.debug('sending clienTTWiggered for %d' % self.doId)
-            self.sendUpdate('setClienTTWiggered', [])
+            self.notify.debug('sending clientTriggered for %d' % self.doId)
+            self.sendUpdate('setClientTriggered', [])
             self.level.countryClub.showInfoText(self.toonEnteredText)
 
     def __handleToonFinish(self, collEntry):
@@ -173,7 +173,7 @@ class DistributedMaze(DistributedNodePathEntity):
             roomNum = self.level.roomNum
             club = self.level.countryClub
             self.gameOverTrack = Sequence()
-            self.gameOverTrack.append(localAvatar.getTeleportOuTTWack())
+            self.gameOverTrack.append(localAvatar.getTeleportOutTrack())
             self.gameOverTrack.append(Func(localAvatar.setPos, self.finishSphereNodePath.getPos(render)))
             self.gameOverTrack.append(Func(localAvatar.play, 'jump'))
             self.gameOverTrack.append(Func(self.level.countryClub.camEnterRoom, roomNum))

@@ -201,9 +201,9 @@ class DistributedLawbotBossSuit(DistributedSuitBase.DistributedSuitBase):
         return retval
 
     def makeProsecuteThrowingTrack(self, evidence, inFlightDuration, hitPos):
-        suiTTWack = Sequence()
-        suiTTWack.append(ActorInterval(self, 'throw-paper'))
-        throwPaperDuration = suiTTWack.getDuration()
+        suitTrack = Sequence()
+        suitTrack.append(ActorInterval(self, 'throw-paper'))
+        throwPaperDuration = suitTrack.getDuration()
         inFlight = Parallel(evidence.posInterval(inFlightDuration, hitPos, fluid=1))
         origHpr = self.getHpr()
         self.headsUp(hitPos)
@@ -211,49 +211,49 @@ class DistributedLawbotBossSuit(DistributedSuitBase.DistributedSuitBase):
         self.setHpr(origHpr)
         rotateTrack = Sequence(self.hprInterval(self.timeToShow, newHpr, fluid=1))
         propTrack = Sequence(Func(evidence.hide), Func(evidence.setPos, 0, 0.5, -0.3), Func(evidence.reparentTo, self.getRightHand()), Wait(self.timeToShow), Func(evidence.show), Wait(self.timeToRelease - self.timeToShow), Func(evidence.wrtReparentTo, render), Func(self.makeDummySequence), inFlight, Func(evidence.detachNode))
-        throwingTrack = Parallel(suiTTWack, propTrack, rotateTrack)
+        throwingTrack = Parallel(suitTrack, propTrack, rotateTrack)
         return throwingTrack
 
     def makeAttackThrowingTrack(self, evidence, inFlightDuration, hitPos):
-        suiTTWack = Sequence()
-        suiTTWack.append(ActorInterval(self, 'throw-paper'))
-        throwPaperDuration = suiTTWack.getDuration()
+        suitTrack = Sequence()
+        suitTrack.append(ActorInterval(self, 'throw-paper'))
+        throwPaperDuration = suitTrack.getDuration()
         origHpr = self.getHpr()
         self.headsUp(hitPos)
         newHpr = self.getHpr()
         self.setHpr(origHpr)
         rotateTrack = Sequence(self.hprInterval(self.timeToShow, newHpr, fluid=1))
         propTrack = Sequence(Func(evidence.hide), Func(evidence.setPos, 0, 0.5, -0.3), Func(evidence.reparentTo, self.getRightHand()), Wait(self.timeToShow), Func(evidence.show), Wait(self.timeToRelease - self.timeToShow), Func(evidence.wrtReparentTo, render), Func(evidence.setZ, 1.3), evidence.posInterval(inFlightDuration, hitPos, fluid=1), Func(evidence.detachNode))
-        throwingTrack = Parallel(suiTTWack, propTrack, rotateTrack)
+        throwingTrack = Parallel(suitTrack, propTrack, rotateTrack)
         return throwingTrack
 
     def makePreThrowAttackTrack(self, evidence, inFlightDuration, hitPos):
-        suiTTWack = Sequence()
-        suiTTWack.append(ActorInterval(self, 'throw-paper', endTime=self.timeToRelease))
-        throwPaperDuration = suiTTWack.getDuration()
+        suitTrack = Sequence()
+        suitTrack.append(ActorInterval(self, 'throw-paper', endTime=self.timeToRelease))
+        throwPaperDuration = suitTrack.getDuration()
         origHpr = self.getHpr()
         self.headsUp(hitPos)
         newHpr = self.getHpr()
         self.setHpr(origHpr)
         rotateTrack = Sequence(self.hprInterval(self.timeToShow, newHpr, fluid=1))
         propTrack = Sequence(Func(evidence.hide), Func(evidence.setPos, 0, 0.5, -0.3), Func(evidence.setScale, 1), Func(evidence.setHpr, 0, 0, 0), Func(evidence.reparentTo, self.getRightHand()), Wait(self.timeToShow), Func(evidence.show), Wait(self.timeToRelease - self.timeToShow))
-        throwingTrack = Parallel(suiTTWack, propTrack, rotateTrack)
+        throwingTrack = Parallel(suitTrack, propTrack, rotateTrack)
         return throwingTrack
 
     def makePostThrowAttackTrack(self, evidence, inFlightDuration, hitPos):
-        suiTTWack = Sequence()
-        suiTTWack.append(ActorInterval(self, 'throw-paper', startTime=self.timeToRelease))
+        suitTrack = Sequence()
+        suitTrack.append(ActorInterval(self, 'throw-paper', startTime=self.timeToRelease))
         propTrack = Sequence(Func(evidence.wrtReparentTo, render), Func(evidence.setScale, 1), Func(evidence.show), Func(evidence.setZ, 1.3), evidence.posInterval(inFlightDuration, hitPos, fluid=1), Func(evidence.hide))
-        return (suiTTWack, propTrack)
+        return (suitTrack, propTrack)
 
     def makePreThrowProsecuteTrack(self, evidence, inFlightDuration, hitPos):
         return self.makePreThrowAttackTrack(evidence, inFlightDuration, hitPos)
 
     def makePostThrowProsecuteTrack(self, evidence, inFlightDuration, hitPos):
-        suiTTWack = Sequence()
-        suiTTWack.append(ActorInterval(self, 'throw-paper', startTime=self.timeToRelease))
+        suitTrack = Sequence()
+        suitTrack.append(ActorInterval(self, 'throw-paper', startTime=self.timeToRelease))
         propTrack = Sequence(Func(evidence.wrtReparentTo, render), Func(evidence.setScale, 1), Func(evidence.show), evidence.posInterval(inFlightDuration, hitPos, fluid=1), Func(evidence.hide))
-        return (suiTTWack, propTrack)
+        return (suitTrack, propTrack)
 
     def getEvidence(self, usedForAttack = False):
         model = loader.loadModel('phase_5/models/props/lawbook')
@@ -266,7 +266,7 @@ class DistributedLawbotBossSuit(DistributedSuitBase.DistributedSuitBase):
             colNode.setTag('attackCode', str(ToontownGlobals.BossCogLawyerAttack))
             colNode.addSolid(sphere)
             model.attachNewNode(colNode)
-            model.seTTWansparency(1)
+            model.setTransparency(1)
             model.setAlphaScale(0.5)
         return model
 

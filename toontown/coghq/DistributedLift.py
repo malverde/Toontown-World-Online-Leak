@@ -109,7 +109,7 @@ class DistributedLift(BasicEntities.DistributedNodePathEntity):
         return
 
     def destroyPlatform(self):
-        if hasaTTW(self, 'platformModel'):
+        if hasattr(self, 'platformModel'):
             self.ignore(self.platformModel.getEnterEvent())
             self.ignore(self.platformModel.getExitEvent())
             self.platformModel.destroy()
@@ -175,7 +175,7 @@ class DistributedLift(BasicEntities.DistributedNodePathEntity):
 
         def doneMoving(self = self, guard = endGuard, boardColl = endBoardColl, newState = toState):
             self.state = newState
-            if hasaTTW(self, 'soundIval'):
+            if hasattr(self, 'soundIval'):
                 self.soundIval.pause()
                 del self.soundIval
             if guard is not None and not guard.isEmpty():
@@ -189,7 +189,7 @@ class DistributedLift(BasicEntities.DistributedNodePathEntity):
         self.moveIval.start(globalClock.getFrameTime() - ivalStartT)
 
     def exitMoving(self):
-        if hasaTTW(self, 'soundIval'):
+        if hasattr(self, 'soundIval'):
             self.soundIval.pause()
             del self.soundIval
         self.moveIval.pause()
@@ -203,7 +203,7 @@ class DistributedLift(BasicEntities.DistributedNodePathEntity):
 
     if __dev__:
 
-        def aTTWibChanged(self, *args):
-            BasicEntities.DistributedNodePathEntity.aTTWibChanged(self, *args)
+        def attribChanged(self, *args):
+            BasicEntities.DistributedNodePathEntity.attribChanged(self, *args)
             self.destroyPlatform()
             self.initPlatform()

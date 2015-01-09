@@ -29,8 +29,8 @@ class TwoDEnemyMgr(DirectObject):
         self.enemies = []
         for index in xrange(len(self.enemyList)):
             enemyId = self.section.getSectionizedId(index)
-            suitATTWibs = self.enemyList[index]
-            newEnemy = TwoDEnemy.TwoDEnemy(self, enemyId, suitATTWibs)
+            suitAttribs = self.enemyList[index]
+            newEnemy = TwoDEnemy.TwoDEnemy(self, enemyId, suitAttribs)
             newEnemy.suit.reparentTo(self.enemiesNP)
             self.enemies.append(newEnemy)
 

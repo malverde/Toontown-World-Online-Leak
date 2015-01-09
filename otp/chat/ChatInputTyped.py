@@ -42,12 +42,12 @@ class ChatInputTyped(DirectObject.DirectObject):
         self.whisperName = None
         if self.whisperId:
             self.whisperName = base.talkAssistant.findName(whisperId, toPlayer)
-            if hasaTTW(self, 'whisperPos'):
+            if hasattr(self, 'whisperPos'):
                 self.chatFrame.setPos(self.whisperPos)
             self.whisperLabel['text'] = OTPLocalizer.ChatInputWhisperLabel % self.whisperName
             self.whisperLabel.show()
         else:
-            if hasaTTW(self, 'normalPos'):
+            if hasattr(self, 'normalPos'):
                 self.chatFrame.setPos(self.normalPos)
             self.whisperLabel.hide()
         self.chatEntry['focus'] = 1

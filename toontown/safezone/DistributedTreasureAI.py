@@ -17,7 +17,7 @@ class DistributedTreasureAI(DistributedObjectAI.DistributedObjectAI):
     def validAvatar(self, av):
         return 1
 
-    def geTTWeasureType(self):
+    def getTreasureType(self):
         return self.treasureType
 
     def d_setGrab(self, avId):

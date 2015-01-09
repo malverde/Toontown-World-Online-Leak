@@ -127,7 +127,7 @@ class DistributedElevatorExtAI(DistributedElevatorAI.DistributedElevatorAI):
     def getBoardingShowTimeLeft(self):
         currentTime = globalClock.getRealTime()
         timeLeft = 0.0
-        if hasaTTW(self, 'timeOfGroupBoarding') and self.timeOfGroupBoarding:
+        if hasattr(self, 'timeOfGroupBoarding') and self.timeOfGroupBoarding:
             elapsedTime = currentTime - self.timeOfGroupBoarding
             timeLeft = max(MAX_GROUP_BOARDING_TIME - elapsedTime, 0)
             if timeLeft > MAX_GROUP_BOARDING_TIME:

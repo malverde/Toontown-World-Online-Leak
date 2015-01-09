@@ -88,7 +88,7 @@ class MazeMapGui(DirectFrame):
         cm.setFrame(-1.1, 1.1, -1.1, 1.1)
         mask = self.attachNewNode(cm.generate())
         mask.setTexture(self.maskTexture, 1)
-        mask.seTTWansparency(1)
+        mask.setTransparency(1)
         return mask
 
     def _drawSquare(self, image, ulx, uly, size, color):

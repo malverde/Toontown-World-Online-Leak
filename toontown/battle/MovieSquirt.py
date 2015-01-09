@@ -149,9 +149,9 @@ def __getSplashTrack(point, scale, delay, battle, splashHold = 0.01):
     return Sequence(Func(battle.movie.needRestoreRenderProp, splash), Wait(delay), Func(prepSplash, splash, point), ActorInterval(splash, 'splash-from-splat'), Wait(splashHold), Func(MovieUtil.removeProp, splash), Func(battle.movie.clearRenderProp, splash))
 
 
-def __getSuiTTWack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, leftSuits, rightSuits, battle, toon, fShowStun, beforeStun = 0.5, afterStun = 1.8, geyser = 0, uberRepeat = 0, revived = 0):
+def __getSuitTrack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, leftSuits, rightSuits, battle, toon, fShowStun, beforeStun = 0.5, afterStun = 1.8, geyser = 0, uberRepeat = 0, revived = 0):
     if hp > 0:
-        suiTTWack = Sequence()
+        suitTrack = Sequence()
         sival = ActorInterval(suit, anim)
         sival = []
         if kbbonus > 0 and not geyser:
@@ -191,17 +191,17 @@ def __getSuiTTWack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
             sival = ActorInterval(suit, anim)
         showDamage = Func(suit.showHpText, -hp, openEnded=0, attackTrack=SQUIRT_TRACK)
         updateHealthBar = Func(suit.updateHealthBar, hp)
-        suiTTWack.append(Wait(tContact))
-        suiTTWack.append(showDamage)
-        suiTTWack.append(updateHealthBar)
+        suitTrack.append(Wait(tContact))
+        suitTrack.append(showDamage)
+        suitTrack.append(updateHealthBar)
         if not geyser:
-            suiTTWack.append(sival)
+            suitTrack.append(sival)
         elif not uberRepeat:
             geyserMotion = Sequence(sUp, Wait(0.0), sDown)
             suitLaunch = Parallel(sival, geyserMotion)
-            suiTTWack.append(suitLaunch)
+            suitTrack.append(suitLaunch)
         else:
-            suiTTWack.append(Wait(5.5))
+            suitTrack.append(Wait(5.5))
         bonusTrack = Sequence(Wait(tContact))
         if kbbonus > 0:
             bonusTrack.append(Wait(0.75))
@@ -210,12 +210,12 @@ def __getSuiTTWack(suit, tContact, tDodge, hp, hpbonus, kbbonus, anim, died, lef
             bonusTrack.append(Wait(0.75))
             bonusTrack.append(Func(suit.showHpText, -hpbonus, 1, openEnded=0, attackTrack=SQUIRT_TRACK))
         if died != 0:
-            suiTTWack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle))
+            suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle))
         else:
-            suiTTWack.append(Func(suit.loop, 'neutral'))
+            suitTrack.append(Func(suit.loop, 'neutral'))
         if revived != 0:
-            suiTTWack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle))
-        return Parallel(suiTTWack, bonusTrack)
+            suitTrack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle))
+        return Parallel(suitTrack, bonusTrack)
     else:
         return MovieUtil.createSuitDodgeMultitrack(tDodge, suit, leftSuits, rightSuits)
 
@@ -305,7 +305,7 @@ def __doFlower(squirt, delay, fShowStun):
     if hp > 0:
         tracks.append(__getSplashTrack(targetPoint, scale, tSprayStarts + dSprayScale, battle))
     if hp > 0 or delay <= 0:
-        tracks.append(__getSuiTTWack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'squirt-small-react', died, leftSuits, rightSuits, battle, toon, fShowStun, revived=revived))
+        tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'squirt-small-react', died, leftSuits, rightSuits, battle, toon, fShowStun, revived=revived))
     return tracks
 
 
@@ -370,7 +370,7 @@ def __doWaterGlass(squirt, delay, fShowStun):
     if hp > 0:
         tracks.append(__getSplashTrack(targetPoint, scale, tSpray + dSprayScale, battle))
     if hp > 0 or delay <= 0:
-        tracks.append(__getSuiTTWack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'squirt-small-react', died, leftSuits, rightSuits, battle, toon, fShowStun, revived=revived))
+        tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'squirt-small-react', died, leftSuits, rightSuits, battle, toon, fShowStun, revived=revived))
     return tracks
 
 
@@ -431,7 +431,7 @@ def __doWaterGun(squirt, delay, fShowStun):
     if hp > 0:
         tracks.append(__getSplashTrack(targetPoint, 0.3, tSpray + dSprayScale, battle))
     if hp > 0 or delay <= 0:
-        tracks.append(__getSuiTTWack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'squirt-small-react', died, leftSuits, rightSuits, battle, toon, fShowStun, revived=revived))
+        tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'squirt-small-react', died, leftSuits, rightSuits, battle, toon, fShowStun, revived=revived))
     return tracks
 
 
@@ -494,7 +494,7 @@ def __doSeltzerBottle(squirt, delay, fShowStun):
     if hp > 0:
         tracks.append(__getSplashTrack(targetPoint, scale, tSpray + dSprayScale, battle))
     if (hp > 0 or delay <= 0) and suit:
-        tracks.append(__getSuiTTWack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'squirt-small-react', died, leftSuits, rightSuits, battle, toon, fShowStun, revived=revived))
+        tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'squirt-small-react', died, leftSuits, rightSuits, battle, toon, fShowStun, revived=revived))
     return tracks
 
 
@@ -579,7 +579,7 @@ def __doFireHose(squirt, delay, fShowStun):
     # TODO: We added in an unused animation for the cogs reaction where the cog pushes against the gush from a fire hose.
     # The stream from the fire hose needs to be scaled with the cog's animation - right now it is static.
     if hp > 0 or delay <= 0:
-        tracks.append(__getSuiTTWack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'squirt-large-react', died, leftSuits, rightSuits, battle, toon, fShowStun, revived=revived))
+        tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'squirt-large-react', died, leftSuits, rightSuits, battle, toon, fShowStun, revived=revived))
     return tracks
 
 
@@ -658,7 +658,7 @@ def __doStormCloud(squirt, delay, fShowStun):
     tracks.append(getCloudTrack(cloud, suit, cloudPosPoint, scaleUpPoint, rainEffects, rainDelay, effectDelay, cloudHold, useEffect=1))
     tracks.append(getCloudTrack(cloud2, suit, cloudPosPoint, scaleUpPoint, rainEffects, rainDelay, effectDelay, cloudHold, useEffect=0))
     if hp > 0 or delay <= 0:
-        tracks.append(__getSuiTTWack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'soak', died, leftSuits, rightSuits, battle, toon, fShowStun, beforeStun=2.6, afterStun=2.3, revived=revived))
+        tracks.append(__getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'soak', died, leftSuits, rightSuits, battle, toon, fShowStun, beforeStun=2.6, afterStun=2.3, revived=revived))
     return tracks
 
 
@@ -735,7 +735,7 @@ def __doGeyser(squirt, delay, fShowStun, uberClone = 0):
         if not uberClone:
             tracks.append(Sequence(Wait(delayTime), getGeyserTrack(cloud, suit, geyserPosPoint, scaleUpPoint, rainEffects, rainDelay, effectDelay, geyserHold, useEffect=1)))
         if hp > 0 or delay <= 0:
-            tracks.append(Sequence(Wait(delayTime), __getSuiTTWack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'soak', died, leftSuits, rightSuits, battle, toon, fShowStun, beforeStun=2.6, afterStun=2.3, geyser=1, uberRepeat=uberClone, revived=revived)))
+            tracks.append(Sequence(Wait(delayTime), __getSuitTrack(suit, tContact, tSuitDodges, hp, hpbonus, kbbonus, 'soak', died, leftSuits, rightSuits, battle, toon, fShowStun, beforeStun=2.6, afterStun=2.3, geyser=1, uberRepeat=uberClone, revived=revived)))
 
     return tracks
 

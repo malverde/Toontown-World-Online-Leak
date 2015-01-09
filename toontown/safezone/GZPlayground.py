@@ -52,7 +52,7 @@ class GZPlayground(Playground.Playground):
 
     def exit(self):
         Playground.Playground.exit(self)
-        if hasaTTW(self, 'rotateBlimp'):
+        if hasattr(self, 'rotateBlimp'):
             self.rotateBlimp.finish()
 
     def doRequestLeave(self, requestStatus):
@@ -84,7 +84,7 @@ class GZPlayground(Playground.Playground):
         if self.dialog:
             self.dialog.cleanup()
             self.dialog = None
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.request('walk', [1])
         return
 

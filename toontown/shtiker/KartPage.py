@@ -24,7 +24,7 @@ class KartPage(ShtikerPage):
         return
 
     def enter(self):
-        if not hasaTTW(self, 'title'):
+        if not hasattr(self, 'title'):
             self.load()
         self.setMode(self.mode, 1)
         ShtikerPage.enter(self)
@@ -164,14 +164,14 @@ class KartCustomizeUI(DirectFrame):
         DirectFrame.show(self)
 
     def hide(self):
-        if hasaTTW(self, 'itemSelector'):
-            if hasaTTW(self.itemSelector.itemViewers['main'], 'updatedDNA'):
+        if hasattr(self, 'itemSelector'):
+            if hasattr(self.itemSelector.itemViewers['main'], 'updatedDNA'):
                 self.itemSelector.itemViewers['main'].setUpdatedDNA()
             self.itemSelector.resetAccessoryIcons()
-            if hasaTTW(self.itemSelector.itemViewers['main'], 'confirmDlg'):
+            if hasattr(self.itemSelector.itemViewers['main'], 'confirmDlg'):
                 self.itemSelector.itemViewers['main'].confirmDlg.hide()
             self.itemSelector.hide()
-        if hasaTTW(self, 'kartViewer'):
+        if hasattr(self, 'kartViewer'):
             self.kartViewer.hide()
         DirectFrame.hide(self)
 
@@ -272,7 +272,7 @@ class RacingTrophiesUI(DirectFrame):
 
     def grow(self, index, pos):
         self.trophyPanels[index]['image_color'] = Vec4(1.0, 1.0, 0.8, 1.0)
-        self.trophyTextDisplay['text'] = TTLocalizer.KartPageTrophyDetail % (index + 1, TTLocalizer.KarTTWophyDescriptions[index])
+        self.trophyTextDisplay['text'] = TTLocalizer.KartPageTrophyDetail % (index + 1, TTLocalizer.KartTrophyDescriptions[index])
 
     def shrink(self, index, pos):
         self.trophyPanels[index]['image_color'] = Vec4(1.0, 1.0, 1.0, 1.0)
@@ -361,7 +361,7 @@ class ItemSelector(DirectFrame):
             cm.setFrame(bounds[0], bounds[1], bounds[2], bounds[3])
             self.uiImagePlane['geom'] = NodePath(cm.generate())
             self.uiImagePlane.component('geom0').setColorScale(1.0, 1.0, 0.8, 1.0)
-            self.uiImagePlane.component('geom0').seTTWansparency(True)
+            self.uiImagePlane.component('geom0').setTransparency(True)
             self.locator1 = self.attachNewNode('locator1')
             self.locator2 = self.attachNewNode('locator2')
             self.locator1.setPos(0, 0, 0.035)
@@ -433,22 +433,22 @@ class ItemSelector(DirectFrame):
                 if len(self.itemList) == 1:
                     if self.currAccessoryType == KartDNA.rimsType:
                         self.disable()
-                        self.setViewerText(TTLocalizer.KartShtikerDefault % getaTTW(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
+                        self.setViewerText(TTLocalizer.KartShtikerDefault % getattr(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
                     elif self.currAccessoryType in colorTypeList:
                         self.disable()
-                        self.setViewerText(TTLocalizer.KartShtikerDefault % getaTTW(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
+                        self.setViewerText(TTLocalizer.KartShtikerDefault % getattr(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
                     else:
                         self.enable()
                 elif len(self.itemList) == 0:
                     self.disable()
-                    self.setViewerText(TTLocalizer.KartShtikerNo % getaTTW(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
+                    self.setViewerText(TTLocalizer.KartShtikerNo % getattr(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
                 else:
                     if self.currAccessoryType == KartDNA.rimsType:
-                        self.setViewerText(TTLocalizer.KartShtikerDefault % getaTTW(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
+                        self.setViewerText(TTLocalizer.KartShtikerDefault % getattr(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
                     elif self.currAccessoryType in colorTypeList:
-                        self.setViewerText(TTLocalizer.KartShtikerDefault % getaTTW(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
+                        self.setViewerText(TTLocalizer.KartShtikerDefault % getattr(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
                     elif self.currItem == InvalidEntry:
-                        self.setViewerText(TTLocalizer.KartShtikerNo % getaTTW(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
+                        self.setViewerText(TTLocalizer.KartShtikerNo % getattr(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
                     self.enable()
 
         def resetViewer(self):
@@ -480,11 +480,11 @@ class ItemSelector(DirectFrame):
                     self.__updateDeleteButton(DGG.NORMAL, TTLocalizer.KartShtikerDelete)
             else:
                 if self.currAccessoryType in accList:
-                    self.setViewerText(TTLocalizer.KartShtikerDefault % getaTTW(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
+                    self.setViewerText(TTLocalizer.KartShtikerDefault % getattr(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
                     self.__handleShowItem()
                 else:
                     self.__handleHideItem()
-                    self.setViewerText(TTLocalizer.KartShtikerNo % getaTTW(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
+                    self.setViewerText(TTLocalizer.KartShtikerNo % getattr(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
                 self.__updateDeleteButton(DGG.DISABLED)
 
         def __handleItemChange(self, direction):
@@ -549,13 +549,13 @@ class ItemSelector(DirectFrame):
             colorTypeList = [KartDNA.bodyColor, KartDNA.accColor]
             if self.currItem == InvalidEntry:
                 if self.currAccessoryType == KartDNA.rimsType:
-                    self.setViewerText(TTLocalizer.KartShtikerDefault % getaTTW(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
+                    self.setViewerText(TTLocalizer.KartShtikerDefault % getattr(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
                 elif self.currAccessoryType in colorTypeList:
-                    self.setViewerText(TTLocalizer.KartShtikerDefault % getaTTW(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
+                    self.setViewerText(TTLocalizer.KartShtikerDefault % getattr(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
                 elif self.currItem == InvalidEntry:
-                    self.setViewerText(TTLocalizer.KartShtikerNo % getaTTW(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
+                    self.setViewerText(TTLocalizer.KartShtikerNo % getattr(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
             else:
-                self.setViewerText(getAccName(self.currItem) + ' ' + getaTTW(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
+                self.setViewerText(getAccName(self.currItem) + ' ' + getattr(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
             self.uiImagePlane.component('geom0').setTexture(tex, self.texCount)
             self.texCount += 1
 
@@ -566,7 +566,7 @@ class ItemSelector(DirectFrame):
 
         def __handleItemDeleteConfirm(self):
             self.notify.debug('__handleItemDeleteConfirm:')
-            if not hasaTTW(self, 'confirmDlg'):
+            if not hasattr(self, 'confirmDlg'):
                 uiRootNode = loader.loadModel('phase_6/models/gui/ShtikerBookUI')
                 self.confirmDlg = DirectFrame(parent=aspect2d, relief=None, geom=uiRootNode.find('**/uiAccessoryNotice'), geom_scale=1.0, text=TTLocalizer.KartPageConfirmDelete, text_scale=0.07, text_pos=(0, 0.022))
                 self.confirmDlg.hide()
@@ -610,7 +610,7 @@ class ItemSelector(DirectFrame):
                 handleColorDelete()
             if self.itemList == [] or self.itemList[0] == InvalidEntry:
                 self.disable()
-                self.setViewerText(TTLocalizer.KartShtikerNo % getaTTW(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
+                self.setViewerText(TTLocalizer.KartShtikerNo % getattr(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
 
     def __init__(self, avatar, parent = aspect2d):
         self.state = InvalidEntry
@@ -770,23 +770,23 @@ class KartViewer(DirectFrame):
         if self.kart != None:
             self.kart.delete()
             self.kart = None
-        if hasaTTW(self, 'kartDisplayRegion'):
+        if hasattr(self, 'kartDisplayRegion'):
             self.kartDisplayRegion.unload()
-        if hasaTTW(self, 'uiBgFrame'):
+        if hasattr(self, 'uiBgFrame'):
             self.uiBgFrame.destroy()
             del self.uiBgFrame
-        if hasaTTW(self, 'uiRotateLeft') and self.uiRotateLeft:
+        if hasattr(self, 'uiRotateLeft') and self.uiRotateLeft:
             self.uiRotateLeft.destroy()
             del self.uiRotateLeft
-        if hasaTTW(self, 'uiRotateRight') and self.uiRotateRight:
+        if hasattr(self, 'uiRotateRight') and self.uiRotateRight:
             self.uiRotateRight.destroy()
             del self.uiRotateRight
-        if hasaTTW(self, 'uiRotateLabelt') and self.uiRotateLabel:
+        if hasattr(self, 'uiRotateLabelt') and self.uiRotateLabel:
             self.uiRotateLabel.destroy()
             del self.uiRotateLabel
-        if hasaTTW(self, 'dna'):
+        if hasattr(self, 'dna'):
             del self.dna
-        if hasaTTW(self, 'parent'):
+        if hasattr(self, 'parent'):
             del self.parent
         DirectFrame.destroy(self)
         return
@@ -827,7 +827,7 @@ class KartViewer(DirectFrame):
         if self.kart != None:
             self.kart.delete()
             self.kart = None
-        if not hasaTTW(self, 'kartDisplayRegion'):
+        if not hasattr(self, 'kartDisplayRegion'):
             self.kartDisplayRegion = DirectRegion(parent=self)
             apply(self.kartDisplayRegion.setBounds, self.bounds)
             apply(self.kartDisplayRegion.setColor, self.colors)
@@ -871,7 +871,7 @@ class KartViewer(DirectFrame):
             if self.kart != None:
                 self.kart.delete()
                 self.kart = None
-            if hasaTTW(self, 'kartDisplayRegion'):
+            if hasattr(self, 'kartDisplayRegion'):
                 self.kartDisplayRegion.unload()
             self.hide()
         self.uiBgFrame.show()
@@ -884,7 +884,7 @@ class KartViewer(DirectFrame):
         if self.kart != None:
             self.kart.delete()
             self.kart = None
-        if hasaTTW(self, 'kartDisplayRegion'):
+        if hasattr(self, 'kartDisplayRegion'):
             self.kartDisplayRegion.unload()
         return
 
@@ -892,7 +892,7 @@ class KartViewer(DirectFrame):
         taskMgr.add(self.__rotateTask, 'kartRotateTask', extraArgs=[direction])
 
     def __rotateTask(self, direction):
-        if hasaTTW(self, 'pitch'):
+        if hasattr(self, 'pitch'):
             self.pitch.setH(self.pitch.getH() + 0.4 * direction)
             return Task.cont
         else:
@@ -912,7 +912,7 @@ class KartViewer(DirectFrame):
         if dna:
             self.dna = dna
         curPitch = 0
-        if hasaTTW(self, 'pitch'):
+        if hasattr(self, 'pitch'):
             curPitch = self.pitch.getH()
         else:
             curPitch = 0
@@ -921,7 +921,7 @@ class KartViewer(DirectFrame):
             self.kart = None
         del self.kartFrame
         self.kartFrame = self.makeKartFrame()
-        if hasaTTW(self, 'pitch'):
+        if hasattr(self, 'pitch'):
             self.pitch.setH(curPitch)
         return
 

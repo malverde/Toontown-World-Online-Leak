@@ -136,14 +136,14 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
     def getDifficulty(self):
         if self.difficultyOverride is not None:
             return self.difficultyOverride
-        if hasaTTW(base, 'cogdoGameDifficulty'):
+        if hasattr(base, 'cogdoGameDifficulty'):
             return float(base.cogdoGameDifficulty)
         return CogdoGameConsts.getDifficulty(self.getSafezoneId())
 
     def getSafezoneId(self):
         if self.exteriorZoneOverride is not None:
             return self.exteriorZoneOverride
-        if hasaTTW(base, 'cogdoGameSafezoneId'):
+        if hasattr(base, 'cogdoGameSafezoneId'):
             return CogdoGameConsts.getSafezoneId(base.cogdoGameSafezoneId)
         return CogdoGameConsts.getSafezoneId(self.exteriorZone)
 

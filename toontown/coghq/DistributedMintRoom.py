@@ -173,9 +173,9 @@ class DistributedMintRoom(DistributedLevel.DistributedLevel, MintRoomBase.MintRo
     def disable(self):
         self.notify.debug('disable')
         MintRoom.MintRoom.exit(self)
-        if hasaTTW(self, 'suits'):
+        if hasattr(self, 'suits'):
             del self.suits
-        if hasaTTW(self, 'relatedObjectMgrRequest') and self.relatedObjectMgrRequest:
+        if hasattr(self, 'relatedObjectMgrRequest') and self.relatedObjectMgrRequest:
             self.cr.relatedObjectMgr.abortRequest(self.relatedObjectMgrRequest)
             del self.relatedObjectMgrRequest
         bboard.remove(self.getReadyPostName())
@@ -214,7 +214,7 @@ class DistributedMintRoom(DistributedLevel.DistributedLevel, MintRoomBase.MintRo
         return TTLocalizer.MintBossBattleTaunt
 
     def __str__(self):
-        if hasaTTW(self, 'roomId'):
+        if hasattr(self, 'roomId'):
             return '%s %s: %s' % (self.__class__.__name__, self.roomId, MintRoomSpecs.CashbotMintRoomId2RoomName[self.roomId])
         else:
             return 'DistributedMintRoom'

@@ -20,7 +20,7 @@ class CogdoFlyingGatherableFactory:
         for type, modelName in Globals.Level.PowerupType2Model.items():
             model = CogdoUtil.loadFlyingModel(modelName).find('**/' + Globals.Level.PowerupType2Node[type])
             self._powerUpModels[type] = model
-            model.seTTWansparency(True)
+            model.setTransparency(True)
             model.setScale(0.5)
 
     def createMemo(self):
@@ -349,7 +349,7 @@ class CogdoFlyingLevelFog:
 
     def destroy(self):
         self.setVisible(False)
-        if hasaTTW(self, 'fog'):
+        if hasattr(self, 'fog'):
             del self.fog
 
     def isVisible(self):

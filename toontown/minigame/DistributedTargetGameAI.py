@@ -42,7 +42,7 @@ class DistributedTargetGameAI(DistributedMinigameAI):
         self.notify.debug('delete')
         del self.gameFSM
         del self.scoreTrack
-        if hasaTTW(self, 'barrierScore'):
+        if hasattr(self, 'barrierScore'):
             if self.barrierScore:
                 self.barrierScore.cleanup()
                 del self.barrierScore
@@ -50,7 +50,7 @@ class DistributedTargetGameAI(DistributedMinigameAI):
 
     def setGameReady(self):
         self.notify.debug('setGameReady')
-        self.sendUpdate('seTTWolleyZone', [self.trolleyZone])
+        self.sendUpdate('setTrolleyZone', [self.trolleyZone])
         DistributedMinigameAI.setGameReady(self)
         import time
         random.seed(time.time())
@@ -192,7 +192,7 @@ class DistributedTargetGameAI(DistributedMinigameAI):
         pass
 
     def gotoFly(self, extra = None):
-        if hasaTTW(self, 'gameFSM'):
+        if hasattr(self, 'gameFSM'):
             self.gameFSM.request('fly')
 
     def enterCleanup(self):
@@ -203,7 +203,7 @@ class DistributedTargetGameAI(DistributedMinigameAI):
         pass
 
     def setPlayerDone(self, other = None):
-        if not hasaTTW(self, 'barrierScore') or self.barrierScore == None:
+        if not hasattr(self, 'barrierScore') or self.barrierScore == None:
             return
         avId = self.air.getAvatarIdFromSender()
         self.barrierScore.clear(avId)

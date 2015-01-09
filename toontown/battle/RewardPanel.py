@@ -452,7 +452,7 @@ class RewardPanel(DirectFrame):
         self.meritIncLabels[dept]['text'] = '+ ' + str(earnedMerits)
         self.meritIncLabels[dept].show()
 
-    def geTTWackIntervalList(self, toon, track, origSkill, earnedSkill, hasUber, guestWaste = 0):
+    def getTrackIntervalList(self, toon, track, origSkill, earnedSkill, hasUber, guestWaste = 0):
         if hasUber < 0:
             print (toon.doId, 'Reward Panel received an invalid hasUber from an uberList')
         tickDelay = 1.0 / 30
@@ -555,7 +555,7 @@ class RewardPanel(DirectFrame):
         self.deptIcon.setScale(0.33)
 
     def cleanupPromotion(self):
-        if not hasaTTW(self, 'deptIcon'):
+        if not hasattr(self, 'deptIcon'):
             return
         self.deptIcon.removeNode()
         self.deptIcon = None
@@ -716,7 +716,7 @@ class RewardPanel(DirectFrame):
         trackEnded = 0
         for trackIndex in range(len(earnedExp)):
             if earnedExp[trackIndex] > 0 or origExp[trackIndex] >= ToontownBattleGlobals.MaxSkill:
-                track += self.geTTWackIntervalList(toon, trackIndex, origExp[trackIndex], earnedExp[trackIndex], ToontownBattleGlobals.getUberFlagSafe(uberEntry, trackIndex))
+                track += self.getTrackIntervalList(toon, trackIndex, origExp[trackIndex], earnedExp[trackIndex], ToontownBattleGlobals.getUberFlagSafe(uberEntry, trackIndex))
                 maxExp = ToontownBattleGlobals.MaxSkill - ToontownBattleGlobals.UberSkill
                 if origExp[trackIndex] < maxExp and earnedExp[trackIndex] + origExp[trackIndex] >= maxExp:
                     endTracks[trackIndex] = 1

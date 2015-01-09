@@ -117,18 +117,18 @@ class CogdoMazeSuit(MazeSuit, FSM, CogdoMazeSplattable):
         singleGear.setDepthWrite(False)
         smallGearExplosion.setDepthWrite(False)
         bigGearExplosion.setDepthWrite(False)
-        suiTTWack = Sequence(Func(self.collNodePath.stash), ActorInterval(self.deathSuit, 'lose', startFrame=80, endFrame=140), Func(removeDeathSuit, self.suit, self.deathSuit, name='remove-death-suit'))
+        suitTrack = Sequence(Func(self.collNodePath.stash), ActorInterval(self.deathSuit, 'lose', startFrame=80, endFrame=140), Func(removeDeathSuit, self.suit, self.deathSuit, name='remove-death-suit'))
         explosionTrack = Sequence(Wait(1.5), MovieUtil.createKapowExplosionTrack(self.deathSuit, explosionPoint=gearPoint))
         gears1Track = Sequence(ParticleInterval(smallGears, self.deathSuit, worldRelative=0, duration=4.3, cleanup=True), name='gears1Track')
         gears2MTrack = Track((0.0, explosionTrack), (0.7, ParticleInterval(singleGear, self.deathSuit, worldRelative=0, duration=5.7, cleanup=True)), (5.2, ParticleInterval(smallGearExplosion, self.deathSuit, worldRelative=0, duration=1.2, cleanup=True)), (5.4, ParticleInterval(bigGearExplosion, self.deathSuit, worldRelative=0, duration=1.0, cleanup=True)), name='gears2MTrack')
 
         def removeParticle(particle):
-            if particle and hasaTTW(particle, 'renderParent'):
+            if particle and hasattr(particle, 'renderParent'):
                 particle.cleanup()
                 del particle
 
         removeParticles = Sequence(Func(removeParticle, smallGears), Func(removeParticle, singleGear), Func(removeParticle, smallGearExplosion), Func(removeParticle, bigGearExplosion))
-        self.deathTrack = Sequence(Parallel(suiTTWack, gears2MTrack, gears1Track, self._deathSoundIval), removeParticles)
+        self.deathTrack = Sequence(Parallel(suitTrack, gears2MTrack, gears1Track, self._deathSoundIval), removeParticles)
         self.deathTrack.start()
 
 
@@ -136,7 +136,7 @@ class CogdoMazeSlowMinionSuit(CogdoMazeSuit):
 
     def __init__(self, serialNum, maze, randomNumGen, difficulty, startTile = None):
         CogdoMazeSuit.__init__(self, serialNum, maze, randomNumGen, difficulty, startTile, Globals.SuitTypes.SlowMinion)
-        self.defaulTTWansitions = {'Off': ['Normal'],
+        self.defaultTransitions = {'Off': ['Normal'],
          'Normal': ['Attack', 'Off'],
          'Attack': ['Normal']}
 
