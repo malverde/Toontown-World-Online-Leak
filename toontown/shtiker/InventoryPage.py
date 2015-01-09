@@ -9,7 +9,7 @@ class InventoryPage(ShtikerPage.ShtikerPage):
 
     def __init__(self):
         ShtikerPage.ShtikerPage.__init__(self)
-        self.currentTrackInfo = None
+        self.currenTTWackInfo = None
         self.onscreen = 0
         self.lastInventoryTime = globalClock.getRealTime()
         return
@@ -45,16 +45,16 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         self.accept('enterBookDelete', self.enterDeleteMode)
         self.accept('exitBookDelete', self.exitDeleteMode)
         self.accept('enterTrackFrame', self.updateTrackInfo)
-        self.accept('exitTrackFrame', self.clearTrackInfo)
+        self.accept('exiTTWackFrame', self.clearTrackInfo)
         self.accept(localAvatar.uniqueName('moneyChange'), self.__moneyChange)
 
     def exit(self):
         ShtikerPage.ShtikerPage.exit(self)
-        self.clearTrackInfo(self.currentTrackInfo)
+        self.clearTrackInfo(self.currenTTWackInfo)
         self.ignore('enterBookDelete')
         self.ignore('exitBookDelete')
         self.ignore('enterTrackFrame')
-        self.ignore('exitTrackFrame')
+        self.ignore('exiTTWackFrame')
         self.ignore(localAvatar.uniqueName('moneyChange'))
         self.makePageWhite(None)
         base.localAvatar.inventory.hide()
@@ -73,7 +73,7 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         self.book['image_color'] = Vec4(1, 1, 1, 1)
 
     def updateTrackInfo(self, trackIndex):
-        self.currentTrackInfo = trackIndex
+        self.currenTTWackInfo = trackIndex
         trackName = TextEncoder.upper(ToontownBattleGlobals.Tracks[trackIndex])
         if base.localAvatar.hasTrackAccess(trackIndex):
             curExp, nextExp = base.localAvatar.inventory.getCurAndNextExpValues(trackIndex)
@@ -111,10 +111,10 @@ class InventoryPage(ShtikerPage.ShtikerPage):
             self.trackProgress.hide()
 
     def clearTrackInfo(self, trackIndex):
-        if self.currentTrackInfo == trackIndex:
+        if self.currenTTWackInfo == trackIndex:
             self.trackInfo['text'] = ''
             self.trackProgress.hide()
-            self.currentTrackInfo = None
+            self.currenTTWackInfo = None
         return
 
     def acceptOnscreenHooks(self):
@@ -139,7 +139,7 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         base.localAvatar.inventory.reparentTo(self)
         self.moneyDisplay['text'] = str(base.localAvatar.getMoney())
         self.accept('enterTrackFrame', self.updateTrackInfo)
-        self.accept('exitTrackFrame', self.clearTrackInfo)
+        self.accept('exiTTWackFrame', self.clearTrackInfo)
         self.accept(localAvatar.uniqueName('moneyChange'), self.__moneyChange)
         self.reparentTo(aspect2d)
         self.title.hide()
@@ -150,7 +150,7 @@ class InventoryPage(ShtikerPage.ShtikerPage):
             return
         self.onscreen = 0
         self.ignore('enterTrackFrame')
-        self.ignore('exitTrackFrame')
+        self.ignore('exiTTWackFrame')
         self.ignore(localAvatar.uniqueName('moneyChange'))
         base.localAvatar.inventory.hide()
         base.localAvatar.inventory.reparentTo(hidden)

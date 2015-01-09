@@ -16,10 +16,10 @@ class EditMgrBase(Entity.Entity):
         def setInsertEntity(self, data):
             self.level.setEntityCreatorUsername(data['entId'], data['username'])
             self.level.levelSpec.insertEntity(data['entId'], data['entType'], data['parentEntId'])
-            self.level.levelSpec.doSetAttrib(self.entId, 'insertEntity', None)
+            self.level.levelSpec.doSetATTWib(self.entId, 'insertEntity', None)
             return
 
         def setRemoveEntity(self, data):
             self.level.levelSpec.removeEntity(data['entId'])
-            self.level.levelSpec.doSetAttrib(self.entId, 'removeEntity', None)
+            self.level.levelSpec.doSetATTWib(self.entId, 'removeEntity', None)
             return

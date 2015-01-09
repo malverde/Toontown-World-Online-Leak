@@ -68,7 +68,7 @@ class AvatarFriendsManager(DistributedObjectGlobal):
         messenger.send(OTPGlobals.AvatarFriendRejectRemoveEvent, [avId, reason])
 
     def updateAvatarFriend(self, avId, info):
-        if hasattr(info, 'avatarId') and not info.avatarId and avId:
+        if hasaTTW(info, 'avatarId') and not info.avatarId and avId:
             info.avatarId = avId
         if avId not in self.avatarFriendsList:
             self.avatarFriendsList.add(avId)
@@ -100,7 +100,7 @@ class AvatarFriendsManager(DistributedObjectGlobal):
     def getFriendInfo(self, avId):
         return self.avatarId2Info.get(avId)
 
-    def countTrueFriends(self):
+    def counTTWueFriends(self):
         count = 0
         for id in self.avatarId2Info:
             if self.avatarId2Info[id].openChatFriendshipYesNo:

@@ -60,7 +60,7 @@ class TeaserPanel(DirectObject):
 
     def __init__(self, pageName, doneFunc = None):
         self.doneFunc = doneFunc
-        if not hasattr(self, 'browser'):
+        if not hasaTTW(self, 'browser'):
             self.browser = FeatureBrowser()
             self.browser.load()
             self.browser.setPos(0, 0, TTLocalizer.TPbrowserPosZ)
@@ -101,10 +101,10 @@ class TeaserPanel(DirectObject):
         self.cleanup()
 
     def cleanup(self):
-        if hasattr(self, 'browser'):
+        if hasaTTW(self, 'browser'):
             self.browser.reparentTo(hidden)
             self.browser.ignoreAll()
-        if hasattr(self, 'dialog'):
+        if hasaTTW(self, 'dialog'):
             base.transitions.noTransitions()
             self.dialog.cleanup()
             del self.dialog
@@ -115,7 +115,7 @@ class TeaserPanel(DirectObject):
         return
 
     def unload(self):
-        if hasattr(self, 'browser'):
+        if hasaTTW(self, 'browser'):
             self.browser.destroy()
             del self.browser
 
@@ -149,9 +149,9 @@ class TeaserPanel(DirectObject):
         self.dialog.buttonList[0].hide()
 
     def removed(self):
-        if hasattr(self, 'dialog') and self.dialog:
+        if hasaTTW(self, 'dialog') and self.dialog:
             return self.dialog.removed()
-        elif hasattr(self, 'leaveDialog') and self.leaveDialog:
+        elif hasaTTW(self, 'leaveDialog') and self.leaveDialog:
             return self.leaveDialog.removed()
         else:
             return 1

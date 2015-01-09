@@ -184,7 +184,7 @@ class GuiScreen:
         if index != self.focusIndex:
             self.removeFocus()
         self.__focusChangedThisFrame = 1
-        if hasattr(self, 'tabPressed'):
+        if hasaTTW(self, 'tabPressed'):
             del self.tabPressed
         else:
             self.focusDirection = 1

@@ -25,8 +25,8 @@ class DistributedMazeAI(DistributedEntityAI.DistributedEntityAI):
     def getRoomDoId(self):
         return self.roomDoId
 
-    def setClientTriggered(self):
-        if not hasattr(self, 'gameStartTime'):
+    def setClienTTWiggered(self):
+        if not hasaTTW(self, 'gameStartTime'):
             self.gameStartTime = globalClock.getRealTime()
             self.b_setGameStart(globalClockDelta.localToNetworkTime(self.gameStartTime))
 
@@ -56,7 +56,7 @@ class DistributedMazeAI(DistributedEntityAI.DistributedEntityAI):
                 else:
                     toon.toonUp(20.0)
                 lastToon = 0
-                if hasattr(self, 'level'):
+                if hasaTTW(self, 'level'):
                     numToons = len(self.level.presentAvIds)
                     if numToons == len(self.finishedList) + 1:
                         lastToon = 1

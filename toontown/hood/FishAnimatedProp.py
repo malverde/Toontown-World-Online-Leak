@@ -12,7 +12,7 @@ class FishAnimatedProp(AnimatedProp.AnimatedProp):
         parent = node.getParent()
         self.fish = Actor.Actor(node, copy=0)
         self.fish.reparentTo(parent)
-        self.fish.setTransform(node.getTransform())
+        self.fish.seTTWansform(node.geTTWansform())
         node.clearMat()
         self.fish.loadAnims({'jump': 'phase_4/models/props/SZ_fish-jump',
          'swim': 'phase_4/models/props/SZ_fish-swim'})

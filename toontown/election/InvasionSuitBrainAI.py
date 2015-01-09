@@ -315,7 +315,7 @@ class InvasionSuitBrainAI(FSM):
 
     # Attacks:
     def suitFinishedAttacking(self):
-        if hasattr(self.behavior, 'onAttackCompleted'):
+        if hasaTTW(self.behavior, 'onAttackCompleted'):
             self.behavior.onAttackCompleted()
 
     # Navigation:
@@ -330,7 +330,7 @@ class InvasionSuitBrainAI(FSM):
             self.__walkToNextWaypoint()
         else:
             self.finalWaypoint = None
-            if hasattr(self.behavior, 'onNavFailed'):
+            if hasaTTW(self.behavior, 'onNavFailed'):
                 self.behavior.onNavFailed()
 
     def suitFinishedWalking(self):
@@ -342,7 +342,7 @@ class InvasionSuitBrainAI(FSM):
             self.suitFinishedNavigating()
 
     def suitFinishedNavigating(self):
-        if hasattr(self.behavior, 'onArrive'):
+        if hasaTTW(self.behavior, 'onArrive'):
             self.behavior.onArrive()
 
     def __walkToNextWaypoint(self):

@@ -189,7 +189,7 @@ class MovableObject(NodePath, DirectObject):
             self.setIsTable(1)
         else:
             self.setIsTable(0)
-        m = self.getTransform()
+        m = self.geTTWansform()
         self.iPosHpr()
         bMin, bMax = self.bounds = self.getTightBounds()
         bMin -= Vec3(0.1, 0.1, 0)
@@ -210,7 +210,7 @@ class MovableObject(NodePath, DirectObject):
         else:
             self.setWallOffset(self.radius + 0.1)
         self.makeCollisionBox()
-        self.setTransform(m)
+        self.seTTWansform(m)
         self.unstashBuiltInCollisionNodes()
         shadows.unstash()
 
@@ -1513,11 +1513,11 @@ class ObjectManager(NodePath, DirectObject):
             buttonState = DGG.NORMAL
         else:
             buttonState = DGG.DISABLED
-        if hasattr(self, 'inAtticButton'):
+        if hasaTTW(self, 'inAtticButton'):
             self.inAtticButton['state'] = buttonState
-        if hasattr(self, 'inRoomButton'):
+        if hasaTTW(self, 'inRoomButton'):
             self.inRoomButton['state'] = buttonState
-        if hasattr(self, 'inTrashButton'):
+        if hasaTTW(self, 'inTrashButton'):
             self.inTrashButton['state'] = buttonState
         pickers = [self.atticPicker, self.inRoomPicker, self.inTrashPicker]
         for picker in pickers:

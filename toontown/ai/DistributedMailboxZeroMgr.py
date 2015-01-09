@@ -18,7 +18,7 @@ class DistributedMailboxZeroMgr(DistributedPhaseEventMgr.DistributedPhaseEventMg
         self.notify.debug('deleting mailboxzeromgr')
         messenger.send('mailboxZeroIsRunning', [False])
         DistributedPhaseEventMgr.DistributedPhaseEventMgr.delete(self)
-        if hasattr(self.cr, 'mailboxZeroMgr'):
+        if hasaTTW(self.cr, 'mailboxZeroMgr'):
             del self.cr.mailboxZeroMgr
 
     def setCurPhase(self, newPhase):

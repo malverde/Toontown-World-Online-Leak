@@ -30,7 +30,7 @@ class Shockley:
 
         self.elements = [self.title, self.description, self.image]
         for node in self.elements:
-            node.setTransparency(1)
+            node.seTTWansparency(1)
             if self.preload:
                 node.setColorScale(1, 1, 1, 0)
 
@@ -117,7 +117,7 @@ class Credits:
             self.elements.extend([self.title2, self.description2, self.image2])
 
         for node in self.elements:
-            node.setTransparency(1)
+            node.seTTWansparency(1)
             node.setColorScale(1, 1, 1, 0)
 
     def makeInterval(self):

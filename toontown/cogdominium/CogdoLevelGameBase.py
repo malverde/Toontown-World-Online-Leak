@@ -14,10 +14,10 @@ class CogdoLevelGameBase:
             Consts = self.getConsts()
             for item in Consts.__dict__.itervalues():
                 if isinstance(item, EntityStateVarSet):
-                    for attribName in item._getAttributeNames():
-                        handler = getattr(self, '_handle%sChanged' % attribName, None)
+                    for aTTWibName in item._getATTWibuteNames():
+                        handler = getaTTW(self, '_handle%sChanged' % aTTWibName, None)
                         if handler:
-                            stateVar = getattr(item, attribName)
+                            stateVar = getaTTW(item, aTTWibName)
                             fcs.append(FunctionCall(handler, stateVar))
 
             self._functionCalls = fcs

@@ -2,7 +2,7 @@ from otp.level.EntityTypes import *
 
 class FactoryLevelMgr(LevelMgr):
     type = 'levelMgr'
-    attribs = (('cogLevel',
+    aTTWibs = (('cogLevel',
       0,
       'int',
       {'min': 0,
@@ -11,7 +11,7 @@ class FactoryLevelMgr(LevelMgr):
 
 class BarrelBase(Nodepath):
     abstract = 1
-    attribs = (('rewardPerGrab', 5, 'int'), ('rewardPerGrabMax', 0, 'int'))
+    aTTWibs = (('rewardPerGrab', 5, 'int'), ('rewardPerGrabMax', 0, 'int'))
 
 
 class BeanBarrel(BarrelBase):
@@ -20,7 +20,7 @@ class BeanBarrel(BarrelBase):
 
 class GagBarrel(BarrelBase):
     type = 'gagBarrel'
-    attribs = (('gagLevel',
+    aTTWibs = (('gagLevel',
       0,
       'int',
       {'min': 0,
@@ -49,7 +49,7 @@ class HealBarrel(BarrelBase):
 class Switch(Nodepath):
     abstract = 1
     output = 'bool'
-    attribs = (('isOnEvent',
+    aTTWibs = (('isOnEvent',
       0,
       'entId',
       {'output': 'bool'}), ('isOn', 0, 'bool'), ('secondsOn', 1, 'float'))
@@ -57,17 +57,17 @@ class Switch(Nodepath):
 
 class Button(Switch):
     type = 'button'
-    attribs = (('scale', Vec3(3), 'scale'), ('color', Vec4(1, 1, 1, 1), 'color'))
+    aTTWibs = (('scale', Vec3(3), 'scale'), ('color', Vec4(1, 1, 1, 1), 'color'))
 
 
 class Trigger(Switch):
     type = 'trigger'
-    attribs = (('scale', Vec3(10), 'scale'), ('triggerName', ''))
+    aTTWibs = (('scale', Vec3(10), 'scale'), ('triggerName', ''))
 
 
 class ConveyorBelt(Nodepath):
     type = 'conveyorBelt'
-    attribs = (('speed', 1.0, 'float'),
+    aTTWibs = (('speed', 1.0, 'float'),
      ('length', 1.0, 'float'),
      ('widthScale', 1.0, 'float'),
      ('treadLength', 10.0, 'float'),
@@ -78,7 +78,7 @@ class ConveyorBelt(Nodepath):
 class Door(Nodepath):
     type = 'door'
     output = 'bool'
-    attribs = (('color', Vec4(1, 1, 1, 1), 'color'),
+    aTTWibs = (('color', Vec4(1, 1, 1, 1), 'color'),
      ('isVisBlocker', 1, 'bool'),
      ('unlock0Event',
       0,
@@ -110,13 +110,13 @@ class Door(Nodepath):
 
 class Grid(Nodepath):
     type = 'grid'
-    blockAttribs = ('hpr',)
-    attribs = (('cellSize', 3, 'float'), ('numCol', 3, 'int'), ('numRow', 3, 'int'))
+    blockATTWibs = ('hpr',)
+    aTTWibs = (('cellSize', 3, 'float'), ('numCol', 3, 'int'), ('numRow', 3, 'int'))
 
 
 class Crushable(Entity):
     abstract = 1
-    attribs = (('pos', Point3(0, 0, 0), 'pos'),
+    aTTWibs = (('pos', Point3(0, 0, 0), 'pos'),
      ('hpr', Vec3(0, 0, 0), 'hpr'),
      ('crushCellId',
       None,
@@ -130,7 +130,7 @@ class Crushable(Entity):
 
 class Crusher(Nodepath):
     abstract = 1
-    attribs = (('crushCellId',
+    aTTWibs = (('crushCellId',
       None,
       'entId',
       {'type': 'crusherCell'}),)
@@ -138,8 +138,8 @@ class Crusher(Nodepath):
 
 class Crate(Crushable):
     type = 'crate'
-    blockAttribs = ('hpr',)
-    attribs = (('modelType',
+    blockATTWibs = ('hpr',)
+    aTTWibs = (('modelType',
       0,
       'int',
       {'min': 0,
@@ -148,7 +148,7 @@ class Crate(Crushable):
 
 class Goon(Crushable):
     type = 'goon'
-    attribs = (('goonType',
+    aTTWibs = (('goonType',
       'pg',
       'choice',
       {'choiceSet': ['pg', 'sg']}),
@@ -177,12 +177,12 @@ class Goon(Crushable):
 
 class GridGoon(Goon):
     type = 'gridGoon'
-    attribs = ()
+    aTTWibs = ()
 
 
 class GoonClipPlane(Nodepath):
     type = 'goonClipPlane'
-    attribs = (('goonId',
+    aTTWibs = (('goonId',
       None,
       'entId',
       {'type': 'goon'}),)
@@ -190,7 +190,7 @@ class GoonClipPlane(Nodepath):
 
 class ActiveCell(Nodepath):
     type = 'activeCell'
-    attribs = (('row', 0, 'int'), ('col', 0, 'int'), ('gridId',
+    aTTWibs = (('row', 0, 'int'), ('col', 0, 'int'), ('gridId',
       None,
       'entId',
       {'type': 'grid'}))
@@ -198,12 +198,12 @@ class ActiveCell(Nodepath):
 
 class CrusherCell(ActiveCell):
     type = 'crusherCell'
-    attribs = ()
+    aTTWibs = ()
 
 
 class DirectionalCell(ActiveCell):
     type = 'directionalCell'
-    attribs = (('dir',
+    aTTWibs = (('dir',
       [0, 0],
       'choice',
       {'choiceSet': ['l',
@@ -219,7 +219,7 @@ class DirectionalCell(ActiveCell):
 class GolfGreenGame(Nodepath):
     type = 'golfGreenGame'
     output = 'bool'
-    attribs = (('pos', Point3(0, 0, 0), 'pos'),
+    aTTWibs = (('pos', Point3(0, 0, 0), 'pos'),
      ('hpr', Vec3(0, 0, 0), 'hpr'),
      ('cellId', 0, 'int'),
      ('switchId',
@@ -234,7 +234,7 @@ class GolfGreenGame(Nodepath):
 class LaserField(Nodepath):
     type = 'laserField'
     output = 'bool'
-    attribs = (('laserFactor', 3, 'float'),
+    aTTWibs = (('laserFactor', 3, 'float'),
      ('gridScaleX', 32.0, 'float'),
      ('gridScaleY', 32.0, 'float'),
      ('projector', Point3(6, 6, 25), 'pos'),
@@ -261,7 +261,7 @@ class LaserField(Nodepath):
 
 class SecurityCamera(Nodepath):
     type = 'securityCamera'
-    attribs = (('damPow', 3, 'int'),
+    aTTWibs = (('damPow', 3, 'int'),
      ('radius', 5, 'float'),
      ('accel', 1, 'float'),
      ('maxVel', 5, 'float'),
@@ -294,7 +294,7 @@ class SecurityCamera(Nodepath):
 
 class ElevatorMarker(Nodepath):
     type = 'elevatorMarker'
-    attribs = (('modelPath',
+    aTTWibs = (('modelPath',
       0,
       'choice',
       {'choiceSet': ['square'],
@@ -303,7 +303,7 @@ class ElevatorMarker(Nodepath):
 
 class Lift(Nodepath):
     type = 'lift'
-    attribs = (('duration', 1, 'float'),
+    aTTWibs = (('duration', 1, 'float'),
      ('startPos', Point3(0, 0, 0), 'pos'),
      ('endPos', Point3(0, 0, 0), 'pos'),
      ('modelPath', 'phase_9/models/cogHQ/Elevator', 'bamfilename'),
@@ -331,7 +331,7 @@ class Lift(Nodepath):
 
 class Mover(Nodepath):
     type = 'mover'
-    attribs = (('modelPath',
+    aTTWibs = (('modelPath',
       0,
       'choice',
       {'choiceSet': ['square'],
@@ -366,7 +366,7 @@ class Mover(Nodepath):
 
 class Platform(Nodepath):
     type = 'platform'
-    attribs = (('modelPath', 'phase_9/models/cogHQ/platform1', 'bamfilename'),
+    aTTWibs = (('modelPath', 'phase_9/models/cogHQ/platform1', 'bamfilename'),
      ('modelScale', Vec3(1, 1, 1), 'scale'),
      ('floorName', 'platformcollision', 'string'),
      ('offset', Point3(0, 0, 0), 'pos'),
@@ -392,7 +392,7 @@ class Platform(Nodepath):
 
 class SinkingPlatform(Nodepath):
     type = 'sinkingPlatform'
-    attribs = (('verticalRange', 1, 'float'),
+    aTTWibs = (('verticalRange', 1, 'float'),
      ('sinkDuration', 1, 'float'),
      ('pauseBeforeRise', 1, 'float'),
      ('riseDuration', 1, 'float'))
@@ -400,7 +400,7 @@ class SinkingPlatform(Nodepath):
 
 class Stomper(Crusher):
     type = 'stomper'
-    attribs = (('damage', 3, 'int'),
+    aTTWibs = (('damage', 3, 'int'),
      ('style',
       'vertical',
       'choice',
@@ -463,7 +463,7 @@ class Stomper(Crusher):
 
 class StomperPair(Nodepath):
     type = 'stomperPair'
-    attribs = (('headScale', Vec3(1, 1, 1), 'scale'),
+    aTTWibs = (('headScale', Vec3(1, 1, 1), 'scale'),
      ('motion',
       3,
       'choice',
@@ -502,7 +502,7 @@ class StomperPair(Nodepath):
 
 class Gear(Nodepath):
     type = 'gear'
-    attribs = (('modelType',
+    aTTWibs = (('modelType',
       'factory',
       'choice',
       {'choiceSet': ['factory', 'mint']}),
@@ -521,17 +521,17 @@ class Gear(Nodepath):
 
 class BattleBlocker(Nodepath):
     type = 'battleBlocker'
-    attribs = (('radius', 10, 'float'), ('cellId', 0, 'int'))
+    aTTWibs = (('radius', 10, 'float'), ('cellId', 0, 'int'))
 
 
 class PaintMixer(Platform):
     type = 'paintMixer'
-    attribs = (('modelPath', 'phase_9/models/cogHQ/PaintMixer', 'const'), ('floorName', 'PaintMixerFloorCollision', 'const'), ('shaftScale', 1, 'float'))
+    aTTWibs = (('modelPath', 'phase_9/models/cogHQ/PaintMixer', 'const'), ('floorName', 'PaintMixerFloorCollision', 'const'), ('shaftScale', 1, 'float'))
 
 
 class MintProduct(Nodepath):
     type = 'mintProduct'
-    attribs = (('mintId',
+    aTTWibs = (('mintId',
       12500,
       'choice',
       {'choiceSet': ('coin', 'dollar', 'bullion'),
@@ -542,7 +542,7 @@ class MintProduct(Nodepath):
 
 class MintProductPallet(Nodepath):
     type = 'mintProductPallet'
-    attribs = (('mintId',
+    aTTWibs = (('mintId',
       12500,
       'choice',
       {'choiceSet': ('coin', 'dollar', 'bullion'),
@@ -553,7 +553,7 @@ class MintProductPallet(Nodepath):
 
 class MintShelf(Nodepath):
     type = 'mintShelf'
-    attribs = (('mintId',
+    aTTWibs = (('mintId',
       12500,
       'choice',
       {'choiceSet': ('coin', 'dollar', 'bullion'),
@@ -564,7 +564,7 @@ class MintShelf(Nodepath):
 
 class PathMaster(Nodepath):
     type = 'pathMaster'
-    attribs = (('pathIndex', 0, 'int'),
+    aTTWibs = (('pathIndex', 0, 'int'),
      ('pathScale', 1.0, 'float'),
      ('pathTarget0',
       0,
@@ -602,7 +602,7 @@ class PathMaster(Nodepath):
 
 class Rendering(Nodepath):
     type = 'rendering'
-    attribs = (('pos', Point3(0, 0, 0), 'pos'),
+    aTTWibs = (('pos', Point3(0, 0, 0), 'pos'),
      ('hpr', Vec3(0, 0, 0), 'hpr'),
      ('colorR', 1.0, 'float'),
      ('colorG', 1.0, 'float'),
@@ -621,7 +621,7 @@ class Rendering(Nodepath):
 
 class MoleField(Nodepath):
     type = 'moleField'
-    attribs = (('numSquaresX', 5, 'int'),
+    aTTWibs = (('numSquaresX', 5, 'int'),
      ('numSquaresY', 5, 'int'),
      ('spacingX', 5.0, 'float'),
      ('spacingY', 5.0, 'float'),
@@ -632,4 +632,4 @@ class MoleField(Nodepath):
 
 class Maze(Nodepath):
     type = 'maze'
-    attribs = (('numSections', 4, 'int'),)
+    aTTWibs = (('numSections', 4, 'int'),)

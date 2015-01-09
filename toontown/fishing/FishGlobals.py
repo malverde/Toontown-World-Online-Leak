@@ -116,7 +116,7 @@ FishAudioFileDict = {-1: ('Clownfish.ogg',
       1,
       0,
       1.0),
- 28: ('CutThroatTrout.ogg',
+ 28: ('CutThroaTTWout.ogg',
       1,
       0,
       1.0),
@@ -268,9 +268,9 @@ FishFileDict = {-1: (4,
       -35,
       20),
  28: (4,
-      'cutThroatTrout-zero',
-      'cutThroatTrout-swim',
-      'cutThroatTrout-swim',
+      'cutThroaTTWout-zero',
+      'cutThroaTTWout-swim',
+      'cutThroaTTWout-swim',
       None,
       (-0.2, 0, -0.1),
       0.5,
@@ -702,8 +702,8 @@ def getValue(genus, species, weight):
     value = OVERALL_VALUE_SCALE * (rarityValue + weightValue)
     finalValue = int(ceil(value))
     base = getBase()
-    if hasattr(base, 'cr') and base.cr:
-        if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
+    if hasaTTW(base, 'cr') and base.cr:
+        if hasaTTW(base.cr, 'newsManager') and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
             if ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY in holidayIds or ToontownGlobals.JELLYBEAN_FISHING_HOLIDAY_MONTH in holidayIds:
                 finalValue *= JellybeanFishingHolidayScoreMultiplier

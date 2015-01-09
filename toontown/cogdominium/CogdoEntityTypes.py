@@ -6,12 +6,12 @@ class CogdoLevelMgr(LevelMgr):
 
 class CogdoBoardroomGameSettings(Entity):
     type = 'cogdoBoardroomGameSettings'
-    attribs = (('TimerScale', 1.0, 'float'),)
+    aTTWibs = (('TimerScale', 1.0, 'float'),)
 
 
 class CogdoCraneGameSettings(Entity):
     type = 'cogdoCraneGameSettings'
-    attribs = (('GameDuration', 180.0, 'float'),
+    aTTWibs = (('GameDuration', 180.0, 'float'),
      ('EmptyFrictionCoef', 0.1, 'float'),
      ('Gravity', -32, 'int'),
      ('RopeLinkMass', 1.0, 'float'),
@@ -21,7 +21,7 @@ class CogdoCraneGameSettings(Entity):
 
 class CogdoCraneCogSettings(Entity):
     type = 'cogdoCraneCogSettings'
-    attribs = (('CogSpawnPeriod', 10.0, 'float'),
+    aTTWibs = (('CogSpawnPeriod', 10.0, 'float'),
      ('CogWalkSpeed', 2.0, 'float'),
      ('CogMachineInteractDuration', 2.0, 'float'),
      ('CogFlyAwayHeight', 50.0, 'float'),

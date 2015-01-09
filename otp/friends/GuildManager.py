@@ -110,7 +110,7 @@ class GuildManager(DistributedObjectGlobal):
          0])
 
     def setTalkGroup(self, fromAv, fromAC, avatarName, chat, mods, flags):
-        if hasattr(base, 'localAvatar'):
+        if hasaTTW(base, 'localAvatar'):
             message, scrubbed = localAvatar.scrubTalk(chat, mods)
             base.talkAssistant.receiveGuildTalk(fromAv, fromAC, avatarName, message, scrubbed)
 
@@ -209,21 +209,21 @@ class GuildManager(DistributedObjectGlobal):
             self.accept(self.cr.StopVisibilityEvent, self.handleLogout)
         else:
             self.ignore(self.cr.StopVisibilityEvent)
-        if hasattr(base, 'localAvatar'):
+        if hasaTTW(base, 'localAvatar'):
             base.localAvatar.guiMgr.guildPage.receiveMembers(memberlist)
         messenger.send('guildMemberUpdated', sentArgs=[localAvatar.doId])
 
     def guildStatusUpdate(self, guildId, guildName, guildRank):
-        if hasattr(base, 'localAvatar'):
+        if hasaTTW(base, 'localAvatar'):
             base.localAvatar.guildStatusUpdate(guildId, guildName, guildRank)
         self.memberList()
 
     def guildNameReject(self, guildId):
-        if hasattr(base, 'localAvatar'):
+        if hasaTTW(base, 'localAvatar'):
             base.localAvatar.guildNameReject(guildId)
 
     def guildNameChange(self, guildName, changeStatus):
-        if hasattr(base, 'localAvatar'):
+        if hasaTTW(base, 'localAvatar'):
             base.localAvatar.guildNameChange(guildName, changeStatus)
 
     def guildNameUpdate(self, avatarId, guildName):
@@ -231,7 +231,7 @@ class GuildManager(DistributedObjectGlobal):
 
     def invitationFrom(self, avatarId, avatarName, guildId, guildName):
         print 'GM invitationFrom %s(%d)' % (avatarName, avatarId)
-        if hasattr(base, 'localAvatar'):
+        if hasaTTW(base, 'localAvatar'):
             base.localAvatar.guiMgr.handleGuildInvitation(avatarId, avatarName, guildId, guildName)
 
     def retractInvite(self, avatarId):
@@ -276,7 +276,7 @@ class GuildManager(DistributedObjectGlobal):
 
     def recvAvatarOnline(self, avatarId, avatarName, bandManagerId, bandId):
         self.id2Online[avatarId] = True
-        if hasattr(base, 'localAvatar') and avatarId != base.localAvatar.doId:
+        if hasaTTW(base, 'localAvatar') and avatarId != base.localAvatar.doId:
             if not self.cr.avatarFriendsManager.checkIgnored(avatarId):
                 base.talkAssistant.receiveGuildUpdate(avatarId, avatarName, True)
         else:
@@ -286,7 +286,7 @@ class GuildManager(DistributedObjectGlobal):
     def recvAvatarOffline(self, avatarId, avatarName):
         self.id2BandId[avatarId] = (0, 0)
         self.id2Online[avatarId] = False
-        if hasattr(base, 'localAvatar') and avatarId != base.localAvatar.doId:
+        if hasaTTW(base, 'localAvatar') and avatarId != base.localAvatar.doId:
             if not self.cr.avatarFriendsManager.checkIgnored(avatarId):
                 base.talkAssistant.receiveGuildUpdate(avatarId, avatarName, False)
         messenger.send('guildMemberOnlineStatus', [avatarId, 0])
@@ -297,7 +297,7 @@ class GuildManager(DistributedObjectGlobal):
         self.id2Rank[avatarId] = rank
         self.id2BandId[avatarId] = (bandManagerId, bandId)
         self.id2Online[avatarId] = isOnline
-        if hasattr(base, 'localAvatar'):
+        if hasaTTW(base, 'localAvatar'):
             base.localAvatar.guiMgr.guildPage.addMember(memberInfo)
         messenger.send('guildMemberUpdated', sentArgs=[avatarId])
 
@@ -309,14 +309,14 @@ class GuildManager(DistributedObjectGlobal):
             self.id2Rank.pop(avatarId, None)
             self.id2BandId.pop(avatarId, None)
             self.id2Online.pop(avatarId, None)
-            if hasattr(base, 'localAvatar'):
+            if hasaTTW(base, 'localAvatar'):
                 base.localAvatar.guiMgr.guildPage.removeMember(avatarId)
         messenger.send('guildMemberUpdated', sentArgs=[avatarId])
         return
 
     def recvMemberUpdateRank(self, avatarId, senderId, avatarName, senderName, rank, promote):
         self.id2Rank[avatarId] = rank
-        if hasattr(base, 'localAvatar') and base.localAvatar.guiMgr:
+        if hasaTTW(base, 'localAvatar') and base.localAvatar.guiMgr:
             base.localAvatar.guiMgr.guildPage.updateGuildMemberRank(avatarId, rank)
         messenger.send('guildMemberUpdated', sentArgs=[avatarId])
 
@@ -325,11 +325,11 @@ class GuildManager(DistributedObjectGlobal):
         messenger.send('guildMemberUpdated', sentArgs=[avatarId])
 
     def recvTokenInviteValue(self, tokenValue, preExistPerm):
-        if hasattr(base, 'localAvatar') and base.localAvatar.guiMgr:
+        if hasaTTW(base, 'localAvatar') and base.localAvatar.guiMgr:
             base.localAvatar.guiMgr.guildPage.displayInviteGuild(tokenValue, preExistPerm)
 
     def recvTokenRedeemMessage(self, guildName):
-        if hasattr(base, 'localAvatar') and base.localAvatar.guiMgr:
+        if hasaTTW(base, 'localAvatar') and base.localAvatar.guiMgr:
             if guildName == '***ERROR - GUILD CODE INVALID***':
                 base.localAvatar.guiMgr.guildPage.displayRedeemErrorMessage(OTPLocalizer.GuildRedeemErrorInvalidToken)
             elif guildName == '***ERROR - GUILD FULL***':
@@ -338,11 +338,11 @@ class GuildManager(DistributedObjectGlobal):
                 base.localAvatar.guiMgr.guildPage.displayRedeemConfirmMessage(guildName)
 
     def recvTokenRedeemedByPlayerMessage(self, redeemerName):
-        if hasattr(base, 'localAvatar') and base.localAvatar.guiMgr:
+        if hasaTTW(base, 'localAvatar') and base.localAvatar.guiMgr:
             base.localAvatar.guiMgr.guildPage.notifyTokenGeneratorOfRedeem(redeemerName)
 
     def recvPermToken(self, token):
-        if hasattr(base, 'localAvatar') and base.localAvatar.guiMgr:
+        if hasaTTW(base, 'localAvatar') and base.localAvatar.guiMgr:
             if token == '0':
                 base.localAvatar.guiMgr.guildPage.receivePermTokenValue(None)
             else:
@@ -373,7 +373,7 @@ class GuildManager(DistributedObjectGlobal):
         return
 
     def recvNonPermTokenCount(self, tCount):
-        if hasattr(base, 'localAvatar') and base.localAvatar.guiMgr:
+        if hasaTTW(base, 'localAvatar') and base.localAvatar.guiMgr:
             base.localAvatar.guiMgr.guildPage.receiveNonPermTokenCount(tCount)
 
     @report(types=['deltaStamp', 'args'], dConfigParam='teleport')

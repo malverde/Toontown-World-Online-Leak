@@ -60,7 +60,7 @@ class DistributedPartyTrampolineActivityAI(DistributedPartyActivityAI, FSM):
             
     def enterActive(self):
         self.jellybeans = range(PartyGlobals.TrampolineNumJellyBeans)
-        taskMgr.doMethodLater(PartyGlobals.TrampolineDuration, self.sendUpdate, 'exitTrampoline%d' % self.doId, extraArgs=['leaveTrampoline', []])
+        taskMgr.doMethodLater(PartyGlobals.TrampolineDuration, self.sendUpdate, 'exiTTWampoline%d' % self.doId, extraArgs=['leaveTrampoline', []])
         self.sendUpdate('setState', ['Active', globalClockDelta.getRealNetworkTime()])
         self.collected = 0
                         
@@ -121,7 +121,7 @@ class DistributedPartyTrampolineActivityAI(DistributedPartyActivityAI, FSM):
         if self.currentAv != avId:  
             self.air.writeServerEvent('suspicious', avId=avId, issue='Toon tried to exit trampoline for someone else!')
             return
-        taskMgr.remove('exitTrampoline'%self.doId)
+        taskMgr.remove('exiTTWampoline'%self.doId)
         self.sendUpdate('leaveTrampoline', [])
 
     def toonExitDemand(self):

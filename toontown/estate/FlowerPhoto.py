@@ -30,7 +30,7 @@ class DirectRegion(NodePath):
         pass
 
     def load(self):
-        if not hasattr(self, 'cRender'):
+        if not hasaTTW(self, 'cRender'):
             self.cRender = NodePath('fishSwimRender')
             self.fishSwimCamera = self.cRender.attachNewNode('fishSwimCamera')
             self.cCamNode = Camera('fishSwimCam')
@@ -62,7 +62,7 @@ class DirectRegion(NodePath):
         return self.cRender
 
     def unload(self):
-        if hasattr(self, 'cRender'):
+        if hasaTTW(self, 'cRender'):
             base.win.removeDisplayRegion(self.cDr)
             del self.cRender
             del self.fishSwimCamera
@@ -89,7 +89,7 @@ class FlowerPhoto(NodePath):
 
     def destroy(self):
         self.hide()
-        if hasattr(self, 'background'):
+        if hasaTTW(self, 'background'):
             del self.background
         self.fish = None
         del self.soundTrack
@@ -113,7 +113,7 @@ class FlowerPhoto(NodePath):
     def makeFlowerFrame(self, actor):
         actor.setDepthTest(1)
         actor.setDepthWrite(1)
-        if not hasattr(self, 'flowerDisplayRegion'):
+        if not hasaTTW(self, 'flowerDisplayRegion'):
             self.flowerDisplayRegion = DirectRegion(parent=self)
             apply(self.flowerDisplayRegion.setBounds, self.swimBounds)
             apply(self.flowerDisplayRegion.setColor, self.swimColor)
@@ -125,23 +125,23 @@ class FlowerPhoto(NodePath):
         bMin, bMax = actor.getTightBounds()
         center = (bMin + bMax) / 2.0
         actor.setPos(-center[0], -center[1], -center[2])
-        attrib = GardenGlobals.PlantAttributes[self.species]
-        if attrib.has_key('photoPos'):
+        aTTWib = GardenGlobals.PlantATTWibutes[self.species]
+        if aTTWib.has_key('photoPos'):
             self.notify.debug('oldPos = %s' % actor.getPos())
-            photoPos = attrib['photoPos']
+            photoPos = aTTWib['photoPos']
             self.notify.debug('newPos = %s' % str(photoPos))
             actor.setPos(photoPos[0], photoPos[1], photoPos[2])
-        scale.setScale(attrib['photoScale'])
-        rotate.setH(attrib['photoHeading'])
-        pitch.setP(attrib['photoPitch'])
+        scale.setScale(aTTWib['photoScale'])
+        rotate.setH(aTTWib['photoHeading'])
+        pitch.setP(aTTWib['photoPitch'])
         pitch.setY(1.75)
         return frame
 
     def loadModel(self, species, variety):
-        modelName = GardenGlobals.PlantAttributes[species]['fullGrownModel']
+        modelName = GardenGlobals.PlantATTWibutes[species]['fullGrownModel']
         nodePath = loader.loadModel(modelName)
         desat = None
-        flowerColorIndex = GardenGlobals.PlantAttributes[species]['varieties'][variety][1]
+        flowerColorIndex = GardenGlobals.PlantATTWibutes[species]['varieties'][variety][1]
         colorTuple = GardenGlobals.FlowerColors[flowerColorIndex]
         useWilted = 0
         wilt = nodePath.find('**/*wilt*')
@@ -164,15 +164,15 @@ class FlowerPhoto(NodePath):
         self.notify.debug('show')
         messenger.send('wakeup')
         if self.flowerFrame:
-            if hasattr(self.actor, 'cleanup'):
+            if hasaTTW(self.actor, 'cleanup'):
                 self.actor.cleanup()
-            if hasattr(self, 'flowerDisplayRegion'):
+            if hasaTTW(self, 'flowerDisplayRegion'):
                 self.flowerDisplayRegion.unload()
             self.hide()
         self.actor = self.loadModel(self.species, self.variety)
         self.flowerFrame = self.makeFlowerFrame(self.actor)
         if showBackground:
-            if not hasattr(self, 'background'):
+            if not hasaTTW(self, 'background'):
                 background = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
                 background = background.find('**/Fish_BG')
                 self.background = background
@@ -181,10 +181,10 @@ class FlowerPhoto(NodePath):
             self.background.reparentTo(self.flowerFrame)
 
     def hide(self):
-        if hasattr(self, 'flowerDisplayRegion'):
+        if hasaTTW(self, 'flowerDisplayRegion'):
             self.flowerDisplayRegion.unload()
         if self.actor:
-            if hasattr(self.actor, 'stop'):
+            if hasaTTW(self.actor, 'stop'):
                 self.actor.stop()
             self.actor.hide()
         if self.sound:

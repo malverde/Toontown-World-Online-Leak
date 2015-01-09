@@ -100,7 +100,7 @@ class PetLookerAI:
             collTrav.addCollider(self.lookSphereNodePath, self._cHandler)
         self.accept(self._getLookingStartEvent(), self._handleLookingAtOtherStart)
         self.accept(self._getLookingStopEvent(), self._handleLookingAtOtherStop)
-        if hasattr(self, 'eventProxy'):
+        if hasaTTW(self, 'eventProxy'):
             PetLookerAI.notify.warning('%s: already have an eventProxy!' % self.doId)
         else:
             self.eventProxy = DirectObject.DirectObject()
@@ -156,7 +156,7 @@ class PetLookerAI:
         PetLookerAI.notify.debug('_handleLookingAtOtherStart: %s looking at %s' % (self.doId, other))
         if other in self.others:
             PetLookerAI.notify.warning('%s: other (%s) is already in self.others!' % (self.doId, other))
-            if not hasattr(self, '_cHandler'):
+            if not hasaTTW(self, '_cHandler'):
                 PetLookerAI.notify.warning('-->The looker sphere has already been destroyed')
         else:
             self.others[other] = None
@@ -176,7 +176,7 @@ class PetLookerAI:
         PetLookerAI.notify.debug('_handleLookingAtOtherStop: %s no longer looking at %s' % (self.doId, other))
         if other not in self.others:
             PetLookerAI.notify.warning('%s: other (%s) is not in self.others!' % (self.doId, other))
-            if not hasattr(self, '_cHandler'):
+            if not hasaTTW(self, '_cHandler'):
                 PetLookerAI.notify.warning('-->The looker sphere has already been destroyed')
         else:
             del self.others[other]

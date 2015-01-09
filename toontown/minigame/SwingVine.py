@@ -120,7 +120,7 @@ class SwingVine(NodePath):
             self.rope.setTexture(self.cableTex)
             ts = TextureStage.getDefault()
             self.rope.setTexScale(ts, 1.0, 0.15)
-            self.rope.setTransparency(1)
+            self.rope.seTTWansparency(1)
         if self.vineIndex == VineGameGlobals.NumVines - 1:
             pass
         if self.cableTex:
@@ -131,7 +131,7 @@ class SwingVine(NodePath):
         cm.setFrame(-0.5, 0.5, -0.1, 8)
         self.staticVine = self.attachNewNode(cm.generate())
         self.staticVine.setTexture(vineTexture)
-        self.setTransparency(1)
+        self.seTTWansparency(1)
         radius = 0.5
         tubeIndex = 0
         colNode = CollisionNode('StaticVine-%d-%d' % (self.vineIndex, tubeIndex))

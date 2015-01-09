@@ -77,7 +77,7 @@ class DistributedFactoryElevatorExt(DistributedElevatorExt.DistributedElevatorEx
              'how': 'teleportIn',
              'zoneId': zoneId,
              'hoodId': hoodId}
-            if hasattr(place, 'elevator') and place.elevator:
+            if hasaTTW(place, 'elevator') and place.elevator:
                 place.elevator.signalDone(doneStatus)
             else:
                 self.notify.warning("setMintInteriorZoneForce: Couldn't find playGame.getPlace().elevator, zoneId: %s" % zoneId)

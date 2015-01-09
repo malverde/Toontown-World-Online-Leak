@@ -130,7 +130,7 @@ class Nametag(ClickablePopup):
         t.node().setWordwrap(self.wordWrap)
         t.node().setText(self.displayName)
         t.setColor(self.nameFg)
-        t.setTransparency(self.nameFg[3] < 1.0)
+        t.seTTWansparency(self.nameFg[3] < 1.0)
 
         width, height = t.node().getWidth(), t.node().getHeight()
 
@@ -140,7 +140,7 @@ class Nametag(ClickablePopup):
         # behind it, due to both being in the transparency bin,
         # so there's really no problem with doing this.
         t.setY(-0.05)
-        t.setAttrib(DepthWriteAttrib.make(0))
+        t.setATTWib(DepthWriteATTWib.make(0))
 
         # Apply panel behind the text:
         panel = NametagGlobals.nametagCardModel.copyTo(self.innerNP, 0)
@@ -148,7 +148,7 @@ class Nametag(ClickablePopup):
                      (t.node().getTop()+t.node().getBottom())/2.0)
         panel.setScale(width + self.NAME_PADDING, 1, height + self.NAME_PADDING)
         panel.setColor(self.nameBg)
-        panel.setTransparency(self.nameBg[3] < 1.0)
+        panel.seTTWansparency(self.nameBg[3] < 1.0)
 
         self.frame = (t.node().getLeft()-self.NAME_PADDING/2.0,
                       t.node().getRight()+self.NAME_PADDING/2.0,

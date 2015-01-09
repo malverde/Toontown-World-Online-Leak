@@ -42,5 +42,5 @@ class MinigameAvatarScorePanel(DirectFrame):
         return int(self.scoreText['text'])
 
     def makeTransparent(self, alpha):
-        self.setTransparency(1)
+        self.seTTWansparency(1)
         self.setColorScale(1, 1, 1, alpha)

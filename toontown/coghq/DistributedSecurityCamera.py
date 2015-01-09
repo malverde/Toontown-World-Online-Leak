@@ -87,7 +87,7 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
         self.onSound = loader.loadSfx('phase_11/audio/sfx/LB_camera_shutter_2.ogg')
         self.attackTrack = Parallel(SoundInterval(self.attackSound, node=self, volume=0.8), SoundInterval(self.onSound, node=self, volume=0.8))
         self.moveStartSound = loader.loadSfx('phase_11/audio/sfx/LB_laser_beam_on_2.ogg')
-        self.moveStartTrack = Parallel(SoundInterval(self.moveStartSound, node=self, volume=0.4))
+        self.moveStarTTWack = Parallel(SoundInterval(self.moveStartSound, node=self, volume=0.4))
         self.moveLoopSound = loader.loadSfx('phase_11/audio/sfx/LB_laser_beam_hum_2.ogg')
         self.moveLoopSound.setLoop()
         self.moveLoopTrack = Parallel(SoundInterval(self.moveLoopSound, node=self, volume=0.4))
@@ -110,26 +110,26 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
         self.trackBeamNode = self.attachNewNode('tracking Beam Node')
         self.trackBeamGN = GeomNode('tracking Beam')
         self.trackBeamNode.attachNewNode(self.trackBeamGN)
-        self.trackBeamNode.setTransparency(TransparencyAttrib.MAlpha)
-        self.trackBeamNode.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd))
+        self.trackBeamNode.seTTWansparency(TransparencyATTWib.MAlpha)
+        self.trackBeamNode.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd))
         self.trackBeamNode.setTwoSided(False)
         self.trackBeamNode.setDepthWrite(False)
         self.trackFloorNode = self.attachNewNode('tracking floor Node')
         self.trackFloorGN = GeomNode('tracking Floor')
         self.trackFloorNode.attachNewNode(self.trackFloorGN)
-        self.trackFloorNode.setTransparency(TransparencyAttrib.MAlpha)
-        self.trackFloorNode.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd))
+        self.trackFloorNode.seTTWansparency(TransparencyATTWib.MAlpha)
+        self.trackFloorNode.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd))
         self.trackFloorNode.setTwoSided(False)
         self.trackFloorNode.setDepthWrite(False)
-        if not hasattr(self, 'trackTarget1'):
+        if not hasaTTW(self, 'trackTarget1'):
             self.trackTarget1 = None
         else:
             self.trackTargetList[1] = self.trackTarget1
-        if not hasattr(self, 'trackTarget2'):
+        if not hasaTTW(self, 'trackTarget2'):
             self.trackTarget2 = None
         else:
             self.trackTargetList[2] = self.trackTarget2
-        if not hasattr(self, 'trackTarget3'):
+        if not hasaTTW(self, 'trackTarget3'):
             self.trackTarget3 = None
         else:
             self.trackTargetList[3] = self.trackTarget3
@@ -161,15 +161,15 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
 
         return
 
-    def setTrackTarget1(self, targetId):
+    def seTTWackTarget1(self, targetId):
         self.trackTarget1 = targetId
         self.trackTargetList[1] = targetId
 
-    def setTrackTarget2(self, targetId):
+    def seTTWackTarget2(self, targetId):
         self.trackTarget2 = targetId
         self.trackTargetList[2] = targetId
 
-    def setTrackTarget3(self, targetId):
+    def seTTWackTarget3(self, targetId):
         self.trackTarget3 = targetId
         self.trackTargetList[3] = targetId
 
@@ -213,8 +213,8 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
             self.moveLoopTrack.finish()
         if self.attackTrack.isPlaying():
             self.attackTrack.finish()
-        if self.moveStartTrack.isPlaying():
-            self.moveStartTrack.finish()
+        if self.moveStarTTWack.isPlaying():
+            self.moveStarTTWack.finish()
         if self.moveStopTrack.isPlaying():
             self.moveStopTrack.finish()
         self.ignoreAll()
@@ -244,7 +244,7 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
         return
 
     def __updateTrack(self, task):
-        if self.target and self.level and hasattr(self.level, 'entities'):
+        if self.target and self.level and hasaTTW(self.level, 'entities'):
             thing = self.level.entities.get(self.target, None)
             self.targetX = thing.getPos(self)[0]
             self.targetY = thing.getPos(self)[1]
@@ -276,7 +276,7 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
         else:
             if not self.moveLoopTrack.isPlaying():
                 self.moveLoopTrack.start()
-                self.moveStartTrack.start()
+                self.moveStarTTWack.start()
             self.vX += dirX * self.accel * propX
             self.vY += dirY * self.accel * propY
         if self.vX > self.maxVel:

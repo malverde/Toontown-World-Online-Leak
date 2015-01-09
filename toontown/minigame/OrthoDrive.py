@@ -49,7 +49,7 @@ class OrthoDrive:
         self.lt.stopSound()
         taskMgr.remove(OrthoDrive.TASK_NAME)
         taskMgr.remove(OrthoDrive.SET_ATREST_HEADING_TASK)
-        if hasattr(self, 'turnLocalToonIval'):
+        if hasaTTW(self, 'turnLocalToonIval'):
             if self.turnLocalToonIval.isPlaying():
                 self.turnLocalToonIval.pause()
             del self.turnLocalToonIval

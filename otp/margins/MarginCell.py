@@ -55,7 +55,7 @@ class MarginCell(NodePath):
             cm = CardMaker('debugSquare')
             cm.setFrameFullscreenQuad()
             self.debugSquare = self.attachNewNode(cm.generate())
-            self.debugSquare.setTransparency(1)
+            self.debugSquare.seTTWansparency(1)
             self.debugSquare.setY(1)
 
         self.debugSquare.setColor(color)

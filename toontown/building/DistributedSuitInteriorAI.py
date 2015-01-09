@@ -401,7 +401,7 @@ class DistributedSuitInteriorAI(DistributedObjectAI.DistributedObjectAI):
         return None
 
     def handleAllAboard(self, seats):
-        if not hasattr(self, 'fsm'):
+        if not hasaTTW(self, 'fsm'):
             return
         numOfEmptySeats = seats.count(None)
         if numOfEmptySeats == 4:

@@ -33,9 +33,9 @@ class SuitInvasionManagerAI:
             self.randomInvasionProbability = config.GetFloat('mega-invasion-probability', 0.4)
             self.megaInvasionCog = config.GetString('mega-invasion-cog-type', '')
             if not self.megaInvasionCog:
-                raise AttributeError("No mega invasion cog specified, but mega invasions are on!")
+                raise ATTWibuteError("No mega invasion cog specified, but mega invasions are on!")
             if self.megaInvasionCog not in SuitDNA.suitHeadTypes:
-                raise AttributeError("Invalid cog type specified for mega invasion!")
+                raise ATTWibuteError("Invalid cog type specified for mega invasion!")
             # Start ticking.
             taskMgr.doMethodLater(randint(1800, 5400), self.__randomInvasionTick, 'random-invasion-tick')
 

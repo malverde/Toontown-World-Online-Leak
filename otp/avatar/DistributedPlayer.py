@@ -111,7 +111,7 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
 
     def arrivedOnDistrict(self, districtId):
         curFrameTime = globalClock.getFrameTime()
-        if hasattr(self, 'frameTimeWeArrivedOnDistrict') and curFrameTime == self.frameTimeWeArrivedOnDistrict:
+        if hasaTTW(self, 'frameTimeWeArrivedOnDistrict') and curFrameTime == self.frameTimeWeArrivedOnDistrict:
             if districtId == 0 and self._districtWeAreGeneratedOn:
                 self.notify.warning('ignoring arrivedOnDistrict 0, since arrivedOnDistrict %d occured on the same frame' % self._districtWeAreGeneratedOn)
                 return
@@ -346,7 +346,7 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
                 teleportNotify.debug('avatar ignored via ignoreList')
                 self.d_teleportResponse(self.doId, 2, 0, 0, 0, sendToId=requesterId)
                 return
-            if hasattr(base, 'distributedParty'):
+            if hasaTTW(base, 'distributedParty'):
                 if base.distributedParty.partyInfo.isPrivate:
                     if requesterId not in base.distributedParty.inviteeIds:
                         teleportNotify.debug('avatar not in inviteeIds')
@@ -418,7 +418,7 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
         return
 
     def b_teleportGreeting(self, avId):
-        if hasattr(self, 'ghostMode') and self.ghostMode:
+        if hasaTTW(self, 'ghostMode') and self.ghostMode:
             # If we're in ghost mode, we don't want to greet the person we're
             # teleporting to. On another note, why the hell is Toontown-specific
             # stuff in here? :S ...

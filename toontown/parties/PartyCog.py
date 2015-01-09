@@ -105,7 +105,7 @@ class PartyCog(FSM):
         self.pieHitSound = globalBattleSoundCache.getSound('AA_wholepie_only.ogg')
         self.upSound = globalBattleSoundCache.getSound('AV_jump_to_side.ogg')
         self.hole = loader.loadModel('phase_13/models/parties/cogPinataHole')
-        self.hole.setTransparency(True)
+        self.hole.seTTWansparency(True)
         self.hole.setP(-90.0)
         self.hole.setScale(3)
         self.hole.setBin('ground', 3)
@@ -334,6 +334,6 @@ class PartyCog(FSM):
         return
 
     def getHeadLocation(self):
-        self.actor.getJoints(jointName='head')[0].getNetTransform(self.temp_transform)
+        self.actor.getJoints(jointName='head')[0].getNeTTWansform(self.temp_transform)
         self.head_locator.setMat(self.temp_transform)
         return self.head_locator.getZ(self.root)

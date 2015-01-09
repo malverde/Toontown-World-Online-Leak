@@ -36,7 +36,7 @@ class ModelEntity(BasicEntities.NodePathEntity):
             self.model.reparentTo(self)
             if self.collisionsOnly:
                 if __dev__:
-                    self.model.setTransparency(1)
+                    self.model.seTTWansparency(1)
                     self.model.setColorScale(1, 1, 1, 0.1)
                 else:
                     self.model.hide()

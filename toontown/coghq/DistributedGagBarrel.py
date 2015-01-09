@@ -17,7 +17,7 @@ class DistributedGagBarrel(DistributedBarrelBase.DistributedBarrelBase):
         self.ignoreAll()
 
     def delete(self):
-        if hasattr(self, 'gagModel') and self.gagModel:
+        if hasaTTW(self, 'gagModel') and self.gagModel:
             self.gagModel.removeNode()
             del self.gagModel
         DistributedBarrelBase.DistributedBarrelBase.delete(self)
@@ -43,12 +43,12 @@ class DistributedGagBarrel(DistributedBarrelBase.DistributedBarrelBase):
             self.gagModel.reparentTo(self.gagNode)
             self.gagModel.setScale(self.gagScale)
             self.gagModel.setPos(0, -0.1, 0)
-        except AttributeError:
-            self.notify.warning("Gag barrel is missing an attribute, can't apply label.")
+        except ATTWibuteError:
+            self.notify.warning("Gag barrel is missing an aTTWibute, can't apply label.")
 
     def setNumGags(self, num):
         self.numGags = num
-        if hasattr(self, 'gagModel') and self.gagModel:
+        if hasaTTW(self, 'gagModel') and self.gagModel:
             if self.numGags == 0:
                 self.gagModel.setColorScale(0.5, 0.5, 0.5, 1)
             else:
@@ -59,5 +59,5 @@ class DistributedGagBarrel(DistributedBarrelBase.DistributedBarrelBase):
 
     def resetBarrel(self):
         DistributedBarrelBase.DistributedBarrelBase.resetBarrel(self)
-        if hasattr(self, 'gagModel') and self.gagModel:
+        if hasaTTW(self, 'gagModel') and self.gagModel:
             self.gagModel.setScale(self.gagScale)

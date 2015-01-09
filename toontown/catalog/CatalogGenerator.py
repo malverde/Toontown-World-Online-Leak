@@ -12,7 +12,7 @@ from CatalogMouldingItem import CatalogMouldingItem, getAllMouldings
 from CatalogWainscotingItem import CatalogWainscotingItem, getAllWainscotings
 from CatalogWindowItem import CatalogWindowItem
 from CatalogPoleItem import nextAvailablePole, getAllPoles
-from CatalogPetTrickItem import CatalogPetTrickItem, getAllPetTricks
+from CatalogPeTTWickItem import CatalogPeTTWickItem, getAllPeTTWicks
 from CatalogGardenItem import CatalogGardenItem
 from CatalogToonStatueItem import CatalogToonStatueItem
 from CatalogRentalItem import CatalogRentalItem
@@ -59,7 +59,7 @@ MetaItems = {100: getAllClothes(101, 102, 103, 104, 105, 106, 107, 108, 109, 109
  4510: getAllMouldings(1020, 1030, 1040),
  4520: getAllMouldings(1070),
 
- 5000: getAllPetTricks()}
+ 5000: getAllPeTTWicks()}
 MetaItemChatKeysSold = (2000,
  2010,
  2020,
@@ -1543,14 +1543,14 @@ class CatalogGenerator:
             weeklyCatalog += self.__selectItem(avatar, get50ItemTrunk, monthlyCatalog, saleItem=0)
         if time.time() < 1096617600.0:
 
-            def hasPetTrick(catalog):
+            def hasPeTTWick(catalog):
                 for item in catalog:
-                    if isinstance(item, CatalogPetTrickItem):
+                    if isinstance(item, CatalogPeTTWickItem):
                         return 1
 
                 return 0
 
-            if not hasPetTrick(weeklyCatalog) and not hasPetTrick(avatar.weeklyCatalog) and not hasPetTrick(avatar.backCatalog):
+            if not hasPeTTWick(weeklyCatalog) and not hasPeTTWick(avatar.weeklyCatalog) and not hasPeTTWick(avatar.backCatalog):
                 self.notify.debug('Artificially adding pet trick to catalog')
                 weeklyCatalog += self.__selectItem(avatar, 5000, monthlyCatalog, saleItem=saleItem)
         self.notify.debug('Generated catalog: %s' % weeklyCatalog)

@@ -22,7 +22,7 @@ from toontown.golf import GolfHoleBase
 from toontown.distributed import DelayDelete
 
 class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, GolfHoleBase.GolfHoleBase):
-    defaultTransitions = {'Off': ['Cleanup', 'ChooseTee', 'WatchTee'],
+    defaulTTWansitions = {'Off': ['Cleanup', 'ChooseTee', 'WatchTee'],
      'ChooseTee': ['Aim', 'Cleanup'],
      'WatchTee': ['WatchAim',
                   'Cleanup',
@@ -141,7 +141,7 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         taskMgr.remove(self.golfPowerTaskName)
         DistributedPhysicsWorld.DistributedPhysicsWorld.delete(self)
         GolfHoleBase.GolfHoleBase.delete(self)
-        if hasattr(self, 'perfectIval'):
+        if hasaTTW(self, 'perfectIval'):
             self.perfectIval.pause()
             del self.perfectIval
         self.golfCourse = None
@@ -167,8 +167,8 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
             self.clubs[club].removeNode()
 
         del self.clubs
-        if hasattr(self, 'scoreBoard'):
-            if hasattr(self.scoreBoard, 'maximizeB'):
+        if hasaTTW(self, 'scoreBoard'):
+            if hasaTTW(self.scoreBoard, 'maximizeB'):
                 if self.scoreBoard.maximizeB:
                     self.scoreBoard.maximizeB.hide()
         if not self.titleLabel == None:
@@ -203,7 +203,7 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
                 lHand = av.getLeftHands()[0]
                 club.setPos(0, 0, 0)
                 club.reparentTo(lHand)
-                netScale = club.getNetTransform().getScale()[1]
+                netScale = club.getNeTTWansform().getScale()[1]
                 counterActToonScale = lHand.find('**/counteractToonScale')
                 if counterActToonScale.isEmpty():
                     counterActToonScale = lHand.attachNewNode('counteractToonScale')
@@ -361,7 +361,7 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
                 targetNodePathGeom.setBin('ground', 0)
                 targetNodePathGeom.setDepthWrite(False)
                 targetNodePathGeom.setDepthTest(False)
-                targetNodePathGeom.setTransparency(TransparencyAttrib.MAlpha)
+                targetNodePathGeom.seTTWansparency(TransparencyATTWib.MAlpha)
                 targetNodePathGeom.setColorScale(0.0, 0.0, 0.0, 1.0)
                 self.holeNodes.append(targetNodePathGeom)
                 holeSphere = CollisionSphere(0, 0, 0, 1)
@@ -494,7 +494,7 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         x = -math.sin(self.ballFollow.getH() * 0.0174532925)
         y = math.cos(self.ballFollow.getH() * 0.0174532925)
         b = self.curGolfBall()
-        if hasattr(base, 'golfPower') and base.golfPower != None:
+        if hasaTTW(base, 'golfPower') and base.golfPower != None:
             self.power = float(base.golfPower)
         if not self.swingInfoSent:
             self.sendUpdate('postSwingState', [self.getCycleTime(),
@@ -754,7 +754,7 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
 
     def exitChooseTee(self):
         localAvatar.wrtReparentTo(render)
-        if hasattr(self, 'teeInstructions') and self.teeInstructions:
+        if hasaTTW(self, 'teeInstructions') and self.teeInstructions:
             self.teeInstructions.destroy()
         self.teeInstructions = None
         taskMgr.remove('ChooseTee Task')
@@ -1091,13 +1091,13 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         animTrack = Sequence()
         av = base.cr.doId2do.get(self.currentGolfer)
         animTrack.append(Func(self.golfCourse.updateScoreBoard))
-        textTrack = Sequence(Func(perfectText.reparentTo, aspect2d), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=0.3, startScale=0.0), LerpFunctionInterval(fadeFunc, fromData=0.0, toData=1.0, duration=0.5)), Wait(2.0), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=1.0), LerpFunctionInterval(fadeFunc, fromData=1.0, toData=0.0, duration=0.5, blendType='easeIn')), Func(destroyText), WaitInterval(0.5), Func(self.sendUpdate, 'turnDone', []))
+        texTTWack = Sequence(Func(perfectText.reparentTo, aspect2d), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=0.3, startScale=0.0), LerpFunctionInterval(fadeFunc, fromData=0.0, toData=1.0, duration=0.5)), Wait(2.0), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=1.0), LerpFunctionInterval(fadeFunc, fromData=1.0, toData=0.0, duration=0.5, blendType='easeIn')), Func(destroyText), WaitInterval(0.5), Func(self.sendUpdate, 'turnDone', []))
         soundTrack = Sequence()
         if strokes == 1:
             soundTrack.append(SoundInterval(self.holeInOneSfx))
         elif self.hasCurGolferReachedMaxSwing and not self.ballWillGoInHole:
             soundTrack.append(SoundInterval(self.kickedOutSfx))
-        self.perfectIval = Parallel(textTrack, soundTrack, animTrack)
+        self.perfectIval = Parallel(texTTWack, soundTrack, animTrack)
         self.perfectIval.start()
 
     def __playbackTask(self, task):
@@ -1141,7 +1141,7 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
             if transNpCurFrame not in self.translucentLastFrame:
                 self.notify.debug('making translucent %s' % transNpCurFrame)
                 transNpCurFrame.setColorScale(1, 1, 1, 0.25)
-                transNpCurFrame.setTransparency(1)
+                transNpCurFrame.seTTWansparency(1)
 
     def makeCurGolferLookAtBall(self):
         if self.getLookingAtPutt():
@@ -1216,7 +1216,7 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
 
     def enterCleanup(self):
         taskMgr.remove('update task')
-        if hasattr(self, 'arrowKeys'):
+        if hasaTTW(self, 'arrowKeys'):
             self.arrowKeys.destroy()
         self.arrowKeys = None
         self.ignoreAll()
@@ -1485,7 +1485,7 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
     def tabKeyPressed(self):
         doInterval = True
         self.notify.debug('tab key pressed')
-        if not hasattr(self, 'ballFollow'):
+        if not hasaTTW(self, 'ballFollow'):
             return
         if self.flyOverInterval and self.flyOverInterval.isPlaying():
             return
@@ -1655,8 +1655,8 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
 
     def safeRequestToState(self, newState):
         doingRequest = False
-        if self.state in self.defaultTransitions:
-            if newState in self.defaultTransitions[self.state]:
+        if self.state in self.defaulTTWansitions:
+            if newState in self.defaulTTWansitions[self.state]:
                 self.request(newState)
                 doingRequest = True
         if not doingRequest:

@@ -10,9 +10,9 @@ from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil
 
 def clearPythonIvals(ival):
-    if hasattr(ival, 'function'):
+    if hasaTTW(ival, 'function'):
         ival.function = None
-    if hasattr(ival, 'pythonIvals'):
+    if hasaTTW(ival, 'pythonIvals'):
         for oneIval in ival.pythonIvals:
             clearPythonIvals(oneIval)
 
@@ -226,8 +226,8 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.request('Off')
 
     def requestIdleOrSad(self):
-        if not hasattr(self, 'node') or not self.node:
-            self.notify.warning("requestIdleOrSad  returning hasattr(self,'node')=%s" % hasattr(self, 'node'))
+        if not hasaTTW(self, 'node') or not self.node:
+            self.notify.warning("requestIdleOrSad  returning hasaTTW(self,'node')=%s" % hasaTTW(self, 'node'))
             return
         if self.buildingsMakingMeSad:
             self.request('Sad')
@@ -279,8 +279,8 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
 
     def startNextIdleAnim(self):
         self.notify.debug('startNextAnim self.okToStartNextAnim=%s' % self.okToStartNextAnim)
-        if not hasattr(self, 'node') or not self.node:
-            self.notify.warning("startNextIdleAnim returning hasattr(self,'node')=%s" % hasattr(self, 'node'))
+        if not hasaTTW(self, 'node') or not self.node:
+            self.notify.warning("startNextIdleAnim returning hasaTTW(self,'node')=%s" % hasaTTW(self, 'node'))
             return
         self.curIval = None
         if self.okToStartNextAnim:
@@ -316,8 +316,8 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
 
     def createIdleAnimSequence(self, whichIdleAnim):
         dummyResult = Sequence(Wait(self.IdlePauseTime))
-        if not hasattr(self, 'node') or not self.node:
-            self.notify.warning("createIdleAnimSequence returning dummyResult hasattr(self,'node')=%s" % hasattr(self, 'node'))
+        if not hasaTTW(self, 'node') or not self.node:
+            self.notify.warning("createIdleAnimSequence returning dummyResult hasaTTW(self,'node')=%s" % hasaTTW(self, 'node'))
             return dummyResult
         idleAnimAndSound = self.createIdleAnimAndSoundInterval(whichIdleAnim)
         result = Sequence(idleAnimAndSound, Wait(self.IdlePauseTime), Func(self.startNextIdleAnim))

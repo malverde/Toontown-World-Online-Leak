@@ -68,7 +68,7 @@ Traceback (most recent call last):
     method (*(extraArgs + sentArgs))
   File "toontown/uberdog/ARGManager.py", line 51, in phraseSaid
     position, speedchatIndex, destination = Hood2Details.get(base.cr.playGame.getPlace().getZoneId(), [None, None, None])
-AttributeError: 'NoneType' object has no attribute 'getZoneId'
+ATTWibuteError: 'NoneType' object has no aTTWibute 'getZoneId'
 Traceback (most recent call last):
   File "otp/otpbase/OTPBase.py", line 238, in run
     taskMgr.run()
@@ -96,5 +96,6 @@ Traceback (most recent call last):
     method (*(extraArgs + sentArgs))
   File "toontown/uberdog/ARGManager.py", line 51, in phraseSaid
     position, speedchatIndex, destination = Hood2Details.get(base.cr.playGame.getPlace().getZoneId(), [None, None, None])
-AttributeError: 'NoneType' object has no attribute 'getZoneId'
+ATTWibuteError: 'NoneType' object has no aTTWibute 'getZoneId'
 /usr/bin/python: No module named toontown.toonbase.ToontownStart.py
+

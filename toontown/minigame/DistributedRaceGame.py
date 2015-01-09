@@ -379,7 +379,7 @@ class DistributedRaceGame(DistributedMinigame):
         self.raceBoard.reparentTo(hidden)
         self.chanceCard.reparentTo(hidden)
         self.chanceCardText.hide()
-        if hasattr(self, 'chanceMarkers'):
+        if hasaTTW(self, 'chanceMarkers'):
             for marker in self.chanceMarkers:
                 marker.reparentTo(hidden)
 
@@ -726,7 +726,7 @@ class DistributedRaceGame(DistributedMinigame):
             avId = self.avIdList[i]
             choice = task.choiceList[i]
             position = task.positionList[i]
-            chance = max(0, hasattr(task, 'chance'))
+            chance = max(0, hasaTTW(task, 'chance'))
             if choice != 0:
                 oldPosition = self.avatarPositions[avId]
                 self.avatarPositions[avId] = position

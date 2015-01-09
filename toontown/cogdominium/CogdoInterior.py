@@ -50,8 +50,8 @@ class CogdoInterior(Place.Place):
           'trialerFA',
           'teleportOut',
           'Elevator']),
-         State.State('trialerFA', self.enterTrialerFA, self.exitTrialerFA, ['trialerFAReject', 'DFA']),
-         State.State('trialerFAReject', self.enterTrialerFAReject, self.exitTrialerFAReject, ['walk']),
+         State.State('trialerFA', self.enterTrialerFA, self.exiTTWialerFA, ['trialerFAReject', 'DFA']),
+         State.State('trialerFAReject', self.enterTrialerFAReject, self.exiTTWialerFAReject, ['walk']),
          State.State('DFA', self.enterDFA, self.exitDFA, ['DFAReject', 'teleportOut']),
          State.State('DFAReject', self.enterDFAReject, self.exitDFAReject, ['walk']),
          State.State('teleportIn', self.enterTeleportIn, self.exitTeleportIn, ['walk']),
@@ -144,7 +144,7 @@ class CogdoInterior(Place.Place):
         self.notify.debug('handling elevator done event')
         where = doneStatus['where']
         if where == 'reject':
-            if hasattr(base.localAvatar, 'elevatorNotifier') and base.localAvatar.elevatorNotifier.isNotifierOpen():
+            if hasaTTW(base.localAvatar, 'elevatorNotifier') and base.localAvatar.elevatorNotifier.isNotifierOpen():
                 pass
             else:
                 self.fsm.request('walk')

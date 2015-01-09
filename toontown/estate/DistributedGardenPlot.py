@@ -5,7 +5,7 @@ from direct.interval.IntervalGlobal import *
 import GardenGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.estate import PlantingGUI
-from toontown.estate import PlantTreeGUI
+from toontown.estate import PlanTTWeeGUI
 from toontown.estate import ToonStatueSelectionGUI
 from toontown.toontowngui import TTDialog
 from pandac.PandaModules import Vec4
@@ -101,7 +101,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             elif whatCanBePlanted == GardenGlobals.FLOWER_TYPE:
                 plantText = TTLocalizer.GardeningPlantFlower
             elif whatCanBePlanted == GardenGlobals.GAG_TREE_TYPE:
-                plantText = TTLocalizer.GardeningPlantTree
+                plantText = TTLocalizer.GardeningPlanTTWee
             elif whatCanBePlanted == GardenGlobals.STATUARY_TYPE:
                 plantText = TTLocalizer.GardeningPlantItem
         return plantText
@@ -199,7 +199,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             if recipeKey >= 0:
                 species, variety = GardenGlobals.getSpeciesVarietyGivenRecipe(recipeKey)
                 if species >= 0 and variety >= 0:
-                    if GardenGlobals.PlantAttributes[species]['plantType'] == GardenGlobals.STATUARY_TYPE:
+                    if GardenGlobals.PlantATTWibutes[species]['plantType'] == GardenGlobals.STATUARY_TYPE:
                         successPlanting = True
                         if species >= 205 and species <= 208:
                             successToonStatue = True
@@ -210,7 +210,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
                 burntBeans = len(recipeStr)
                 self.sendUpdate('plantNothing', [burntBeans])
         if successPlanting:
-            itemName = GardenGlobals.PlantAttributes[species]['name']
+            itemName = GardenGlobals.PlantATTWibutes[species]['name']
             stringToShow = TTLocalizer.getResultPlantedSomethingSentence(itemName)
         elif willPlant:
             self.resultDialog = TTDialog.TTDialog(style=TTDialog.Acknowledge, text=TTLocalizer.ResultPlantedNothing, command=self.popupItemPlantingGuiAgain)
@@ -255,7 +255,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
     def popupTreePlantingGui(self):
         base.localAvatar.hideGardeningGui()
         self.acceptOnce(self.plantingGuiDoneEvent, self.__handleTreePlantingDone)
-        self.plantingGui = PlantTreeGUI.PlantTreeGUI(self.plantingGuiDoneEvent)
+        self.plantingGui = PlanTTWeeGUI.PlanTTWeeGUI(self.plantingGuiDoneEvent)
         self.accept('stoppedAsleep', self.__handleTreePlantingDone)
 
     def __handleTreePlantingDone(self, willPlant = False, gagTrack = None, gagLevel = None):

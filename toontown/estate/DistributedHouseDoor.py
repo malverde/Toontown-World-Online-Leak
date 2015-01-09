@@ -26,7 +26,7 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
         self.houseId = block
         DistributedDoor.DistributedDoor.setZoneIdAndBlock(self, zoneId, block)
 
-    def getTriggerName(self):
+    def geTTWiggerName(self):
         return 'door_trigger_' + str(self.houseId)
 
     def hideDoorParts(self):
@@ -51,7 +51,7 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
         self.doPostAnnounceGenerate()
         self.bHasFlat = not self.findDoorNode('door*flat', True).isEmpty()
         self.hideDoorParts()
-        self.setTriggerName()
+        self.seTTWiggerName()
         self.accept(self.getEnterTriggerEvent(), self.doorTrigger)
         self.acceptOnce('clearOutToonInterior', self.doorTrigger)
         self.zoneDoneLoading = 0
@@ -103,7 +103,7 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
         self.finishDoorTrack()
         self.doorTrack = Sequence(LerpHprInterval(nodePath=rightDoor, duration=1.0, hpr=VBase3(0, 0, 0), startHpr=VBase3(h, 0, 0), other=otherNP, blendType='easeInOut'), Func(doorFrameHoleRight.hide), Func(self.hideIfHasFlat, rightDoor), SoundInterval(self.closeSfx, node=rightDoor), name=trackName)
         self.doorTrack.start(ts)
-        if hasattr(self, 'done'):
+        if hasaTTW(self, 'done'):
             base.cr.playGame.hood.loader.setHouse(self.houseId)
             zoneId = self.otherZoneId
             if self.doorType == DoorTypes.EXT_STANDARD:

@@ -29,7 +29,7 @@ from otp.login.CreateAccountScreen import CreateAccountScreen
 from otp.otpgui import OTPDialog
 from otp.avatar import DistributedAvatar
 from otp.otpbase import OTPLocalizer
-from otp.login import LoginTTRAccount
+from otp.login import LoginTTWAccount
 from otp.login import HTTPUtil
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLauncherGlobals
@@ -182,7 +182,7 @@ class OTPClientRepository(ClientRepositoryBase):
 
 
 
-        if self.launcher and hasattr(self.launcher, 'http'):
+        if self.launcher and hasaTTW(self.launcher, 'http'):
             self.http = self.launcher.http
         else:
             self.http = HTTPClient()
@@ -193,7 +193,7 @@ class OTPClientRepository(ClientRepositoryBase):
         self.accountOldAuth = config.GetBool('%s-account-old-auth' % game.name,
                                              self.accountOldAuth)
 
-        self.loginInterface = LoginTTRAccount.LoginTTRAccount(self)
+        self.loginInterface = LoginTTWAccount.LoginTTWAccount(self)
 
 
         self.secretChatAllowed = base.config.GetBool('allow-secret-chat', 0)
@@ -447,7 +447,7 @@ class OTPClientRepository(ClientRepositoryBase):
         self.csm = None # To be set by subclass.
 
     def startLeakDetector(self):
-        if hasattr(self, 'leakDetector'):
+        if hasaTTW(self, 'leakDetector'):
             return False
         firstCheckDelay = config.GetFloat('leak-detector-first-check-delay', 2 * 60.0)
         self.leakDetector = ContainerLeakDetector('client container leak detector', firstCheckDelay=firstCheckDelay)
@@ -621,7 +621,7 @@ class OTPClientRepository(ClientRepositoryBase):
             message = OTPLocalizer.CRNoConnectProxyNoPort % (url.getServer(), url.getPort(), url.getPort())
             style = OTPDialog.CancelOnly
         else:
-            message = OTPLocalizer.CRNoConnectTryAgain % (url.getServer(), url.getPort())
+            message = OTPLocalizer.CRNoConnecTTWyAgain % (url.getServer(), url.getPort())
             style = OTPDialog.TwoChoice
         dialogClass = OTPGlobals.getGlobalDialogClass()
         self.failedToConnectBox = dialogClass(message=message, doneEvent='failedToConnectAck', text_wordwrap=18, style=style)
@@ -701,7 +701,7 @@ class OTPClientRepository(ClientRepositoryBase):
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def exitShutdown(self):
-        if hasattr(self, 'garbageWatcher'):
+        if hasaTTW(self, 'garbageWatcher'):
             self.garbageWatcher.destroy()
             del self.garbageWatcher
         self.handler = None
@@ -1129,13 +1129,13 @@ class OTPClientRepository(ClientRepositoryBase):
             allowedTasks.extend(extraTasks)
         problems = []
         for task in taskMgr.getTasks():
-            if not hasattr(task, 'name'):
+            if not hasaTTW(task, 'name'):
                 continue
             if task.name in allowedTasks:
                 continue
             else:
-                if hasattr(task, 'debugInitTraceback'):
-                    print task.debugInitTraceback
+                if hasaTTW(task, 'debugIniTTWaceback'):
+                    print task.debugIniTTWaceback
                 problems.append(task.name)
 
         if problems:
@@ -1184,7 +1184,7 @@ class OTPClientRepository(ClientRepositoryBase):
          self._getLostConnectionEvent(),
          'render-texture-targets-changed',
          'gotExtraFriendHandles']
-        if hasattr(loader, 'hook'):
+        if hasaTTW(loader, 'hook'):
             allowedHooks.append(loader.hook)
         if extraHooks is not None:
             allowedHooks.extend(extraHooks)
@@ -1200,14 +1200,14 @@ class OTPClientRepository(ClientRepositoryBase):
                 msg += '\n  %s' % hook
                 for obj in whoAccepts:
                     msg += '\n   OBJECT:%s, %s %s' % (obj, obj.__class__, whoAccepts[obj])
-                    if hasattr(obj, 'getCreationStackTraceCompactStr'):
+                    if hasaTTW(obj, 'getCreationStackTraceCompactStr'):
                         msg += '\n   CREATIONSTACKTRACE:%s' % obj.getCreationStackTraceCompactStr()
                     else:
                         try:
                             value = whoAccepts[obj]
                             callback = value[0]
                             guiObj = callback.im_self
-                            if hasattr(guiObj, 'getCreationStackTraceCompactStr'):
+                            if hasaTTW(guiObj, 'getCreationStackTraceCompactStr'):
                                 msg += '\n   CREATIONSTACKTRACE:%s' % guiObj.getCreationStackTraceCompactStr()
                         except:
                             pass
@@ -1231,10 +1231,10 @@ class OTPClientRepository(ClientRepositoryBase):
                     ival = ivalMgr.getCInterval(i)
                 if ival:
                     print ival
-                    if hasattr(ival, 'debugName'):
+                    if hasaTTW(ival, 'debugName'):
                         print ival.debugName
-                    if hasattr(ival, 'debugInitTraceback'):
-                        print ival.debugInitTraceback
+                    if hasaTTW(ival, 'debugIniTTWaceback'):
+                        print ival.debugIniTTWaceback
 
             print '}'
             self.notify.info("You can't leave until you clean up your intervals.")
@@ -1249,7 +1249,7 @@ class OTPClientRepository(ClientRepositoryBase):
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterGameOff(self):
         self.uberZoneInterest = None
-        if not hasattr(self, 'cleanGameExit'):
+        if not hasaTTW(self, 'cleanGameExit'):
             self.cleanGameExit = True
         if self.cleanGameExit:
             if self.isShardInterestOpen():
@@ -1470,7 +1470,7 @@ class OTPClientRepository(ClientRepositoryBase):
         if not self.SupportTutorial or base.localAvatar.tutorialAck:
             self.gameFSM.request('playGame', [hoodId, zoneId, avId])
         elif base.config.GetBool('force-tutorial', 1):
-            if hasattr(self, 'skipTutorialRequest') and self.skipTutorialRequest:
+            if hasaTTW(self, 'skipTutorialRequest') and self.skipTutorialRequest:
                 self.gameFSM.request('playGame', [hoodId, zoneId, avId])
                 self.gameFSM.request('skipTutorialRequest', [hoodId, zoneId, avId])
             else:
@@ -1564,7 +1564,7 @@ class OTPClientRepository(ClientRepositoryBase):
         return self.secretChatAllowed or self.productName == 'Terra-DMC' and self.isBlue() and self.secretChatAllowed
 
     def allowWhiteListChat(self):
-        if hasattr(self, 'whiteListChatEnabled') and self.whiteListChatEnabled:
+        if hasaTTW(self, 'whiteListChatEnabled') and self.whiteListChatEnabled:
             return True
         else:
             return False
@@ -1941,7 +1941,7 @@ class OTPClientRepository(ClientRepositoryBase):
         dclass = self.dclassesByNumber[classId]
         if self._isInvalidPlayerAvatarGenerate(doId, dclass, parentId, zoneId):
             return
-        deferFor = getattr(dclass.getClassDef(), 'deferFor', 0)
+        deferFor = getaTTW(dclass.getClassDef(), 'deferFor', 0)
         if not self.deferInterval or self.noDefer:
             deferrable = False
         if deferFor == 0:
@@ -1973,7 +1973,7 @@ class OTPClientRepository(ClientRepositoryBase):
         dclass = self.dclassesByNumber[classId]
         if self._isInvalidPlayerAvatarGenerate(doId, dclass, parentId, zoneId):
             return
-        deferFor = getattr(dclass.getClassDef(), 'deferFor', 0)
+        deferFor = getaTTW(dclass.getClassDef(), 'deferFor', 0)
         if not self.deferInterval or self.noDefer:
             deferrable = False
         now = globalClock.getFrameTime()

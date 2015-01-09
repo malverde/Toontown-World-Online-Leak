@@ -155,7 +155,7 @@ class PartyPlanner(DirectFrame, FSM):
         self.prevButton['state'] = DirectGuiGlobals.NORMAL
         self.nextButton.hide()
         defaultInviteTheme = PartyGlobals.InviteTheme.GenericMale
-        if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
+        if hasaTTW(base.cr, 'newsManager') and base.cr.newsManager:
             if ToontownGlobals.VICTORY_PARTY_HOLIDAY in base.cr.newsManager.getHolidayIdList():
                 defaultInviteTheme = PartyGlobals.InviteTheme.VictoryParty
             elif ToontownGlobals.KARTING_TICKETS_HOLIDAY in base.cr.newsManager.getHolidayIdList() or ToontownGlobals.CIRCUIT_RACING_EVENT in base.cr.newsManager.getHolidayIdList():
@@ -364,7 +364,7 @@ class PartyPlanner(DirectFrame, FSM):
 
     def positiveTime(self, type, amount):
         if amount is None:
-            return getattr(self.partyTime, type)
+            return getaTTW(self.partyTime, type)
         if type == 'hour' or type == 'minute':
             if amount < 0:
                 return self.timeTypeToMaxValue[type] + 1 + self.timeTypeToChangeAmount[type][1]
@@ -393,7 +393,7 @@ class PartyPlanner(DirectFrame, FSM):
         if type == 'ampm':
             data = self.getCurrentAmPm()
         else:
-            data = getattr(self.partyTime, type)
+            data = getaTTW(self.partyTime, type)
             if data == 0 and type == 'minute':
                 data = '00'
             else:
@@ -411,17 +411,17 @@ class PartyPlanner(DirectFrame, FSM):
                 label['text'] = newAmount
             else:
                 if type == 'hour':
-                    newAmount = getattr(self.partyTime, type) + amount
+                    newAmount = getaTTW(self.partyTime, type) + amount
                     newAmount = newAmount % 12
                     if self.timeInputAmPmLabel['text'] == TTLocalizer.PartyTimeFormatMeridiemPM:
                         newAmount = newAmount % 12 + 12
                     self.alterPartyTime(hour=newAmount)
                 elif type == 'minute':
-                    newAmount = getattr(self.partyTime, type) + amount
+                    newAmount = getaTTW(self.partyTime, type) + amount
                     self.alterPartyTime(minute=newAmount)
                 else:
                     PartyPlanner.notify.error('Invalid type for changeValue in PartyPlanner: %s' % type)
-                newAmount = getattr(self.partyTime, type)
+                newAmount = getaTTW(self.partyTime, type)
                 if newAmount < 10 and type == 'minute':
                     label['text'] = '0%d' % newAmount
                 else:
@@ -585,7 +585,7 @@ class PartyPlanner(DirectFrame, FSM):
 
     def __handleHolidays(self):
         self.inviteThemes = range(len(PartyGlobals.InviteTheme))
-        if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
+        if hasaTTW(base.cr, 'newsManager') and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
             if ToontownGlobals.VALENTINES_DAY not in holidayIds:
                 self.inviteThemes.remove(PartyGlobals.InviteTheme.Valentoons)
@@ -623,10 +623,10 @@ class PartyPlanner(DirectFrame, FSM):
         self.inviteButton.destroy()
         self.closePlannerButton.destroy()
         self.ignore(self.okWithPartyGroundsLayoutEvent)
-        if hasattr(self, 'okWithGroundsGui'):
+        if hasaTTW(self, 'okWithGroundsGui'):
             self.okWithGroundsGui.cleanup()
             del self.okWithGroundsGui
-        if hasattr(self, 'frame') and not self.frame.isEmpty():
+        if hasaTTW(self, 'frame') and not self.frame.isEmpty():
             messenger.send(self.doneEvent)
             self.hide()
             self.cleanup()
@@ -687,7 +687,7 @@ class PartyPlanner(DirectFrame, FSM):
 
     def __acceptExit(self):
         PartyPlanner.notify.debug('__acceptExit')
-        if hasattr(self, 'frame'):
+        if hasaTTW(self, 'frame'):
             self.hide()
             messenger.send(self.doneEvent)
 
@@ -715,10 +715,10 @@ class PartyPlanner(DirectFrame, FSM):
         return
 
     def okChooseFutureTime(self):
-        if hasattr(self, 'chooseFutureTimeDialog'):
+        if hasaTTW(self, 'chooseFutureTimeDialog'):
             self.chooseFutureTimeDialog.cleanup()
             del self.chooseFutureTimeDialog
-        if hasattr(self, 'okChooseFutureTimeEvent'):
+        if hasaTTW(self, 'okChooseFutureTimeEvent'):
             self.ignore(self.okChooseFutureTimeEvent)
 
     def __prevItem(self):
@@ -733,7 +733,7 @@ class PartyPlanner(DirectFrame, FSM):
         return
 
     def __moneyChange(self, newMoney):
-        if hasattr(self, 'totalMoney'):
+        if hasaTTW(self, 'totalMoney'):
             self.totalMoney = base.localAvatar.getTotalMoney()
-        if hasattr(self, 'beanBank'):
+        if hasaTTW(self, 'beanBank'):
             self.beanBank['text'] = str(int(self.totalMoney))

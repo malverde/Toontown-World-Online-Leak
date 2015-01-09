@@ -49,11 +49,11 @@ class OZSafeZoneLoader(SafeZoneLoader):
         binMgr = CullBinManager.getGlobalPtr()
         binMgr.addBin('water', CullBinManager.BTFixed, 29)
         water = self.geom.find('**/water1*')
-        water.setTransparency(1)
+        water.seTTWansparency(1)
         water.setColorScale(1.0, 1.0, 1.0, 1.0)
         water.setBin('water', 51, 1)
         pool = self.geom.find('**/pPlane5*')
-        pool.setTransparency(1)
+        pool.seTTWansparency(1)
         pool.setColorScale(1.0, 1.0, 1.0, 1.0)
         pool.setBin('water', 50, 1)
         self.geyserModel = loader.loadModel('phase_6/models/golf/golf_geyser_model')
@@ -114,7 +114,7 @@ class OZSafeZoneLoader(SafeZoneLoader):
         self.ignore('clientLogout')
 
     def startGeyser(self, task = None):
-        if hasattr(base.cr, 'DTimer') and base.cr.DTimer:
+        if hasaTTW(base.cr, 'DTimer') and base.cr.DTimer:
             self.geyserCycleTime = 20.0
             useTime = base.cr.DTimer.getTime()
             timeToNextGeyser = 20.0 - useTime % 20.0

@@ -475,7 +475,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.playingAnim = None
         self.soundTeleport = None
         self.cheesyEffect = ToontownGlobals.CENormal
-        self.effectTrack = None
+        self.effecTTWack = None
         self.emoteTrack = None
         self.emote = None
         self.stunTrack = None
@@ -555,16 +555,16 @@ class Toon(Avatar.Avatar, ToonHead):
         self.animFSM.enterInitialState()
 
     def stopAnimations(self):
-        if hasattr(self, 'animFSM'):
+        if hasaTTW(self, 'animFSM'):
             if not self.animFSM.isInternalStateInFlux():
                 self.animFSM.request('off')
             else:
                 self.notify.warning('animFSM in flux, state=%s, not requesting off' % self.animFSM.getCurrentState().getName())
         else:
             self.notify.warning('animFSM has been deleted')
-        if self.effectTrack != None:
-            self.effectTrack.finish()
-            self.effectTrack = None
+        if self.effecTTWack != None:
+            self.effecTTWack.finish()
+            self.effecTTWack = None
         if self.emoteTrack != None:
             self.emoteTrack.finish()
             self.emoteTrack = None
@@ -631,7 +631,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.setDNA(newDNA)
 
     def setDNA(self, dna):
-        if hasattr(self, 'isDisguised'):
+        if hasaTTW(self, 'isDisguised'):
             if self.isDisguised:
                 return
         if self.style:
@@ -754,7 +754,7 @@ class Toon(Avatar.Avatar, ToonHead):
         holeActor3 = Actor.Actor(other=holeActor)
         self.__holeActors = [holeActor, holeActor2, holeActor3]
         for ha in self.__holeActors:
-            if hasattr(self, 'uniqueName'):
+            if hasaTTW(self, 'uniqueName'):
                 holeName = self.uniqueName('toon-portal')
             else:
                 holeName = 'toon-portal'
@@ -776,7 +776,7 @@ class Toon(Avatar.Avatar, ToonHead):
         return bodyScale
 
     def resetHeight(self):
-        if hasattr(self, 'style') and self.style:
+        if hasaTTW(self, 'style') and self.style:
             animal = self.style.getAnimal()
             bodyScale = ToontownGlobals.toonBodyScales[animal]
             headScale = ToontownGlobals.toonHeadScales[animal][2]
@@ -1053,10 +1053,10 @@ class Toon(Avatar.Avatar, ToonHead):
                 if fromRTM:
                     reload(AccessoryGlobals)
                 transOffset = None
-                if AccessoryGlobals.ExtendedHatTransTable.get(hat[0]):
-                    transOffset = AccessoryGlobals.ExtendedHatTransTable[hat[0]].get(self.style.head[:2])
+                if AccessoryGlobals.ExtendedHaTTWansTable.get(hat[0]):
+                    transOffset = AccessoryGlobals.ExtendedHaTTWansTable[hat[0]].get(self.style.head[:2])
                 if transOffset is None:
-                    transOffset = AccessoryGlobals.HatTransTable.get(self.style.head[:2])
+                    transOffset = AccessoryGlobals.HaTTWansTable.get(self.style.head[:2])
                     if transOffset is None:
                         return
                 hatGeom.setPos(transOffset[0][0], transOffset[0][1], transOffset[0][2])
@@ -1244,7 +1244,7 @@ class Toon(Avatar.Avatar, ToonHead):
         return dialogueArray
 
     def getShadowJoint(self):
-        if hasattr(self, 'shadowJoint'):
+        if hasaTTW(self, 'shadowJoint'):
             return self.shadowJoint
         shadowJoint = NodePath('shadowJoint')
         for lodName in self.getLODNames():
@@ -1283,7 +1283,7 @@ class Toon(Avatar.Avatar, ToonHead):
         return self.legsParts
 
     def findSomethingToLookAt(self):
-        if self.randGen.random() < 0.1 or not hasattr(self, 'cr'):
+        if self.randGen.random() < 0.1 or not hasaTTW(self, 'cr'):
             x = self.randGen.choice((-0.8,
              -0.5,
              0,
@@ -1297,7 +1297,7 @@ class Toon(Avatar.Avatar, ToonHead):
             return
         nodePathList = []
         for id, obj in self.cr.doId2do.items():
-            if hasattr(obj, 'getStareAtNodeAndOffset') and obj != self:
+            if hasaTTW(obj, 'getStareAtNodeAndOffset') and obj != self:
                 node, offset = obj.getStareAtNodeAndOffset()
                 if node.getY(self) > 0.0:
                     nodePathList.append((node, offset))
@@ -1627,7 +1627,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def enterDive(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
         self.loop('swim')
-        if hasattr(self.getGeomNode(), 'setPos'):
+        if hasaTTW(self.getGeomNode(), 'setPos'):
             self.getGeomNode().setPos(0, 0, -2)
             self.setPlayRate(animMultiplier, 'swim')
             self.setActiveShadow(0)
@@ -1665,7 +1665,7 @@ class Toon(Avatar.Avatar, ToonHead):
         Emote.globalEmote.releaseAll(self, 'exitSwim')
 
     def startBobSwimTask(self):
-        swimBob = getattr(self, 'swimBob', None)
+        swimBob = getaTTW(self, 'swimBob', None)
         if swimBob:
             swimBob.finish()
         self.getGeomNode().setZ(4.0)
@@ -1674,7 +1674,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.swimBob.loop()
 
     def stopBobSwimTask(self):
-        swimBob = getattr(self, 'swimBob', None)
+        swimBob = getaTTW(self, 'swimBob', None)
         if swimBob:
             swimBob.finish()
         self.getGeomNode().setPos(0, 0, 0)
@@ -1690,7 +1690,7 @@ class Toon(Avatar.Avatar, ToonHead):
             bookTracks.append(ActorInterval(bookActor, 'book', startTime=1.2, endTime=1.5))
 
         bookTracks.append(ActorInterval(self, 'book', startTime=1.2, endTime=1.5))
-        if hasattr(self, 'uniqueName'):
+        if hasaTTW(self, 'uniqueName'):
             trackName = self.uniqueName('openBook')
         else:
             trackName = 'openBook'
@@ -1742,7 +1742,7 @@ class Toon(Avatar.Avatar, ToonHead):
             bookTracks.append(ActorInterval(bookActor, 'book', startTime=4.96, endTime=6.5))
 
         bookTracks.append(ActorInterval(self, 'book', startTime=4.96, endTime=6.5))
-        if hasattr(self, 'uniqueName'):
+        if hasaTTW(self, 'uniqueName'):
             trackName = self.uniqueName('closeBook')
         else:
             trackName = 'closeBook'
@@ -1768,7 +1768,7 @@ class Toon(Avatar.Avatar, ToonHead):
             self.soundTeleport = base.loadSfx('phase_3.5/audio/sfx/AV_teleport.ogg')
         return self.soundTeleport
 
-    def getTeleportOutTrack(self, autoFinishTrack = 1):
+    def getTeleportOuTTWack(self, autoFinishTrack = 1):
 
         def showHoles(holes, hands):
             for hole, hand in zip(holes, hands):
@@ -1791,7 +1791,7 @@ class Toon(Avatar.Avatar, ToonHead):
         holes = self.getHoleActors()
         hands = self.getRightHands()
         holeTrack = Track((0.0, Func(showHoles, holes, hands)), (0.5, SoundInterval(self.getSoundTeleport(), node=self)), (1.708, Func(reparentHoles, holes, self)), (2.9, Func(self.dropShadow.hide)), (3.4, Parallel(Func(self.nametag3d.hide), Func(cleanupHoles, holes))))
-        if hasattr(self, 'uniqueName'):
+        if hasaTTW(self, 'uniqueName'):
             trackName = self.uniqueName('teleportOut')
         else:
             trackName = 'teleportOut'
@@ -1810,7 +1810,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def enterTeleportOut(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
         name = self.name
-        if hasattr(self, 'doId'):
+        if hasaTTW(self, 'doId'):
             name += '-' + str(self.doId)
         self.notify.debug('enterTeleportOut %s' % name)
         if self.ghostMode or self.isDisguised:
@@ -1823,7 +1823,7 @@ class Toon(Avatar.Avatar, ToonHead):
             autoFinishTrack = 0
         else:
             autoFinishTrack = 1
-        self.track = self.getTeleportOutTrack(autoFinishTrack)
+        self.track = self.getTeleportOuTTWack(autoFinishTrack)
         self.track.setDoneEvent(self.track.getName())
         self.acceptOnce(self.track.getName(), self.finishTeleportOut, [callback, extraArgs])
         holeClip = PlaneNode('holeClip')
@@ -1835,7 +1835,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def finishTeleportOut(self, callback = None, extraArgs = []):
         name = self.name
-        if hasattr(self, 'doId'):
+        if hasaTTW(self, 'doId'):
             name += '-' + str(self.doId)
         self.notify.debug('finishTeleportOut %s' % name)
         if self.track != None:
@@ -1843,7 +1843,7 @@ class Toon(Avatar.Avatar, ToonHead):
             self.track.finish()
             DelayDelete.cleanupDelayDeletes(self.track)
             self.track = None
-        if hasattr(self, 'animFSM'):
+        if hasaTTW(self, 'animFSM'):
             self.animFSM.request('TeleportedOut')
         if callback:
             callback(*extraArgs)
@@ -1851,7 +1851,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def exitTeleportOut(self):
         name = self.name
-        if hasattr(self, 'doId'):
+        if hasaTTW(self, 'doId'):
             name += '-' + str(self.doId)
         self.notify.debug('exitTeleportOut %s' % name)
         if self.track != None:
@@ -1879,7 +1879,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def getDiedInterval(self, autoFinishTrack = 1):
         sound = loader.loadSfx('phase_5/audio/sfx/ENC_Lose.ogg')
-        if hasattr(self, 'uniqueName'):
+        if hasaTTW(self, 'uniqueName'):
             trackName = self.uniqueName('died')
         else:
             trackName = 'died'
@@ -1899,7 +1899,7 @@ class Toon(Avatar.Avatar, ToonHead):
             autoFinishTrack = 0
         else:
             autoFinishTrack = 1
-        if hasattr(self, 'jumpLandAnimFixTask') and self.jumpLandAnimFixTask:
+        if hasaTTW(self, 'jumpLandAnimFixTask') and self.jumpLandAnimFixTask:
             self.jumpLandAnimFixTask.remove()
             self.jumpLandAnimFixTask = None
         self.track = self.getDiedInterval(autoFinishTrack)
@@ -1915,7 +1915,7 @@ class Toon(Avatar.Avatar, ToonHead):
             self.track.finish()
             DelayDelete.cleanupDelayDeletes(self.track)
             self.track = None
-        if hasattr(self, 'animFSM'):
+        if hasaTTW(self, 'animFSM'):
             self.animFSM.request('TeleportedOut')
         if callback:
             callback(*extraArgs)
@@ -1933,7 +1933,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def getPlaygroundDiedInterval(self, autoFinishTrack = 1):
         sound = loader.loadSfx('phase_5/audio/sfx/ENC_Lose.ogg')
-        if hasattr(self, 'uniqueName'):
+        if hasaTTW(self, 'uniqueName'):
             trackName = self.uniqueName('playgroundDied')
         else:
             trackName = 'playgroundDied'
@@ -1953,7 +1953,7 @@ class Toon(Avatar.Avatar, ToonHead):
             autoFinishTrack = 0
         else:
             autoFinishTrack = 1
-        if hasattr(self, 'jumpLandAnimFixTask') and self.jumpLandAnimFixTask:
+        if hasaTTW(self, 'jumpLandAnimFixTask') and self.jumpLandAnimFixTask:
             self.jumpLandAnimFixTask.remove()
             self.jumpLandAnimFixTask = None
         self.track = self.getPlaygroundDiedInterval(autoFinishTrack)
@@ -2004,7 +2004,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
         holeTrack.append(Func(restoreHole, hole))
         toonTrack = Sequence(Wait(0.3), Func(self.getGeomNode().show), Func(self.nametag3d.show), Func(self.dropShadow.show), ActorInterval(self, 'jump', startTime=0.45))
-        if hasattr(self, 'uniqueName'):
+        if hasaTTW(self, 'uniqueName'):
             trackName = self.uniqueName('teleportIn')
         else:
             trackName = 'teleportIn'
@@ -2263,35 +2263,35 @@ class Toon(Avatar.Avatar, ToonHead):
         return results
 
     def applyCheesyEffect(self, effect, lerpTime = 0):
-        if self.effectTrack != None:
-            self.effectTrack.finish()
-            self.effectTrack = None
+        if self.effecTTWack != None:
+            self.effecTTWack.finish()
+            self.effecTTWack = None
         if self.cheesyEffect != effect:
             oldEffect = self.cheesyEffect
             self.cheesyEffect = effect
             if oldEffect == ToontownGlobals.CENormal:
-                self.effectTrack = self.__doCheesyEffect(effect, lerpTime)
+                self.effecTTWack = self.__doCheesyEffect(effect, lerpTime)
             elif effect == ToontownGlobals.CENormal:
-                self.effectTrack = self.__undoCheesyEffect(oldEffect, lerpTime)
+                self.effecTTWack = self.__undoCheesyEffect(oldEffect, lerpTime)
             else:
-                self.effectTrack = Sequence(self.__undoCheesyEffect(oldEffect, lerpTime / 2.0), self.__doCheesyEffect(effect, lerpTime / 2.0))
-            self.effectTrack.start()
+                self.effecTTWack = Sequence(self.__undoCheesyEffect(oldEffect, lerpTime / 2.0), self.__doCheesyEffect(effect, lerpTime / 2.0))
+            self.effecTTWack.start()
         return
 
     def reapplyCheesyEffect(self, lerpTime = 0):
-        if self.effectTrack != None:
-            self.effectTrack.finish()
-            self.effectTrack = None
+        if self.effecTTWack != None:
+            self.effecTTWack.finish()
+            self.effecTTWack = None
         effect = self.cheesyEffect
-        self.effectTrack = Sequence(self.__undoCheesyEffect(effect, 0), self.__doCheesyEffect(effect, lerpTime))
-        self.effectTrack.start()
+        self.effecTTWack = Sequence(self.__undoCheesyEffect(effect, 0), self.__doCheesyEffect(effect, lerpTime))
+        self.effecTTWack.start()
         return
 
     def clearCheesyEffect(self, lerpTime = 0):
         self.applyCheesyEffect(ToontownGlobals.CENormal, lerpTime=lerpTime)
-        if self.effectTrack != None:
-            self.effectTrack.finish()
-            self.effectTrack = None
+        if self.effecTTWack != None:
+            self.effecTTWack.finish()
+            self.effecTTWack = None
         return
 
     def __doHeadScale(self, scale, lerpTime):
@@ -2334,7 +2334,7 @@ class Toon(Avatar.Avatar, ToonHead):
         node = self.getGeomNode()
         caps = self.getPieces(('torso', 'torso-bot-cap'))
         track = Sequence()
-        track.append(Func(node.setTransparency, 1))
+        track.append(Func(node.seTTWansparency, 1))
         if scale[3] != 1:
             for cap in caps:
                 track.append(HideInterval(cap))
@@ -2375,7 +2375,7 @@ class Toon(Avatar.Avatar, ToonHead):
                 self.notify.debug('hideParts')
                 for head in self.headParts:
                     for p in head.getChildren():
-                        if hasattr(self, 'pumpkins') and not self.pumpkins.hasPath(p):
+                        if hasaTTW(self, 'pumpkins') and not self.pumpkins.hasPath(p):
                             p.hide()
                             p.setTag('pumpkin', 'enabled')
 
@@ -2514,7 +2514,7 @@ class Toon(Avatar.Avatar, ToonHead):
             dna = ToonDNA.ToonDNA()
             dna.newToonFromProperties('dll', 'ls', 'l', 'm', 19, 0, 21, 8, 4, 0, 4, 0, 7, 15)
             rogerTrack.append(Func(self.updateToonDNA, dna, True))
-            if hasattr(self, 'animFSM'):
+            if hasaTTW(self, 'animFSM'):
                 state = self.animFSM.getCurrentState()
                 rogerTrack.append(Func(self.animFSM.request, 'off'))
                 rogerTrack.append(Func(self.animFSM.request, state))
@@ -2522,7 +2522,7 @@ class Toon(Avatar.Avatar, ToonHead):
             rogerTrack.append(Func(self.setHat, 24, 0, 0))
         else:
             rogerTrack.append(Func(self.updateToonDNA, self.oldStyle))
-            if hasattr(self, 'animFSM'):
+            if hasaTTW(self, 'animFSM'):
                 state = self.animFSM.getCurrentState()
                 rogerTrack.append(Func(self.animFSM.request, 'off'))
                 rogerTrack.append(Func(self.animFSM.request, state))
@@ -2555,14 +2555,14 @@ class Toon(Avatar.Avatar, ToonHead):
             dna = ToonDNA.ToonDNA()
             dna.newToonFromProperties('dss', 'ms', 'm', 'm', 17, 0, 17, 17, 3, 3, 3, 3, 7, 2)
             flippyTrack.append(Func(self.updateToonDNA, dna, True))
-            if hasattr(self, 'animFSM'):
+            if hasaTTW(self, 'animFSM'):
                 state = self.animFSM.getCurrentState()
                 flippyTrack.append(Func(self.animFSM.request, 'off'))
                 flippyTrack.append(Func(self.animFSM.request, state))
             flippyTrack.append(Func(self.nametag.setDisplayName, 'Flippy'))
         else:
             flippyTrack.append(Func(self.updateToonDNA, self.oldStyle))
-            if hasattr(self, 'animFSM'):
+            if hasaTTW(self, 'animFSM'):
                 state = self.animFSM.getCurrentState()
                 flippyTrack.append(Func(self.animFSM.request, 'off'))
                 flippyTrack.append(Func(self.animFSM.request, state))
@@ -2595,14 +2595,14 @@ class Toon(Avatar.Avatar, ToonHead):
             dna = ToonDNA.ToonDNA()
             dna.newToonFromProperties('pls', 'ls', 'l', 'm', 9, 0, 9, 9, 98, 27, 86, 27, 38, 27)
             surleeTrack.append(Func(self.updateToonDNA, dna, True))
-            if hasattr(self, 'animFSM'):
+            if hasaTTW(self, 'animFSM'):
                 state = self.animFSM.getCurrentState()
                 surleeTrack.append(Func(self.animFSM.request, 'off'))
                 surleeTrack.append(Func(self.animFSM.request, state))
             surleeTrack.append(Func(self.nametag.setDisplayName, 'Doctor Surlee'))
         else:
             surleeTrack.append(Func(self.updateToonDNA, self.oldStyle))
-            if hasattr(self, 'animFSM'):
+            if hasaTTW(self, 'animFSM'):
                 state = self.animFSM.getCurrentState()
                 surleeTrack.append(Func(self.animFSM.request, 'off'))
                 surleeTrack.append(Func(self.animFSM.request, state))
@@ -2718,7 +2718,7 @@ class Toon(Avatar.Avatar, ToonHead):
         for thingIndex in range(0, actorCollection.getNumPaths()):
             thing = actorCollection[thingIndex]
             if thing.getName() not in ('joint_attachMeter', 'joint_nameTag'):
-                thing.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd))
+                thing.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd))
                 thing.setDepthWrite(False)
                 self.setBin('fixed', 1)
 
@@ -2727,11 +2727,11 @@ class Toon(Avatar.Avatar, ToonHead):
         for thingIndex in range(0, actorCollection.getNumPaths()):
             thing = actorCollection[thingIndex]
             if thing.getName() not in ('joint_attachMeter', 'joint_nameTag'):
-                thing.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MNone))
+                thing.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MNone))
                 thing.setDepthWrite(True)
                 self.setBin('default', 0)
                 if alpha:
-                    thing.setTransparency(1)
+                    thing.seTTWansparency(1)
                     thing.setBin('transparent', 0)
 
     def __doToonGhostColorScale(self, scale, lerpTime, keepDefault = 0):
@@ -2742,7 +2742,7 @@ class Toon(Avatar.Avatar, ToonHead):
         node = self.getGeomNode()
         caps = self.getPieces(('torso', 'torso-bot-cap'))
         track = Sequence()
-        track.append(Func(node.setTransparency, 1))
+        track.append(Func(node.seTTWansparency, 1))
         track.append(ShowInterval(node))
         if scale[3] != 1:
             for cap in caps:
@@ -2765,7 +2765,7 @@ class Toon(Avatar.Avatar, ToonHead):
             if self.defaultColorScale:
                 node.setColorScale(self.defaultColorScale)
                 if self.defaultColorScale[3] != 1:
-                    node.setTransparency(1)
+                    node.seTTWansparency(1)
                 else:
                     node.clearTransparency()
             else:
@@ -2786,7 +2786,7 @@ class Toon(Avatar.Avatar, ToonHead):
         node = self.getGeomNode()
         pieces = self.getPieces(('torso', ('arms', 'neck')), ('legs', ('legs', 'feet')), ('head', '+GeomNode'))
         track = Sequence()
-        track.append(Func(node.setTransparency, 1))
+        track.append(Func(node.seTTWansparency, 1))
         for piece in pieces:
             if piece.getName()[:7] == 'muzzle-' and piece.getName()[-8:] != '-neutral':
                 continue
@@ -2953,7 +2953,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.setHeight(suit.getHeight())
         self.nametag3d.setPos(0, 0, self.height + 1.3)
         if self.isLocal():
-            if hasattr(self, 'book'):
+            if hasaTTW(self, 'book'):
                 self.book.obscureButton(1)
             self.oldForward = ToontownGlobals.ToonForwardSpeed
             self.oldReverse = ToontownGlobals.ToonReverseSpeed
@@ -2963,7 +2963,7 @@ class Toon(Avatar.Avatar, ToonHead):
             ToontownGlobals.ToonRotateSpeed = ToontownGlobals.ToonRotateSlowSpeed
             if self.hasTrackAnimToSpeed():
                 self.stopTrackAnimToSpeed()
-                self.startTrackAnimToSpeed()
+                self.starTTWackAnimToSpeed()
             self.controlManager.disableAvatarJump()
             indices = range(OTPLocalizer.SCMenuCommonCogIndices[0], OTPLocalizer.SCMenuCommonCogIndices[1] + 1)
             customIndices = OTPLocalizer.SCMenuCustomCogIndices[suitType]
@@ -2974,12 +2974,12 @@ class Toon(Avatar.Avatar, ToonHead):
         self.setFont(ToontownGlobals.getSuitFont())
         self.setSpeechFont(ToontownGlobals.getSuitFont())
         if setDisplayName:
-            if hasattr(base, 'idTags') and base.idTags:
+            if hasaTTW(base, 'idTags') and base.idTags:
                 name = self.getAvIdName()
             else:
                 name = self.getName()
             suitDept = SuitDNA.suitDepts.index(SuitDNA.getSuitDept(suitType))
-            suitName = SuitBattleGlobals.SuitAttributes[suitType]['name']
+            suitName = SuitBattleGlobals.SuitATTWibutes[suitType]['name']
             self.nametag.setDisplayName(TTLocalizer.SuitBaseNameWithLevel % {'name': name,
              'dept': suitName,
              'level': self.cogLevels[suitDept] + 1})
@@ -3008,20 +3008,20 @@ class Toon(Avatar.Avatar, ToonHead):
         self.setFont(ToontownGlobals.getToonFont())
         self.setSpeechFont(ToontownGlobals.getToonFont())
         self.nametag.setWordwrap(None)
-        if hasattr(base, 'idTags') and base.idTags:
+        if hasaTTW(base, 'idTags') and base.idTags:
             name = self.getAvIdName()
         else:
             name = self.getName()
         self.setDisplayName(name)
         if self.isLocal():
-            if hasattr(self, 'book'):
+            if hasaTTW(self, 'book'):
                 self.book.obscureButton(0)
             ToontownGlobals.ToonForwardSpeed = self.oldForward
             ToontownGlobals.ToonReverseSpeed = self.oldReverse
             ToontownGlobals.ToonRotateSpeed = self.oldRotate
             if self.hasTrackAnimToSpeed():
                 self.stopTrackAnimToSpeed()
-                self.startTrackAnimToSpeed()
+                self.starTTWackAnimToSpeed()
             del self.oldForward
             del self.oldReverse
             del self.oldRotate
@@ -3208,7 +3208,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def enterScientistJealous(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
         self.loop('scientistJealous')
-        if hasattr(self, 'showScientistProp'):
+        if hasaTTW(self, 'showScientistProp'):
             self.showScientistProp()
 
     def exitScientistJealous(self):
@@ -3234,7 +3234,7 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def enterScientistPlay(self, animMultiplier = 1, ts = 0, callback = None, extraArgs = []):
         self.loop('scientistGame')
-        if hasattr(self, 'scientistPlay'):
+        if hasaTTW(self, 'scientistPlay'):
             self.scientistPlay()
 
     def exitScientistPlay(self):

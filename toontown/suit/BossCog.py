@@ -261,12 +261,12 @@ class BossCog(Avatar.Avatar):
 
         return LerpFunctionInterval(rollTexMatrix, fromData=start, toData=start + rate * duration, duration=duration)
 
-    def rollLeftTreads(self, duration, rate):
+    def rollLefTTWeads(self, duration, rate):
         start = self.treadsLeftPos
         self.treadsLeftPos += duration * rate
         return self.__rollTreadsInterval(self.treadsLeft, start=start, duration=duration, rate=rate)
 
-    def rollRightTreads(self, duration, rate):
+    def rollRighTTWeads(self, duration, rate):
         start = self.treadsRightPos
         self.treadsRightPos += duration * rate
         return self.__rollTreadsInterval(self.treadsRight, start=start, duration=duration, rate=rate)

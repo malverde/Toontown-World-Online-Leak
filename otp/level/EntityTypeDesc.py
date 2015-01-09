@@ -1,5 +1,5 @@
 from direct.directnotify import DirectNotifyGlobal
-import AttribDesc
+import ATTWibDesc
 from direct.showbase.PythonUtil import mostDerivedLast
 
 class EntityTypeDesc:
@@ -7,14 +7,14 @@ class EntityTypeDesc:
     output = None
 
     def __init__(self):
-        self.__class__.privCompileAttribDescs(self.__class__)
-        self.attribNames = []
-        self.attribDescDict = {}
-        attribDescs = self.__class__._attribDescs
-        for desc in attribDescs:
-            attribName = desc.getName()
-            self.attribNames.append(attribName)
-            self.attribDescDict[attribName] = desc
+        self.__class__.privCompileATTWibDescs(self.__class__)
+        self.aTTWibNames = []
+        self.aTTWibDescDict = {}
+        aTTWibDescs = self.__class__._aTTWibDescs
+        for desc in aTTWibDescs:
+            aTTWibName = desc.getName()
+            self.aTTWibNames.append(aTTWibName)
+            self.aTTWibDescDict[aTTWibName] = desc
 
     def isConcrete(self):
         return not self.__class__.__dict__.has_key('abstract')
@@ -25,61 +25,61 @@ class EntityTypeDesc:
     def getOutputType(self):
         return self.output
 
-    def getAttribNames(self):
-        return self.attribNames
+    def getATTWibNames(self):
+        return self.aTTWibNames
 
-    def getAttribDescDict(self):
-        return self.attribDescDict
+    def getATTWibDescDict(self):
+        return self.aTTWibDescDict
 
-    def getAttribsOfType(self, type):
+    def getATTWibsOfType(self, type):
         names = []
-        for attribName, desc in self.attribDescDict.items():
+        for aTTWibName, desc in self.aTTWibDescDict.items():
             if desc.getDatatype() == type:
-                names.append(attribName)
+                names.append(aTTWibName)
 
         return names
 
     @staticmethod
-    def privCompileAttribDescs(entTypeClass):
-        if entTypeClass.__dict__.has_key('_attribDescs'):
+    def privCompileATTWibDescs(entTypeClass):
+        if entTypeClass.__dict__.has_key('_aTTWibDescs'):
             return
         c = entTypeClass
-        EntityTypeDesc.notify.debug('compiling attrib descriptors for %s' % c.__name__)
+        EntityTypeDesc.notify.debug('compiling aTTWib descriptors for %s' % c.__name__)
         for base in c.__bases__:
-            EntityTypeDesc.privCompileAttribDescs(base)
+            EntityTypeDesc.privCompileATTWibDescs(base)
 
-        blockAttribs = c.__dict__.get('blockAttribs', [])
+        blockATTWibs = c.__dict__.get('blockATTWibs', [])
         baseADs = []
         bases = list(c.__bases__)
         mostDerivedLast(bases)
         for base in bases:
-            for desc in base._attribDescs:
-                if desc.getName() in blockAttribs:
+            for desc in base._aTTWibDescs:
+                if desc.getName() in blockATTWibs:
                     continue
                 for d in baseADs:
                     if desc.getName() == d.getName():
-                        EntityTypeDesc.notify.warning('%s inherits attrib %s from multiple bases' % (c.__name__, desc.getName()))
+                        EntityTypeDesc.notify.warning('%s inherits aTTWib %s from multiple bases' % (c.__name__, desc.getName()))
                         break
                 else:
                     baseADs.append(desc)
 
-        attribDescs = []
-        if c.__dict__.has_key('attribs'):
-            for attrib in c.attribs:
-                desc = AttribDesc.AttribDesc(*attrib)
+        aTTWibDescs = []
+        if c.__dict__.has_key('aTTWibs'):
+            for aTTWib in c.aTTWibs:
+                desc = ATTWibDesc.ATTWibDesc(*aTTWib)
                 if desc.getName() == 'type' and entTypeClass.__name__ != 'Entity':
-                    EntityTypeDesc.notify.error("(%s): '%s' is a reserved attribute name" % (entTypeClass.__name__, desc.getName()))
+                    EntityTypeDesc.notify.error("(%s): '%s' is a reserved aTTWibute name" % (entTypeClass.__name__, desc.getName()))
                 for ad in baseADs:
                     if ad.getName() == desc.getName():
                         baseADs.remove(ad)
                         break
 
-                attribDescs.append(desc)
+                aTTWibDescs.append(desc)
 
-        c._attribDescs = baseADs + attribDescs
+        c._aTTWibDescs = baseADs + aTTWibDescs
 
     def __str__(self):
         return str(self.__class__)
 
     def __repr__(self):
-        return str(self.__class__.__dict__.get('type', None)) + str(self.output) + str(self.attribDescDict)
+        return str(self.__class__.__dict__.get('type', None)) + str(self.output) + str(self.aTTWibDescDict)

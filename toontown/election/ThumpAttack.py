@@ -25,7 +25,7 @@ class ThumpAttack(NodePath, DirectObject):
         
         self.geom = self.attachNewNode(self.cm.generate())
         self.geom.setP(-90)
-        self.geom.setTransparency(1)
+        self.geom.seTTWansparency(1)
         self.geom.setDepthWrite(0)
         self.geom.setDepthTest(0)
         self.geom.setBin('shadow', 0)
@@ -77,7 +77,7 @@ class ThumpAttack(NodePath, DirectObject):
             return # Too far inside, not on the front of the shockwave.
 
         # Are they on the ground?
-        if getattr(base.localAvatar.controlManager.currentControls, 'isAirborne', 0):
+        if getaTTW(base.localAvatar.controlManager.currentControls, 'isAirborne', 0):
             return # Yeah, we're safe.
 
         self.ignoreAll() # Ignore subsequent collisions.

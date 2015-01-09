@@ -65,16 +65,16 @@ def addRing(attachNode, color, vertexCount, radius, layer = 0, thickness = 1.0):
         targetCircleVertexWriter.addData3f(0.0 + vertex[0], 0.0 + vertex[1], zFloat)
         targetCircleColorWriter.addData4f(1.0, 1.0, 1.0, 1.0)
 
-    targetTris = GeomTristrips(Geom.UHStatic)
+    targeTTWis = GeomTristrips(Geom.UHStatic)
     sizeTarget = len(targetCircleShape)
     for countVertex in range(0, sizeTarget):
-        targetTris.addVertex(countVertex)
+        targeTTWis.addVertex(countVertex)
 
-    targetTris.addVertex(0)
-    targetTris.addVertex(1)
-    targetTris.closePrimitive()
+    targeTTWis.addVertex(0)
+    targeTTWis.addVertex(1)
+    targeTTWis.closePrimitive()
     targetGeom = Geom(targetCircleVertexData)
-    targetGeom.addPrimitive(targetTris)
+    targetGeom.addPrimitive(targeTTWis)
     attachNode.addGeom(targetGeom)
     return targetGeom
 
@@ -93,16 +93,16 @@ def addCircle(attachNode, color, vertexCount, radius, layer = 0):
         targetCircleVertexWriter.addData3f(0.0 + vertex[0], 0.0 + vertex[1], zFloat)
         targetCircleColorWriter.addData4f(1.0, 1.0, 1.0, 1.0)
 
-    targetTris = GeomTrifans(Geom.UHStatic)
+    targeTTWis = GeomTrifans(Geom.UHStatic)
     sizeTarget = len(targetCircleShape)
-    targetTris.addVertex(0)
+    targeTTWis.addVertex(0)
     for countVertex in range(1, sizeTarget + 1):
-        targetTris.addVertex(countVertex)
+        targeTTWis.addVertex(countVertex)
 
-    targetTris.addVertex(1)
-    targetTris.closePrimitive()
+    targeTTWis.addVertex(1)
+    targeTTWis.closePrimitive()
     targetGeom = Geom(targetCircleVertexData)
-    targetGeom.addPrimitive(targetTris)
+    targetGeom.addPrimitive(targeTTWis)
     attachNode.addGeom(targetGeom)
     return targetGeom
 
@@ -308,14 +308,14 @@ class DistributedTargetGame(DistributedMinigame):
         skyModel.setBin('ground', 2)
         skyModel2.setZ(63.0)
         skyModel2.setDepthWrite(0)
-        skyModel2.setTransparency(1)
+        skyModel2.seTTWansparency(1)
         skyModel2.setColorScale(1.0, 1.0, 1.0, 1.0)
         skyModel2.setTwoSided(True)
         skyModel2.setBin('fixed', 3)
         skyModel2.setR(180)
         skyModel3.setZ(50.0)
         skyModel3.setDepthWrite(0)
-        skyModel3.setTransparency(1)
+        skyModel3.seTTWansparency(1)
         skyModel3.setColorScale(1.0, 1.0, 1.0, 1.0)
         skyModel3.setTwoSided(True)
         skyModel3.setBin('fixed', 4)
@@ -385,7 +385,7 @@ class DistributedTargetGame(DistributedMinigame):
         return
 
     def addSound(self, name, soundName, path = None):
-        if not hasattr(self, 'soundTable'):
+        if not hasaTTW(self, 'soundTable'):
             self.soundTable = {}
         if path:
             self.soundPath = path
@@ -393,7 +393,7 @@ class DistributedTargetGame(DistributedMinigame):
         self.soundTable[name] = loader.loadSfx(soundSource)
 
     def playSound(self, name, volume = 1.0):
-        if hasattr(self, 'soundTable'):
+        if hasaTTW(self, 'soundTable'):
             self.soundTable[name].setVolume(volume)
             self.soundTable[name].play()
 
@@ -465,7 +465,7 @@ class DistributedTargetGame(DistributedMinigame):
                     targetNodePathGeom.setColorScale(self.targetColors[combinedIndex]['Red'], self.targetColors[combinedIndex]['Green'], self.targetColors[combinedIndex]['Blue'], self.targetColors[combinedIndex]['Alpha'])
                     targetNodePathGeom.setDepthWrite(False)
                     targetNodePathGeom.setDepthTest(False)
-                    targetNodePathGeom.setTransparency(TransparencyAttrib.MAlpha)
+                    targetNodePathGeom.seTTWansparency(TransparencyATTWib.MAlpha)
                     self.targetsPlaced.append((placeX,
                      placeY,
                      combinedIndex,
@@ -501,7 +501,7 @@ class DistributedTargetGame(DistributedMinigame):
             targetNodePathGeom.setColorScale(self.jumpColor['Red'], self.jumpColor['Green'], self.jumpColor['Blue'], 0.25)
             targetNodePathGeom.setBin('ground', 20)
             targetNodePathGeom.setDepthWrite(True)
-            targetNodePathGeom.setTransparency(TransparencyAttrib.MAlpha)
+            targetNodePathGeom.seTTWansparency(TransparencyATTWib.MAlpha)
 
         cactusCount = 30
         for cactus in range(cactusCount):
@@ -1002,7 +1002,7 @@ class DistributedTargetGame(DistributedMinigame):
             targetNodePathGeom.setBin('ground', hitTarget[2] * 2 + 100)
             targetNodePathGeom.setDepthWrite(False)
             targetNodePathGeom.setDepthTest(False)
-            targetNodePathGeom.setTransparency(TransparencyAttrib.MAlpha)
+            targetNodePathGeom.seTTWansparency(TransparencyATTWib.MAlpha)
             self.targetMarker = targetNodePathGeom
         score = topValue
         self.localTrack = Sequence()
@@ -1320,7 +1320,7 @@ class DistributedTargetGame(DistributedMinigame):
             pos[0] = -TargetGameGlobals.MAX_FIELD_SPAN
             self.laterial = 0
         self.getAvatar(self.localAvId).setPos(pos[0], pos[1], pos[2])
-        if hasattr(self, 'cTrav'):
+        if hasaTTW(self, 'cTrav'):
             self.cTrav.traverse(render)
         if stateName in ['fly', 'fall', 'bouncing']:
             self.__posBroadcast(dt)

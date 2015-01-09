@@ -91,7 +91,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
             self.notify.warning('Illegal phase transition requested')
 
     def startIfNeeded(self):
-        if hasattr(simbase.air, 'holidayManager') and simbase.air.holidayManager:
+        if hasaTTW(simbase.air, 'holidayManager') and simbase.air.holidayManager:
             self.curPhase = self.getPhaseToRun()
             if self.curPhase != -1:
                 self.selectPhase(self.curPhase)
@@ -100,7 +100,7 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
         result = -1
         enoughInfoToRun = False
         if simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or simbase.air.holidayManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-            if hasattr(simbase.air, 'SillyMeterMgr'):
+            if hasaTTW(simbase.air, 'SillyMeterMgr'):
                 enoughInfoToRun = True
             else:
                 self.notify.debug('simbase.air does not have SillyMeterMgr')
@@ -234,6 +234,6 @@ class DistributedNPCScientistAI(DistributedNPCToonBaseAI.DistributedNPCToonBaseA
 
     def delete(self):
         self.scientistFSM.requestFinalState()
-        if hasattr(self, 'scientistFSM'):
+        if hasaTTW(self, 'scientistFSM'):
             del self.scientistFSM
         DistributedNPCToonBaseAI.DistributedNPCToonBaseAI.delete(self)

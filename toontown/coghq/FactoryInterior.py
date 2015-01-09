@@ -89,7 +89,7 @@ class FactoryInterior(BattlePlace.BattlePlace):
             base.playMusic(self.music, looping=1, volume=0.8)
             base.transitions.irisIn()
 
-        if hasattr(base, 'factoryReady'):
+        if hasaTTW(base, 'factoryReady'):
             commence()
         else:
             self.acceptOnce('FactoryReady', commence)
@@ -108,7 +108,7 @@ class FactoryInterior(BattlePlace.BattlePlace):
         NametagGlobals.setMasterArrowsOn(0)
         self._telemLimiter.destroy()
         del self._telemLimiter
-        if hasattr(base, 'factoryReady'):
+        if hasaTTW(base, 'factoryReady'):
             del base.factoryReady
         base.localAvatar.inventory.setRespectInvasions(1)
         self.fsm.requestFinalState()
@@ -212,7 +212,7 @@ class FactoryInterior(BattlePlace.BattlePlace):
         self.notify.debug('handling elevator done event')
         where = doneStatus['where']
         if where == 'reject':
-            if hasattr(base.localAvatar, 'elevatorNotifier') and base.localAvatar.elevatorNotifier.isNotifierOpen():
+            if hasaTTW(base.localAvatar, 'elevatorNotifier') and base.localAvatar.elevatorNotifier.isNotifierOpen():
                 pass
             else:
                 self.fsm.request('walk')
@@ -273,6 +273,6 @@ class FactoryInterior(BattlePlace.BattlePlace):
 
     def exitFLA(self):
         FactoryInterior.notify.info('exitFLA')
-        if hasattr(self, 'flaDialog'):
+        if hasaTTW(self, 'flaDialog'):
             self.flaDialog.cleanup()
             del self.flaDialog

@@ -48,7 +48,7 @@ class AccountDB:
 
     def storeAccountID(self, userId, accountId, callback):
         self.dbm[str(userId)] = str(accountId)  # anydbm only allows strings.
-        if getattr(self.dbm, 'sync', None):
+        if getaTTW(self.dbm, 'sync', None):
             self.dbm.sync()
             callback(True)
         else:
@@ -849,7 +849,7 @@ class LoadAvatarFSM(AvatarOperationFSM):
         datagram.addChannel(self.target<<32 | self.avId)
         self.csm.air.send(datagram)
 
-        # Tell TTRFriendsManager somebody is logging in:
+        # Tell TTWFriendsManager somebody is logging in:
         self.csm.air.friendsManager.toonOnline(self.avId, self.avatar)
 
         # Tell the GlobalPartyManager as well:
@@ -870,7 +870,7 @@ class UnloadAvatarFSM(OperationFSM):
     def enterUnloadAvatar(self):
         channel = self.csm.GetAccountConnectionChannel(self.target)
 
-        # Tell TTRFriendsManager somebody is logging off:
+        # Tell TTWFriendsManager somebody is logging off:
         self.csm.air.friendsManager.toonOffline(self.avId)
 
         # Clear off POSTREMOVE:

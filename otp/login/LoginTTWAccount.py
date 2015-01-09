@@ -4,8 +4,8 @@ from direct.directnotify import DirectNotifyGlobal
 import LoginBase
 from direct.distributed.PyDatagram import PyDatagram
 
-class LoginTTRAccount(LoginBase.LoginBase):
-    notify = DirectNotifyGlobal.directNotify.newCategory('LoginTTRAccount')
+class LoginTTWAccount(LoginBase.LoginBase):
+    notify = DirectNotifyGlobal.directNotify.newCategory('LoginTTWAccount')
 
     def __init__(self, cr):
         LoginBase.LoginBase.__init__(self, cr)

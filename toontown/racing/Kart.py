@@ -140,7 +140,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
     def __update(self):
         for field in self.updateFields:
             if field == KartDNA.bodyType:
-                if hasattr(self, 'geom'):
+                if hasaTTW(self, 'geom'):
                     for kart in self.geom:
                         self.geom[kart].removeNode()
                         self.__createLODKart(kart)
@@ -523,7 +523,7 @@ class Kart(NodePath, ShadowCaster.ShadowCaster):
         node = self.wheelCenters[self.LFWHEEL]
         node.setH(amount)
 
-    def generateEngineStartTrack(self):
+    def generateEngineStarTTWack(self):
         length = self.kartStartSfx.length()
 
         def printVol():

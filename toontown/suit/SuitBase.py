@@ -38,14 +38,14 @@ class SuitBase:
             del self.suitGraph
 
     def getStyleName(self):
-        if hasattr(self, 'dna') and self.dna:
+        if hasaTTW(self, 'dna') and self.dna:
             return self.dna.name
         else:
             self.notify.error('called getStyleName() before dna was set!')
             return 'unknown'
 
     def getStyleDept(self):
-        if hasattr(self, 'dna') and self.dna:
+        if hasaTTW(self, 'dna') and self.dna:
             return SuitDNA.getDeptFullname(self.dna.dept)
         else:
             self.notify.error('called getStyleDept() before dna was set!')
@@ -60,8 +60,8 @@ class SuitBase:
          'dept': self.getStyleDept(),
          'level': self.getActualLevel()}
         self.setDisplayName(nameWLevel)
-        attributes = SuitBattleGlobals.SuitAttributes[self.dna.name]
-        self.maxHP = attributes['hp'][self.level]
+        aTTWibutes = SuitBattleGlobals.SuitATTWibutes[self.dna.name]
+        self.maxHP = aTTWibutes['hp'][self.level]
         self.currHP = self.maxHP
 
     def getSkelecog(self):
@@ -71,7 +71,7 @@ class SuitBase:
         self.isSkelecog = flag
 
     def getActualLevel(self):
-        if hasattr(self, 'dna'):
+        if hasaTTW(self, 'dna'):
             return SuitBattleGlobals.getActualFromRelativeLevel(self.getStyleName(), self.level) + 1
         else:
             self.notify.warning('called getActualLevel with no DNA, returning 1 for level')

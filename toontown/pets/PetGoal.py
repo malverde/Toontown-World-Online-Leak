@@ -22,7 +22,7 @@ class PetGoal(FSM.FSM):
         return
 
     def destroy(self):
-        if hasattr(self, 'fsm'):
+        if hasaTTW(self, 'fsm'):
             self.fsm.requestFinalState()
             del self.fsm
         self.cleanup()
@@ -93,7 +93,7 @@ class InteractWithAvatar(PetGoal):
 
     def destroy(self):
         PetGoal.destroy(self)
-        if hasattr(self, 'avatar'):
+        if hasaTTW(self, 'avatar'):
             del self.avatar
 
     def enterForeground(self):
@@ -158,7 +158,7 @@ class ChaseAvatar(PetGoal):
 
     def destroy(self):
         PetGoal.destroy(self)
-        if hasattr(self, 'avatar'):
+        if hasaTTW(self, 'avatar'):
             del self.avatar
 
     def setGoalMgr(self, goalMgr):
@@ -211,7 +211,7 @@ class FleeFromAvatar(PetGoal):
 
     def destroy(self):
         PetGoal.destroy(self)
-        if hasattr(self, 'avatar'):
+        if hasaTTW(self, 'avatar'):
             del self.avatar
 
     def getPriority(self):
@@ -250,7 +250,7 @@ class DoTrick(InteractWithAvatar):
 
     def startInteract(self):
         self.brain._doTrick(self.trickId, self.avatar)
-        self.trickDoneEvent = self.pet.actionFSM.getTrickDoneEvent()
+        self.trickDoneEvent = self.pet.actionFSM.geTTWickDoneEvent()
         self.accept(self.trickDoneEvent, self.announceDone)
 
     def stopInteract(self):

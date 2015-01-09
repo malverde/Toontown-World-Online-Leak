@@ -55,7 +55,7 @@ class VisibilityExtender(Entity.Entity):
             if extended:
                 self.extend()
 
-        def attribChanged(self, *args):
+        def aTTWibChanged(self, *args):
             extended = self.extended
             self.destroyVisExt()
             self.initVisExt()

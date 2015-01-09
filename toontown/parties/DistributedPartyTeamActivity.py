@@ -34,7 +34,7 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
         del self.activityFSM
         self.teamActivityGui.unload()
         del self.teamActivityGui
-        if hasattr(self, 'toonIds'):
+        if hasaTTW(self, 'toonIds'):
             del self.toonIds
         del self.isLocalToonPlaying
         del self.localToonTeam
@@ -302,7 +302,7 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
         return self._canSwitchTeams
 
     def isState(self, state):
-        return hasattr(self, 'activityFSM') and self.activityFSM.getCurrentOrNextState() == state
+        return hasaTTW(self, 'activityFSM') and self.activityFSM.getCurrentOrNextState() == state
 
     def startWaitForEnough(self):
         self.notify.debug('startWaitForEnough')

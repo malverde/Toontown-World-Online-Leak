@@ -1667,7 +1667,7 @@ def pixieExplode(self):
 
 
 @particle
-def guiltTrip(self):
+def guilTTWip(self):
     self.reset()
     self.setPos(-2.000, 2.500, 2.200)
     self.setHpr(-90.000, 0.000, 0.000)
@@ -2906,7 +2906,7 @@ def soundWave(self):
     p0.renderer.setNonanimatedTheta(0.0000)
     p0.renderer.setAlphaBlendMethod(BaseParticleRenderer.PPBLENDLINEAR)
     p0.renderer.setAlphaDisable(1)
-    p0.renderer.setColorBlendMode(ColorBlendAttrib.MAdd, ColorBlendAttrib.OIncomingAlpha, ColorBlendAttrib.OOne)
+    p0.renderer.setColorBlendMode(ColorBlendATTWib.MAdd, ColorBlendATTWib.OIncomingAlpha, ColorBlendATTWib.OOne)
     # Emitter parameters
     p0.emitter.setEmissionType(BaseParticleEmitter.ETEXPLICIT)
     p0.emitter.setAmplitude(0.0100)
@@ -4872,7 +4872,7 @@ def drift(self):
     p0.renderer.setNonanimatedTheta(0.0000)
     p0.renderer.setAlphaBlendMethod(BaseParticleRenderer.PPBLENDLINEAR)
     p0.renderer.setAlphaDisable(0)
-    #p0.renderer.setColorBlendMode(ColorBlendAttrib.MAdd,ColorBlendAttrib.OIncomingAlpha,ColorBlendAttrib.OOneMinusIncomingAlpha)
+    #p0.renderer.setColorBlendMode(ColorBlendATTWib.MAdd,ColorBlendATTWib.OIncomingAlpha,ColorBlendATTWib.OOneMinusIncomingAlpha)
     # Emitter parameters
     p0.emitter.setEmissionType(BaseParticleEmitter.ETEXPLICIT)
     p0.emitter.setAmplitude(1.0000)

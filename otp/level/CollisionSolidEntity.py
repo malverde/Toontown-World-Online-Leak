@@ -40,6 +40,6 @@ class CollisionSolidEntity(BasicEntities.NodePathEntity):
 
     if __dev__:
 
-        def attribChanged(self, attrib, value):
-            print 'attribChanged'
+        def aTTWibChanged(self, aTTWib, value):
+            print 'aTTWibChanged'
             self.initSolid()

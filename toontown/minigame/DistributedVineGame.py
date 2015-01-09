@@ -101,7 +101,7 @@ class DistributedVineGame(DistributedMinigame):
         self.gameBoard.reparentTo(render)
         self.gameBoard.show()
         self.gameBoard.setPosHpr(0, 0, 0, 0, 0, 0)
-        self.gameBoard.setTransparency(1)
+        self.gameBoard.seTTWansparency(1)
         self.gameBoard.setColorScale(1, 1, 1, 0.5)
         self.gameBoard.setScale(1.0)
         self.gameBoard.hide(VineGameGlobals.RadarCameraBitmask)
@@ -619,7 +619,7 @@ class DistributedVineGame(DistributedMinigame):
             self.localPhysicsNP.removeNode()
             del self.localPhysicsNP
             self.localPhysicsNP = None
-        if hasattr(self, 'treasureCollNodePath') and self.treasureCollNodePath:
+        if hasaTTW(self, 'treasureCollNodePath') and self.treasureCollNodePath:
             self.treasureCollNodePath.removeNode()
         return
 
@@ -1198,7 +1198,7 @@ class DistributedVineGame(DistributedMinigame):
         self.grabSound.play()
         self.sendUpdate('claimTreasure', [treasureNum])
 
-    def setTreasureGrabbed(self, avId, treasureNum):
+    def seTTWeasureGrabbed(self, avId, treasureNum):
         if not self.hasLocalToon:
             return
         self.notify.debug('treasure %s grabbed by %s' % (treasureNum, avId))
@@ -1212,14 +1212,14 @@ class DistributedVineGame(DistributedMinigame):
         if not self.hasLocalToon:
             return
         i = self.avIdList.index(avId)
-        if hasattr(self, 'scorePanels'):
+        if hasaTTW(self, 'scorePanels'):
             self.scores[i] += score
             self.scorePanels[i].setScore(score)
 
     def timerExpired(self):
         self.notify.debug('game timer expired')
         if not VineGameGlobals.EndlessGame:
-            if hasattr(self, 'gameFSM'):
+            if hasaTTW(self, 'gameFSM'):
                 self.gameFSM.request('showScores')
 
     def allAtEndVine(self):

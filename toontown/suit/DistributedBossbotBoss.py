@@ -375,11 +375,11 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             destPos = Point3(-14 + index * 4, 25, 0)
 
             def toWalk(toon):
-                if hasattr(toon, 'suit') and toon.suit:
+                if hasaTTW(toon, 'suit') and toon.suit:
                     toon.suit.loop('walk')
 
             def toNeutral(toon):
-                if hasattr(toon, 'suit') and toon.suit:
+                if hasaTTW(toon, 'suit') and toon.suit:
                     toon.suit.loop('neutral')
 
             retval.append(Sequence(Wait(delay), Func(toon.wrtReparentTo, render), Func(toWalk, toon), Func(toon.headsUp, 0, 0, 0), LerpPosInterval(toon, 3, Point3(0, 0, 0)), Func(toon.headsUp, destPos), LerpPosInterval(toon, 3, destPos), LerpHprInterval(toon, 1, Point3(0, 0, 0)), Func(toNeutral, toon)))
@@ -697,7 +697,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.cleanupAttacks()
         self.doAnimate('Ff_neutral', now=1)
         self.stopMoveTask()
-        if hasattr(self, 'tableIndex'):
+        if hasaTTW(self, 'tableIndex'):
             table = self.tables[self.tableIndex]
             table.tableGroup.hide()
         self.loop('neutral')
@@ -1095,7 +1095,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.dirVector = self.toPos - self.fromPos
         self.dirVector.normalize()
         if not self.treads.isEmpty():
-            track = Sequence(Func(self.setPos, fromPos), Func(self.headsUp, toPos), Parallel(self.hprInterval(turnTime, toHpr, fromHpr), self.rollLeftTreads(turnTime, leftRate), self.rollRightTreads(turnTime, -leftRate)), Func(self.startMoveTask))
+            track = Sequence(Func(self.setPos, fromPos), Func(self.headsUp, toPos), Parallel(self.hprInterval(turnTime, toHpr, fromHpr), self.rollLefTTWeads(turnTime, leftRate), self.rollRighTTWeads(turnTime, -leftRate)), Func(self.startMoveTask))
         else:
             track = Sequence(Func(self.setPos, fromPos), Func(self.headsUp, toPos), self.hprInterval(turnTime, toHpr, fromHpr), Func(self.startMoveTask))
         return (track, toHpr)
@@ -1109,7 +1109,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         return result
 
     def getCurTreadSpeed(self):
-        result = ToontownGlobals.BossbotTreadSpeedMax - (ToontownGlobals.BossbotTreadSpeedMax - ToontownGlobals.BossbotTreadSpeedMin) * self.getFractionalSpeedDamage()
+        result = ToontownGlobals.BossboTTWeadSpeedMax - (ToontownGlobals.BossboTTWeadSpeedMax - ToontownGlobals.BossboTTWeadSpeedMin) * self.getFractionalSpeedDamage()
         return result
 
     def startMoveTask(self):
@@ -1270,7 +1270,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         golfRoot = NodePath('golfRoot')
         golfBall = loader.loadModel('phase_6/models/golf/golf_ball')
         golfBall.setColorScale(0.75, 0.75, 0.75, 0.5)
-        golfBall.setTransparency(1)
+        golfBall.seTTWansparency(1)
         ballScale = 5
         golfBall.setScale(ballScale)
         golfBall.reparentTo(golfRoot)

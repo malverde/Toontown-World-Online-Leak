@@ -15,7 +15,7 @@ from direct.task import Task
 
 class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedElevatorFloor')
-    defaultTransitions = {'Off': ['Opening', 'Closed'],
+    defaulTTWansitions = {'Off': ['Opening', 'Closed'],
      'Opening': ['WaitEmpty',
                  'WaitCountdown',
                  'Opening',
@@ -107,7 +107,7 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
         self.latch = markerId
 
     def set2Latch(self, taskMgrFooler = None):
-        if hasattr(self, 'cr'):
+        if hasaTTW(self, 'cr'):
             marker = self.cr.doId2do.get(self.latch)
             if marker:
                 self.elevatorModel.reparentTo(marker)
@@ -116,7 +116,7 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
             self.notify.warning('Using backup, do method later version of latch')
 
     def _repart2Marker(self, taskFoolio = 0):
-        if hasattr(self, 'cr'):
+        if hasaTTW(self, 'cr'):
             marker = self.cr.doId2do.get(self.latch)
             if marker:
                 self.elevatorModel.reparentTo(marker)

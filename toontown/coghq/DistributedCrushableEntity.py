@@ -3,7 +3,7 @@ from direct.directnotify import DirectNotifyGlobal
 from pandac.PandaModules import NodePath
 from otp.level import BasicEntities
 
-class DistributedCrushableEntity(DistributedEntity.DistributedEntity, NodePath, BasicEntities.NodePathAttribs):
+class DistributedCrushableEntity(DistributedEntity.DistributedEntity, NodePath, BasicEntities.NodePathATTWibs):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCrushableEntity')
 
     def __init__(self, cr):
@@ -16,11 +16,11 @@ class DistributedCrushableEntity(DistributedEntity.DistributedEntity, NodePath, 
 
     def announceGenerate(self):
         DistributedEntity.DistributedEntity.announceGenerate(self)
-        BasicEntities.NodePathAttribs.initNodePathAttribs(self)
+        BasicEntities.NodePathATTWibs.initNodePathATTWibs(self)
 
     def disable(self):
         self.reparentTo(hidden)
-        BasicEntities.NodePathAttribs.destroy(self)
+        BasicEntities.NodePathATTWibs.destroy(self)
         DistributedEntity.DistributedEntity.disable(self)
 
     def delete(self):

@@ -40,8 +40,8 @@ import __builtin__
 try:
     launcher
 except:
-    from toontown.launcher.TTRLauncher import TTRLauncher
-    launcher = TTRLauncher()
+    from toontown.launcher.TTWLauncher import TTWLauncher
+    launcher = TTWLauncher()
     __builtin__.launcher = launcher
 
 pollingDelay = 0.5
@@ -85,7 +85,7 @@ import TTLocalizer
 from otp.otpbase import OTPGlobals
 OTPGlobals.setDefaultProductPrefix(TTLocalizer.ProductPrefix)
 if base.musicManagerIsValid:
-    music = base.musicManager.getSound('phase_3/audio/bgm/ttr_theme.ogg')
+    music = base.musicManager.getSound('phase_3/audio/bgm/TTW_theme.ogg')
     if music:
         music.setLoop(1)
         music.setVolume(0.9)

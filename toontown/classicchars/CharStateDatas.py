@@ -16,12 +16,12 @@ class CharNeutralState(StateData.StateData):
         self.__doneEvent = doneEvent
         self.character = character
 
-    def enter(self, startTrack = None, playRate = None):
+    def enter(self, starTTWack = None, playRate = None):
         StateData.StateData.enter(self)
         self.notify.debug('Neutral ' + self.character.getName() + '...')
         self.__neutralTrack = Sequence(name=self.character.getName() + '-neutral')
-        if startTrack:
-            self.__neutralTrack.append(startTrack)
+        if starTTWack:
+            self.__neutralTrack.append(starTTWack)
         if playRate:
             self.__neutralTrack.append(Func(self.character.setPlayRate, playRate, 'neutral'))
         self.__neutralTrack.append(Func(self.character.loop, 'neutral'))
@@ -58,7 +58,7 @@ class CharWalkState(StateData.StateData):
         self.walkTrack = None
         return
 
-    def enter(self, startTrack = None, playRate = None):
+    def enter(self, starTTWack = None, playRate = None):
         StateData.StateData.enter(self)
         self.notify.debug('Walking ' + self.character.getName() + '... from ' + str(self.walkInfo[0]) + ' to ' + str(self.walkInfo[1]))
         posPoints = CCharPaths.getPointsFromTo(self.walkInfo[0], self.walkInfo[1], self.paths)
@@ -69,8 +69,8 @@ class CharWalkState(StateData.StateData):
         newFirstPos = Point3(firstPos[0] + self.oldOffsetX, firstPos[1] + self.oldOffsetY, firstPos[2])
         posPoints[0] = newFirstPos
         self.walkTrack = Sequence(name=self.character.getName() + '-walk')
-        if startTrack:
-            self.walkTrack.append(startTrack)
+        if starTTWack:
+            self.walkTrack.append(starTTWack)
         self.character.setPos(posPoints[0])
         raycast = CCharPaths.getRaycastFlag(self.walkInfo[0], self.walkInfo[1], self.paths)
         moveTrack = self.makePathTrack(self.character, posPoints, self.speed, raycast)

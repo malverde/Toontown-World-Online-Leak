@@ -38,7 +38,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         self.cameraBoardTrack = Func(self.doNothing)
         self.seatBumpForObserve = 0
         self.winTrack = Sequence()
-        self.outTrack = Sequence()
+        self.ouTTWack = Sequence()
         self.joinButton = None
         self.observeButton = None
         self.tutorialButton = None
@@ -139,7 +139,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         self.disableChoiceButtons()
         self.cameraBoardTrack = None
         del self.winTrack
-        del self.outTrack
+        del self.ouTTWack
         self.fsm = None
         self.gameZone = None
         self.clearToonTracks()
@@ -256,7 +256,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         if self.cr.doId2do.has_key(avId):
             toon = self.cr.doId2do[avId]
             self.winTrack = Sequence(autoFinish=1)
-            if self.outTrack.isPlaying():
+            if self.ouTTWack.isPlaying():
                 self.winTrack.append(Wait(2.0))
             if avId == base.localAvatar.getDoId():
                 self.winTrack.append(Func(self.stopToWalk))
@@ -448,16 +448,16 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             toon = self.cr.doId2do[avId]
             toon.stopSmooth()
             sitStartDuration = toon.getDuration('sit-start')
-            jumpOutTrack = self.generateToonReverseJumpTrack(toon, index)
-            self.outTrack = Sequence(jumpOutTrack)
+            jumpOuTTWack = self.generateToonReverseJumpTrack(toon, index)
+            self.ouTTWack = Sequence(jumpOuTTWack)
             if base.localAvatar.getDoId() == avId:
-                self.outTrack.append(Func(self.__enableCollisions))
-                self.outTrack.append(Func(self.allowToWalk))
+                self.ouTTWack.append(Func(self.__enableCollisions))
+                self.ouTTWack.append(Func(self.allowToWalk))
                 self.fsm.request('off')
             val = self.jumpOffsets[index].getPos(render)
-            self.outTrack.append(Func(toon.setPos, val))
-            self.outTrack.append(Func(toon.startSmooth))
-            self.outTrack.start()
+            self.ouTTWack.append(Func(toon.setPos, val))
+            self.ouTTWack.append(Func(toon.startSmooth))
+            self.ouTTWack.start()
         return
 
     def stopToWalk(self):
@@ -620,13 +620,13 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             toonJumpTrack = Parallel(ActorInterval(av, 'jump'), Sequence(Wait(0.43), Parallel(LerpHprInterval(av, hpr=getJumpHpr, duration=1), ProjectileInterval(av, endPos=getJumpDest, duration=1))))
             return toonJumpTrack
 
-        def getToonSitTrack(av):
-            toonSitTrack = Sequence(ActorInterval(av, 'sit-start'), Func(av.loop, 'sit'))
-            return toonSitTrack
+        def getToonSiTTWack(av):
+            toonSiTTWack = Sequence(ActorInterval(av, 'sit-start'), Func(av.loop, 'sit'))
+            return toonSiTTWack
 
         toonJumpTrack = getToonJumpTrack(av, seatIndex)
-        toonSitTrack = getToonSitTrack(av)
-        jumpTrack = Sequence(Parallel(toonJumpTrack, Sequence(Wait(1), toonSitTrack)), Func(av.wrtReparentTo, self.tableCloth))
+        toonSiTTWack = getToonSiTTWack(av)
+        jumpTrack = Sequence(Parallel(toonJumpTrack, Sequence(Wait(1), toonSiTTWack)), Func(av.wrtReparentTo, self.tableCloth))
         return jumpTrack
 
     def storeToonTrack(self, avId, track):

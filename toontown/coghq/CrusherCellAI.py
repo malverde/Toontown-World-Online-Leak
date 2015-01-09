@@ -27,8 +27,8 @@ class CrusherCellAI(ActiveCellAI.ActiveCellAI):
     def unregisterCrusher(self, entId):
         if entId in self.crushers:
             self.crushers.remove(entId)
-            if not hasattr(self, 'level'):
-                self.notify.error("unregisterCrusher(%s): CrusherCellAI %s has no attrib 'level'" % (entId, self.entId))
+            if not hasaTTW(self, 'level'):
+                self.notify.error("unregisterCrusher(%s): CrusherCellAI %s has no aTTWib 'level'" % (entId, self.entId))
             ent = self.level.entities.get(entId, None)
             if ent:
                 self.ignore(ent.crushMsg)

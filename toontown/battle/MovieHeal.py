@@ -102,7 +102,7 @@ def __healToon(toon, hp, ineffective, hasInteractivePropHealBonus):
     return
 
 
-def __getPartTrack(particleEffect, startDelay, durationDelay, partExtraArgs):
+def __getParTTWack(particleEffect, startDelay, durationDelay, partExtraArgs):
     pEffect = partExtraArgs[0]
     parent = partExtraArgs[1]
     if len(partExtraArgs) == 3:
@@ -204,18 +204,18 @@ def __healJoke(heal, hasInteractivePropHealBonus):
     joke = HealJokes.toonHealJokes[jokeIndex]
     tracks.append(Sequence(Wait(tSpeakSetup), Func(toon.setChatAbsolute, joke[0], CFSpeech | CFTimeout)))
     tracks.append(Sequence(Wait(tSpeakPunchline), Func(toon.setChatAbsolute, joke[1], CFSpeech | CFTimeout)))
-    reactTrack = Sequence(Wait(tTargetReact))
+    reacTTWack = Sequence(Wait(tTargetReact))
     for target in targets:
         targetToon = target['toon']
         hp = target['hp']
-        reactTrack.append(Func(__healToon, targetToon, hp, ineffective, hasInteractivePropHealBonus))
+        reacTTWack.append(Func(__healToon, targetToon, hp, ineffective, hasInteractivePropHealBonus))
 
-    reactTrack.append(Wait(dTargetLaugh))
+    reacTTWack.append(Wait(dTargetLaugh))
     for target in targets:
         targetToon = target['toon']
-        reactTrack.append(Func(targetToon.clearChat))
+        reacTTWack.append(Func(targetToon.clearChat))
 
-    tracks.append(reactTrack)
+    tracks.append(reacTTWack)
     if npcId != 0:
         track.append(Sequence(Wait(tRunBack), Func(toon.clearChat), *MovieNPCSOS.teleportOut(heal, toon)))
     else:
@@ -275,15 +275,15 @@ def __healDance(heal, hasInteractivePropHealBonus):
         track = Sequence(__runToHealSpot(heal))
     delay = 3.0
     first = 1
-    targetTrack = Sequence()
+    targeTTWack = Sequence()
     for target in targets:
         targetToon = target['toon']
         hp = target['hp']
         reactIval = Func(__healToon, targetToon, hp, ineffective, hasInteractivePropHealBonus)
         if first:
-            targetTrack.append(Wait(delay))
+            targeTTWack.append(Wait(delay))
             first = 0
-        targetTrack.append(reactIval)
+        targeTTWack.append(reactIval)
 
     hat = globalPropPool.getProp('hat')
     hat2 = MovieUtil.copyProp(hat)
@@ -295,7 +295,7 @@ def __healDance(heal, hasInteractivePropHealBonus):
     rightHands = toon.getRightHands()
     dScale = 0.5
     propTrack = Sequence(Func(MovieUtil.showProps, hats, rightHands, Point3(0.23, 0.09, 0.69), Point3(180, 0, 0)), Func(MovieUtil.showProps, canes, leftHands, Point3(-0.28, 0.0, 0.14), Point3(0.0, 0.0, -150.0)), MovieUtil.getScaleIntervals(hats + canes, dScale, MovieUtil.PNT3_NEARZERO, MovieUtil.PNT3_ONE), Wait(toon.getDuration('happy-dance') - 2.0 * dScale), MovieUtil.getScaleIntervals(hats + canes, dScale, MovieUtil.PNT3_ONE, MovieUtil.PNT3_NEARZERO), Func(MovieUtil.removeProps, hats + canes))
-    mtrack = Parallel(propTrack, ActorInterval(toon, 'happy-dance'), __getSoundTrack(level, 0.2, duration=6.4, node=toon), targetTrack)
+    mtrack = Parallel(propTrack, ActorInterval(toon, 'happy-dance'), __getSoundTrack(level, 0.2, duration=6.4, node=toon), targeTTWack)
     track.append(Func(toon.loop, 'neutral'))
     track.append(Wait(0.1))
     track.append(mtrack)
@@ -333,7 +333,7 @@ def __healSprinkle(heal, hasInteractivePropHealBonus):
         toon.headsUp(render, targetPoint)
 
     delay = 2.5
-    mtrack = Parallel(__getPartTrack(sprayEffect, 1.5, 0.5, [sprayEffect, toon, 0]), __getPartTrack(dropEffect, 1.9, 2.0, [dropEffect, target, 0]), __getPartTrack(explodeEffect, 2.7, 1.0, [explodeEffect, toon, 0]), __getPartTrack(poofEffect, 3.4, 1.0, [poofEffect, target, 0]), __getPartTrack(wallEffect, 4.05, 1.2, [wallEffect, toon, 0]), __getSoundTrack(level, 2, duration=4.1, node=toon), Sequence(Func(face90), ActorInterval(toon, 'sprinkle-dust')), Sequence(Wait(delay), Func(__healToon, target, hp, ineffective, hasInteractivePropHealBonus)))
+    mtrack = Parallel(__getParTTWack(sprayEffect, 1.5, 0.5, [sprayEffect, toon, 0]), __getParTTWack(dropEffect, 1.9, 2.0, [dropEffect, target, 0]), __getParTTWack(explodeEffect, 2.7, 1.0, [explodeEffect, toon, 0]), __getParTTWack(poofEffect, 3.4, 1.0, [poofEffect, target, 0]), __getParTTWack(wallEffect, 4.05, 1.2, [wallEffect, toon, 0]), __getSoundTrack(level, 2, duration=4.1, node=toon), Sequence(Func(face90), ActorInterval(toon, 'sprinkle-dust')), Sequence(Wait(delay), Func(__healToon, target, hp, ineffective, hasInteractivePropHealBonus)))
     track.append(mtrack)
     track.append(__returnToBase(heal))
     track.append(Func(target.clearChat))
@@ -358,22 +358,22 @@ def __healJuggle(heal, hasInteractivePropHealBonus):
         track = Sequence(__runToHealSpot(heal))
     delay = 4.0
     first = 1
-    targetTrack = Sequence()
+    targeTTWack = Sequence()
     for target in targets:
         targetToon = target['toon']
         hp = target['hp']
         reactIval = Func(__healToon, targetToon, hp, ineffective, hasInteractivePropHealBonus)
         if first == 1:
-            targetTrack.append(Wait(delay))
+            targeTTWack.append(Wait(delay))
             first = 0
-        targetTrack.append(reactIval)
+        targeTTWack.append(reactIval)
 
     cube = globalPropPool.getProp('cubes')
     cube2 = MovieUtil.copyProp(cube)
     cubes = [cube, cube2]
     hips = [toon.getLOD(toon.getLODNames()[0]).find('**/joint_hips'), toon.getLOD(toon.getLODNames()[1]).find('**/joint_hips')]
     cubeTrack = Sequence(Func(MovieUtil.showProps, cubes, hips), MovieUtil.getActorIntervals(cubes, 'cubes'), Func(MovieUtil.removeProps, cubes))
-    mtrack = Parallel(cubeTrack, __getSoundTrack(level, 0.7, duration=7.7, node=toon), ActorInterval(toon, 'juggle'), targetTrack)
+    mtrack = Parallel(cubeTrack, __getSoundTrack(level, 0.7, duration=7.7, node=toon), ActorInterval(toon, 'juggle'), targeTTWack)
     track.append(mtrack)
     if npcId != 0:
         track.append(MovieNPCSOS.teleportOut(heal, toon))
@@ -406,15 +406,15 @@ def __healDive(heal, hasInteractivePropHealBonus):
         track = Sequence(__runToHealSpot(heal))
     delay = 7.0
     first = 1
-    targetTrack = Sequence()
+    targeTTWack = Sequence()
     for target in targets:
         targetToon = target['toon']
         hp = target['hp']
         reactIval = Func(__healToon, targetToon, hp, ineffective, hasInteractivePropHealBonus)
         if first == 1:
-            targetTrack.append(Wait(delay))
+            targeTTWack.append(Wait(delay))
             first = 0
-        targetTrack.append(reactIval)
+        targeTTWack.append(reactIval)
 
     thisBattle = heal['battle']
     toonsInBattle = thisBattle.toons
@@ -458,7 +458,7 @@ def __healDive(heal, hasInteractivePropHealBonus):
     toonscale = toonNode.getScale()
     toonFacing = toon.getHpr()
     propTrack = Sequence(Func(MovieUtil.showProp, glass, render, glassPos), Func(MovieUtil.showProp, ladder, render, ladderPos), Func(toonsLook, toonsInBattle, placeNode, Point3(0, 0, 0)), Func(placeNode.setPos, lookBase), LerpScaleInterval(ladder, ladderGrowTime, scaleUpPoint, startScale=MovieUtil.PNT3_NEARZERO), Func(placeNode.setPos, lookTop), Wait(2.1), MovieCamera.toonGroupHighShot(None, 0), Wait(2.1), Func(placeNode.setPos, LookGlass), Wait(0.4), MovieCamera.allGroupLowShot(None, 0), Wait(1.8), LerpScaleInterval(ladder, ladderGrowTime, MovieUtil.PNT3_NEARZERO, startScale=scaleUpPoint), Func(MovieUtil.removeProps, diveProps))
-    mtrack = Parallel(propTrack, __getSoundTrack(level, 0.6, duration=9.0, node=toon), Sequence(Parallel(Sequence(ActorInterval(toon, 'walk', loop=0, duration=walkToLadderTime), ActorInterval(toon, 'neutral', loop=0, duration=0.1)), LerpPosInterval(toon, walkToLadderTime, climbladderPos), Wait(ladderGrowTime)), Parallel(ActorInterval(toon, 'climb', loop=0, endFrame=116), Sequence(Wait(4.6), Func(toonNode.setTransparency, 1), LerpColorScaleInterval(toonNode, 0.25, VBase4(1, 1.0, 1, 0.0), blendType='easeInOut'), LerpScaleInterval(toonNode, 0.01, 0.1, startScale=toonscale), LerpHprInterval(toon, 0.01, toonFacing), LerpPosInterval(toon, 0.0, glassToonPos), Func(toonNode.clearTransparency), Func(toonNode.clearColorScale), Parallel(ActorInterval(toon, 'swim', loop=1, startTime=0.0, endTime=1.0), Wait(1.0))), Sequence(Wait(4.6), Func(splash.play), Wait(1.0), Func(splash.destroy))), Wait(0.5), Parallel(ActorInterval(toon, 'jump', loop=0, startTime=0.2), LerpScaleInterval(toonNode, 0.5, toonscale, startScale=0.1), Func(stopLook, toonsInBattle))), targetTrack)
+    mtrack = Parallel(propTrack, __getSoundTrack(level, 0.6, duration=9.0, node=toon), Sequence(Parallel(Sequence(ActorInterval(toon, 'walk', loop=0, duration=walkToLadderTime), ActorInterval(toon, 'neutral', loop=0, duration=0.1)), LerpPosInterval(toon, walkToLadderTime, climbladderPos), Wait(ladderGrowTime)), Parallel(ActorInterval(toon, 'climb', loop=0, endFrame=116), Sequence(Wait(4.6), Func(toonNode.seTTWansparency, 1), LerpColorScaleInterval(toonNode, 0.25, VBase4(1, 1.0, 1, 0.0), blendType='easeInOut'), LerpScaleInterval(toonNode, 0.01, 0.1, startScale=toonscale), LerpHprInterval(toon, 0.01, toonFacing), LerpPosInterval(toon, 0.0, glassToonPos), Func(toonNode.clearTransparency), Func(toonNode.clearColorScale), Parallel(ActorInterval(toon, 'swim', loop=1, startTime=0.0, endTime=1.0), Wait(1.0))), Sequence(Wait(4.6), Func(splash.play), Wait(1.0), Func(splash.destroy))), Wait(0.5), Parallel(ActorInterval(toon, 'jump', loop=0, startTime=0.2), LerpScaleInterval(toonNode, 0.5, toonscale, startScale=0.1), Func(stopLook, toonsInBattle))), targeTTWack)
     track.append(mtrack)
     if npcId != 0:
         track.append(MovieNPCSOS.teleportOut(heal, toon))

@@ -16,7 +16,7 @@ from direct.fsm.FSM import FSM
 
 class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedElevator')
-    defaultTransitions = {'Off': ['Opening', 'Closed', 'Off'],
+    defaulTTWansitions = {'Off': ['Opening', 'Closed', 'Off'],
      'Opening': ['WaitEmpty',
                  'WaitCountdown',
                  'Opening',
@@ -106,9 +106,9 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
             self.cr.relatedObjectMgr.abortRequest(request)
 
         self.toonRequests = {}
-        if hasattr(self, 'openDoors'):
+        if hasaTTW(self, 'openDoors'):
             self.openDoors.pause()
-        if hasattr(self, 'closeDoors'):
+        if hasaTTW(self, 'closeDoors'):
             self.closeDoors.pause()
         self.request('off')
         DistributedObject.DistributedObject.disable(self)
@@ -272,7 +272,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
 
             self.deferredSlots = newSlots
         elif self.cr.doId2do.has_key(avId):
-            if bailFlag == 1 and hasattr(self, 'clockNode'):
+            if bailFlag == 1 and hasaTTW(self, 'clockNode'):
                 if timestamp < self.countdownTime and timestamp >= 0:
                     self.countdown(self.countdownTime - timestamp)
                 else:
@@ -313,7 +313,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
 
     def rejectBoard(self, avId, reason = 0):
         print 'rejectBoard %s' % reason
-        if hasattr(base.localAvatar, 'elevatorNotifier'):
+        if hasaTTW(base.localAvatar, 'elevatorNotifier'):
             if reason == REJECT_SHUFFLE:
                 base.localAvatar.elevatorNotifier.showMe(TTLocalizer.ElevatorHoppedOff)
             elif reason == REJECT_MINLAFF:
@@ -453,7 +453,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
 
     def getPlaceElevator(self):
         place = self.cr.playGame.getPlace()
-        if not hasattr(place, 'elevator'):
+        if not hasaTTW(place, 'elevator'):
             self.notify.warning("Place was in state '%s' instead of Elevator." % place.state)
             place.detectedElevatorCollision(self)
             return None
