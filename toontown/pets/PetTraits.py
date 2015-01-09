@@ -4,18 +4,23 @@ from toontown.toonbase import TTLocalizer, ToontownGlobals
 import random, copy
 TraitDivisor = 10000
 
+<<<<<<< HEAD
 def getTraitNames():
 <<<<<<< HEAD
     if not hasaTtr(PetTraits, 'TraitNames'):
 =======
     if not hasattr(PetTraits, 'TraitNames'):
 >>>>>>> parent of ac3cc91... removed all TTR and toontown rewritten to toontown world and to TTW
+=======
+def geTTWaitNames():
+    if not hasaTTW(PeTTWaits, 'TraitNames'):
+>>>>>>> parent of 8472b20... fixed bugs
         traitNames = []
-        for desc in PeTtraits.TraitDescs:
+        for desc in PeTTWaits.TraitDescs:
             traitNames.append(desc[0])
-            PeTtraits.TraitNames = traitNames
+            PeTTWaits.TraitNames = traitNames
 
-    return PeTtraits.TraitNames
+    return PeTTWaits.TraitNames
 
 
 def uniform(min, max, rng):
@@ -115,7 +120,7 @@ class TraitDistribution:
         return clampScalar(howExtreme, 0.0, 1.0)
 
 
-class PeTtraits:
+class PeTTWaits:
 
     class StdIncDistrib(TraitDistribution):
         TraitType = TraitDistribution.TraitTypes.INCREASING
@@ -162,7 +167,7 @@ class PeTtraits:
     class Trait:
 
         def __init__(self, index, traitsObj, value = None):
-            self.name, distrib, self.hasWorth = PeTtraits.TraitDescs[index]
+            self.name, distrib, self.hasWorth = PeTTWaits.TraitDescs[index]
             if value is not None:
                 self.value = value
             else:
@@ -186,11 +191,11 @@ class PeTtraits:
         self.safeZoneId = safeZoneId
         self.rng = random.Random(self.traitSeed)
         self.traits = {}
-        for i in xrange(len(PeTtraits.TraitDescs)):
+        for i in xrange(len(PeTTWaits.TraitDescs)):
             if i < len(traitValueList) and traitValueList[i] > 0.0:
-                trait = PeTtraits.Trait(i, self, traitValueList[i])
+                trait = PeTTWaits.Trait(i, self, traitValueList[i])
             else:
-                trait = PeTtraits.Trait(i, self)
+                trait = PeTTWaits.Trait(i, self)
             self.traits[trait.name] = trait
             self.__dict__[trait.name] = trait.value
 
@@ -212,7 +217,7 @@ class PeTtraits:
 
     def getValueList(self):
         traitValues = []
-        for desc in PeTtraits.TraitDescs:
+        for desc in PeTTWaits.TraitDescs:
             traitName = desc[0]
             traitValues.append(self.traits[traitName].value)
 
