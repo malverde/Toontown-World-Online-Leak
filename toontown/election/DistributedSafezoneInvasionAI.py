@@ -284,7 +284,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         avId = self.air.getAvatarIdFromSender()
         toon = self.air.doId2do.get(avId)
         if not toon:
-            self.air.writeServerEvent'suspicious', avId=avId, issue='Nonexistent Toon tried to get hit!')
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Nonexistent Toon tried to get hit!')
             return (
         # If the cog's attack is higher than the amount of laff they have, we'll only take away what they have.
         # If the attack is 5 and the toon has 3 laff, we'll only take away 3 laff. This mostly prevents toons going under 0 Laff.
