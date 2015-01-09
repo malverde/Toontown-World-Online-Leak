@@ -103,7 +103,7 @@ class RaceGUI:
         self.raceModeReady = False
         self.resultModeReady = False
         self.gagCycleSound = base.loadSfx('phase_3.5/audio/sfx/tick_counter.ogg')
-        if hasaTTW(self.gagCycleSound, 'setPlayRate'):
+        if hasattr(self.gagCycleSound, 'setPlayRate'):
             self.gagCycleSound.setPlayRate(0.2)
         self.gagCycleSound.setLoop(1)
         self.gagAcquireSound = base.loadSfx('phase_6/audio/sfx/SZ_MM_gliss.ogg')
@@ -207,7 +207,7 @@ class RaceGUI:
 
     def updateGag(self, gagIndex):
         if self.gag:
-            if hasaTTW(self, 'gagCycleInterval'):
+            if hasattr(self, 'gagCycleInterval'):
                 self.gagCycleInterval.finish()
                 del self.gagCycleInterval
             self.gag.setHpr(0, 0, 0)
@@ -280,7 +280,7 @@ class RaceGUI:
 
     def destroy(self):
         self.disable()
-        if hasaTTW(self, 'wrongWaySeq'):
+        if hasattr(self, 'wrongWaySeq'):
             self.wrongWaySeq.finish()
             self.wrongWaySeq = None
         taskMgr.removeTasksMatching('removeIt')
@@ -289,7 +289,7 @@ class RaceGUI:
         for obj in self.directObjList:
             obj.destroy()
 
-        if hasaTTW(self, 'mapScene'):
+        if hasattr(self, 'mapScene'):
             self.mapScene.removeNode()
             self.mapScene = None
         self.aspect2dRoot.removeNode()

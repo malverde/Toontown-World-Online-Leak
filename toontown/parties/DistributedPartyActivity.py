@@ -30,7 +30,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         self._toonId2ror = {}
         childName = '%s' % self
         childName = childName[childName.rfind('.DistributedParty') + len('.DistributedParty'):childName.rfind('Activity instance')]
-        if not hasaTTW(base, 'partyActivityDict'):
+        if not hasattr(base, 'partyActivityDict'):
             base.partyActivityDict = {}
         base.partyActivityDict[childName] = self
         self.root = NodePath('root')
@@ -158,7 +158,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         return TTLocalizer.DefaultPartyActivityInstructions
 
     def getParentNodePath(self):
-        if hasaTTW(base.cr.playGame, 'hood') and base.cr.playGame.hood and hasaTTW(base.cr.playGame.hood, 'loader') and base.cr.playGame.hood.loader and hasaTTW(base.cr.playGame.hood.loader, 'geom') and base.cr.playGame.hood.loader.geom:
+        if hasattr(base.cr.playGame, 'hood') and base.cr.playGame.hood and hasattr(base.cr.playGame.hood, 'loader') and base.cr.playGame.hood.loader and hasattr(base.cr.playGame.hood.loader, 'geom') and base.cr.playGame.hood.loader.geom:
             return base.cr.playGame.hood.loader.geom
         else:
             self.notify.warning('Hood or loader not created, defaulting to render')
@@ -366,8 +366,8 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
 
     def __handleMessageDone(self):
         self.ignore(self.messageDoneEvent)
-        if hasaTTW(base.cr.playGame.getPlace(), 'fsm'):
-            if self.messageGui and hasaTTW(self.messageGui, 'endState'):
+        if hasattr(base.cr.playGame.getPlace(), 'fsm'):
+            if self.messageGui and hasattr(self.messageGui, 'endState'):
                 self.notify.info('__handleMessageDone (endState=%s)' % self.messageGui.endState)
                 base.cr.playGame.getPlace().fsm.request(self.messageGui.endState)
             else:
@@ -390,7 +390,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         self.handleRewardDone()
 
     def handleRewardDone(self):
-        if base.cr.playGame.getPlace() and hasaTTW(base.cr.playGame.getPlace(), 'fsm'):
+        if base.cr.playGame.getPlace() and hasattr(base.cr.playGame.getPlace(), 'fsm'):
             base.cr.playGame.getPlace().fsm.request('walk')
 
     def setSignNote(self, note):
@@ -425,7 +425,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         if self.rewardGui is not None:
             self.rewardGui.destroy()
         del self.rewardGui
-        if hasaTTW(self, 'toonIds'):
+        if hasattr(self, 'toonIds'):
             del self.toonIds
         del self.rulesDoneEvent
         del self.modelCount
@@ -434,7 +434,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         del self.usesLookAround
         del self.difficultyOverride
         del self.trolleyZoneOverride
-        if hasaTTW(base, 'partyActivityDict'):
+        if hasattr(base, 'partyActivityDict'):
             del base.partyActivityDict
         return
 
@@ -481,7 +481,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
     def isLocalToonInActivity(self):
         result = False
         place = base.cr.playGame.getPlace()
-        if place and place.__class__.__name__ == 'Party' and hasaTTW(place, 'fsm') and place.fsm:
+        if place and place.__class__.__name__ == 'Party' and hasattr(place, 'fsm') and place.fsm:
             result = place.fsm.getCurrentState().getName() == 'activity'
         return result
 
@@ -499,7 +499,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
     def finishRules(self):
         self.notify.debug('BASE: finishRules')
         self.ignore(self.rulesDoneEvent)
-        if hasaTTW(self, 'rulesPanel'):
+        if hasattr(self, 'rulesPanel'):
             self.rulesPanel.exit()
             self.rulesPanel.unload()
             del self.rulesPanel

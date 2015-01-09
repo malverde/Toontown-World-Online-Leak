@@ -62,7 +62,7 @@ class CogdoFlyingCameraManager:
         self._betweenCamAndToon = {}
         self._transNP = NodePath('trans')
         self._transNP.reparentTo(render)
-        self._transNP.seTTWansparency(True)
+        self._transNP.setTransparency(True)
         self._transNP.setAlphaScale(Globals.Camera.AlphaBetweenToon)
         self._transNP.setBin('fixed', 10000)
 
@@ -168,7 +168,7 @@ class CogdoFlyingCameraManager:
             if self._betweenCamAndToon.has_key(np):
                 del self._betweenCamAndToon[np]
             else:
-                np.seTTWansparency(True)
+                np.setTransparency(True)
                 np.wrtReparentTo(self._transNP)
                 if np.getName().find('lightFixture') >= 0:
                     np.find('**/*floor_mesh').hide()
@@ -177,7 +177,7 @@ class CogdoFlyingCameraManager:
 
         for np, parent in self._betweenCamAndToon.items():
             np.wrtReparentTo(parent)
-            np.seTTWansparency(False)
+            np.setTransparency(False)
             if np.getName().find('lightFixture') >= 0:
                 np.find('**/*floor_mesh').show()
             elif np.getName().find('platform') >= 0:

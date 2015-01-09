@@ -117,7 +117,7 @@ def chooseLureCloseShot(lures, openDuration, openName, attackDuration):
     hasTrainTrackTrap = False
     battle = lures[0]['battle']
     for suit in battle.suits:
-        if hasaTTW(suit, 'battleTrap') and suit.battleTrap == UBER_GAG_LEVEL_INDEX:
+        if hasattr(suit, 'battleTrap') and suit.battleTrap == UBER_GAG_LEVEL_INDEX:
             hasTrainTrackTrap = True
 
     if hasTrainTrackTrap:

@@ -14,7 +14,7 @@ class TwoDBattleMgr(DirectObject):
         self.game = game
         self.toon = toon
         self.waterBulletIval = None
-        self.shooTTWack = None
+        self.shootTrack = None
         self.showCollSpheres = False
         self.WATER_SPRAY_COLOR = Point4(1, 1, 1, 1)
         self.WATER_BULLET_SCALE = 0.2
@@ -40,9 +40,9 @@ class TwoDBattleMgr(DirectObject):
             del self.waterBullet
         self.hand_jointpath0.removeNode()
         MovieUtil.removeProp(self.pistol)
-        if self.shooTTWack != None:
-            self.shooTTWack.finish()
-            self.shooTTWack = None
+        if self.shootTrack != None:
+            self.shootTrack.finish()
+            self.shootTrack = None
         self.game = None
         self.toon = None
         return
@@ -62,19 +62,19 @@ class TwoDBattleMgr(DirectObject):
         MovieUtil.showProp(self.pistol, self.hand_jointpath0, pistolPos, pistolHpr)
 
     def shoot(self):
-        if not self.shooTTWack:
-            self.shooTTWack = Parallel(self.getToonShooTTWack(), self.getSprayTrack())
+        if not self.shootTrack:
+            self.shootTrack = Parallel(self.getToonShootTrack(), self.getSprayTrack())
             if self.toon == base.localAvatar:
-                self.shooTTWack.append(Func(self.game.assetMgr.playWatergunSound))
-                self.shooTTWack.append(self.getWaterBulletIval())
-            self.shooTTWack.start()
+                self.shootTrack.append(Func(self.game.assetMgr.playWatergunSound))
+                self.shootTrack.append(self.getWaterBulletIval())
+            self.shootTrack.start()
             return
-        elif self.shooTTWack.isStopped():
-            self.shooTTWack = Parallel(self.getToonShooTTWack(), self.getSprayTrack())
+        elif self.shootTrack.isStopped():
+            self.shootTrack = Parallel(self.getToonShootTrack(), self.getSprayTrack())
             if self.toon == base.localAvatar:
-                self.shooTTWack.append(Func(self.game.assetMgr.playWatergunSound))
-                self.shooTTWack.append(self.getWaterBulletIval())
-            self.shooTTWack.start()
+                self.shootTrack.append(Func(self.game.assetMgr.playWatergunSound))
+                self.shootTrack.append(self.getWaterBulletIval())
+            self.shootTrack.start()
 
     def createShootCollision(self):
         self.notify.debug('entering createShootCollision')
@@ -100,10 +100,10 @@ class TwoDBattleMgr(DirectObject):
         self.waterBulletIval.append(LerpPosInterval(self.waterBullet, 0.25, pos=Point3(self.WATER_BULLET_END_POINT), startPos=Point3(self.WATER_BULLET_START_POINT), name='waterBulletMoveFront'))
         self.waterBulletIval.append(Func(self.waterBullet.setPos, self.WATER_BULLET_HIDE_POINT))
 
-    def getToonShooTTWack(self):
+    def getToonShootTrack(self):
 
         def returnToLastAnim(toon):
-            if hasaTTW(toon, 'playingAnim') and toon.playingAnim:
+            if hasattr(toon, 'playingAnim') and toon.playingAnim:
                 toon.loop(toon.playingAnim)
             else:
                 toon.loop('neutral')
@@ -166,7 +166,7 @@ class TwoDBattleMgr(DirectObject):
         spray = sprayRot
         spray.setColor(color)
         if color[3] < 1.0:
-            spray.seTTWansparency(1)
+            spray.setTransparency(1)
         track = Sequence(Wait(0.1), Func(self.calcSprayStartPos), Func(self.calcSprayEndPos), Func(showSpray, sprayScale, sprayRot, sprayProp, parent), LerpScaleInterval(sprayScale, dSprayScale, calcTargetScale, startScale=MovieUtil.PNT3_NEARZERO), Wait(dSprayHold), Func(prepareToShrinkSpray, spray, sprayProp), LerpScaleInterval(sprayScale, dSprayScale, MovieUtil.PNT3_NEARZERO), Func(hideSpray, spray, sprayScale, sprayRot, sprayProp, globalPropPool))
         return track
 

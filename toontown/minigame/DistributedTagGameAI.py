@@ -98,7 +98,7 @@ class DistributedTagGameAI(DistributedMinigameAI):
         for avId in self.avIdList:
             treasureScoreParams.append(self.treasureScores[avId])
 
-        self.sendUpdate('seTTWeasureScore', [treasureScoreParams])
+        self.sendUpdate('setTreasureScore', [treasureScoreParams])
 
     def clearTagBack(self, task):
         self.tagBack = 1

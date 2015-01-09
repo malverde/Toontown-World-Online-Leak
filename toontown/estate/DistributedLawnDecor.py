@@ -81,7 +81,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         self.handleExitPlot()
         self.ignoreAll()
         DistributedNode.DistributedNode.disable(self)
-        if hasaTTW(self, 'nodePath'):
+        if hasattr(self, 'nodePath'):
             self.nodePath.detachNode()
 
     def delete(self):
@@ -143,7 +143,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
             self.model.removeNode()
             del self.model
             self.model = None
-        if hasaTTW(self, 'nodePath') and self.nodePath:
+        if hasattr(self, 'nodePath') and self.nodePath:
             self.nodePath.removeNode()
             self.nodePath = None
         taskMgr.remove(self.uniqueName('adjust tree'))
@@ -216,7 +216,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
     def getOwnerId(self):
         retval = 0
         estate = base.cr.doFind('DistributedEstate')
-        if estate and hasaTTW(estate, 'idList') and estate.idList:
+        if estate and hasattr(estate, 'idList') and estate.idList:
             if self.ownerIndex < len(estate.idList):
                 retval = estate.idList[self.ownerIndex]
         return retval
@@ -226,7 +226,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         self.notify.debug('base.localAvatar.doId : %s' % base.localAvatar.doId)
         self.notify.debug('self.getOwnerId : %s ' % self.getOwnerId())
         self.notify.debug("statue's DoId : %s " % self.doId)
-        if not hasaTTW(base, 'localAvatar') or not base.localAvatar.doId == self.getOwnerId():
+        if not hasattr(base, 'localAvatar') or not base.localAvatar.doId == self.getOwnerId():
             retval = False
         return retval
 
@@ -272,12 +272,12 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
             base.localAvatar.setInGardenAction(self)
 
     def finishInteraction(self):
-        if hasaTTW(base.cr.playGame.getPlace(), 'detectedGardenPlotDone'):
+        if hasattr(base.cr.playGame.getPlace(), 'detectedGardenPlotDone'):
             base.cr.playGame.getPlace().detectedGardenPlotDone()
             self.notify.debug('done interaction')
         else:
             self.notify.warning('base.cr.playGame.getPlace() does not have detectedGardenPlotDone')
-        if hasaTTW(base, 'localAvatar'):
+        if hasattr(base, 'localAvatar'):
             base.localAvatar.handleEndPlantInteraction(self)
 
     def startCamIval(self, avId):
@@ -324,7 +324,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         if not toon:
             return
         self.finishMovies()
-        self.model.seTTWansparency(1)
+        self.model.setTransparency(1)
         self.model.setAlphaScale(1)
         shovel = toon.attachShovel()
         shovel.hide()
@@ -354,7 +354,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         if avId == localAvatar.doId:
             self.startInteraction()
         if self.model:
-            self.model.seTTWansparency(1)
+            self.model.setTransparency(1)
             self.model.setAlphaScale(0)
             self.movie.append(LerpFunc(self.model.setAlphaScale, fromData=0, toData=1, duration=3))
         self.movie.append(self.stopCamIval(avId))
@@ -363,7 +363,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         if avId == localAvatar.doId:
             self.movie.append(Func(self.finishInteraction))
             self.movie.append(Func(self.movieDone))
-            if hasaTTW(self, 'doResultDialog'):
+            if hasattr(self, 'doResultDialog'):
                 self.movie.append(Func(self.doResultDialog))
         self.movie.start()
 

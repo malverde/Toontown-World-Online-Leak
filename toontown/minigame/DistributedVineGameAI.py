@@ -33,7 +33,7 @@ class DistributedVineGameAI(DistributedMinigameAI):
         DistributedMinigameAI.delete(self)
 
     def _playing(self):
-        if not hasaTTW(self, 'gameFSM'):
+        if not hasattr(self, 'gameFSM'):
             return False
         if self.gameFSM.getCurrentState() == None:
             return False
@@ -132,7 +132,7 @@ class DistributedVineGameAI(DistributedMinigameAI):
             return
         self.takenTable[treasureNum] = 1
         avId = self.air.getAvatarIdFromSender()
-        self.sendUpdate('seTTWeasureGrabbed', [avId, treasureNum])
+        self.sendUpdate('setTreasureGrabbed', [avId, treasureNum])
         self.scoreDict[avId] += 1
         self.numTreasuresTaken += 1
 
@@ -304,8 +304,8 @@ class DistributedVineGameAI(DistributedMinigameAI):
     def getVineSections(self):
         return self.vineSections
 
-    def seTTWolleyZone(self, trolleyZone):
-        DistributedMinigameAI.seTTWolleyZone(self, trolleyZone)
+    def setTrolleyZone(self, trolleyZone):
+        DistributedMinigameAI.setTrolleyZone(self, trolleyZone)
         self.setupVineSections()
 
     def awardPartialBeans(self):

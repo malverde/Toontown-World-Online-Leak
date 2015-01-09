@@ -14,7 +14,7 @@ class DNASaxHandler(xml.sax.ContentHandler):
         self.stack = []
         self.root = None
 
-    def startElement(self, tag, aTTWs):
+    def startElement(self, tag, attrs):
         if self.stack:
             parent = self.stack[-1]
             parentTag = parent.TAG
@@ -29,7 +29,7 @@ class DNASaxHandler(xml.sax.ContentHandler):
         if parentTag not in element.PARENTS:
             raise DNAParseError('Cannot put %s below %s element' % (tag, parentTag))
 
-        element = element(**aTTWs)
+        element = element(**attrs)
         self.stack.append(element)
         element.reparentTo(parent)
 

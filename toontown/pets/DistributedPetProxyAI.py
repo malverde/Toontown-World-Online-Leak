@@ -18,7 +18,7 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
         self.petName = 'unnamed'
         self.traitSeed = 0
         self.safeZone = ToontownGlobals.ToontownCentral
-        self.traitList = [0] * PeTTWaits.PeTTWaits.NumTraits
+        self.traitList = [0] * PetTraits.PetTraits.NumTraits
         self.head = -1
         self.ears = -1
         self.nose = -1
@@ -32,7 +32,7 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
         self.lastSeenTimestamp = self.getCurEpochTimestamp()
         self.requiredMoodComponents = {}
         self.__funcsToDelete = []
-        self.__generateDisTTWaitFuncs()
+        self.__generateDistTraitFuncs()
         self.__generateDistMoodFuncs()
 
     def getSetterName(self, valueName, prefix = 'set'):
@@ -76,17 +76,17 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
     def setPetName(self, petName):
         self.petName = petName
 
-    def geTTWaitSeed(self):
+    def getTraitSeed(self):
         return self.traitSeed
 
-    def b_seTTWaitSeed(self, traitSeed):
-        self.d_seTTWaitSeed(traitSeed)
-        self.seTTWaitSeed(traitSeed)
+    def b_setTraitSeed(self, traitSeed):
+        self.d_setTraitSeed(traitSeed)
+        self.setTraitSeed(traitSeed)
 
-    def d_seTTWaitSeed(self, traitSeed):
-        self.sendUpdate('seTTWaitSeed', [traitSeed])
+    def d_setTraitSeed(self, traitSeed):
+        self.sendUpdate('setTraitSeed', [traitSeed])
 
-    def seTTWaitSeed(self, traitSeed):
+    def setTraitSeed(self, traitSeed):
         self.traitSeed = traitSeed
 
     def getSafeZone(self):
@@ -102,12 +102,12 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
     def setSafeZone(self, safeZone):
         self.safeZone = safeZone
 
-    def seTTWaits(self, traitList):
+    def setTraits(self, traitList):
         self.traitList = traitList
 
-    def __generateDisTTWaitFuncs(self):
-        for i in xrange(PeTTWaits.PeTTWaits.NumTraits):
-            traitName = PeTTWaits.geTTWaitNames()[i]
+    def __generateDistTraitFuncs(self):
+        for i in xrange(PetTraits.PetTraits.NumTraits):
+            traitName = PetTraits.getTraitNames()[i]
             getterName = self.getSetterName(traitName, 'get')
             b_setterName = self.getSetterName(traitName, 'b_set')
             d_setterName = self.getSetterName(traitName, 'd_set')
@@ -310,37 +310,37 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
             self.__funcsToDelete.append('d_%s' % setterName)
             self.__funcsToDelete.append(setterName)
 
-    def geTTWickAptitudes(self):
+    def getTrickAptitudes(self):
         return self.trickAptitudes
 
-    def b_seTTWickAptitudes(self, aptitudes):
-        self.seTTWickAptitudes(aptitudes, local=1)
-        self.d_seTTWickAptitudes(aptitudes)
+    def b_setTrickAptitudes(self, aptitudes):
+        self.setTrickAptitudes(aptitudes, local=1)
+        self.d_setTrickAptitudes(aptitudes)
 
-    def d_seTTWickAptitudes(self, aptitudes):
+    def d_setTrickAptitudes(self, aptitudes):
         if __dev__:
             for aptitude in aptitudes:
                 pass
 
-        while len(aptitudes) < len(PeTTWicks.Tricks) - 1:
+        while len(aptitudes) < len(PetTricks.Tricks) - 1:
             aptitudes.append(0.0)
 
-        self.sendUpdate('seTTWickAptitudes', [aptitudes])
+        self.sendUpdate('setTrickAptitudes', [aptitudes])
 
-    def seTTWickAptitudes(self, aptitudes, local = 0):
+    def setTrickAptitudes(self, aptitudes, local = 0):
         if not local:
-            DistributedPetProxyAI.notify.debug('seTTWickAptitudes: %s' % aptitudes)
-        while len(self.trickAptitudes) < len(PeTTWicks.Tricks) - 1:
+            DistributedPetProxyAI.notify.debug('setTrickAptitudes: %s' % aptitudes)
+        while len(self.trickAptitudes) < len(PetTricks.Tricks) - 1:
             self.trickAptitudes.append(0.0)
 
         self.trickAptitudes = aptitudes
 
-    def geTTWickAptitude(self, trickId):
+    def getTrickAptitude(self, trickId):
         if trickId > len(self.trickAptitudes) - 1:
             return 0.0
         return self.trickAptitudes[trickId]
 
-    def seTTWickAptitude(self, trickId, aptitude, send = 1):
+    def setTrickAptitude(self, trickId, aptitude, send = 1):
         aptitude = clampScalar(aptitude, 0.0, 1.0)
         aptitudes = self.trickAptitudes
         while len(aptitudes) - 1 < trickId:
@@ -349,19 +349,19 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
         if aptitudes[trickId] != aptitude:
             aptitudes[trickId] = aptitude
             if send:
-                self.b_seTTWickAptitudes(aptitudes)
+                self.b_setTrickAptitudes(aptitudes)
             else:
-                self.seTTWickAptitudes(aptitudes, local=1)
+                self.setTrickAptitudes(aptitudes, local=1)
 
     def generate(self):
         DistributedObjectAI.DistributedObjectAI.generate(self)
-        self.traits = PeTTWaits.PeTTWaits(self.traitSeed, self.safeZone)
+        self.traits = PetTraits.PetTraits(self.traitSeed, self.safeZone)
         print self.traits.traits
         for i in xrange(len(self.traitList)):
             value = self.traitList[i]
             if value == 0.0:
-                traitName = PeTTWaits.geTTWaitNames()[i]
-                traitValue = self.traits.geTTWaitValue(traitName)
+                traitName = PetTraits.getTraitNames()[i]
+                traitValue = self.traits.getTraitValue(traitName)
                 DistributedPetProxyAI.notify.info("%s: initializing new trait '%s' to %s, seed=%s" % (self.doId,
                  traitName,
                  traitValue,
@@ -419,26 +419,26 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
 
     def _willDoTrick(self, trickId):
         if self.isContented():
-            minApt = PeTTWicks.MinActualTrickAptitude
-            maxApt = PeTTWicks.MaxActualTrickAptitude
+            minApt = PetTricks.MinActualTrickAptitude
+            maxApt = PetTricks.MaxActualTrickAptitude
         else:
-            minApt = PeTTWicks.NonHappyMinActualTrickAptitude
-            maxApt = PeTTWicks.NonHappyMaxActualTrickAptitude
+            minApt = PetTricks.NonHappyMinActualTrickAptitude
+            maxApt = PetTricks.NonHappyMaxActualTrickAptitude
         randVal = random.random()
-        cutoff = lerp(minApt, maxApt, self.geTTWickAptitude(trickId))
+        cutoff = lerp(minApt, maxApt, self.getTrickAptitude(trickId))
         if self.mood.isComponentActive('fatigue'):
             cutoff *= 0.5
-        cutoff *= PeTTWicks.TrickAccuracies[trickId]
+        cutoff *= PetTricks.TrickAccuracies[trickId]
         DistributedPetProxyAI.notify.debug('_willDoTrick: %s / %s' % (randVal, cutoff))
         return randVal < cutoff
 
     def _handleDidTrick(self, trickId):
         DistributedPetProxyAI.notify.debug('_handleDidTrick: %s' % trickId)
-        if trickId == PeTTWicks.Tricks.BALK:
+        if trickId == PetTricks.Tricks.BALK:
             return
-        aptitude = self.geTTWickAptitude(trickId)
-        self.seTTWickAptitude(trickId, aptitude + PeTTWicks.AptitudeIncrementDidTrick)
-        self.addToMood('fatigue', lerp(PeTTWicks.MaxTrickFatigue, PeTTWicks.MinTrickFatigue, aptitude))
+        aptitude = self.getTrickAptitude(trickId)
+        self.setTrickAptitude(trickId, aptitude + PetTricks.AptitudeIncrementDidTrick)
+        self.addToMood('fatigue', lerp(PetTricks.MaxTrickFatigue, PetTricks.MinTrickFatigue, aptitude))
         self.d_setDominantMood(self.mood.getDominantMood())
 
     def attemptBattleTrick(self, trickId):

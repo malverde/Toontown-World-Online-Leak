@@ -51,7 +51,7 @@ class InGameEditor(AppShell):
         self.visZonesEditor = None
         AppShell.__init__(self)
         self.initialiseoptions(self.__class__)
-        self.accept(self.level.getATTWibChangeEventName(), self.handleATTWibChange)
+        self.accept(self.level.getAttribChangeEventName(), self.handleAttribChange)
         self.accept('DIRECT_selectedNodePath', self.selectedNodePathHook)
         self.accept('DIRECT_manipulateObjectCleanup', self.manipCleanupHook)
         self.accept('DIRECT_undo', self.manipCleanupHook)
@@ -156,7 +156,7 @@ class InGameEditor(AppShell):
         mainFrame.pack(fill=BOTH, expand=1)
         self.createButtons()
         self.initialiseoptions(self.__class__)
-        self.aTTWibWidgets = []
+        self.attribWidgets = []
 
     def selectedNodePathHook(self, nodePath):
         np = nodePath.findNetTag('entity')
@@ -183,17 +183,17 @@ class InGameEditor(AppShell):
             return
         entId = self.level.nodePathId2EntId.get(nodePathList[0].id())
         if entId:
-            t = nodePathList[0].geTTWansform()
+            t = nodePathList[0].getTransform()
             entSpec = self.level.levelSpec.getEntitySpec(entId)
             entPos = entSpec.get('pos')
             if entPos and t.getPos() != entPos:
-                self.level.setATTWibEdit(entId, 'pos', Point3(t.getPos()))
+                self.level.setAttribEdit(entId, 'pos', Point3(t.getPos()))
             entHpr = entSpec.get('hpr')
             if entHpr and t.getHpr() != entHpr:
-                self.level.setATTWibEdit(entId, 'hpr', Vec3(t.getHpr()))
+                self.level.setAttribEdit(entId, 'hpr', Vec3(t.getHpr()))
             entScale = entSpec.get('scale')
             if entScale and t.getScale() != entScale:
-                self.level.setATTWibEdit(entId, 'scale', Vec3(t.getScale()))
+                self.level.setAttribEdit(entId, 'scale', Vec3(t.getScale()))
 
     def refreshExplorer(self):
         self.explorer.update()
@@ -202,7 +202,7 @@ class InGameEditor(AppShell):
         node = self.explorer._node.find(entId)
         if node:
             node.reveal()
-            self.explorer._node.deselecTTWee()
+            self.explorer._node.deselecttree()
             node.select()
 
     def removeSelectedEntity(self):
@@ -227,13 +227,13 @@ class InGameEditor(AppShell):
                 self.selectEntity(parentEntId)
         return
 
-    def clearATTWibEditPane(self):
-        for widg in self.aTTWibWidgets:
+    def clearAttribEditPane(self):
+        for widg in self.attribWidgets:
             widg.destroy()
 
         if self.visZonesEditor:
             self.visZonesEditor.destroy()
-        self.aTTWibWidgets = []
+        self.attribWidgets = []
         self.curEntId = None
         self.curEntWidgets = {}
         self.cbDict = {}
@@ -248,131 +248,131 @@ class InGameEditor(AppShell):
                 self.entityCopy.setColor(1, 0, 0)
         return
 
-    def updateATTWibEditPane(self, entId, levelSpec, entTypeReg):
-        self.clearATTWibEditPane()
+    def updateAttribEditPane(self, entId, levelSpec, entTypeReg):
+        self.clearAttribEditPane()
         self.curEntId = entId
         widgetSetter = None
         entSpec = levelSpec.getEntitySpec(entId)
         typeDesc = entTypeReg.getTypeDesc(entSpec['type'])
-        aTTWibNames = typeDesc.getATTWibNames()
-        aTTWibDescs = typeDesc.getATTWibDescDict()
-        for aTTWibName in aTTWibNames:
-            desc = aTTWibDescs[aTTWibName]
+        attribNames = typeDesc.getAttribNames()
+        attribDescs = typeDesc.getAttribDescDict()
+        for attribName in attribNames:
+            desc = attribDescs[attribName]
             params = desc.getParams()
             datatype = desc.getDatatype()
             if datatype == 'int':
-                self.addIntWidget(levelSpec, entSpec, entId, aTTWibName, params)
+                self.addIntWidget(levelSpec, entSpec, entId, attribName, params)
             elif datatype == 'float':
-                self.addFloatWidget(levelSpec, entSpec, entId, aTTWibName, params)
+                self.addFloatWidget(levelSpec, entSpec, entId, attribName, params)
             elif datatype == 'bool':
-                self.addBoolWidget(levelSpec, entSpec, entId, aTTWibName, params)
+                self.addBoolWidget(levelSpec, entSpec, entId, attribName, params)
             elif datatype == 'choice':
-                self.addChoiceWidget(levelSpec, entSpec, entId, aTTWibName, params)
+                self.addChoiceWidget(levelSpec, entSpec, entId, attribName, params)
             elif datatype == 'multiChoice':
-                self.addMultiChoiceWidget(levelSpec, entSpec, entId, aTTWibName, params)
+                self.addMultiChoiceWidget(levelSpec, entSpec, entId, attribName, params)
             elif datatype in ['pos', 'hpr', 'scale']:
-                self.addVec3Widget(levelSpec, entSpec, entId, aTTWibName, params, datatype)
+                self.addVec3Widget(levelSpec, entSpec, entId, attribName, params, datatype)
             elif datatype == 'color':
-                self.addColorWidget(levelSpec, entSpec, entId, aTTWibName, params)
+                self.addColorWidget(levelSpec, entSpec, entId, attribName, params)
             elif datatype == 'bamfilename':
-                self.addFileWidget(levelSpec, entSpec, entId, aTTWibName, params)
+                self.addFileWidget(levelSpec, entSpec, entId, attribName, params)
             elif datatype == 'visZoneList':
-                self.addVisZoneWidget(levelSpec, entSpec, entId, aTTWibName, params)
+                self.addVisZoneWidget(levelSpec, entSpec, entId, attribName, params)
             elif datatype == 'entId':
-                self.addEntIdWidget(levelSpec, entSpec, entId, aTTWibName, params, entTypeReg)
+                self.addEntIdWidget(levelSpec, entSpec, entId, attribName, params, entTypeReg)
             elif datatype == 'string':
-                self.addStringWidget(levelSpec, entSpec, entId, aTTWibName, params)
+                self.addStringWidget(levelSpec, entSpec, entId, attribName, params)
             elif datatype == 'const':
-                self.addConstWidget(levelSpec, entSpec, entId, aTTWibName, params)
+                self.addConstWidget(levelSpec, entSpec, entId, attribName, params)
             else:
-                self.addPythonWidget(levelSpec, entSpec, entId, aTTWibName, params)
+                self.addPythonWidget(levelSpec, entSpec, entId, attribName, params)
 
         return
 
-    def addIntWidget(self, levelSpec, entSpec, entId, aTTWibName, params):
+    def addIntWidget(self, levelSpec, entSpec, entId, attribName, params):
         minVal = params.get('min', None)
         maxVal = params.get('max', None)
         if minVal is not None and maxVal is not None:
             widgClass = Slider.Slider
         else:
             widgClass = Floater.Floater
-        widg = widgClass(self.pageOneFrame.interior(), text=aTTWibName, value=entSpec[aTTWibName], numDigits=0, label_width=15, label_anchor=W, label_justify=LEFT, label_font=None, min=minVal, max=maxVal, resolution=1.0)
+        widg = widgClass(self.pageOneFrame.interior(), text=attribName, value=entSpec[attribName], numDigits=0, label_width=15, label_anchor=W, label_justify=LEFT, label_font=None, min=minVal, max=maxVal, resolution=1.0)
 
         def clientIntCommand(val):
             entity = self.level.getEntInstance(entId)
             if entity:
-                entity.handleATTWibChange(aTTWibName, int(val))
+                entity.handleAttribChange(attribName, int(val))
 
         def finalIntCommand():
-            self.level.setATTWibEdit(entId, aTTWibName, int(widg.get()))
+            self.level.setAttribEdit(entId, attribName, int(widg.get()))
 
         widg['command'] = clientIntCommand
         widg['postCallback'] = finalIntCommand
         widg.pack(fill=X, expand=1)
-        self.aTTWibWidgets.append(widg)
-        self.curEntWidgets[aTTWibName] = lambda x: widg.set(x, 0)
+        self.attribWidgets.append(widg)
+        self.curEntWidgets[attribName] = lambda x: widg.set(x, 0)
         return
 
-    def addFloatWidget(self, levelSpec, entSpec, entId, aTTWibName, params):
+    def addFloatWidget(self, levelSpec, entSpec, entId, attribName, params):
         minVal = params.get('min', None)
         maxVal = params.get('max', None)
-        widg = Floater.Floater(self.pageOneFrame.interior(), text=aTTWibName, value=entSpec[aTTWibName], label_width=15, label_anchor=W, label_justify=LEFT, label_font=None, min=minVal, max=maxVal)
+        widg = Floater.Floater(self.pageOneFrame.interior(), text=attribName, value=entSpec[attribName], label_width=15, label_anchor=W, label_justify=LEFT, label_font=None, min=minVal, max=maxVal)
 
         def clientFloatCommand(val):
             entity = self.level.getEntInstance(entId)
             if entity:
-                entity.handleATTWibChange(aTTWibName, val)
+                entity.handleAttribChange(attribName, val)
 
         def finalFloatCommand():
-            self.level.setATTWibEdit(entId, aTTWibName, widg.get())
+            self.level.setAttribEdit(entId, attribName, widg.get())
 
         widg['command'] = clientFloatCommand
         widg['postCallback'] = finalFloatCommand
         widg.pack(fill=X, expand=1)
-        self.aTTWibWidgets.append(widg)
-        self.curEntWidgets[aTTWibName] = lambda x: widg.set(x, 0)
+        self.attribWidgets.append(widg)
+        self.curEntWidgets[attribName] = lambda x: widg.set(x, 0)
         return
 
-    def addBoolWidget(self, levelSpec, entSpec, entId, aTTWibName, params):
+    def addBoolWidget(self, levelSpec, entSpec, entId, attribName, params):
         flag = BooleanVar()
-        flag.set(entSpec[aTTWibName])
+        flag.set(entSpec[attribName])
 
         def booleanCommand(booleanVar = flag):
-            self.level.setATTWibEdit(entId, aTTWibName, flag.get())
+            self.level.setAttribEdit(entId, attribName, flag.get())
 
         frame = Frame(self.pageOneFrame.interior())
-        label = Label(frame, text=aTTWibName, width=15, anchor=W, justify=LEFT)
+        label = Label(frame, text=attribName, width=15, anchor=W, justify=LEFT)
         label.pack(side=LEFT, expand=0)
         trueButton = Radiobutton(frame, text='True', value=1, variable=flag, command=booleanCommand)
         trueButton.pack(side=LEFT, expand=0)
         falseButton = Radiobutton(frame, text='False', value=0, variable=flag, command=booleanCommand)
         falseButton.pack(side=LEFT, expand=0)
         frame.pack(fill=X, expand=1)
-        self.aTTWibWidgets.append(frame)
-        self.curEntWidgets[aTTWibName] = flag.set
+        self.attribWidgets.append(frame)
+        self.curEntWidgets[attribName] = flag.set
 
-    def addChoiceWidget(self, levelSpec, entSpec, entId, aTTWibName, params):
-        if aTTWibName in entSpec:
-            aTTWibuteValue = entSpec.get(aTTWibName)
+    def addChoiceWidget(self, levelSpec, entSpec, entId, attribName, params):
+        if attribName in entSpec:
+            attributeValue = entSpec.get(attribName)
         else:
             typeDesc = self.level.entTypeReg.getTypeDesc(entSpec['type'])
-            aTTWibDesc = typeDesc.getATTWibDescDict()[aTTWibName]
-            aTTWibuteValue = aTTWibDesc.getDefaultValue()
+            attribDesc = typeDesc.getAttribDescDict()[attribName]
+            attributeValue = attribDesc.getDefaultValue()
         valueDict = params.get('valueDict', {})
         for key, value in valueDict.items():
-            if value == aTTWibuteValue:
-                aTTWibuteValue = key
+            if value == attributeValue:
+                attributeValue = key
                 break
 
         radioVar = StringVar()
-        radioVar.set(aTTWibuteValue)
+        radioVar.set(attributeValue)
 
         def radioCommand(radioVar = radioVar):
             value = valueDict.get(radioVar.get(), radioVar.get())
-            self.level.setATTWibEdit(entId, aTTWibName, value)
+            self.level.setAttribEdit(entId, attribName, value)
 
         frame = Frame(self.pageOneFrame.interior(), relief=GROOVE, borderwidth=2)
-        label = Label(frame, text=aTTWibName, width=15, anchor=W, justify=LEFT)
+        label = Label(frame, text=attribName, width=15, anchor=W, justify=LEFT)
         label.pack(side=LEFT, expand=0)
         for choice in params.get('choiceSet', []):
             if type(choice) is types.StringType:
@@ -385,35 +385,35 @@ class InGameEditor(AppShell):
             choiceButton.pack(side=LEFT, expand=0)
 
         frame.pack(fill=X, expand=1)
-        self.aTTWibWidgets.append(frame)
+        self.attribWidgets.append(frame)
 
-        def setRadioVar(aTTWibuteValue):
+        def setRadioVar(attributeValue):
             for key, value in valueDict.items():
-                if value == aTTWibuteValue:
-                    aTTWibuteValue = key
+                if value == attributeValue:
+                    attributeValue = key
                     break
 
-            radioVar.set(aTTWibuteValue)
+            radioVar.set(attributeValue)
 
-        self.curEntWidgets[aTTWibName] = setRadioVar
+        self.curEntWidgets[attribName] = setRadioVar
 
-    def addMultiChoiceWidget(self, levelSpec, entSpec, entId, aTTWibName, params):
+    def addMultiChoiceWidget(self, levelSpec, entSpec, entId, attribName, params):
         frame = Frame(self.pageOneFrame.interior(), relief=GROOVE, borderwidth=2)
-        label = Label(frame, text=aTTWibName, width=15, anchor=W, justify=LEFT)
+        label = Label(frame, text=attribName, width=15, anchor=W, justify=LEFT)
         label.pack(side=LEFT, expand=0)
         valueDict = params.get('valueDict', {})
-        self.cbDict[aTTWibName] = list2dict(entSpec[aTTWibName], value=1)
+        self.cbDict[attribName] = list2dict(entSpec[attribName], value=1)
         checkbuttonDict = {}
         base.cbButtons = []
         base.checkbuttonDict = checkbuttonDict
         for choice in params.get('choiceSet', []):
             trueValue = valueDict.get(choice, choice)
             cbVar = IntVar()
-            cbVar.set(trueValue in self.cbDict[aTTWibName])
+            cbVar.set(trueValue in self.cbDict[attribName])
             checkbuttonDict[trueValue] = cbVar
 
             def cbCommand(var, trueValue = trueValue):
-                vd = self.cbDict[aTTWibName]
+                vd = self.cbDict[attribName]
                 print vd
                 if var.get():
                     print 'got it', trueValue, vd
@@ -424,7 +424,7 @@ class InGameEditor(AppShell):
                         del vd[trueValue]
                 value = vd.keys()
                 print 'SENDING', value
-                self.level.setATTWibEdit(entId, aTTWibName, value)
+                self.level.setAttribEdit(entId, attribName, value)
 
             if type(choice) is types.StringType:
                 labelStr = choice
@@ -436,24 +436,24 @@ class InGameEditor(AppShell):
             base.cbButtons.append(choiceButton)
 
         frame.pack(fill=X, expand=1)
-        self.aTTWibWidgets.append(frame)
+        self.attribWidgets.append(frame)
 
-        def setCheckbuttonVar(aTTWibuteValueList):
-            print 'COMING BACK', aTTWibuteValueList
-            for aTTWibuteValue, cb in checkbuttonDict.items():
-                if aTTWibuteValue in aTTWibuteValueList:
+        def setCheckbuttonVar(attributeValueList):
+            print 'COMING BACK', attributeValueList
+            for attributeValue, cb in checkbuttonDict.items():
+                if attributeValue in attributeValueList:
                     cb.set(1)
                 else:
                     cb.set(0)
 
-        self.curEntWidgets[aTTWibName] = setCheckbuttonVar
+        self.curEntWidgets[attribName] = setCheckbuttonVar
 
-    def addVec3Widget(self, levelSpec, entSpec, entId, aTTWibName, params, datatype):
+    def addVec3Widget(self, levelSpec, entSpec, entId, attribName, params, datatype):
 
         def veCommand(poslist):
-            self.level.setATTWibEdit(entId, aTTWibName, Point3(*poslist))
+            self.level.setAttribEdit(entId, attribName, Point3(*poslist))
 
-        vec = entSpec[aTTWibName]
+        vec = entSpec[attribName]
         if not isinstance(vec, VBase3):
             vec = Vec3(vec)
         value = [vec[0], vec[1], vec[2]]
@@ -469,10 +469,10 @@ class InGameEditor(AppShell):
             floaterType = 'slider'
             minVal = 0
             maxVal = 1000
-        widg = VectorWidgets.VectorEntry(self.pageOneFrame.interior(), text=aTTWibName, value=value, type=floaterType, bd=0, relief=None, min=minVal, max=maxVal, label_justify=LEFT, label_anchor=W, label_width=14, label_bd=0, labelIpadx=0, floaterGroup_labels=floaterLabels)
+        widg = VectorWidgets.VectorEntry(self.pageOneFrame.interior(), text=attribName, value=value, type=floaterType, bd=0, relief=None, min=minVal, max=maxVal, label_justify=LEFT, label_anchor=W, label_width=14, label_bd=0, labelIpadx=0, floaterGroup_labels=floaterLabels)
         widg['command'] = veCommand
         widg.pack(fill=X, expand=1)
-        if aTTWibName in ('pos', 'hpr', 'scale'):
+        if attribName in ('pos', 'hpr', 'scale'):
 
             def placeEntity():
                 selectedEntityNP = self.level.getEntInstanceNP(entId)
@@ -496,16 +496,16 @@ class InGameEditor(AppShell):
 
         widg._floaters['command'] = adjustCopy
         widg._floaters.component('valuatorGroup')['postCallback'] = lambda x, y, z: veCommand([x, y, z])
-        self.aTTWibWidgets.append(widg)
-        self.curEntWidgets[aTTWibName] = lambda x: widg.set(x, 0)
+        self.attribWidgets.append(widg)
+        self.curEntWidgets[attribName] = lambda x: widg.set(x, 0)
         return
 
-    def addColorWidget(self, levelSpec, entSpec, entId, aTTWibName, params):
+    def addColorWidget(self, levelSpec, entSpec, entId, attribName, params):
 
         def veCommand(colorlist):
-            self.level.setATTWibEdit(entId, aTTWibName, Vec4(*colorlist) / 255.0)
+            self.level.setAttribEdit(entId, attribName, Vec4(*colorlist) / 255.0)
 
-        vec = entSpec[aTTWibName]
+        vec = entSpec[attribName]
         value = [vec[0] * 255.0,
          vec[1] * 255.0,
          vec[2] * 255.0,
@@ -514,7 +514,7 @@ class InGameEditor(AppShell):
          'g',
          'b',
          'a']
-        widg = VectorWidgets.ColorEntry(self.pageOneFrame.interior(), text=aTTWibName, type='slider', relief=None, bd=0, label_justify=LEFT, label_anchor=W, label_width=14, label_bd=0, labelIpadx=0, floaterGroup_labels=floaterLabels, value=value, floaterGroup_value=value)
+        widg = VectorWidgets.ColorEntry(self.pageOneFrame.interior(), text=attribName, type='slider', relief=None, bd=0, label_justify=LEFT, label_anchor=W, label_width=14, label_bd=0, labelIpadx=0, floaterGroup_labels=floaterLabels, value=value, floaterGroup_value=value)
         widg['command'] = veCommand
         widg.pack(fill=X, expand=1)
 
@@ -530,16 +530,16 @@ class InGameEditor(AppShell):
          y,
          z,
          a])
-        self.aTTWibWidgets.append(widg)
-        self.curEntWidgets[aTTWibName] = lambda x: widg.set(x * 255.0, 0)
+        self.attribWidgets.append(widg)
+        self.curEntWidgets[attribName] = lambda x: widg.set(x * 255.0, 0)
         return
 
-    def addFileWidget(self, levelSpec, entSpec, entId, aTTWibName, params):
+    def addFileWidget(self, levelSpec, entSpec, entId, attribName, params):
         text = StringVar()
-        text.set(repr(entSpec[aTTWibName]))
+        text.set(repr(entSpec[attribName]))
 
         def handleReturn(event):
-            self.handleATTWibuteChangeSubmit(aTTWibName, text, entId, levelSpec)
+            self.handleAttributeChangeSubmit(attribName, text, entId, levelSpec)
 
         def askFilename(callback = handleReturn):
             if text.get() == 'None':
@@ -559,7 +559,7 @@ class InGameEditor(AppShell):
             return
 
         frame = Frame(self.pageOneFrame.interior())
-        label = Button(frame, text=aTTWibName, width=14, borderwidth=0, anchor=W, justify=LEFT)
+        label = Button(frame, text=attribName, width=14, borderwidth=0, anchor=W, justify=LEFT)
         label['command'] = askFilename
         label.pack(side=LEFT, expand=0)
 
@@ -575,27 +575,27 @@ class InGameEditor(AppShell):
         widg.bind('<Return>', handleReturn)
         widg.pack(side=LEFT, fill=X, expand=1)
         frame.pack(fill=X, expand=1)
-        self.aTTWibWidgets.append(frame)
-        self.curEntWidgets[aTTWibName] = lambda x: text.set(repr(x))
+        self.attribWidgets.append(frame)
+        self.curEntWidgets[attribName] = lambda x: text.set(repr(x))
 
-    def addVisZoneWidget(self, levelSpec, entSpec, entId, aTTWibName, params):
+    def addVisZoneWidget(self, levelSpec, entSpec, entId, attribName, params):
         text = StringVar()
-        text.set(repr(entSpec[aTTWibName]))
+        text.set(repr(entSpec[attribName]))
 
         def handleReturn(event):
-            self.handleATTWibuteChangeSubmit(aTTWibName, text, entId, levelSpec)
+            self.handleAttributeChangeSubmit(attribName, text, entId, levelSpec)
 
         def handleUpdate(visZoneList):
-            self.level.setATTWibEdit(entId, aTTWibName, visZoneList)
+            self.level.setAttribEdit(entId, attribName, visZoneList)
 
         def getZoneList(callback = handleReturn):
             zoneEntIds = list(self.level.entType2ids['zone'])
             zoneEntIds.remove(LevelConstants.UberZoneEntId)
             zoneEntIds.sort()
-            self.visZonesEditor = LevelVisZonesEditor(self, entId, entSpec[aTTWibName], modelZones=zoneEntIds, updateCommand=handleUpdate)
+            self.visZonesEditor = LevelVisZonesEditor(self, entId, entSpec[attribName], modelZones=zoneEntIds, updateCommand=handleUpdate)
 
         frame = Frame(self.pageOneFrame.interior())
-        label = Button(frame, text=aTTWibName, width=14, borderwidth=0, anchor=W, justify=LEFT)
+        label = Button(frame, text=attribName, width=14, borderwidth=0, anchor=W, justify=LEFT)
         label['command'] = getZoneList
         label.pack(side=LEFT, expand=0)
 
@@ -611,33 +611,33 @@ class InGameEditor(AppShell):
         widg.bind('<Return>', handleReturn)
         widg.pack(side=LEFT, fill=X, expand=1)
         frame.pack(fill=X, expand=1)
-        self.aTTWibWidgets.append(frame)
+        self.attribWidgets.append(frame)
 
         def refreshWidget(visZoneList):
             text.set(repr(visZoneList))
             if self.visZonesEditor:
                 self.visZonesEditor.setVisible(visZoneList)
 
-        self.curEntWidgets[aTTWibName] = refreshWidget
+        self.curEntWidgets[attribName] = refreshWidget
 
-    def addEntIdWidget(self, levelSpec, entSpec, entId, aTTWibName, params, entTypeReg):
+    def addEntIdWidget(self, levelSpec, entSpec, entId, attribName, params, entTypeReg):
         text = StringVar()
-        text.set(repr(entSpec[aTTWibName]))
+        text.set(repr(entSpec[attribName]))
 
         def handleReturn(event):
-            self.handleATTWibuteChangeSubmit(aTTWibName, text, entId, levelSpec)
+            self.handleAttributeChangeSubmit(attribName, text, entId, levelSpec)
 
         def handleMenu(id):
             text.set(id)
-            self.level.setATTWibEdit(entId, aTTWibName, id)
+            self.level.setAttribEdit(entId, attribName, id)
 
         frame = Frame(self.pageOneFrame.interior())
-        label = Label(frame, text=aTTWibName, width=15, anchor=W, justify=LEFT)
+        label = Label(frame, text=attribName, width=15, anchor=W, justify=LEFT)
         label.pack(side=LEFT, expand=0)
         widg = Entry(frame, textvariable=text)
         widg.bind('<Return>', handleReturn)
         widg.pack(side=LEFT, fill=X, expand=1)
-        if aTTWibName is 'parentEntId':
+        if attribName is 'parentEntId':
             buttonText = 'Reparent To'
         else:
             buttonText = 'Select Entity'
@@ -705,54 +705,54 @@ class InGameEditor(AppShell):
                 idIndex += 1
 
         frame.pack(fill=X, expand=1)
-        self.aTTWibWidgets.append(frame)
-        self.curEntWidgets[aTTWibName] = text.set
+        self.attribWidgets.append(frame)
+        self.curEntWidgets[attribName] = text.set
 
-    def addStringWidget(self, levelSpec, entSpec, entId, aTTWibName, params):
+    def addStringWidget(self, levelSpec, entSpec, entId, attribName, params):
         text = StringVar()
-        text.set(str(entSpec[aTTWibName]))
+        text.set(str(entSpec[attribName]))
 
         def handleReturn(event):
-            self.level.setATTWibEdit(entId, aTTWibName, text.get())
+            self.level.setAttribEdit(entId, attribName, text.get())
 
         frame = Frame(self.pageOneFrame.interior())
-        label = Label(frame, text=aTTWibName, width=15, anchor=W, justify=LEFT)
+        label = Label(frame, text=attribName, width=15, anchor=W, justify=LEFT)
         label.pack(side=LEFT, expand=0)
         widg = Entry(frame, textvariable=text)
         widg.bind('<Return>', handleReturn)
         widg.pack(side=LEFT, fill=X, expand=1)
         frame.pack(fill=X, expand=1)
-        self.aTTWibWidgets.append(frame)
-        self.curEntWidgets[aTTWibName] = text.set
+        self.attribWidgets.append(frame)
+        self.curEntWidgets[attribName] = text.set
 
-    def addConstWidget(self, levelSpec, entSpec, entId, aTTWibName, params):
+    def addConstWidget(self, levelSpec, entSpec, entId, attribName, params):
         frame = Frame(self.pageOneFrame.interior())
-        label = Label(frame, text=aTTWibName, width=15, anchor=W, justify=LEFT)
+        label = Label(frame, text=attribName, width=15, anchor=W, justify=LEFT)
         label.pack(side=LEFT, expand=0)
-        text = str(entSpec[aTTWibName])
+        text = str(entSpec[attribName])
         valueLabel = Label(frame, text=text, anchor=W, justify=LEFT, relief=GROOVE)
         valueLabel.pack(side=LEFT, fill=X, expand=1)
         frame.pack(fill=X, expand=1)
-        self.aTTWibWidgets.append(frame)
+        self.attribWidgets.append(frame)
 
-    def addPythonWidget(self, levelSpec, entSpec, entId, aTTWibName, params):
+    def addPythonWidget(self, levelSpec, entSpec, entId, attribName, params):
         text = StringVar()
-        text.set(repr(entSpec[aTTWibName]))
+        text.set(repr(entSpec[attribName]))
 
         def handleReturn(event):
-            self.handleATTWibuteChangeSubmit(aTTWibName, text, entId, levelSpec)
+            self.handleAttributeChangeSubmit(attribName, text, entId, levelSpec)
 
         frame = Frame(self.pageOneFrame.interior())
-        label = Label(frame, text=aTTWibName, width=15, anchor=W, justify=LEFT)
+        label = Label(frame, text=attribName, width=15, anchor=W, justify=LEFT)
         label.pack(side=LEFT, expand=0)
         widg = Entry(frame, textvariable=text)
         widg.bind('<Return>', handleReturn)
         widg.pack(side=LEFT, fill=X, expand=1)
         frame.pack(fill=X, expand=1)
-        self.aTTWibWidgets.append(frame)
-        self.curEntWidgets[aTTWibName] = lambda x: text.set(repr(x))
+        self.attribWidgets.append(frame)
+        self.curEntWidgets[attribName] = lambda x: text.set(repr(x))
 
-    def handleATTWibuteChangeSubmit(self, aTTWibName, textObj, entId, levelSpec):
+    def handleAttributeChangeSubmit(self, attribName, textObj, entId, levelSpec):
         newText = textObj.get()
         try:
             value = eval(newText)
@@ -760,15 +760,15 @@ class InGameEditor(AppShell):
             showwarning('ERROR', 'that is not a valid Python object', parent=self.parent)
             return
 
-        self.level.setATTWibEdit(entId, aTTWibName, value)
+        self.level.setAttribEdit(entId, attribName, value)
 
-    def handleATTWibChange(self, entId, aTTWibName, value, username):
+    def handleAttribChange(self, entId, attribName, value, username):
         if username == self.level.editUsername:
             if self.entityCopy:
                 self.entityCopy.removeNode()
                 self.entityCopy = None
         if entId == self.curEntId:
-            widgetSetter = self.curEntWidgets[aTTWibName]
+            widgetSetter = self.curEntWidgets[attribName]
             if widgetSetter is not None:
                 widgetSetter(value)
         return
@@ -786,7 +786,7 @@ class InGameEditor(AppShell):
         from direct.directtools import DirectSession
         direct.disable()
         bboard.remove(DirectSession.DirectSession.DIRECTdisablePost)
-        self.ignore(self.level.getATTWibChangeEventName())
+        self.ignore(self.level.getAttribChangeEventName())
         self.ignore('DIRECT_selectedNodePath')
         self.ignore('DIRECT_manipulateObjectCleanup')
         self.ignore('DIRECT_undo')

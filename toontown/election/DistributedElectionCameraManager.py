@@ -35,9 +35,9 @@ class DistributedElectionCameraManager(DistributedObject):
         )
         self.tvFlyIn = Sequence(
             Func(self.tv.show),
-            Func(self.tv.seTTWansparency, 1),
+            Func(self.tv.setTransparency, 1),
             Parallel(self.tv.colorScaleInterval(1, colorScale=VBase4(1, 1, 1, 1), startColorScale=VBase4(1, 1, 1, 0)), self.tv.posInterval(4, (87.85, -0.25, 20.0), blendType='easeInOut')),
-            Func(self.tv.seTTWansparency, 0),
+            Func(self.tv.setTransparency, 0),
             self.tv.posInterval(2, (87.85, -0.25, 21.0)),
             Func(self.tvIdle.loop)
         )
@@ -115,6 +115,6 @@ class DistributedElectionCameraManager(DistributedObject):
             self.cr.doId2do[self.mainCam].camera.hide()
 @magicWord(category=CATEGORY_CAMERA)
 def cameraView():
-    if not hasaTTW(base.cr, 'cameraManager'):
+    if not hasattr(base.cr, 'cameraManager'):
        return 'No Camera Manager.'
     base.cr.cameraManager._toggleCameraView()

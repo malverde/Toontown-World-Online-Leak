@@ -51,11 +51,11 @@ class DistributedElectionCameraManagerAI(DistributedObjectAI):
 
 @magicWord(category=CATEGORY_CAMERA, types=[str, str])
 def cameras(cmd, args=''):
-    if not hasaTTW(simbase.air, 'cameraManager') and cmd != 'spawn':
+    if not hasattr(simbase.air, 'cameraManager') and cmd != 'spawn':
         return "There is no Camera Manager!"
     
     if cmd == 'spawn':
-        if hasaTTW(simbase.air, 'cameraManager'):
+        if hasattr(simbase.air, 'cameraManager'):
             return "A Camera Manager already exists!"
         camMgr = DistributedElectionCameraManagerAI(simbase.air)
         camMgr.spawnManager()

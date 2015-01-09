@@ -44,7 +44,7 @@ class DNAFlatBuilding(DNANode):
 
     def generateSuitGeometry(self, storage, np, height, barrier):
         node = np.getParent().attachNewNode('sb' + self.id[2:])
-        node.seTTWansform(np.geTTWansform())
+        node.setTransform(np.getTransform())
 
         barrier.copyTo(node)
 

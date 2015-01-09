@@ -302,8 +302,8 @@ class RaceWinningsPanel(DirectFrame):
         if ticBonus:
             winningsSeq.append(Sequence(Func(self.ticketFrame.hide), Func(self.bonusFrame.show), Func(self.trophyFrame.hide), Wait(5)))
 
-        def showCorrecTTWophy(trophyId):
-            if hasaTTW(self, 'trophyImage'):
+        def showCorrectTrophy(trophyId):
+            if hasattr(self, 'trophyImage'):
                 self.trophyImage.destroy()
             self.trophyImage = RacingTrophy(level=trophyId, parent=self.trophyComponents[1], pos=(0.5, 0, -0.25))
             if trophyId == RaceGlobals.GrandTouring or trophyId == RaceGlobals.TotalQuals or trophyId == RaceGlobals.TotalWins:
@@ -315,7 +315,7 @@ class RaceWinningsPanel(DirectFrame):
         if trophies:
             winningsSeq.append(Sequence(Func(self.ticketFrame.hide), Func(self.bonusFrame.hide), Func(self.trophyFrame.show)))
             for x in trophies:
-                winningsSeq.append(Sequence(Func(self.trophyComponents[0].configure, text=wrapStr(TTLocalizer.KarTTWophyDescriptions[x])), Func(showCorrecTTWophy, x), Wait(5)))
+                winningsSeq.append(Sequence(Func(self.trophyComponents[0].configure, text=wrapStr(TTLocalizer.KartTrophyDescriptions[x])), Func(showCorrectTrophy, x), Wait(5)))
 
         return (ticketSeq, winningsSeq)
 
@@ -350,7 +350,7 @@ class RaceEndPanel(DirectFrame):
             if self.seq:
                 self.seq.pause()
             self.seq = None
-        except ATTWibuteError:
+        except AttributeError:
             pass
 
         DirectFrame.destroy(self)
@@ -388,7 +388,7 @@ class RaceEndPanel(DirectFrame):
             if self.seq:
                 self.seq.pause()
             self.seq = None
-        except ATTWibuteError:
+        except AttributeError:
             pass
 
         tSeq, wSeq = self.winnings.generateDisplaySequences(track, entryFee, winnings, bonus, trophies, endOfCircuitRace)

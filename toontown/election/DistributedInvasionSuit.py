@@ -284,7 +284,7 @@ class DistributedInvasionSuit(DistributedSuitBase, InvasionSuitBase, FSM, DelayD
         self.lookAt(target)
 
     def setHP(self, hp):
-        currHP = getaTTW(self, 'currHP', 0)
+        currHP = getattr(self, 'currHP', 0)
         if currHP > hp:
             self.showHpText(hp - currHP)
 
@@ -428,8 +428,8 @@ class DistributedInvasionSuit(DistributedSuitBase, InvasionSuitBase, FSM, DelayD
         taskMgr.add(self.__placeOnGroundTask, self.uniqueName('place-on-ground'), sort=31)
 
     def __placeOnGroundTask(self, task):
-        if getaTTW(self, 'shadowPlacer', None) and \
-           getaTTW(self.shadowPlacer, 'shadowNodePath', None):
+        if getattr(self, 'shadowPlacer', None) and \
+           getattr(self.shadowPlacer, 'shadowNodePath', None):
             self.setZ(self.shadowPlacer.shadowNodePath, 0.025)
         return task.done
         
@@ -492,7 +492,7 @@ class DistributedInvasionSuit(DistributedSuitBase, InvasionSuitBase, FSM, DelayD
 
 
     def applyShakeAttack(self, toon, damage):
-        if not getaTTW(localAvatar.controlManager.currentControls, 'isAirborne', 0):
+        if not getattr(localAvatar.controlManager.currentControls, 'isAirborne', 0):
             if toon.hp > 0:
                 if not toon.isStunned:
                     self.d_takeShakerDamage(damage, toon)

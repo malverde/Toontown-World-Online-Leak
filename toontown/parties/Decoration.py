@@ -232,7 +232,7 @@ class Decoration(NodePath):
 
     def cleanUpAnimSequences(self):
         self.startAnim = 0
-        if hasaTTW(self, 'animSeq'):
+        if hasattr(self, 'animSeq'):
             self.animSeq.pause()
             self.animSeq.finish()
             if self.animSeq:
@@ -251,13 +251,13 @@ class Decoration(NodePath):
             self.cleanUpAnimSequences()
             self.hydra.removeNode()
             del self.hydra
-            if hasaTTW(self, 'decSfx'):
+            if hasattr(self, 'decSfx'):
                 del self.decSfx
         elif self.name == 'TubeCogVictory':
             self.cleanUpAnimSequences()
             self.tubeCog.removeNode()
             del self.tubeCog
-            if hasaTTW(self, 'decSfx'):
+            if hasattr(self, 'decSfx'):
                 del self.decSfx
         elif self.name == 'BannerJellyBean':
             self.partyBanner.removeNode()

@@ -81,7 +81,7 @@ class DistributedAvatar(DistributedActor, Avatar):
         DistributedActor.announceGenerate(self)
 
     def __setTags(self, extra = None):
-        if hasaTTW(base, 'idTags'):
+        if hasattr(base, 'idTags'):
             if base.idTags:
                 self.__nameTagShowAvId()
             else:
@@ -133,7 +133,7 @@ class DistributedAvatar(DistributedActor, Avatar):
         return
 
     def hpChange(self, quietly = 0):
-        if hasaTTW(self, 'doId'):
+        if hasattr(self, 'doId'):
             if self.hp != None and self.maxHp != None:
                 messenger.send(self.uniqueName('hpChange'), [self.hp, self.maxHp, quietly])
             if self.hp != None and self.hp > 0:

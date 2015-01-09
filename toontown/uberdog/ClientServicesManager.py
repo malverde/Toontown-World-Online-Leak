@@ -7,7 +7,7 @@ from pandac.PandaModules import *
 import hashlib
 import hmac
 
-FIXED_KEY = "wedidntbuildTTWinaday,thinkaboutwhatyouredoing"
+FIXED_KEY = "wedidntbuildttrinaday,thinkaboutwhatyouredoing"
 
 class ClientServicesManager(DistributedObjectGlobal):
     notify = directNotify.newCategory('ClientServicesManager')

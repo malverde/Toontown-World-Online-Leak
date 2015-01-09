@@ -85,14 +85,14 @@ class ChatManager(DirectObject.DirectObject):
          State.State('whiteListOpenChat', self.enterWhiteListOpenChat, self.exitWhiteListOpenChat),
          State.State('whiteListAvatarChat', self.enterWhiteListAvatarChat, self.exitWhiteListAvatarChat),
          State.State('whiteListPlayerChat', self.enterWhiteListPlayerChat, self.exitWhiteListPlayerChat),
-         State.State('trueFriendTeaserPanel', self.enterTrueFriendTeaserPanel, self.exiTTWueFriendTeaserPanel)], 'off', 'off')
+         State.State('trueFriendTeaserPanel', self.enterTrueFriendTeaserPanel, self.exitTrueFriendTeaserPanel)], 'off', 'off')
         self.fsm.enterInitialState()
         return
 
     def delete(self):
         self.ignoreAll()
         del self.fsm
-        if hasaTTW(self.chatInputNormal, 'destroy'):
+        if hasattr(self.chatInputNormal, 'destroy'):
             self.chatInputNormal.destroy()
         self.chatInputNormal.delete()
         del self.chatInputNormal
@@ -276,7 +276,7 @@ class ChatManager(DirectObject.DirectObject):
             online = 1
         elif self.cr.isFriend(avatarId):
             online = self.cr.isFriendOnline(avatarId)
-        hasManager = hasaTTW(base.cr, 'playerFriendsManager')
+        hasManager = hasattr(base.cr, 'playerFriendsManager')
         if hasManager:
             if base.cr.playerFriendsManager.askAvatarOnline(avatarId):
                 online = 1
@@ -507,8 +507,8 @@ class ChatManager(DirectObject.DirectObject):
     def enterTrueFriendTeaserPanel(self):
         self.notify.error('called enterTrueFriendTeaserPanel () on parent class')
 
-    def exiTTWueFriendTeaserPanel(self):
-        self.notify.error('called exiTTWueFriendTeaserPanel () on parent class')
+    def exitTrueFriendTeaserPanel(self):
+        self.notify.error('called exitTrueFriendTeaserPanel () on parent class')
 
     def __handleLeaveToPayCancel(self):
         self.fsm.request('mainMenu')

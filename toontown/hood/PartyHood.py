@@ -60,7 +60,7 @@ class PartyHood(Hood.Hood):
     def kickToPlayground(self, retCode):
         if retCode == 0:
             msg = TTLocalizer.PartyOverWarningNoName
-            if hasaTTW(base, 'distributedParty') and base.distributedParty:
+            if hasattr(base, 'distributedParty') and base.distributedParty:
                 name = base.distributedParty.hostName
                 msg = TTLocalizer.PartyOverWarningWithName % TTLocalizer.GetPossesive(name, 'party')
             self.__popupKickoutMessage(msg)

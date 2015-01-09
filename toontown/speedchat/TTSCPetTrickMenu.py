@@ -3,18 +3,18 @@ from otp.speedchat.SCMenu import SCMenu
 from otp.speedchat import SCMenuHolder
 from otp.speedchat.SCStaticTextTerminal import SCStaticTextTerminal
 from otp.otpbase import OTPLocalizer
-from toontown.pets import PeTTWicks
+from toontown.pets import PetTricks
 
-class TTSCPeTTWickMenu(SCMenu):
-    notify = DirectNotifyGlobal.directNotify.newCategory('TTSCPeTTWickMenu')
+class TTSCPetTrickMenu(SCMenu):
+    notify = DirectNotifyGlobal.directNotify.newCategory('TTSCPetTrickMenu')
 
     def __init__(self):
         SCMenu.__init__(self)
-        self.accept('peTTWickPhrasesChanged', self.__phrasesChanged)
+        self.accept('petTrickPhrasesChanged', self.__phrasesChanged)
         self.__phrasesChanged()
 
     def destroy(self):
-        self.ignore('peTTWickPhrasesChanged')
+        self.ignore('petTrickPhrasesChanged')
         SCMenu.destroy(self)
 
     def __phrasesChanged(self, zoneId = 0):
@@ -24,9 +24,9 @@ class TTSCPeTTWickMenu(SCMenu):
         except:
             return
 
-        for trickId in lt.peTTWickPhrases:
-            if trickId not in PeTTWicks.TrickId2scIds:
-                TTSCPeTTWickMenu.notify.warning('unknown trick ID: %s' % trickId)
+        for trickId in lt.petTrickPhrases:
+            if trickId not in PetTricks.TrickId2scIds:
+                TTSCPetTrickMenu.notify.warning('unknown trick ID: %s' % trickId)
             else:
-                for msg in PeTTWicks.TrickId2scIds[trickId]:
+                for msg in PetTricks.TrickId2scIds[trickId]:
                     self.append(SCStaticTextTerminal(msg))

@@ -107,7 +107,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.buildingManagers = {}
         self.suitPlanners = {}
 
-    def geTTWackClsends(self):
+    def getTrackClsends(self):
         return False
 
 

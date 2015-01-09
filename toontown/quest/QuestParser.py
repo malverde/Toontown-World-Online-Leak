@@ -131,8 +131,8 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         self.setVar('toon', self.toon)
         self.setVar('npc', self.npc)
         self.chapterDict = {}
-        self.timeouTTWack = None
-        self.currenTTWack = None
+        self.timeoutTrack = None
+        self.currentTrack = None
         return
 
     def getVar(self, varName):
@@ -163,9 +163,9 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         self.privateVarDict[varName] = var
 
     def cleanup(self):
-        if self.currenTTWack:
-            self.currenTTWack.pause()
-            self.currenTTWack = None
+        if self.currentTrack:
+            self.currentTrack.pause()
+            self.currentTrack = None
         self.ignoreAll()
         taskMgr.remove(self.uniqueId)
         for toonHeadFrame in self.toonHeads.values():
@@ -179,7 +179,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         del self.chapterDict
         del self.toon
         del self.npc
-        del self.timeouTTWack
+        del self.timeoutTrack
         return
 
     def __unloadChar(self, char):
@@ -190,11 +190,11 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         self.chars.remove(char)
 
     def timeout(self, fFinish = 0):
-        if self.timeouTTWack:
+        if self.timeoutTrack:
             if fFinish:
-                self.timeouTTWack.finish()
+                self.timeoutTrack.finish()
             else:
-                self.timeouTTWack.start()
+                self.timeoutTrack.start()
 
     def finishMovie(self):
         self.npc.finishMovie(self.toon, self.isLocalToon, 0.0)
@@ -202,8 +202,8 @@ class NPCMoviePlayer(DirectObject.DirectObject):
     def playNextChapter(self, eventName, timeStamp = 0.0):
         trackList = self.chapterDict[eventName]
         if trackList:
-            self.currenTTWack = trackList.pop(0)
-            self.currenTTWack.start()
+            self.currentTrack = trackList.pop(0)
+            self.currentTrack.start()
         else:
             notify.debug('Movie ended waiting for an event (%s)' % eventName)
 
@@ -462,7 +462,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
 
         self.closePreviousChapter(chapterList)
         if timeoutList:
-            self.timeouTTWack = Sequence(*timeoutList)
+            self.timeoutTrack = Sequence(*timeoutList)
         self.playNextChapter('start')
         return
 
@@ -577,7 +577,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         return Sequence(Func(self.toon.detachCamera), Func(self.toon.collisionsOff), Func(self.toon.disableAvatarControls), Func(self.toon.stopTrackAnimToSpeed), Func(self.toon.stopUpdateSmartCamera))
 
     def parseFreeLocalToon(self, line):
-        return Sequence(Func(self.toon.attachCamera), Func(self.toon.starTTWackAnimToSpeed), Func(self.toon.collisionsOn), Func(self.toon.enableAvatarControls), Func(self.toon.startUpdateSmartCamera))
+        return Sequence(Func(self.toon.attachCamera), Func(self.toon.startTrackAnimToSpeed), Func(self.toon.collisionsOn), Func(self.toon.enableAvatarControls), Func(self.toon.startUpdateSmartCamera))
 
     def parseDebug(self, line):
         token, str = line
@@ -658,7 +658,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         toonId = self.toon.getDoId()
         avatarName = line[1]
         avatar = self.getVar(avatarName)
-        chatString = getaTTW(TTLocalizer, line[2])
+        chatString = getattr(TTLocalizer, line[2])
         chatFlags = CFSpeech | CFTimeout
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         if extraChatFlags:
@@ -696,7 +696,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         toonId = self.toon.getDoId()
         avatarName = line[1]
         avatar = self.getVar(avatarName)
-        chatString = getaTTW(TTLocalizer, line[2])
+        chatString = getattr(TTLocalizer, line[2])
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         return Func(avatar.setPageChat, toonId, 0, chatString, quitButton, extraChatFlags, dialogueList)
 
@@ -704,7 +704,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         lineLength = len(line)
         avatarName = line[1]
         avatar = self.getVar(avatarName)
-        chatString = getaTTW(TTLocalizer, line[2])
+        chatString = getattr(TTLocalizer, line[2])
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         return Func(avatar.setLocalPageChat, chatString, quitButton, extraChatFlags, dialogueList)
 
@@ -712,7 +712,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         lineLength = len(line)
         avatarName = line[1]
         avatar = self.getVar(avatarName)
-        chatString = getaTTW(TTLocalizer, line[2])
+        chatString = getattr(TTLocalizer, line[2])
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         if len(dialogueList) > 0:
             dialogue = dialogueList[0]
@@ -731,8 +731,8 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         toAvatarKey = line[2]
         toAvatar = self.getVar(toAvatarKey)
         localizerAvatarName = toAvatar.getName().capitalize()
-        toAvatarName = getaTTW(TTLocalizer, localizerAvatarName)
-        chatString = getaTTW(TTLocalizer, line[3])
+        toAvatarName = getattr(TTLocalizer, localizerAvatarName)
+        chatString = getattr(TTLocalizer, line[3])
         chatString = chatString.replace('%s', toAvatarName)
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[4:])
         return Func(avatar.setLocalPageChat, chatString, quitButton, extraChatFlags, dialogueList)
@@ -742,9 +742,9 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         avatarName = line[1]
         avatar = self.getVar(avatarName)
         if self.toon.getStyle().gender == 'm':
-            chatString = getaTTW(TTLocalizer, line[2][1:-1] % 'Mickey')
+            chatString = getattr(TTLocalizer, line[2][1:-1] % 'Mickey')
         else:
-            chatString = getaTTW(TTLocalizer, line[2][1:-1] % 'Minnie')
+            chatString = getattr(TTLocalizer, line[2][1:-1] % 'Minnie')
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         return Func(avatar.setLocalPageChat, chatString, quitButton, extraChatFlags, dialogueList)
 
@@ -755,11 +755,11 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         toAvatarKey = line[2]
         toAvatar = self.getVar(toAvatarKey)
         localizerAvatarName = toAvatar.getName().capitalize()
-        toAvatarName = getaTTW(TTLocalizer, localizerAvatarName)
+        toAvatarName = getattr(TTLocalizer, localizerAvatarName)
         if self.toon.getStyle().gender == 'm':
-            chatString = getaTTW(TTLocalizer, line[3][1:-1] % 'Mickey')
+            chatString = getattr(TTLocalizer, line[3][1:-1] % 'Mickey')
         else:
-            chatString = getaTTW(TTLocalizer, line[3][1:-1] % 'Minnie')
+            chatString = getattr(TTLocalizer, line[3][1:-1] % 'Minnie')
         chatString = chatString.replace('%s', toAvatarName)
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[4:])
         return Func(avatar.setLocalPageChat, chatString, quitButton, extraChatFlags, dialogueList)
@@ -884,7 +884,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         functionName = functionName[1:-1]
         func = object
         for fn in functionName.split('.'):
-            func = getaTTW(func, fn)
+            func = getattr(func, fn)
         return Func(func)
 
     def parseAddLaffMeter(self, line):
@@ -1035,10 +1035,10 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         oldTrackAccess = [None]
 
         def grabCurTrackAccess(oldTrackAccess = oldTrackAccess):
-            oldTrackAccess[0] = copy.deepcopy(base.localAvatar.geTTWackAccess())
+            oldTrackAccess[0] = copy.deepcopy(base.localAvatar.getTrackAccess())
 
         def restoreTrackAccess(oldTrackAccess = oldTrackAccess):
-            base.localAvatar.seTTWackAccess(oldTrackAccess[0])
+            base.localAvatar.setTrackAccess(oldTrackAccess[0])
 
         minGagLevel = ToontownBattleGlobals.MIN_LEVEL_INDEX + 1
         maxGagLevel = ToontownBattleGlobals.MAX_LEVEL_INDEX + 1
@@ -1049,7 +1049,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
             if newGagLevel == curGagLevel:
                 return
             curGagLevel = newGagLevel
-            base.localAvatar.seTTWackAccess([0,
+            base.localAvatar.setTrackAccess([0,
              0,
              0,
              0,
@@ -1088,7 +1088,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
                         music.setVolume(level)
 
                     return LerpFunctionInterval(setVolume, fromData=fromLevel, toData=level, duration=duration)
-            except ATTWibuteError:
+            except AttributeError:
                 pass
 
         else:

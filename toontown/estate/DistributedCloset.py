@@ -49,7 +49,7 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         self.gender = None
         self.topDeleted = 0
         self.bottomDeleted = 0
-        self.closeTTWack = None
+        self.closetTrack = None
         self.avMoveTrack = None
         self.scale = 1.0
         self.fsm = ClassicFSM.ClassicFSM('Closet', [State.State('off', self.enterOff, self.exitOff, ['ready', 'open', 'closed']),
@@ -107,9 +107,9 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         taskMgr.remove(self.uniqueName('popupChangeClothesGUI'))
         taskMgr.remove(self.uniqueName('lerpCamera'))
         taskMgr.remove(self.uniqueName('lerpToon'))
-        if self.closeTTWack:
-            self.closeTTWack.finish()
-            self.closeTTWack = None
+        if self.closetTrack:
+            self.closetTrack.finish()
+            self.closetTrack = None
         if self.closetGUI:
             self.closetGUI.resetClothes(self.oldStyle)
             self.resetCloset()
@@ -344,7 +344,7 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
             self.d_setDNA(self.oldStyle.makeNetString(), 1)
         else:
             which = 0
-            if hasaTTW(self.closetGUI, 'topChoice') and hasaTTW(self.closetGUI, 'bottomChoice'):
+            if hasattr(self.closetGUI, 'topChoice') and hasattr(self.closetGUI, 'bottomChoice'):
                 if self.closetGUI.topChoice != 0 or self.topDeleted:
                     which = which | 1
                 if self.closetGUI.bottomChoice != 0 or self.bottomDeleted:
@@ -484,25 +484,25 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         self.popupInfo.reparentTo(hidden)
 
     def _openDoors(self):
-        if self.closeTTWack:
-            self.closeTTWack.finish()
+        if self.closetTrack:
+            self.closetTrack.finish()
         leftHpr = Vec3(-110, 0, 0)
         rightHpr = Vec3(110, 0, 0)
-        self.closeTTWack = Parallel()
+        self.closetTrack = Parallel()
         if self.rightDoor:
-            self.closeTTWack.append(self.rightDoor.hprInterval(0.5, rightHpr))
+            self.closetTrack.append(self.rightDoor.hprInterval(0.5, rightHpr))
         if self.leftDoor:
-            self.closeTTWack.append(self.leftDoor.hprInterval(0.5, leftHpr))
-        self.closeTTWack.start()
+            self.closetTrack.append(self.leftDoor.hprInterval(0.5, leftHpr))
+        self.closetTrack.start()
 
     def _closeDoors(self):
-        if self.closeTTWack:
-            self.closeTTWack.finish()
+        if self.closetTrack:
+            self.closetTrack.finish()
         leftHpr = Vec3(0, 0, 0)
         rightHpr = Vec3(0, 0, 0)
-        self.closeTTWack = Parallel()
+        self.closetTrack = Parallel()
         if self.rightDoor:
-            self.closeTTWack.append(self.rightDoor.hprInterval(0.5, rightHpr))
+            self.closetTrack.append(self.rightDoor.hprInterval(0.5, rightHpr))
         if self.leftDoor:
-            self.closeTTWack.append(self.leftDoor.hprInterval(0.5, leftHpr))
-        self.closeTTWack.start()
+            self.closetTrack.append(self.leftDoor.hprInterval(0.5, leftHpr))
+        self.closetTrack.start()

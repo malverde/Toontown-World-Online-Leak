@@ -8,7 +8,7 @@ from direct.task import Task
 from direct.fsm import FSM
 from toontown.toon import DistributedToonAI
 from toontown.pets import PetConstants, PetObserve, PetGoal, PetGoalMgr
-from toontown.pets import PeTTWicks, PetLookerAI
+from toontown.pets import PetTricks, PetLookerAI
 import random, types
 
 class PetBrain(DirectObject.DirectObject, CPetBrain):
@@ -428,7 +428,7 @@ class PetBrain(DirectObject.DirectObject, CPetBrain):
                     if not self.goalMgr.hasTrickGoal():
                         if not self.pet._willDoTrick(trickId):
                             self.pet.trickFailLogger.addEvent(trickId)
-                            trickId = PeTTWicks.Tricks.BALK
+                            trickId = PetTricks.Tricks.BALK
                         trickGoal = PetGoal.DoTrick(avatar, trickId)
                         self.goalMgr.addGoal(trickGoal)
 
@@ -461,7 +461,7 @@ class PetBrain(DirectObject.DirectObject, CPetBrain):
         if phrase == OP.GO_AWAY:
             _handleGoAway(avId)
         if phrase == OP.DO_TRICK:
-            _handleDoTrick(observe.geTTWickId(), avId)
+            _handleDoTrick(observe.getTrickId(), avId)
 
     def _addGoalsReAvatar(self, avId):
         av = self.pet.air.doId2do.get(avId)

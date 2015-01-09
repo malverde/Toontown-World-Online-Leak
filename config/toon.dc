@@ -253,7 +253,7 @@ from toontown.parties import DistributedPartyJukebox40Activity/AI
 from toontown.parties import DistributedPartyValentineJukeboxActivity/AI
 from toontown.parties import DistributedPartyValentineJukebox40Activity/AI
 from toontown.friends import TTPlayerFriendsManager/UD
-from toontown.friends import TTWFriendsManager/UD
+from toontown.friends import TTRFriendsManager/UD
 from toontown.uberdog import TTSpeedchatRelay/UD
 from toontown.safezone import DistributedGolfKart/AI
 from toontown.safezone import DistributedPicnicBasket/AI
@@ -457,9 +457,9 @@ dclass DistributedToon : DistributedPlayer {
   setBattleId(uint32 battleId = 0) required broadcast ram;
   setExperience(blob experience = [0*14]) required broadcast db;
   setMaxCarry(uint8 maxCarry = 20) required ownrecv db;
-  seTTWackAccess(uint16 trackArray[] = [0,0,0,0,1,1,0]) required broadcast ownrecv db;
-  seTTWackProgress(int8 trackId = -1, uint32 progress = 0) required ownrecv db;
-  seTTWackBonusLevel(int8 trackArray[] = [-1,-1,-1,-1,-1,-1,-1]) required broadcast ownrecv db;
+  setTrackAccess(uint16 trackArray[] = [0,0,0,0,1,1,0]) required broadcast ownrecv db;
+  setTrackProgress(int8 trackId = -1, uint32 progress = 0) required ownrecv db;
+  setTrackBonusLevel(int8 trackArray[] = [-1,-1,-1,-1,-1,-1,-1]) required broadcast ownrecv db;
   setInventory(blob inventoryNetString = [0*7, 0*7, 0*7, 0*7, 1, 0*6, 1, 0*6, 0*7]) required broadcast db;
   setMaxNPCFriends(uint16 max = 16) required ownrecv db;
   setNPCFriendsDict(FriendEntry NPCFriendsList[] = []) required ownrecv db;
@@ -493,7 +493,7 @@ dclass DistributedToon : DistributedPlayer {
   setCustomMessages(uint16 customMessages[] = []) required ownrecv db;
   setSleepAutoReply(uint32 fromId) broadcast clsend ownrecv;
   setResistanceMessages(pair16 resistanceMessages[] = []) required ownrecv db;
-  setPeTTWickPhrases(uint8 tricks[] = [0]) required ownrecv db;
+  setPetTrickPhrases(uint8 tricks[] = [0]) required ownrecv db;
   setCatalogSchedule(uint16 currentWeek = 0, uint32 nextTime = 0) required ownrecv db;
   setCatalog(blob monthlyCatalog = [], blob weeklyCatalog = [], blob backCatalog = []) required ownrecv db;
   setMailboxContents(blob mailboxContents = []) required ownrecv db;
@@ -510,7 +510,7 @@ dclass DistributedToon : DistributedPlayer {
   reqSCResistance(uint16 msgIndex, uint32 nearbyPlayers[]) ownsend airecv;
   setSCResistance(uint16 msgIndex, uint32 nearbyToons[]) broadcast ownrecv;
   setSpeedChatStyleIndex(uint8 index = 1) required ownsend broadcast db;
-  seTTWophyScore(uint16 score) broadcast ownrecv ram;
+  setTrophyScore(uint16 score) broadcast ownrecv ram;
   setTeleportAccess(uint32 teleportZoneArray[] = []) required ownrecv db;
   checkTeleportAccess(uint16 zoneId) airecv ownsend;
   setTeleportOverride(uint8 flag) clsend airecv;
@@ -917,7 +917,7 @@ dclass DistributedBattleBase : DistributedObject {
   setPosition(int16/10 x, int16/10 y, int16/10 z) required broadcast ram;
   setZoneId(uint32 zoneId) required broadcast ram;
   setInitialSuitPos(int16/10 x, int16/10 y, int16/10 z) required broadcast ram;
-  setMembers(uint32 suits[], string suitsJoining, string suitsPending, string suitsActive, string suitsLured, string suiTTWaps, uint32 toons[], string toonsJoining, string toonsPending, string toonsActive, string toonsRunning, int16 timestamp) required broadcast ram;
+  setMembers(uint32 suits[], string suitsJoining, string suitsPending, string suitsActive, string suitsLured, string suitTraps, uint32 toons[], string toonsJoining, string toonsPending, string toonsActive, string toonsRunning, int16 timestamp) required broadcast ram;
   adjust(int16 timestamp) broadcast;
   setMovie(int8 active, uint32 toons[], uint32 suits[], int8 id0, int8 tr0, int8 le0, int32 tg0, int16 hp0[], int16 ac0, int16 hpb0, int16 kbb0[], int8 died0, int8 revive0, int8 id1, int8 tr1, int8 le1, int32 tg1, int16 hp1[], int16 ac1, int16 hpb1, int16 kbb1[], int8 died1, int8 revive1, int8 id2, int8 tr2, int8 le2, int32 tg2, int16 hp2[], int16 ac2, int16 hpb2, int16 kbb2[], int8 died2, int8 revive2, int8 id3, int8 tr3, int8 le3, int32 tg3, int16 hp3[], int16 ac3, int16 hpb3, int16 kbb3[], int8 died3, int8 revive3, int8 sid0, int8 at0, int8 stg0, int16 dm0[], int8 sd0, int8 sb0, int8 st0, int8 sid1, int8 at1, int8 stg1, int16 dm1[], int8 sd1, int8 sb1, int8 st1, int8 sid2, int8 at2, int8 stg2, int16 dm2[], int8 sd2, int8 sb2, int8 st2, int8 sid3, int8 at3, int8 stg3, int16 dm3[], int8 sd3, int8 sb3, int8 st3) required broadcast ram;
   setChosenToonAttacks(uint32 ids[], int16 tracks[], int16 levels[], int32 targets[]) broadcast ram;
@@ -1095,7 +1095,7 @@ dclass DistributedTarget : DistributedObject {
 
 dclass DistributedMinigame : DistributedObject {
   setParticipants(uint32 avIds[]) broadcast ram required;
-  seTTWolleyZone(uint32 trolleyZone) broadcast ram required;
+  setTrolleyZone(uint32 trolleyZone) broadcast ram required;
   setStartingVotes(uint16 startingVotesArray[]) broadcast ram required;
   setMetagameRound(int8 metagameRound) broadcast ram required;
   setDifficultyOverrides(int32 difficultyOverride, int32 trolleyZoneOverride) broadcast ram required;
@@ -1154,12 +1154,12 @@ dclass DistributedRingGame : DistributedMinigame {
 dclass DistributedTagGame : DistributedMinigame {
   tag(uint32 taggedAvId) airecv clsend;
   setIt(uint32 avId) broadcast;
-  seTTWeasureScore(uint16 scores[]) broadcast;
+  setTreasureScore(uint16 scores[]) broadcast;
 };
 
 dclass DistributedMazeGame : DistributedMinigame {
   claimTreasure(uint32 treasureNum) airecv clsend;
-  seTTWeasureGrabbed(uint32 avId, uint32 treasureNum) broadcast;
+  setTreasureGrabbed(uint32 avId, uint32 treasureNum) broadcast;
   allTreasuresTaken() broadcast;
   hitBySuit(uint32 avId, int16 timestamp) clsend broadcast;
 };
@@ -1187,12 +1187,12 @@ dclass DistributedCatchGame : DistributedMinigame {
 
 dclass DistributedDivingGame : DistributedMinigame {
   pickupTreasure(uint32 chestId) airecv clsend;
-  seTTWeasureGrabbed(uint32 avId, uint32 chestId) broadcast;
+  setTreasureGrabbed(uint32 avId, uint32 chestId) broadcast;
   handleFishCollision(uint32 spawnId, uint32 spawnerId, char status[0-256]) airecv clsend;
   performFishCollision(uint32 avId, uint32 spawnId, uint32 spawnerId, int16 timestamp) broadcast;
   handleCrabCollision(char status[0-256]) airecv clsend;
   performCrabCollision(uint32 avId, int16 timestamp) broadcast;
-  seTTWeasureDropped(uint32 avId, int16 timestamp) broadcast;
+  setTreasureDropped(uint32 avId, int16 timestamp) broadcast;
   fishSpawn(int16 timestamp, uint32 fishcode, uint32 spawnerId, uint16 offset) broadcast;
   removeFish(uint32) airecv clsend;
   getCrabMoving(uint32 crabId, int16 crabX, int8 dir) airecv clsend;
@@ -1244,7 +1244,7 @@ dclass DistributedEstate : DistributedObject {
   setClientReady() airecv clsend;
   setEstateType(uint8 type = 0) required broadcast db;
   setClosestHouse(uint8 house) airecv clsend;
-  seTTWeasureIds(uint32 doIds[]) broadcast ram;
+  setTreasureIds(uint32 doIds[]) broadcast ram;
   requestServerTime() airecv clsend;
   setServerTime(uint32 ts);
   setDawnTime(uint32 ts) required broadcast ram;
@@ -1520,10 +1520,10 @@ dclass NewsManager : DistributedObject {
   setBingoEnd() broadcast;
   setCircuitRaceStart() broadcast;
   setCircuitRaceEnd() broadcast;
-  seTTWolleyHolidayStart() broadcast;
-  seTTWolleyHolidayEnd() broadcast;
-  seTTWolleyWeekendStart() broadcast;
-  seTTWolleyWeekendEnd() broadcast;
+  setTrolleyHolidayStart() broadcast;
+  setTrolleyHolidayEnd() broadcast;
+  setTrolleyWeekendStart() broadcast;
+  setTrolleyWeekendEnd() broadcast;
   setRoamingTrialerWeekendStart() broadcast;
   setRoamingTrialerWeekendEnd() broadcast;
   setInvasionStatus(uint8 msgType, string cogType, uint32 numRemaining, uint8 specialSuit) broadcast;
@@ -1575,7 +1575,7 @@ dclass DistributedMyTest : DistributedObject {
 };
 
 dclass DistributedTreasure : DistributedObject {
-  seTTWeasureType(uint16 treasureType) required broadcast ram;
+  setTreasureType(uint16 treasureType) required broadcast ram;
   setPosition(int16/10 x, int16/10 y, int16/10 z) required broadcast ram;
   requestGrab() airecv clsend;
   setGrab(uint32 avId) broadcast ram;
@@ -1606,7 +1606,7 @@ dclass DistributedLevel : DistributedObject {
   requestCurrentLevelSpec(string specHash, string entTypeRegHash) airecv clsend;
   setSpecDeny(blob);
   setSpecSenderDoId(uint32);
-  setATTWibChange(uint32, blob, blob, blob) broadcast;
+  setAttribChange(uint32, blob, blob, blob) broadcast;
 };
 
 dclass DistributedEntity : DistributedObject {
@@ -1624,12 +1624,12 @@ dclass DistributedInteractiveEntity : DistributedEntity {
 };
 
 dclass DistributedTrophyMgr : DistributedObject {
-  requesTTWophyScore() airecv clsend;
+  requestTrophyScore() airecv clsend;
 };
 
 dclass DistributedBuilding : DistributedObject {
   setBlock(uint16 block, uint32 interiorZoneId) required broadcast ram;
-  setSuitData(int8 suiTTWack, int8 difficulty, int8 numFloors) required broadcast ram;
+  setSuitData(int8 suitTrack, int8 difficulty, int8 numFloors) required broadcast ram;
   setVictorList(uint32 victorList[]) broadcast ram;
   setState(string state, int16 timestamp) broadcast ram;
   setVictorReady() airecv clsend;
@@ -2277,7 +2277,7 @@ dclass DistributedInGameEditor : DistributedObject {
   requestCurrentLevelSpec() airecv clsend;
   setSpecSenderDoId(uint32);
   setEdit(uint32, blob, blob, blob) airecv clsend;
-  setATTWibChange(uint32, blob, blob, blob);
+  setAttribChange(uint32, blob, blob, blob);
   setFinished() airecv clsend;
 };
 
@@ -2428,26 +2428,26 @@ dclass DistributedMover : DistributedEntity {
   startMove(int16 timeStamp) broadcast ram;
 };
 
-typedef uint16/10000 PeTTWait;
+typedef uint16/10000 PetTrait;
 
 dclass DistributedPet : DistributedSmoothNode {
   setOwnerId(uint32) required broadcast db;
   setPetName(string) required broadcast db;
-  seTTWaitSeed(uint32) required broadcast db;
+  setTraitSeed(uint32) required broadcast db;
   setSafeZone(uint32) required broadcast db;
-  setForgetfulness(PeTTWait) required broadcast db;
-  setBoredomThreshold(PeTTWait) required broadcast db;
-  setRestlessnessThreshold(PeTTWait) required broadcast db;
-  setPlayfulnessThreshold(PeTTWait) required broadcast db;
-  setLonelinessThreshold(PeTTWait) required broadcast db;
-  setSadnessThreshold(PeTTWait) required broadcast db;
-  setFatigueThreshold(PeTTWait) required broadcast db;
-  setHungerThreshold(PeTTWait) required broadcast db;
-  setConfusionThreshold(PeTTWait) required broadcast db;
-  setExcitementThreshold(PeTTWait) required broadcast db;
-  setAngerThreshold(PeTTWait) required broadcast db;
-  setSurpriseThreshold(PeTTWait) required broadcast db;
-  setAffectionThreshold(PeTTWait) required broadcast db;
+  setForgetfulness(PetTrait) required broadcast db;
+  setBoredomThreshold(PetTrait) required broadcast db;
+  setRestlessnessThreshold(PetTrait) required broadcast db;
+  setPlayfulnessThreshold(PetTrait) required broadcast db;
+  setLonelinessThreshold(PetTrait) required broadcast db;
+  setSadnessThreshold(PetTrait) required broadcast db;
+  setFatigueThreshold(PetTrait) required broadcast db;
+  setHungerThreshold(PetTrait) required broadcast db;
+  setConfusionThreshold(PetTrait) required broadcast db;
+  setExcitementThreshold(PetTrait) required broadcast db;
+  setAngerThreshold(PetTrait) required broadcast db;
+  setSurpriseThreshold(PetTrait) required broadcast db;
+  setAffectionThreshold(PetTrait) required broadcast db;
   setHead(int8(-1 - 1)) required broadcast db; // Supposed to be -1 - 0, but minification causes this to become -1-0, which is a parse problem.
   setEars(int8(-1 - 4)) required broadcast db;
   setNose(int8(-1 - 3)) required broadcast db;
@@ -2473,7 +2473,7 @@ dclass DistributedPet : DistributedSmoothNode {
   setMood : setBoredom, setRestlessness, setPlayfulness, setLoneliness, setSadness, setAffection, setHunger, setConfusion, setExcitement, setFatigue, setAnger, setSurprise;
   teleportIn(int16) broadcast ownsend;
   teleportOut(int16) broadcast ownsend;
-  seTTWickAptitudes(uint16/10000(0-1) []) required broadcast db;
+  setTrickAptitudes(uint16/10000(0-1) []) required broadcast db;
   doTrick(uint8, int16) broadcast ram;
   avatarInteract(uint32);
   setMovie(uint8, uint32, int16) broadcast ram;
@@ -2485,8 +2485,8 @@ dclass DistributedPetProxy : DistributedPet {
 };
 
 dclass DistributedBlackCatMgr : DistributedObject {
-  doBlackCaTTWansformation(uint32 avId) broadcast;
-  requestBlackCaTTWansformation() airecv clsend;
+  doBlackCatTransformation(uint32 avId) broadcast;
+  requestBlackCatTransformation() airecv clsend;
 };
 
 dclass DistributedPolarBearMgr : DistributedObject {
@@ -2548,7 +2548,7 @@ struct avatarAndKart {
 
 dclass DistributedRace : DistributedObject {
   setZoneId(uint32 zoneId) required broadcast ram;
-  seTTWackId(uint16 id) required broadcast ram;
+  setTrackId(uint16 id) required broadcast ram;
   setRaceType(uint16 raceType) required broadcast ram;
   setCircuitLoop(uint16 circuitLoop[]) required broadcast ram;
   setAvatars(uint32 avIds[]) required broadcast ram;
@@ -2601,7 +2601,7 @@ dclass DistributedKartPad : DistributedObject {
 dclass DistributedRacePad : DistributedKartPad {
   setState(string state, int16 timestamp) required broadcast ram;
   setRaceZone(uint32 zoneId);
-  seTTWackInfo(uint16 trackInfo[]) required broadcast ram;
+  setTrackInfo(uint16 trackInfo[]) required broadcast ram;
 };
 
 dclass DistributedViewPad : DistributedKartPad {
@@ -2876,7 +2876,7 @@ dclass DistributedVineGame : DistributedMinigame {
   setNewVineT(uint32 avId, uint32/10000 vineT, int8 climbDir) clsend broadcast;
   setJumpingFromVine(uint32 avId, int8 vineIndex, int8 facingRight, int32/100 posX, int16/100 posZ, int16/100 velX, int16 velZ) clsend broadcast;
   claimTreasure(uint32 treasureNum) airecv clsend;
-  seTTWeasureGrabbed(uint32 avId, uint32 treasureNum) broadcast;
+  setTreasureGrabbed(uint32 avId, uint32 treasureNum) broadcast;
   setScore(uint32 avId, uint32 score) broadcast;
   allAtEndVine() broadcast;
   setFallingFromVine(uint32 avId, int8 vineIndex, int8 facingRight, int32/100 posX, int16/100 posZ, int16/100 velX, int16 velZ, int8 fallingInfo) clsend broadcast;
@@ -2987,7 +2987,7 @@ dclass DistributedCountryClubRoom : DistributedLevel {
 
 dclass DistributedMoleField : DistributedEntity {
   setGameStart(int16 timestamp, uint8 molesWhackTarget, uint16 totalTime) broadcast;
-  setClienTTWiggered() airecv clsend;
+  setClientTriggered() airecv clsend;
   whackedMole(int8 moleIndex, int16 popupNum) airecv clsend;
   whackedBomb(int8 moleIndex, int16 popupNum, int32 timestamp) airecv clsend;
   updateMole(int8 moleIndex, int8 status) broadcast;
@@ -3011,7 +3011,7 @@ dclass DistributedClubElevator : DistributedElevatorFSM {
 dclass DistributedMaze : DistributedEntity {
   setRoomDoId(uint32 roomDoId) required broadcast ram;
   setGameStart(int16 timestamp) broadcast;
-  setClienTTWiggered() airecv clsend;
+  setClientTriggered() airecv clsend;
   setFinishedMaze() airecv clsend;
   setGameOver() broadcast;
   toonFinished(uint32 avId, uint8 place, uint8 lastToon) broadcast;
@@ -3075,7 +3075,7 @@ dclass DistributedIceGame : DistributedMinigame {
   setMatchAndRound(int8 match, int8 round) broadcast;
   setScores(int8 match, int8 round, int16 scores[]) broadcast;
   setNewState(string state) broadcast;
-  seTTWeasureGrabbed(uint32 avId, uint32 treasureNum) broadcast;
+  setTreasureGrabbed(uint32 avId, uint32 treasureNum) broadcast;
   setPenaltyGrabbed(uint32 avId, uint32 penaltyNum) broadcast;
 };
 
@@ -3114,7 +3114,7 @@ dclass DistributedTwoDGame : DistributedMinigame {
   claimEnemyShot(uint8 sectionIndex, uint8 enemyIndex) airecv clsend;
   reportDone() airecv clsend;
   setSectionsSelected(twoDSectionInfo sectionsSelected[]) required broadcast ram;
-  seTTWeasureGrabbed(uint32 avId, uint8 sectionIndex, uint8 treasureIndex) broadcast;
+  setTreasureGrabbed(uint32 avId, uint8 sectionIndex, uint8 treasureIndex) broadcast;
   setEnemyShot(uint32 avId, uint8 sectionIndex, uint8 enemyIndex, uint32 enemyHealth) broadcast;
   addVictoryScore(uint32 avId, uint8 score) broadcast;
   setEveryoneDone() broadcast;
@@ -3358,7 +3358,7 @@ blob dna;
 uint32 petId;
 };
 
-dclass TTWFriendsManager : DistributedObjectGlobal {
+dclass TTRFriendsManager : DistributedObjectGlobal {
   clearList(uint32 avId);
   removeFriend(uint32 avId) clsend;
   requestAvatarInfo(uint32 avIds[]) clsend;

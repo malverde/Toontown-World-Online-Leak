@@ -1,4 +1,4 @@
-from pandac.PandaModules import NodePath, BillboardEffect, Vec3, Point3, TextureStage, TransparencyATTWib, DecalEffect, VBase4
+from pandac.PandaModules import NodePath, BillboardEffect, Vec3, Point3, TextureStage, TransparencyAttrib, DecalEffect, VBase4
 from direct.fsm import FSM
 from direct.gui.DirectGui import DirectFrame, DGG
 from direct.interval.IntervalGlobal import LerpScaleInterval, LerpColorScaleInterval, Parallel, Sequence, Wait
@@ -44,7 +44,7 @@ class DinerStatusIndicator(NodePath, FSM.FSM):
         dark.reparentTo(retVal)
         dark.setColor(0.5, 0.5, 0.5, 1)
         retVal.setEffect(DecalEffect.make())
-        retVal.seTTWansparency(TransparencyATTWib.MAlpha, 1)
+        retVal.setTransparency(TransparencyAttrib.MAlpha, 1)
         ll, ur = dark.getTightBounds()
         center = retVal.attachNewNode('center')
         center.setPos(0, 0, ll[2])

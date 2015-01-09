@@ -235,6 +235,6 @@ class MintInterior(BattlePlace.BattlePlace):
 
     def exitFLA(self):
         MintInterior.notify.debug('exitFLA')
-        if hasaTTW(self, 'flaDialog'):
+        if hasattr(self, 'flaDialog'):
             self.flaDialog.cleanup()
             del self.flaDialog

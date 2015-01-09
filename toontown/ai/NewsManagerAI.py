@@ -35,16 +35,16 @@ class NewsManagerAI(DistributedObjectAI):
     def setCircuitRaceEnd(self):
         pass
 
-    def seTTWolleyHolidayStart(self):
+    def setTrolleyHolidayStart(self):
         pass
 
-    def seTTWolleyHolidayEnd(self):
+    def setTrolleyHolidayEnd(self):
         pass
 
-    def seTTWolleyWeekendStart(self):
+    def setTrolleyWeekendStart(self):
         pass
 
-    def seTTWolleyWeekendEnd(self):
+    def setTrolleyWeekendEnd(self):
         pass
 
     def setRoamingTrialerWeekendStart(self):

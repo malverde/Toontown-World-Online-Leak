@@ -24,10 +24,10 @@ class DataStore:
     notify = DirectNotifyGlobal.directNotify.newCategory('DataStore')
     wantAnyDbm = ConfigVariableBool('want-ds-anydbm', 1).getValue()
 
-    def __init__(self, filepath, writePeriod = 300, writeCounTTWigger = 100):
+    def __init__(self, filepath, writePeriod = 300, writeCountTrigger = 100):
         self.filepath = filepath
         self.writePeriod = writePeriod
-        self.writeCounTTWigger = writeCounTTWigger
+        self.writeCountTrigger = writeCountTrigger
         self.writeCount = 0
         self.data = None
         self.className = self.__class__.__name__
@@ -100,7 +100,7 @@ class DataStore:
                 self.writeDataToFile()
                 self.resetWriteCount()
             task.timeElapsed = 0.0
-        if self.writeCount > self.writeCounTTWigger:
+        if self.writeCount > self.writeCountTrigger:
             self.writeDataToFile()
             self.resetWriteCount()
             task.timeElapsed = 0.0

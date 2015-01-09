@@ -85,7 +85,7 @@ import __builtin__
 try:
     launcher
 except:
-    from toontown.launcher.TTWLauncher import TTWLauncher
+    from toontown.launcher.TTRLauncher import TTRLauncher
     launcher = TTILauncher()
     __builtin__.launcher = launcher
 
@@ -120,7 +120,7 @@ logo = OnscreenImage(
     image='phase_3/maps/toontown-logo.png',
     scale=(1 / (4.0/3.0), 1, 1 / (4.0/3.0)),
     pos=backgroundNodePath.find('**/fg').getPos())
-logo.seTTWansparency(TransparencyATTWib.MAlpha)
+logo.setTransparency(TransparencyAttrib.MAlpha)
 logo.setBin('fixed', 20)
 logo.reparentTo(backgroundNodePath)
 backgroundNodePath.find('**/bg').setBin('fixed', 10)

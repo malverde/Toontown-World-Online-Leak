@@ -8,7 +8,7 @@ import CatalogWainscotingItem
 import CatalogMouldingItem
 import CatalogWindowItem
 import CatalogPoleItem
-import CatalogPeTTWickItem
+import CatalogPetTrickItem
 import CatalogBeanItem
 import CatalogGardenItem
 import CatalogInvalidItem
@@ -50,7 +50,7 @@ CatalogItemTypes = {CatalogInvalidItem.CatalogInvalidItem: INVALID_ITEM,
  CatalogMouldingItem.CatalogMouldingItem: MOULDING_ITEM,
  CatalogWainscotingItem.CatalogWainscotingItem: WAINSCOTING_ITEM,
  CatalogPoleItem.CatalogPoleItem: POLE_ITEM,
- CatalogPeTTWickItem.CatalogPeTTWickItem: PET_TRICK_ITEM,
+ CatalogPetTrickItem.CatalogPetTrickItem: PET_TRICK_ITEM,
  CatalogBeanItem.CatalogBeanItem: BEAN_ITEM,
  CatalogGardenItem.CatalogGardenItem: GARDEN_ITEM,
  CatalogRentalItem.CatalogRentalItem: RENTAL_ITEM,

@@ -83,7 +83,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.subjects = []
         self.scenery = []
         self.subjectNode = render.attachNewNode('subjects')
-        self.subjecTTWacks = {}
+        self.subjectTracks = {}
         self.nameCounter = 0
         self.zoomedView = 0
         self.zoomFlip = 1
@@ -144,7 +144,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.timer.posInTopRightCorner()
         self.timer.hide()
         self.viewfinderNode = base.aspect2d.attachNewNode('camera node')
-        self.viewfinderNode.seTTWansparency(TransparencyATTWib.MAlpha)
+        self.viewfinderNode.setTransparency(TransparencyAttrib.MAlpha)
         self.viewfinderNode.setDepthWrite(1)
         self.viewfinderNode.setDepthTest(1)
         self.viewfinderNode.setY(-1.0)
@@ -158,7 +158,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.blackoutNode = base.aspect2d.attachNewNode('blackout node')
         self.blackoutNode.setP(90)
         BuildGeometry.addSquareGeom(self.blackoutNode, self.screenSizeX * 2.2, self.screenSizeZ * 2.2, Vec4(1.0, 1.0, 1.0, 1.0))
-        self.blackoutNode.seTTWansparency(TransparencyATTWib.MAlpha)
+        self.blackoutNode.setTransparency(TransparencyAttrib.MAlpha)
         self.blackoutNode.setColorScale(0.0, 0.0, 0.0, 0.5)
         self.blackoutNode.setDepthWrite(1)
         self.blackoutNode.setDepthTest(1)
@@ -284,12 +284,12 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.timer.reparentTo(hidden)
         self.filmPanel.reparentTo(hidden)
         DistributedMinigame.offstage(self)
-        for key in self.subjecTTWacks:
-            track = self.subjecTTWacks[key][0]
+        for key in self.subjectTracks:
+            track = self.subjectTracks[key][0]
             track.pause()
             del track
 
-        self.subjecTTWacks = {}
+        self.subjectTracks = {}
         base.localAvatar.laffMeter.start()
         del self.soundTable
 
@@ -556,8 +556,8 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
                 self.updateAssignmentPanels()
 
     def determinePhotoContent(self, subject):
-        if self.getSubjecTTWackState(subject):
-            return [subject, self.getSubjecTTWackState(subject)[2]]
+        if self.getSubjectTrackState(subject):
+            return [subject, self.getSubjectTrackState(subject)[2]]
         else:
             return None
         return None
@@ -574,7 +574,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         centering = centerDict[subject]
         if type(subject) == type(self.subjectToon):
             facing = angle / 180.0
-            interest = self.getSubjecTTWackState(subject)[3]
+            interest = self.getSubjectTrackState(subject)[3]
             quality = centering[0] - (centering[1] + centering[2] + centering[3] + centering[4])
             tooClose = centering[1] and centering[2] or centering[3] and centering[4]
             portrait = centering[1] and not (centering[2] or centering[3] or centering[4])
@@ -704,11 +704,11 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
     def setBlackout(self, black):
         self.blackoutNode.setColorScale(0.0, 0.0, 0.0, black)
 
-    def getSubjecTTWackState(self, subject):
-        subjecTTWack = self.subjecTTWacks.get(subject)
-        if subjecTTWack:
-            interval = subjecTTWack[0]
-            timeline = subjecTTWack[1]
+    def getSubjectTrackState(self, subject):
+        subjectTrack = self.subjectTracks.get(subject)
+        if subjectTrack:
+            interval = subjectTrack[0]
+            timeline = subjectTrack[1]
             time = interval.getT()
             timeCount = time
             timelineIndex = 0
@@ -725,7 +725,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
     def __setupSubjects(self):
         self.__setupCollisions()
         self.subjects = []
-        self.subjecTTWacks = {}
+        self.subjectTracks = {}
         self.photoRoot.reparentTo(self.subjectNode)
         self.photoRoot.setTag('sceneryIndex', '%s' % len(self.scenery))
         self.scenery.append(self.photoRoot)
@@ -763,23 +763,23 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             subject.setPos(path[0])
             subject.lookAt(path[1])
             subject.show()
-            subjecTTWack = self.generateToonTrack(subject, path, pathIndex)
-            subjecTTWack[0].start()
-            self.subjecTTWacks[subject] = subjecTTWack
+            subjectTrack = self.generateToonTrack(subject, path, pathIndex)
+            subjectTrack[0].start()
+            self.subjectTracks[subject] = subjectTrack
 
     def regenerateToonTrack(self, subject, path, pathIndex):
-        if not hasaTTW(self, 'swivel'):
+        if not hasattr(self, 'swivel'):
             return
-        subjecTTWack = self.generateToonTrack(subject, path, pathIndex)
-        subjecTTWack[0].start()
-        self.subjecTTWacks[subject] = subjecTTWack
+        subjectTrack = self.generateToonTrack(subject, path, pathIndex)
+        subjectTrack[0].start()
+        self.subjectTracks[subject] = subjectTrack
 
     def generateToonTrack(self, subject, path, pathIndex):
 
         def getNextIndex(curIndex, path):
             return (curIndex + 1) % len(path)
 
-        subjecTTWack = Sequence()
+        subjectTrack = Sequence()
         subjectTimeline = []
         timeAccum = 0.0
         pathPointIndex = 0
@@ -801,7 +801,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             if movetype[0] == 'swim':
                 turnTime = 0.0
             nextInterval = LerpQuatInterval(subject, turnTime, quat=nextQuat)
-            subjecTTWack.append(nextInterval)
+            subjectTrack.append(nextInterval)
             subjectTimeline.append((timeAccum,
              nextInterval.getDuration(),
              'turn',
@@ -821,7 +821,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
                 midInterval = Parallel(LerpPosInterval(subject, pointTime, nextPoint), ActorInterval(subject, movetype[0], loop=1, duration=pointTime))
                 nextInterval.append(startInterval)
                 nextInterval.append(midInterval)
-            subjecTTWack.append(nextInterval)
+            subjectTrack.append(nextInterval)
             subjectTimeline.append((timeAccum,
              nextInterval.getDuration(),
              movetype[0],
@@ -829,7 +829,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             timeAccum += nextInterval.getDuration()
             if animChoice:
                 nextInterval = ActorInterval(subject, animChoice, loop=0)
-                subjecTTWack.append(nextInterval)
+                subjectTrack.append(nextInterval)
                 subjectTimeline.append((timeAccum,
                  nextInterval.getDuration(),
                  animChoice,
@@ -839,8 +839,8 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
 
         subject.setPos(orgPos)
         subject.setQuat(orgQuat)
-        subjecTTWack.append(Func(self.regenerateToonTrack, subject, path, pathIndex))
-        return (subjecTTWack, subjectTimeline)
+        subjectTrack.append(Func(self.regenerateToonTrack, subject, path, pathIndex))
+        return (subjectTrack, subjectTimeline)
 
     def slowDistance(self, point1, point2):
         dx = point1[0] - point2[0]
@@ -1151,7 +1151,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
     def enterCleanup(self):
         self.notify.debug('enterCleanup')
         self.music.stop()
-        if hasaTTW(self, 'jarIval'):
+        if hasattr(self, 'jarIval'):
             self.jarIval.finish()
             del self.jarIval
         for avId in self.avIdList:
@@ -1296,7 +1296,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             self.sndPhotoMove.stop()
 
     def __localPhotoMoveTask(self, task):
-        if not hasaTTW(self, 'swivel'):
+        if not hasattr(self, 'swivel'):
             return
         pos = [self.swivel.getHpr()[0], self.swivel.getHpr()[1], self.swivel.getHpr()[2]]
         oldRot = pos[0]
@@ -1347,11 +1347,11 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
     def __decreaseFilmCount(self):
         curTime = self.getCurrentGameTime()
         score = self.filmCount - 1
-        if not hasaTTW(self, 'curScore'):
+        if not hasattr(self, 'curScore'):
             self.curScore = score
         self.filmPanel['text'] = str(score)
         if self.curScore != score:
-            if hasaTTW(self, 'jarIval'):
+            if hasattr(self, 'jarIval'):
                 self.jarIval.finish()
             s = self.filmPanel.getScale()
             self.jarIval = Parallel(Sequence(self.filmPanel.scaleInterval(0.15, s * 3.0 / 4.0, blendType='easeOut'), self.filmPanel.scaleInterval(0.15, s, blendType='easeIn')), Sequence(Wait(0.25), SoundInterval(self.sndFilmTick)), name='photoGameFilmJarThrob')
@@ -1451,19 +1451,19 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         boatGeom.setR(-0.0)
         boatGeom.setH(-8)
         self.bg = boatGeom
-        self.boaTTWack = Sequence()
-        self.boaTTWack.append(LerpHprInterval(self.boat, 90.0, Point3(360, 0, 0)))
-        self.boaTTWack.loop()
-        self.boaTTWack2 = Sequence()
-        self.boaTTWack2.append(LerpPosInterval(self.boat, 5.0, Point3(0, 0, 2.0), Point3(0, 0, 1.0), blendType='easeInOut'))
-        self.boaTTWack2.append(LerpPosInterval(self.boat, 5.0, Point3(0, 0, 1.0), Point3(0, 0, 2.0), blendType='easeInOut'))
-        self.boaTTWack2.loop()
+        self.boatTrack = Sequence()
+        self.boatTrack.append(LerpHprInterval(self.boat, 90.0, Point3(360, 0, 0)))
+        self.boatTrack.loop()
+        self.boatTrack2 = Sequence()
+        self.boatTrack2.append(LerpPosInterval(self.boat, 5.0, Point3(0, 0, 2.0), Point3(0, 0, 1.0), blendType='easeInOut'))
+        self.boatTrack2.append(LerpPosInterval(self.boat, 5.0, Point3(0, 0, 1.0), Point3(0, 0, 2.0), blendType='easeInOut'))
+        self.boatTrack2.loop()
         ddFog = Fog('DDFog Photo')
         ddFog.setColor(Vec4(0.8, 0.8, 0.8, 1.0))
         ddFog.setLinearRange(0.0, 400.0)
         render.setFog(ddFog)
         water = self.scene.find('**/top_surface')
-        water.seTTWansparency(TransparencyATTWib.MAlpha)
+        water.setTransparency(TransparencyAttrib.MAlpha)
         water.setColorScale(1.0, 1.0, 1.0, 0.8)
         water.setDepthWrite(1)
         water.setDepthTest(1)
@@ -1471,8 +1471,8 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
 
     def destructDD(self):
         self.bg = None
-        self.boaTTWack.finish()
-        self.boaTTWack2.finish()
+        self.boatTrack.finish()
+        self.boatTrack2.finish()
         self.boat.removeNode()
         render.clearFog()
         self.stopAnimatedProps()
@@ -1623,7 +1623,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
                     className = animPropNode.getName()[14:-8]
                 symbols = {}
                 base.cr.importModule(symbols, 'toontown.hood', [className])
-                classObj = getaTTW(symbols[className], className)
+                classObj = getattr(symbols[className], className)
                 animPropObj = classObj(animPropNode)
                 animPropList = self.animPropDict.setdefault(i, [])
                 animPropList.append(animPropObj)
@@ -1635,7 +1635,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
                 className = 'GenericAnimatedProp'
                 symbols = {}
                 base.cr.importModule(symbols, 'toontown.hood', [className])
-                classObj = getaTTW(symbols[className], className)
+                classObj = getattr(symbols[className], className)
                 interactivePropObj = classObj(interactivePropNode)
                 animPropList = self.animPropDict.get(i)
                 if animPropList is None:
@@ -1653,7 +1653,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         del self.animPropDict
 
     def addSound(self, name, soundName, path = None):
-        if not hasaTTW(self, 'soundTable'):
+        if not hasattr(self, 'soundTable'):
             self.soundTable = {}
         if path:
             self.soundPath = path
@@ -1661,6 +1661,6 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.soundTable[name] = loader.loadSfx(soundSource)
 
     def playSound(self, name, volume = 1.0):
-        if hasaTTW(self, 'soundTable'):
+        if hasattr(self, 'soundTable'):
             self.soundTable[name].setVolume(volume)
             self.soundTable[name].play()

@@ -52,7 +52,7 @@ class PetCollider(Impulse.Impulse):
         self.rightCLine.setPointB(Point3(self.petRadius, self.petRadius, 0))
 
     def _getSerialNum(self):
-        if not hasaTTW(self, 'serialNum'):
+        if not hasattr(self, 'serialNum'):
             self.serialNum = PetCollider.SerialNum
             PetCollider.SerialNum += 1
         return self.serialNum

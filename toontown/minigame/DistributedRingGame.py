@@ -88,7 +88,7 @@ class DistributedRingGame(DistributedMinigame):
         self.environModel.setPos(0, self.ENVIRON_LENGTH / 2.0, self.SEA_FLOOR_Z)
         self.environModel.flattenMedium()
         self.ringModel = loader.loadModel(loadBase + 'swimming_game_ring')
-        self.ringModel.seTTWansparency(1)
+        self.ringModel.setTransparency(1)
         modelRadius = 4.0
         self.ringModel.setScale(RingGameGlobals.RING_RADIUS / modelRadius)
         self.ringModel.flattenMedium()
@@ -597,7 +597,7 @@ class DistributedRingGame(DistributedMinigame):
         if pos[2] > RingGameGlobals.MAX_TOONXZ:
             pos[2] = RingGameGlobals.MAX_TOONXZ
         self.getAvatar(self.localAvId).setPos(pos[0], self.TOON_Y, pos[2])
-        if hasaTTW(self, 'cTrav'):
+        if hasattr(self, 'cTrav'):
             self.cTrav.traverse(render)
         self.__posBroadcast(dt)
         return Task.cont

@@ -7,5 +7,5 @@ class BaseActivityFSM(FSM):
     def __init__(self, activity):
         FSM.__init__(self, self.__class__.__name__)
         self.activity = activity
-        self.defaulTTWansitions = None
+        self.defaultTransitions = None
         return

@@ -194,7 +194,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
         return
 
     def __cleanupPenthouseIntro(self):
-        if hasaTTW(self, '_movie') and self._movie:
+        if hasattr(self, '_movie') and self._movie:
             self._movie.unload()
             self._movie = None
         return

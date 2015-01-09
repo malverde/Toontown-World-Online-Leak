@@ -436,9 +436,9 @@ class HitBoxCookie:
             return
         outputfile = open(filename, 'w')
         outputfile.write(self.pythonCookieHeader)
-        outputfile.write('.' + self.dmAcct[0].strip('/') + '\TTWUE\t/\tFALSE\t9999999999\t' + self.dmAcct[1] + '\t' + self.dmAcct[2] + '\n')
-        outputfile.write('.' + self.ctg[0].strip('/') + '\TTWUE\t/\tFALSE\t9999999999\t' + self.ctg[1] + '\t' + self.ctg[2] + '\n')
-        outputfile.write('.' + self.wss_gw[0].strip('/') + '\TTWUE\t/\tFALSE\t9999999999\t' + self.wss_gw[1] + '\t' + self.wss_gw[2] + '\n')
+        outputfile.write('.' + self.dmAcct[0].strip('/') + '\tTRUE\t/\tFALSE\t9999999999\t' + self.dmAcct[1] + '\t' + self.dmAcct[2] + '\n')
+        outputfile.write('.' + self.ctg[0].strip('/') + '\tTRUE\t/\tFALSE\t9999999999\t' + self.ctg[1] + '\t' + self.ctg[2] + '\n')
+        outputfile.write('.' + self.wss_gw[0].strip('/') + '\tTRUE\t/\tFALSE\t9999999999\t' + self.wss_gw[1] + '\t' + self.wss_gw[2] + '\n')
         outputfile.close()
         return
 

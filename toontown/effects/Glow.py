@@ -16,7 +16,7 @@ class Glow(PooledEffect, EffectController):
         self.spark.reparentTo(self.effectModel)
         self.effectColor = Vec4(1, 1, 1, 1)
         self.effectModel.hide()
-        self.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd, ColorBlendATTWib.OIncomingAlpha, ColorBlendATTWib.OOne))
+        self.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd, ColorBlendAttrib.OIncomingAlpha, ColorBlendAttrib.OOne))
         self.setBillboardPointWorld()
         self.setDepthWrite(0)
         self.setLightOff()

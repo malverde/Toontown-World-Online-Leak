@@ -54,7 +54,7 @@ class DistributedCannonGameAI(DistributedMinigameAI):
         return Task.done
 
     def __playing(self):
-        if not hasaTTW(self, 'gameFSM'):
+        if not hasattr(self, 'gameFSM'):
             return False
         if self.gameFSM.getCurrentState() == None:
             return False

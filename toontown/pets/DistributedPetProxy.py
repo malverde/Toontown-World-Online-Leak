@@ -1,7 +1,7 @@
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
-from toontown.pets import PeTTWaits
-from toontown.pets import PetMood, PeTTWicks
+from toontown.pets import PetTraits
+from toontown.pets import PetMood, PetTricks
 from toontown.toonbase import ToontownGlobals
 import string
 
@@ -11,7 +11,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.__funcsToDelete = []
-        self.__generateDisTTWaitFuncs()
+        self.__generateDistTraitFuncs()
         self.__generateDistMoodFuncs()
         self.dominantMood = 'neutral'
         self.sendGenerateMessage = 0
@@ -21,7 +21,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
-        self.traitList = [0] * PeTTWaits.PeTTWaits.NumTraits
+        self.traitList = [0] * PetTraits.PetTraits.NumTraits
         self.requiredMoodComponents = {}
 
     def getSetterName(self, valueName, prefix = 'set'):
@@ -36,15 +36,15 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
     def setPetName(self, petName):
         self.petName = petName
 
-    def seTTWaitSeed(self, traitSeed):
+    def setTraitSeed(self, traitSeed):
         self.traitSeed = traitSeed
 
     def setSafeZone(self, safeZone):
         self.safeZone = safeZone
 
-    def __generateDisTTWaitFuncs(self):
-        for i in xrange(PeTTWaits.PeTTWaits.NumTraits):
-            traitName = PeTTWaits.geTTWaitNames()[i]
+    def __generateDistTraitFuncs(self):
+        for i in xrange(PetTraits.PetTraits.NumTraits):
+            traitName = PetTraits.getTraitNames()[i]
             setterName = self.getSetterName(traitName)
 
             def traitSetter(value, self = self, i = i):
@@ -132,7 +132,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
-        self.traits = PeTTWaits.PeTTWaits(self.traitSeed, self.safeZone)
+        self.traits = PetTraits.PetTraits(self.traitSeed, self.safeZone)
         print self.traits.traits
         self.mood = PetMood.PetMood(self)
         self.lastKnownMood = self.mood.makeCopy()
@@ -155,7 +155,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
         self.sendGenerateMessage = 1
 
     def disable(self):
-        if hasaTTW(self, 'lastKnownMood'):
+        if hasattr(self, 'lastKnownMood'):
             self.lastKnownMood.destroy()
             del self.lastKnownMood
         self.mood.destroy()
@@ -179,7 +179,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
     def getDominantMood(self):
         return self.dominantMood
 
-    def seTTWickAptitudes(self, aptitudes):
+    def setTrickAptitudes(self, aptitudes):
         self.trickAptitudes = aptitudes
 
     def isPet(self):

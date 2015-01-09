@@ -58,7 +58,7 @@ class DistributedBoatAI(DistributedObjectAI):
     def setState(self, state):
         self.state = state
         self.stateTime = globalClockDelta.getRealNetworkTime()
-        if hasaTTW(self, 'doId') and not self.doId is None:
+        if hasattr(self, 'doId') and not self.doId is None:
             self.sendUpdate('setState', [self.state, self.stateTime])
 
     def getState(self):

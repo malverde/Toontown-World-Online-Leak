@@ -30,7 +30,7 @@ def determineFriendName(friendTuple):
         playerInfo = base.cr.playerFriendsManager.playerId2Info.get(playerId)
         friendName = playerInfo.playerName
     else:
-        hasManager = hasaTTW(base.cr, 'playerFriendsManager')
+        hasManager = hasattr(base.cr, 'playerFriendsManager')
         handle = base.cr.identifyFriend(avId)
         if not handle and hasManager:
             handle = base.cr.playerFriendsManager.getAvHandleFromId(avId)
@@ -80,7 +80,7 @@ def showFriendsListTutorial():
 
 def hideFriendsListTutorial():
     if globalFriendsList != None:
-        if hasaTTW(globalFriendsList, 'closeCommand'):
+        if hasattr(globalFriendsList, 'closeCommand'):
             globalFriendsList.close['command'] = globalFriendsList.closeCommand
         if not base.cr.isPaid():
             globalFriendsList.secrets['state'] = DGG.NORMAL
@@ -212,7 +212,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
             if playerInfo:
                 playerName = playerInfo.playerName
         toonName = None
-        hasManager = hasaTTW(base.cr, 'playerFriendsManager')
+        hasManager = hasattr(base.cr, 'playerFriendsManager')
         handle = base.cr.identifyFriend(avId)
         if not handle and hasManager:
             handle = base.cr.playerFriendsManager.getAvHandleFromId(avId)
@@ -337,7 +337,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
 
     def __choseFriend(self, friendId, showType = 0):
         messenger.send('wakeup')
-        hasManager = hasaTTW(base.cr, 'playerFriendsManager')
+        hasManager = hasattr(base.cr, 'playerFriendsManager')
         handle = base.cr.identifyFriend(friendId)
         if not handle and hasManager:
             handle = base.cr.playerFriendsManager.getAvHandleFromId(friendId)
@@ -348,7 +348,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
 
     def __chosePlayerFriend(self, friendId, showType = 1):
         messenger.send('wakeup')
-        hasManager = hasaTTW(base.cr, 'playerFriendsManager')
+        hasManager = hasattr(base.cr, 'playerFriendsManager')
         handle = None
         playerFriendInfo = base.cr.playerFriendsManager.playerId2Info.get(friendId)
         handle = base.cr.identifyFriend(playerFriendInfo.avatarId)
@@ -437,7 +437,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
             if base.friendMode == 0:
                 for friendPair in base.localAvatar.friendsList:
                     playerId = 0
-                    if hasaTTW(base.cr, 'playerFriendsManager'):
+                    if hasattr(base.cr, 'playerFriendsManager'):
                         playerId = base.cr.playerFriendsManager.findPlayerIdFromAvId(friendPair[0])
                         if playerId:
                             if friendPair[1] & ToontownGlobals.FriendChat:
@@ -477,7 +477,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
                          playerId,
                          0))
 
-                if hasaTTW(base.cr, 'playerFriendsManager'):
+                if hasattr(base.cr, 'playerFriendsManager'):
                     for avatarId in base.cr.playerFriendsManager.getAllOnlinePlayerAvatars():
                         playerId = base.cr.playerFriendsManager.findPlayerIdFromAvId(avatarId)
                         playerFriendInfo = base.cr.playerFriendsManager.playerId2Info.get(playerId)
@@ -504,7 +504,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         if self.panelType == FLPOnline:
             if base.friendMode == 0:
                 for friendPair in base.localAvatar.friendsList:
-                    if hasaTTW(base.cr, 'playerFriendsManager') and base.cr.isFriendOnline(friendPair[0]):
+                    if hasattr(base.cr, 'playerFriendsManager') and base.cr.isFriendOnline(friendPair[0]):
                         playerId = base.cr.playerFriendsManager.findPlayerIdFromAvId(friendPair[0])
                         if playerId:
                             if friendPair[1] & ToontownGlobals.FriendChat:
@@ -533,7 +533,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
                          0,
                          0))
 
-                if hasaTTW(base.cr, 'playerFriendsManager'):
+                if hasattr(base.cr, 'playerFriendsManager'):
                     for avatarId in base.cr.playerFriendsManager.getAllOnlinePlayerAvatars():
                         playerId = base.cr.playerFriendsManager.findPlayerIdFromAvId(avatarId)
                         playerFriendInfo = base.cr.playerFriendsManager.playerId2Info.get(playerId)

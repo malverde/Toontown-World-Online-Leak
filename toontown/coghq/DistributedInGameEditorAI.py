@@ -19,7 +19,7 @@ class DistributedInGameEditorAI(DistributedObjectAI.DistributedObjectAI):
         DistributedObjectAI.DistributedObjectAI.generate(self)
         simbase.levelEditor = self
         self.acceptOnce(self.air.getAvatarExitEvent(self.editorAvId), self.setFinished)
-        self.accept(self.level.getATTWibChangeEventName(), self.handleATTWibChange)
+        self.accept(self.level.getAttribChangeEventName(), self.handleAttribChange)
 
     def delete(self):
         self.notify.debug('delete')
@@ -46,12 +46,12 @@ class DistributedInGameEditorAI(DistributedObjectAI.DistributedObjectAI):
         largeBlob = DistributedLargeBlobSenderAI.DistributedLargeBlobSenderAI(self.air, self.zoneId, self.editorAvId, specStr, useDisk=config.GetBool('spec-by-disk', 1))
         self.sendUpdateToAvatarId(self.editorAvId, 'setSpecSenderDoId', [largeBlob.doId])
 
-    def setEdit(self, entId, aTTWibName, valueStr, username):
-        self.level.setATTWibChange(entId, aTTWibName, eval(valueStr), username)
+    def setEdit(self, entId, attribName, valueStr, username):
+        self.level.setAttribChange(entId, attribName, eval(valueStr), username)
 
-    def handleATTWibChange(self, entId, aTTWib, value, username):
-        self.sendUpdateToAvatarId(self.editorAvId, 'setATTWibChange', [entId,
-         aTTWib,
+    def handleAttribChange(self, entId, attrib, value, username):
+        self.sendUpdateToAvatarId(self.editorAvId, 'setAttribChange', [entId,
+         attrib,
          repr(value),
          username])
 

@@ -522,10 +522,10 @@ class PartyCogActivity(DirectObject):
             return render.getRelativeVector(toon, relVel) * 0.6
 
         def __safeSetAnimState(toon = toon, state = 'Happy'):
-            if toon and hasaTTW(toon, 'animFSM'):
+            if toon and hasattr(toon, 'animFSM'):
                 toon.setAnimState('Happy')
             else:
-                self.notify.warning('The toon is being destroyed. No aTTWibute animState.')
+                self.notify.warning('The toon is being destroyed. No attribute animState.')
 
         toss = Track((0, Sequence(Func(toon.setPosHpr, x, y, z, h, p, r), Func(pie.reparentTo, toon.rightHand), Func(pie.setPosHpr, 0, 0, 0, 0, 0, 0), animPie, Parallel(ActorInterval(toon, 'throw', startFrame=48, playRate=1.5, partName='torso'), animPie), Func(__safeSetAnimState, toon, 'Happy'))), (16.0 / 24.0, Func(pie.detachNode)))
         fly = Track((14.0 / 24.0, SoundInterval(sound, node=toon, cutOff=PartyGlobals.PARTY_COG_CUTOFF)), (16.0 / 24.0, Sequence(Func(flyPie.reparentTo, render), Func(flyPie.setPosHpr, toon, 0.52, 0.97, 2.24, 0, -45, 0), beginFlyIval, ProjectileInterval(flyPie, startVel=getVelocity, duration=6), Func(flyPie.detachNode))))

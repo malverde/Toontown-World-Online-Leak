@@ -44,7 +44,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.collSphere = None
         self.collNode = None
         self.collNodePath = None
-        self.casTTWack = None
+        self.castTrack = None
         self.pond = None
         self.guiTrack = None
         self.madeGui = 0
@@ -95,10 +95,10 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.ignore(self.uniqueName('enterFishingSpotSphere'))
         self.setOccupied(0)
         self.avId = 0
-        if self.casTTWack != None:
-            if self.casTTWack.isPlaying():
-                self.casTTWack.finish()
-            self.casTTWack = None
+        if self.castTrack != None:
+            if self.castTrack.isPlaying():
+                self.castTrack.finish()
+            self.castTrack = None
         if self.guiTrack != None:
             if self.guiTrack.isPlaying():
                 self.guiTrack.finish()
@@ -157,7 +157,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.waterLevel = FishingTargetGlobals.getWaterLevel(self.area)
 
     def allowedToEnter(self):
-        if hasaTTW(base, 'ttAccess') and base.ttAccess and base.ttAccess.canAccess():
+        if hasattr(base, 'ttAccess') and base.ttAccess and base.ttAccess.canAccess():
             return True
         return False
 
@@ -249,7 +249,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             self.av.stopSmooth()
             self.av.wrtReparentTo(self.angleNP)
             self.av.setAnimState('neutral', 1.0)
-            self.createCasTTWack()
+            self.createCastTrack()
         if wasLocalToon and not self.localToonFishing:
             self.__hideCastGui()
             if base.wantBingo:
@@ -300,7 +300,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         if self.line == None:
             self.line = Rope.Rope(self.uniqueName('Line'))
             self.line.setColor(1, 1, 1, 0.4)
-            self.line.seTTWansparency(1)
+            self.line.setTransparency(1)
             self.lineSphere = BoundingSphere(Point3(-0.6, -2, -5), 5.5)
         if self.bob == None:
             self.bob = loader.loadModel('phase_4/models/props/fishing_bob')
@@ -680,11 +680,11 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         jar = self.castGui.find('**/jar')
         bucketPosInt = bucket.posInterval(5.0, Point3(0, 0, 0), startPos=bucket.getPos(), blendType='easeInOut')
         bucketScaleInt = bucket.scaleInterval(5.0, VBase3(1.0, 1.0, 1.0), startScale=bucket.getScale(), blendType='easeInOut')
-        buckeTTWack = Parallel(bucketPosInt, bucketScaleInt)
+        bucketTrack = Parallel(bucketPosInt, bucketScaleInt)
         jarPosInt = jar.posInterval(5.0, Point3(0, 0, 0), startPos=jar.getPos(), blendType='easeInOut')
         jarScaleInt = jar.scaleInterval(5.0, VBase3(1.0, 1.0, 1.0), startScale=jar.getScale(), blendType='easeInOut')
         jarTrack = Parallel(jarPosInt, jarScaleInt)
-        self.guiTrack = Parallel(buckeTTWack, jarTrack)
+        self.guiTrack = Parallel(bucketTrack, jarTrack)
         self.guiTrack.start()
 
     def setCastGui(self):
@@ -697,11 +697,11 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.jar.reparentTo(jar)
         bucketPosInt = bucket.posInterval(3.0, Point3(-1.9, 0, -.11), startPos=bucket.getPos(), blendType='easeInOut')
         bucketScaleInt = bucket.scaleInterval(3.0, VBase3(0.9, 0.9, 0.9), startScale=bucket.getScale(), blendType='easeInOut')
-        buckeTTWack = Parallel(bucketPosInt, bucketScaleInt)
+        bucketTrack = Parallel(bucketPosInt, bucketScaleInt)
         jarPosInt = jar.posInterval(3.0, Point3(-.375, 0, -.135), startPos=jar.getPos(), blendType='easeInOut')
         jarScaleInt = jar.scaleInterval(3.0, VBase3(0.9, 0.9, 0.9), startScale=jar.getScale(), blendType='easeInOut')
         jarTrack = Parallel(jarPosInt, jarScaleInt)
-        self.guiTrack = Parallel(buckeTTWack, jarTrack)
+        self.guiTrack = Parallel(bucketTrack, jarTrack)
         self.guiTrack.start()
 
     def setJarAmount(self, amount):
@@ -737,12 +737,12 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             if self.power == 0:
                 self.arrowTail.setScale(0.075, 0.075, 0)
                 self.arrow.setR(0)
-            self.casTTWack.pause()
+            self.castTrack.pause()
             return Task.cont
         dist = math.sqrt(deltaX * deltaX + deltaY * deltaY)
         delta = dist / 0.5
         self.power = max(min(abs(delta), 1.0), 0.0)
-        self.casTTWack.setT(0.2 + self.power * 0.7)
+        self.castTrack.setT(0.2 + self.power * 0.7)
         angle = rad2Deg(math.atan(deltaX / deltaY))
         if self.power < 0.25:
             angle = angle * math.pow(self.power * 4, 3)
@@ -768,7 +768,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         deltaX = self.mouseX - self.initMouseX
         deltaY = self.mouseY - self.initMouseY
         self.power = max(min(abs(deltaY) * 1.5, 1.0), 0.0)
-        self.casTTWack.setT(0.4 + self.power * 0.5)
+        self.castTrack.setT(0.4 + self.power * 0.5)
         angle = deltaX * -180.0
         self.angleNP.setH(self.startAngleNP - angle)
         return Task.cont
@@ -781,8 +781,8 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             self.mouseX = 0
             self.mouseY = 0
 
-    def createCasTTWack(self):
-        self.casTTWack = Sequence(ActorInterval(self.av, 'castlong', playRate=4), ActorInterval(self.av, 'cast', startFrame=20), Func(self.av.loop, 'fish-neutral'))
+    def createCastTrack(self):
+        self.castTrack = Sequence(ActorInterval(self.av, 'castlong', playRate=4), ActorInterval(self.av, 'cast', startFrame=20), Func(self.av.loop, 'fish-neutral'))
 
     def startMoveBobTask(self):
         self.__showBob()
@@ -849,8 +849,8 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
     def enterLocalAdjusting(self, guiEvent = None):
         if self.track:
             self.track.pause()
-        if self.casTTWack:
-            self.casTTWack.pause()
+        if self.castTrack:
+            self.castTrack.pause()
         self.power = 0.0
         self.firstCast = 0
         self.castButton['image0_color'] = Vec4(0, 1, 0, 1)
@@ -895,18 +895,18 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
     def enterLocalCasting(self):
         if self.power == 0.0 and len(self.av.fishCollection) == 0:
             self.__showHowTo(TTLocalizer.FishingHowToFailed)
-            if self.casTTWack:
-                self.casTTWack.pause()
+            if self.castTrack:
+                self.castTrack.pause()
             self.av.loop('pole-neutral')
             self.track = None
             return
         castCost = FishGlobals.getCastCost(self.av.getFishingRod())
         self.jar['text'] = str(max(self.av.getMoney() - castCost, 0))
-        if not self.casTTWack:
-            self.createCasTTWack()
-        self.casTTWack.pause()
+        if not self.castTrack:
+            self.createCastTrack()
+        self.castTrack.pause()
         startT = 0.7 + (1 - self.power) * 0.3
-        self.casTTWack.start(startT)
+        self.castTrack.start(startT)
         self.track = Sequence(Wait(1.2 - startT), Func(self.startMoveBobTask), Func(self.__showLineCasting))
         self.track.start()
         heading = self.angleNP.getH()
@@ -919,8 +919,8 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         if self.track:
             self.track.pause()
             self.track = None
-        if self.casTTWack:
-            self.casTTWack.pause()
+        if self.castTrack:
+            self.castTrack.pause()
         self.__hideLine()
         self.__hideBob()
         return
@@ -946,7 +946,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
     def enterFishing(self):
         if self.localToonFishing:
             self.track = Sequence(ActorInterval(self.av, 'cast'), Func(self.pole.pose, 'cast', 0), Func(self.av.loop, 'fish-neutral'))
-            self.track.start(self.casTTWack.getT())
+            self.track.start(self.castTrack.getT())
         else:
             self.track = None
             self.av.loop('fish-neutral')
@@ -975,7 +975,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.bob.reparentTo(self.angleNP)
         self.bob.setZ(self.waterLevel)
         self.__showLineReeling()
-        self.casTTWack.pause()
+        self.castTrack.pause()
         if self.localToonFishing:
             self.__showCastGui()
             if code == FishGlobals.QuestItem:

@@ -85,7 +85,7 @@ class GameSprite:
         self.setBallType(colorType)
         self.size = 0.4 * self.sizeMult
         self.isQue = 0
-        self.nodeObj.seTTWansparency(TransparencyATTWib.MAlpha)
+        self.nodeObj.setTransparency(TransparencyAttrib.MAlpha)
         self.markedForDeath = 0
         self.gridPosX = None
         self.gridPosZ = None

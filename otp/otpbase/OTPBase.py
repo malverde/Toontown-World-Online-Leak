@@ -1,5 +1,5 @@
 from direct.showbase.ShowBase import ShowBase
-from pandac.PandaModules import Camera, TPLow, VBase4, ColorWriteATTWib, Filename, getModelPath, NodePath, TexturePool, Multifile
+from pandac.PandaModules import Camera, TPLow, VBase4, ColorWriteAttrib, Filename, getModelPath, NodePath, TexturePool, Multifile
 import OTPRender
 import time
 import math
@@ -55,7 +55,7 @@ class OTPBase(ShowBase):
         self.stereoEnabled = not self.stereoEnabled
         if self.stereoEnabled:
             if not base.win.isStereo():
-                base.win.setRedBlueStereo(True, ColorWriteATTWib.CRed, ColorWriteATTWib.CGreen | ColorWriteATTWib.CBlue)
+                base.win.setRedBlueStereo(True, ColorWriteAttrib.CRed, ColorWriteAttrib.CGreen | ColorWriteAttrib.CBlue)
         if self.wantEnviroDR:
             self.setupEnviroCamera()
             return
@@ -153,7 +153,7 @@ class OTPBase(ShowBase):
 
     def __chasePixelZoom(self, task):
         now = globalClock.getFrameTime()
-        pos = base.cam.getNeTTWansform().getPos()
+        pos = base.cam.getNetTransform().getPos()
         prevPos = base.cam.getNetPrevTransform().getPos()
         d2 = (pos - prevPos).lengthSquared()
         if d2:
@@ -242,7 +242,7 @@ class OTPBase(ShowBase):
             raise
         except:
             self.notify.warning('Handling Python exception.')
-            if getaTTW(self, 'cr', None):
+            if getattr(self, 'cr', None):
                 if self.cr.timeManager:
                     from otp.otpbase import OTPGlobals
                     self.cr.timeManager.setDisconnectReason(OTPGlobals.DisconnectPythonError)

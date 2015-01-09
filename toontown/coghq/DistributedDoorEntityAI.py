@@ -79,7 +79,7 @@ class DistributedDoorEntityAI(DistributedDoorEntityBase.DistributedDoorEntityBas
 
     def getLocksState(self):
         stateBits = 0
-        if hasaTTW(self, 'locks'):
+        if hasattr(self, 'locks'):
             stateBits = self.locks[0].getLockState() & 15 | self.locks[1].getLockState() << 4 & 240 | self.locks[2].getLockState() << 8 & 3840
         return stateBits
 
@@ -95,21 +95,21 @@ class DistributedDoorEntityAI(DistributedDoorEntityBase.DistributedDoorEntityBas
         return 'door-%s' % (self.entId,)
 
     def setup(self):
-        if not hasaTTW(self, 'unlock0Event'):
+        if not hasattr(self, 'unlock0Event'):
             self.unlock0Event = None
-        if not hasaTTW(self, 'unlock1Event'):
+        if not hasattr(self, 'unlock1Event'):
             self.unlock1Event = None
-        if not hasaTTW(self, 'unlock2Event'):
+        if not hasattr(self, 'unlock2Event'):
             self.unlock2Event = None
-        if not hasaTTW(self, 'unlock3Event'):
+        if not hasattr(self, 'unlock3Event'):
             self.unlock3Event = None
-        if not hasaTTW(self, 'isLock0Unlocked'):
+        if not hasattr(self, 'isLock0Unlocked'):
             self.isLock0Unlocked = None
-        if not hasaTTW(self, 'isLock1Unlocked'):
+        if not hasattr(self, 'isLock1Unlocked'):
             self.isLock1Unlocked = None
-        if not hasaTTW(self, 'isLock2Unlocked'):
+        if not hasattr(self, 'isLock2Unlocked'):
             self.isLock2Unlocked = None
-        if not hasaTTW(self, 'isLock3Unlocked'):
+        if not hasattr(self, 'isLock3Unlocked'):
             self.isLock3Unlocked = None
         self.locks = [Lock(self, 0, self.unlock0Event, self.isLock0Unlocked), Lock(self, 1, self.unlock1Event, self.isLock1Unlocked), Lock(self, 2, self.unlock2Event, self.isLock2Unlocked)]
         del self.unlock0Event
@@ -120,10 +120,10 @@ class DistributedDoorEntityAI(DistributedDoorEntityBase.DistributedDoorEntityBas
         del self.isLock1Unlocked
         del self.isLock2Unlocked
         del self.isLock3Unlocked
-        if hasaTTW(self, 'isOpenEvent'):
+        if hasattr(self, 'isOpenEvent'):
             self.setIsOpenEvent(self.isOpenEvent)
             del self.isOpenEvent
-        if hasaTTW(self, 'isOpen'):
+        if hasattr(self, 'isOpen'):
             self.setIsOpen(self.isOpen)
             del self.isOpen
         return
@@ -147,7 +147,7 @@ class DistributedDoorEntityAI(DistributedDoorEntityBase.DistributedDoorEntityBas
             self.accept(self.isOpenEvent, self.setIsOpen)
 
     def changedOnState(self, isOn):
-        if hasaTTW(self, 'entId'):
+        if hasattr(self, 'entId'):
             messenger.send(self.getOutputEventName(), [not isOn])
 
     def setIsOpen(self, isOpen):
@@ -207,6 +207,6 @@ class DistributedDoorEntityAI(DistributedDoorEntityBase.DistributedDoorEntityBas
 
     if __dev__:
 
-        def aTTWibChanged(self, aTTWib, value):
+        def attribChanged(self, attrib, value):
             self.takedown()
             self.setup()

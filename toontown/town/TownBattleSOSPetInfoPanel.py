@@ -3,8 +3,8 @@ from direct.fsm import StateData
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
-from toontown.pets import Pet, PeTTWicks, PetDetailPanel
-from toontown.speedchat import TTSCPeTTWickMenu
+from toontown.pets import Pet, PetTricks, PetDetailPanel
+from toontown.speedchat import TTSCPetTrickMenu
 from otp.speedchat import SpeedChatGlobals, SCSettings
 from otp.otpbase import OTPLocalizer
 
@@ -52,7 +52,7 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
         self.detailButton['state'] = DGG.NORMAL
         gui.removeNode()
         self.nameLabel = None
-        self.trickMenu = TTSCPeTTWickMenu.TTSCPeTTWickMenu()
+        self.trickMenu = TTSCPetTrickMenu.TTSCPetTrickMenu()
         self.settings = SCSettings.SCSettings(eventPrefix='')
         self.trickMenu.privSetSettingsRef(self.settings)
         self.trickMenuEventName = self.trickMenu.getEventName(SpeedChatGlobals.SCStaticTextMsgEvent)
@@ -67,10 +67,10 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
         self.frame.destroy()
         del self.frame
         self.frame = None
-        if hasaTTW(self, 'petView'):
+        if hasattr(self, 'petView'):
             self.petView.removeNode()
             del self.petView
-        if hasaTTW(self, 'petModel'):
+        if hasattr(self, 'petModel'):
             self.petModel.delete()
             del self.petModel
         del self.closeButton
@@ -109,8 +109,8 @@ class TownBattleSOSPetInfoPanel(StateData.StateData):
         return
 
     def __handleTrickMenuEvent(self, textId):
-        if PeTTWicks.ScId2trickId.has_key(textId):
-            trickId = PeTTWicks.ScId2trickId[textId]
+        if PetTricks.ScId2trickId.has_key(textId):
+            trickId = PetTricks.ScId2trickId[textId]
             doneStatus = {'mode': 'OK',
              'trickId': trickId}
             messenger.send(self.doneEvent, [doneStatus])

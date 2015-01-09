@@ -41,9 +41,9 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             self.playerInfo = base.cr.playerFriendsManager.playerId2Info.get(playerId)
 
         self.laffMeter = None
-        wantsLaffMeter = hasaTTW(avatar, 'hp')
+        wantsLaffMeter = hasattr(avatar, 'hp')
 
-        if not hasaTTW(avatar, 'style'):
+        if not hasattr(avatar, 'style'):
             self.notify.warning("Avatar has no 'style'. Abort initialization.")
             AvatarPanelBase.AvatarPanelBase.cleanup(self)
             return
@@ -338,7 +338,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         self.boardingInfoButton['state'] = DGG.DISABLED
 
     def cleanup(self):
-        if not hasaTTW(self, 'frame') or self.frame == None:
+        if not hasattr(self, 'frame') or self.frame == None:
             return
         self.notify.debug('Clean up toon panel, avId=%d' % self.avId)
         if self.frame:
@@ -372,7 +372,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         self.laffMeter = None
         self.ignore('updateLaffMeter')
         self.ignoreAll()
-        if hasaTTW(self.avatar, 'bFake') and self.avatar.bFake:
+        if hasattr(self.avatar, 'bFake') and self.avatar.bFake:
             self.avatar.delete()
         base.setCellsAvailable([base.rightCells[0]], 1)
         AvatarPanelBase.AvatarPanelBase.cleanup(self)
@@ -464,18 +464,18 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         return
 
     def getAvId(self):
-        if hasaTTW(self, 'avatar'):
+        if hasattr(self, 'avatar'):
             if self.avatar:
                 return self.avatar.doId
         return None
 
     def getPlayerId(self):
-        if hasaTTW(self, 'playerId'):
+        if hasattr(self, 'playerId'):
             return self.playerId
         return None
 
     def isHidden(self):
-        if not hasaTTW(self, 'frame') or not self.frame:
+        if not hasattr(self, 'frame') or not self.frame:
             return 1
         return self.frame.isHidden()
 
@@ -508,8 +508,8 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
 
     def __checkGroupStatus(self):
         self.groupFrame.hide()
-        if hasaTTW(self, 'avatar'):
-            if self.avatar and hasaTTW(self.avatar, 'getZoneId') and localAvatar.getZoneId() == self.avatar.getZoneId():
+        if hasattr(self, 'avatar'):
+            if self.avatar and hasattr(self.avatar, 'getZoneId') and localAvatar.getZoneId() == self.avatar.getZoneId():
                 if localAvatar.boardingParty:
                     if self.avId in localAvatar.boardingParty.getGroupMemberList(localAvatar.doId):
                         if localAvatar.boardingParty.getGroupLeader(localAvatar.doId) == localAvatar.doId:

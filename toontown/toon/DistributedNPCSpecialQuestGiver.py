@@ -62,7 +62,7 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
             return True
         place = base.cr.playGame.getPlace()
         myHoodId = ZoneUtil.getCanonicalHoodId(place.zoneId)
-        if hasaTTW(place, 'id'):
+        if hasattr(place, 'id'):
             myHoodId = place.id
         if myHoodId in (ToontownGlobals.ToontownCentral,
          ToontownGlobals.MyEstate,

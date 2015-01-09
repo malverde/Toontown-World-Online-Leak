@@ -135,7 +135,7 @@ class DistCogdoCraneGame(CogdoCraneGameBase, DistCogdoLevelGame):
     def toCraneMode(self):
         if self.cr:
             place = self.cr.playGame.getPlace()
-            if place and hasaTTW(place, 'fsm'):
+            if place and hasattr(place, 'fsm'):
                 place.setState('crane')
 
     def enterVisible(self):

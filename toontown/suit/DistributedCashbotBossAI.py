@@ -525,7 +525,7 @@ def endcfo():
     if toon:
         z = toon.zoneId
         for obj in simbase.air.doId2do.values():
-            zone = getaTTW(obj, "zoneId", -1)
+            zone = getattr(obj, "zoneId", -1)
             if zone == z:
                 if obj.__class__.__name__ == "DistributedCashbotBossAI":
                     obj.b_setState('Victory')

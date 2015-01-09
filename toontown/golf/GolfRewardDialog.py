@@ -162,7 +162,7 @@ class GolfRewardDialog:
         retval = Sequence(name='Reward sequence', autoPause=1)
         self.trophy = None
 
-        def seTTWophyLabelText(text, playerIndex, trophyIndex):
+        def setTrophyLabelText(text, playerIndex, trophyIndex):
             self.rankLabel.hide()
             self.rewardLabel.hide()
             self.trophy = GolfTrophy(level=self.trophyList[playerIndex][trophyIndex], parent=self.trophyLabel, pos=(1.3, 0, -0.25))
@@ -196,7 +196,7 @@ class GolfRewardDialog:
                 for rewardText in rewardTextList:
                     playerIndex = self.avIdList.index(avId)
                     var = (rewardText, playerIndex, trophyIndex)
-                    oneTrophyIval = Parallel(Func(seTTWophyLabelText, rewardText, playerIndex, trophyIndex), LerpColorScaleInterval(self.trophyLabel, 4, Vec4(1, 1, 1, 0), startColorScale=Vec4(1, 1, 1, 1), blendType='easeIn'))
+                    oneTrophyIval = Parallel(Func(setTrophyLabelText, rewardText, playerIndex, trophyIndex), LerpColorScaleInterval(self.trophyLabel, 4, Vec4(1, 1, 1, 0), startColorScale=Vec4(1, 1, 1, 1), blendType='easeIn'))
                     trophyIndex = trophyIndex + 1
                     retval.append(oneTrophyIval)
 
@@ -206,7 +206,7 @@ class GolfRewardDialog:
         for rewardText in rewardTextList:
             if len(rewardTextList) > 0:
                 var = (rewardText, playerIndex, trophyIndex)
-                oneRewardIval = Parallel(Func(seTTWophyLabelText, rewardText, playerIndex, trophyIndex), LerpColorScaleInterval(self.trophyLabel, 4, Vec4(1, 1, 1, 0), startColorScale=Vec4(1, 1, 1, 1), blendType='easeIn'))
+                oneRewardIval = Parallel(Func(setTrophyLabelText, rewardText, playerIndex, trophyIndex), LerpColorScaleInterval(self.trophyLabel, 4, Vec4(1, 1, 1, 0), startColorScale=Vec4(1, 1, 1, 1), blendType='easeIn'))
                 retval.append(oneRewardIval)
 
         rewardCupList = self.calcCupTextListForAllPlayers(localAvId)

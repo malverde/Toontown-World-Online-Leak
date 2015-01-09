@@ -79,7 +79,7 @@ class ShtikerBook(DirectFrame, StateData.StateData):
             self.accept(ToontownGlobals.OptionsPageHotkey, self.__close)
             self.pageTabFrame.show()
         self.pages[self.currPageIndex].enter()
-        if hasaTTW(localAvatar, 'newsButtonMgr') and localAvatar.newsButtonMgr:
+        if hasattr(localAvatar, 'newsButtonMgr') and localAvatar.newsButtonMgr:
             localAvatar.newsButtonMgr.hideNewIssueButton()
 
     def exit(self):

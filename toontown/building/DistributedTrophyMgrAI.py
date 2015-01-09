@@ -10,11 +10,11 @@ class DistributedTrophyMgrAI(DistributedObjectAI):
         self.scores = {}
         self.scoreLists = ([], [], [])
 
-    def requesTTWophyScore(self):
+    def requestTrophyScore(self):
         avId = self.air.getAvatarIdFromSender()
         if avId in self.scores:
             if avId in self.air.doId2do:
-                self.air.doId2do[avId].sendUpdate('seTTWophyScore', [self.scores[avId][1]])
+                self.air.doId2do[avId].sendUpdate('setTrophyScore', [self.scores[avId][1]])
 
     def removeTrophy(self, avId, numFloors):
         if not avId in self.scores:
@@ -28,7 +28,7 @@ class DistributedTrophyMgrAI(DistributedObjectAI):
         messenger.send('leaderboardChanged')
         messenger.send('leaderboardFlush')
         if avId in self.air.doId2do:
-            self.air.doId2do[avId].sendUpdate('seTTWophyScore', [self.scores[avId][1]])
+            self.air.doId2do[avId].sendUpdate('setTrophyScore', [self.scores[avId][1]])
 
     def addTrophy(self, avId, name, numFloors):
         if not avId in self.scores:
@@ -43,7 +43,7 @@ class DistributedTrophyMgrAI(DistributedObjectAI):
         messenger.send('leaderboardChanged')
         messenger.send('leaderboardFlush')
         if avId in self.air.doId2do:
-            self.air.doId2do[avId].sendUpdate('seTTWophyScore', [self.scores[avId][1]])
+            self.air.doId2do[avId].sendUpdate('setTrophyScore', [self.scores[avId][1]])
 
     def sort(self):
         scoreList = []
