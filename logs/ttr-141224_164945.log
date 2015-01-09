@@ -1,0 +1,44 @@
+ToontownStart: Polling for game2 to finish...
+ToontownStart: Game2 is finished.
+ToontownStart: Starting the game.
+ToontownStart: setting default font
+TTLocalizer: Running in language: english
+from toontown.toonbase.TTLocalizerEnglish import *
+OTPLocalizer: Running in language: english
+from otp.otpbase.OTPLocalizerEnglish import *
+ToontownStart: Loading default gui sounds
+ToontownStart: serverVersion:  ttw-alpha-2.0.0
+Traceback (most recent call last):
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py", line 151, in _run_module_as_main
+    mod_name, loader, code, fname = _get_module_details(mod_name)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py", line 101, in _get_module_details
+    loader = get_loader(mod_name)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.py", line 464, in get_loader
+    return find_loader(fullname)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.py", line 474, in find_loader
+    for importer in iter_importers(fullname):
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/pkgutil.py", line 430, in iter_importers
+    __import__(pkg)
+  File "toontown/toonbase/ToontownStart.py", line 106, in <module>
+    from toontown.distributed import ToontownClientRepository
+  File "toontown/distributed/ToontownClientRepository.py", line 36, in <module>
+    from toontown.friends import FriendsListPanel
+  File "toontown/friends/FriendsListPanel.py", line 5, in <module>
+    from toontown.toon import ToonAvatarPanel
+  File "toontown/toon/ToonAvatarPanel.py", line 14, in <module>
+    import ToonAvatarDetailPanel
+  File "toontown/toon/ToonAvatarDetailPanel.py", line 9, in <module>
+    import DistributedToon
+  File "toontown/toon/DistributedToon.py", line 13, in <module>
+    import Toon
+  File "toontown/toon/Toon.py", line 3244, in <module>
+    loadModels()
+  File "toontown/toon/Toon.py", line 201, in loadModels
+    loadTex(shirt)
+  File "toontown/toon/Toon.py", line 195, in loadTex
+    tex = loader.loadTexture('/' + path)
+  File "toontown/toonbase/ToontownLoader.py", line 88, in loadTexture
+    ret = Loader.Loader.loadTexture(self, texturePath, alphaPath, okMissing=okMissing)
+  File "/Developer/Panda3D/direct/showbase/Loader.py", line 623, in loadTexture
+    raise IOError, message
+IOError: Could not load texture: /phase_4/maps/tt_t_chr_avt_shirt_sora.jpg
