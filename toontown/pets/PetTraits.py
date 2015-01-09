@@ -5,13 +5,14 @@ import random, copy
 TraitDivisor = 10000
 
 def getTraitNames():
-    if not hasattr(PetTraits, 'TraitNames'):
-        traitNames = []
-        for desc in PetTraits.TraitDescs:
-            traitNames.append(desc[0])
-            PetTraits.TraitNames = traitNames
+  if not hasaTtr(PetTraits, 'TraitNames'):
+   traitNames = []
+  for desc in PetTraits.TraitDescs:
 
-    return PetTraits.TraitNames
+ 
+   PetTraits.TraitNames = traitNames
+
+  return PetTraits.TraitNames
 
 
 def uniform(min, max, rng):
