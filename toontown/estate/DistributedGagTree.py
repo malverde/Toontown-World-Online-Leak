@@ -48,7 +48,7 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
 
     def setTypeIndex(self, typeIndex):
         DistributedPlantBase.DistributedPlantBase.setTypeIndex(self, typeIndex)
-        track, level = GardenGlobals.geTTWeeTrackAndLevel(typeIndex)
+        track, level = GardenGlobals.getTreeTrackAndLevel(typeIndex)
         self.gagTrack = track
         self.gagLevel = level
         invModel = loader.loadModel('phase_3.5/models/gui/inventory_icons')
@@ -60,14 +60,14 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
         propName = ToontownBattleGlobals.AvPropsNew[track][level]
         self.prop2 = invModel2.find('**/' + propName)
         self.prop2.setScale(7)
-        self.filename = self.aTTWibutes['filename']
-        self.maxFruit = self.aTTWibutes['maxFruit']
-        if hasaTTW(self, 'needToLoad'):
+        self.filename = self.attributes['filename']
+        self.maxFruit = self.attributes['maxFruit']
+        if hasattr(self, 'needToLoad'):
             if self.needToLoad:
                 self.loadModel()
 
     def loadModel(self):
-        if not hasaTTW(self, 'filename'):
+        if not hasattr(self, 'filename'):
             self.needToLoad = 1
             return
         if not self.rotateNode:
@@ -139,7 +139,7 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
             return
         fullName = self.name
         text = TTLocalizer.ConfirmRemoveTree % {'tree': fullName}
-        if self.hasDependenTTWees():
+        if self.hasDependentTrees():
             text += TTLocalizer.ConfirmWontBeAbleToHarvest
         self.confirmDialog = TTDialog.TTDialog(style=TTDialog.YesNo, text=text, command=self.confirmCallback)
         self.confirmDialog.show()
@@ -161,11 +161,11 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
         self.sendUpdate('removeItem', [])
 
     def createBackupFruits(self):
-        if not hasaTTW(self, 'fruits'):
+        if not hasattr(self, 'fruits'):
             return
         if not self.fruits:
             return
-        if not hasaTTW(self, 'movieNode'):
+        if not hasattr(self, 'movieNode'):
             return
         if not self.movieNode:
             return
@@ -187,13 +187,13 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
     def doHarvesting(self):
         if not self.canBePicked():
             return
-        if hasaTTW(self, 'backupFruits'):
+        if hasattr(self, 'backupFruits'):
             for fruit in self.backupFruits:
                 fruit.show()
 
         self.sendUpdate('requestHarvest', [])
 
-    def geTTWack(self):
+    def getTrack(self):
         return self.gagTrack
 
     def getGagLevel(self):
@@ -243,7 +243,7 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
 
     def setMovie(self, mode, avId):
         if mode == GardenGlobals.MOVIE_HARVEST:
-            self.doHarvesTTWack(avId)
+            self.doHarvestTrack(avId)
         elif mode == GardenGlobals.MOVIE_WATER:
             self.doWaterTrack(avId)
         elif mode == GardenGlobals.MOVIE_FINISHPLANTING:
@@ -258,7 +258,7 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
         self.finishMovies()
         self.movie = Sequence()
         if self.model:
-            self.model.seTTWansparency(1)
+            self.model.setTransparency(1)
             self.model.setAlphaScale(0)
             self.movie.append(LerpFunc(self.model.setAlphaScale, fromData=0, toData=1, duration=3))
         if self.signModel:
@@ -272,14 +272,14 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
             self.movie.append(Func(self.doResultDialog))
         self.movie.start()
 
-    def doHarvesTTWack(self, avId):
+    def doHarvestTrack(self, avId):
         toon = base.cr.doId2do.get(avId)
         if not toon:
             return
         self.finishMovies()
         moveTrack = self.generateToonMoveTrack(toon)
-        harvesTTWack = self.generateHarvesTTWack(toon)
-        self.movie = Sequence(self.startCamIval(avId), moveTrack, harvesTTWack, self.stopCamIval(avId))
+        harvestTrack = self.generateHarvestTrack(toon)
+        self.movie = Sequence(self.startCamIval(avId), moveTrack, harvestTrack, self.stopCamIval(avId))
         if avId == localAvatar.doId:
             self.movie.append(Func(self.finishInteraction))
             self.movie.append(Func(self.movieDone))
@@ -291,16 +291,16 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
         else:
             DistributedPlantBase.DistributedPlantBase.setupShadow(self)
 
-    def generateHarvesTTWack(self, toon):
+    def generateHarvestTrack(self, toon):
         pos = toon.getPos(render)
         pos.setZ(pos.getZ() + 2)
-        fruiTTWack = Parallel()
+        fruitTrack = Parallel()
         for fruit in self.backupFruits:
-            fruiTTWack.append(Sequence(Func(fruit.show), LerpPosInterval(fruit, 1.5, pos, startPos=Point3(fruit.getX(), fruit.getY(), fruit.getZ() + self.model.getZ())), Func(fruit.removeNode)))
+            fruitTrack.append(Sequence(Func(fruit.show), LerpPosInterval(fruit, 1.5, pos, startPos=Point3(fruit.getX(), fruit.getY(), fruit.getZ() + self.model.getZ())), Func(fruit.removeNode)))
 
         self.fruits = None
-        harvesTTWack = Sequence(fruiTTWack, Func(self.clearBackupFruits))
-        return harvesTTWack
+        harvestTrack = Sequence(fruitTrack, Func(self.clearBackupFruits))
+        return harvestTrack
 
     def adjustWaterIndicator(self):
         DistributedPlantBase.DistributedPlantBase.adjustWaterIndicator(self)
@@ -322,7 +322,7 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
                 self.dirtMound.hide()
 
     def stickParts(self):
-        if not hasaTTW(self, 'signModel'):
+        if not hasattr(self, 'signModel'):
             self.needToPlant = 1
             return Task.done
         if self.signModel.isEmpty():
@@ -357,15 +357,15 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
     def canBeHarvested(self):
         if not base.cr.isPaid():
             if self.velvetRoped():
-                if hasaTTW(localAvatar, '_gagTreeVelvetRoped'):
+                if hasattr(localAvatar, '_gagTreeVelvetRoped'):
                     return False
-        myTrack, myLevel = GardenGlobals.geTTWeeTrackAndLevel(self.typeIndex)
+        myTrack, myLevel = GardenGlobals.getTreeTrackAndLevel(self.typeIndex)
         levelsInTrack = []
         levelTreeDict = {}
         allGagTrees = base.cr.doFindAll('DistributedGagTree')
         for gagTree in allGagTrees:
             if gagTree.getOwnerId() == localAvatar.doId:
-                curTrack, curLevel = GardenGlobals.geTTWeeTrackAndLevel(gagTree.typeIndex)
+                curTrack, curLevel = GardenGlobals.getTreeTrackAndLevel(gagTree.typeIndex)
                 if curTrack == myTrack:
                     levelsInTrack.append(curLevel)
                     levelTreeDict[curLevel] = gagTree
@@ -379,12 +379,12 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
 
         return True
 
-    def hasDependenTTWees(self):
-        myTrack, myLevel = GardenGlobals.geTTWeeTrackAndLevel(self.typeIndex)
+    def hasDependentTrees(self):
+        myTrack, myLevel = GardenGlobals.getTreeTrackAndLevel(self.typeIndex)
         allGagTrees = base.cr.doFindAll('DistributedGagTree')
         for gagTree in allGagTrees:
             if gagTree.getOwnerId() == localAvatar.doId:
-                curTrack, curLevel = GardenGlobals.geTTWeeTrackAndLevel(gagTree.typeIndex)
+                curTrack, curLevel = GardenGlobals.getTreeTrackAndLevel(gagTree.typeIndex)
                 if curTrack == myTrack:
                     if myLevel < curLevel:
                         return True
@@ -393,9 +393,9 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
 
     def doResultDialog(self):
         self.startInteraction()
-        curTrack, curLevel = GardenGlobals.geTTWeeTrackAndLevel(self.typeIndex)
-        species = GardenGlobals.geTTWeeTypeIndex(curTrack, curLevel)
-        treeName = GardenGlobals.PlantATTWibutes[species]['name']
+        curTrack, curLevel = GardenGlobals.getTreeTrackAndLevel(self.typeIndex)
+        species = GardenGlobals.getTreeTypeIndex(curTrack, curLevel)
+        treeName = GardenGlobals.PlantAttributes[species]['name']
         stringToShow = TTLocalizer.getResultPlantedSomethingSentence(treeName)
         self.resultDialog = TTDialog.TTDialog(style=TTDialog.Acknowledge, text=stringToShow, command=self.resultsCallback)
 

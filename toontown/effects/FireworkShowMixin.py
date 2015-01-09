@@ -35,12 +35,12 @@ class FireworkShowMixin:
         if isinstance(self.getHood(), DDHood.DDHood):
             self.getHood().whiteFogColor = Vec4(0.8, 0.8, 0.8, 1)
         self.restoreCameraLens()
-        if hasaTTW(self.getHood(), 'loader'):
+        if hasattr(self.getHood(), 'loader'):
             self.getGeom().clearColorScale()
-        if hasaTTW(self.getHood(), 'sky'):
+        if hasattr(self.getHood(), 'sky'):
             self.getSky().show()
             self.getSky().clearColorScale()
-        if hasaTTW(base, 'localAvatar') and base.localAvatar:
+        if hasattr(base, 'localAvatar') and base.localAvatar:
             base.localAvatar.clearColorScale()
         base.setBackgroundColor(DefaultBackgroundColor)
         self.ignoreAll()
@@ -112,7 +112,7 @@ class FireworkShowMixin:
             place = base.cr.playGame.getPlace()
             if place is None:
                 return
-            if hasaTTW(place, 'halloweenLights'):
+            if hasattr(place, 'halloweenLights'):
                 if not self.__checkStreetValidity():
                     return
                 else:
@@ -135,7 +135,7 @@ class FireworkShowMixin:
         # Election Only
         self.electionFloor = base.render.find('**/ShowFloor')
         self.slappyBalloon = base.render.find('**/airballoon.egg')
-        if self.__checkHoodValidity() and hasaTTW(base.cr.playGame, 'hood') and base.cr.playGame.hood and hasaTTW(base.cr.playGame.hood, 'sky') and base.cr.playGame.hood.sky:
+        if self.__checkHoodValidity() and hasattr(base.cr.playGame, 'hood') and base.cr.playGame.hood and hasattr(base.cr.playGame.hood, 'sky') and base.cr.playGame.hood.sky:
             # Election Only
             hood = self.getHood()
             if hood.id == ToontownCentral:
@@ -167,7 +167,7 @@ class FireworkShowMixin:
             FireworkShowMixin.notify.warning('Invalid fireworks event ID: %d' % eventId)
             return None
                 
-        if self.__checkHoodValidity() and hasaTTW(base.cr.playGame.hood, 'sky') and base.cr.playGame.hood.sky:
+        if self.__checkHoodValidity() and hasattr(base.cr.playGame.hood, 'sky') and base.cr.playGame.hood.sky:
             # Election Only
             hood = self.getHood()
             if hood.id == ToontownCentral:
@@ -275,7 +275,7 @@ class FireworkShowMixin:
         from toontown.hood import DDHood
         if isinstance(self.getHood(), DDHood.DDHood):
             self.getHood().whiteFogColor = Vec4(0.2, 0.2, 0.2, 1)
-            if hasaTTW(base.cr.playGame.getPlace(), 'cameraSubmerged'):
+            if hasattr(base.cr.playGame.getPlace(), 'cameraSubmerged'):
                 if not base.cr.playGame.getPlace().cameraSubmerged:
                     self.getHood().setWhiteFog()
 
@@ -283,18 +283,18 @@ class FireworkShowMixin:
         from toontown.hood import DDHood
         if isinstance(self.getHood(), DDHood.DDHood):
             self.getHood().whiteFogColor = Vec4(0.8, 0.8, 0.8, 1)
-            if hasaTTW(base.cr.playGame.getPlace(), 'cameraSubmerged'):
+            if hasattr(base.cr.playGame.getPlace(), 'cameraSubmerged'):
                 if not base.cr.playGame.getPlace().cameraSubmerged:
                     self.getHood().setWhiteFog()
 
     def __checkStreetValidity(self):
-        if hasaTTW(base.cr.playGame, 'getPlace') and base.cr.playGame.getPlace() and hasaTTW(base.cr.playGame.getPlace(), 'loader') and base.cr.playGame.getPlace().loader and hasaTTW(base.cr.playGame.getPlace().loader, 'geom') and base.cr.playGame.getPlace().loader.geom:
+        if hasattr(base.cr.playGame, 'getPlace') and base.cr.playGame.getPlace() and hasattr(base.cr.playGame.getPlace(), 'loader') and base.cr.playGame.getPlace().loader and hasattr(base.cr.playGame.getPlace().loader, 'geom') and base.cr.playGame.getPlace().loader.geom:
             return True
         else:
             return False
 
     def __checkHoodValidity(self):
-        if hasaTTW(base.cr.playGame, 'hood') and base.cr.playGame.hood and hasaTTW(base.cr.playGame.hood, 'loader') and base.cr.playGame.hood.loader and hasaTTW(base.cr.playGame.hood.loader, 'geom') and base.cr.playGame.hood.loader.geom:
+        if hasattr(base.cr.playGame, 'hood') and base.cr.playGame.hood and hasattr(base.cr.playGame.hood, 'loader') and base.cr.playGame.hood.loader and hasattr(base.cr.playGame.hood.loader, 'geom') and base.cr.playGame.hood.loader.geom:
             return True
         else:
             return False

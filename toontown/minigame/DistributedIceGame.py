@@ -155,7 +155,7 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame, DistributedIce
         self.scoreCircle.reparentTo(self.gameBoard)
         self.scoreCircle.setZ(IceGameGlobals.TireRadius / 2.0)
         self.scoreCircle.setAlphaScale(0.5)
-        self.scoreCircle.seTTWansparency(1)
+        self.scoreCircle.setTransparency(1)
         self.scoreCircle.hide()
         self.treasureModel = loader.loadModel('phase_4/models/minigames/ice_game_barrel')
         self.penaltyModel = loader.loadModel('phase_4/models/minigames/ice_game_tnt2')
@@ -706,7 +706,7 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame, DistributedIce
         self.b_setForceArrowInfo(avId, self.curHeading, self.curForce)
 
     def __aimTask(self, task):
-        if not hasaTTW(self, 'arrowKeys'):
+        if not hasattr(self, 'arrowKeys'):
             return task.done
         dt = globalClock.getDt()
         headingMomentumChange = dt * 60.0
@@ -1012,7 +1012,7 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame, DistributedIce
         self.treasureGrabSound.play()
         self.sendUpdate('claimTreasure', [treasureNum])
 
-    def seTTWeasureGrabbed(self, avId, treasureNum):
+    def setTreasureGrabbed(self, avId, treasureNum):
         if not self.hasLocalToon:
             return
         self.notify.debug('treasure %s grabbed by %s' % (treasureNum, avId))

@@ -116,7 +116,7 @@ class HtmlView(DirectObject):
         ts = TextureStage('webTS')
         self.quad.setTexture(ts, self.guiTex)
         self.quad.setTexScale(ts, 1.0, -1.0)
-        self.quad.seTTWansparency(0)
+        self.quad.setTransparency(0)
         self.quad.setTwoSided(True)
         self.quad.setColor(1.0, 1.0, 1.0, 1.0)
         self.calcMouseLimits()
@@ -147,7 +147,7 @@ class HtmlView(DirectObject):
         ts = TextureStage('leftWebTS')
         self.leftQuad.setTexture(ts, self.leftGuiTex)
         self.leftQuad.setTexScale(ts, 1.0, -1.0)
-        self.leftQuad.seTTWansparency(0)
+        self.leftQuad.setTransparency(0)
         self.leftQuad.setTwoSided(True)
         self.leftQuad.setColor(1.0, 1.0, 1.0, 1.0)
 
@@ -170,7 +170,7 @@ class HtmlView(DirectObject):
         ts = TextureStage('rightWebTS')
         self.rightQuad.setTexture(ts, self.rightGuiTex)
         self.rightQuad.setTexScale(ts, 1.0, -1.0)
-        self.rightQuad.seTTWansparency(0)
+        self.rightQuad.setTransparency(0)
         self.rightQuad.setTwoSided(True)
         self.rightQuad.setColor(1.0, 1.0, 1.0, 1.0)
 
@@ -219,7 +219,7 @@ class HtmlView(DirectObject):
 
     def toggleTransparency(self):
         self.transparency = not self.transparency
-        self.webView.seTTWansparent(self.transparency)
+        self.webView.setTransparent(self.transparency)
 
     def update(self, task):
         if base.mouseWatcherNode.hasMouse():

@@ -24,19 +24,19 @@ class DistributedKnockKnockDoorAI(DistributedAnimatedPropAI.DistributedAnimatedP
     def exitOff(self):
         DistributedAnimatedPropAI.DistributedAnimatedPropAI.exitOff(self)
 
-    def aTTWactTask(self, task):
-        self.fsm.request('aTTWact')
+    def attractTask(self, task):
+        self.fsm.request('attract')
         return Task.done
 
-    def enterATTWact(self):
-        DistributedAnimatedPropAI.DistributedAnimatedPropAI.enterATTWact(self)
+    def enterAttract(self):
+        DistributedAnimatedPropAI.DistributedAnimatedPropAI.enterAttract(self)
 
-    def exitATTWact(self):
-        DistributedAnimatedPropAI.DistributedAnimatedPropAI.exitATTWact(self)
+    def exitAttract(self):
+        DistributedAnimatedPropAI.DistributedAnimatedPropAI.exitAttract(self)
 
     def enterPlaying(self):
         DistributedAnimatedPropAI.DistributedAnimatedPropAI.enterPlaying(self)
-        self.doLaterTask = taskMgr.doMethodLater(9, self.aTTWactTask, self.uniqueName('knockKnock-timer'))
+        self.doLaterTask = taskMgr.doMethodLater(9, self.attractTask, self.uniqueName('knockKnock-timer'))
 
     def exitPlaying(self):
         DistributedAnimatedPropAI.DistributedAnimatedPropAI.exitPlaying(self)

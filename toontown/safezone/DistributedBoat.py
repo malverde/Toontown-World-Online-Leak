@@ -43,10 +43,10 @@ class DistributedBoat(DistributedObject.DistributedObject):
         bellSound = self.cr.playGame.hood.loader.bellSound
         self.eastWestMopath.loadFile('phase_6/paths/dd-e-w')
         self.eastWestMopathInterval = MopathInterval(self.eastWestMopath, boat)
-        ewBoaTTWack = ParallelEndTogether(Parallel(self.eastWestMopathInterval, SoundInterval(bellSound, node=boat)), SoundInterval(foghornSound, node=boat), name='ew-boat')
+        ewBoatTrack = ParallelEndTogether(Parallel(self.eastWestMopathInterval, SoundInterval(bellSound, node=boat)), SoundInterval(foghornSound, node=boat), name='ew-boat')
         self.westEastMopath.loadFile('phase_6/paths/dd-w-e')
         self.westEastMopathInterval = MopathInterval(self.westEastMopath, boat)
-        weBoaTTWack = ParallelEndTogether(Parallel(self.westEastMopathInterval, SoundInterval(bellSound, node=boat)), SoundInterval(foghornSound, node=boat), name='we-boat')
+        weBoatTrack = ParallelEndTogether(Parallel(self.westEastMopathInterval, SoundInterval(bellSound, node=boat)), SoundInterval(foghornSound, node=boat), name='we-boat')
         PIER_TIME = 5.0
         eastPier = self.cr.playGame.hood.loader.geom.find('**/east_pier')
         ePierHpr = VBase3(90, -44.2601, 0)
@@ -58,8 +58,8 @@ class DistributedBoat(DistributedObject.DistributedObject):
         ePierUpTrack = Parallel(LerpHprInterval(eastPier, PIER_TIME, ePierTargetHpr, ePierHpr), SoundInterval(dockSound, node=eastPier), name='e-pier-up')
         wPierDownTrack = Parallel(LerpHprInterval(westPier, PIER_TIME, wPierHpr, wPierTargetHpr), SoundInterval(dockSound, node=westPier), name='w-pier-down')
         wPierUpTrack = Parallel(LerpHprInterval(westPier, PIER_TIME, wPierTargetHpr, wPierHpr), SoundInterval(dockSound, node=westPier), name='w-pier-up')
-        self.ewTrack = ParallelEndTogether(Parallel(ewBoaTTWack, ePierDownTrack), wPierUpTrack, name='ew-track')
-        self.weTrack = ParallelEndTogether(Parallel(weBoaTTWack, wPierDownTrack), ePierUpTrack, name='we-track')
+        self.ewTrack = ParallelEndTogether(Parallel(ewBoatTrack, ePierDownTrack), wPierUpTrack, name='ew-track')
+        self.weTrack = ParallelEndTogether(Parallel(weBoatTrack, wPierDownTrack), ePierUpTrack, name='we-track')
 
     def disable(self):
         base.cr.parentMgr.unregisterParent(ToontownGlobals.SPDonaldsBoat)

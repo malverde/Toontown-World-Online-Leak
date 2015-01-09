@@ -185,7 +185,7 @@ class PlayerFriendsManager(DistributedObjectGlobal):
                     returnValue = 1
         return returnValue
 
-    def counTTWueFriends(self):
+    def countTrueFriends(self):
         count = 0
         for id in self.playerId2Info:
             if self.playerId2Info[id].openChatFriendshipYesNo:
@@ -206,7 +206,7 @@ class PlayerFriendsManager(DistributedObjectGlobal):
             return 0
 
     def askAvatarKnownElseWhere(self, avId):
-        if hasaTTW(base, 'cr'):
+        if hasattr(base, 'cr'):
             if base.cr.askAvatarKnown(avId):
                 return 1
         return 0
@@ -218,7 +218,7 @@ class PlayerFriendsManager(DistributedObjectGlobal):
             return 0
 
     def requestAvatarInfo(self, avId):
-        if hasaTTW(base, 'cr'):
+        if hasattr(base, 'cr'):
             base.cr.queueRequestAvatarInfo(avId)
 
     def __handleFriendHandles(self, handleList):

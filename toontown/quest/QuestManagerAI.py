@@ -228,7 +228,7 @@ class QuestManagerAI:
                 if isinstance(quest, Quests.TrackChoiceQuest):
                     # TrackTrainingRewards are a little different, as we now
                     # have to display the gag track selection menu.
-                    npc.presenTTWackChoice(toonId, questId, quest.getChoices())
+                    npc.presentTrackChoice(toonId, questId, quest.getChoices())
                     return
                 # This function is pretty weird... not sure why it's even here...
                 # But I'll include it just in case... (TMS says: "idk about this
@@ -324,7 +324,7 @@ class QuestManagerAI:
         a toon has decided on the new track that they want to train for.
 
         This is a special moment for any toon, as it determines how they
-        will play the game for the rest of their time at TTW. :D
+        will play the game for the rest of their time at TTR. :D
         """
         toon = self.air.doId2do.get(toonId)
         if not toon:

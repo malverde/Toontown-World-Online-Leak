@@ -44,13 +44,13 @@ class TwoDSection(DirectObject):
         treasureIndicesSelected = sectionInfo[2]
         spawnPointIndicesSelected = sectionInfo[3]
         stomperIndicesSelected = sectionInfo[4]
-        aTTWibs = ToonBlitzGlobals.SectionTypes[self.sectionTypeNum]
-        self.length = aTTWibs[1]
-        self.blockList = aTTWibs[2]
-        enemiesPool = aTTWibs[3]
-        treasuresPool = aTTWibs[4]
-        spawnPointsPool = aTTWibs[5]
-        stompersPool = aTTWibs[6]
+        attribs = ToonBlitzGlobals.SectionTypes[self.sectionTypeNum]
+        self.length = attribs[1]
+        self.blockList = attribs[2]
+        enemiesPool = attribs[3]
+        treasuresPool = attribs[4]
+        spawnPointsPool = attribs[5]
+        stompersPool = attribs[6]
         self.enemyList = []
         for enemyIndex in enemyIndicesSelected:
             self.enemyList.append(enemiesPool[enemyIndex])
@@ -59,8 +59,8 @@ class TwoDSection(DirectObject):
         for treasure in treasureIndicesSelected:
             treasureIndex = treasure[0]
             treasureValue = treasure[1]
-            treasureATTWibs = treasuresPool[treasureIndex]
-            self.treasureList.append((treasureATTWibs, treasureValue))
+            treasureAttribs = treasuresPool[treasureIndex]
+            self.treasureList.append((treasureAttribs, treasureValue))
 
         self.spawnPointList = []
         for spawnPointIndex in spawnPointIndicesSelected:
@@ -75,12 +75,12 @@ class TwoDSection(DirectObject):
         if self.blockList[0][1][0] != (0, 0, 12):
             self.notify.warning('First block of section %s does not start at (0, 0, 12)' % self.sectionTypeNum)
         for index in range(0, len(self.blockList)):
-            blockATTWibs = self.blockList[index]
-            fileName = ToonBlitzGlobals.BlockTypes[blockATTWibs[0]][0]
+            blockAttribs = self.blockList[index]
+            fileName = ToonBlitzGlobals.BlockTypes[blockAttribs[0]][0]
             blockIndex = int(fileName[-1])
             blockType = self.sectionMgr.game.assetMgr.blockTypes[blockIndex]
             sectionizedId = self.getSectionizedId(index)
-            newBlock = TwoDBlock.TwoDBlock(blockType, sectionizedId, blockATTWibs)
+            newBlock = TwoDBlock.TwoDBlock(blockType, sectionizedId, blockAttribs)
             newBlock.model.reparentTo(self.blocksNP)
             self.blocks.append(newBlock)
 

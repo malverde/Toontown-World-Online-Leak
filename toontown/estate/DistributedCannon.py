@@ -105,7 +105,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         self.t = 0
         self.lastT = 0
         self.deltaT = 0
-        self.hiTTWack = None
+        self.hitTrack = None
         self.cTrav = None
         self.cRay = None
         self.cRayNode = None
@@ -145,10 +145,10 @@ class DistributedCannon(DistributedObject.DistributedObject):
         self.ignoreAll()
         self.setMovie(CannonGlobals.CANNON_MOVIE_CLEAR, 0)
         self.nodePath.detachNode()
-        if self.hiTTWack:
-            self.hiTTWack.finish()
-            del self.hiTTWack
-            self.hiTTWack = None
+        if self.hitTrack:
+            self.hitTrack.finish()
+            del self.hitTrack
+            self.hitTrack = None
         DistributedObject.DistributedObject.disable(self)
         return
 
@@ -322,7 +322,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         self.enableRaycast(1)
 
     def enableRaycast(self, enable = 1):
-        if not self.cTrav or not hasaTTW(self, 'cRayNode') or not self.cRayNode:
+        if not self.cTrav or not hasattr(self, 'cRayNode') or not self.cRayNode:
             return
         self.notify.debug('-------enabling raycast--------')
         self.cTrav.removeCollider(self.cRayNodePath)
@@ -406,7 +406,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
             self.__resetToon(self.av)
             self.av.loop('neutral')
             self.av.setPlayRate(1.0, 'run')
-            if hasaTTW(self.av, 'nametag'):
+            if hasattr(self.av, 'nametag'):
                 self.av.nametag.removeNametag(self.toonHead.tag)
         if self.toonHead != None:
             self.toonHead.stopBlink()
@@ -769,7 +769,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         startVel = Vec3(xVel, yVel, zVel)
         trajectory = Trajectory.Trajectory(launchTime, startPos, startVel)
         self.trajectory = trajectory
-        hiTTWeasures = self.__calcHiTTWeasures(trajectory)
+        hitTreasures = self.__calcHitTreasures(trajectory)
         timeOfImpact, hitWhat = self.__calcToonImpact(trajectory)
         return startPos, startHpr, startVel, trajectory, 3 * timeOfImpact, hitWhat
 
@@ -864,7 +864,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         print 'removeAvFromCannon'
         self.notify.debug('self.inWater = %s' % self.inWater)
         if place:
-            if not hasaTTW(place, 'fsm'):
+            if not hasattr(place, 'fsm'):
                 return
             placeState = place.fsm.getCurrentState().getName()
             print placeState
@@ -1054,10 +1054,10 @@ class DistributedCannon(DistributedObject.DistributedObject):
             track.append(Func(self.av.collisionsOn))
 
         if 1:
-            if self.hiTTWack:
-                self.hiTTWack.finish()
-            self.hiTTWack = track
-            self.hiTTWack.start()
+            if self.hitTrack:
+                self.hitTrack.finish()
+            self.hitTrack = track
+            self.hitTrack.start()
 
     def __hitGround(self, avatar, pos, extraArgs = []):
         hitP = avatar.getPos(render)
@@ -1219,7 +1219,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
             h = self.barrel.getH(render)
             p = Point3(self.vel[0], self.vel[1], self.vel[2])
             self.notify.debug('lookat = %s' % p)
-            if hasaTTW(self, 'cannon') and self.cannon:
+            if hasattr(self, 'cannon') and self.cannon:
                 avatar.lookAt(self.cannon)
             avatar.setP(0)
             avatar.setR(0)
@@ -1233,9 +1233,9 @@ class DistributedCannon(DistributedObject.DistributedObject):
             self.notify.error('__calcToonImpact: toon never impacts ground?')
             return (0.0, self.HIT_GROUND)
 
-    def __calcHiTTWeasures(self, trajectory):
+    def __calcHitTreasures(self, trajectory):
         estate = self.cr.doId2do.get(self.estateId)
-        self.hiTTWeasures = []
+        self.hitTreasures = []
         if estate:
             doIds = estate.flyingTreasureId
             for id in doIds:
@@ -1246,7 +1246,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
                     height = 10.0
                     t_impact = trajectory.checkCollisionWithCylinderSides(pos, rad, height)
                     if t_impact > 0:
-                        self.hiTTWeasures.append([t_impact, t])
+                        self.hitTreasures.append([t_impact, t])
 
         del estate
         return None
@@ -1322,14 +1322,14 @@ class DistributedCannon(DistributedObject.DistributedObject):
 
     def __pickupTreasures(self, t):
         updatedList = []
-        for tList in self.hiTTWeasures:
+        for tList in self.hitTreasures:
             if t > tList[0]:
                 messenger.send(tList[1].uniqueName('entertreasureSphere'))
                 self.notify.debug('hit something!')
             else:
                 updatedList.append(tList)
 
-        self.hiTTWeasures = updatedList
+        self.hitTreasures = updatedList
 
     def __resetToonToCannon(self, avatar):
         pos = None

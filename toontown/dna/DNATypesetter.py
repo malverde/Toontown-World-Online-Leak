@@ -61,7 +61,7 @@ class DNATypesetter:
         for np in root.findAllMatches('**/+TextNode'):
             tn = np.node().generate()
             np2 = np.getParent().attachNewNode(tn)
-            np2.seTTWansform(np.geTTWansform())
+            np2.setTransform(np.getTransform())
             np.removeNode()
         root.flattenStrong()
 

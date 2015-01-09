@@ -72,10 +72,10 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
     def setBattleSide(self, battleSide):
         self.battleSide = battleSide
 
-    def setMembers(self, suits, suitsJoining, suitsPending, suitsActive, suitsLured, suiTTWaps, toons, toonsJoining, toonsPending, toonsActive, toonsRunning, timestamp):
+    def setMembers(self, suits, suitsJoining, suitsPending, suitsActive, suitsLured, suitTraps, toons, toonsJoining, toonsPending, toonsActive, toonsRunning, timestamp):
         if self.battleCleanedUp():
             return
-        oldtoons = DistributedBattleBase.DistributedBattleBase.setMembers(self, suits, suitsJoining, suitsPending, suitsActive, suitsLured, suiTTWaps, toons, toonsJoining, toonsPending, toonsActive, toonsRunning, timestamp)
+        oldtoons = DistributedBattleBase.DistributedBattleBase.setMembers(self, suits, suitsJoining, suitsPending, suitsActive, suitsLured, suitTraps, toons, toonsJoining, toonsPending, toonsActive, toonsRunning, timestamp)
         if len(self.toons) == 4 and len(oldtoons) < 4:
             self.notify.debug('setMembers() - battle is now full of toons')
             self.closeBattleCollision()
@@ -97,7 +97,7 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
         else:
             openDoor = Func(self.bossCog.doorA.request, 'open')
             closeDoor = Func(self.bossCog.doorA.request, 'close')
-        suiTTWack = Parallel()
+        suitTrack = Parallel()
         delay = 0
         for suit in suits:
             suit.setState('Battle')
@@ -113,7 +113,7 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
                 destHpr = VBase3(h, 0, 0)
             else:
                 destPos, destHpr = self.getActorPosHpr(suit, self.suits)
-            suiTTWack.append(Track((delay, self.createAdjustInterval(suit, destPos, destHpr)), (delay + 1.5, suit.scaleInterval(1.5, 1))))
+            suitTrack.append(Track((delay, self.createAdjustInterval(suit, destPos, destHpr)), (delay + 1.5, suit.scaleInterval(1.5, 1))))
             delay += 1
 
         if self.hasLocalToon():
@@ -123,7 +123,7 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
             else:
                 camera.setPosHpr(-20, -4, 7, -60, 0, 0)
         done = Func(callback)
-        track = Sequence(openDoor, suiTTWack, closeDoor, done, name=name)
+        track = Sequence(openDoor, suitTrack, closeDoor, done, name=name)
         track.start(ts)
         self.storeInterval(track, name)
         return

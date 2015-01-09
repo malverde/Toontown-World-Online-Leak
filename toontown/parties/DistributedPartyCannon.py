@@ -96,7 +96,7 @@ class DistributedPartyCannon(DistributedObject, Cannon):
         return
 
     def getParentNodePath(self):
-        if hasaTTW(base.cr.playGame, 'hood') and base.cr.playGame.hood and hasaTTW(base.cr.playGame.hood, 'loader') and base.cr.playGame.hood.loader and hasaTTW(base.cr.playGame.hood.loader, 'geom') and base.cr.playGame.hood.loader.geom:
+        if hasattr(base.cr.playGame, 'hood') and base.cr.playGame.hood and hasattr(base.cr.playGame.hood, 'loader') and base.cr.playGame.hood.loader and hasattr(base.cr.playGame.hood.loader, 'geom') and base.cr.playGame.hood.loader.geom:
             return base.cr.playGame.hood.loader.geom
         else:
             self.notify.warning('Hood or loader not created, defaulting to render')
@@ -259,7 +259,7 @@ class DistributedPartyCannon(DistributedObject, Cannon):
         av = base.cr.doId2do.get(avId)
         print 'removeAvFromCannon'
         if place:
-            if not hasaTTW(place, 'fsm'):
+            if not hasattr(place, 'fsm'):
                 return
             placeState = place.fsm.getCurrentState().getName()
             print placeState

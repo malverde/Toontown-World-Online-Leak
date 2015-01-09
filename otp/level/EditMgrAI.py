@@ -11,7 +11,7 @@ class EditMgrAI(EditMgrBase.EditMgrBase):
             entIds = spec.getAllEntIds()
             entIdDict = list2dict(entIds)
             allocRange = EditorGlobals.getEntIdAllocRange()
-            if not hasaTTW(self, 'lastAllocatedEntId'):
+            if not hasattr(self, 'lastAllocatedEntId'):
                 self.lastAllocatedEntId = allocRange[0]
             idChosen = 0
             while not idChosen:
@@ -28,8 +28,8 @@ class EditMgrAI(EditMgrBase.EditMgrBase):
 
             data.update({'entId': id})
             self.lastAllocatedEntId = id
-            self.level.setATTWibChange(self.entId, 'insertEntity', data)
-            self.level.levelSpec.doSetATTWib(self.entId, 'requestNewEntity', None)
+            self.level.setAttribChange(self.entId, 'insertEntity', data)
+            self.level.levelSpec.doSetAttrib(self.entId, 'requestNewEntity', None)
             return
 
         def getSpecSaveEvent(self):
@@ -37,5 +37,5 @@ class EditMgrAI(EditMgrBase.EditMgrBase):
 
         def setRequestSave(self, data):
             messenger.send(self.getSpecSaveEvent())
-            self.level.levelSpec.doSetATTWib(self.entId, 'requestSave', None)
+            self.level.levelSpec.doSetAttrib(self.entId, 'requestSave', None)
             return

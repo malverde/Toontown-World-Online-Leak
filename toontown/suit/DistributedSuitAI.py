@@ -215,7 +215,7 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         self.setPathPosition(0, self.pathStartTime)
         self.pathState = 1
         self.currentLeg = 0
-        self.zoneId = ZoneUtil.geTTWueZoneId(self.legList.getZoneId(0), self.branchId)
+        self.zoneId = ZoneUtil.getTrueZoneId(self.legList.getZoneId(0), self.branchId)
         self.legType = self.legList.getType(0)
         if self.notify.getDebug():
             self.notify.debug('creating suit in zone %d' % self.zoneId)
@@ -232,7 +232,7 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
             self.currentLeg = nextLeg
             self.__beginLegType(self.legList.getType(nextLeg))
             zoneId = self.legList.getZoneId(nextLeg)
-            zoneId = ZoneUtil.geTTWueZoneId(zoneId, self.branchId)
+            zoneId = ZoneUtil.getTrueZoneId(zoneId, self.branchId)
             self.__enterZone(zoneId)
             self.notify.debug('Suit %d reached leg %d of %d in zone %d.' % (self.getDoId(),
              nextLeg,
@@ -309,7 +309,7 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
             if not building.isToonBlock():
                 self.flyAwayNow()
                 return
-            if not hasaTTW(building, 'door'):
+            if not hasattr(building, 'door'):
                 self.flyAwayNow()
                 return
             building.door.setDoorLock(FADoorCodes.SUIT_APPROACHING)
@@ -323,7 +323,7 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         if not building.isToonBlock():
             self.flyAwayNow()
             return
-        if not hasaTTW(building, 'door'):
+        if not hasattr(building, 'door'):
             self.flyAwayNow()
             return
         building.door.requestSuitEnter(self.getDoId())

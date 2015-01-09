@@ -38,7 +38,7 @@ class DistributedAprilToonsMgrAI(DistributedObjectAI):
 @magicWord(category=CATEGORY_OVERRIDE, types=[str, str])
 def apriltoons(event, active):
     activebool = True if active=='on' else False
-    if hasaTTW(simbase.air, 'aprilToonsMgr') and event in simbase.air.aprilToonsMgr.getEvents():
+    if hasattr(simbase.air, 'aprilToonsMgr') and event in simbase.air.aprilToonsMgr.getEvents():
         simbase.air.aprilToonsMgr.setEventActive(event, activebool)
         return 'April Toons event %s set to %s.' % (event, active)
     return 'Unable to set April Toons event %s to %s.' % (event, active)
@@ -46,7 +46,7 @@ def apriltoons(event, active):
 @magicWord(category=CATEGORY_OVERRIDE, access=300)
 def randomce():
     """Add a flag to the target toon to enable/disable random cheesy effects (April Fools event)"""
-    if not hasaTTW(simbase.air, 'aprilToonsMgr'):
+    if not hasattr(simbase.air, 'aprilToonsMgr'):
         return "The AIR doesn't have the April Toons Manager generated."
     mgr = simbase.air.aprilToonsMgr
     if not mgr.isEventActive('random-toon-effects'):

@@ -98,7 +98,7 @@ class PetMood:
 
     def announceChange(self, components = []):
         oldMood = self.dominantMood
-        if hasaTTW(self, 'dominantMood'):
+        if hasattr(self, 'dominantMood'):
             del self.dominantMood
         newMood = self.getDominantMood()
         messenger.send(self.getMoodChangeEvent(), [components])
@@ -130,7 +130,7 @@ class PetMood:
         return 0
 
     def getDominantMood(self):
-        if hasaTTW(self, 'dominantMood'):
+        if hasattr(self, 'dominantMood'):
             return self.dominantMood
         dominantMood = PetMood.Neutral
         priority = 1.0
@@ -168,7 +168,7 @@ class PetMood:
 
     def driftMood(self, dt = None, curMood = None):
         now = globalClock.getFrameTime()
-        if not hasaTTW(self, 'lastDriftTime'):
+        if not hasattr(self, 'lastDriftTime'):
             self.lastDriftTime = now
         if dt is None:
             dt = now - self.lastDriftTime

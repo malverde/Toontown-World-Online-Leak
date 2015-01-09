@@ -22,35 +22,35 @@ class PathMasterEntity(PathEntity.PathEntity):
          None,
          None,
          None]
-        if not hasaTTW(self, 'pathTarget0'):
+        if not hasattr(self, 'pathTarget0'):
             self.pathTarget0 = None
         else:
             self.pathTargetList[0] = self.pathTarget0
-        if not hasaTTW(self, 'pathTarget1'):
+        if not hasattr(self, 'pathTarget1'):
             self.pathTarget1 = None
         else:
             self.pathTargetList[1] = self.pathTarget1
-        if not hasaTTW(self, 'pathTarget2'):
+        if not hasattr(self, 'pathTarget2'):
             self.pathTarget2 = None
         else:
             self.pathTargetList[2] = self.pathTarget2
-        if not hasaTTW(self, 'pathTarget3'):
+        if not hasattr(self, 'pathTarget3'):
             self.pathTarget3 = None
         else:
             self.pathTargetList[3] = self.pathTarget3
-        if not hasaTTW(self, 'pathTarget4'):
+        if not hasattr(self, 'pathTarget4'):
             self.pathTarget4 = None
         else:
             self.pathTargetList[4] = self.pathTarget4
-        if not hasaTTW(self, 'pathTarget5'):
+        if not hasattr(self, 'pathTarget5'):
             self.pathTarget5 = None
         else:
             self.pathTargetList[5] = self.pathTarget5
-        if not hasaTTW(self, 'pathTarget6'):
+        if not hasattr(self, 'pathTarget6'):
             self.pathTarget6 = None
         else:
             self.pathTargetList[6] = self.pathTarget6
-        if not hasaTTW(self, 'pathTarget7'):
+        if not hasattr(self, 'pathTarget7'):
             self.pathTarget7 = None
         else:
             self.pathTargetList[7] = self.pathTarget7

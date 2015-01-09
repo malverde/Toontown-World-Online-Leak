@@ -44,9 +44,9 @@ class DustCloud(NodePath):
                 return dummy
 
         tflipDuration = self.seqNode.getNumChildren() / float(rate)
-        self.track = Sequence(Func(self.show), Func(self.messaging), Func(self.seqNode.play, 0, self.seqNode.getNumFrames() - 1), Func(self.seqNode.setFrameRate, rate), Func(getSoundFuncIfAble(SFX.poof)), Wait(tflipDuration), Func(self._reseTTWack), name='dustCloud-track-%d' % self.trackId)
+        self.track = Sequence(Func(self.show), Func(self.messaging), Func(self.seqNode.play, 0, self.seqNode.getNumFrames() - 1), Func(self.seqNode.setFrameRate, rate), Func(getSoundFuncIfAble(SFX.poof)), Wait(tflipDuration), Func(self._resetTrack), name='dustCloud-track-%d' % self.trackId)
 
-    def _reseTTWack(self):
+    def _resetTrack(self):
         self.seqNode.setFrameRate(0)
         self.hide()
 
@@ -80,7 +80,7 @@ class DustCloud(NodePath):
     def destroy(self):
         self.notify.debug('DESTROYING TRACK ID: %s' % self.trackId)
         if self.track:
-            self._reseTTWack()
+            self._resetTrack()
             self.track.clearToInitial()
         del self.track
         del self.seqNode

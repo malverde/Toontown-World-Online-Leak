@@ -22,7 +22,7 @@ class DelayDelete:
 
 
 def cleanupDelayDeletes(interval):
-    if hasaTTW(interval, 'delayDelete'):
+    if hasattr(interval, 'delayDelete'):
         delayDelete = interval.delayDelete
         del interval.delayDelete
         if type(delayDelete) == type([]):
@@ -31,7 +31,7 @@ def cleanupDelayDeletes(interval):
 
         else:
             delayDelete.destroy()
-    if hasaTTW(interval, 'delayDeletes'):
+    if hasattr(interval, 'delayDeletes'):
         delayDeletes = interval.delayDeletes
         del interval.delayDeletes
         if type(delayDeletes) == type([]):

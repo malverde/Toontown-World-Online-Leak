@@ -5,7 +5,11 @@ import random, copy
 TraitDivisor = 10000
 
 def getTraitNames():
+<<<<<<< HEAD
     if not hasaTtr(PetTraits, 'TraitNames'):
+=======
+    if not hasattr(PetTraits, 'TraitNames'):
+>>>>>>> parent of ac3cc91... removed all TTR and toontown rewritten to toontown world and to TTW
         traitNames = []
         for desc in PetTraits.TraitDescs:
             traitNames.append(desc[0])
@@ -243,6 +247,6 @@ class PetTraits:
          TraitQuality.GOOD: 2,
          TraitQuality.VERY_GOOD: 3}
         for name, quality in self.extremeTraits:
-            descs.append(TTLocalizer.PeTTWait2descriptions[name][Quality2index[quality]])
+            descs.append(TTLocalizer.PetTrait2descriptions[name][Quality2index[quality]])
 
         return descs

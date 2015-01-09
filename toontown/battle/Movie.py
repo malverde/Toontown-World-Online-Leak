@@ -318,7 +318,7 @@ class Movie(DirectObject.DirectObject):
          0,
          0,
          0], noSkip=True))
-        self.track += self.rewardPanel.geTTWackIntervalList(base.localAvatar, THROW_TRACK, 0, 1, 0)
+        self.track += self.rewardPanel.getTrackIntervalList(base.localAvatar, THROW_TRACK, 0, 1, 0)
         self.track.append(Func(self.tutRewardDialog_1.show))
         self.track.start()
         return
@@ -330,7 +330,7 @@ class Movie(DirectObject.DirectObject):
         self._deleteTrack()
         self.track = Sequence(name='tutorial-reward-2')
         self.track.append(Wait(1.0))
-        self.track += self.rewardPanel.geTTWackIntervalList(base.localAvatar, SQUIRT_TRACK, 0, 1, 0)
+        self.track += self.rewardPanel.getTrackIntervalList(base.localAvatar, SQUIRT_TRACK, 0, 1, 0)
         self.track.append(Func(self.tutRewardDialog_2.show))
         self.track.start()
         return
@@ -383,13 +383,13 @@ class Movie(DirectObject.DirectObject):
         if self.track:
             self.track.finish()
             self._deleteTrack()
-        if hasaTTW(self, 'track1'):
+        if hasattr(self, 'track1'):
             self.track1.finish()
             self.track1 = None
-        if hasaTTW(self, 'track2'):
+        if hasattr(self, 'track2'):
             self.track2.finish()
             self.track2 = None
-        if hasaTTW(self, 'track3'):
+        if hasattr(self, 'track3'):
             self.track3.finish()
             self.track3 = None
         if self.rewardPanel:

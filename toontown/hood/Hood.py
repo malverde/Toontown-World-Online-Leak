@@ -99,7 +99,7 @@ class Hood(StateData.StateData):
             self.sky.setFogOff()
 
     def unload(self):
-        if hasaTTW(self, 'loader'):
+        if hasattr(self, 'loader'):
             self.notify.info('Aggressively cleaning up loader: %s' % self.loader)
             self.loader.exit()
             self.loader.unload()
@@ -225,13 +225,13 @@ class Hood(StateData.StateData):
     def startSpookySky(self):
         if not self.spookySkyFile:
             return
-        if hasaTTW(self, 'sky') and self.sky:
+        if hasattr(self, 'sky') and self.sky:
             self.stopSky()
         self.sky = loader.loadModel(self.spookySkyFile)
         self.sky.setTag('sky', 'Halloween')
         self.sky.setColor(0.5, 0.5, 0.5, 1)
         self.sky.reparentTo(camera)
-        self.sky.seTTWansparency(TransparencyATTWib.MDual, 1)
+        self.sky.setTransparency(TransparencyAttrib.MDual, 1)
         fadeIn = self.sky.colorScaleInterval(1.5, Vec4(1, 1, 1, 1), startColorScale=Vec4(1, 1, 1, 0.25), blendType='easeInOut')
         fadeIn.start()
         self.sky.setZ(0.0)
@@ -240,16 +240,16 @@ class Hood(StateData.StateData):
         self.sky.node().setEffect(ce)
 
     def endSpookySky(self):
-        if hasaTTW(self, 'sky') and self.sky:
+        if hasattr(self, 'sky') and self.sky:
             self.sky.reparentTo(hidden)
-        if hasaTTW(self, 'sky'):
+        if hasattr(self, 'sky'):
             self.sky = loader.loadModel(self.skyFile)
             self.sky.setTag('sky', 'Regular')
             self.sky.setScale(1.0)
             self.startSky()
 
     def startSnowySky(self):
-        if hasaTTW(self, 'sky') and self.sky:
+        if hasattr(self, 'sky') and self.sky:
             self.stopSky()
         self.sky = loader.loadModel(self.snowySkyFile)
         self.sky.setTag('sky', 'Winter')
@@ -260,7 +260,7 @@ class Hood(StateData.StateData):
         self.sky.setBin('background', 100)
         self.sky.setFogOff()
         self.sky.reparentTo(camera)
-        self.sky.seTTWansparency(TransparencyATTWib.MDual, 1)
+        self.sky.setTransparency(TransparencyAttrib.MDual, 1)
         fadeIn = self.sky.colorScaleInterval(1.5, Vec4(1, 1, 1, 1), startColorScale=Vec4(1, 1, 1, 0.25), blendType='easeInOut')
         fadeIn.start()
         self.sky.setZ(0.0)
@@ -269,9 +269,9 @@ class Hood(StateData.StateData):
         self.sky.node().setEffect(ce)
 
     def endSnowySky(self):
-        if hasaTTW(self, 'sky') and self.sky:
+        if hasattr(self, 'sky') and self.sky:
             self.sky.reparentTo(hidden)
-        if hasaTTW(self, 'sky'):
+        if hasattr(self, 'sky'):
             self.sky = loader.loadModel(self.skyFile)
             self.sky.setTag('sky', 'Regular')
             self.sky.setScale(1.0)

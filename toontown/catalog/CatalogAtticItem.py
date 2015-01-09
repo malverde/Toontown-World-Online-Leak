@@ -45,7 +45,7 @@ class CatalogAtticItem(CatalogItem.CatalogItem):
             CatalogItem.CatalogItem.requestPurchase(self, phone, callback)
 
     def requestPurchaseCleanup(self):
-        if hasaTTW(self, 'dialog'):
+        if hasattr(self, 'dialog'):
             self.dialog.cleanup()
             del self.dialog
 

@@ -32,7 +32,7 @@ class DistributedElevator(DistributedObject.DistributedObject):
         self.elevatorFSM = None
         self.finalCloseSfx = None
         self.elevatorPoints = ElevatorPoints
-        self.fillSloTTWack = None
+        self.fillSlotTrack = None
         self.type = ELEVATOR_NORMAL
         self.countdownTime = ElevatorData[self.type]['countdown']
         self.__toonTracks = {}
@@ -92,9 +92,9 @@ class DistributedElevator(DistributedObject.DistributedObject):
             self.cr.relatedObjectMgr.abortRequest(request)
 
         self.toonRequests = {}
-        if hasaTTW(self, 'openDoors'):
+        if hasattr(self, 'openDoors'):
             self.openDoors.pause()
-        if hasaTTW(self, 'closeDoors'):
+        if hasattr(self, 'closeDoors'):
             self.closeDoors.pause()
         self.clearToonTracks()
         self.fsm.request('off')
@@ -112,17 +112,17 @@ class DistributedElevator(DistributedObject.DistributedObject):
                 del self.leftDoor
             if self.rightDoor:
                 del self.rightDoor
-            if hasaTTW(self, 'openDoors'):
+            if hasattr(self, 'openDoors'):
                 del self.openDoors
-            if hasaTTW(self, 'closeDoors'):
+            if hasattr(self, 'closeDoors'):
                 del self.closeDoors
             self.offsetNP.removeNode()
         del self.fsm
         del self.openSfx
         del self.closeSfx
         self.isSetup = 0
-        self.fillSloTTWack = None
-        if hasaTTW(base.localAvatar, 'elevatorNotifier'):
+        self.fillSlotTrack = None
+        if hasattr(base.localAvatar, 'elevatorNotifier'):
             base.localAvatar.elevatorNotifier.cleanup()
         DistributedObject.DistributedObject.delete(self)
         return
@@ -207,10 +207,10 @@ class DistributedElevator(DistributedObject.DistributedObject):
                 if not elevator:
                     return
                 self.localToonOnBoard = 1
-                if hasaTTW(localAvatar, 'boardingParty') and localAvatar.boardingParty:
+                if hasattr(localAvatar, 'boardingParty') and localAvatar.boardingParty:
                     localAvatar.boardingParty.forceCleanupInviteePanel()
                     localAvatar.boardingParty.forceCleanupInviterPanels()
-                if hasaTTW(base.localAvatar, 'elevatorNotifier'):
+                if hasattr(base.localAvatar, 'elevatorNotifier'):
                     base.localAvatar.elevatorNotifier.cleanup()
                 cameraTrack = Sequence()
                 cameraTrack.append(Func(elevator.fsm.request, 'boarding', [self.getElevatorModel()]))
@@ -245,7 +245,7 @@ class DistributedElevator(DistributedObject.DistributedObject):
             track.delayDelete = DelayDelete.DelayDelete(toon, 'Elevator.fillSlot')
             self.storeToonTrack(avId, track)
             track.start()
-            self.fillSloTTWack = track
+            self.fillSlotTrack = track
             self.boardedAvIds[avId] = None
         return
 
@@ -285,9 +285,9 @@ class DistributedElevator(DistributedObject.DistributedObject):
             toon.startSmooth()
 
     def emptySlot(self, index, avId, bailFlag, timestamp, timeSent = 0):
-        if self.fillSloTTWack:
-            self.fillSloTTWack.finish()
-            self.fillSloTTWack = None
+        if self.fillSlotTrack:
+            self.fillSlotTrack.finish()
+            self.fillSlotTrack = None
         if avId == 0:
             pass
         elif not self.isSetup:
@@ -302,7 +302,7 @@ class DistributedElevator(DistributedObject.DistributedObject):
             if timeSent > 0:
                 timeToSet = timeSent
             if self.cr.doId2do.has_key(avId):
-                if bailFlag == 1 and hasaTTW(self, 'clockNode'):
+                if bailFlag == 1 and hasattr(self, 'clockNode'):
                     if timestamp < timeToSet and timestamp >= 0:
                         self.countdown(timeToSet - timestamp)
                     else:
@@ -332,7 +332,7 @@ class DistributedElevator(DistributedObject.DistributedObject):
 
     def allowedToEnter(self, zoneId = None):
         allowed = False
-        if hasaTTW(base, 'ttAccess') and base.ttAccess:
+        if hasattr(base, 'ttAccess') and base.ttAccess:
             if zoneId:
                 allowed = base.ttAccess.canAccess(zoneId)
             else:
@@ -363,7 +363,7 @@ class DistributedElevator(DistributedObject.DistributedObject):
 
     def rejectBoard(self, avId, reason = 0):
         print 'rejectBoard %s' % reason
-        if hasaTTW(base.localAvatar, 'elevatorNotifier'):
+        if hasattr(base.localAvatar, 'elevatorNotifier'):
             if reason == REJECT_SHUFFLE:
                 base.localAvatar.elevatorNotifier.showMe(TTLocalizer.ElevatorHoppedOff)
             elif reason == REJECT_MINLAFF:
@@ -498,7 +498,7 @@ class DistributedElevator(DistributedObject.DistributedObject):
     def getPlaceElevator(self):
         place = self.cr.playGame.getPlace()
         if place:
-            if hasaTTW(place, 'elevator'):
+            if hasattr(place, 'elevator'):
                 return place.elevator
             else:
                 self.notify.warning("Place was in state '%s' instead of Elevator." % place.fsm.getCurrentState().getName())
@@ -561,7 +561,7 @@ class DistributedElevator(DistributedObject.DistributedObject):
         return self.offsetNP.getPos(render)
 
     def canHideBoardingQuitBtn(self, avId):
-        if avId == localAvatar.doId and hasaTTW(localAvatar, 'boardingParty') and localAvatar.boardingParty and localAvatar.boardingParty.groupPanel:
+        if avId == localAvatar.doId and hasattr(localAvatar, 'boardingParty') and localAvatar.boardingParty and localAvatar.boardingParty.groupPanel:
             return True
         else:
             return False

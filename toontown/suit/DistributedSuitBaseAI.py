@@ -42,15 +42,15 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         return
 
     def setLevel(self, lvl = None):
-        aTTWibutes = SuitBattleGlobals.SuitATTWibutes[self.dna.name]
+        attributes = SuitBattleGlobals.SuitAttributes[self.dna.name]
         if lvl is not None:
-            self.level = lvl - aTTWibutes['level'] - 1
+            self.level = lvl - attributes['level'] - 1
         else:
-            self.level = SuitBattleGlobals.pickFromFreqList(aTTWibutes['freq'])
+            self.level = SuitBattleGlobals.pickFromFreqList(attributes['freq'])
         self.notify.debug('Assigning level ' + str(lvl))
-        if hasaTTW(self, 'doId'):
+        if hasattr(self, 'doId'):
             self.d_setLevelDist(self.level)
-        hp = aTTWibutes['hp'][self.level]
+        hp = attributes['hp'][self.level]
         self.maxHP = hp
         self.currHP = hp
 

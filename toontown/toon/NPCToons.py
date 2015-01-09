@@ -157,7 +157,7 @@ def createNPC(air, npcId, desc, zoneId, posIndex = 0, questCallback = None):
     npc.setMaxHp(15)
     npc.setPositionIndex(posIndex)
     npc.generateWithRequired(zoneId)
-    if hasaTTW(npc, 'startAnimState'):
+    if hasattr(npc, 'startAnimState'):
         npc.d_setAnimState(npc.startAnimState, 1.0)
     else:
         npc.d_setAnimState('neutral', 1.0)
@@ -11597,7 +11597,7 @@ NPCToonDict = {
         'm',
         0,
         NPC_REGULAR),
-# McQuack, TTW Staff Member
+# McQuack, TTR Staff Member
 # This DNA isn't correct right now. Just for the name.
 91915: (-1,
         lnames[91915],

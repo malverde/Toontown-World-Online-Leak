@@ -28,7 +28,7 @@ class DistributedTestObject(DistributedObject.DistributedObject):
 
     def gotNonReqThatWasntSet(self):
         for field in ('B', 'BA', 'BO', 'BR', 'BRA', 'BRO', 'BROA'):
-            if hasaTTW(self, field):
+            if hasattr(self, field):
                 return True
 
         return False

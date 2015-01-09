@@ -292,7 +292,7 @@ class EstateManagerAI(DistributedObjectAI):
 
         # The Toon definitely wants to go to his own estate...
 
-        estate = getaTTW(toon, 'estate', None)
+        estate = getattr(toon, 'estate', None)
         if estate:
             # They already have an estate loaded, so let's just return it:
             self._mapToEstate(toon, toon.estate)
@@ -305,7 +305,7 @@ class EstateManagerAI(DistributedObjectAI):
 
             return
 
-        if getaTTW(toon, 'loadEstateFSM', None):
+        if getattr(toon, 'loadEstateFSM', None):
             # We already have a loading operation underway; ignore this second
             # request since the first operation will setEstateZone() when it
             # finishes anyway.
@@ -344,7 +344,7 @@ class EstateManagerAI(DistributedObjectAI):
         self._unloadEstate(toon)
 
     def _unloadEstate(self, toon):
-        if getaTTW(toon, 'estate', None):
+        if getattr(toon, 'estate', None):
             estate = toon.estate
             if estate not in self.estate2timeout:
                 self.estate2timeout[estate] = \
@@ -354,7 +354,7 @@ class EstateManagerAI(DistributedObjectAI):
                                           extraArgs=[estate])
             self._sendToonsToPlayground(toon.estate, 0) # This is a warning only...
 
-        if getaTTW(toon, 'loadEstateFSM', None):
+        if getattr(toon, 'loadEstateFSM', None):
             self.air.deallocateZone(toon.loadEstateFSM.zoneId)
             toon.loadEstateFSM.cancel()
             toon.loadEstateFSM = None

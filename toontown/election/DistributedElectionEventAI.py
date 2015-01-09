@@ -52,7 +52,7 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
             # It's Election day!
             self.balloon.b_setState('ElectionIdle')
             # Better spawn some cameras
-            if not hasaTTW(simbase.air, 'cameraManager'):
+            if not hasattr(simbase.air, 'cameraManager'):
                 camMgr = DistributedElectionCameraManagerAI(simbase.air)
                 camMgr.spawnManager()
         else:
@@ -243,7 +243,7 @@ def election(state):
         event = DistributedElectionEventAI(simbase.air)
         event.generateWithRequired(2000)
 
-    if not hasaTTW(event, 'enter'+state):
+    if not hasattr(event, 'enter'+state):
         return 'Invalid state'
 
     event.b_setState(state)

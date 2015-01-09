@@ -314,7 +314,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
         AvatarPanelBase.AvatarPanelBase.cleanup(self)
 
     def unsetup(self):
-        if not hasaTTW(self, 'frame') or self.frame == None:
+        if not hasattr(self, 'frame') or self.frame == None:
             return
         PlayerDetailPanel.unloadPlayerDetail()
         self.frame.destroy()
@@ -323,7 +323,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
         base.localAvatar.obscureFriendsListButton(-1)
         self.laffMeter = None
         self.ignore('updateLaffMeter')
-        if hasaTTW(self.avatar, 'bFake') and self.avatar.bFake:
+        if hasattr(self.avatar, 'bFake') and self.avatar.bFake:
             self.avatar.delete()
         return
 
@@ -382,18 +382,18 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
         return
 
     def getAvId(self):
-        if hasaTTW(self, 'avatar'):
+        if hasattr(self, 'avatar'):
             if self.avatar:
                 return self.avatar.doId
         return None
 
     def getPlayerId(self):
-        if hasaTTW(self, 'playerId'):
+        if hasattr(self, 'playerId'):
             return self.playerId
         return None
 
     def isHidden(self):
-        if not hasaTTW(self, 'frame') or not self.frame:
+        if not hasattr(self, 'frame') or not self.frame:
             return 1
         return self.frame.isHidden()
 

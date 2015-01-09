@@ -1,7 +1,7 @@
 import ZoneEntityBase
 import BasicEntities
 
-class ZoneEntity(ZoneEntityBase.ZoneEntityBase, BasicEntities.NodePathATTWibs):
+class ZoneEntity(ZoneEntityBase.ZoneEntityBase, BasicEntities.NodePathAttribs):
 
     def __init__(self, level, entId):
         ZoneEntityBase.ZoneEntityBase.__init__(self, level, entId)
@@ -11,13 +11,13 @@ class ZoneEntity(ZoneEntityBase.ZoneEntityBase, BasicEntities.NodePathATTWibs):
                 self.level.reportModelSpecSyncError('unknown zoneNum %s; zone was removed from model?' % self.entId)
             else:
                 self.notify.error('zone %s not found in level model' % self.entId)
-        BasicEntities.NodePathATTWibs.initNodePathATTWibs(self, doReparent=0)
+        BasicEntities.NodePathAttribs.initNodePathAttribs(self, doReparent=0)
         self.visibleZoneNums = {}
         self.incrementRefCounts(self.visibility)
         return
 
     def destroy(self):
-        BasicEntities.NodePathATTWibs.destroy(self)
+        BasicEntities.NodePathAttribs.destroy(self)
         ZoneEntityBase.ZoneEntityBase.destroy(self)
 
     def getNodePath(self):

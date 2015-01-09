@@ -330,7 +330,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
     def _toonExitedTree(self, collEntry):
         self.notify.debug('_toonExitedTree : avid = %s' % base.localAvatar.doId)
         self._enteredTree = False
-        if hasaTTW(base.cr.playGame.getPlace(), 'fsm') and self.activityFSM.state == 'Active' and self.isLocalToonInActivity():
+        if hasattr(base.cr.playGame.getPlace(), 'fsm') and self.activityFSM.state == 'Active' and self.isLocalToonInActivity():
             if self.toonSDs.has_key(base.localAvatar.doId):
                 self.takeLocalAvatarOutOfActivity()
                 self.toonSDs[base.localAvatar.doId].fsm.request('notPlaying')
@@ -411,7 +411,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
             tree.setPos(x + self.x, y + self.y, 0)
 
     def hidePosts(self):
-        if hasaTTW(self, 'posts'):
+        if hasattr(self, 'posts'):
             for tree in self.posts:
                 tree.removeNode()
 
@@ -433,7 +433,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
                 rowList.append(toon)
 
     def hideDropGrid(self):
-        if hasaTTW(self, 'dropMarkers'):
+        if hasattr(self, 'dropMarkers'):
             for row in self.dropMarkers:
                 for marker in row:
                     marker.removeNode()
@@ -463,14 +463,14 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         return
 
     def putLocalAvatarInActivity(self):
-        if base.cr.playGame.getPlace() and hasaTTW(base.cr.playGame.getPlace(), 'fsm'):
+        if base.cr.playGame.getPlace() and hasattr(base.cr.playGame.getPlace(), 'fsm'):
             base.cr.playGame.getPlace().fsm.request('activity', [False])
         else:
-            self.notify.info("Avoided crash: toontown.parties.DistributedPartyCatchActivity:632, toontown.parties.DistributedPartyCatchActivity:1198, toontown.parties.activityFSMMixins:49, direct.fsm.FSM:423, ATTWibuteError: 'NoneType' object has no aTTWibute 'fsm'")
+            self.notify.info("Avoided crash: toontown.parties.DistributedPartyCatchActivity:632, toontown.parties.DistributedPartyCatchActivity:1198, toontown.parties.activityFSMMixins:49, direct.fsm.FSM:423, AttributeError: 'NoneType' object has no attribute 'fsm'")
         base.localAvatar.stopUpdateSmartCamera()
         camera.reparentTo(self.treesAndFence)
         camera.setPosHpr(0.0, -63.0, 30.0, 0.0, -20.0, 0.0)
-        if not hasaTTW(self, 'ltLegsCollNode'):
+        if not hasattr(self, 'ltLegsCollNode'):
             self.createCatchCollisions()
 
     def createCatchCollisions(self):
@@ -515,7 +515,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
          rHandCollNodepath]
 
     def destroyCatchCollisions(self):
-        if not hasaTTW(self, 'ltLegsCollNode'):
+        if not hasattr(self, 'ltLegsCollNode'):
             return
         for collNode in self.toonCollNodes:
             while collNode.node().getNumSolids():
@@ -579,16 +579,16 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         if gen.hasBeenScheduled:
             objName = gen.droppedObjNames[objNum]
             if PartyGlobals.Name2DropObjectType[objName].good:
-                if hasaTTW(self, 'fruitsCaught'):
+                if hasattr(self, 'fruitsCaught'):
                     self.fruitsCaught += 1
 
     def finishDropInterval(self, generation, objNum):
-        if hasaTTW(self, 'dropIntervals'):
+        if hasattr(self, 'dropIntervals'):
             if self.dropIntervals.has_key((generation, objNum)):
                 self.dropIntervals[generation, objNum].finish()
 
     def finishAllDropIntervals(self):
-        if hasaTTW(self, 'dropIntervals'):
+        if hasattr(self, 'dropIntervals'):
             for dropInterval in self.dropIntervals.values():
                 dropInterval.finish()
 
@@ -785,7 +785,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
 
     def destroyOrthoWalk(self):
         DistributedPartyCatchActivity.notify.debug('destroyOrthoWalk')
-        if hasaTTW(self, 'orthoWalk'):
+        if hasattr(self, 'orthoWalk'):
             self.orthoWalk.stop()
             self.orthoWalk.destroy()
             del self.orthoWalk
@@ -813,7 +813,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
     def finishActive(self):
         DistributedPartyCatchActivity.notify.debug('finishActive')
         self.stopDropTask()
-        if hasaTTW(self, 'finishIval'):
+        if hasattr(self, 'finishIval'):
             self.finishIval.pause()
             del self.finishIval
         if base.localAvatar.doId in self.toonIds:
@@ -853,9 +853,9 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         def destroyText(text = perfectText):
             text.removeNode()
 
-        texTTWack = Sequence(Func(perfectText.reparentTo, aspect2d), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=0.3, startScale=0.0), LerpFunctionInterval(fadeFunc, fromData=0.0, toData=1.0, duration=0.5)), Wait(2.0), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=1.0), LerpFunctionInterval(fadeFunc, fromData=1.0, toData=0.0, duration=0.5, blendType='easeIn')), Func(destroyText), WaitInterval(0.5))
+        textTrack = Sequence(Func(perfectText.reparentTo, aspect2d), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=0.3, startScale=0.0), LerpFunctionInterval(fadeFunc, fromData=0.0, toData=1.0, duration=0.5)), Wait(2.0), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=1.0), LerpFunctionInterval(fadeFunc, fromData=1.0, toData=0.0, duration=0.5, blendType='easeIn')), Func(destroyText), WaitInterval(0.5))
         soundTrack = SoundInterval(self.sndPerfect)
-        self.finishIval = Parallel(texTTWack, soundTrack)
+        self.finishIval = Parallel(textTrack, soundTrack)
         self.finishIval.start()
 
     def finishConclusion(self):

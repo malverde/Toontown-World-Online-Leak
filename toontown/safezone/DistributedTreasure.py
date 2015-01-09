@@ -103,7 +103,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
     def getParentNodePath(self):
         return render
 
-    def seTTWeasureType(self, treasureType):
+    def setTreasureType(self, treasureType):
         self.treasureType = treasureType
 
     def setPosition(self, x, y, z):

@@ -21,7 +21,7 @@ class ChrysanthemumEffect(NodePath, EffectController):
         self.stars = model.find('**/tt_t_efx_ext_fireworkStars_02')
         self.stars.setColorScale(Point4(0, 0, 0, 0))
         self.stars.reparentTo(self)
-        self.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd, ColorBlendATTWib.OIncomingAlpha, ColorBlendATTWib.OOne))
+        self.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd, ColorBlendAttrib.OIncomingAlpha, ColorBlendAttrib.OOne))
         self.setBillboardPointWorld()
         self.setDepthWrite(0)
         self.setLightOff()

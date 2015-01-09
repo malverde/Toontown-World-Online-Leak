@@ -69,8 +69,8 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         return
 
     def _getQZState(self):
-        if hasaTTW(base, 'cr') and hasaTTW(base.cr, 'playGame'):
-            if hasaTTW(base.cr.playGame, 'quietZoneStateData') and base.cr.playGame.quietZoneStateData:
+        if hasattr(base, 'cr') and hasattr(base.cr, 'playGame'):
+            if hasattr(base.cr.playGame, 'quietZoneStateData') and base.cr.playGame.quietZoneStateData:
                 return base.cr.playGame.quietZoneStateData
         return None
 
@@ -126,14 +126,14 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         return
 
     def setState(self, state):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             curState = self.fsm.getName()
             if state == 'pet' or curState == 'pet':
                 self.preserveFriendsList()
             self.fsm.request(state)
 
     def getState(self):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             curState = self.fsm.getCurrentState().getName()
             return curState
 
@@ -331,7 +331,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         return Task.done
 
     def __handleFallingAsleepBookClose(self):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.request('walk')
         base.localAvatar.forceGotoSleep()
 
@@ -451,15 +451,15 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         return
 
     def handleBookClose(self):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.request('walk')
-        if hasaTTW(self, 'toonSubmerged') and self.toonSubmerged == 1:
-            if hasaTTW(self, 'walkStateData'):
+        if hasattr(self, 'toonSubmerged') and self.toonSubmerged == 1:
+            if hasattr(self, 'walkStateData'):
                 self.walkStateData.fsm.request('swimming', [self.loader.swimSound])
 
     def requestLeave(self, requestStatus):
         teleportDebug(requestStatus, 'requestLeave(%s)' % (requestStatus,))
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.doRequestLeave(requestStatus)
 
     def doRequestLeave(self, requestStatus):
@@ -523,7 +523,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         self.trialerFA = TrialerForceAcknowledge.TrialerForceAcknowledge(self.trialerFADoneEvent)
         self.trialerFA.enter(requestStatus['hoodId'])
 
-    def exiTTWialerFA(self):
+    def exitTrialerFA(self):
         pass
 
     def trialerFACallback(self, requestStatus, doneStatus):
@@ -537,7 +537,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
     def enterTrialerFAReject(self):
         self.fsm.request('walk')
 
-    def exiTTWialerFAReject(self):
+    def exitTrialerFAReject(self):
         pass
 
     def enterDoorIn(self, requestStatus):
@@ -747,7 +747,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         return
 
     def teleportInDone(self):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             teleportNotify.debug('teleportInDone: %s' % self.nextState)
             self.fsm.request(self.nextState, [1])
 
@@ -837,7 +837,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         self.enablePeriodTimer()
 
     def __handleFallingAsleepBanking(self, arg):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             messenger.send('bankAsleep')
             self.fsm.request('walk')
         base.localAvatar.forceGotoSleep()
@@ -860,7 +860,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         self.enablePeriodTimer()
 
     def __handleFallingAsleepPhone(self, arg):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.request('walk')
         messenger.send('phoneAsleep')
         base.localAvatar.forceGotoSleep()
@@ -887,7 +887,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         self.enablePeriodTimer()
 
     def __handleFallingAsleepStopped(self, arg):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.request('walk')
         base.localAvatar.forceGotoSleep()
         messenger.send('stoppedAsleep')

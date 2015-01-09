@@ -42,7 +42,7 @@ class QuestRewardCounter:
             self.notify.warning('tried to update progress on a track toon is not training')
         self.trackProgress = self.trackProgress | 1 << progressIndex
 
-    def geTTWackProgress(self):
+    def getTrackProgress(self):
         return (self.trackProgressId, self.trackProgress)
 
     def clearTrackProgress(self):
@@ -143,7 +143,7 @@ class QuestRewardCounter:
             anyChanged = 1
         if self.trackAccess != av.trackArray:
             self.notify.info('Changed avatar %d to have trackAccess %s instead of %s' % (av.doId, self.trackAccess, av.trackArray))
-            av.b_seTTWackAccess(self.trackAccess)
+            av.b_setTrackAccess(self.trackAccess)
             anyChanged = 1
         if av.fixTrackAccess():
             anyChanged = 1

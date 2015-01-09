@@ -62,7 +62,7 @@ class DistributedPartyManager(DistributedObject):
 
     def addPartyResponse(self, hostId, errorCode):
         messenger.send('addPartyResponseReceived', [hostId, errorCode])
-        if hasaTTW(base.localAvatar, 'creatingNewPartyWithMagicWord'):
+        if hasattr(base.localAvatar, 'creatingNewPartyWithMagicWord'):
             if base.localAvatar.creatingNewPartyWithMagicWord:
                 base.localAvatar.creatingNewPartyWithMagicWord = False
                 if errorCode == PartyGlobals.AddPartyErrorCode.AllOk:
@@ -74,7 +74,7 @@ class DistributedPartyManager(DistributedObject):
         if zoneId < 0:
             zoneId = 0
         self.acceptOnce('requestPartyZoneComplete', callback)
-        if hasaTTW(base.localAvatar, 'aboutToPlanParty'):
+        if hasattr(base.localAvatar, 'aboutToPlanParty'):
             if base.localAvatar.aboutToPlanParty:
                 self.sendUpdate('getPartyZone', [avId, zoneId, True])
                 return

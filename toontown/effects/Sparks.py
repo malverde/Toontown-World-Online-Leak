@@ -22,7 +22,7 @@ class Sparks(NodePath):
     def stop(self):
         try:
             self.effect.disable()
-        except ATTWibuteError:
+        except AttributeError:
             pass
 
     def destroy(self):

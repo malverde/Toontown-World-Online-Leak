@@ -1,4 +1,4 @@
-from toontown.pets import PetDNA, PeTTWaits, PetConstants
+from toontown.pets import PetDNA, PetTraits, PetConstants
 from toontown.pets import PetNameGenerator
 from direct.showbase import PythonUtil
 import random
@@ -16,7 +16,7 @@ def getPetInfoFromSeed(seed, safezoneId):
 
 def getPetCostFromSeed(seed, safezoneId):
     name, dna, traitSeed = getPetInfoFromSeed(seed, safezoneId)
-    traits = PeTTWaits.PeTTWaits(traitSeed, safezoneId)
+    traits = PetTraits.PetTraits(traitSeed, safezoneId)
     traitValue = traits.getOverallValue()
     traitValue -= 0.3
     traitValue = max(0, traitValue)

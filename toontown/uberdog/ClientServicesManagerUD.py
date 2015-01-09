@@ -60,7 +60,7 @@ class LocalAccountDB:
 
     def storeAccountID(self, databaseId, accountId, callback):
         self.dbm[databaseId] = str(accountId)
-        if getaTTW(self.dbm, 'sync', None):
+        if getattr(self.dbm, 'sync', None):
             self.dbm.sync()
         callback()
 
@@ -510,8 +510,8 @@ class DeleteAvatarFSM(GetAvatarsFSM):
         if self.csm.air.friendsManager:
             self.csm.air.friendsManager.clearList(self.avId)
         else:
-            friendsManagerDoId = OtpDoGlobals.OTP_DO_ID_TTW_FRIENDS_MANAGER
-            dg = self.csm.air.dclassesByName['TTWFriendsManagerUD'].aiFormatUpdate(
+            friendsManagerDoId = OtpDoGlobals.OTP_DO_ID_TTR_FRIENDS_MANAGER
+            dg = self.csm.air.dclassesByName['TTRFriendsManagerUD'].aiFormatUpdate(
                 'clearList', friendsManagerDoId, friendsManagerDoId,
                 self.csm.air.ourChannel, [self.avId]
             )
@@ -845,7 +845,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         # Listen out for any accounts that disconnect.
         #self.air.netMessenger.accept('accountDisconnected', self, self.__accountDisconnected)
 
-        # This aTTWibute determines if we want to disable logins.
+        # This attribute determines if we want to disable logins.
         self.loginsEnabled = True
         # Listen out for any messages that tell us to disable logins.
         self.air.netMessenger.accept('enableLogins', self, self.setLoginEnabled)

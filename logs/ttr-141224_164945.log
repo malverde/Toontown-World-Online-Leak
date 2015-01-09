@@ -29,6 +29,7 @@ Traceback (most recent call last):
     import ToonAvatarDetailPanel
   File "toontown/toon/ToonAvatarDetailPanel.py", line 9, in <module>
     import DistributedToon
+<<<<<<< HEAD:logs/ttr-141224_164945.log
   File "toontown/toon/DistributedToon.py", line 13, in <module>
     import Toon
   File "toontown/toon/Toon.py", line 3244, in <module>
@@ -42,3 +43,20 @@ Traceback (most recent call last):
   File "/Developer/Panda3D/direct/showbase/Loader.py", line 623, in loadTexture
     raise IOError, message
 IOError: Could not load texture: /phase_4/maps/tt_t_chr_avt_shirt_sora.jpg
+=======
+  File "toontown/toon/DistributedToon.py", line 25, in <module>
+    from toontown.shtiker.OptionsPage import speedChatStyles
+  File "toontown/shtiker/OptionsPage.py", line 2, in <module>
+    import ShtikerPage
+  File "toontown/shtiker/ShtikerPage.py", line 1, in <module>
+    import ShtikerBook
+  File "toontown/shtiker/ShtikerBook.py", line 8, in <module>
+    from toontown.effects import DistributedFireworkShow
+  File "toontown/effects/DistributedFireworkShow.py", line 2, in <module>
+    from toontown.effects.FireworkShowMixin import FireworkShowMixin
+  File "toontown/effects/FireworkShowMixin.py", line 6, in <module>
+    from toontown.parties import PartyGlobals
+  File "toontown/parties/PartyGlobals.py", line 788, in <module>
+    'ttr_theme.ogg': [TTLocalizer.MusicttwTheme, 51]},
+AttributeError: 'module' object has no attribute 'MusicttwTheme'
+>>>>>>> parent of ac3cc91... removed all TTR and toontown rewritten to toontown world and to TTW:logs/ttr-141217_160947.log

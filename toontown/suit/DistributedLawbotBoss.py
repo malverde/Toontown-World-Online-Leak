@@ -287,7 +287,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         bossTrack = Sequence()
         self.notify.debug('calling setPosHpr')
         myInterval = base.camera.posHprInterval(8, Point3(-22, -100, 35), Point3(-10, -13, 0), startPos=Point3(-22, -90, 35), startHpr=Point3(-10, -13, 0), blendType='easeInOut')
-        chaTTWack = Sequence(Func(self.setChatAbsolute, TTLocalizer.LawbotBossTempJury1, CFSpeech), Func(base.camera.reparentTo, localAvatar), Func(base.camera.setPos, localAvatar.cameraPositions[0][0]), Func(base.camera.setHpr, 0, 0, 0), Func(self.releaseToons, 1))
+        chatTrack = Sequence(Func(self.setChatAbsolute, TTLocalizer.LawbotBossTempJury1, CFSpeech), Func(base.camera.reparentTo, localAvatar), Func(base.camera.setPos, localAvatar.cameraPositions[0][0]), Func(base.camera.setHpr, 0, 0, 0), Func(self.releaseToons, 1))
         bossTrack.append(Func(self.getGeomNode().setH, 180))
         track, hpr = self.rollBossToPoint(startPos, None, battlePos, None, 0)
         bossTrack.append(track)
@@ -295,7 +295,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.makeToonsWait()
         finalPodiumPos = Point3(self.podium.getX(), self.podium.getY(), self.podium.getZ() + ToontownGlobals.LawbotBossBattleTwoPosHpr[2])
         finalReflectedPodiumPos = Point3(self.reflectedPodium.getX(), self.reflectedPodium.getY(), self.reflectedPodium.getZ() + ToontownGlobals.LawbotBossBattleTwoPosHpr[2])
-        return Sequence(chaTTWack, bossTrack, Func(self.getGeomNode().setH, 0), Parallel(self.podium.posInterval(5.0, finalPodiumPos), self.reflectedPodium.posInterval(5.0, finalReflectedPodiumPos), Func(self.stashBoss), self.posInterval(5.0, battlePos), Func(taskMgr.doMethodLater, 0.01, self.unstashBoss, 'unstashBoss')), name=self.uniqueName('BattleTwoMovie'))
+        return Sequence(chatTrack, bossTrack, Func(self.getGeomNode().setH, 0), Parallel(self.podium.posInterval(5.0, finalPodiumPos), self.reflectedPodium.posInterval(5.0, finalReflectedPodiumPos), Func(self.stashBoss), self.posInterval(5.0, battlePos), Func(taskMgr.doMethodLater, 0.01, self.unstashBoss, 'unstashBoss')), name=self.uniqueName('BattleTwoMovie'))
 
     def __makeRollToBattleThreeMovie(self):
         startPos = Point3(ToontownGlobals.LawbotBossBattleTwoPosHpr[0], ToontownGlobals.LawbotBossBattleTwoPosHpr[1], ToontownGlobals.LawbotBossBattleTwoPosHpr[2])
@@ -303,19 +303,19 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         battleHpr = VBase3(ToontownGlobals.LawbotBossBattleThreePosHpr[3], ToontownGlobals.LawbotBossBattleThreePosHpr[4], ToontownGlobals.LawbotBossBattleThreePosHpr[5])
         bossTrack = Sequence()
         myInterval = base.camera.posHprInterval(8, Point3(-22, -100, 35), Point3(-10, -13, 0), startPos=Point3(-22, -90, 35), startHpr=Point3(-10, -13, 0), blendType='easeInOut')
-        chaTTWack = Sequence(Func(self.setChatAbsolute, TTLocalizer.LawbotBossTrialChat1, CFSpeech), Func(base.camera.reparentTo, localAvatar), Func(base.camera.setPos, localAvatar.cameraPositions[0][0]), Func(base.camera.setHpr, 0, 0, 0), Func(self.releaseToons, 1))
+        chatTrack = Sequence(Func(self.setChatAbsolute, TTLocalizer.LawbotBossTrialChat1, CFSpeech), Func(base.camera.reparentTo, localAvatar), Func(base.camera.setPos, localAvatar.cameraPositions[0][0]), Func(base.camera.setHpr, 0, 0, 0), Func(self.releaseToons, 1))
         bossTrack.append(Func(self.getGeomNode().setH, 180))
         bossTrack.append(Func(self.loop, 'Ff_neutral'))
         track, hpr = self.rollBossToPoint(startPos, None, battlePos, None, 0)
         bossTrack.append(track)
         track, hpr = self.rollBossToPoint(battlePos, hpr, battlePos, battleHpr, 0)
         self.makeToonsWait()
-        return Sequence(chaTTWack, bossTrack, Func(self.getGeomNode().setH, 0), name=self.uniqueName('BattleTwoMovie'))
+        return Sequence(chatTrack, bossTrack, Func(self.getGeomNode().setH, 0), name=self.uniqueName('BattleTwoMovie'))
 
     def toNeutralMode(self):
         if self.cr:
             place = self.cr.playGame.getPlace()
-            if place and hasaTTW(place, 'fsm'):
+            if place and hasattr(place, 'fsm'):
                 place.setState('waitForBattle')
 
     def makeToonsWait(self):
@@ -1408,7 +1408,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 pos, h = points[i]
                 origPos = pos
                 self.notify.debug('origPos = %s' % origPos)
-                self.notify.debug('batlleNode.geTTWansform = %s  render.geTTWansform=%s' % (battleNode.geTTWansform(), render.geTTWansform()))
+                self.notify.debug('batlleNode.getTransform = %s  render.getTransform=%s' % (battleNode.getTransform(), render.getTransform()))
                 self.notify.debug('render.getScale()=%s  battleNode.getScale()=%s' % (render.getScale(), battleNode.getScale()))
                 myCurPos = self.getPos()
                 self.notify.debug('myCurPos = %s' % self.getPos())
@@ -1575,7 +1575,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 Func(self.setChatAbsolute, TTLocalizer.LawbotBossDefenseWins3, CFSpeech),
                 self.door3.posInterval(2, doorEndPos, startPos=doorStartPos))),
             (13.1, Sequence(self.door3.posInterval(1, doorStartPos))))
-        reTTWack = Parallel(bossTrack, ActorInterval(self, 'Ff_speech', loop=1))
+        retTrack = Parallel(bossTrack, ActorInterval(self, 'Ff_speech', loop=1))
         return bossTrack
 
     def makeEpilogueMovie(self):
@@ -1764,14 +1764,14 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
     def setTaunt(self, tauntIndex, extraInfo):
         gotError = False
-        if not hasaTTW(self, 'state'):
-            self.notify.warning('returning from setTaunt, no aTTW state')
+        if not hasattr(self, 'state'):
+            self.notify.warning('returning from setTaunt, no attr state')
             gotError = True
         elif not self.state == 'BattleThree':
             self.notify.warning('returning from setTaunt, not in battle three state, state=%s', self.state)
             gotError = True
-        if not hasaTTW(self, 'nametag'):
-            self.notify.warning('returning from setTaunt, no aTTW nametag')
+        if not hasattr(self, 'nametag'):
+            self.notify.warning('returning from setTaunt, no attr nametag')
             gotError = True
         if gotError:
             st = StackTrace()

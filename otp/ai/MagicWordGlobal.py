@@ -62,7 +62,7 @@ class Spellbook:
                 if not isinstance(self.getTarget(), tuple(word.targetClasses)):
                     raise MagicError('Target is an invalid class! Expected: %s, Got: %s' % (str([x.__name__ for x in word.targetClasses]), self.getTarget().__class__.__name__))
 
-            if hasaTTW(self.getTarget(), 'getAdminAccess'):
+            if hasattr(self.getTarget(), 'getAdminAccess'):
                 targetAccess = self.getTarget().getAdminAccess()
             else:
                 # Set it to the minimum access required to manipulate AI objects.
@@ -210,7 +210,7 @@ class MagicWordDecorator:
 
     def __call__(self, mw):
         # This is the actual decoration routine. We add the function 'mw' as a
-        # Magic Word to the Spellbook, using the aTTWibutes specified at construction
+        # Magic Word to the Spellbook, using the attributes specified at construction
         # time.
 
         name = self.name

@@ -32,7 +32,7 @@ class DivingGameToonSD(StateData.StateData):
         self.unexpectedExit = False
         self.fsm = ClassicFSM.ClassicFSM('CatchGameAnimFSM-%s' % self.avId, [State.State('init', self.enterInit, self.exitInit, ['normal']),
          State.State('normal', self.enterNormal, self.exitNormal, ['freeze', 'treasure']),
-         State.State('treasure', self.enterTreasure, self.exiTTWeasure, ['freeze', 'normal']),
+         State.State('treasure', self.enterTreasure, self.exitTreasure, ['freeze', 'normal']),
          State.State('freeze', self.enterFreeze, self.exitFreeze, ['normal']),
          State.State('cleanup', self.enterCleanup, self.exitCleanup, [])], 'init', 'cleanup')
 
@@ -74,8 +74,8 @@ class DivingGameToonSD(StateData.StateData):
         self.notify.debug('enterTreasure')
         self.setAnimState('swimhold', 1.0)
 
-    def exiTTWeasure(self):
-        self.notify.debug('exiTTWeasure')
+    def exitTreasure(self):
+        self.notify.debug('exitTreasure')
 
     def enterFreeze(self):
         self.status = 'freeze'

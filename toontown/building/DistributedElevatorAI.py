@@ -21,7 +21,7 @@ class DistributedElevatorAI(DistributedObjectAI.DistributedObjectAI):
         self.setAntiShuffle(antiShuffle)
         self.setMinLaff(minLaff)
         if self.antiShuffle:
-            if not hasaTTW(simbase.air, 'elevatorTripId'):
+            if not hasattr(simbase.air, 'elevatorTripId'):
                 simbase.air.elevatorTripId = 1
             self.elevatorTripId = simbase.air.elevatorTripId
             simbase.air.elevatorTripId += 1
@@ -213,7 +213,7 @@ class DistributedElevatorAI(DistributedObjectAI.DistributedObjectAI):
         self.accepting = 0
         self.timeOfBoarding = None
         self.timeOfGroupBoarding = None
-        if hasaTTW(self, 'doId'):
+        if hasattr(self, 'doId'):
             for seatIndex in range(len(self.seats)):
                 taskMgr.remove(self.uniqueName('clearEmpty-' + str(seatIndex)))
 

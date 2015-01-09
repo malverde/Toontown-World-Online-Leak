@@ -15,7 +15,7 @@ class TTCodeRedemptionMgr(DistributedObject):
         self._context2callback = {}
 
     def delete(self):
-        if hasaTTW(base, 'codeRedemptionMgr'):
+        if hasattr(base, 'codeRedemptionMgr'):
             if base.codeRedemptionMgr is self:
                 del base.codeRedemptionMgr
         self._context2callback = None

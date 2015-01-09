@@ -345,9 +345,9 @@ scStructure = [
  {1: 17},
  {2: 18},
  3]
-if hasaTTW(base, 'wantPets') and base.wantPets:
+if hasattr(base, 'wantPets') and base.wantPets:
     scPetMenuStructure = [[OTPLocalizer.SCMenuPets,
-      [TTSCPeTTWickMenu, OTPLocalizer.SCMenuPeTTWicks],
+      [TTSCPetTrickMenu, OTPLocalizer.SCMenuPetTricks],
       21000,
       21001,
       21002,
@@ -495,7 +495,7 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
         structure.append([SCEmoteMenu, OTPLocalizer.SCMenuEmotions])
         structure.append([SCCustomMenu, OTPLocalizer.SCMenuCustom])
         structure.append([TTSCResistanceMenu, OTPLocalizer.SCMenuResistance])
-        if hasaTTW(base, 'wantPets') and base.wantPets:
+        if hasattr(base, 'wantPets') and base.wantPets:
             structure += scPetMenuStructure
         if config.GetBool('want-doomsday', False):
           structure.append([OTPLocalizer.SCMenuElection, 10100, 10101, 10102, 10103, 10104, 10105])
@@ -601,7 +601,7 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
         self.speedChat.setColorScheme(newSCColorScheme)
 
     def createSpeedChatObject(self, structure):
-        if hasaTTW(self, 'speedChat'):
+        if hasattr(self, 'speedChat'):
             self.speedChat.exit()
             self.speedChat.destroy()
             del self.speedChat
@@ -733,7 +733,7 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
          5309]
         if self.insidePartiesMenu == None:
             menu = SCMenu()
-            if hasaTTW(base, 'distributedParty') and base.distributedParty:
+            if hasattr(base, 'distributedParty') and base.distributedParty:
                 if base.distributedParty.partyInfo.hostId == localAvatar.doId:
                     insidePartiesMenuStructure.insert(0, 5304)
                 if isActivityInParty(0):

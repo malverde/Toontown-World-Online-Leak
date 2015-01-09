@@ -93,7 +93,7 @@ class CatalogScreen(DirectFrame):
 
         taskMgr.doMethodLater(1.0, clarabelleGreeting, 'clarabelleGreeting')
         taskMgr.doMethodLater(12.0, clarabelleHelpText1, 'clarabelleHelpText1')
-        if hasaTTW(self, 'giftToggle'):
+        if hasattr(self, 'giftToggle'):
             self.giftToggle['state'] = DGG.DISABLED
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleWait
         base.cr.deliveryManager.sendAck()
@@ -862,7 +862,7 @@ class CatalogScreen(DirectFrame):
             self.responseDialog.cleanup()
             self.responseDialog = None
         if self.giftAvatar:
-            if hasaTTW(self.giftAvatar, 'doId'):
+            if hasattr(self.giftAvatar, 'doId'):
                 self.giftAvatar.delete()
             else:
                 self.giftAvatar = None
@@ -900,7 +900,7 @@ class CatalogScreen(DirectFrame):
             del self.clarabelleChatterSfx
 
     def hangUp(self):
-        if hasaTTW(self, 'giftAvatar') and self.giftAvatar:
+        if hasattr(self, 'giftAvatar') and self.giftAvatar:
             self.giftAvatar.disable()
         self.setClarabelleChat(random.choice(TTLocalizer.CatalogGoodbyeList), type='goodbye')
         self.setPageIndex(-1)
@@ -930,10 +930,10 @@ class CatalogScreen(DirectFrame):
         self.update()
 
     def update(self, lock = 0):
-        if not hasaTTW(self.giftAvatar, 'doId'):
+        if not hasattr(self.giftAvatar, 'doId'):
             if self.gifting == 1:
                 self.__giftToggle()
-        if hasaTTW(self, 'beanBank'):
+        if hasattr(self, 'beanBank'):
             self.beanBank['text'] = str(base.localAvatar.getTotalMoney())
             if lock == 0:
                 for item in self.panelList + self.backPanelList + self.loyaltyPanelList + self.emblemPanelList:
@@ -1064,7 +1064,7 @@ class CatalogScreen(DirectFrame):
             friendId, flags = friendPair
             handle = base.cr.identifyFriend(friendId)
             if handle and not self.checkFamily(friendId):
-                if hasaTTW(handle, 'getName'):
+                if hasattr(handle, 'getName'):
                     colorCode = NametagGroup.CCSpeedChat
                     if flags & ToontownGlobals.FriendChat:
                         colorCode = NametagGroup.CCFreeChat
@@ -1073,7 +1073,7 @@ class CatalogScreen(DirectFrame):
                 else:
                     self.notify.warning('Bad Handle for getName in makeFFlist')
 
-        hasManager = hasaTTW(base.cr, 'playerFriendsManager')
+        hasManager = hasattr(base.cr, 'playerFriendsManager')
         if hasManager:
             for avatarId in base.cr.playerFriendsManager.getAllOnlinePlayerAvatars():
                 handle = base.cr.playerFriendsManager.getAvHandleFromId(avatarId)
@@ -1081,7 +1081,7 @@ class CatalogScreen(DirectFrame):
                 playerInfo = base.cr.playerFriendsManager.getFriendInfo(playerId)
                 freeChat = playerInfo.understandableYesNo
                 if handle and not self.checkFamily(avatarId):
-                    if hasaTTW(handle, 'getName'):
+                    if hasattr(handle, 'getName'):
                         colorCode = NametagGroup.CCSpeedChat
                         if freeChat:
                             colorCode = NametagGroup.CCFreeChat
@@ -1127,7 +1127,7 @@ class CatalogScreen(DirectFrame):
             CatalogScreen.notify.warning('smashing requests')
         if self.frienddoId and self.allowGetDetails:
             if self.giftAvatar:
-                if hasaTTW(self.giftAvatar, 'doId'):
+                if hasattr(self.giftAvatar, 'doId'):
                     self.giftAvatar.disable()
                     self.giftAvatar.delete()
                 self.giftAvatar = None
@@ -1174,10 +1174,10 @@ class CatalogScreen(DirectFrame):
 
     def __handleUDack(self, caller = None):
         taskMgr.remove('ackTimeOut')
-        if hasaTTW(self, 'giftToggle') and self.giftToggle:
+        if hasattr(self, 'giftToggle') and self.giftToggle:
             self.giftToggle['state'] = DGG.NORMAL
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOff
 
     def __handleNoAck(self, caller = None):
-        if hasaTTW(self, 'giftToggle') and self.giftToggle:
+        if hasattr(self, 'giftToggle') and self.giftToggle:
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleNoAck
