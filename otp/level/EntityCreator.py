@@ -28,7 +28,7 @@ class EntityCreator(EntityCreatorBase.EntityCreatorBase):
     def __init__(self, level):
         EntityCreatorBase.EntityCreatorBase.__init__(self, level)
         self.level = level
-        self.privRegisterTypes({'attribModifier': nothing,
+        self.privRegisterTypes({'aTTWibModifier': nothing,
          'ambientSound': AmbientSound.AmbientSound,
          'collisionSolid': CollisionSolidEntity.CollisionSolidEntity,
          'cutScene': CutScene.CutScene,

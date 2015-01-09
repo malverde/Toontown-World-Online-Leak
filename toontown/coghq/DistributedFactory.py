@@ -117,9 +117,9 @@ class DistributedFactory(DistributedLevel.DistributedLevel, FactoryBase.FactoryB
     def disable(self):
         self.notify.debug('disable')
         base.localAvatar.setCameraCollisionsCanMove(0)
-        if hasattr(self, 'suits'):
+        if hasaTTW(self, 'suits'):
             del self.suits
-        if hasattr(self, 'relatedObjectMgrRequest') and self.relatedObjectMgrRequest:
+        if hasaTTW(self, 'relatedObjectMgrRequest') and self.relatedObjectMgrRequest:
             self.cr.relatedObjectMgr.abortRequest(self.relatedObjectMgrRequest)
             del self.relatedObjectMgrRequest
         DistributedLevel.DistributedLevel.disable(self)

@@ -201,7 +201,7 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
         if not self.tutorial:
             taskMgr.doMethodLater(60.0, self.sendTimeoutMovie, self.uniqueName('clearMovie'))
 
-    def presentTrackChoice(self, avId, questId, tracks):
+    def presenTTWackChoice(self, avId, questId, tracks):
         self.busy = avId
         self.pendingAvId = avId
         self.pendingTracks = tracks

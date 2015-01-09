@@ -68,7 +68,7 @@ class ShardStatusSender:
         if self.air.suitInvasionManager.getInvading():
             # There is an invasion running on this AI.
             cogType = self.air.suitInvasionManager.suitName
-            cogName = SuitBattleGlobals.SuitAttributes[cogType]['name']
+            cogName = SuitBattleGlobals.SuitATTWibutes[cogType]['name']
             if self.air.suitInvasionManager.specialSuit == 1:
                 # Invasion is a Skelecog invasion, append (Skelecog).
                 cogName += ' (' + TTLocalizer.Skeleton + ')'

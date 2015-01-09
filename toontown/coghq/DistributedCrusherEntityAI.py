@@ -43,5 +43,5 @@ class DistributedCrusherEntityAI(DistributedEntityAI.DistributedEntityAI):
             messenger.send(self.crushMsg, [self.entId, axis])
 
     def getPosition(self):
-        if hasattr(self, 'pos'):
+        if hasaTTW(self, 'pos'):
             return self.pos

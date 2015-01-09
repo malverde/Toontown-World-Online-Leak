@@ -68,17 +68,17 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         if self.isDeleted():
             return
         self.fsm.requestFinalState()
-        if hasattr(self, 'interior'):
+        if hasaTTW(self, 'interior'):
             self.interior.requestDelete()
             del self.interior
-        if hasattr(self, 'door'):
+        if hasaTTW(self, 'door'):
             self.door.requestDelete()
             del self.door
             self.insideDoor.requestDelete()
             del self.insideDoor
             self.knockKnock.requestDelete()
             del self.knockKnock
-        if hasattr(self, 'elevator'):
+        if hasaTTW(self, 'elevator'):
             self.elevator.requestDelete()
             del self.elevator
         self.requestDelete()
@@ -104,7 +104,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
     def _getMinMaxFloors(self, difficulty):
         return SuitBuildingGlobals.SuitBuildingInfo[difficulty][0]
 
-    def suitTakeOver(self, suitTrack, difficulty, buildingHeight):
+    def suitTakeOver(self, suiTTWack, difficulty, buildingHeight):
         if not self.isToonBlock():
             return
         self.updateSavedBy(None)
@@ -116,7 +116,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
             numFloors = buildingHeight + 1
             if numFloors < minFloors or numFloors > maxFloors:
                 numFloors = random.randint(minFloors, maxFloors)
-        self.track = suitTrack
+        self.track = suiTTWack
         self.difficulty = difficulty
         self.numFloors = numFloors
         self.becameSuitTime = time.time()
@@ -148,7 +148,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
             self.fsm.request('becomingToon')
         if self.suitPlannerExt:
             self.suitPlannerExt.recycleBuilding()
-        if hasattr(self, 'interior'):
+        if hasaTTW(self, 'interior'):
             self.interior.requestDelete()
             del self.interior
 
@@ -195,7 +195,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         blockNumber = self.block
         dnaStore = self.air.dnaStoreMap[self.canonicalZoneId]
         zoneId = dnaStore.getBlock(blockNumber).zone
-        zoneId = ZoneUtil.getTrueZoneId(zoneId, self.zoneId)
+        zoneId = ZoneUtil.geTTWueZoneId(zoneId, self.zoneId)
         interiorZoneId = zoneId - zoneId % 100 + 500 + blockNumber
         return (zoneId, interiorZoneId)
 
@@ -415,7 +415,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
 
     def enterClearOutToonInterior(self):
         self.d_setState('clearOutToonInterior')
-        if hasattr(self, 'interior'):
+        if hasaTTW(self, 'interior'):
             self.interior.setState('beingTakenOver')
         name = self.taskName(str(self.block) + '_clearOutToonInterior-timer')
         taskMgr.doMethodLater(SuitBuildingGlobals.CLEAR_OUT_TOON_BLDG_TIME, self.clearOutToonInteriorTask, name)
@@ -437,7 +437,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
     def exitBecomingSuit(self):
         name = self.taskName(str(self.block) + '_becomingSuit-timer')
         taskMgr.remove(name)
-        if hasattr(self, 'interior'):
+        if hasaTTW(self, 'interior'):
             self.interior.requestDelete()
             del self.interior
             self.door.requestDelete()
@@ -464,13 +464,13 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
 
     def exitSuit(self):
         del self.planner
-        if hasattr(self, 'elevator'):
+        if hasaTTW(self, 'elevator'):
             self.elevator.requestDelete()
             del self.elevator
 
     def enterClearOutToonInteriorForCogdo(self):
         self.d_setState('clearOutToonInteriorForCogdo')
-        if hasattr(self, 'interior'):
+        if hasaTTW(self, 'interior'):
             self.interior.setState('beingTakenOver')
         name = self.taskName(str(self.block) + '_clearOutToonInteriorForCogdo-timer')
         taskMgr.doMethodLater(SuitBuildingGlobals.CLEAR_OUT_TOON_BLDG_TIME, self.clearOutToonInteriorForCogdoTask, name)
@@ -492,7 +492,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
     def exitBecomingCogdo(self):
         name = self.taskName(str(self.block) + '_becomingCogdo-timer')
         taskMgr.remove(name)
-        if hasattr(self, 'interior'):
+        if hasaTTW(self, 'interior'):
             self.interior.requestDelete()
             del self.interior
             self.door.requestDelete()
@@ -520,7 +520,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
 
     def exitCogdo(self):
         del self.planner
-        if hasattr(self, 'elevator'):
+        if hasaTTW(self, 'elevator'):
             self.elevator.requestDelete()
             del self.elevator
 
@@ -546,10 +546,10 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         self.interior.generateWithRequired(interiorZoneId)
 
     def deleteSuitInterior(self):
-        if hasattr(self, 'interior'):
+        if hasaTTW(self, 'interior'):
             self.interior.requestDelete()
             del self.interior
-        if hasattr(self, 'elevator'):
+        if hasaTTW(self, 'elevator'):
             self.elevator.d_setFloor(-1)
             self.elevator.open()
 

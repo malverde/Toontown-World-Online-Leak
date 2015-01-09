@@ -73,8 +73,8 @@ class Street(BattlePlace.BattlePlace):
          State.State('doorOut', self.enterDoorOut, self.exitDoorOut, ['walk']),
          State.State('elevatorIn', self.enterElevatorIn, self.exitElevatorIn, ['walk']),
          State.State('elevator', self.enterElevator, self.exitElevator, ['walk']),
-         State.State('trialerFA', self.enterTrialerFA, self.exitTrialerFA, ['trialerFAReject', 'DFA']),
-         State.State('trialerFAReject', self.enterTrialerFAReject, self.exitTrialerFAReject, ['walk']),
+         State.State('trialerFA', self.enterTrialerFA, self.exiTTWialerFA, ['trialerFAReject', 'DFA']),
+         State.State('trialerFAReject', self.enterTrialerFAReject, self.exiTTWialerFAReject, ['walk']),
          State.State('DFA', self.enterDFA, self.exitDFA, ['DFAReject', 'teleportOut', 'tunnelOut']),
          State.State('DFAReject', self.enterDFAReject, self.exitDFAReject, ['walk']),
          State.State('teleportIn', self.enterTeleportIn, self.exitTeleportIn, ['walk',
@@ -241,7 +241,7 @@ class Street(BattlePlace.BattlePlace):
         self.notify.debug('handling elevator done event')
         where = doneStatus['where']
         if where == 'reject':
-            if hasattr(base.localAvatar, 'elevatorNotifier') and base.localAvatar.elevatorNotifier.isNotifierOpen():
+            if hasaTTW(base.localAvatar, 'elevatorNotifier') and base.localAvatar.elevatorNotifier.isNotifierOpen():
                 pass
             else:
                 self.fsm.request('walk')
@@ -400,7 +400,7 @@ class Street(BattlePlace.BattlePlace):
         return
 
     def replaceStreetSignTextures(self):
-        if not hasattr(base.cr, 'playGame'):
+        if not hasaTTW(base.cr, 'playGame'):
             return
         place = base.cr.playGame.getPlace()
         if place is None:

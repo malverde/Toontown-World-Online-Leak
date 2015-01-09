@@ -87,7 +87,7 @@ class DistributedDaisy(DistributedCCharBase.DistributedCCharBase):
 
     def handleHolidays(self):
         DistributedCCharBase.DistributedCCharBase.handleHolidays(self)
-        if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
+        if hasaTTW(base.cr, 'newsManager') and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
             if ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds and isinstance(self.cr.playGame.hood, TTHood.TTHood):
                 self.diffPath = TTLocalizer.Mickey

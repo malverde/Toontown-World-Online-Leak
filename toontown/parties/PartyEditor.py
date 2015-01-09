@@ -23,7 +23,7 @@ class PartyEditor(DirectObject, FSM):
         self.parent = parent
         self.partyEditorGrid = PartyEditorGrid(self)
         self.currentElement = None
-        self.defaultTransitions = {'Hidden': ['Idle', 'Cleanup'],
+        self.defaulTTWansitions = {'Hidden': ['Idle', 'Cleanup'],
          'Idle': ['DraggingElement', 'Hidden', 'Cleanup'],
          'DraggingElement': ['Idle',
                              'DraggingElement',
@@ -32,7 +32,7 @@ class PartyEditor(DirectObject, FSM):
          'Cleanup': []}
         self.initElementList()
         self.initPartyClock()
-        self.initTrashCan()
+        self.iniTTWashCan()
         return
 
     def initElementList(self):
@@ -66,7 +66,7 @@ class PartyEditor(DirectObject, FSM):
                 pass
             elif isVictory and decorationId in PartyGlobals.VictoryPartyReplacementDecorationIds or isValentine and decorationId in PartyGlobals.ValentinePartyReplacementDecorationIds:
                 pass
-            elif decorationId in PartyGlobals.TTRUnreleasedDecor:
+            elif decorationId in PartyGlobals.TTWUnreleasedDecor:
                 pass
             else:
                 pele = PartyEditorListElement(self, decorationId, isDecoration=True)
@@ -79,14 +79,14 @@ class PartyEditor(DirectObject, FSM):
     def initPartyClock(self):
         self.partyClockElement.buyButtonClicked((8, 7))
 
-    def initTrashCan(self):
+    def iniTTWashCan(self):
         trashcanGui = loader.loadModel('phase_3/models/gui/trashcan_gui')
         self.trashCanButton = DirectButton(parent=self.parent, relief=None, pos=Point3(*PartyGlobals.TrashCanPosition), scale=PartyGlobals.TrashCanScale, geom=(trashcanGui.find('**/TrashCan_CLSD'),
          trashcanGui.find('**/TrashCan_OPEN'),
          trashcanGui.find('**/TrashCan_RLVR'),
          trashcanGui.find('**/TrashCan_RLVR')), command=self.trashCanClicked)
         self.trashCanButton.bind(DirectGuiGlobals.ENTER, self.mouseEnterTrash)
-        self.trashCanButton.bind(DirectGuiGlobals.EXIT, self.mouseExitTrash)
+        self.trashCanButton.bind(DirectGuiGlobals.EXIT, self.mouseExiTTWash)
         self.mouseOverTrash = False
         self.oldInstructionText = ''
         self.trashCanLastClickedTime = 0
@@ -135,7 +135,7 @@ class PartyEditor(DirectObject, FSM):
         self.oldInstructionText = self.partyPlanner.instructionLabel['text']
         self.partyPlanner.instructionLabel['text'] = TTLocalizer.PartyPlannerEditorInstructionsTrash
 
-    def mouseExitTrash(self, mouseEvent):
+    def mouseExiTTWash(self, mouseEvent):
         self.mouseOverTrash = False
         self.partyPlanner.instructionLabel['text'] = self.oldInstructionText
 

@@ -395,7 +395,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
     def cagedToonMovieFunction(self, instruct, cageIndex):
         self.notify.debug('cagedToonMovieFunction()')
-        if not (hasattr(self, 'cagedToon') and hasattr(self.cagedToon, 'nametag') and hasattr(self.cagedToon, 'nametag3d')):
+        if not (hasaTTW(self, 'cagedToon') and hasaTTW(self.cagedToon, 'nametag') and hasaTTW(self.cagedToon, 'nametag3d')):
             return
         if instruct == 1:
             self.cagedToon.nametag3d.setScale(2)
@@ -553,7 +553,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.rope.ropeNode.setUvDirection(0)
         self.rope.ropeNode.setUvScale(0.8)
         self.rope.setTexture(self.cage.findTexture('hq_chain'))
-        self.rope.setTransparency(1)
+        self.rope.seTTWansparency(1)
         self.promotionMusic = base.loadMusic('phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
         self.betweenBattleMusic = base.loadMusic('phase_9/audio/bgm/encntr_toon_winning.ogg')
         self.battleTwoMusic = base.loadMusic('phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
@@ -1268,8 +1268,8 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             self.barrelsRootNode.setHpr(0, 0, 0)
         for i, barrelNode in enumerate(barrelNodes):
             barrel = base.cr.doId2do.get(int(barrelNode.getNetTag('doId')))
-            SellbotBossGlobals.setBarrelAttr(barrel, barrel.entId)
-            if hasattr(barrel, 'applyLabel'):
+            SellbotBossGlobals.setBarrelATTW(barrel, barrel.entId)
+            if hasaTTW(barrel, 'applyLabel'):
                 barrel.applyLabel()
             barrel.setPosHpr(barrel.pos, barrel.hpr)
             barrel.reparentTo(self.barrelsRootNode)
@@ -1280,7 +1280,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.storeInterval(seq, intervalName)
 
     def __hideEasyBarrels(self):
-        if hasattr(self, 'barrelsRootNode'):
+        if hasaTTW(self, 'barrelsRootNode'):
             self.barrelsRootNode.removeNode()
             intervalName = 'MakeBarrelsAppear'
             self.clearInterval(intervalName)

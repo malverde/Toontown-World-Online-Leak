@@ -10,13 +10,13 @@ class CogSuitManagerAI:
     def __init__(self, air):
         self.air = air
 
-    def recoverPart(self, av, factoryType, suitTrack, zoneId, avList):
+    def recoverPart(self, av, factoryType, suiTTWack, zoneId, avList):
         partsRecovered = [0,
          0,
          0,
          0]
-        part = av.giveGenericCogPart(factoryType, suitTrack)
+        part = av.giveGenericCogPart(factoryType, suiTTWack)
         if part:
-            partsRecovered[CogDisguiseGlobals.dept2deptIndex(suitTrack)] = part
+            partsRecovered[CogDisguiseGlobals.dept2deptIndex(suiTTWack)] = part
             self.air.questManager.toonRecoveredCogSuitPart(av, zoneId, avList)
         return partsRecovered

@@ -49,7 +49,7 @@ class HolidayManagerAI:
             shows = [ToontownGlobals.JULY4_FIREWORKS, ToontownGlobals.NEWYEARS_FIREWORKS, PartyGlobals.FireworkShows.Summer]
             showType = random.choice(shows)
         else:
-            raise AttributeError('%s is an invalid firework type' % showName)
+            raise ATTWibuteError('%s is an invalid firework type' % showName)
             return
 
         numShows = len(FireworkShows.shows.get(showType, []))

@@ -162,7 +162,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             self.accept(self.systemMsgAckGuiDoneEvent, self.hideSystemMsgAckGui)
             self.systemMsgAckGui = None
             self.createSystemMsgAckGui()
-            if not hasattr(base.cr, 'lastLoggedIn'):
+            if not hasaTTW(base.cr, 'lastLoggedIn'):
                 base.cr.lastLoggedIn = self.cr.toontownTimeManager.convertStrToToontownTime('')
             self.setLastTimeReadNews(base.cr.lastLoggedIn)
             self.acceptingNewFriends = True
@@ -209,7 +209,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.tempGreySpacing = 0
 
     def stopGlitchKiller(self):
-        if __dev__ and hasattr(self, 'glitchMessage'):
+        if __dev__ and hasaTTW(self, 'glitchMessage'):
             if self.glitchMessage == 'START GLITCH KILLER':
                 self.notify.debug('STOP GLITCH KILLER')
             elif self.glitchMessage == 'GLITCH KILLER ENGAGED':
@@ -234,7 +234,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             self.glitchCount = 0
             if self.physControls.lifter.hasContact():
                 self.glitchOkay = 0
-        if hasattr(self, 'physControls'):
+        if hasaTTW(self, 'physControls'):
             if self.ticker >= 10:
                 self.ticker = 0
         if self.glitchCount >= 7:
@@ -263,7 +263,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         del self.laffMeter
         self.questMap.destroy()
         self.questMap = None
-        if hasattr(self, 'purchaseButton'):
+        if hasaTTW(self, 'purchaseButton'):
             self.purchaseButton.destroy()
             del self.purchaseButton
         self.newsButtonMgr.request('Off')
@@ -281,7 +281,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         del self.trackPage
         del self.book
         if base.wantKarts:
-            if hasattr(self, 'kartPage'):
+            if hasaTTW(self, 'kartPage'):
                 del self.kartPage
         if base.wantNametags:
             self.nametag.unmanage(base.marginManager)
@@ -432,7 +432,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
         def addKartPage(self):
             if self.hasKart():
-                if hasattr(self, 'kartPage') and self.kartPage != None:
+                if hasaTTW(self, 'kartPage') and self.kartPage != None:
                     return
                 if not launcher.getPhaseComplete(6):
                     self.acceptOnce('phaseComplete-6', self.addKartPage)
@@ -658,7 +658,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             return
         if self.__pieInHand():
             return
-        if getattr(self.controlManager.currentControls, 'isAirborne', 0):
+        if getaTTW(self.controlManager.currentControls, 'isAirborne', 0):
             return
         messenger.send('wakeup')
         self.localPresentPie(time)
@@ -768,10 +768,10 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             pieTrack = self.pieTracks[sequence]
             del self.pieTracks[sequence]
             pieTrack.finish()
-        if self.splatTracks.has_key(sequence):
-            splatTrack = self.splatTracks[sequence]
-            del self.splatTracks[sequence]
-            splatTrack.finish()
+        if self.splaTTWacks.has_key(sequence):
+            splaTTWack = self.splaTTWacks[sequence]
+            del self.splaTTWacks[sequence]
+            splaTTWack.finish()
         self.makePiePowerMeter()
         self.__piePowerMeter['value'] = power
         self.__piePowerMeter.show()
@@ -820,10 +820,10 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             return
         sequence = int(entry.getFromNodePath().getNetTag('pieSequence'))
         self.__finishPieTrack(sequence)
-        if self.splatTracks.has_key(sequence):
-            splatTrack = self.splatTracks[sequence]
-            del self.splatTracks[sequence]
-            splatTrack.finish()
+        if self.splaTTWacks.has_key(sequence):
+            splaTTWack = self.splaTTWacks[sequence]
+            del self.splaTTWacks[sequence]
+            splaTTWack.finish()
         pieCode = 0
         pieCodeStr = entry.getIntoNodePath().getNetTag('pieCode')
         if pieCodeStr:
@@ -838,7 +838,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
          timestamp32])
         splat = self.getPieSplatInterval(pos[0], pos[1], pos[2], pieCode)
         splat = Sequence(splat, Func(self.pieFinishedSplatting, sequence))
-        self.splatTracks[sequence] = splat
+        self.splaTTWacks[sequence] = splat
         splat.start()
         messenger.send('pieSplat', [self, pieCode])
         messenger.send('localPieSplat', [pieCode, entry])
@@ -962,7 +962,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                 fsm = base.cr.playGame.getPlace().fsm
                 curState = fsm.getCurrentState().getName()
                 if curState == 'walk':
-                    if hasattr(self, 'eventsPage'):
+                    if hasaTTW(self, 'eventsPage'):
                         desiredMode = -1
                         if doId == -1:
                             desiredMode = EventsPage.EventsPage_Invited
@@ -1116,7 +1116,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         hpr = self.getHpr()
         serverVersion = base.cr.getServerVersion()
         districtName = base.cr.getShardName(base.localAvatar.defaultShard)
-        if hasattr(base.cr.playGame.hood, 'loader') and hasattr(base.cr.playGame.hood.loader, 'place') and base.cr.playGame.getPlace() != None:
+        if hasaTTW(base.cr.playGame.hood, 'loader') and hasaTTW(base.cr.playGame.hood.loader, 'place') and base.cr.playGame.getPlace() != None:
             zoneId = base.cr.playGame.getPlace().getZoneId()
         else:
             zoneId = '?'
@@ -1130,7 +1130,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         hpr = self.getHpr()
         serverVersion = base.cr.getServerVersion()
         districtName = base.cr.getShardName(base.localAvatar.defaultShard)
-        if hasattr(base.cr.playGame.hood, 'loader') and hasattr(base.cr.playGame.hood.loader, 'place') and base.cr.playGame.getPlace() != None:
+        if hasaTTW(base.cr.playGame.hood, 'loader') and hasaTTW(base.cr.playGame.hood.loader, 'place') and base.cr.playGame.getPlace() != None:
             zoneId = base.cr.playGame.getPlace().getZoneId()
         else:
             zoneId = '?'
@@ -1203,7 +1203,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                     self.__lerpFurnitureButton.finish()
                 self.__lerpFurnitureButton = self.__furnitureGui.posHprScaleInterval(1.0, pos=Point3(0.115, 0.0, -0.66), hpr=Vec3(0.0, 0.0, 0.0), scale=Vec3(0.04, 0.04, 0.04), blendType='easeInOut', name='lerpFurnitureButton')
                 self.__lerpFurnitureButton.start()
-        if hasattr(self, 'inEstate') and self.inEstate:
+        if hasaTTW(self, 'inEstate') and self.inEstate:
             self.loadGardeningGui()
             self.hideGardeningGui()
         else:
@@ -1341,9 +1341,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.wateringCanButton = self.__wateringCanButton
         self.basketText = '%s / %s' % (self.numFlowers, self.maxFlowerBasket)
         self.basketButton = DirectLabel(parent=self.__gardeningGui, relief=None, text=self.basketText, text_align=TextNode.ALeft, text_pos=(0.82, -1.4), text_scale=0.2, text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1), image=None, image_scale=iconScale, geom=None, geom_scale=iconScale, geom_color=iconColorWhite, pos=(-0.34, 0, 0.16), scale=0.3, textMayChange=1)
-        if hasattr(self, 'shovel'):
+        if hasaTTW(self, 'shovel'):
             self.setShovelGuiLevel(self.shovel)
-        if hasattr(self, 'wateringCan'):
+        if hasaTTW(self, 'wateringCan'):
             self.setWateringCanGuiLevel(self.wateringCan)
         self.__shovelButton.hide()
         self.__wateringCanButton.hide()
@@ -1466,7 +1466,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         return Task.cont
 
     def addShovelRelatedDoId(self, doId):
-        if hasattr(base.cr.playGame.getPlace(), 'detectedGardenPlotDone'):
+        if hasaTTW(base.cr.playGame.getPlace(), 'detectedGardenPlotDone'):
             place = base.cr.playGame.getPlace()
             state = place.fsm.getCurrentState()
             if state.getName() == 'stopped':
@@ -1538,7 +1538,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
                 self.hideWateringCanButton()
                 self.handleAllGardeningButtonsHidden()
                 if not self.inGardenAction:
-                    if hasattr(base.cr.playGame.getPlace(), 'detectedGardenPlotDone'):
+                    if hasaTTW(base.cr.playGame.getPlace(), 'detectedGardenPlotDone'):
                         place = base.cr.playGame.getPlace()
                         if place:
                             place.detectedGardenPlotDone()
@@ -1553,7 +1553,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         return
 
     def clearPlantToWater(self, plantId):
-        if not hasattr(self, 'secondaryPlant'):
+        if not hasaTTW(self, 'secondaryPlant'):
             self.secondaryWaterPlant = None
         if self.plantToWater == plantId:
             self.plantToWater = None
@@ -1585,21 +1585,21 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         DistributedToon.DistributedToon.setFlowerBasket(self, speciesList, varietyList)
         self.numFlowers = len(self.flowerBasket.flowerList)
         self.maxFlowerBasket
-        if hasattr(self, 'basketButton'):
+        if hasaTTW(self, 'basketButton'):
             self.basketText = '%s / %s' % (self.numFlowers, self.maxFlowerBasket)
             self.basketButton['text'] = self.basketText
 
     def setShovelSkill(self, skillLevel):
-        if hasattr(self, 'shovelSkill') and hasattr(self, 'shovelButton'):
+        if hasaTTW(self, 'shovelSkill') and hasaTTW(self, 'shovelButton'):
             if self.shovelSkill != None:
                 self.levelShovel(skillLevel - self.shovelSkill)
         oldShovelSkill = self.shovelSkill
         DistributedToon.DistributedToon.setShovelSkill(self, skillLevel)
-        if hasattr(self, 'shovel'):
+        if hasaTTW(self, 'shovel'):
             oldShovelPower = GardenGlobals.getShovelPower(self.shovel, oldShovelSkill)
             newShovelPower = GardenGlobals.getShovelPower(self.shovel, self.shovelSkill)
-            almostMaxedSkill = GardenGlobals.ShovelAttributes[GardenGlobals.MAX_SHOVELS - 1]['skillPts'] - 2
-            if skillLevel >= GardenGlobals.ShovelAttributes[self.shovel]['skillPts']:
+            almostMaxedSkill = GardenGlobals.ShovelATTWibutes[GardenGlobals.MAX_SHOVELS - 1]['skillPts'] - 2
+            if skillLevel >= GardenGlobals.ShovelATTWibutes[self.shovel]['skillPts']:
                 self.promoteShovel()
             elif oldShovelSkill and oldShovelPower < newShovelPower:
                 self.promoteShovelSkill(self.shovel, self.shovelSkill)
@@ -1610,23 +1610,23 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
     def setWateringCanSkill(self, skillLevel):
         skillDelta = skillLevel - self.wateringCanSkill
         if skillDelta or 1:
-            if hasattr(self, 'wateringCanSkill') and hasattr(self, 'wateringCanButton'):
+            if hasaTTW(self, 'wateringCanSkill') and hasaTTW(self, 'wateringCanButton'):
                 if self.wateringCanSkill != None:
                     self.levelWater(skillDelta)
             DistributedToon.DistributedToon.setWateringCanSkill(self, skillLevel)
-            if hasattr(self, 'wateringCan'):
-                if skillLevel >= GardenGlobals.WateringCanAttributes[self.wateringCan]['skillPts']:
+            if hasaTTW(self, 'wateringCan'):
+                if skillLevel >= GardenGlobals.WateringCanATTWibutes[self.wateringCan]['skillPts']:
                     self.promoteWateringCan()
         return
 
     def unlockGardeningButtons(self, task = None):
-        if hasattr(self, '_LocalToon__shovelButton'):
+        if hasaTTW(self, '_LocalToon__shovelButton'):
             try:
                 self.__shovelButton['state'] = DGG.NORMAL
             except TypeError:
                 self.notify.warning('Could not unlock the shovel button- Type Error')
 
-        if hasattr(self, '_LocalToon__wateringCanButton'):
+        if hasaTTW(self, '_LocalToon__wateringCanButton'):
             try:
                 self.__wateringCanButton['state'] = DGG.NORMAL
             except TypeError:
@@ -1636,13 +1636,13 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         return None
 
     def lockGardeningButtons(self, task = None):
-        if hasattr(self, '_LocalToon__shovelButton'):
+        if hasaTTW(self, '_LocalToon__shovelButton'):
             try:
                 self.__shovelButton['state'] = DGG.DISABLED
             except TypeError:
                 self.notify.warning('Could not lock the shovel button- Type Error')
 
-        if hasattr(self, '_LocalToon__wateringCanButton'):
+        if hasaTTW(self, '_LocalToon__wateringCanButton'):
             try:
                 self.__wateringCanButton['state'] = DGG.DISABLED
             except TypeError:
@@ -1652,13 +1652,13 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         return None
 
     def reactivateShovel(self, task = None):
-        if hasattr(self, '_LocalToon__shovelButton'):
+        if hasaTTW(self, '_LocalToon__shovelButton'):
             self.__shovelButton['state'] = DGG.NORMAL
         taskMgr.remove('reactShovel')
         return None
 
     def reactivateWater(self, task = None):
-        if hasattr(self, '_LocalToon__wateringCanButton'):
+        if hasaTTW(self, '_LocalToon__wateringCanButton'):
             self.__wateringCanButton['state'] = DGG.NORMAL
         taskMgr.remove('reactWater')
         return None
@@ -1675,7 +1675,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         return
 
     def promoteShovelSkill(self, shovelLevel, shovelSkill):
-        shovelName = GardenGlobals.ShovelAttributes[shovelLevel]['name']
+        shovelName = GardenGlobals.ShovelATTWibutes[shovelLevel]['name']
         shovelBeans = GardenGlobals.getShovelPower(shovelLevel, shovelSkill)
         oldShovelBeans = GardenGlobals.getShovelPower(shovelLevel, shovelSkill - 1)
         doPartyBall = False
@@ -1683,7 +1683,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
          'oldbeans': oldShovelBeans,
          'newbeans': shovelBeans}
         if shovelBeans == GardenGlobals.getNumberOfShovelBoxes():
-            if shovelSkill == GardenGlobals.ShovelAttributes[shovelLevel]['skillPts'] - 1:
+            if shovelSkill == GardenGlobals.ShovelATTWibutes[shovelLevel]['skillPts'] - 1:
                 doPartyBall = True
                 message = TTLocalizer.GardenShovelSkillMaxed % {'shovel': shovelName,
                  'oldbeans': oldShovelBeans,
@@ -1703,7 +1703,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             Sequence(Func(go.show), LerpColorScaleInterval(go, duration=0.5, startColorScale=Vec4(1, 1, 1, 0), colorScale=Vec4(1, 1, 1, 1)), Wait(10), LerpColorScaleInterval(go, duration=0.5, startColorScale=Vec4(1, 1, 1, 1), colorScale=Vec4(1, 1, 1, 0)), Func(go.remove)).start()
 
     def promoteShovel(self, shovelLevel = 0):
-        shovelName = GardenGlobals.ShovelAttributes[shovelLevel]['name']
+        shovelName = GardenGlobals.ShovelATTWibutes[shovelLevel]['name']
         shovelBeans = GardenGlobals.getShovelPower(shovelLevel, 0)
         message = TTLocalizer.GardenShovelLevelUp % {'shovel': shovelName,
          'oldbeans': shovelBeans - 1,
@@ -1719,7 +1719,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         Sequence(Func(go.show), LerpColorScaleInterval(go, duration=0.5, startColorScale=Vec4(1, 1, 1, 0), colorScale=Vec4(1, 1, 1, 1)), Wait(10), LerpColorScaleInterval(go, duration=0.5, startColorScale=Vec4(1, 1, 1, 1), colorScale=Vec4(1, 1, 1, 0)), Func(go.remove)).start()
 
     def promoteWateringCan(self, wateringCanlevel = 0):
-        message = TTLocalizer.GardenWateringCanLevelUp + ' \n' + GardenGlobals.WateringCanAttributes[wateringCanlevel]['name']
+        message = TTLocalizer.GardenWateringCanLevelUp + ' \n' + GardenGlobals.WateringCanATTWibutes[wateringCanlevel]['name']
         messagePos = Vec2(0, 0.2)
         messageScale = 0.08
         image = loader.loadModel('phase_5.5/models/gui/planting_but_can_P')
@@ -1749,7 +1749,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             return
         plant = base.cr.doId2do.get(self.shovelRelatedDoId)
         if plant:
-            if hasattr(plant, 'handleWatering'):
+            if hasaTTW(plant, 'handleWatering'):
                 plant.handleWatering()
         messenger.send('wakeup')
 
@@ -1760,7 +1760,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         messenger.send('wakeup')
         thingId = self.shovelRelatedDoId
         thing = base.cr.doId2do.get(thingId)
-        if hasattr(self, 'extraShovelCommand'):
+        if hasaTTW(self, 'extraShovelCommand'):
             self.extraShovelCommand()
             self.setActivePlot(thingId)
 
@@ -1776,7 +1776,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
     def setGardenStarted(self, bStarted):
         self.gardenStarted = bStarted
-        if self.gardenStarted and not self.gardenPage and hasattr(self, 'book'):
+        if self.gardenStarted and not self.gardenPage and hasaTTW(self, 'book'):
             self.loadGardenPages()
 
     def b_setAnimState(self, animName, animMultiplier = 1.0, callback = None, extraArgs = []):
@@ -1806,7 +1806,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
     def addGolfPage(self):
         if self.hasPlayedGolf():
-            if hasattr(self, 'golfPage') and self.golfPage != None:
+            if hasaTTW(self, 'golfPage') and self.golfPage != None:
                 return
             if not launcher.getPhaseComplete(6):
                 self.acceptOnce('phaseComplete-6', self.addGolfPage)
@@ -1818,7 +1818,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         return
 
     def addEventsPage(self):
-        if hasattr(self, 'eventsPage') and self.eventsPage != None:
+        if hasaTTW(self, 'eventsPage') and self.eventsPage != None:
             return
         if not launcher.getPhaseComplete(4):
             self.acceptOnce('phaseComplete-4', self.addEventsPage)
@@ -1847,12 +1847,12 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         defaultDays = base.cr.config.GetInt('account-days', -1)
         if defaultDays >= 0:
             days = defaultDays
-        elif hasattr(base.cr, 'accountDays'):
+        elif hasaTTW(base.cr, 'accountDays'):
             days = base.cr.accountDays
         return days
 
     def hasActiveBoardingGroup(self):
-        if hasattr(localAvatar, 'boardingParty') and localAvatar.boardingParty:
+        if hasaTTW(localAvatar, 'boardingParty') and localAvatar.boardingParty:
             return localAvatar.boardingParty.hasActiveGroup(localAvatar.doId)
         else:
             return False
@@ -1916,18 +1916,18 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
     def isReadingNews(self):
         result = False
-        if base.cr and base.cr.playGame and base.cr.playGame.getPlace() and hasattr(base.cr.playGame.getPlace(), 'fsm') and base.cr.playGame.getPlace().fsm:
+        if base.cr and base.cr.playGame and base.cr.playGame.getPlace() and hasaTTW(base.cr.playGame.getPlace(), 'fsm') and base.cr.playGame.getPlace().fsm:
             fsm = base.cr.playGame.getPlace().fsm
             curState = fsm.getCurrentState().getName()
             if curState == 'stickerBook' and WantNewsPage:
-                if hasattr(self, 'newsPage'):
+                if hasaTTW(self, 'newsPage'):
                     if self.book.isOnPage(self.newsPage):
                         result = True
         return result
 
     def isBookOpen(self):
         result = False
-        if base.cr and base.cr.playGame and base.cr.playGame.getPlace() and hasattr(base.cr.playGame.getPlace(), 'fsm') and base.cr.playGame.getPlace().fsm:
+        if base.cr and base.cr.playGame and base.cr.playGame.getPlace() and hasaTTW(base.cr.playGame.getPlace(), 'fsm') and base.cr.playGame.getPlace().fsm:
             fsm = base.cr.playGame.getPlace().fsm
             curState = fsm.getCurrentState().getName()
             if curState == 'stickerBook':

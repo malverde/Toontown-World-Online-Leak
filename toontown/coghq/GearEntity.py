@@ -19,7 +19,7 @@ class GearEntity(BasicEntities.NodePathEntity):
         BasicEntities.NodePathEntity.destroy(self)
 
     def initGear(self):
-        if hasattr(self, 'in_initGear'):
+        if hasaTTW(self, 'in_initGear'):
             return
         self.in_initGear = True
         self.destroyGear()
@@ -54,13 +54,13 @@ class GearEntity(BasicEntities.NodePathEntity):
 
     def destroyGear(self):
         self.stopRotate()
-        if hasattr(self, 'model'):
+        if hasaTTW(self, 'model'):
             if isinstance(self.model, MovingPlatform.MovingPlatform):
                 self.model.destroy()
             else:
                 self.model.removeNode()
             del self.model
-        if hasattr(self, 'gearParent'):
+        if hasaTTW(self, 'gearParent'):
             self.gearParent.removeNode()
             del self.gearParent
 
@@ -80,7 +80,7 @@ class GearEntity(BasicEntities.NodePathEntity):
             self.rotateIval.setT(globalClock.getFrameTime() - self.level.startTime + ivalDur * self.phaseShift)
 
     def stopRotate(self):
-        if hasattr(self, 'rotateIval'):
+        if hasaTTW(self, 'rotateIval'):
             self.rotateIval.pause()
             del self.rotateIval
 
@@ -96,7 +96,7 @@ class GearEntity(BasicEntities.NodePathEntity):
                 self.phaseShift = phaseShift
                 self.startRotate()
 
-        def attribChanged(self, attrib, value):
+        def aTTWibChanged(self, aTTWib, value):
             self.destroyGear()
             self.initGear()
 

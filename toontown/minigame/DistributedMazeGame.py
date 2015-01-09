@@ -531,13 +531,13 @@ class DistributedMazeGame(DistributedMinigame):
         self.treasureModel.setScale(1.6)
         self.treasureModel.setP(-90)
         self.music = base.loadMusic('phase_4/audio/bgm/MG_toontag.ogg')
-        self.toonHitTracks = {}
+        self.toonHiTTWacks = {}
         self.scorePanels = []
 
     def unload(self):
         self.notify.debug('unload')
         DistributedMinigame.unload(self)
-        del self.toonHitTracks
+        del self.toonHiTTWacks
         self.maze.destroy()
         del self.maze
         self.treasureModel.removeNode()
@@ -588,7 +588,7 @@ class DistributedMazeGame(DistributedMinigame):
 
         self.grabSoundIndex = 0
         for avId in self.avIdList:
-            self.toonHitTracks[avId] = Wait(0.1)
+            self.toonHiTTWacks[avId] = Wait(0.1)
 
         self.scores = [0] * self.numPlayers
         self.goalBar = DirectWaitBar(parent=render2d, relief=DGG.SUNKEN, frameSize=(-0.35,
@@ -606,8 +606,8 @@ class DistributedMazeGame(DistributedMinigame):
         if self.introTrack.isPlaying():
             self.introTrack.finish()
         del self.introTrack
-        for avId in self.toonHitTracks.keys():
-            track = self.toonHitTracks[avId]
+        for avId in self.toonHiTTWacks.keys():
+            track = self.toonHiTTWacks[avId]
             if track.isPlaying():
                 track.finish()
 
@@ -677,9 +677,9 @@ class DistributedMazeGame(DistributedMinigame):
         self.gameFSM.request('play')
 
     def handleDisabledAvatar(self, avId):
-        hitTrack = self.toonHitTracks[avId]
-        if hitTrack.isPlaying():
-            hitTrack.finish()
+        hiTTWack = self.toonHiTTWacks[avId]
+        if hiTTWack.isPlaying():
+            hiTTWack.finish()
         DistributedMinigame.handleDisabledAvatar(self, avId)
 
     def enterOff(self):
@@ -742,7 +742,7 @@ class DistributedMazeGame(DistributedMinigame):
         self.grabSoundIndex = (self.grabSoundIndex + 1) % len(self.grabSounds)
         self.sendUpdate('claimTreasure', [treasureNum])
 
-    def setTreasureGrabbed(self, avId, treasureNum):
+    def seTTWeasureGrabbed(self, avId, treasureNum):
         if not self.hasLocalToon:
             return
         if avId != self.localAvId:
@@ -778,7 +778,7 @@ class DistributedMazeGame(DistributedMinigame):
             return
         rng = self.toonRNGs[self.avIdList.index(avId)]
         curPos = toon.getPos(render)
-        oldTrack = self.toonHitTracks[avId]
+        oldTrack = self.toonHiTTWacks[avId]
         if oldTrack.isPlaying():
             oldTrack.finish()
         toon.setPos(curPos)
@@ -886,7 +886,7 @@ class DistributedMazeGame(DistributedMinigame):
         def postFunc(self = self, avId = avId, oldGeomNodeZ = oldGeomNodeZ, dropShadow = dropShadow, parentNode = parentNode):
             if avId == self.localAvId:
                 base.localAvatar.setPos(endPos)
-                if hasattr(self, 'orthoWalk'):
+                if hasaTTW(self, 'orthoWalk'):
                     if self.gameFSM.getCurrentState().getName() == 'play':
                         self.orthoWalk.start()
             dropShadow.removeNode()
@@ -908,14 +908,14 @@ class DistributedMazeGame(DistributedMinigame):
 
         preFunc()
 
-        hitTrack = Sequence(Parallel(flyTrack, cameraTrack,
+        hiTTWack = Sequence(Parallel(flyTrack, cameraTrack,
                                      spinHTrack, spinPTrack, soundTrack),
                             Func(postFunc),
                             name=toon.uniqueName('hitBySuit'))
 
-        self.toonHitTracks[avId] = hitTrack
+        self.toonHiTTWacks[avId] = hiTTWack
 
-        hitTrack.start(globalClockDelta.localElapsedTime(timestamp))
+        hiTTWack.start(globalClockDelta.localElapsedTime(timestamp))
 
     def allTreasuresTaken(self):
         if not self.hasLocalToon:

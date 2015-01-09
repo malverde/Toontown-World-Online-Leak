@@ -30,7 +30,7 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
         DistributedLawnDecor.DistributedLawnDecor.disable(self)
 
     def loadModel(self):
-        if hasattr(self, 'rotateNode') and self.rotateNode:
+        if hasaTTW(self, 'rotateNode') and self.rotateNode:
             self.rotateNode.removeNode()
         self.rotateNode = self.plantPath.attachNewNode('rotate')
         self.model = None
@@ -46,15 +46,15 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
 
     def setTypeIndex(self, typeIndex):
         self.typeIndex = typeIndex
-        self.attributes = GardenGlobals.PlantAttributes[typeIndex]
-        self.name = self.attributes['name']
-        self.plantType = self.attributes['plantType']
-        self.growthThresholds = self.attributes['growthThresholds']
-        self.maxWaterLevel = self.attributes['maxWaterLevel']
-        self.minWaterLevel = self.attributes['minWaterLevel']
-        self.seedlingModel = self.attributes['seedlingModel']
-        self.establishedModel = self.attributes['establishedModel']
-        self.fullGrownModel = self.attributes['fullGrownModel']
+        self.aTTWibutes = GardenGlobals.PlantATTWibutes[typeIndex]
+        self.name = self.aTTWibutes['name']
+        self.plantType = self.aTTWibutes['plantType']
+        self.growthThresholds = self.aTTWibutes['growthThresholds']
+        self.maxWaterLevel = self.aTTWibutes['maxWaterLevel']
+        self.minWaterLevel = self.aTTWibutes['minWaterLevel']
+        self.seedlingModel = self.aTTWibutes['seedlingModel']
+        self.establishedModel = self.aTTWibutes['establishedModel']
+        self.fullGrownModel = self.aTTWibutes['fullGrownModel']
 
     def getTypeIndex(self):
         return self.typeIndex
@@ -199,7 +199,7 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
         sound.setPlayRate(0.75)
         waterTrack = Parallel()
         waterTrack.append(Sequence(Parallel(ActorInterval(toon, 'water'), SoundInterval(sound, node=toon, volume=0.5)), Func(toon.loop, 'neutral')))
-        if hasattr(self, 'dropShadow') and self.dropShadow:
+        if hasaTTW(self, 'dropShadow') and self.dropShadow:
             newColor = self.dropShadow.getColor()
             alpha = min(1.0, newColor.getW() + 1 / 5.0)
             newColor.setW(alpha)
@@ -212,7 +212,7 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
             self.notify.debug('%s %s' % (self.waterLevel, color))
             if color < 0.2:
                 color = 0.2
-            if hasattr(self, 'dropShadow') and self.dropShadow:
+            if hasaTTW(self, 'dropShadow') and self.dropShadow:
                 self.dropShadow.setColor(0.0, 0.0, 0.0, color)
 
     def canBeWatered(self):

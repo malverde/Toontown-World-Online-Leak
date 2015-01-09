@@ -28,7 +28,7 @@ class DistributedKnockKnockDoor(DistributedAnimatedProp.DistributedAnimatedProp)
 
     def announceGenerate(self):
         DistributedAnimatedProp.DistributedAnimatedProp.announceGenerate(self)
-        self.accept('exitKnockKnockDoorSphere_' + str(self.propId), self.exitTrigger)
+        self.accept('exitKnockKnockDoorSphere_' + str(self.propId), self.exiTTWigger)
         self.acceptAvatar()
 
     def disable(self):
@@ -124,12 +124,12 @@ class DistributedKnockKnockDoor(DistributedAnimatedProp.DistributedAnimatedProp)
     def exitOff(self):
         DistributedAnimatedProp.DistributedAnimatedProp.exitOff(self)
 
-    def enterAttract(self, ts):
-        DistributedAnimatedProp.DistributedAnimatedProp.enterAttract(self, ts)
+    def enterATTWact(self, ts):
+        DistributedAnimatedProp.DistributedAnimatedProp.enterATTWact(self, ts)
         self.acceptAvatar()
 
-    def exitAttract(self):
-        DistributedAnimatedProp.DistributedAnimatedProp.exitAttract(self)
+    def exitATTWact(self):
+        DistributedAnimatedProp.DistributedAnimatedProp.exitATTWact(self)
 
     def enterPlaying(self, ts):
         DistributedAnimatedProp.DistributedAnimatedProp.enterPlaying(self, ts)

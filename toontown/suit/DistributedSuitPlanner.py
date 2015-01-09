@@ -118,7 +118,7 @@ class DistributedSuitPlanner(DistributedObject.DistributedObject, SuitPlannerBas
         return
 
     def __makePathVizText(self, text, x, y, z, color):
-        if not hasattr(self, 'debugTextNode'):
+        if not hasaTTW(self, 'debugTextNode'):
             self.debugTextNode = TextNode('debugTextNode')
             self.debugTextNode.setAlign(TextNode.ACenter)
             self.debugTextNode.setFont(ToontownGlobals.getSignFont())
@@ -128,7 +128,7 @@ class DistributedSuitPlanner(DistributedObject.DistributedObject, SuitPlannerBas
         np.setPos(x, y, z + 1)
         np.setScale(1.0)
         np.setBillboardPointEye(2)
-        np.node().setAttrib(TransparencyAttrib.make(TransparencyAttrib.MDual), 2)
+        np.node().setATTWib(TransparencyATTWib.make(TransparencyATTWib.MDual), 2)
 
 @magicWord(category=CATEGORY_GRAPHICAL)
 def spShow():

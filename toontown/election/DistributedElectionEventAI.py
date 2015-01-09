@@ -52,7 +52,7 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
             # It's Election day!
             self.balloon.b_setState('ElectionIdle')
             # Better spawn some cameras
-            if not hasattr(simbase.air, 'cameraManager'):
+            if not hasaTTW(simbase.air, 'cameraManager'):
                 camMgr = DistributedElectionCameraManagerAI(simbase.air)
                 camMgr.spawnManager()
         else:
@@ -232,7 +232,7 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
     def getState(self):
         return (self.state, self.stateTime)
 
-@magicWord(category=CATEGORY_MODERATION, types=[str])
+@magicWord(category=CATEGORY_ADMIN, types=[str])
 def election(state):
     if not config.GetBool('want-doomsday', False):
         simbase.air.writeServerEvent('warning', avId=spellbook.getInvoker().doId, issue='Attempted to change the election state while doomsday is disabled.')
@@ -243,7 +243,7 @@ def election(state):
         event = DistributedElectionEventAI(simbase.air)
         event.generateWithRequired(2000)
 
-    if not hasattr(event, 'enter'+state):
+    if not hasaTTW(event, 'enter'+state):
         return 'Invalid state'
 
     event.b_setState(state)

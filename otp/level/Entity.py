@@ -17,11 +17,11 @@ class Entity(DirectObject):
         return
 
     def __str__(self):
-        if hasattr(self, 'level') and self.level:
+        if hasaTTW(self, 'level') and self.level:
             return 'ent%s(%s)' % (self.entId, self.level.getEntityType(self.entId))
-        elif hasattr(self, 'name'):
+        elif hasaTTW(self, 'name'):
             return self.name
-        elif hasattr(self, 'entId'):
+        elif hasaTTW(self, 'entId'):
             return '%s-%s' % (self.__class__.__name__, self.entId)
         else:
             return self.__class__.__name__
@@ -59,43 +59,43 @@ class Entity(DirectObject):
     def getZoneNode(self):
         return self.getZoneEntity().getNodePath()
 
-    def privGetSetter(self, attrib):
-        setFuncName = 'set%s%s' % (attrib[0].upper(), attrib[1:])
-        if hasattr(self, setFuncName):
-            return getattr(self, setFuncName)
+    def privGetSetter(self, aTTWib):
+        setFuncName = 'set%s%s' % (aTTWib[0].upper(), aTTWib[1:])
+        if hasaTTW(self, setFuncName):
+            return getaTTW(self, setFuncName)
         return None
 
-    def callSetters(self, *attribs):
-        self.privCallSetters(0, *attribs)
+    def callSetters(self, *aTTWibs):
+        self.privCallSetters(0, *aTTWibs)
 
-    def callSettersAndDelete(self, *attribs):
-        self.privCallSetters(1, *attribs)
+    def callSettersAndDelete(self, *aTTWibs):
+        self.privCallSetters(1, *aTTWibs)
 
-    def privCallSetters(self, doDelete, *attribs):
-        for attrib in attribs:
-            if hasattr(self, attrib):
-                setter = self.privGetSetter(attrib)
+    def privCallSetters(self, doDelete, *aTTWibs):
+        for aTTWib in aTTWibs:
+            if hasaTTW(self, aTTWib):
+                setter = self.privGetSetter(aTTWib)
                 if setter is not None:
-                    value = getattr(self, attrib)
+                    value = getaTTW(self, aTTWib)
                     if doDelete:
-                        delattr(self, attrib)
+                        delaTTW(self, aTTWib)
                     setter(value)
 
         return
 
-    def setAttribInit(self, attrib, value):
-        self.__dict__[attrib] = value
+    def setATTWibInit(self, aTTWib, value):
+        self.__dict__[aTTWib] = value
 
     if __dev__:
 
-        def handleAttribChange(self, attrib, value):
-            setter = self.privGetSetter(attrib)
+        def handleATTWibChange(self, aTTWib, value):
+            setter = self.privGetSetter(aTTWib)
             if setter is not None:
                 setter(value)
             else:
-                self.__dict__[attrib] = value
-                self.attribChanged(attrib, value)
+                self.__dict__[aTTWib] = value
+                self.aTTWibChanged(aTTWib, value)
             return
 
-        def attribChanged(self, attrib, value):
+        def aTTWibChanged(self, aTTWib, value):
             pass

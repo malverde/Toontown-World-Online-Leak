@@ -23,7 +23,7 @@ class ToontownUberRepository(ToontownInternalRepository):
         """
         self.csm = self.generateGlobalIfWanted(OTP_DO_ID_CLIENT_SERVICES_MANAGER, 'ClientServicesManager')
         self.chatAgent = self.generateGlobalIfWanted(OTP_DO_ID_CHAT_MANAGER, 'ChatAgent')
-        self.friendsManager = self.generateGlobalIfWanted(OTP_DO_ID_TTR_FRIENDS_MANAGER, 'TTRFriendsManager')
+        self.friendsManager = self.generateGlobalIfWanted(OTP_DO_ID_TTW_FRIENDS_MANAGER, 'TTWFriendsManager')
         if config.GetBool('want-parties', True):
             # want-parties overrides config for want-GlobalPartyManagerUD
             self.globalPartyMgr = self.generateGlobalIfWanted(OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')

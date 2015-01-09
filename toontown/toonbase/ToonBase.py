@@ -133,7 +133,7 @@ class ToonBase(OTPBase.OTPBase):
         self.cloudPlatformsEnabled = self.config.GetBool('estate-clouds', 0)
         self.greySpacing = self.config.GetBool('allow-greyspacing', 0)
         self.goonsEnabled = self.config.GetBool('estate-goon', 0)
-        self.restrictTrialers = self.config.GetBool('restrict-trialers', 1)
+        self.restricTTWialers = self.config.GetBool('restrict-trialers', 1)
         self.roamingTrialers = self.config.GetBool('roaming-trialers', 1)
         self.slowQuietZone = self.config.GetBool('slow-quiet-zone', 0)
         self.slowQuietZoneDelay = self.config.GetFloat('slow-quiet-zone-delay', 5)
@@ -255,7 +255,7 @@ class ToonBase(OTPBase.OTPBase):
         if timedif < 1.0 and self.walking:
             self.glitchCount += 1
             return
-        if not hasattr(self, 'localAvatar'):
+        if not hasaTTW(self, 'localAvatar'):
             self.screenshot(namePrefix=namePrefix)
             self.lastScreenShotTime = globalClock.getRealTime()
             return
@@ -382,7 +382,7 @@ class ToonBase(OTPBase.OTPBase):
     def startShow(self, cr, launcherServer = None):
         self.cr = cr
         if self.display.antialias:
-            render.setAntialias(AntialiasAttrib.MAuto)
+            render.setAntialias(AntialiasATTWib.MAuto)
         base.graphicsEngine.renderFrame()
         self.downloadWatcher = ToontownDownloadWatcher.ToontownDownloadWatcher(TTLocalizer.LauncherPhaseNames)
         if launcher.isDownloadComplete():
@@ -479,7 +479,7 @@ class ToonBase(OTPBase.OTPBase):
         except:
             pass
 
-        if hasattr(self, 'ttAccess'):
+        if hasaTTW(self, 'ttAccess'):
             self.ttAccess.delete()
         if self.cr.timeManager:
             self.cr.timeManager.setDisconnectReason(ToontownGlobals.DisconnectCloseWindow)

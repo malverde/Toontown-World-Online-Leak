@@ -22,8 +22,8 @@ class AIZoneData:
         del self._parentId
         del self._air
 
-    def __getattr__(self, attr):
-        return getattr(self._data, attr)
+    def __getaTTW__(self, aTTW):
+        return getaTTW(self._data, aTTW)
 
 
 class AIZoneDataObj:
@@ -64,16 +64,16 @@ class AIZoneDataObj:
 
         del self._collTravsStarted
         del self._collTravs
-        if hasattr(self, '_nonCollidableParent'):
+        if hasaTTW(self, '_nonCollidableParent'):
             self._nonCollidableParent.removeNode()
             del self._nonCollidableParent
-        if hasattr(self, '_render'):
-            if hasattr(self, '_renderLeakDetector'):
+        if hasaTTW(self, '_render'):
+            if hasaTTW(self, '_renderLeakDetector'):
                 self._renderLeakDetector.destroy()
                 del self._renderLeakDetector
             self._render.removeNode()
             del self._render
-        if hasattr(self, '_parentMgr'):
+        if hasaTTW(self, '_parentMgr'):
             self._parentMgr.destroy()
             del self._parentMgr
         del self._zoneId
@@ -83,14 +83,14 @@ class AIZoneDataObj:
         return (self._parentId, self._zoneId)
 
     def getRender(self):
-        if not hasattr(self, '_render'):
+        if not hasaTTW(self, '_render'):
             self._render = NodePath('render-%s-%s' % (self._parentId, self._zoneId))
             if config.GetBool('leak-scene-graph', 0):
                 self._renderLeakDetector = LeakDetectors.SceneGraphLeakDetector(self._render)
         return self._render
 
     def getNonCollidableParent(self):
-        if not hasattr(self, '_nonCollidableParent'):
+        if not hasaTTW(self, '_nonCollidableParent'):
             render = self.getRender()
             self._nonCollidableParent = render.attachNewNode('nonCollidables')
         if __dev__:
@@ -98,7 +98,7 @@ class AIZoneDataObj:
         return self._nonCollidableParent
 
     def getParentMgr(self):
-        if not hasattr(self, '_parentMgr'):
+        if not hasaTTW(self, '_parentMgr'):
             self._parentMgr = ParentMgr.ParentMgr()
             self._parentMgr.registerParent(OTPGlobals.SPHidden, hidden)
             self._parentMgr.registerParent(OTPGlobals.SPRender, self.getRender())
@@ -128,7 +128,7 @@ class AIZoneDataObj:
     def _doCollisions(self, task = None, topNode = None, cTravName = None):
         render = self.getRender()
         curTime = globalClock.getFrameTime()
-        render.setTag('lastTraverseTime', str(curTime))
+        render.setTag('lasTTWaverseTime', str(curTime))
         if topNode is not None:
             if not render.isAncestorOf(topNode):
                 self.notify.warning('invalid topNode for collision traversal in %s: %s' % (self.getLocation(), topNode))

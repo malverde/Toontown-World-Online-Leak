@@ -1,7 +1,7 @@
 from pandac.PandaModules import Vec3
 from pandac.PandaModules import OmniBoundingVolume
-from pandac.PandaModules import AlphaTestAttrib
-from pandac.PandaModules import RenderAttrib
+from pandac.PandaModules import AlphaTestATTWib
+from pandac.PandaModules import RenderATTWib
 from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import globalClockDelta
@@ -49,7 +49,7 @@ class DistributedPartyFireworksActivity(DistributedPartyActivity, FireworkShowMi
         self.launchPadModel.reparentTo(self.root)
         railingsCollection = self.launchPadModel.findAllMatches('**/launchPad_mesh/*railing*')
         for i in range(railingsCollection.getNumPaths()):
-            railingsCollection[i].setAttrib(AlphaTestAttrib.make(RenderAttrib.MGreater, 0.75))
+            railingsCollection[i].setATTWib(AlphaTestATTWib.make(RenderATTWib.MGreater, 0.75))
 
         leverLocator = self.launchPadModel.find('**/RocketLever_locator')
         self.lever.setPosHpr(Vec3.zero(), Vec3.zero())

@@ -82,10 +82,10 @@ class BoardingGroupShow:
                 boardingTrack.append(self.__getRunTrack(elevatorModel, offset, wantToonRotation))
                 trackType = TRACK_TYPE_RUN
             elif self.toon.isDisguised:
-                boardingTrack.append(self.__getPoofTeleportTrack(elevatorModel, offset, wantToonRotation))
+                boardingTrack.append(self.__getPoofTeleporTTWack(elevatorModel, offset, wantToonRotation))
                 trackType = TRACK_TYPE_POOF
             else:
-                boardingTrack.append(self.__getTeleportTrack(elevatorModel, offset, wantToonRotation))
+                boardingTrack.append(self.__getTeleporTTWack(elevatorModel, offset, wantToonRotation))
         boardingTrack.append(Func(self.cleanup))
         return (boardingTrack, trackType)
 
@@ -94,22 +94,22 @@ class BoardingGroupShow:
         dest += Vec3(*offset)
         return dest
 
-    def __getTeleportTrack(self, elevatorModel, offset, wantToonRotation):
-        teleportTrack = Sequence()
+    def __getTeleporTTWack(self, elevatorModel, offset, wantToonRotation):
+        teleporTTWack = Sequence()
         if self.toon:
             if wantToonRotation:
-                teleportTrack.append(Func(self.toon.headsUp, elevatorModel, offset))
-            teleportTrack.append(Func(self.toon.setAnimState, 'TeleportOut'))
-            teleportTrack.append(Wait(3.5))
-            teleportTrack.append(Func(self.toon.setPos, Point3(offset)))
-            teleportTrack.append(Func(self.toon.setAnimState, 'TeleportIn'))
-            teleportTrack.append(Wait(1))
-        return teleportTrack
+                teleporTTWack.append(Func(self.toon.headsUp, elevatorModel, offset))
+            teleporTTWack.append(Func(self.toon.setAnimState, 'TeleportOut'))
+            teleporTTWack.append(Wait(3.5))
+            teleporTTWack.append(Func(self.toon.setPos, Point3(offset)))
+            teleporTTWack.append(Func(self.toon.setAnimState, 'TeleportIn'))
+            teleporTTWack.append(Wait(1))
+        return teleporTTWack
 
-    def __getPoofTeleportTrack(self, elevatorModel, offset, wantToonRotation):
-        teleportTrack = Sequence()
+    def __getPoofTeleporTTWack(self, elevatorModel, offset, wantToonRotation):
+        teleporTTWack = Sequence()
         if wantToonRotation:
-            teleportTrack.append(Func(self.toon.headsUp, elevatorModel, offset))
+            teleporTTWack.append(Func(self.toon.headsUp, elevatorModel, offset))
 
         def getDustCloudPos():
             toonPos = self.toon.getPos(render)
@@ -132,19 +132,19 @@ class BoardingGroupShow:
             self.dustCloudIval.start()
 
         if self.toon:
-            teleportTrack.append(Func(self.toon.setAnimState, 'neutral'))
-            teleportTrack.append(Wait(0.5))
-            teleportTrack.append(Func(getDustCloudIval))
-            teleportTrack.append(Wait(0.25))
-            teleportTrack.append(Func(self.toon.hide))
-            teleportTrack.append(Wait(1.5))
-            teleportTrack.append(Func(self.toon.setPos, Point3(offset)))
-            teleportTrack.append(Func(getDustCloudIval))
-            teleportTrack.append(Wait(0.25))
-            teleportTrack.append(Func(self.toon.show))
-            teleportTrack.append(Wait(0.5))
-            teleportTrack.append(Func(cleanupDustCloudIval))
-        return teleportTrack
+            teleporTTWack.append(Func(self.toon.setAnimState, 'neutral'))
+            teleporTTWack.append(Wait(0.5))
+            teleporTTWack.append(Func(getDustCloudIval))
+            teleporTTWack.append(Wait(0.25))
+            teleporTTWack.append(Func(self.toon.hide))
+            teleporTTWack.append(Wait(1.5))
+            teleporTTWack.append(Func(self.toon.setPos, Point3(offset)))
+            teleporTTWack.append(Func(getDustCloudIval))
+            teleporTTWack.append(Wait(0.25))
+            teleporTTWack.append(Func(self.toon.show))
+            teleporTTWack.append(Wait(0.5))
+            teleporTTWack.append(Func(cleanupDustCloudIval))
+        return teleporTTWack
 
     def __getRunTrack(self, elevatorModel, offset, wantToonRotation):
         runTrack = Sequence()
@@ -197,16 +197,16 @@ class BoardingGroupShow:
         if self.toon:
             if self.avId == localAvatar.doId:
                 goButtonShow.append(Func(self.startTimer))
-            goButtonShow.append(self.__getTeleportOutTrack())
+            goButtonShow.append(self.__getTeleportOuTTWack())
             goButtonShow.append(Wait(3))
         goButtonShow.append(Func(self.cleanup))
         return goButtonShow
 
-    def __getTeleportOutTrack(self):
-        teleportOutTrack = Sequence()
+    def __getTeleportOuTTWack(self):
+        teleportOuTTWack = Sequence()
         if self.toon and not self.toon.isDisguised:
-            teleportOutTrack.append(Func(self.toon.b_setAnimState, 'TeleportOut'))
-        return teleportOutTrack
+            teleportOuTTWack.append(Func(self.toon.b_setAnimState, 'TeleportOut'))
+        return teleportOuTTWack
 
     def getGoButtonPreShow(self):
         self.timeWarningText = TTLocalizer.BoardingGoPreShow

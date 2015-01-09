@@ -260,7 +260,7 @@ class DistributedPairingGame(DistributedMinigame):
         self.ignoreAll()
         if base.localAvatar.laffMeter:
             base.localAvatar.laffMeter.start()
-        if hasattr(self, 'perfectIval'):
+        if hasaTTW(self, 'perfectIval'):
             self.perfectIval.pause()
             del self.perfectIval
         taskMgr.remove(self.EndGameTaskName)
@@ -340,7 +340,7 @@ class DistributedPairingGame(DistributedMinigame):
         self.inactiveList.append(cardB)
         matchIval = Parallel()
         for card in [cardA, cardB]:
-            self.cards[card].setTransparency(1)
+            self.cards[card].seTTWansparency(1)
             cardSeq = Sequence(LerpColorScaleInterval(self.cards[card], duration=1, colorScale=Vec4(1.0, 1.0, 1.0, 0.0)), Func(self.cards[card].hide))
             matchIval.append(cardSeq)
 
@@ -464,9 +464,9 @@ class DistributedPairingGame(DistributedMinigame):
             def destroyText(text = perfectText):
                 text.removeNode()
 
-            textTrack = Sequence(Func(perfectText.reparentTo, aspect2d), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=0.3, startScale=0.0), LerpFunctionInterval(fadeFunc, fromData=0.0, toData=1.0, duration=0.5)), Wait(2.0), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=1.0), LerpFunctionInterval(fadeFunc, fromData=1.0, toData=0.0, duration=0.5, blendType='easeIn')), Func(destroyText), WaitInterval(0.5), Func(endGame, None))
+            texTTWack = Sequence(Func(perfectText.reparentTo, aspect2d), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=0.3, startScale=0.0), LerpFunctionInterval(fadeFunc, fromData=0.0, toData=1.0, duration=0.5)), Wait(2.0), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=1.0), LerpFunctionInterval(fadeFunc, fromData=1.0, toData=0.0, duration=0.5, blendType='easeIn')), Func(destroyText), WaitInterval(0.5), Func(endGame, None))
             soundTrack = SoundInterval(self.sndPerfect)
-            self.perfectIval = Parallel(textTrack, soundTrack)
+            self.perfectIval = Parallel(texTTWack, soundTrack)
             self.perfectIval.start()
         else:
             taskMgr.doMethodLater(1, endGame, self.EndGameTaskName)
@@ -485,7 +485,7 @@ class DistributedPairingGame(DistributedMinigame):
             return
         avIndex = self.avIdList.index(avId)
         av = base.cr.doId2do.get(avId)
-        if av and avIndex >= 0 and hasattr(self, 'signalSfx') and self.signalSfx:
+        if av and avIndex >= 0 and hasaTTW(self, 'signalSfx') and self.signalSfx:
             base.playSfx(self.signalSfx[avIndex], node=av)
 
     def __beginSignal(self, mouseParam):

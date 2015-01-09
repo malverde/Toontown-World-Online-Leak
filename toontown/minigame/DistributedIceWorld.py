@@ -38,7 +38,7 @@ class DistributedIceWorld(DistributedMinigamePhysicsWorld.DistributedMinigamePhy
 
     def delete(self):
         DistributedMinigamePhysicsWorld.DistributedMinigamePhysicsWorld.delete(self)
-        if hasattr(self, 'floor'):
+        if hasaTTW(self, 'floor'):
             self.floor = None
         return
 
@@ -116,7 +116,7 @@ class DistributedIceWorld(DistributedMinigamePhysicsWorld.DistributedMinigamePhy
                 smileyModel.setScale(IceGameGlobals.TireRadius)
                 smileyModel.reparentTo(testTire)
                 smileyModel.setAlphaScale(0.5)
-                smileyModel.setTransparency(1)
+                smileyModel.seTTWansparency(1)
             testTire.setPos(IceGameGlobals.StartingPositions[tireIndex])
             tireModel = loader.loadModel('phase_4/models/minigames/ice_game_tire')
             tireHeight = 1

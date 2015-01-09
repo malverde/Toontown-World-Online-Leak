@@ -441,7 +441,7 @@ class ToontownChatManager(ChatManager.ChatManager):
         self.teaser = TeaserPanel.TeaserPanel(pageName='secretChat', doneFunc=self.handleOkTeaser)
         return
 
-    def exitTrueFriendTeaserPanel(self):
+    def exiTTWueFriendTeaserPanel(self):
         self.teaser.destroy()
         place = base.cr.playGame.getPlace()
         if place:
@@ -460,7 +460,7 @@ class ToontownChatManager(ChatManager.ChatManager):
         if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: CHAT: Whisper')
         messenger.send('wakeup')
-        hasManager = hasattr(base.cr, 'playerFriendsManager')
+        hasManager = hasaTTW(base.cr, 'playerFriendsManager')
         transientFriend = 0
         if hasManager:
             transientFriend = base.cr.playerFriendsManager.askTransientFriend(avatarId)

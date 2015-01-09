@@ -128,7 +128,7 @@ class QuestPage(ShtikerPage.ShtikerPage):
             return
         self.onscreen = 1
         for i in range(ToontownGlobals.MaxQuestCarryLimit):
-            if hasattr(self.questFrames[i], 'mapIndex'):
+            if hasaTTW(self.questFrames[i], 'mapIndex'):
                 self.questFrames[i].mapIndex.show()
 
         self.updatePage()
@@ -145,7 +145,7 @@ class QuestPage(ShtikerPage.ShtikerPage):
             return
         self.onscreen = 0
         for i in range(ToontownGlobals.MaxQuestCarryLimit):
-            if hasattr(self.questFrames[i], 'mapIndex'):
+            if hasaTTW(self.questFrames[i], 'mapIndex'):
                 self.questFrames[i].mapIndex.hide()
 
         self.reparentTo(self.book)

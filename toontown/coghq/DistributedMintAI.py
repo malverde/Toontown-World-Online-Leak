@@ -46,7 +46,7 @@ class DistributedMintAI(DistributedObjectAI.DistributedObjectAI):
     def delete(self):
         self.notify.info('delete: %s' % self.doId)
         if __dev__:
-            if hasattr(simbase, 'mint') and simbase.mint is self:
+            if hasaTTW(simbase, 'mint') and simbase.mint is self:
                 del simbase.mint
         del self.rooms
         del self.layout

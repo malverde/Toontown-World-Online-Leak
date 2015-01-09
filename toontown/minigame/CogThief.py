@@ -181,7 +181,7 @@ class CogThief(DirectObject):
                 self.notify.debug('thinkAboutCatchingToon not doneAdjust setting pos %s' % myPos)
                 self.doneAdjust = True
             self.suit.setPos(myPos)
-            if self.game.isToonPlayingHitTrack(self.goalId):
+            if self.game.isToonPlayingHiTTWack(self.goalId):
                 self.suit.headsUp(av)
                 self.velocity = Vec3(0, 0, 0)
                 self.oldVelocity = Vec3(0, 0, 0)
@@ -220,7 +220,7 @@ class CogThief(DirectObject):
     def thinkAboutGettingBarrel(self):
         if not self.game:
             return
-        if not hasattr(self.game, 'barrels'):
+        if not hasaTTW(self.game, 'barrels'):
             return
         if self.goalId not in xrange(len(self.game.barrels)):
             return

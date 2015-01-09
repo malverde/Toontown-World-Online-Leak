@@ -180,7 +180,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self._gmType = None
         self.hpOwnedByBattle = 0
         if simbase.wantPets:
-            self.petTrickPhrases = []
+            self.peTTWickPhrases = []
         if simbase.wantBingo:
             self.bingoCheat = False
         self.customMessages = []
@@ -246,7 +246,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             if self.WantOldGMNameBan:
                 self._checkOldGMName()
             messenger.send('avatarEntered', [self])
-        if hasattr(self, 'gameAccess') and self.gameAccess != 2:
+        if hasaTTW(self, 'gameAccess') and self.gameAccess != 2:
             if self.hat[0] != 0:
                 self.replaceItemInAccessoriesList(ToonDNA.HAT, 0, 0, 0, self.hat[0], self.hat[1], self.hat[2])
                 self.b_setHatList(self.hatList)
@@ -832,7 +832,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         if not self.NPCFriendsDict.has_key(npcFriend):
             self.notify.warning('attemptSubtractNPCFriend: invalid NPC %s' % npcFriend)
             return 0
-        if hasattr(self, 'autoRestockSOS') and self.autoRestockSOS:
+        if hasaTTW(self, 'autoRestockSOS') and self.autoRestockSOS:
             cost = 0
         else:
             cost = 1
@@ -1520,7 +1520,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
         lastCog = self.cogTypes[dept] >= SuitDNA.suitsPerDept - 1
         if not lastCog:
-            maxLevel = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level'] + 4
+            maxLevel = SuitBattleGlobals.SuitATTWibutes[cogTypeStr]['level'] + 4
         else:
             maxLevel = ToontownGlobals.MaxCogSuitLevel
         if newLevel > maxLevel:
@@ -1528,7 +1528,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 self.cogTypes[dept] += 1
                 self.d_setCogTypes(self.cogTypes)
                 cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
-                self.cogLevels[dept] = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
+                self.cogLevels[dept] = SuitBattleGlobals.SuitATTWibutes[cogTypeStr]['level']
                 self.d_setCogLevels(self.cogLevels)
         else:
             self.cogLevels[dept] += 1
@@ -1548,7 +1548,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         deptIndex = SuitDNA.suitDepts.index(dept)
         cogType = self.cogTypes[deptIndex]
         cogTypeStr = SuitDNA.suitHeadTypes[cogType]
-        lowestCogLevel = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
+        lowestCogLevel = SuitBattleGlobals.SuitATTWibutes[cogTypeStr]['level']
         multiple = 5 * cogType
         additional = self.cogLevels[deptIndex] - lowestCogLevel
         numPromotions = multiple + additional
@@ -1982,26 +1982,26 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.b_setCheesyEffect(ToontownGlobals.CENormal, 0, 0)
         return Task.cont
 
-    def b_setTrackAccess(self, trackArray):
-        self.setTrackAccess(trackArray)
-        self.d_setTrackAccess(trackArray)
+    def b_seTTWackAccess(self, trackArray):
+        self.seTTWackAccess(trackArray)
+        self.d_seTTWackAccess(trackArray)
 
-    def d_setTrackAccess(self, trackArray):
-        self.sendUpdate('setTrackAccess', [trackArray])
+    def d_seTTWackAccess(self, trackArray):
+        self.sendUpdate('seTTWackAccess', [trackArray])
 
-    def setTrackAccess(self, trackArray):
+    def seTTWackAccess(self, trackArray):
         self.trackArray = trackArray
 
-    def getTrackAccess(self):
+    def geTTWackAccess(self):
         return self.trackArray
 
     def addTrackAccess(self, track):
         self.trackArray[track] = 1
-        self.b_setTrackAccess(self.trackArray)
+        self.b_seTTWackAccess(self.trackArray)
 
     def removeTrackAccess(self, track):
         self.trackArray[track] = 0
-        self.b_setTrackAccess(self.trackArray)
+        self.b_seTTWackAccess(self.trackArray)
 
     def hasTrackAccess(self, track):
         if self.trackArray and track < len(self.trackArray):
@@ -2019,42 +2019,42 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
          3]:
             if numTracks != 2:
                 self.notify.warning('bad num tracks in tier: %s, %s' % (self.rewardTier, self.trackArray))
-                self.b_setTrackAccess([0, 0, 0, 0, 1, 1, 0])
+                self.b_seTTWackAccess([0, 0, 0, 0, 1, 1, 0])
                 fixed = 1
         elif self.rewardTier in [4, 5, 6]:
             if numTracks != 3:
                 self.notify.warning('bad num tracks in tier: %s, %s' % (self.rewardTier, self.trackArray))
                 if self.trackArray[ToontownBattleGlobals.SOUND_TRACK] and not self.trackArray[ToontownBattleGlobals.HEAL_TRACK]:
-                    self.b_setTrackAccess([0, 0, 0, 1, 1, 1, 0])
+                    self.b_seTTWackAccess([0, 0, 0, 1, 1, 1, 0])
                 elif self.trackArray[ToontownBattleGlobals.HEAL_TRACK] and not self.trackArray[ToontownBattleGlobals.SOUND_TRACK]:
-                    self.b_setTrackAccess([1, 0, 0, 0, 1, 1, 0])
+                    self.b_seTTWackAccess([1, 0, 0, 0, 1, 1, 0])
                 elif soundExp >= healExp:
-                    self.b_setTrackAccess([0, 0, 0, 1, 1, 1, 0])
+                    self.b_seTTWackAccess([0, 0, 0, 1, 1, 1, 0])
                 else:
-                    self.b_setTrackAccess([1, 0, 0, 0, 1, 1, 0])
+                    self.b_seTTWackAccess([1, 0, 0, 0, 1, 1, 0])
                 fixed = 1
         elif self.rewardTier in [7, 8, 9, 10]:
             if numTracks != 4:
                 self.notify.warning('bad num tracks in tier: %s, %s' % (self.rewardTier, self.trackArray))
                 if self.trackArray[ToontownBattleGlobals.SOUND_TRACK] and not self.trackArray[ToontownBattleGlobals.HEAL_TRACK]:
                     if dropExp >= lureExp:
-                        self.b_setTrackAccess([0, 0, 0, 1, 1, 1, 1])
+                        self.b_seTTWackAccess([0, 0, 0, 1, 1, 1, 1])
                     else:
-                        self.b_setTrackAccess([0, 0, 1, 1, 1, 1, 0])
+                        self.b_seTTWackAccess([0, 0, 1, 1, 1, 1, 0])
                 elif self.trackArray[ToontownBattleGlobals.HEAL_TRACK] and not self.trackArray[ToontownBattleGlobals.SOUND_TRACK]:
                     if dropExp >= lureExp:
-                        self.b_setTrackAccess([1, 0, 0, 0, 1, 1, 1])
+                        self.b_seTTWackAccess([1, 0, 0, 0, 1, 1, 1])
                     else:
-                        self.b_setTrackAccess([1, 0, 1, 0, 1, 1, 0])
+                        self.b_seTTWackAccess([1, 0, 1, 0, 1, 1, 0])
                 elif soundExp >= healExp:
                     if dropExp >= lureExp:
-                        self.b_setTrackAccess([0, 0, 0, 1, 1, 1, 1])
+                        self.b_seTTWackAccess([0, 0, 0, 1, 1, 1, 1])
                     else:
-                        self.b_setTrackAccess([0, 0, 1, 1, 1, 1, 0])
+                        self.b_seTTWackAccess([0, 0, 1, 1, 1, 1, 0])
                 elif dropExp >= lureExp:
-                    self.b_setTrackAccess([1, 0, 0, 0, 1, 1, 1])
+                    self.b_seTTWackAccess([1, 0, 0, 0, 1, 1, 1])
                 else:
-                    self.b_setTrackAccess([1, 0, 1, 0, 1, 1, 0])
+                    self.b_seTTWackAccess([1, 0, 1, 0, 1, 1, 0])
                 fixed = 1
         elif self.rewardTier in [11, 12, 13]:
             if numTracks != 5:
@@ -2062,23 +2062,23 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 if self.trackArray[ToontownBattleGlobals.SOUND_TRACK] and not self.trackArray[ToontownBattleGlobals.HEAL_TRACK]:
                     if self.trackArray[ToontownBattleGlobals.DROP_TRACK] and not self.trackArray[ToontownBattleGlobals.LURE_TRACK]:
                         if healExp >= trapExp:
-                            self.b_setTrackAccess([1, 0, 0, 1, 1, 1, 1])
+                            self.b_seTTWackAccess([1, 0, 0, 1, 1, 1, 1])
                         else:
-                            self.b_setTrackAccess([0, 1, 0, 1, 1, 1, 1])
+                            self.b_seTTWackAccess([0, 1, 0, 1, 1, 1, 1])
                     elif healExp >= trapExp:
-                        self.b_setTrackAccess([1, 0, 1, 1, 1, 1, 0])
+                        self.b_seTTWackAccess([1, 0, 1, 1, 1, 1, 0])
                     else:
-                        self.b_setTrackAccess([0, 1, 1, 1, 1, 1, 0])
+                        self.b_seTTWackAccess([0, 1, 1, 1, 1, 1, 0])
                 elif self.trackArray[ToontownBattleGlobals.HEAL_TRACK] and not self.trackArray[ToontownBattleGlobals.SOUND_TRACK]:
                     if self.trackArray[ToontownBattleGlobals.DROP_TRACK] and not self.trackArray[ToontownBattleGlobals.LURE_TRACK]:
                         if soundExp >= trapExp:
-                            self.b_setTrackAccess([1, 0, 0, 1, 1, 1, 1])
+                            self.b_seTTWackAccess([1, 0, 0, 1, 1, 1, 1])
                         else:
-                            self.b_setTrackAccess([1, 1, 0, 0, 1, 1, 1])
+                            self.b_seTTWackAccess([1, 1, 0, 0, 1, 1, 1])
                     elif soundExp >= trapExp:
-                        self.b_setTrackAccess([1, 0, 1, 1, 1, 1, 0])
+                        self.b_seTTWackAccess([1, 0, 1, 1, 1, 1, 0])
                     else:
-                        self.b_setTrackAccess([1, 1, 1, 0, 1, 1, 0])
+                        self.b_seTTWackAccess([1, 1, 1, 0, 1, 1, 0])
                 fixed = 1
         elif numTracks != 6:
             self.notify.warning('bad num tracks in tier: %s, %s' % (self.rewardTier, self.trackArray))
@@ -2089,18 +2089,18 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
              dropExp]
             sortedExp.sort()
             if trapExp == sortedExp[0]:
-                self.b_setTrackAccess([1, 0, 1, 1, 1, 1, 1])
+                self.b_seTTWackAccess([1, 0, 1, 1, 1, 1, 1])
             elif lureExp == sortedExp[0]:
-                self.b_setTrackAccess([1, 1, 0, 1, 1, 1, 1])
+                self.b_seTTWackAccess([1, 1, 0, 1, 1, 1, 1])
             elif dropExp == sortedExp[0]:
-                self.b_setTrackAccess([1, 1, 1, 1, 1, 1, 0])
+                self.b_seTTWackAccess([1, 1, 1, 1, 1, 1, 0])
             elif soundExp == sortedExp[0]:
-                self.b_setTrackAccess([1, 1, 1, 0, 1, 1, 1])
+                self.b_seTTWackAccess([1, 1, 1, 0, 1, 1, 1])
             elif healExp == sortedExp[0]:
-                self.b_setTrackAccess([0, 1, 1, 1, 1, 1, 1])
+                self.b_seTTWackAccess([0, 1, 1, 1, 1, 1, 1])
             else:
                 self.notify.warning('invalid exp?!: %s, %s' % (sortedExp, self.trackArray))
-                self.b_setTrackAccess([1, 0, 1, 1, 1, 1, 1])
+                self.b_seTTWackAccess([1, 0, 1, 1, 1, 1, 1])
             fixed = 1
         if fixed:
             self.inventory.zeroInv()
@@ -2109,14 +2109,14 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.notify.info('fixed tracks: %s' % self.trackArray)
         return fixed
 
-    def b_setTrackProgress(self, trackId, progress):
-        self.setTrackProgress(trackId, progress)
-        self.d_setTrackProgress(trackId, progress)
+    def b_seTTWackProgress(self, trackId, progress):
+        self.seTTWackProgress(trackId, progress)
+        self.d_seTTWackProgress(trackId, progress)
 
-    def d_setTrackProgress(self, trackId, progress):
-        self.sendUpdate('setTrackProgress', [trackId, progress])
+    def d_seTTWackProgress(self, trackId, progress):
+        self.sendUpdate('seTTWackProgress', [trackId, progress])
 
-    def setTrackProgress(self, trackId, progress):
+    def seTTWackProgress(self, trackId, progress):
         self.trackProgressId = trackId
         self.trackProgress = progress
 
@@ -2124,12 +2124,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         if self.trackProgressId != trackId:
             self.notify.warning('tried to update progress on a track toon is not training')
         newProgress = self.trackProgress | 1 << progressIndex - 1
-        self.b_setTrackProgress(self.trackProgressId, newProgress)
+        self.b_seTTWackProgress(self.trackProgressId, newProgress)
 
     def clearTrackProgress(self):
-        self.b_setTrackProgress(-1, 0)
+        self.b_seTTWackProgress(-1, 0)
 
-    def getTrackProgress(self):
+    def geTTWackProgress(self):
         return [self.trackProgressId, self.trackProgress]
 
     def b_setHoodsVisited(self, hoodsVisitedArray):
@@ -2463,8 +2463,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.setBothSchedules(onOrder, None)
         return
         self.onOrder = CatalogItemList.CatalogItemList(onOrder, store=CatalogItem.Customization | CatalogItem.DeliveryDate)
-        if hasattr(self, 'name'):
-            if doUpdateLater and self.air.doLiveUpdates and hasattr(self, 'air'):
+        if hasaTTW(self, 'name'):
+            if doUpdateLater and self.air.doLiveUpdates and hasaTTW(self, 'air'):
                 taskName = self.uniqueName('next-delivery')
                 taskMgr.remove(taskName)
                 now = int(time.time() / 60 + 0.5)
@@ -2490,9 +2490,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.onOrder = CatalogItemList.CatalogItemList(onOrder, store=CatalogItem.Customization | CatalogItem.DeliveryDate)
         if onGiftOrder != None:
             self.onGiftOrder = CatalogItemList.CatalogItemList(onGiftOrder, store=CatalogItem.Customization | CatalogItem.DeliveryDate)
-        if not hasattr(self, 'air') or self.air == None:
+        if not hasaTTW(self, 'air') or self.air == None:
             return
-        if doUpdateLater and self.air.doLiveUpdates and hasattr(self, 'name'):
+        if doUpdateLater and self.air.doLiveUpdates and hasaTTW(self, 'name'):
             taskName = 'next-bothDelivery-%s' % self.doId
             now = int(time.time() / 60 + 0.5)
             nextItem = None
@@ -2549,7 +2549,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.setBothSchedules(None, onGiftOrder)
         return
         self.onGiftOrder = CatalogItemList.CatalogItemList(onGiftOrder, store=CatalogItem.Customization | CatalogItem.DeliveryDate)
-        if doUpdateLater and self.air.doLiveUpdates and hasattr(self, 'air') and hasattr(self, 'name'):
+        if doUpdateLater and self.air.doLiveUpdates and hasaTTW(self, 'air') and hasaTTW(self, 'name'):
             taskName = self.uniqueName('next-gift')
             taskMgr.remove(taskName)
             now = int(time.time() / 60 + 0.5)
@@ -2596,7 +2596,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.checkMailboxFullIndicator()
 
     def checkMailboxFullIndicator(self):
-        if self.houseId and hasattr(self, 'air'):
+        if self.houseId and hasaTTW(self, 'air'):
             if self.air:
                 house = self.air.doId2do.get(self.houseId)
                 if house and house.mailbox:
@@ -2814,8 +2814,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def setHealthDisplay(self, mode):
         pass
 
-    def d_setTrophyScore(self, score):
-        self.sendUpdate('setTrophyScore', [score])
+    def d_seTTWophyScore(self, score):
+        self.sendUpdate('seTTWophyScore', [score])
 
     def stopToonUp(self):
         taskMgr.remove(self.uniqueName('safeZoneToonUp'))
@@ -2939,7 +2939,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         if not self.removeResistanceMessage(msgIndex):
             self.air.writeServerEvent('suspicious', avId=self.doId, issue='said resistance %s, but does not have it.' % msgIndex)
             return
-        if hasattr(self, 'autoResistanceRestock') and self.autoResistanceRestock:
+        if hasaTTW(self, 'autoResistanceRestock') and self.autoResistanceRestock:
             self.restockAllResistanceMessages(1)
         affectedPlayers = []
         for toonId in nearbyPlayers:
@@ -3340,18 +3340,18 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         def setPetId(self, petId):
             self.petId = petId
 
-        def getPetTrickPhrases(self):
-            return self.petTrickPhrases
+        def getPeTTWickPhrases(self):
+            return self.peTTWickPhrases
 
-        def b_setPetTrickPhrases(self, tricks):
-            self.setPetTrickPhrases(tricks)
-            self.d_setPetTrickPhrases(tricks)
+        def b_setPeTTWickPhrases(self, tricks):
+            self.setPeTTWickPhrases(tricks)
+            self.d_setPeTTWickPhrases(tricks)
 
-        def d_setPetTrickPhrases(self, tricks):
-            self.sendUpdate('setPetTrickPhrases', [tricks])
+        def d_setPeTTWickPhrases(self, tricks):
+            self.sendUpdate('setPeTTWickPhrases', [tricks])
 
-        def setPetTrickPhrases(self, tricks):
-            self.petTrickPhrases = tricks
+        def setPeTTWickPhrases(self, tricks):
+            self.peTTWickPhrases = tricks
 
         def deletePet(self):
             if self.petId == 0:
@@ -3409,7 +3409,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return Task.cont
 
         def isInEstate(self):
-            return hasattr(self, 'inEstate') and self.inEstate
+            return hasaTTW(self, 'inEstate') and self.inEstate
 
         def exitEstate(self, ownerId = None, zoneId = None):
             DistributedToonAI.notify.debug('exitEstate: %s %s %s' % (self.doId, ownerId, zoneId))
@@ -3424,7 +3424,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self._wasInEstate = 1
 
         def wasInEstate(self):
-            return hasattr(self, '_wasInEstate') and self._wasInEstate
+            return hasaTTW(self, '_wasInEstate') and self._wasInEstate
 
         def cleanupEstateData(self):
             del self.estateZones
@@ -3600,7 +3600,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 curSetting &= -5
             summons[suitIndex] = curSetting
             self.b_setCogSummonsEarned(summons)
-            if hasattr(self, 'autoRestockSummons') and self.autoRestockSummons:
+            if hasaTTW(self, 'autoRestockSummons') and self.autoRestockSummons:
                 self.restockAllCogSummons()
             return True
         self.notify.warning("Toon %s doesn't have a %s summons for %s" % (self.doId, type, suitIndex))
@@ -3671,7 +3671,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 building = bm.getBuilding(i)
                 extZoneId, intZoneId = building.getExteriorAndInteriorZoneId()
                 if not NPCToons.isZoneProtected(intZoneId):
-                    if hasattr(building, 'door'):
+                    if hasaTTW(building, 'door'):
                         if building.door.zoneId == zone:
                             return building
 
@@ -3823,7 +3823,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def b_setShovelSkill(self, skillLevel):
         self.sendGardenEvent()
-        if skillLevel >= GardenGlobals.ShovelAttributes[self.shovel]['skillPts']:
+        if skillLevel >= GardenGlobals.ShovelATTWibutes[self.shovel]['skillPts']:
             if self.shovel < GardenGlobals.MAX_SHOVELS - 1:
                 self.b_setShovel(self.shovel + 1)
                 self.setShovelSkill(0)
@@ -3858,7 +3858,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def b_setWateringCanSkill(self, skillLevel):
         self.sendGardenEvent()
-        if skillLevel >= GardenGlobals.WateringCanAttributes[self.wateringCan]['skillPts']:
+        if skillLevel >= GardenGlobals.WateringCanATTWibutes[self.wateringCan]['skillPts']:
             if self.wateringCan < GardenGlobals.MAX_WATERING_CANS - 1:
                 self.b_setWateringCan(self.wateringCan + 1)
                 self.setWateringCanSkill(0)
@@ -3866,7 +3866,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 self.sendUpdate('promoteWateringCan', [self.wateringCan])
                 self.air.writeServerEvent('garden_new_wateringCan', avId=self.doId, can='%d' % self.wateringCan)
             else:
-                skillLevel = GardenGlobals.WateringCanAttributes[self.wateringCan]['skillPts'] - 1
+                skillLevel = GardenGlobals.WateringCanATTWibutes[self.wateringCan]['skillPts'] - 1
                 self.setWateringCanSkill(skillLevel)
                 self.d_setWateringCanSkill(skillLevel)
         else:
@@ -3882,17 +3882,17 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getWateringCanSkill(self):
         return self.wateringCanSkill
 
-    def b_setTrackBonusLevel(self, trackBonusLevelArray):
-        self.setTrackBonusLevel(trackBonusLevelArray)
-        self.d_setTrackBonusLevel(trackBonusLevelArray)
+    def b_seTTWackBonusLevel(self, trackBonusLevelArray):
+        self.seTTWackBonusLevel(trackBonusLevelArray)
+        self.d_seTTWackBonusLevel(trackBonusLevelArray)
 
-    def d_setTrackBonusLevel(self, trackBonusLevelArray):
-        self.sendUpdate('setTrackBonusLevel', [trackBonusLevelArray])
+    def d_seTTWackBonusLevel(self, trackBonusLevelArray):
+        self.sendUpdate('seTTWackBonusLevel', [trackBonusLevelArray])
 
-    def setTrackBonusLevel(self, trackBonusLevelArray):
+    def seTTWackBonusLevel(self, trackBonusLevelArray):
         self.trackBonusLevel = trackBonusLevelArray
 
-    def getTrackBonusLevel(self, track = None):
+    def geTTWackBonusLevel(self, track = None):
         if track == None:
             return self.trackBonusLevel
         else:
@@ -3900,7 +3900,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return
 
     def checkGagBonus(self, track, level):
-        trackBonus = self.getTrackBonusLevel(track)
+        trackBonus = self.geTTWackBonusLevel(track)
         return trackBonus >= level
 
     def giveMeSpecials(self, id = None):
@@ -3942,7 +3942,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return response
         if estateOwnerDoId:
             estate = simbase.air.estateMgr.estate.get(estateOwnerDoId)
-            if estate and hasattr(estate, 'avIdList'):
+            if estate and hasaTTW(estate, 'avIdList'):
                 ownerIndex = estate.avIdList.index(estateOwnerDoId)
                 if ownerIndex >= 0:
                     estate.doEpochNow(onlyForThisToonIndex=ownerIndex)
@@ -3952,7 +3952,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return response
 
     def sendGardenEvent(self):
-        if hasattr(self, 'estateZones') and hasattr(self, 'doId'):
+        if hasaTTW(self, 'estateZones') and hasaTTW(self, 'doId'):
             if simbase.wantPets and self.hatePets:
                 PetObserve.send(self.estateZones, PetObserve.PetActionObserve(PetObserve.Actions.GARDEN, self.doId))
 
@@ -4080,7 +4080,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.b_setPinkSlips(pinkSlips)
 
     def removePinkSlips(self, amount):
-        if hasattr(self, 'autoRestockPinkSlips') and self.autoRestockPinkSlips:
+        if hasaTTW(self, 'autoRestockPinkSlips') and self.autoRestockPinkSlips:
             amount = 0
         pinkSlips = max(self.pinkSlips - amount, 0)
         self.b_setPinkSlips(pinkSlips)
@@ -4334,8 +4334,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setAwardSchedule(self, onAwardOrder, doUpdateLater = True):
         self.onAwardOrder = CatalogItemList.CatalogItemList(onAwardOrder, store=CatalogItem.Customization | CatalogItem.DeliveryDate)
-        if hasattr(self, 'name'):
-            if doUpdateLater and self.air.doLiveUpdates and hasattr(self, 'air'):
+        if hasaTTW(self, 'name'):
+            if doUpdateLater and self.air.doLiveUpdates and hasaTTW(self, 'air'):
                 taskName = self.uniqueName('next-award-delivery')
                 taskMgr.remove(taskName)
                 now = int(time.time() / 60 + 0.5)
@@ -4477,8 +4477,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return 'DOLogicalChangeZone-all'
 
     def _garbageInfo(self):
-        if hasattr(self, 'inventory'):
-            if not hasattr(self.inventory, '_createStack'):
+        if hasaTTW(self, 'inventory'):
+            if not hasaTTW(self.inventory, '_createStack'):
                 return 'inventory has no create stack'
             else:
                 return self.inventory._createStack
@@ -4547,13 +4547,13 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     prevCount[2][av.doId] = [newX, newY]
                     if prevCount[0][av.doId] > AV_TOUCH_COUNT_LIMIT:
                         if globalClock.getFrameTime() - prevCount[1] < AV_TOUCH_COUNT_TIME:
-                            zoneId = not hasattr(av, 'zoneId') and 'undef' or av.zoneId
-                            battleId = not hasattr(av, 'battleId') and 'undef' or av.battleId
-                            animName = not hasattr(av, 'animName') and 'undef' or av.animName
-                            inEstate = not hasattr(av, 'isInEstate') and 'undef' or av.isInEstate()
-                            ghostMode = not hasattr(av, 'ghostMode') and 'undef' or av.ghostMode
-                            immortalMode = not hasattr(av, 'immortalMode') and 'undef' or av.immortalMode
-                            isGm = not hasattr(av, '_isGM') and 'undef' or av._isGM
+                            zoneId = not hasaTTW(av, 'zoneId') and 'undef' or av.zoneId
+                            battleId = not hasaTTW(av, 'battleId') and 'undef' or av.battleId
+                            animName = not hasaTTW(av, 'animName') and 'undef' or av.animName
+                            inEstate = not hasaTTW(av, 'isInEstate') and 'undef' or av.isInEstate()
+                            ghostMode = not hasaTTW(av, 'ghostMode') and 'undef' or av.ghostMode
+                            immortalMode = not hasaTTW(av, 'immortalMode') and 'undef' or av.immortalMode
+                            isGm = not hasaTTW(av, '_isGM') and 'undef' or av._isGM
                             valStr = '%s %s %s %s %s %s %s %s' % (otherAv.doId,
                              zoneId,
                              battleId,
@@ -4674,9 +4674,9 @@ def setMaxHp(hpVal):
     spellbook.getTarget().toonUp(hpVal)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int, int, int, int, int])
-def setTrackAccess(toonup, trap, lure, sound, throw, squirt, drop):
+def seTTWackAccess(toonup, trap, lure, sound, throw, squirt, drop):
     """Set target's gag track access."""
-    spellbook.getTarget().b_setTrackAccess([toonup, trap, lure, sound, throw, squirt, drop])
+    spellbook.getTarget().b_seTTWackAccess([toonup, trap, lure, sound, throw, squirt, drop])
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[str])
 def maxToon(hasConfirmed='UNCONFIRMED'):
@@ -4687,7 +4687,7 @@ def maxToon(hasConfirmed='UNCONFIRMED'):
         return 'Are you sure you want to max out %s? This process is irreversible. Use "~maxToon CONFIRM" to confirm.' % toon.getName()
 
     # Max out gag tracks (all 7 tracks)
-    toon.b_setTrackAccess([1] * 7)
+    toon.b_seTTWackAccess([1] * 7)
     toon.b_setMaxCarry(MaxCarryLimit + 15) # Compensate for the extra gag track.
     toon.experience.maxOutExp() # Completely max out the toons experience.
     toon.b_setExperience(toon.experience.makeNetString())
@@ -4823,8 +4823,8 @@ def ban(reason="Unknown reason.", confirmed=False, overrideSelfBan=False):
 def ut(doField, doData=None):
     """Update a toons field in the db."""
 
-    methodExists = hasattr(spellbook.getTarget(), doField)
-    b_methodExists = hasattr(spellbook.getTarget(), 'b_'+doField)
+    methodExists = hasaTTW(spellbook.getTarget(), doField)
+    b_methodExists = hasaTTW(spellbook.getTarget(), 'b_'+doField)
     access = spellbook.getInvokerAccess()
     if doData:
         #There are arguments to be passed, lets find out how many.
@@ -4842,9 +4842,9 @@ def ut(doField, doData=None):
         if len(theData)==1:
             singleData = theData[0] #Only has 1 parameter
             if b_methodExists:
-                getattr(spellbook.getTarget(), 'b_'+doField)(singleData)
+                getaTTW(spellbook.getTarget(), 'b_'+doField)(singleData)
             elif methodExists:
-                getattr(spellbook.getTarget(), doField)(singleData)
+                getaTTW(spellbook.getTarget(), doField)(singleData)
             #elif access==500: #To prevent unexperienced admins from breaking toons.
             else:
                 spellbook.getTarget().sendUpdate(doField, [singleData])
@@ -4852,9 +4852,9 @@ def ut(doField, doData=None):
                 #return "Unable to send to Astron. Access 500 required."
         else:
             if b_methodExists:
-                getattr(spellbook.getTarget(), 'b_'+doField)(*theData)
+                getaTTW(spellbook.getTarget(), 'b_'+doField)(*theData)
             elif methodExists:
-                getattr(spellbook.getTarget(), doField)(*theData)
+                getaTTW(spellbook.getTarget(), doField)(*theData)
             #elif access==500:
             else:
                 spellbook.getTarget().sendUpdate(doField, theData)
@@ -4863,9 +4863,9 @@ def ut(doField, doData=None):
     else:
         #There are no arguments, we will simply call the function.
         if b_methodExists:
-            getattr(spellbook.getTarget(), 'b_'+doField)()
+            getaTTW(spellbook.getTarget(), 'b_'+doField)()
         elif methodExists:
-            getattr(spellbook.getTarget(), doField)()
+            getaTTW(spellbook.getTarget(), doField)()
         #elif access==500:
         else:
             spellbook.getTarget().sendUpdate(doField)
@@ -4944,7 +4944,7 @@ def dna(part, value):
    
 
     dna = ToonDNA.ToonDNA()
-    dna.makeFromNetString(av.getDNAString())
+    dna.makeFromNetString(avatar.getDNAString())
 
     def isValidColor(colorIndex):
         if not 0 <= colorIndex <= 26: # This could actually be selected from ToonDNA, but I prefer this :D
@@ -5051,11 +5051,11 @@ def dna(part, value):
     return "Completed DNA change successfully."
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[int])
-def setTrophyScore(value):
+def seTTWophyScore(value):
     """Set the trophy score of target"""
     if value < 0:
         return "Cannot have a trophy score below 0."
-    spellbook.getTarget().d_setTrophyScore(value)
+    spellbook.getTarget().d_seTTWophyScore(value)
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[int, int])
 def givePies(pieType, numPies=0):
@@ -5166,7 +5166,7 @@ def sostoons():
 @magicWord(category=CATEGORY_CHARACTERSTATS)
 def unites():
     """Restock all CFO phrases."""
-    spellbook.getTarget().restockAllResistanceMessages(99)
+    spellbook.getTarget().restockAllResistanceMessages(9999)
     return 'Restocked all unites successfully!'
 
 @magicWord(category=CATEGORY_OVERRIDE)
@@ -5207,7 +5207,7 @@ def questTier(tier):
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int, int, int, int, int])
 def tracks(toonup, trap, lure, sound, throw, squirt, drop):
     """ Set access for each of the 7 gag tracks. """
-    spellbook.getTarget().b_setTrackAccess([toonup, trap, lure, sound, throw, squirt, drop])
+    spellbook.getTarget().b_seTTWackAccess([toonup, trap, lure, sound, throw, squirt, drop])
     return "Set track access accordingly."
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[str, int])
@@ -5261,7 +5261,7 @@ def disguise(corp, type, level=0):
     else:
         levelRange = range((typeIndex+1), (typeIndex+6))
     if level not in levelRange:
-        return "Invalid level specified for %s disguise %s." % (corp.capitalize(), SuitBattleGlobals.SuitAttributes[type]['name'])
+        return "Invalid level specified for %s disguise %s." % (corp.capitalize(), SuitBattleGlobals.SuitATTWibutes[type]['name'])
 
     # Reset their merits to 0.
     merits = toon.getCogMerits()
@@ -5298,7 +5298,7 @@ def disguise(corp, type, level=0):
     levels[corpIndex] = level-1 # -1 because it starts at 0
     toon.b_setCogLevels(levels)
 
-    return "Set %s disguise to %s Level %d." % (corp.capitalize(), SuitBattleGlobals.SuitAttributes[type]['name'], level)
+    return "Set %s disguise to %s Level %d." % (corp.capitalize(), SuitBattleGlobals.SuitATTWibutes[type]['name'], level)
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[str, int])
 def merits(corp, amount):
@@ -5472,14 +5472,14 @@ def phrase(phraseStringOrId):
         av.d_setCustomMessages(av.customMessages)
         return "Added new phrase to %s's custom phrases." % av.getName()
 
-@magicWord(category=CATEGORY_SYSADMIN, types=[int, str])
+@magicWord(category=CATEGORY_ADMIN, types=[int, str])
 def sos(count, name):
     """
     Modifies the invoker's specified SOS card count.
     """
     invoker = spellbook.getInvoker()
-    if not 0 <= count <= 100:
-        return 'Your SOS count must be in xrange (0-100).'
+    if not 0 <= count <= 1000:
+        return 'Your SOS count must be in xrange (0-999).'
     for npcId, npcName in TTLocalizer.NPCToonNames.items():
         if name.lower() == npcName.lower():
             if npcId not in NPCToons.npcFriends:
@@ -5511,6 +5511,6 @@ def trackBonus(track):
             trackBonusLevel[int(track)] = trackLength
     else:
         return 'Invalid track!'
-    invoker.b_setTrackBonusLevel(trackBonusLevel)
+    invoker.b_seTTWackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
 

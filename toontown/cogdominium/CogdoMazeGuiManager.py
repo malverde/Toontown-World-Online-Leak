@@ -60,7 +60,7 @@ class CogdoMazeGuiManager:
         return
 
     def destroyMazeMap(self):
-        if hasattr(self, 'mazeMapGui') and self.mazeMapGui is not None:
+        if hasaTTW(self, 'mazeMapGui') and self.mazeMapGui is not None:
             self.mazeMapGui.destroy()
             del self.mazeMapGui
         return
@@ -106,7 +106,7 @@ class CogdoMazeGuiManager:
         return
 
     def hideTimer(self):
-        if hasattr(self, 'timer') and self._timer is not None:
+        if hasaTTW(self, 'timer') and self._timer is not None:
             self._timer.hide()
             self._timer.stop()
         return

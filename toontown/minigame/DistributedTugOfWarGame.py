@@ -1189,7 +1189,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
                 rope.setTexture(self.ropeTexture)
                 rope.ropeNode.setUvMode(RopeNode.UVDistance)
                 rope.ropeNode.setUvDirection(1)
-                rope.setTransparency(1)
+                rope.seTTWansparency(1)
                 rope.setColor(0.89, 0.89, 0.6, 1)
             self.tugRopes.append(rope)
 

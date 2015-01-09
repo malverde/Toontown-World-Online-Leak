@@ -11,11 +11,11 @@ from toontown.minigame import ToonBlitzGlobals
 class TwoDBlock(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('TwoDBlock')
 
-    def __init__(self, model, index, blockAttribs):
+    def __init__(self, model, index, blockATTWibs):
         self.moveIval = None
         self.isMovingBlock = False
         self.index = index
-        self.createNewBlock(model, blockAttribs)
+        self.createNewBlock(model, blockATTWibs)
         return
 
     def destroy(self):
@@ -27,30 +27,30 @@ class TwoDBlock(DistributedObject.DistributedObject):
                 self.platform.destroy()
             del self.platform
 
-    def createNewBlock(self, model, blockAttribs):
+    def createNewBlock(self, model, blockATTWibs):
         initX, initY, initZ, initH, initP, initR = (0, 0, 0, 0, 0, 0)
         finalX, finalY, finalZ, finalH, finalP, finalR = (0, 0, 0, 0, 0, 0)
-        blockType = blockAttribs[0]
-        typeAttribs = ToonBlitzGlobals.BlockTypes[blockType]
+        blockType = blockATTWibs[0]
+        typeATTWibs = ToonBlitzGlobals.BlockTypes[blockType]
         blockName = blockType + '-' + str(self.index)
         self.model = NodePath(blockName)
-        typeX, typeY, typeZ = typeAttribs[1]
-        typeH, typeP, typeR = typeAttribs[2]
-        scaleX, scaleY, scaleZ = typeAttribs[3]
+        typeX, typeY, typeZ = typeATTWibs[1]
+        typeH, typeP, typeR = typeATTWibs[2]
+        scaleX, scaleY, scaleZ = typeATTWibs[3]
         model.setScale(scaleX, scaleY, scaleZ)
-        blockPosAttribs = blockAttribs[1]
-        initX, initY, initZ = blockPosAttribs[0]
-        if len(blockPosAttribs) == 3:
+        blockPosATTWibs = blockATTWibs[1]
+        initX, initY, initZ = blockPosATTWibs[0]
+        if len(blockPosATTWibs) == 3:
             self.isMovingBlock = True
-            finalX, finalY, finalZ = blockPosAttribs[1]
-            posIvalDuration = blockPosAttribs[2]
-        if len(blockAttribs) == 3:
-            blockHprAttribs = blockAttribs[2]
-            initH, initP, initR = blockHprAttribs[0]
-            if len(blockHprAttribs) == 3:
+            finalX, finalY, finalZ = blockPosATTWibs[1]
+            posIvalDuration = blockPosATTWibs[2]
+        if len(blockATTWibs) == 3:
+            blockHprATTWibs = blockATTWibs[2]
+            initH, initP, initR = blockHprATTWibs[0]
+            if len(blockHprATTWibs) == 3:
                 self.isMovingBlock = True
-                finalH, finalP, finalR = blockHprAttribs[1]
-                hprIvalDuration = blockHprAttribs[2]
+                finalH, finalP, finalR = blockHprATTWibs[1]
+                hprIvalDuration = blockHprATTWibs[2]
         if self.isMovingBlock:
             self.platform = MovingPlatform.MovingPlatform()
             self.platform.setupCopyModel(blockName, model)

@@ -204,7 +204,7 @@ class Quest:
         self.check(1, 'invalid newbie level: %s' % level)
 
     def checkCogType(self, type):
-        types = [Any] + SuitBattleGlobals.SuitAttributes.keys()
+        types = [Any] + SuitBattleGlobals.SuitATTWibutes.keys()
         self.check(type in types, 'invalid cog type: %s' % type)
 
     def checkCogTrack(self, track):
@@ -283,7 +283,7 @@ class Quest:
         holderTypes = ['type', 'level', 'track']
         self.check(holderType in holderTypes, 'invalid recovery item holderType: %s' % holderType)
         if holderType == 'type':
-            holders = [Any, AnyFish] + SuitBattleGlobals.SuitAttributes.keys()
+            holders = [Any, AnyFish] + SuitBattleGlobals.SuitATTWibutes.keys()
             self.check(holder in holders, 'invalid recovery item holder: %s for holderType: %s' % (holder, holderType))
         elif holderType == 'level':
             pass
@@ -487,11 +487,11 @@ class CogQuest(LocationBasedQuest):
             if cogType == Any:
                 return TTLocalizer.Cog
             else:
-                return SuitBattleGlobals.SuitAttributes[cogType]['singularname']
+                return SuitBattleGlobals.SuitATTWibutes[cogType]['singularname']
         elif cogType == Any:
             return TTLocalizer.Cogs
         else:
-            return SuitBattleGlobals.SuitAttributes[cogType]['pluralname']
+            return SuitBattleGlobals.SuitATTWibutes[cogType]['pluralname']
 
     def getObjectiveStrings(self):
         cogName = self.getCogNameString()
@@ -1612,7 +1612,7 @@ class RecoverItemQuest(LocationBasedQuest):
         elif holder == AnyFish:
             holderName = TTLocalizer.AFish
         elif holderType == 'type':
-            holderName = SuitBattleGlobals.SuitAttributes[holder]['pluralname']
+            holderName = SuitBattleGlobals.SuitATTWibutes[holder]['pluralname']
         elif holderType == 'level':
             holderName = TTLocalizer.QuestsRecoverItemQuestHolderString % {'level': TTLocalizer.Level,
              'holder': holder,
@@ -1671,7 +1671,7 @@ class RecoverItemQuest(LocationBasedQuest):
         elif holder == AnyFish:
             holderName = TTLocalizer.TheFish
         elif holderType == 'type':
-            holderName = SuitBattleGlobals.SuitAttributes[holder]['pluralname']
+            holderName = SuitBattleGlobals.SuitATTWibutes[holder]['pluralname']
         elif holderType == 'level':
             holderName = TTLocalizer.QuestsRecoverItemQuestHolderString % {'level': TTLocalizer.Level,
              'holder': holder,
@@ -17869,7 +17869,7 @@ def chooseTrackChoiceQuest(tier, av, fixed = 0):
         return None
 
     bestQuest = None
-    trackAccess = av.getTrackAccess()
+    trackAccess = av.geTTWackAccess()
     if tier == MM_TIER:
         if trackAccess[ToontownBattleGlobals.HEAL_TRACK] == 1:
             bestQuest = 4002
@@ -17929,7 +17929,7 @@ def chooseMatchingQuest(tier, validQuestPool, rewardId, npc, av):
             notify.debug('single part track choice quest: %s tier: %s avId: %s trackAccess: %s bestQuest: %s' % (rewardId,
              tier,
              av.getDoId(),
-             av.getTrackAccess(),
+             av.geTTWackAccess(),
              bestQuest))
     else:
         validQuestsMatchingReward = PythonUtil.intersection(questsMatchingReward, validQuestPool)
@@ -17974,7 +17974,7 @@ def chooseMatchingQuest(tier, validQuestPool, rewardId, npc, av):
 
 def transformReward(baseRewardId, av):
     if baseRewardId == 900:
-        trackId, progress = av.getTrackProgress()
+        trackId, progress = av.geTTWackProgress()
         if trackId == -1:
             notify.warning('transformReward: asked to transform 900 but av is not training')
             actualRewardId = baseRewardId
@@ -17982,7 +17982,7 @@ def transformReward(baseRewardId, av):
             actualRewardId = 900 + 1 + trackId
         return actualRewardId
     elif baseRewardId > 800 and baseRewardId < 900:
-        trackId, progress = av.getTrackProgress()
+        trackId, progress = av.geTTWackProgress()
         if trackId < 0:
             notify.warning('transformReward: av: %s is training a track with none chosen!' % av.getDoId())
             return 601
@@ -18383,21 +18383,21 @@ class TrackTrainingReward(Reward):
     def __init__(self, id, reward):
         Reward.__init__(self, id, reward)
 
-    def getTrack(self):
+    def geTTWack(self):
         track = self.reward[0]
         if track == None:
             track = 0
         return track
 
     def sendRewardAI(self, av):
-        av.b_setTrackProgress(self.getTrack(), 0)
+        av.b_seTTWackProgress(self.geTTWack(), 0)
 
     def countReward(self, qrc):
-        qrc.trackProgressId = self.getTrack()
+        qrc.trackProgressId = self.geTTWack()
         qrc.trackProgress = 0
 
     def getString(self):
-        trackName = ToontownBattleGlobals.Tracks[self.getTrack()].capitalize()
+        trackName = ToontownBattleGlobals.Tracks[self.geTTWack()].capitalize()
         return TTLocalizer.QuestsTrackTrainingReward % trackName
 
     def getPosterString(self):
@@ -18408,7 +18408,7 @@ class TrackProgressReward(Reward):
     def __init__(self, id, reward):
         Reward.__init__(self, id, reward)
 
-    def getTrack(self):
+    def geTTWack(self):
         track = self.reward[0]
         if track == None:
             track = 0
@@ -18418,18 +18418,18 @@ class TrackProgressReward(Reward):
         return self.reward[1]
 
     def sendRewardAI(self, av):
-        av.addTrackProgress(self.getTrack(), self.getProgressIndex())
+        av.addTrackProgress(self.geTTWack(), self.getProgressIndex())
 
     def countReward(self, qrc):
-        qrc.addTrackProgress(self.getTrack(), self.getProgressIndex())
+        qrc.addTrackProgress(self.geTTWack(), self.getProgressIndex())
 
     def getString(self):
-        trackName = ToontownBattleGlobals.Tracks[self.getTrack()].capitalize()
+        trackName = ToontownBattleGlobals.Tracks[self.geTTWack()].capitalize()
         return TTLocalizer.QuestsTrackProgressReward % {'frameNum': self.getProgressIndex(),
          'trackName': trackName}
 
     def getPosterString(self):
-        trackName = ToontownBattleGlobals.Tracks[self.getTrack()].capitalize()
+        trackName = ToontownBattleGlobals.Tracks[self.geTTWack()].capitalize()
         return TTLocalizer.QuestsTrackProgressRewardPoster % {'trackName': trackName,
          'frameNum': self.getProgressIndex()}
 
@@ -18438,26 +18438,26 @@ class TrackCompleteReward(Reward):
     def __init__(self, id, reward):
         Reward.__init__(self, id, reward)
 
-    def getTrack(self):
+    def geTTWack(self):
         track = self.reward[0]
         if track == None:
             track = 0
         return track
 
     def sendRewardAI(self, av):
-        av.addTrackAccess(self.getTrack())
+        av.addTrackAccess(self.geTTWack())
         av.clearTrackProgress()
 
     def countReward(self, qrc):
-        qrc.addTrackAccess(self.getTrack())
+        qrc.addTrackAccess(self.geTTWack())
         qrc.clearTrackProgress()
 
     def getString(self):
-        trackName = ToontownBattleGlobals.Tracks[self.getTrack()].capitalize()
+        trackName = ToontownBattleGlobals.Tracks[self.geTTWack()].capitalize()
         return TTLocalizer.QuestsTrackCompleteReward % trackName
 
     def getPosterString(self):
-        trackName = ToontownBattleGlobals.Tracks[self.getTrack()].capitalize()
+        trackName = ToontownBattleGlobals.Tracks[self.geTTWack()].capitalize()
         return TTLocalizer.QuestsTrackCompleteRewardPoster % trackName
 
 

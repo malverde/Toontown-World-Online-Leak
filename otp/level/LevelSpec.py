@@ -40,22 +40,22 @@ class LevelSpec:
                 self.setEntityTypeReg(etr)
                 entId = LevelConstants.UberZoneEntId
                 self.insertEntity(entId, 'zone')
-                self.doSetAttrib(entId, 'name', 'UberZone')
+                self.doSetATTWib(entId, 'name', 'UberZone')
                 entId = LevelConstants.LevelMgrEntId
                 self.insertEntity(entId, 'levelMgr')
-                self.doSetAttrib(entId, 'name', 'LevelMgr')
+                self.doSetATTWib(entId, 'name', 'LevelMgr')
                 entId = LevelConstants.EditMgrEntId
                 self.insertEntity(entId, 'editMgr')
-                self.doSetAttrib(entId, 'name', 'EditMgr')
+                self.doSetATTWib(entId, 'name', 'EditMgr')
         return
 
     def destroy(self):
         del self.specDict
         del self.entId2specDict
         del self.scenario
-        if hasattr(self, 'level'):
+        if hasaTTW(self, 'level'):
             del self.level
-        if hasattr(self, 'entTypeReg'):
+        if hasaTTW(self, 'entTypeReg'):
             del self.entTypeReg
 
     def getNumScenarios(self):
@@ -143,7 +143,7 @@ class LevelSpec:
             self.level = level
 
         def hasLevel(self):
-            return hasattr(self, 'level')
+            return hasaTTW(self, 'level')
 
         def setEntityTypeReg(self, entTypeReg):
             self.entTypeReg = entTypeReg
@@ -151,31 +151,31 @@ class LevelSpec:
                 spec = self.getEntitySpec(entId)
                 type = self.getEntityType(entId)
                 typeDesc = self.entTypeReg.getTypeDesc(type)
-                attribDescDict = typeDesc.getAttribDescDict()
-                for attribName, desc in attribDescDict.iteritems():
-                    if attribName not in spec:
-                        spec[attribName] = desc.getDefaultValue()
+                aTTWibDescDict = typeDesc.getATTWibDescDict()
+                for aTTWibName, desc in aTTWibDescDict.iteritems():
+                    if aTTWibName not in spec:
+                        spec[aTTWibName] = desc.getDefaultValue()
 
             self.checkSpecIntegrity()
 
         def hasEntityTypeReg(self):
-            return hasattr(self, 'entTypeReg')
+            return hasaTTW(self, 'entTypeReg')
 
         def setFilename(self, filename):
             self.filename = filename
 
-        def doSetAttrib(self, entId, attrib, value):
+        def doSetATTWib(self, entId, aTTWib, value):
             specDict = self.entId2specDict[entId]
-            specDict[entId][attrib] = value
+            specDict[entId][aTTWib] = value
 
-        def setAttribChange(self, entId, attrib, value, username):
-            LevelSpec.notify.info('setAttribChange(%s): %s, %s = %s' % (username,
+        def setATTWibChange(self, entId, aTTWib, value, username):
+            LevelSpec.notify.info('setATTWibChange(%s): %s, %s = %s' % (username,
              entId,
-             attrib,
+             aTTWib,
              repr(value)))
-            self.doSetAttrib(entId, attrib, value)
+            self.doSetATTWib(entId, aTTWib, value)
             if self.hasLevel():
-                self.level.handleAttribChange(entId, attrib, value, username)
+                self.level.handleATTWibChange(entId, aTTWib, value, username)
 
         def insertEntity(self, entId, entType, parentEntId = 'unspecified'):
             LevelSpec.notify.info('inserting entity %s (%s)' % (entId, entType))
@@ -183,8 +183,8 @@ class LevelSpec:
             self.entId2specDict[entId] = globalEnts
             globalEnts[entId] = {}
             spec = globalEnts[entId]
-            attribDescs = self.entTypeReg.getTypeDesc(entType).getAttribDescDict()
-            for name, desc in attribDescs.items():
+            aTTWibDescs = self.entTypeReg.getTypeDesc(entType).getATTWibDescDict()
+            for name, desc in aTTWibDescs.items():
                 spec[name] = desc.getDefaultValue()
 
             spec['type'] = entType
@@ -209,14 +209,14 @@ class LevelSpec:
             type2ids = self.getEntType2ids(self.getAllEntIdsFromAllScenarios())
             for type in type2ids:
                 typeDesc = self.entTypeReg.getTypeDesc(type)
-                visZoneListAttribs = typeDesc.getAttribsOfType('visZoneList')
-                if len(visZoneListAttribs) > 0:
+                visZoneListATTWibs = typeDesc.getATTWibsOfType('visZoneList')
+                if len(visZoneListATTWibs) > 0:
                     for entId in type2ids[type]:
                         spec = self.getEntitySpec(entId)
-                        for attribName in visZoneListAttribs:
+                        for aTTWibName in visZoneListATTWibs:
                             for zoneNum in removedZoneNums:
-                                while zoneNum in spec[attribName]:
-                                    spec[attribName].remove(zoneNum)
+                                while zoneNum in spec[aTTWibName]:
+                                    spec[aTTWibName].remove(zoneNum)
 
         def getSpecImportsModuleName(self):
             return 'toontown.coghq.SpecImports'
@@ -296,7 +296,7 @@ class LevelSpec:
                     return result
 
                 firstTypes = ('levelMgr', 'editMgr', 'zone')
-                firstAttribs = ('type', 'name', 'comment', 'parentEntId', 'pos', 'x', 'y', 'z', 'hpr', 'h', 'p', 'r', 'scale', 'sx', 'sy', 'sz', 'color', 'model')
+                firstATTWibs = ('type', 'name', 'comment', 'parentEntId', 'pos', 'x', 'y', 'z', 'hpr', 'h', 'p', 'r', 'scale', 'sx', 'sy', 'sz', 'color', 'model')
                 str = t(0) + '%s = {\n' % name
                 entIds = dict.keys()
                 entType2ids = self.getEntType2ids(entIds)
@@ -308,9 +308,9 @@ class LevelSpec:
                     for entId in entIds:
                         str += t(1) + '%s: {\n' % entId
                         spec = dict[entId]
-                        attribs = sortList(spec.keys(), firstAttribs)
-                        for attrib in attribs:
-                            str += t(2) + "'%s': %s,\n" % (attrib, repr(spec[attrib]))
+                        aTTWibs = sortList(spec.keys(), firstATTWibs)
+                        for aTTWib in aTTWibs:
+                            str += t(2) + "'%s': %s,\n" % (aTTWib, repr(spec[aTTWib]))
 
                         str += t(2) + '}, # end entity %s\n' % entId
 
@@ -388,16 +388,16 @@ class LevelSpec:
                     spec = self.getEntitySpec(entId)
                     entType = spec['type']
                     typeDesc = self.entTypeReg.getTypeDesc(entType)
-                    attribNames = typeDesc.getAttribNames()
-                    attribDescs = typeDesc.getAttribDescDict()
-                    for attrib in spec.keys():
-                        if attrib not in attribNames:
-                            LevelSpec.notify.warning("entId %s (%s): unknown attrib '%s', omitting" % (entId, spec['type'], attrib))
-                            del spec[attrib]
+                    aTTWibNames = typeDesc.getATTWibNames()
+                    aTTWibDescs = typeDesc.getATTWibDescDict()
+                    for aTTWib in spec.keys():
+                        if aTTWib not in aTTWibNames:
+                            LevelSpec.notify.warning("entId %s (%s): unknown aTTWib '%s', omitting" % (entId, spec['type'], aTTWib))
+                            del spec[aTTWib]
 
-                    for attribName in attribNames:
-                        if not spec.has_key(attribName):
-                            LevelSpec.notify.warning("entId %s (%s): missing attrib '%s'" % (entId, spec['type'], attribName))
+                    for aTTWibName in aTTWibNames:
+                        if not spec.has_key(aTTWibName):
+                            LevelSpec.notify.warning("entId %s (%s): missing aTTWib '%s'" % (entId, spec['type'], aTTWibName))
 
             return
 

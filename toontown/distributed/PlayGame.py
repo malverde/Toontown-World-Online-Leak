@@ -154,7 +154,7 @@ class PlayGame(StateData.StateData):
         tree = loader.loadDNA('phase_3.5/dna/storage_interior.xml').store(self.dnaStore)
 
     def loadDnaStore(self):
-        if not hasattr(self, 'dnaStore'):
+        if not hasaTTW(self, 'dnaStore'):
             self.dnaStore = DNAStorage()
 
             loader.loadDNA('phase_4/dna/storage.xml').store(self.dnaStore)
@@ -166,7 +166,7 @@ class PlayGame(StateData.StateData):
             loader.loadDNA('phase_3.5/dna/storage_interior.xml').store(self.dnaStore)
 
     def unloadDnaStore(self):
-        if hasattr(self, 'dnaStore'):
+        if hasaTTW(self, 'dnaStore'):
             #self.dnaStore.resetNodes()
             #self.dnaStore.resetTextures()
             del self.dnaStore

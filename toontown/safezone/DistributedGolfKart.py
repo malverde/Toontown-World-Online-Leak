@@ -82,8 +82,8 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
         dist = Vec3(self.endPos - self.enteringPos).length()
         wheelAngle = dist / (4.8 * 1.4 * math.pi) * 360
         self.kartEnterAnimateInterval = Parallel(LerpHprInterval(self.wheels[0], 5.0, Vec3(self.wheels[0].getH(), wheelAngle, self.wheels[0].getR())), LerpHprInterval(self.wheels[1], 5.0, Vec3(self.wheels[1].getH(), wheelAngle, self.wheels[1].getR())), LerpHprInterval(self.wheels[2], 5.0, Vec3(self.wheels[2].getH(), wheelAngle, self.wheels[2].getR())), LerpHprInterval(self.wheels[3], 5.0, Vec3(self.wheels[3].getH(), wheelAngle, self.wheels[3].getR())), name='KartAnimate')
-        trolleyExitTrack1 = Parallel(LerpPosInterval(self.golfKart, 5.0, self.endPos), self.kartEnterAnimateInterval, name='KartExitTrack')
-        self.trolleyExitTrack = Sequence(trolleyExitTrack1, Func(self.hideSittingToons))
+        trolleyExiTTWack1 = Parallel(LerpPosInterval(self.golfKart, 5.0, self.endPos), self.kartEnterAnimateInterval, name='KartExiTTWack')
+        self.trolleyExiTTWack = Sequence(trolleyExiTTWack1, Func(self.hideSittingToons))
         self.trolleyEnterTrack = Sequence(LerpPosInterval(self.golfKart, 5.0, self.startingPos, startPos=self.enteringPos))
 
     def disable(self):
@@ -103,9 +103,9 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
         self.trolleyEnterTrack = None
         del self.kartEnterAnimateInterval
         del self.trolleyEnterTrack
-        self.trolleyExitTrack.pause()
-        self.trolleyExitTrack = None
-        del self.trolleyExitTrack
+        self.trolleyExiTTWack.pause()
+        self.trolleyExiTTWack = None
+        del self.trolleyExiTTWack
         return
 
     def delete(self):
@@ -123,7 +123,7 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
         self.loader.place.detectedTrolleyCollision()
 
     def allowedToEnter(self):
-        if hasattr(base, 'ttAccess') and base.ttAccess and base.ttAccess.canAccess():
+        if hasaTTW(base, 'ttAccess') and base.ttAccess and base.ttAccess.canAccess():
             return True
         return False
 
@@ -216,8 +216,8 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
                 toon = self.cr.doId2do[avId]
                 toon.stopSmooth()
                 sitStartDuration = toon.getDuration('sit-start')
-                jumpOutTrack = self.generateToonReverseJumpTrack(toon, index)
-                track = Sequence(jumpOutTrack, Func(self.notifyToonOffTrolley, toon), Func(self.clearToonTrack, avId), name=toon.uniqueName('emptyTrolley'), autoPause=1)
+                jumpOuTTWack = self.generateToonReverseJumpTrack(toon, index)
+                track = Sequence(jumpOuTTWack, Func(self.notifyToonOffTrolley, toon), Func(self.clearToonTrack, avId), name=toon.uniqueName('emptyTrolley'), autoPause=1)
                 track.delayDelete = DelayDelete.DelayDelete(toon, 'GolfKart.emptySlot')
                 self.storeToonTrack(avId, track)
                 track.start()
@@ -312,13 +312,13 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
         del self.clockNode
 
     def enterLeaving(self, ts):
-        self.trolleyExitTrack.start(ts)
+        self.trolleyExiTTWack.start(ts)
         if self.localToonOnBoard:
-            if hasattr(self.loader.place, 'trolley') and self.loader.place.trolley:
+            if hasaTTW(self.loader.place, 'trolley') and self.loader.place.trolley:
                 self.loader.place.trolley.fsm.request('trolleyLeaving')
 
     def exitLeaving(self):
-        self.trolleyExitTrack.finish()
+        self.trolleyExiTTWack.finish()
 
     def getStareAtNodeAndOffset(self):
         return (self.golfKart, Point3(0, 0, 4))
@@ -429,7 +429,7 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
 
             def getJumpDest(av = av, node = self.golfKart):
                 dest = Point3(0, 0, 0)
-                if hasattr(self, 'golfKart') and self.golfKart:
+                if hasaTTW(self, 'golfKart') and self.golfKart:
                     dest = Vec3(self.golfKart.getPos(av.getParent()))
                     seatNode = self.golfKart.find('**/seat' + str(seatIndex + 1))
                     dest += seatNode.getPos(self.golfKart)
@@ -444,7 +444,7 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
 
             def getJumpHpr(av = av, node = self.golfKart):
                 hpr = Point3(0, 0, 0)
-                if hasattr(self, 'golfKart') and self.golfKart:
+                if hasaTTW(self, 'golfKart') and self.golfKart:
                     hpr = self.golfKart.getHpr(av.getParent())
                     if seatIndex < 2:
                         hpr.setX(hpr.getX() + 180)
@@ -459,13 +459,13 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
             toonJumpTrack = Parallel(ActorInterval(av, 'jump'), Sequence(Wait(0.43), Parallel(LerpHprInterval(av, hpr=getJumpHpr, duration=0.9), ProjectileInterval(av, endPos=getJumpDest, duration=0.9))))
             return toonJumpTrack
 
-        def getToonSitTrack(av):
-            toonSitTrack = Sequence(ActorInterval(av, 'sit-start'), Func(av.loop, 'sit'))
-            return toonSitTrack
+        def getToonSiTTWack(av):
+            toonSiTTWack = Sequence(ActorInterval(av, 'sit-start'), Func(av.loop, 'sit'))
+            return toonSiTTWack
 
         toonJumpTrack = getToonJumpTrack(av, seatIndex)
-        toonSitTrack = getToonSitTrack(av)
-        jumpTrack = Sequence(Parallel(toonJumpTrack, Sequence(Wait(1), toonSitTrack)), Func(av.wrtReparentTo, self.golfKart))
+        toonSiTTWack = getToonSiTTWack(av)
+        jumpTrack = Sequence(Parallel(toonJumpTrack, Sequence(Wait(1), toonSiTTWack)), Func(av.wrtReparentTo, self.golfKart))
         return jumpTrack
 
     def generateToonReverseJumpTrack(self, av, seatIndex):

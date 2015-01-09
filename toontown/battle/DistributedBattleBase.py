@@ -46,7 +46,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.choseAttackAlready = 0
         self.toons = []
         self.exitedToons = []
-        self.suitTraps = ''
+        self.suiTTWaps = ''
         self.membersKeep = None
         self.faceOffName = self.uniqueBattleName('faceoff')
         self.localToonBattleEvent = self.uniqueBattleName('localtoon-battle-event')
@@ -96,7 +96,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
     def storeInterval(self, interval, name):
         if name in self.activeIntervals:
             ival = self.activeIntervals[name]
-            if hasattr(ival, 'delayDelete') or hasattr(ival, 'delayDeletes'):
+            if hasaTTW(ival, 'delayDelete') or hasaTTW(ival, 'delayDeletes'):
                 self.clearInterval(name, finish=1)
         self.activeIntervals[name] = interval
 
@@ -159,7 +159,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.pendingSuits = []
         self.joiningSuits = []
         self.activeSuits = []
-        self.suitTraps = ''
+        self.suiTTWaps = ''
         self.toons = []
         self.joiningToons = []
         self.pendingToons = []
@@ -344,15 +344,15 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.notify.debug('setState(%s)' % state)
         self.fsm.request(state, [globalClockDelta.localElapsedTime(timestamp)])
 
-    def setMembers(self, suits, suitsJoining, suitsPending, suitsActive, suitsLured, suitTraps, toons, toonsJoining, toonsPending, toonsActive, toonsRunning, timestamp):
+    def setMembers(self, suits, suitsJoining, suitsPending, suitsActive, suitsLured, suiTTWaps, toons, toonsJoining, toonsPending, toonsActive, toonsRunning, timestamp):
         if self.__battleCleanedUp:
             return
-        self.notify.debug('setMembers() - suits: %s suitsJoining: %s suitsPending: %s suitsActive: %s suitsLured: %s suitTraps: %s toons: %s toonsJoining: %s toonsPending: %s toonsActive: %s toonsRunning: %s' % (suits,
+        self.notify.debug('setMembers() - suits: %s suitsJoining: %s suitsPending: %s suitsActive: %s suitsLured: %s suiTTWaps: %s toons: %s toonsJoining: %s toonsPending: %s toonsActive: %s toonsRunning: %s' % (suits,
          suitsJoining,
          suitsPending,
          suitsActive,
          suitsLured,
-         suitTraps,
+         suiTTWaps,
          toons,
          toonsJoining,
          toonsPending,
@@ -424,9 +424,9 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
                     self.needAdjustTownBattle = 1
 
         index = 0
-        oldSuitTraps = self.suitTraps
-        self.suitTraps = suitTraps
-        for s in suitTraps:
+        oldSuiTTWaps = self.suiTTWaps
+        self.suiTTWaps = suiTTWaps
+        for s in suiTTWaps:
             trapid = int(s)
             if trapid == 9:
                 trapid = -1
@@ -440,11 +440,11 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
                     if self.fsm.getCurrentState().getName() != 'PlayMovie':
                         self.loadTrap(suit, trapid)
 
-        if len(oldSuitTraps) != len(self.suitTraps):
+        if len(oldSuiTTWaps) != len(self.suiTTWaps):
             self.needAdjustTownBattle = 1
         else:
-            for i in range(len(oldSuitTraps)):
-                if oldSuitTraps[i] == '9' and self.suitTraps[i] != '9' or oldSuitTraps[i] != '9' and self.suitTraps[i] == '9':
+            for i in range(len(oldSuiTTWaps)):
+                if oldSuiTTWaps[i] == '9' and self.suiTTWaps[i] != '9' or oldSuiTTWaps[i] != '9' and self.suiTTWaps[i] == '9':
                     self.needAdjustTownBattle = 1
                     break
 
@@ -1037,7 +1037,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         taskMgr.remove(self.timerCountdownTaskName)
 
     def __countdown(self, task):
-        if hasattr(self.townBattle, 'timer'):
+        if hasaTTW(self.townBattle, 'timer'):
             self.townBattle.updateTimer(int(self.timer.getT()))
         else:
             self.notify.warning('__countdown has tried to update a timer that has been deleted. Stopping timer')
@@ -1237,7 +1237,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.notify.debug('enterHasLocalToon()')
         if base.cr.playGame.getPlace() != None:
             base.cr.playGame.getPlace().setState('battle', self.localToonBattleEvent)
-            if localAvatar and hasattr(localAvatar, 'inventory') and localAvatar.inventory:
+            if localAvatar and hasaTTW(localAvatar, 'inventory') and localAvatar.inventory:
                 localAvatar.inventory.setInteractivePropTrackBonus(self.interactivePropTrackBonus)
         camera.wrtReparentTo(self)
         base.camLens.setMinFov(self.camFov/(4./3.))
@@ -1246,7 +1246,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
     def exitHasLocalToon(self):
         self.ignore(self.localToonBattleEvent)
         self.__stopTimer()
-        if localAvatar and hasattr(localAvatar, 'inventory') and localAvatar.inventory:
+        if localAvatar and hasaTTW(localAvatar, 'inventory') and localAvatar.inventory:
             localAvatar.inventory.setInteractivePropTrackBonus(-1)
         stateName = None
         place = base.cr.playGame.getPlace()
@@ -1285,20 +1285,20 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         else:
             adjustTime = self.calcSuitMoveTime(destPos, av.getPos(self))
         self.notify.debug('creating adjust interval for: %d' % av.doId)
-        adjustTrack = Sequence()
+        adjusTTWack = Sequence()
         if run == 1:
-            adjustTrack.append(Func(av.loop, 'run'))
+            adjusTTWack.append(Func(av.loop, 'run'))
         else:
-            adjustTrack.append(Func(av.loop, 'walk'))
-        adjustTrack.append(Func(av.headsUp, self, destPos))
-        adjustTrack.append(LerpPosInterval(av, adjustTime, destPos, other=self))
-        adjustTrack.append(Func(av.setHpr, self, destHpr))
-        adjustTrack.append(Func(av.loop, 'neutral'))
-        return adjustTrack
+            adjusTTWack.append(Func(av.loop, 'walk'))
+        adjusTTWack.append(Func(av.headsUp, self, destPos))
+        adjusTTWack.append(LerpPosInterval(av, adjustTime, destPos, other=self))
+        adjusTTWack.append(Func(av.setHpr, self, destHpr))
+        adjusTTWack.append(Func(av.loop, 'neutral'))
+        return adjusTTWack
 
     def __adjust(self, ts, callback):
         self.notify.debug('__adjust(%f)' % ts)
-        adjustTrack = Parallel()
+        adjusTTWack = Parallel()
         if len(self.pendingSuits) > 0 or self.suitGone == 1:
             self.suitGone = 0
             numSuits = len(self.pendingSuits) + len(self.activeSuits) - 1
@@ -1311,14 +1311,14 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
                     destPos = Point3(destPos[0], destPos[1] - MovieUtil.SUIT_LURE_DISTANCE, destPos[2])
                 if pos != destPos:
                     destHpr = VBase3(point[1], 0.0, 0.0)
-                    adjustTrack.append(self.createAdjustInterval(suit, destPos, destHpr))
+                    adjusTTWack.append(self.createAdjustInterval(suit, destPos, destHpr))
                 index += 1
 
             for suit in self.pendingSuits:
                 point = self.suitPoints[numSuits][index]
                 destPos = point[0]
                 destHpr = VBase3(point[1], 0.0, 0.0)
-                adjustTrack.append(self.createAdjustInterval(suit, destPos, destHpr))
+                adjusTTWack.append(self.createAdjustInterval(suit, destPos, destHpr))
                 index += 1
 
         if len(self.pendingToons) > 0 or self.toonGone == 1:
@@ -1331,20 +1331,20 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
                 destPos = point[0]
                 if pos != destPos:
                     destHpr = VBase3(point[1], 0.0, 0.0)
-                    adjustTrack.append(self.createAdjustInterval(toon, destPos, destHpr))
+                    adjusTTWack.append(self.createAdjustInterval(toon, destPos, destHpr))
                 index += 1
 
             for toon in self.pendingToons:
                 point = self.toonPoints[numToons][index]
                 destPos = point[0]
                 destHpr = VBase3(point[1], 0.0, 0.0)
-                adjustTrack.append(self.createAdjustInterval(toon, destPos, destHpr))
+                adjusTTWack.append(self.createAdjustInterval(toon, destPos, destHpr))
                 index += 1
 
-        if len(adjustTrack) > 0:
+        if len(adjusTTWack) > 0:
             self.notify.debug('creating adjust multitrack')
             e = Func(self.__handleAdjustDone)
-            track = Sequence(adjustTrack, e, name=self.adjustName)
+            track = Sequence(adjusTTWack, e, name=self.adjustName)
             self.storeInterval(track, self.adjustName)
             track.start(ts)
             if ToontownBattleGlobals.SkipMovie:
@@ -1387,7 +1387,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
                     trappedSuits.append(self.activeSuits.index(suit))
 
             self.townBattle.adjustCogsAndToons(self.activeSuits, luredSuits, trappedSuits, self.activeToons)
-            if hasattr(self, 'townBattleAttacks'):
+            if hasaTTW(self, 'townBattleAttacks'):
                 self.townBattle.updateChosenAttacks(self.townBattleAttacks[0], self.townBattleAttacks[1], self.townBattleAttacks[2], self.townBattleAttacks[3])
         self.needAdjustTownBattle = 0
 

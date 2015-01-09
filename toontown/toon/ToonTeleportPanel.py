@@ -121,7 +121,7 @@ class ToonTeleportPanel(DirectFrame):
 
     def enterBegin(self):
         myId = base.localAvatar.doId
-        hasManager = hasattr(base.cr, 'playerFriendsManager')
+        hasManager = hasaTTW(base.cr, 'playerFriendsManager')
         if self.avId == myId:
             self.fsm.request('self')
         elif base.cr.doId2do.has_key(self.avId):

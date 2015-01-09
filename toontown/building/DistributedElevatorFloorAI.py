@@ -9,7 +9,7 @@ from direct.fsm.FSM import FSM
 
 class DistributedElevatorFloorAI(DistributedElevatorFSMAI.DistributedElevatorFSMAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedElevatorFloorAI')
-    defaultTransitions = {'Off': ['Opening', 'Closed'],
+    defaulTTWansitions = {'Off': ['Opening', 'Closed'],
      'Opening': ['WaitEmpty',
                  'WaitCountdown',
                  'Opening',

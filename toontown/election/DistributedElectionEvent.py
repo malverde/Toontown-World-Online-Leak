@@ -1043,7 +1043,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
         base.camera.wrtReparentTo(render)
         self.logo = loader.loadModel('phase_3/models/gui/toontown-logo')
         self.logo.reparentTo(aspect2d)
-        self.logo.setTransparency(1)
+        self.logo.seTTWansparency(1)
         self.logo.setScale(0.6)
         self.logo.setPos(0, 1, 0.3)
         self.logo.setColorScale(1, 1, 1, 0)

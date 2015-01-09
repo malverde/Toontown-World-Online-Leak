@@ -755,7 +755,7 @@ class NameShop(StateData.StateData):
          'DE',
          'BR',
          'FR']:
-            if base.restrictTrialers:
+            if base.restricTTWialers:
                 if not base.cr.isPaid():
                     dialog = TeaserPanel.TeaserPanel(pageName='typeAName')
                     return

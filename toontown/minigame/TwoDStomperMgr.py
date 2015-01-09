@@ -28,14 +28,14 @@ class TwoDStomperMgr(DirectObject):
             self.stompersNP.reparentTo(self.section.sectionNP)
         self.stompers = []
         for index in xrange(len(self.stomperList)):
-            stomperAttribs = self.stomperList[index]
-            self.createNewStomper(stomperAttribs)
+            stomperATTWibs = self.stomperList[index]
+            self.createNewStomper(stomperATTWibs)
 
-    def createNewStomper(self, attrib, model = None):
+    def createNewStomper(self, aTTWib, model = None):
         stomperId = self.section.getSectionizedId(len(self.stompers))
         if model == None:
             model = self.section.sectionMgr.game.assetMgr.stomper
-        newStomper = TwoDStomper.TwoDStomper(self, stomperId, attrib, model)
+        newStomper = TwoDStomper.TwoDStomper(self, stomperId, aTTWib, model)
         newStomper.model.reparentTo(self.stompersNP)
         self.stompers.append(newStomper)
         return

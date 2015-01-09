@@ -106,7 +106,7 @@ class DivingFishSpawn(DirectObject):
         for fish in self.fishArray.values():
             fish.moveLerp.pause()
             fish.specialLerp.finish()
-            if hasattr(fish, 'sound'):
+            if hasaTTW(fish, 'sound'):
                 fish.sound.stop()
                 fish.sound = None
             fish.moveLerp = None

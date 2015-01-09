@@ -304,7 +304,7 @@ class SuitPage(ShtikerPage.ShtikerPage):
         deptSize = SuitDNA.suitsPerDept
         panels = self.panels[deptSize * deptNum:SuitDNA.suitsPerDept * (deptNum + 1)]
         if self.radarOn[deptNum]:
-            if hasattr(base.cr, 'currSuitPlanner'):
+            if hasaTTW(base.cr, 'currSuitPlanner'):
                 if base.cr.currSuitPlanner != None:
                     base.cr.currSuitPlanner.d_suitListQuery()
                     self.acceptOnce('suitListResponse', self.updateCogRadar, extraArgs=[deptNum, panels])
@@ -444,7 +444,7 @@ class SuitPage(ShtikerPage.ShtikerPage):
             panel['text'] = TTLocalizer.SuitPageMystery
         elif status == COG_BATTLED:
             suitName = SuitDNA.suitHeadTypes[index]
-            suitFullName = SuitBattleGlobals.SuitAttributes[suitName]['name']
+            suitFullName = SuitBattleGlobals.SuitATTWibutes[suitName]['name']
             panel['text'] = suitFullName
             if panel.quotaLabel:
                 panel.quotaLabel.show()
@@ -522,7 +522,7 @@ class SuitPage(ShtikerPage.ShtikerPage):
 
     def updateCogRadar(self, deptNum, panels, timeout = 0):
         taskMgr.remove('suitListResponseTimeout-later')
-        if not timeout and hasattr(base.cr, 'currSuitPlanner') and base.cr.currSuitPlanner != None:
+        if not timeout and hasaTTW(base.cr, 'currSuitPlanner') and base.cr.currSuitPlanner != None:
             cogList = base.cr.currSuitPlanner.suitList
         else:
             cogList = []
@@ -561,7 +561,7 @@ class SuitPage(ShtikerPage.ShtikerPage):
 
     def updateBuildingRadar(self, deptNum, timeout = 0):
         taskMgr.remove('buildingListResponseTimeout-later')
-        if not timeout and hasattr(base.cr, 'currSuitPlanner') and base.cr.currSuitPlanner != None:
+        if not timeout and hasaTTW(base.cr, 'currSuitPlanner') and base.cr.currSuitPlanner != None:
             buildingList = base.cr.currSuitPlanner.buildingList
         else:
             buildingList = [0,

@@ -94,7 +94,7 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
         self.receiverJoint = self.model.find('**/joint_receiver')
         self.receiverGeom = self.receiverJoint.getChild(0)
         mount = loader.loadModel('phase_5.5/models/estate/phoneMount-mod')
-        mount.setTransparency(0, 1)
+        mount.seTTWansparency(0, 1)
         self.model.reparentTo(mount)
         self.ringSfx = loader.loadSfx('phase_3.5/audio/sfx/telephone_ring.ogg')
         self.handleSfx = loader.loadSfx('phase_5.5/audio/sfx/telephone_handle2.ogg')

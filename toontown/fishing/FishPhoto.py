@@ -26,7 +26,7 @@ class DirectRegion(NodePath):
         pass
 
     def load(self):
-        if not hasattr(self, 'cRender'):
+        if not hasaTTW(self, 'cRender'):
             self.cRender = NodePath('fishSwimRender')
             self.fishSwimCamera = self.cRender.attachNewNode('fishSwimCamera')
             self.cCamNode = Camera('fishSwimCam')
@@ -58,7 +58,7 @@ class DirectRegion(NodePath):
         return self.cRender
 
     def unload(self):
-        if hasattr(self, 'cRender'):
+        if hasaTTW(self, 'cRender'):
             base.win.removeDisplayRegion(self.cDr)
             del self.cRender
             del self.fishSwimCamera
@@ -84,7 +84,7 @@ class FishPhoto(NodePath):
 
     def destroy(self):
         self.hide()
-        if hasattr(self, 'background'):
+        if hasaTTW(self, 'background'):
             del self.background
         self.fish = None
         del self.soundTrack
@@ -106,7 +106,7 @@ class FishPhoto(NodePath):
     def makeFishFrame(self, actor):
         actor.setDepthTest(1)
         actor.setDepthWrite(1)
-        if not hasattr(self, 'fishDisplayRegion'):
+        if not hasaTTW(self, 'fishDisplayRegion'):
             self.fishDisplayRegion = DirectRegion(parent=self)
             apply(self.fishDisplayRegion.setBounds, self.swimBounds)
             apply(self.fishDisplayRegion.setColor, self.swimColor)
@@ -133,14 +133,14 @@ class FishPhoto(NodePath):
         messenger.send('wakeup')
         if self.fishFrame:
             self.actor.cleanup()
-            if hasattr(self, 'fishDisplayRegion'):
+            if hasaTTW(self, 'fishDisplayRegion'):
                 self.fishDisplayRegion.unload()
             self.hide()
         self.actor = self.fish.getActor()
         self.actor.setTwoSided(1)
         self.fishFrame = self.makeFishFrame(self.actor)
         if showBackground:
-            if not hasattr(self, 'background'):
+            if not hasaTTW(self, 'background'):
                 background = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
                 background = background.find('**/Fish_BG')
                 self.background = background
@@ -167,7 +167,7 @@ class FishPhoto(NodePath):
         return
 
     def hide(self):
-        if hasattr(self, 'fishDisplayRegion'):
+        if hasaTTW(self, 'fishDisplayRegion'):
             self.fishDisplayRegion.unload()
         if self.actor:
             self.actor.stop()

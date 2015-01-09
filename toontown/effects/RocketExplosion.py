@@ -33,7 +33,7 @@ class RocketExplosion(NodePath):
         try:
             self.effect.disable()
             self.smokeEffect.disable()
-        except AttributeError:
+        except ATTWibuteError:
             pass
 
     def end(self):

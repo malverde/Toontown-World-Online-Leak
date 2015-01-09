@@ -157,18 +157,18 @@ class DistributedPartyDanceActivityBase(DistributedPartyActivity):
         if not self.isLocalToonInActivity() and not self.localToonDancing:
             self.notify.debug('Toon enters dance floor collision area.')
             place = base.cr.playGame.getPlace()
-            if place and hasattr(place, 'fsm'):
+            if place and hasaTTW(place, 'fsm'):
                 place.fsm.request('activity')
             self.d_toonJoinRequest()
             place = base.cr.playGame.getPlace()
-            if place and hasattr(place, 'fsm'):
+            if place and hasaTTW(place, 'fsm'):
                 place.fsm.request('activity')
 
     def joinRequestDenied(self, reason):
         DistributedPartyActivity.joinRequestDenied(self, reason)
         self.showMessage(TTLocalizer.PartyActivityDefaultJoinDeny)
         place = base.cr.playGame.getPlace()
-        if place and hasattr(place, 'fsm'):
+        if place and hasaTTW(place, 'fsm'):
             place.fsm.request('walk')
 
     def setToonsPlaying(self, toonIds, toonHeadings):
@@ -201,7 +201,7 @@ class DistributedPartyDanceActivityBase(DistributedPartyActivity):
     def __localStartDancing(self, h):
         if not self.localToonDancing:
             place = base.cr.playGame.getPlace()
-            if place and hasattr(place, 'fsm'):
+            if place and hasaTTW(place, 'fsm'):
                 self.localToonDancing = True
                 place.fsm.request('activity')
                 self.__updateLocalToonState(ToonDancingStates.Run)
@@ -264,7 +264,7 @@ class DistributedPartyDanceActivityBase(DistributedPartyActivity):
             self.__setViewMode(DanceViews.Normal)
             self.__updateLocalToonState(ToonDancingStates.Cleanup)
             if base.cr.playGame.getPlace():
-                if hasattr(base.cr.playGame.getPlace(), 'fsm'):
+                if hasaTTW(base.cr.playGame.getPlace(), 'fsm'):
                     base.cr.playGame.getPlace().fsm.request('walk')
             self.localToonDancing = False
 

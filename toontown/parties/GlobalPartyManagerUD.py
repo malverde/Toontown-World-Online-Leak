@@ -110,7 +110,7 @@ class GlobalPartyManagerUD(DistributedObjectGlobalUD):
                 partyDict.get('status', PartyStatus.Pending)]
 
     # Avatar joined the game, invoked by the CSMUD
-    def avatarJoined(self, avId, friendsList): # CSMUD also passes friendsList for TTRFMUD.
+    def avatarJoined(self, avId, friendsList): # CSMUD also passes friendsList for TTWFMUD.
 #        self.host2PartyId[avId] = (1337 << 32) + 10000
         partyId = self.host2PartyId.get(avId, None)
         if partyId:

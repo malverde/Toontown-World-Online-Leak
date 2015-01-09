@@ -30,8 +30,8 @@ class DistributedTrigger(DistributedSwitch.DistributedSwitch):
         DistributedSwitch.DistributedSwitch.enterTrigger(self, args)
         self.setIsOn(1)
 
-    def exitTrigger(self, args = None):
-        DistributedSwitch.DistributedSwitch.exitTrigger(self, args)
+    def exiTTWigger(self, args = None):
+        DistributedSwitch.DistributedSwitch.exiTTWigger(self, args)
         self.setIsOn(0)
 
     def getName(self):

@@ -26,7 +26,7 @@ class DistributedSafezoneInvasion(DistributedObject):
         self.sky = loader.loadModel(SafezoneInvasionGlobals.CogSkyFile)
         self.sky.setBin('background', 100)
         self.sky.setColor(0.3, 0.3, 0.28, 1)
-        self.sky.setTransparency(TransparencyAttrib.MDual, 1)
+        self.sky.seTTWansparency(TransparencyATTWib.MDual, 1)
         self.sky.setDepthTest(0)
         self.sky.setDepthWrite(0)
         self.sky.setFogOff()

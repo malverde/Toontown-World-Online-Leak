@@ -57,7 +57,7 @@ class DistributedFactoryAI(DistributedLevelAI.DistributedLevelAI, FactoryBase.Fa
     def delete(self):
         self.notify.info('delete: %s' % self.doId)
         if __dev__:
-            if hasattr(simbase, 'factory') and simbase.factory is self:
+            if hasaTTW(simbase, 'factory') and simbase.factory is self:
                 del simbase.factory
         suits = self.suits
         for reserve in self.reserveSuits:

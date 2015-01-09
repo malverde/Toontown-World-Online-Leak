@@ -10,7 +10,7 @@ import random
 from toontown.golf import GolfHoleBase
 
 class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI, FSM, GolfHoleBase.GolfHoleBase):
-    defaultTransitions = {'Off': ['Cleanup', 'WaitTee'],
+    defaulTTWansitions = {'Off': ['Cleanup', 'WaitTee'],
      'WaitTee': ['WaitSwing',
                  'Cleanup',
                  'WaitTee',
@@ -399,7 +399,7 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
 
     def exitWaitPlayback(self):
         self.notify.debug('exitWaitPlayback')
-        if hasattr(self, 'barrierPlayback') and self.barrierPlayback:
+        if hasaTTW(self, 'barrierPlayback') and self.barrierPlayback:
             self.barrierPlayback.cleanup()
             self.barrierPlayback = None
         return

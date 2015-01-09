@@ -79,7 +79,7 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         from toontown.toon import TTEmote
         from otp.avatar import Emote
         self.volume = volume
-        if not hasattr(self, 'pictureToon'):
+        if not hasaTTW(self, 'pictureToon'):
             return Sequence()
         track, duration = Emote.globalEmote.doEmote(self.pictureToon, self.emoteIndex, volume=self.volume)
         if duration == None:

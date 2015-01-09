@@ -36,7 +36,7 @@ class DistributedAnimatedStatuary(DistributedStatuary.DistributedStatuary):
 
     def setTypeIndex(self, typeIndex):
         DistributedStatuary.DistributedStatuary.setTypeIndex(self, typeIndex)
-        self.anims = GardenGlobals.PlantAttributes[typeIndex]['anims']
+        self.anims = GardenGlobals.PlantATTWibutes[typeIndex]['anims']
 
     def setupShadow(self):
         if self.typeIndex == 234:

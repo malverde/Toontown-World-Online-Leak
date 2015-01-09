@@ -56,7 +56,7 @@ class ToonHeadFrame(DirectFrame):
         del self.extraData
 
     def removeAvKeep(self):
-        if hasattr(self, 'avKeep') and self.avKeep:
+        if hasaTTW(self, 'avKeep') and self.avKeep:
             self.avKeep.destroy()
             self.avKeep = None
         return

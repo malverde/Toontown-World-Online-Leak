@@ -1,6 +1,6 @@
 from toontown.toonbase import ToontownGlobals
 from direct.interval.IntervalGlobal import Parallel, Sequence, Func, Wait
-from pandac.PandaModules import Vec4, TransformState, NodePath, TransparencyAttrib
+from pandac.PandaModules import Vec4, TransformState, NodePath, TransparencyATTWib
 
 class HolidayDecorator:
 
@@ -47,7 +47,7 @@ class HolidayDecorator:
         p = Parallel()
         for i in range(npl.getNumPaths()):
             np = npl.getPath(i)
-            np.setTransparency(TransparencyAttrib.MDual, 1)
+            np.seTTWansparency(TransparencyATTWib.MDual, 1)
             if not np.hasTag('DNACode'):
                 continue
             dnaCode = np.getTag('DNACode')
@@ -58,11 +58,11 @@ class HolidayDecorator:
             newNP.setTag('DNARoot', 'holiday_prop')
             newNP.setTag('DNACode', dnaCode)
             newNP.setColorScale(1, 1, 1, 0)
-            newNP.setTransparency(TransparencyAttrib.MDual, 1)
+            newNP.seTTWansparency(TransparencyATTWib.MDual, 1)
             if np.hasTag('transformIndex'):
                 index = int(np.getTag('transformIndex'))
                 transform = loader.holidayPropTransforms.get(index, TransformState.makeIdentity())
-                newNP.setTransform(NodePath(), transform)
+                newNP.seTTWansform(NodePath(), transform)
                 newNP.setTag('transformIndex', `index`)
             s = Sequence(Wait(wait), np.colorScaleInterval(tFadeOut, Vec4(1, 1, 1, 0), startColorScale=Vec4(1, 1, 1, 1), blendType='easeInOut'), Func(np.detachNode), Func(np.clearTransparency), newNP.colorScaleInterval(tFadeOut, Vec4(1, 1, 1, 1), startColorScale=Vec4(1, 1, 1, 0), blendType='easeInOut'), Func(newNP.clearTransparency), Func(newNP.clearColorScale))
             p.append(s)

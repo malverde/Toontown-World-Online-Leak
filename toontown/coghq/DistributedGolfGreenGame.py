@@ -182,7 +182,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                 if groundCircle == None:
                     import pdb
                     pdb.set_trace()
-                groundCircle.setTransparency(TransparencyAttrib.MAlpha)
+                groundCircle.seTTWansparency(TransparencyATTWib.MAlpha)
                 groundCircle.setPos(newCell[1], -self.radiusBall, newCell[2])
                 groundCircle.setScale(1.2)
                 groundCircle.setR(90)
@@ -530,7 +530,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
     def __acceptExit(self, buttonValue = None):
         import pdb
         pdb.set_trace()
-        if hasattr(self, 'frame'):
+        if hasaTTW(self, 'frame'):
             self.hide()
             self.unload()
             messenger.send(self.doneEvent)
@@ -1160,7 +1160,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         return angle * 360.0 / (2.0 * math.pi)
 
     def __colTest(self):
-        if not hasattr(self, 'tick'):
+        if not hasaTTW(self, 'tick'):
             self.tick = 0
         self.tick += 1
         if self.tick > 5:

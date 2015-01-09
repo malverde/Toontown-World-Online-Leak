@@ -65,7 +65,7 @@ def avatarDodge(leftAvatars, rightAvatars, leftData, rightData):
 
 def avatarHide(avatar):
     notify.debug('avatarHide(%d)' % avatar.doId)
-    if hasattr(avatar, 'battleTrapProp'):
+    if hasaTTW(avatar, 'battleTrapProp'):
         notify.debug('avatar.battleTrapProp = %s' % avatar.battleTrapProp)
     avatar.detachNode()
 
@@ -211,7 +211,7 @@ def virtualize(deathsuit):
         thing = actorCollection[thingIndex]
         if thing.getName() not in ('joint_attachMeter', 'joint_nameTag', 'def_nameTag'):
             thing.setColorScale(1.0, 0.0, 0.0, 1.0)
-            thing.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd))
+            thing.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd))
             thing.setDepthWrite(False)
             thing.setBin('fixed', 1)
 
@@ -223,7 +223,7 @@ def createTrainTrackAppearTrack(dyingSuit, toon, battle, npcs):
     for suitAttack in battle.movie.suitAttackDicts:
         suit = suitAttack['suit']
         if not suit == dyingSuit:
-            if hasattr(suit, 'battleTrapProp') and suit.battleTrapProp and suit.battleTrapProp.getName() == 'traintrack':
+            if hasaTTW(suit, 'battleTrapProp') and suit.battleTrapProp and suit.battleTrapProp.getName() == 'traintrack':
                 possibleSuits.append(suitAttack['suit'])
 
     closestXDistance = 10000
@@ -249,19 +249,19 @@ def createTrainTrackAppearTrack(dyingSuit, toon, battle, npcs):
 
 
 def createSuitReviveTrack(suit, toon, battle, npcs = []):
-    suitTrack = Sequence()
+    suiTTWack = Sequence()
     suitPos, suitHpr = battle.getActorPosHpr(suit)
-    if hasattr(suit, 'battleTrapProp') and suit.battleTrapProp and suit.battleTrapProp.getName() == 'traintrack' and not suit.battleTrapProp.isHidden():
-        suitTrack.append(createTrainTrackAppearTrack(suit, toon, battle, npcs))
+    if hasaTTW(suit, 'battleTrapProp') and suit.battleTrapProp and suit.battleTrapProp.getName() == 'traintrack' and not suit.battleTrapProp.isHidden():
+        suiTTWack.append(createTrainTrackAppearTrack(suit, toon, battle, npcs))
     deathSuit = suit.getLoseActor()
-    suitTrack.append(Func(notify.debug, 'before insertDeathSuit'))
-    suitTrack.append(Func(insertReviveSuit, suit, deathSuit, battle, suitPos, suitHpr))
-    suitTrack.append(Func(notify.debug, 'before actorInterval lose'))
-    suitTrack.append(ActorInterval(deathSuit, 'lose', duration=SUIT_LOSE_DURATION))
-    suitTrack.append(Func(notify.debug, 'before removeDeathSuit'))
-    suitTrack.append(Func(removeReviveSuit, suit, deathSuit, name='remove-death-suit'))
-    suitTrack.append(Func(notify.debug, 'after removeDeathSuit'))
-    suitTrack.append(Func(suit.loop, 'neutral'))
+    suiTTWack.append(Func(notify.debug, 'before insertDeathSuit'))
+    suiTTWack.append(Func(insertReviveSuit, suit, deathSuit, battle, suitPos, suitHpr))
+    suiTTWack.append(Func(notify.debug, 'before actorInterval lose'))
+    suiTTWack.append(ActorInterval(deathSuit, 'lose', duration=SUIT_LOSE_DURATION))
+    suiTTWack.append(Func(notify.debug, 'before removeDeathSuit'))
+    suiTTWack.append(Func(removeReviveSuit, suit, deathSuit, name='remove-death-suit'))
+    suiTTWack.append(Func(notify.debug, 'after removeDeathSuit'))
+    suiTTWack.append(Func(suit.loop, 'neutral'))
     spinningSound = base.loadSfx('phase_3.5/audio/sfx/Cog_Death.ogg')
     deathSound = base.loadSfx('phase_3.5/audio/sfx/ENC_cogfall_apart.ogg')
     deathSoundTrack = Sequence(Wait(0.8), SoundInterval(spinningSound, duration=1.2, startTime=1.5, volume=0.2, node=suit), SoundInterval(spinningSound, duration=3.0, startTime=0.6, volume=0.8, node=suit), SoundInterval(deathSound, volume=0.32, node=suit))
@@ -291,22 +291,22 @@ def createSuitReviveTrack(suit, toon, battle, npcs = []):
     for mtoon in npcs:
         toonMTrack.append(Sequence(Wait(1.0), ActorInterval(mtoon, 'duck'), ActorInterval(mtoon, 'duck', startTime=1.8), Func(mtoon.loop, 'neutral')))
 
-    return Parallel(suitTrack, deathSoundTrack, gears1Track, gears2MTrack, toonMTrack)
+    return Parallel(suiTTWack, deathSoundTrack, gears1Track, gears2MTrack, toonMTrack)
 
 
 def createSuitDeathTrack(suit, toon, battle, npcs = []):
-    suitTrack = Sequence()
+    suiTTWack = Sequence()
     suitPos, suitHpr = battle.getActorPosHpr(suit)
-    if hasattr(suit, 'battleTrapProp') and suit.battleTrapProp and suit.battleTrapProp.getName() == 'traintrack' and not suit.battleTrapProp.isHidden():
-        suitTrack.append(createTrainTrackAppearTrack(suit, toon, battle, npcs))
+    if hasaTTW(suit, 'battleTrapProp') and suit.battleTrapProp and suit.battleTrapProp.getName() == 'traintrack' and not suit.battleTrapProp.isHidden():
+        suiTTWack.append(createTrainTrackAppearTrack(suit, toon, battle, npcs))
     deathSuit = suit.getLoseActor()
-    suitTrack.append(Func(notify.debug, 'before insertDeathSuit'))
-    suitTrack.append(Func(insertDeathSuit, suit, deathSuit, battle, suitPos, suitHpr))
-    suitTrack.append(Func(notify.debug, 'before actorInterval lose'))
-    suitTrack.append(ActorInterval(deathSuit, 'lose', duration=SUIT_LOSE_DURATION))
-    suitTrack.append(Func(notify.debug, 'before removeDeathSuit'))
-    suitTrack.append(Func(removeDeathSuit, suit, deathSuit, name='remove-death-suit'))
-    suitTrack.append(Func(notify.debug, 'after removeDeathSuit'))
+    suiTTWack.append(Func(notify.debug, 'before insertDeathSuit'))
+    suiTTWack.append(Func(insertDeathSuit, suit, deathSuit, battle, suitPos, suitHpr))
+    suiTTWack.append(Func(notify.debug, 'before actorInterval lose'))
+    suiTTWack.append(ActorInterval(deathSuit, 'lose', duration=SUIT_LOSE_DURATION))
+    suiTTWack.append(Func(notify.debug, 'before removeDeathSuit'))
+    suiTTWack.append(Func(removeDeathSuit, suit, deathSuit, name='remove-death-suit'))
+    suiTTWack.append(Func(notify.debug, 'after removeDeathSuit'))
     spinningSound = base.loadSfx('phase_3.5/audio/sfx/Cog_Death.ogg')
     deathSound = base.loadSfx('phase_3.5/audio/sfx/ENC_cogfall_apart.ogg')
     deathSoundTrack = Sequence(Wait(0.8), SoundInterval(spinningSound, duration=1.2, startTime=1.5, volume=0.2, node=deathSuit), SoundInterval(spinningSound, duration=3.0, startTime=0.6, volume=0.8, node=deathSuit), SoundInterval(deathSound, volume=0.32, node=deathSuit))
@@ -336,18 +336,18 @@ def createSuitDeathTrack(suit, toon, battle, npcs = []):
     for mtoon in npcs:
         toonMTrack.append(Sequence(Wait(1.0), ActorInterval(mtoon, 'duck'), ActorInterval(mtoon, 'duck', startTime=1.8), Func(mtoon.loop, 'neutral')))
 
-    return Parallel(suitTrack, deathSoundTrack, gears1Track, gears2MTrack, toonMTrack)
+    return Parallel(suiTTWack, deathSoundTrack, gears1Track, gears2MTrack, toonMTrack)
 
 
 def createSuitDodgeMultitrack(tDodge, suit, leftSuits, rightSuits):
-    suitTracks = Parallel()
+    suiTTWacks = Parallel()
     suitDodgeList, sidestepAnim = avatarDodge(leftSuits, rightSuits, 'sidestep-left', 'sidestep-right')
     for s in suitDodgeList:
-        suitTracks.append(Sequence(ActorInterval(s, sidestepAnim), Func(s.loop, 'neutral')))
+        suiTTWacks.append(Sequence(ActorInterval(s, sidestepAnim), Func(s.loop, 'neutral')))
 
-    suitTracks.append(Sequence(ActorInterval(suit, sidestepAnim), Func(suit.loop, 'neutral')))
-    suitTracks.append(Func(indicateMissed, suit))
-    return Sequence(Wait(tDodge), suitTracks)
+    suiTTWacks.append(Sequence(ActorInterval(suit, sidestepAnim), Func(suit.loop, 'neutral')))
+    suiTTWacks.append(Func(indicateMissed, suit))
+    return Sequence(Wait(tDodge), suiTTWacks)
 
 
 def createToonDodgeMultitrack(tDodge, toon, leftToons, rightToons):
@@ -376,9 +376,9 @@ def createToonDodgeMultitrack(tDodge, toon, leftToons, rightToons):
 
 
 def createSuitTeaseMultiTrack(suit, delay = 0.01):
-    suitTrack = Sequence(Wait(delay), ActorInterval(suit, 'victory', startTime=0.5, endTime=1.9), Func(suit.loop, 'neutral'))
+    suiTTWack = Sequence(Wait(delay), ActorInterval(suit, 'victory', startTime=0.5, endTime=1.9), Func(suit.loop, 'neutral'))
     missedTrack = Sequence(Wait(delay + 0.2), Func(indicateMissed, suit, 0.9))
-    return Parallel(suitTrack, missedTrack)
+    return Parallel(suiTTWack, missedTrack)
 
 
 SPRAY_LEN = 1.5
@@ -391,7 +391,7 @@ def getSprayTrack(battle, color, origin, target, dScaleUp, dHold, dScaleDown, ho
     spray = sprayRot
     spray.setColor(color)
     if color[3] < 1.0:
-        spray.setTransparency(1)
+        spray.seTTWansparency(1)
 
     def showSpray(sprayScale, sprayRot, sprayProp, origin, target, parent):
         if callable(origin):

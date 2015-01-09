@@ -822,7 +822,7 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
         self.chairs[chairIndex].requestToonJuror()
 
     def clearBonus(self, taskName):
-        if self and hasattr(self, 'bonusState'):
+        if self and hasaTTW(self, 'bonusState'):
             self.bonusState = False
 
     def startBonusState(self):
@@ -928,7 +928,7 @@ def endcj():
     if toon:
         z = toon.zoneId
         for obj in simbase.air.doId2do.values():
-            zone = getattr(obj, "zoneId", -1)
+            zone = getaTTW(obj, "zoneId", -1)
             if zone == z:
                 if obj.__class__.__name__ == "DistributedLawbotBossAI":
                     obj.b_setState('Victory')

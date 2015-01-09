@@ -50,7 +50,7 @@ class DistributedNPCPetclerk(DistributedNPCToonBase):
         return 4.0
 
     def allowedToEnter(self):
-        if hasattr(base, 'ttAccess') and base.ttAccess and base.ttAccess.canAccess():
+        if hasaTTW(base, 'ttAccess') and base.ttAccess and base.ttAccess.canAccess():
             return True
         return False
 

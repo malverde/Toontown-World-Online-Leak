@@ -82,8 +82,8 @@ class ToontownLoadingBlocker(TTDialog.TTDialog):
             base.downloadWatcher.bar.show()
 
     def __isValidDownloadBar(self):
-        if hasattr(base, 'downloadWatcher') and base.downloadWatcher:
-            if hasattr(base.downloadWatcher, 'bar') and base.downloadWatcher.bar:
+        if hasaTTW(base, 'downloadWatcher') and base.downloadWatcher:
+            if hasaTTW(base.downloadWatcher, 'bar') and base.downloadWatcher.bar:
                 return True
         return False
 

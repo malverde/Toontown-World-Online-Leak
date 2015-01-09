@@ -60,7 +60,7 @@ class ARGManager(DistributedObjectGlobal):
             taskMgr.doMethodLater(2, base.localAvatar.setSystemMessage, self.uniqueName("arg-before-msg"), extraArgs=[0, msgBefore])
             taskMgr.doMethodLater(7, base.localAvatar.setSystemMessage, self.uniqueName("arg-after-msg"), extraArgs=[0, msgAfter])
             if destination == 3823:
-                taskMgr.doMethodLater(15, base.localAvatar.setSystemMessage, self.uniqueName("arg-after-after-msg"), extraArgs=[0, "'ttr://assets/LL-memo-607630003555.txt'. Keep it safe. I have no idea what it means, but Surlee certainly will."])
+                taskMgr.doMethodLater(15, base.localAvatar.setSystemMessage, self.uniqueName("arg-after-after-msg"), extraArgs=[0, "'TTW://assets/LL-memo-607630003555.txt'. Keep it safe. I have no idea what it means, but Surlee certainly will."])
         self.accept(SpeedChatGlobals.SCStaticTextMsgEvent, phraseSaid)
 
     def cleanupPortableHoleEvent(self):

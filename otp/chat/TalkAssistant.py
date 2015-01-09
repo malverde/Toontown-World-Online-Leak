@@ -297,7 +297,7 @@ class TalkAssistant(DirectObject.DirectObject):
         if base.localAvatar.commonChatFlags & OTPGlobals.SuperChat:
             return True
         remoteAvatarOrHandleOrInfo = base.cr.identifyAvatar(avatarId)
-        if remoteAvatarOrHandleOrInfo and hasattr(remoteAvatarOrHandleOrInfo, 'isUnderstandable'):
+        if remoteAvatarOrHandleOrInfo and hasaTTW(remoteAvatarOrHandleOrInfo, 'isUnderstandable'):
             if remoteAvatarOrHandleOrInfo.isUnderstandable():
                 return True
         info = base.cr.playerFriendsManager.findPlayerInfoFromAvId(avatarId)

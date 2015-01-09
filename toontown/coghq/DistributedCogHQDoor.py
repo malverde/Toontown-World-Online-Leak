@@ -51,7 +51,7 @@ class DistributedCogHQDoor(DistributedDoor.DistributedDoor):
         self.finishDoorTrack()
         self.doorTrack = Parallel(Sequence(LerpHprInterval(nodePath=rightDoor, duration=1.0, hpr=VBase3(0, 0, 0), startHpr=VBase3(h, 0, 0), other=otherNP, blendType='easeInOut'), Func(doorFrameHoleRight.hide), Func(self.hideIfHasFlat, rightDoor)), Sequence(Wait(0.5), SoundInterval(self.closeSfx, node=rightDoor)), name=trackName)
         self.doorTrack.start(ts)
-        if hasattr(self, 'done'):
+        if hasaTTW(self, 'done'):
             request = self.getRequestStatus()
             messenger.send('doorDoneEvent', [request])
 
@@ -69,9 +69,9 @@ class DistributedCogHQDoor(DistributedDoor.DistributedDoor):
         leftDoor = self.findDoorNode('leftDoor')
         if not leftDoor.isEmpty():
             otherNP = self.getDoorNodePath()
-            trackName = 'doorExitTrack-%d' % self.doId
-            self.doorExitTrack = Parallel(Sequence(LerpHprInterval(nodePath=leftDoor, duration=1.0, hpr=VBase3(0, 0, 0), startHpr=VBase3(h, 0, 0), other=otherNP, blendType='easeInOut'), Func(doorFrameHoleLeft.hide), Func(self.hideIfHasFlat, leftDoor)), Sequence(Wait(0.5), SoundInterval(self.closeSfx, node=leftDoor)), name=trackName)
-            self.doorExitTrack.start(ts)
+            trackName = 'doorExiTTWack-%d' % self.doId
+            self.doorExiTTWack = Parallel(Sequence(LerpHprInterval(nodePath=leftDoor, duration=1.0, hpr=VBase3(0, 0, 0), startHpr=VBase3(h, 0, 0), other=otherNP, blendType='easeInOut'), Func(doorFrameHoleLeft.hide), Func(self.hideIfHasFlat, leftDoor)), Sequence(Wait(0.5), SoundInterval(self.closeSfx, node=leftDoor)), name=trackName)
+            self.doorExiTTWack.start(ts)
 
     def setZoneIdAndBlock(self, zoneId, block):
         self.zoneId = zoneId

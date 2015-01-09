@@ -16,7 +16,7 @@ class DNALandmarkBuilding(DNANode):
         self.type = type
 
     def getTitle(self):
-        return self._getAttribute(DNATitle, 'title', '')
+        return self._getATTWibute(DNATitle, 'title', '')
 
     def setupSuitBuildingOrigin(self, nodePath):
         building = DNAUtil.getBuildingClassFromName(self.id)

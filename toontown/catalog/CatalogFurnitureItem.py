@@ -1116,7 +1116,7 @@ def nextAvailableCloset(avatar, duplicateItems):
         index = 0
     else:
         index = 1
-    if not hasattr(avatar, 'maxClothes'):
+    if not hasaTTW(avatar, 'maxClothes'):
         return None
     closetIds = ClothesToCloset.get(avatar.getMaxClothes())
     closetIds = list(closetIds)

@@ -29,5 +29,5 @@ class LocatorEntity(Entity.Entity, NodePath):
 
     if __dev__:
 
-        def attribChanged(self, attrib, value):
+        def aTTWibChanged(self, aTTWib, value):
             self.doReparent()

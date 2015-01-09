@@ -203,5 +203,5 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
         self.partyGateSphere.setCollideMask(BitMask32(0))
 
     def handleSleep(self):
-        if hasattr(self, 'messageGui') and self.messageGui:
+        if hasaTTW(self, 'messageGui') and self.messageGui:
             self.__handleMessageDone()

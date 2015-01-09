@@ -32,7 +32,7 @@ uberdogs:
       id: 4687
       anonymous: false
 
-    - class: TTRFriendsManager
+    - class: TTWFriendsManager
       id: 4666
       anonymous: false
 
@@ -55,7 +55,7 @@ uberdogs:
 roles:
     - type: clientagent
       bind: 0.0.0.0:7198
-      version: "ttw-alpha-2.0.0"
+      version: "ttw-alpha-dev-build-2.0.0"
       client:
        relocate: true
        add_interest: enabled
