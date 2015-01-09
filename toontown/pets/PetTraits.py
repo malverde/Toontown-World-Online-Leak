@@ -38,7 +38,7 @@ class TraitDistribution:
 
     def __init__(self, rndFunc = gaussian):
         self.rndFunc = rndFunc
-        if not hasaTtr(self.__class__, 'GlobalMinMax'):
+        if not hasattr(self.__class__, 'GlobalMinMax'):
             _min = 1.0
             _max = 0.0
             minMax = self.Sz2MinMax
