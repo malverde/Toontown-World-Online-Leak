@@ -7,11 +7,11 @@ TraitDivisor = 10000
 def getTraitNames():
     if not hasaTtr(PetTraits, 'TraitNames'):
         traitNames = []
-        for desc in PeTtraits.TraitDescs:
+        for desc in PetTraits.TraitDescs:
             traitNames.append(desc[0])
-            PeTtraits.TraitNames = traitNames
+            PetTraits.TraitNames = traitNames
 
-    return PeTtraits.TraitNames
+    return PetTraits.TraitNames
 
 
 def uniform(min, max, rng):
@@ -111,7 +111,7 @@ class TraitDistribution:
         return clampScalar(howExtreme, 0.0, 1.0)
 
 
-class PeTtraits:
+class PetTraits:
 
     class StdIncDistrib(TraitDistribution):
         TraitType = TraitDistribution.TraitTypes.INCREASING
@@ -158,7 +158,7 @@ class PeTtraits:
     class Trait:
 
         def __init__(self, index, traitsObj, value = None):
-            self.name, distrib, self.hasWorth = PeTtraits.TraitDescs[index]
+            self.name, distrib, self.hasWorth = PetTraits.TraitDescs[index]
             if value is not None:
                 self.value = value
             else:
@@ -182,11 +182,11 @@ class PeTtraits:
         self.safeZoneId = safeZoneId
         self.rng = random.Random(self.traitSeed)
         self.traits = {}
-        for i in xrange(len(PeTtraits.TraitDescs)):
+        for i in xrange(len(PetTraits.TraitDescs)):
             if i < len(traitValueList) and traitValueList[i] > 0.0:
-                trait = PeTtraits.Trait(i, self, traitValueList[i])
+                trait = PetTraits.Trait(i, self, traitValueList[i])
             else:
-                trait = PeTtraits.Trait(i, self)
+                trait = PetTraits.Trait(i, self)
             self.traits[trait.name] = trait
             self.__dict__[trait.name] = trait.value
 
@@ -208,7 +208,7 @@ class PeTtraits:
 
     def getValueList(self):
         traitValues = []
-        for desc in PeTtraits.TraitDescs:
+        for desc in PetTraits.TraitDescs:
             traitName = desc[0]
             traitValues.append(self.traits[traitName].value)
 
