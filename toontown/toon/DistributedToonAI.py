@@ -4944,7 +4944,7 @@ def dna(part, value):
    
 
     dna = ToonDNA.ToonDNA()
-    dna.makeFromNetString(av.getDNAString())
+    dna.makeFromNetString(avatar.getDNAString())
 
     def isValidColor(colorIndex):
         if not 0 <= colorIndex <= 26: # This could actually be selected from ToonDNA, but I prefer this :D
@@ -5166,7 +5166,7 @@ def sostoons():
 @magicWord(category=CATEGORY_CHARACTERSTATS)
 def unites():
     """Restock all CFO phrases."""
-    spellbook.getTarget().restockAllResistanceMessages(99)
+    spellbook.getTarget().restockAllResistanceMessages(9999)
     return 'Restocked all unites successfully!'
 
 @magicWord(category=CATEGORY_OVERRIDE)
@@ -5472,14 +5472,14 @@ def phrase(phraseStringOrId):
         av.d_setCustomMessages(av.customMessages)
         return "Added new phrase to %s's custom phrases." % av.getName()
 
-@magicWord(category=CATEGORY_SYSADMIN, types=[int, str])
+@magicWord(category=CATEGORY_ADMIN, types=[int, str])
 def sos(count, name):
     """
     Modifies the invoker's specified SOS card count.
     """
     invoker = spellbook.getInvoker()
-    if not 0 <= count <= 100:
-        return 'Your SOS count must be in xrange (0-100).'
+    if not 0 <= count <= 1000:
+        return 'Your SOS count must be in xrange (0-999).'
     for npcId, npcName in TTLocalizer.NPCToonNames.items():
         if name.lower() == npcName.lower():
             if npcId not in NPCToons.npcFriends:

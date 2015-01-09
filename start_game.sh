@@ -1,5 +1,5 @@
 set +v
-export ttrUsername=mgracer
+export ttrUsername=
 echo "You wrote: $ttrUsername"
 export ttrPassword=password
 export TTR_PLAYCOOKIE=$ttrUsername$
@@ -10,5 +10,5 @@ echo Starting Toontown  World Online...
 echo Username: $ttrUsername$
 echo Client Agent IP: $TTR_GAMESERVER$
 echo ===============================
-python -m toontown.toonbase.ToontownStart.py
+ppython -m toontown.toonbase.ToontownStart.py
 sleep 1

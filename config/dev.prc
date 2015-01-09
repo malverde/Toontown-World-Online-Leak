@@ -4,7 +4,7 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-server-version ttw-alpha-2.0.0
+server-version ttw-alpha-dev-build-2.0.0
 sync-video #f
 want-dev #f
 preload-avatars #t
@@ -52,7 +52,7 @@ want-pets #f
 want-news-tab #f
 want-news-page #f
 want-accessories #t
-want-parties #t
+want-parties #f
 want-gardening #f
 want-gifting #t
 want-picnic-games #f
@@ -87,4 +87,4 @@ want-mega-invasions #f
 
 
 # Cog battles :
-gag-bonus 2
+#gag-bonus 2
