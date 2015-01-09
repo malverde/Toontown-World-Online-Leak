@@ -1,14 +1,14 @@
 set +v
-export ttrUsername=mgracer
-echo "You wrote: $ttrUsername"
-export ttrPassword=password
-export TTR_PLAYCOOKIE=$ttrUsername$
-export TTR_GAMESERVER=108.161.134.133
+export TTWUsername=
+echo "You wrote: $TTWUsername"
+export TTWPassword=password
+export TTW_PLAYCOOKIE=$TTWUsername$
+export TTW_GAMESERVER=108.161.134.133
 
 echo ===============================
 echo Starting Toontown  World Online...
-echo Username: $ttrUsername$
-echo Client Agent IP: $TTR_GAMESERVER$
+echo Username: $TTWUsername$
+echo Client Agent IP: $TTW_GAMESERVER$
 echo ===============================
-python -m toontown.toonbase.ToontownStart.py
+ppython -m toontown.toonbase.ToontownStart.py
 sleep 1

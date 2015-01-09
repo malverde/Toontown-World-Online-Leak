@@ -47,12 +47,12 @@ class PropSpinner(Entity):
         self.spinTracks = spinTracks
 
     def destroyProps(self):
-        if hasattr(self, 'spinTracks'):
+        if hasaTTW(self, 'spinTracks'):
             self.spinTracks.pause()
             del self.spinTracks
 
     if __dev__:
 
-        def attribChanged(self, *args):
+        def aTTWibChanged(self, *args):
             self.destroyProps()
             self.initProps()

@@ -22,7 +22,7 @@ class AvatarPanel(DirectObject.DirectObject):
         else:
             self.avatar = None
             self.avName = 'Player'
-        if hasattr(avatar, 'uniqueName'):
+        if hasaTTW(avatar, 'uniqueName'):
             self.avId = avatar.doId
             self.avDisableName = avatar.uniqueName('disable')
             self.avGenerateName = avatar.uniqueName('generate')

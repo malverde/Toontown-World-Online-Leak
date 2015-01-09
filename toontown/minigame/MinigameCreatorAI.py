@@ -100,7 +100,7 @@ def createMinigame(air, playerArray, trolleyZone, minigameZone = None, previousG
 
     mg.setExpectedAvatars(playerArray)
     mg.setNewbieIds(newbieIds)
-    mg.setTrolleyZone(trolleyZone)
+    mg.seTTWolleyZone(trolleyZone)
     mg.setDifficultyOverrides(mgDiff, mgSzId)
     if startingVotes == None:
         for avId in playerArray:

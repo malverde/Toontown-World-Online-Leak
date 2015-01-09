@@ -118,10 +118,10 @@ class PartyCogActivityGui(DirectObject):
         if self._spamWarning:
             self._spamWarning.destroy()
             self._spamWarning = None
-        if hasattr(self, '_attackKeys'):
+        if hasaTTW(self, '_attackKeys'):
             self._attackKeys.detachNode()
             del self._attackKeys
-        if hasattr(self, '_moveKeys'):
+        if hasaTTW(self, '_moveKeys'):
             self._moveKeys.detachNode()
             del self._moveKeys
         if self._victoryBalanceBar:
@@ -267,7 +267,7 @@ class PartyCogActivityGui(DirectObject):
             self._cogTracker.frame.setR(180)
         self._piePowerMeter['barColor'] = PartyGlobals.CogActivityColors[team]
 
-    def startTrackingCogs(self, cogs):
+    def starTTWackingCogs(self, cogs):
         self.cogs = cogs
         taskMgr.add(self.trackCogs, 'trackCogs')
 
@@ -281,7 +281,7 @@ class PartyCogActivityGui(DirectObject):
         return task.cont
 
     def _updateVictoryBar(self):
-        if not (hasattr(self, '_victoryBalanceBar') and self._victoryBalanceBar):
+        if not (hasaTTW(self, '_victoryBalanceBar') and self._victoryBalanceBar):
             return
         netDistance = 0
         for cog in self.cogs:
@@ -316,12 +316,12 @@ class PartyCogActivityGui(DirectObject):
 
     def hideAttackControls(self):
         taskMgr.remove(self._attackIvalName)
-        if hasattr(self, '_attackKeys') and self._attackKeys:
+        if hasaTTW(self, '_attackKeys') and self._attackKeys:
             self._attackKeys.hide()
 
     def hideMoveControls(self):
         taskMgr.remove(self._moveIvalName)
-        if hasattr(self, '_moveKeys') and self._moveKeys:
+        if hasaTTW(self, '_moveKeys') and self._moveKeys:
             self._moveKeys.hide()
 
     def hideControls(self):

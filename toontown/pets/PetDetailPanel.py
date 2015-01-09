@@ -5,7 +5,7 @@ from pandac.PandaModules import *
 from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
-from toontown.pets import PetTricks
+from toontown.pets import PeTTWicks
 from otp.otpbase import OTPLocalizer
 from direct.showbase.PythonUtil import lerp
 FUDGE_FACTOR = 0.01
@@ -46,14 +46,14 @@ class PetDetailPanel(DirectFrame):
     def update(self, pet):
         if not pet:
             return
-        for trickId in PetTricks.TrickId2scIds.keys():
-            trickText = TTLocalizer.PetTrickStrings[trickId]
+        for trickId in PeTTWicks.TrickId2scIds.keys():
+            trickText = TTLocalizer.PeTTWickStrings[trickId]
             if trickId < len(pet.trickAptitudes):
                 aptitude = pet.trickAptitudes[trickId]
                 bar = self.bars.get(trickId)
                 label = self.bars.get(trickId)
                 if aptitude != 0:
-                    healRange = PetTricks.TrickHeals[trickId]
+                    healRange = PeTTWicks.TrickHeals[trickId]
                     hp = lerp(healRange[0], healRange[1], aptitude)
                     if hp == healRange[1]:
                         hp = healRange[1]

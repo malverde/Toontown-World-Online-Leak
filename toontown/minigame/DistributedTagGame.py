@@ -278,9 +278,9 @@ class DistributedTagGame(DistributedMinigame):
         else:
             self.notify.debug('Bumped ' + str(avId))
 
-    def setTreasureScore(self, scores):
+    def seTTWeasureScore(self, scores):
         if not self.hasLocalToon:
             return
-        self.notify.debug('setTreasureScore: %s' % scores)
+        self.notify.debug('seTTWeasureScore: %s' % scores)
         for i in range(len(self.scorePanels)):
             self.scorePanels[i].setScore(scores[i])

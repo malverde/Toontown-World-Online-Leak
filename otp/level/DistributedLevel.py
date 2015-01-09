@@ -71,7 +71,7 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
         self.privGotAllRequired()
 
     def privGotAllRequired(self):
-        if hasattr(self, 'zoneIds') and hasattr(self, 'startTime'):
+        if hasaTTW(self, 'zoneIds') and hasaTTW(self, 'startTime'):
             self.levelAnnounceGenerate()
 
     def levelAnnounceGenerate(self):
@@ -222,7 +222,7 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
 
     def disable(self):
         DistributedLevel.notify.debug('disable')
-        if hasattr(self, 'geom'):
+        if hasaTTW(self, 'geom'):
             del self.geom
         self.shutdownVisibility()
         self.destroyLevel()
@@ -304,8 +304,8 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
         else:
             zone.stash()
 
-    def setTransparency(self, alpha, zone = None):
-        self.geom.setTransparency(1)
+    def seTTWansparency(self, alpha, zone = None):
+        self.geom.seTTWansparency(1)
         if zone is None:
             node = self.geom
         else:
@@ -369,7 +369,7 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
 
     def unlockVisibility(self):
         self.notify.debug('unlockVisibility')
-        if not hasattr(self, 'lockVizZone'):
+        if not hasaTTW(self, 'lockVizZone'):
             self.notify.warning('visibility already unlocked')
         else:
             del self.lockVizZone
@@ -390,7 +390,7 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
             zoneNum = self.curZoneNum
             if zoneNum is None:
                 return
-        if hasattr(self, 'lockVizZone'):
+        if hasaTTW(self, 'lockVizZone'):
             zoneNum = self.lockVizZone
         zoneEnt = self.getEntity(zoneNum)
         visibleZoneNums = list2dict([zoneNum])
@@ -474,15 +474,15 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
 
     if __dev__:
 
-        def setAttribChange(self, entId, attribName, valueStr, username):
+        def setATTWibChange(self, entId, aTTWibName, valueStr, username):
             value = eval(valueStr)
-            self.levelSpec.setAttribChange(entId, attribName, value, username)
+            self.levelSpec.setATTWibChange(entId, aTTWibName, value, username)
 
     def spawnTitleText(self):
         return
         def getDescription(zoneNum, self = self):
             ent = self.entities.get(zoneNum)
-            if ent and hasattr(ent, 'description'):
+            if ent and hasaTTW(ent, 'description'):
                 return ent.description
             return None
 
@@ -518,7 +518,7 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
 
     def startOuch(self, ouchLevel, period = 2):
         self.notify.debug('startOuch %s' % ouchLevel)
-        if not hasattr(self, 'doingOuch'):
+        if not hasaTTW(self, 'doingOuch'):
 
             def doOuch(task, self = self, ouchLevel = ouchLevel, period = period):
                 self.b_setOuch(ouchLevel)
@@ -526,7 +526,7 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
                 taskMgr.doMethodLater(period, doOuch, DistributedLevel.OuchTaskName)
 
             delay = 0
-            if hasattr(self, 'lastOuchTime'):
+            if hasaTTW(self, 'lastOuchTime'):
                 curFrameTime = globalClock.getFrameTime()
                 timeSinceLastOuch = curFrameTime - self.lastOuchTime
                 if timeSinceLastOuch < period:
@@ -539,7 +539,7 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
         return
 
     def stopOuch(self):
-        if hasattr(self, 'doingOuch'):
+        if hasaTTW(self, 'doingOuch'):
             taskMgr.remove(DistributedLevel.OuchTaskName)
             del self.doingOuch
 

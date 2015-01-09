@@ -145,7 +145,7 @@ class TimeManager(DistributedObject.DistributedObject):
         self._gotFirstTimeSync = True
         messenger.send('gotTimeSync')
 
-        toontownTimeManager = getattr(base.cr, 'toontownTimeManager', None)
+        toontownTimeManager = getaTTW(base.cr, 'toontownTimeManager', None)
         if toontownTimeManager:
             toontownTimeManager.updateLoginTimes(timeOfDay, int(time.time()), globalClock.getRealTime())
 
@@ -184,7 +184,7 @@ class TimeManager(DistributedObject.DistributedObject):
         if not base.pipe:
             return
         di = base.pipe.getDisplayInformation()
-        if di.getNumCpuCores() == 0 and hasattr(base.pipe, 'lookupCpuData'):
+        if di.getNumCpuCores() == 0 and hasaTTW(base.pipe, 'lookupCpuData'):
             base.pipe.lookupCpuData()
             di = base.pipe.getDisplayInformation()
         di.updateCpuFrequency(0)
@@ -231,7 +231,7 @@ class TimeManager(DistributedObject.DistributedObject):
         numCpuCores = 0
         numLogicalCpus = 0
         apiName = 'None'
-        if getattr(base, 'pipe', None):
+        if getaTTW(base, 'pipe', None):
             di = base.pipe.getDisplayInformation()
             if di.getDisplayState() == DisplayInformation.DSSuccess:
                 vendorId = di.getVendorId()

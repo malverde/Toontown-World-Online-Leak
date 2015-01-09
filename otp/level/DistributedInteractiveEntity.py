@@ -9,7 +9,7 @@ class DistributedInteractiveEntity(DistributedEntity.DistributedEntity):
 
     def __init__(self, cr):
         DistributedEntity.DistributedEntity.__init__(self, cr)
-        self.fsm = ClassicFSM.ClassicFSM('DistributedInteractiveEntity', [State.State('off', self.enterOff, self.exitOff, ['playing', 'attract']), State.State('attract', self.enterAttract, self.exitAttract, ['playing']), State.State('playing', self.enterPlaying, self.exitPlaying, ['attract'])], 'off', 'off')
+        self.fsm = ClassicFSM.ClassicFSM('DistributedInteractiveEntity', [State.State('off', self.enterOff, self.exitOff, ['playing', 'aTTWact']), State.State('aTTWact', self.enterATTWact, self.exitATTWact, ['playing']), State.State('playing', self.enterPlaying, self.exitPlaying, ['aTTWact'])], 'off', 'off')
         self.fsm.enterInitialState()
 
     def generate(self):
@@ -40,8 +40,8 @@ class DistributedInteractiveEntity(DistributedEntity.DistributedEntity):
         messenger.send('DistributedInteractiveEntity_enterTrigger')
         self.sendUpdate('requestInteract')
 
-    def exitTrigger(self, args = None):
-        messenger.send('DistributedInteractiveEntity_exitTrigger')
+    def exiTTWigger(self, args = None):
+        messenger.send('DistributedInteractiveEntity_exiTTWigger')
         self.sendUpdate('requestExit')
 
     def rejectInteract(self):
@@ -56,10 +56,10 @@ class DistributedInteractiveEntity(DistributedEntity.DistributedEntity):
     def exitOff(self):
         pass
 
-    def enterAttract(self, ts):
+    def enterATTWact(self, ts):
         pass
 
-    def exitAttract(self):
+    def exitATTWact(self):
         pass
 
     def enterPlaying(self, ts):

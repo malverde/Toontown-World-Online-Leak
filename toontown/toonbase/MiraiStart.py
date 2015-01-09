@@ -111,10 +111,10 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
                 self.notify.debug("No class definition for %s." % (className))
             else:
                 if type(classDef) == types.ModuleType:
-                    if not hasattr(classDef, className):
+                    if not hasaTTW(classDef, className):
                         self.notify.warning("Module %s does not define class %s." % (className, className))
                         continue
-                    classDef = getattr(classDef, className)
+                    classDef = getaTTW(classDef, className)
 
                 if type(classDef) != types.ClassType and type(classDef) != types.TypeType:
                     self.notify.error("Symbol %s is not a class name." % (className))
@@ -172,9 +172,9 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
                         self.notify.error("No class definition for %s." % className)
                     else:
                         if type(classDef) == types.ModuleType:
-                            if not hasattr(classDef, className):
+                            if not hasaTTW(classDef, className):
                                 self.notify.error("Module %s does not define class %s." % (className, className))
-                            classDef = getattr(classDef, className)
+                            classDef = getaTTW(classDef, className)
                         dclass.setOwnerClassDef(classDef)
                         self.dclassesByName[className] = dclass
 

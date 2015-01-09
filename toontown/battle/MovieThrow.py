@@ -86,8 +86,8 @@ def doThrows(throws):
                 mtrack.append(Sequence(Wait(delay), ival))
             delay = delay + TOON_THROW_SUIT_DELAY
 
-    retTrack = Sequence()
-    retTrack.append(mtrack)
+    reTTWack = Sequence()
+    reTTWack.append(mtrack)
     groupThrowIvals = Parallel()
     groupThrows = []
     for throw in throws:
@@ -101,10 +101,10 @@ def doThrows(throws):
             for track in tracks:
                 groupThrowIvals.append(track)
 
-    retTrack.append(groupThrowIvals)
-    camDuration = retTrack.getDuration()
+    reTTWack.append(groupThrowIvals)
+    camDuration = reTTWack.getDuration()
     camTrack = MovieCamera.chooseThrowShot(throws, suitThrowsDict, camDuration)
-    return (retTrack, camTrack)
+    return (reTTWack, camTrack)
 
 
 def __doSuitThrows(throws):
@@ -238,10 +238,10 @@ def __getWeddingCakeSoundTrack(level, hitSuit, node = None):
         songTrack.append(Wait(1.0))
         songTrack.append(SoundInterval(throwSound, node=node))
         splatSound = globalBattleSoundCache.getSound('AA_throw_wedding_cake_cog.ogg')
-        splatTrack = Sequence()
-        splatTrack.append(Wait(tPieHitsSuit))
-        splatTrack.append(SoundInterval(splatSound, node=node))
-        throwTrack.append(Parallel(songTrack, splatTrack))
+        splaTTWack = Sequence()
+        splaTTWack.append(Wait(tPieHitsSuit))
+        splaTTWack.append(SoundInterval(splatSound, node=node))
+        throwTrack.append(Parallel(songTrack, splaTTWack))
     else:
         throwSound = globalBattleSoundCache.getSound('AA_throw_wedding_cake_miss.ogg')
         throwTrack.append(Wait(tSuitDodges))
@@ -256,8 +256,8 @@ def __getSoundTrack(level, hitSuit, node = None):
     throwTrack = Sequence(Wait(2.6), SoundInterval(throwSound, node=node))
     if hitSuit:
         hitSound = globalBattleSoundCache.getSound(hitSoundFiles[level])
-        hitTrack = Sequence(Wait(tPieLeavesHand), SoundInterval(hitSound, node=node))
-        return Parallel(throwTrack, hitTrack)
+        hiTTWack = Sequence(Wait(tPieLeavesHand), SoundInterval(hitSound, node=node))
+        return Parallel(throwTrack, hiTTWack)
     else:
         return throwTrack
 
@@ -434,12 +434,12 @@ def __createWeddingCakeFlight(throw, groupHitDict, pie, pies):
         if hitSuit:
             piePartReparent = Func(reparentCakePart, pie, cakePartDivToUse[i])
             singlePieTrack.append(piePartReparent)
-            cakePartTrack = Parallel()
+            cakeParTTWack = Parallel()
             for cakePart in cakePartDivToUse[i]:
                 pieFly = LerpPosInterval(cakePart, tPieHitsSuit - tPieLeavesHand, pos=MovieUtil.avatarFacePoint(suit, other=battle), name=pieFlyTaskName, other=battle)
-                cakePartTrack.append(pieFly)
+                cakeParTTWack.append(pieFly)
 
-            singlePieTrack.append(cakePartTrack)
+            singlePieTrack.append(cakeParTTWack)
             pieRemoveCakeParts = Func(MovieUtil.removeProps, cakePartDivToUse[i])
             pieHide = Func(MovieUtil.removeProps, pies)
             splatShow = Func(__showProp, splats[i], suit, Point3(0, 0, suit.getHeight()))

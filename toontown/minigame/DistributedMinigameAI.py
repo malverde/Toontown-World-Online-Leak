@@ -66,7 +66,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
         if len(self.newbieIdList) > 0:
             self.notify.debug('BASE: setNewbieIds: %s' % self.newbieIdList)
 
-    def setTrolleyZone(self, trolleyZone):
+    def seTTWolleyZone(self, trolleyZone):
         self.trolleyZone = trolleyZone
 
     def setDifficultyOverrides(self, difficultyOverride, trolleyZoneOverride):
@@ -80,14 +80,14 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
         self.metagameRound = roundNum
 
     def _playing(self):
-        if not hasattr(self, 'gameFSM'):
+        if not hasaTTW(self, 'gameFSM'):
             return False
         if self.gameFSM.getCurrentState() == None:
             return False
         return self.gameFSM.getCurrentState().getName() == 'play'
 
     def _inState(self, states):
-        if not hasattr(self, 'gameFSM'):
+        if not hasaTTW(self, 'gameFSM'):
             return False
         if self.gameFSM.getCurrentState() == None:
             return False
@@ -112,7 +112,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
     def getParticipants(self):
         return self.avIdList
 
-    def getTrolleyZone(self):
+    def geTTWolleyZone(self):
         return self.trolleyZone
 
     def getDifficultyOverrides(self):
@@ -330,7 +330,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
     def handleMetagamePurchaseManager(self, scoreList):
         self.notify.debug('self.newbieIdList = %s' % self.newbieIdList)
         votesToUse = self.startingVotes
-        if hasattr(self, 'currentVotes'):
+        if hasaTTW(self, 'currentVotes'):
             votesToUse = self.currentVotes
         votesArray = []
         for avId in self.avIdList:
@@ -348,7 +348,7 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
 
             self.notify.debug('votesArray = %s' % votesArray)
             desiredNextGame = None
-            if hasattr(self, 'desiredNextGame'):
+            if hasaTTW(self, 'desiredNextGame'):
                 desiredNextGame = self.desiredNextGame
             numToons = 0
             lastAvId = 0
@@ -411,14 +411,14 @@ class DistributedMinigameAI(DistributedObjectAI.DistributedObjectAI):
     def getDifficulty(self):
         if self.difficultyOverride is not None:
             return self.difficultyOverride
-        if hasattr(self.air, 'minigameDifficulty'):
+        if hasaTTW(self.air, 'minigameDifficulty'):
             return float(self.air.minigameDifficulty)
         return MinigameGlobals.getDifficulty(self.getSafezoneId())
 
     def getSafezoneId(self):
         if self.trolleyZoneOverride is not None:
             return self.trolleyZoneOverride
-        if hasattr(self.air, 'minigameSafezoneId'):
+        if hasaTTW(self.air, 'minigameSafezoneId'):
             return MinigameGlobals.getSafezoneId(self.air.minigameSafezoneId)
         return MinigameGlobals.getSafezoneId(self.trolleyZone)
 

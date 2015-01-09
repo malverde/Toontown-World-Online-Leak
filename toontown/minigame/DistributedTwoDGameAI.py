@@ -36,8 +36,8 @@ class DistributedTwoDGameAI(DistributedMinigameAI):
         del self.gameFSM
         DistributedMinigameAI.delete(self)
 
-    def setTrolleyZone(self, trolleyZone):
-        DistributedMinigameAI.setTrolleyZone(self, trolleyZone)
+    def seTTWolleyZone(self, trolleyZone):
+        DistributedMinigameAI.seTTWolleyZone(self, trolleyZone)
         self.setupSections()
 
     def setGameReady(self):
@@ -61,8 +61,8 @@ class DistributedTwoDGameAI(DistributedMinigameAI):
 
         for i in xrange(len(self.sectionsSelected)):
             sectionIndex = self.sectionsSelected[i][0]
-            attribs = ToonBlitzGlobals.SectionTypes[sectionIndex]
-            enemiesPool = attribs[3]
+            aTTWibs = ToonBlitzGlobals.SectionTypes[sectionIndex]
+            enemiesPool = aTTWibs[3]
             self.enemyHealthTable += [[]]
             enemyIndicesSelected = self.sectionsSelected[i][1]
             for j in xrange(len(enemyIndicesSelected)):
@@ -188,7 +188,7 @@ class DistributedTwoDGameAI(DistributedMinigameAI):
         self.treasuresCollectedDict[avId][treasureValue - 1] += 1
         self.scoreDict[avId] += ToonBlitzGlobals.ScoreGainPerTreasure * treasureValue
         self.numTreasuresTaken += 1
-        self.sendUpdate('setTreasureGrabbed', [avId, sectionIndex, treasureIndex])
+        self.sendUpdate('seTTWeasureGrabbed', [avId, sectionIndex, treasureIndex])
 
     def claimEnemyShot(self, sectionIndex, enemyIndex):
         avId = self.air.getAvatarIdFromSender()
@@ -324,18 +324,18 @@ class DistributedTwoDGameAI(DistributedMinigameAI):
         for i in xrange(len(sectionIndicesSelected)):
             sectionIndex = sectionIndicesSelected[i]
             self.sectionIndexList.append(sectionIndex)
-            attribs = sectionTypes[sectionIndex]
-            difficulty = attribs[0]
-            length = attribs[1]
-            blocksPool = attribs[2]
-            enemiesPool = attribs[3]
-            treasuresPool = attribs[4]
-            spawnPointsPool = attribs[5]
-            stompersPool = attribs[6]
+            aTTWibs = sectionTypes[sectionIndex]
+            difficulty = aTTWibs[0]
+            length = aTTWibs[1]
+            blocksPool = aTTWibs[2]
+            enemiesPool = aTTWibs[3]
+            treasuresPool = aTTWibs[4]
+            spawnPointsPool = aTTWibs[5]
+            stompersPool = aTTWibs[6]
             enemyIndicesPool = []
             enemyIndicesSelected = []
             if enemiesPool != None:
-                minEnemies, maxEnemies = attribs[7]
+                minEnemies, maxEnemies = aTTWibs[7]
                 for i in xrange(len(enemiesPool)):
                     enemyIndicesPool += [i]
 
@@ -356,7 +356,7 @@ class DistributedTwoDGameAI(DistributedMinigameAI):
 
             treasureIndicesSelected = []
             if treasuresPool != None:
-                minTreasures, maxTreasures = attribs[8]
+                minTreasures, maxTreasures = aTTWibs[8]
                 for i in xrange(len(treasuresPool)):
                     treasureIndicesPool += [i]
 
@@ -375,7 +375,7 @@ class DistributedTwoDGameAI(DistributedMinigameAI):
             spawnPointIndicesPool = []
             spawnPointIndicesSelected = []
             if spawnPointsPool != None:
-                minSpawnPoints, maxSpawnPoints = attribs[9]
+                minSpawnPoints, maxSpawnPoints = aTTWibs[9]
                 for i in xrange(len(spawnPointsPool)):
                     spawnPointIndicesPool += [i]
 
@@ -392,7 +392,7 @@ class DistributedTwoDGameAI(DistributedMinigameAI):
             stomperIndicesPool = []
             stomperIndicesSelected = []
             if stompersPool != None:
-                minStompers, maxStompers = attribs[10]
+                minStompers, maxStompers = aTTWibs[10]
                 for i in xrange(len(stompersPool)):
                     stomperIndicesPool += [i]
 

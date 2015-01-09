@@ -51,7 +51,7 @@ class QuestBookPoster(QuestPoster):
     def reverseBG(self, reverse = 0):
         try:
             self.initImageScale
-        except AttributeError:
+        except ATTWibuteError:
             self.initImageScale = self['image_scale']
             if reverse:
                 self.initImageScale.setX(-abs(self.initImageScale[0]))

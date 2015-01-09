@@ -89,7 +89,7 @@ class DistributedLawOfficeElevatorExt(DistributedElevatorExt.DistributedElevator
              'zoneId': zoneId,
              'hoodId': hoodId,
              'stageId': self.intZoneId}
-            if hasattr(place, 'elevator') and place.elevator:
+            if hasaTTW(place, 'elevator') and place.elevator:
                 place.elevator.signalDone(doneStatus)
             else:
                 self.notify.warning("setMintInteriorZoneForce: Couldn't find playGame.getPlace().elevator, zoneId: %s" % zoneId)

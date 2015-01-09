@@ -116,9 +116,9 @@ class DistributedToonHallInterior(DistributedToonInterior):
         result = -1
         enoughInfoToRun = False
         if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-            if hasattr(base.cr, 'SillyMeterMgr') and not base.cr.SillyMeterMgr.isDisabled():
+            if hasaTTW(base.cr, 'SillyMeterMgr') and not base.cr.SillyMeterMgr.isDisabled():
                 enoughInfoToRun = True
-            elif hasattr(base.cr, 'SillyMeterMgr'):
+            elif hasaTTW(base.cr, 'SillyMeterMgr'):
                 self.notify.debug('isDisabled = %s' % base.cr.SillyMeterMgr.isDisabled())
             else:
                 self.notify.debug('base.cr does not have SillyMeterMgr')
@@ -133,9 +133,9 @@ class DistributedToonHallInterior(DistributedToonInterior):
         result = -1
         valid = False
         if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-            if hasattr(base.cr, 'SillyMeterMgr') and not base.cr.SillyMeterMgr.isDisabled():
+            if hasaTTW(base.cr, 'SillyMeterMgr') and not base.cr.SillyMeterMgr.isDisabled():
                 valid = True
-            elif hasattr(base.cr, 'SillyMeterMgr'):
+            elif hasaTTW(base.cr, 'SillyMeterMgr'):
                 self.notify.debug('isDisabled = %s' % base.cr.SillyMeterMgr.isDisabled())
             else:
                 self.notify.debug('base.cr does not have SillyMeterMgr')
@@ -150,9 +150,9 @@ class DistributedToonHallInterior(DistributedToonInterior):
         result = -1
         valid = False
         if base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_HOLIDAY) or base.cr.newsManager.isHolidayRunning(ToontownGlobals.SILLYMETER_EXT_HOLIDAY):
-            if hasattr(base.cr, 'SillyMeterMgr') and not base.cr.SillyMeterMgr.isDisabled():
+            if hasaTTW(base.cr, 'SillyMeterMgr') and not base.cr.SillyMeterMgr.isDisabled():
                 valid = True
-            elif hasattr(base.cr, 'SillyMeterMgr'):
+            elif hasaTTW(base.cr, 'SillyMeterMgr'):
                 self.notify.debug('isDisabled = %s' % base.cr.SillyMeterMgr.isDisabled())
             else:
                 self.notify.debug('base.cr does not have SillyMeterMgr')
@@ -582,18 +582,18 @@ class DistributedToonHallInterior(DistributedToonInterior):
         self.flatHorse.hide()
 
     def enterOff(self):
-        if hasattr(self, 'animSeq') and self.animSeq:
+        if hasaTTW(self, 'animSeq') and self.animSeq:
             self.animSeq.finish()
         self.ignore('SillyMeterPhase')
-        if hasattr(self, 'sillyMeter'):
+        if hasaTTW(self, 'sillyMeter'):
             del self.sillyMeter
-        if hasattr(self, 'smPhase1'):
+        if hasaTTW(self, 'smPhase1'):
             del self.smPhase1
-        if hasattr(self, 'smPhase2'):
+        if hasaTTW(self, 'smPhase2'):
             del self.smPhase2
-        if hasattr(self, 'smPhase3'):
+        if hasaTTW(self, 'smPhase3'):
             del self.smPhase3
-        if hasattr(self, 'smPhase4'):
+        if hasaTTW(self, 'smPhase4'):
             del self.smPhase4
         self.cleanUpSounds()
 
@@ -651,9 +651,9 @@ class DistributedToonHallInterior(DistributedToonInterior):
     def cleanUpCollisions(self):
         base.cTrav.removeCollider(self.camChangeNP)
         self.camChangeNP.detachNode()
-        if hasattr(self, 'camChangeNP'):
+        if hasaTTW(self, 'camChangeNP'):
             del self.camChangeNP
-        if hasattr(self, 'cHandlerEvent'):
+        if hasaTTW(self, 'cHandlerEvent'):
             del self.cHandlerEvent
 
     def cleanUpSounds(self):
@@ -663,28 +663,28 @@ class DistributedToonHallInterior(DistributedToonInterior):
                 soundFile.setLoop(False)
                 soundFile.stop()
 
-        if hasattr(self, 'audio3d'):
+        if hasaTTW(self, 'audio3d'):
             self.audio3d.disable()
             del self.audio3d
-        if hasattr(self, 'phase1Sfx'):
+        if hasaTTW(self, 'phase1Sfx'):
             __cleanUpSound__(self.phase1Sfx)
             del self.phase1Sfx
-        if hasattr(self, 'phase2Sfx'):
+        if hasaTTW(self, 'phase2Sfx'):
             __cleanUpSound__(self.phase2Sfx)
             del self.phase2Sfx
-        if hasattr(self, 'phase3Sfx'):
+        if hasaTTW(self, 'phase3Sfx'):
             __cleanUpSound__(self.phase3Sfx)
             del self.phase3Sfx
-        if hasattr(self, 'phase4Sfx'):
+        if hasaTTW(self, 'phase4Sfx'):
             __cleanUpSound__(self.phase4Sfx)
             del self.phase4Sfx
-        if hasattr(self, 'phase4To5Sfx'):
+        if hasaTTW(self, 'phase4To5Sfx'):
             __cleanUpSound__(self.phase4To5Sfx)
             del self.phase4To5Sfx
-        if hasattr(self, 'phase5Sfx'):
+        if hasaTTW(self, 'phase5Sfx'):
             __cleanUpSound__(self.phase5Sfx)
             del self.phase5Sfx
-        if hasattr(self, 'arrowSfx'):
+        if hasaTTW(self, 'arrowSfx'):
             __cleanUpSound__(self.arrowSfx)
             del self.arrowSfx
 
@@ -694,7 +694,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
 
     def restoreCam(self):
         base.localAvatar.setCameraFov(ToontownGlobals.DefaultCameraFov)
-        if hasattr(self, 'oldView'):
+        if hasaTTW(self, 'oldView'):
             base.localAvatar.setCameraPositionByIndex(self.oldView)
 
     def disable(self):
@@ -704,7 +704,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         self.restoreCam()
         self.ignoreAll()
         self.cleanUpCollisions()
-        if hasattr(self, 'sillyFSM'):
+        if hasaTTW(self, 'sillyFSM'):
             self.sillyFSM.requestFinalState()
             del self.sillyFSM
         DistributedToonInterior.disable(self)

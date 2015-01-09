@@ -48,7 +48,7 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity, Goo
 
     def announceGenerate(self):
         DistributedCrushableEntity.DistributedCrushableEntity.announceGenerate(self)
-        if hasattr(self, 'goonType'):
+        if hasaTTW(self, 'goonType'):
             self.initGoon(self.goonType)
         else:
             self.initGoon('pg')
@@ -113,12 +113,12 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity, Goo
         self.ignore(self.uniqueName('entertoonSphere'))
 
     def deleteCollisions(self):
-        if hasattr(self, 'sSphereNodePath'):
+        if hasaTTW(self, 'sSphereNodePath'):
             self.sSphereNodePath.removeNode()
             del self.sSphereNodePath
             del self.sSphereNode
             del self.sSphere
-        if hasattr(self, 'cSphereNodePath'):
+        if hasaTTW(self, 'cSphereNodePath'):
             self.cSphereNodePath.removeNode()
             del self.cSphereNodePath
             del self.cSphereNode
@@ -146,7 +146,7 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity, Goo
     def setPath(self):
         self.path = self.level.getEntity(self.parentEntId)
         if __dev__:
-            if hasattr(self, 'pathChangeEvent'):
+            if hasaTTW(self, 'pathChangeEvent'):
                 self.ignore(self.pathChangeEvent)
             self.pathChangeEvent = self.path.getChangeEvent()
             self.accept(self.pathChangeEvent, self.refreshPath)
@@ -364,7 +364,7 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity, Goo
         if self.walkTrack:
             self.pauseTime = self.walkTrack.pause()
             self.paused = 1
-        if self.dclass and hasattr(self, 'dclass'):
+        if self.dclass and hasaTTW(self, 'dclass'):
             self.sendUpdate('requestBattle', [self.pauseTime])
         else:
             self.notify.info('Goon deleted and still trying to call handleToonDetect()')

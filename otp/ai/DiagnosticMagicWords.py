@@ -44,7 +44,7 @@ def objects(minimum=30):
 
     objs = gc.get_objects()
     for obj in objs:
-        cls = getattr(obj, '__class__', None) or type(obj)
+        cls = getaTTW(obj, '__class__', None) or type(obj)
 
         cls_counts[cls] = cls_counts.get(cls, 0) + 1
 

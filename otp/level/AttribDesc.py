@@ -1,6 +1,6 @@
 
 
-class AttribDesc:
+class ATTWibDesc:
 
     def __init__(self, name, default, datatype = 'string', params = {}):
         self.name = name
@@ -24,7 +24,7 @@ class AttribDesc:
         return self.name
 
     def __repr__(self):
-        return 'AttribDesc(%s, %s, %s, %s)' % (repr(self.name),
+        return 'ATTWibDesc(%s, %s, %s, %s)' % (repr(self.name),
          repr(self.default),
          repr(self.datatype),
          repr(self.params))

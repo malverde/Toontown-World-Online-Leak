@@ -53,7 +53,7 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
     def calcInteractiveProp(self):
         if base.cr.playGame.hood:
             loader = base.cr.playGame.hood.loader
-            if hasattr(loader, 'getInteractiveProp'):
+            if hasaTTW(loader, 'getInteractiveProp'):
                 self.interactiveProp = loader.getInteractiveProp(self.zoneId)
                 self.notify.debug('self.interactiveProp = %s' % self.interactiveProp)
             else:
@@ -61,10 +61,10 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
         else:
             self.notify.warning('no hood  self.interactiveProp is None')
 
-    def setMembers(self, suits, suitsJoining, suitsPending, suitsActive, suitsLured, suitTraps, toons, toonsJoining, toonsPending, toonsActive, toonsRunning, timestamp):
+    def setMembers(self, suits, suitsJoining, suitsPending, suitsActive, suitsLured, suiTTWaps, toons, toonsJoining, toonsPending, toonsActive, toonsRunning, timestamp):
         if self.battleCleanedUp():
             return
-        oldtoons = DistributedBattleBase.DistributedBattleBase.setMembers(self, suits, suitsJoining, suitsPending, suitsActive, suitsLured, suitTraps, toons, toonsJoining, toonsPending, toonsActive, toonsRunning, timestamp)
+        oldtoons = DistributedBattleBase.DistributedBattleBase.setMembers(self, suits, suitsJoining, suitsPending, suitsActive, suitsLured, suiTTWaps, toons, toonsJoining, toonsPending, toonsActive, toonsRunning, timestamp)
         if len(self.toons) == 4 and len(oldtoons) < 4:
             self.notify.debug('setMembers() - battle is now full of toons')
             self.closeBattleCollision()
@@ -90,12 +90,12 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
         toon.setPos(self, p[0], p[1], 0.0)
         toon.setShadowHeight(0)
         suit.setState('Battle')
-        suitTrack = Sequence()
+        suiTTWack = Sequence()
         toonTrack = Sequence()
-        suitTrack.append(Func(suit.loop, 'neutral'))
-        suitTrack.append(Func(suit.headsUp, toon))
+        suiTTWack.append(Func(suit.loop, 'neutral'))
+        suiTTWack.append(Func(suit.headsUp, toon))
         taunt = SuitBattleGlobals.getFaceoffTaunt(suit.getStyleName(), suit.doId)
-        suitTrack.append(Func(suit.setChatAbsolute, taunt, CFSpeech | CFTimeout))
+        suiTTWack.append(Func(suit.setChatAbsolute, taunt, CFSpeech | CFTimeout))
         toonTrack.append(Func(toon.loop, 'neutral'))
         toonTrack.append(Func(toon.headsUp, suit))
         suitHeight = suit.getHeight()
@@ -125,15 +125,15 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
             if self.interactiveProp:
                 camTrack.append(Func(camera.lookAt, self.interactiveProp.node.getPos(self)))
                 camTrack.append(Wait(FACEOFF_LOOK_AT_PROP_T))
-        suitTrack.append(Wait(delay))
+        suiTTWack.append(Wait(delay))
         toonTrack.append(Wait(delay))
-        suitTrack.append(Func(suit.headsUp, self, suitPos))
-        suitTrack.append(Func(suit.clearChat))
+        suiTTWack.append(Func(suit.headsUp, self, suitPos))
+        suiTTWack.append(Func(suit.clearChat))
         toonTrack.append(Func(toon.headsUp, self, toonPos))
-        suitTrack.append(Func(suit.loop, 'walk'))
-        suitTrack.append(LerpPosInterval(suit, faceoffTime, suitPos, other=self))
-        suitTrack.append(Func(suit.loop, 'neutral'))
-        suitTrack.append(Func(suit.setHpr, self, suitHpr))
+        suiTTWack.append(Func(suit.loop, 'walk'))
+        suiTTWack.append(LerpPosInterval(suit, faceoffTime, suitPos, other=self))
+        suiTTWack.append(Func(suit.loop, 'neutral'))
+        suiTTWack.append(Func(suit.setHpr, self, suitHpr))
         toonTrack.append(Func(toon.loop, 'run'))
         toonTrack.append(LerpPosInterval(toon, faceoffTime, toonPos, other=self))
         toonTrack.append(Func(toon.loop, 'neutral'))
@@ -142,7 +142,7 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
             soundTrack = Sequence(Wait(delay), SoundInterval(base.localAvatar.soundRun, loop=1, duration=faceoffTime, node=base.localAvatar))
         else:
             soundTrack = Wait(delay + faceoffTime)
-        mtrack = Parallel(suitTrack, toonTrack, soundTrack)
+        mtrack = Parallel(suiTTWack, toonTrack, soundTrack)
         if self.hasLocalToon():
             NametagGlobals.setMasterArrowsOn(0)
             mtrack = Parallel(mtrack, camTrack)

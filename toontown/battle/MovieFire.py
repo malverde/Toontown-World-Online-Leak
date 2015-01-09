@@ -75,11 +75,11 @@ def doFires(fires):
                 mtrack.append(Sequence(Wait(delay), ival))
             delay = delay + TOON_FIRE_SUIT_DELAY
 
-    retTrack = Sequence()
-    retTrack.append(mtrack)
-    camDuration = retTrack.getDuration()
+    reTTWack = Sequence()
+    reTTWack.append(mtrack)
+    camDuration = reTTWack.getDuration()
     camTrack = MovieCamera.chooseFireShot(fires, suitFiresDict, camDuration)
-    return (retTrack, camTrack)
+    return (reTTWack, camTrack)
 
 def __doSuitFires(fires):
     toonTracks = Parallel()

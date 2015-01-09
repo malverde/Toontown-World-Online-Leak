@@ -60,7 +60,7 @@ def doSounds(sounds):
     return (soundTrack, camTrack)
 
 
-def __getSuitTrack(sound, lastSoundThatHit, delay, hitCount, targets, totalDamage, hpbonus, toon, npcs):
+def __getSuiTTWack(sound, lastSoundThatHit, delay, hitCount, targets, totalDamage, hpbonus, toon, npcs):
     tracks = Parallel()
     attacks = 0
     uberDelay = 0.0
@@ -75,7 +75,7 @@ def __getSuitTrack(sound, lastSoundThatHit, delay, hitCount, targets, totalDamag
             died = target['died']
             battle = sound['battle']
             kbbonus = target['kbbonus']
-            suitTrack = Sequence()
+            suiTTWack = Sequence()
             showDamage = Func(suit.showHpText, -totalDamage, openEnded=0)
             updateHealthBar = Func(suit.updateHealthBar, totalDamage)
             if isUber:
@@ -84,30 +84,30 @@ def __getSuitTrack(sound, lastSoundThatHit, delay, hitCount, targets, totalDamag
                 breakEffect.setDepthTest(0)
                 breakEffect.setTwoSided(1)
                 soundEffect = globalBattleSoundCache.getSound(hitSoundFiles[0])
-            suitTrack.append(Wait(delay + tSuitReact))
+            suiTTWack.append(Wait(delay + tSuitReact))
             if isUber:
                 delayTime = random.random()
-                suitTrack.append(Wait(delayTime + 2.0))
-                suitTrack.append(Func(setPosFromOther, breakEffect, suit, Point3(0, 0.0, suit.getHeight() - 1.0)))
-                suitTrack.append(Parallel(showDamage, updateHealthBar, SoundInterval(soundEffect, node=suit), __getPartTrack(breakEffect, 0.0, 1.0, [breakEffect, suit, 0], softStop=-0.5)))
+                suiTTWack.append(Wait(delayTime + 2.0))
+                suiTTWack.append(Func(setPosFromOther, breakEffect, suit, Point3(0, 0.0, suit.getHeight() - 1.0)))
+                suiTTWack.append(Parallel(showDamage, updateHealthBar, SoundInterval(soundEffect, node=suit), __getParTTWack(breakEffect, 0.0, 1.0, [breakEffect, suit, 0], softStop=-0.5)))
             else:
-                suitTrack.append(showDamage)
-                suitTrack.append(updateHealthBar)
+                suiTTWack.append(showDamage)
+                suiTTWack.append(updateHealthBar)
             if hitCount == 1:
-                suitTrack.append(Parallel(ActorInterval(suit, 'squirt-small-react'), MovieUtil.createSuitStunInterval(suit, 0.5, 1.8)))
+                suiTTWack.append(Parallel(ActorInterval(suit, 'squirt-small-react'), MovieUtil.createSuitStunInterval(suit, 0.5, 1.8)))
             else:
-                suitTrack.append(ActorInterval(suit, 'squirt-small-react'))
+                suiTTWack.append(ActorInterval(suit, 'squirt-small-react'))
             if kbbonus == 0:
-                suitTrack.append(__createSuitResetPosTrack(suit, battle))
-                suitTrack.append(Func(battle.unlureSuit, suit))
+                suiTTWack.append(__createSuitResetPosTrack(suit, battle))
+                suiTTWack.append(Func(battle.unlureSuit, suit))
             bonusTrack = None
             if hpbonus > 0:
                 bonusTrack = Sequence(Wait(delay + tSuitReact + delay + 0.75 + uberDelay), Func(suit.showHpText, -hpbonus, 1, openEnded=0))
-            suitTrack.append(Func(suit.loop, 'neutral'))
+            suiTTWack.append(Func(suit.loop, 'neutral'))
             if bonusTrack == None:
-                tracks.append(suitTrack)
+                tracks.append(suiTTWack)
             else:
-                tracks.append(Parallel(suitTrack, bonusTrack))
+                tracks.append(Parallel(suiTTWack, bonusTrack))
         elif totalDamage <= 0:
             tracks.append(Sequence(Wait(2.9), Func(MovieUtil.indicateMissed, suit, 1.0)))
 
@@ -136,7 +136,7 @@ def __doSoundsLevel(sounds, delay, hitCount, npcs):
         hpbonus = sound['hpbonus']
         attackMTrack = soundfn_array[sound['level']](sound, delay, toon, targets, level)
         tracks.append(Sequence(Wait(delay), attackMTrack))
-        tracks.append(__getSuitTrack(sound, lastSoundThatHit, delay, hitCount, targets, totalDamage, hpbonus, toon, npcs))
+        tracks.append(__getSuiTTWack(sound, lastSoundThatHit, delay, hitCount, targets, totalDamage, hpbonus, toon, npcs))
         for target in targets:
             battle = sound['battle']
             suit = target['suit']
@@ -186,7 +186,7 @@ def __createToonInterval(sound, delay, toon, operaInstrument = None):
         I1 = 2.8
         retval.append(ActorInterval(toon, 'sound', playRate=1.0, startTime=0.0, endTime=I1))
         retval.append(Func(setPosFromOther, sprayEffect, operaInstrument, Point3(0, 1.6, -0.18)))
-        retval.append(__getPartTrack(sprayEffect, 0.0, 6.0, [sprayEffect, toon, 0], softStop=-3.5))
+        retval.append(__getParTTWack(sprayEffect, 0.0, 6.0, [sprayEffect, toon, 0], softStop=-3.5))
         retval.append(ActorInterval(toon, 'sound', playRate=1.0, startTime=I1))
     else:
         retval.append(ActorInterval(toon, 'sound'))
@@ -620,7 +620,7 @@ soundfn_array = (__doBikehorn,
  __doFoghorn,
  __doOpera)
 
-def __getPartTrack(particleEffect, startDelay, durationDelay, partExtraArgs, softStop = 0):
+def __getParTTWack(particleEffect, startDelay, durationDelay, partExtraArgs, softStop = 0):
     pEffect = partExtraArgs[0]
     parent = partExtraArgs[1]
     if len(partExtraArgs) == 3:

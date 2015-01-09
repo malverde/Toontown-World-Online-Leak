@@ -129,7 +129,7 @@ class OZPlayground(Playground.Playground):
         if self.dialog:
             self.dialog.cleanup()
             self.dialog = None
-        if hasattr(self, 'fsm'):
+        if hasaTTW(self, 'fsm'):
             self.fsm.request('walk', [1])
         return
 

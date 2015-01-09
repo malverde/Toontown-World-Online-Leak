@@ -1,0 +1,9 @@
+ToontownStart: Polling for game2 to finish...
+ToontownStart: Game2 is finished.
+ToontownStart: Starting the game.
+ToontownStart: setting default font
+TTLocalizer: Running in language: LANGUAGE_HERE
+from toontown.toonbase.TTLocalizer_Language_here import *
+OTPLocalizer: Running in language: LANGUAGE_HERE
+from otp.otpbase.OTPLocalizer_Language_here import *
+/usr/bin/python: No module named OTPLocalizer_Language_here

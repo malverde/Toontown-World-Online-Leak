@@ -27,7 +27,7 @@ class DistributedNPCBlocker(DistributedNPCToonBase):
         return
 
     def disable(self):
-        if hasattr(self, 'movie') and self.movie:
+        if hasaTTW(self, 'movie') and self.movie:
             self.movie.cleanup()
             del self.movie
             if self.isLocalToon == 1:
@@ -43,7 +43,7 @@ class DistributedNPCBlocker(DistributedNPCToonBase):
 
     def resetBlocker(self):
         self.cSphereNode.setCollideMask(BitMask32())
-        if hasattr(self, 'movie') and self.movie:
+        if hasaTTW(self, 'movie') and self.movie:
             self.movie.cleanup()
             self.movie = None
         self.startLookAround()

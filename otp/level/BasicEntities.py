@@ -4,7 +4,7 @@ from pandac.PandaModules import NodePath
 
 class NodePathEntityBase:
 
-    def initNodePathAttribs(self, doReparent = 1):
+    def initNodePathATTWibs(self, doReparent = 1):
         self.callSetters('pos', 'x', 'y', 'z', 'hpr', 'h', 'p', 'r', 'scale', 'sx', 'sy', 'sz')
         if doReparent:
             self.callSetters('parentEntId')
@@ -21,10 +21,10 @@ class NodePathEntityBase:
             self.getNodePath().clearTag('entity')
 
 
-class NodePathAttribs(NodePathEntityBase):
+class NodePathATTWibs(NodePathEntityBase):
 
-    def initNodePathAttribs(self, doReparent = 1):
-        NodePathEntityBase.initNodePathAttribs(self, doReparent)
+    def initNodePathATTWibs(self, doReparent = 1):
+        NodePathEntityBase.initNodePathATTWibs(self, doReparent)
 
     def destroy(self):
         NodePathEntityBase.destroy(self)
@@ -33,14 +33,14 @@ class NodePathAttribs(NodePathEntityBase):
         return self
 
 
-class NodePathAndAttribs(NodePathEntityBase, NodePath):
+class NodePathAndATTWibs(NodePathEntityBase, NodePath):
 
     def __init__(self):
         node = hidden.attachNewNode('EntityNodePath')
         NodePath.__init__(self, node)
 
-    def initNodePathAttribs(self, doReparent = 1):
-        NodePathEntityBase.initNodePathAttribs(self, doReparent)
+    def initNodePathATTWibs(self, doReparent = 1):
+        NodePathEntityBase.initNodePathATTWibs(self, doReparent)
 
     def destroy(self):
         NodePathEntityBase.destroy(self)
@@ -50,10 +50,10 @@ class NodePathAndAttribs(NodePathEntityBase, NodePath):
         return self
 
 
-class NodePathAttribsProxy(NodePathEntityBase):
+class NodePathATTWibsProxy(NodePathEntityBase):
 
-    def initNodePathAttribs(self, doReparent = 1):
-        NodePathEntityBase.initNodePathAttribs(self, doReparent)
+    def initNodePathATTWibs(self, doReparent = 1):
+        NodePathEntityBase.initNodePathATTWibs(self, doReparent)
 
     def destroy(self):
         NodePathEntityBase.destroy(self)
@@ -98,21 +98,21 @@ class NodePathAttribsProxy(NodePathEntityBase):
         self.getNodePath().reparentTo(*args)
 
 
-class NodePathEntity(Entity.Entity, NodePath, NodePathAttribs):
+class NodePathEntity(Entity.Entity, NodePath, NodePathATTWibs):
 
     def __init__(self, level, entId):
         node = hidden.attachNewNode('NodePathEntity')
         NodePath.__init__(self, node)
         Entity.Entity.__init__(self, level, entId)
-        self.initNodePathAttribs(self)
+        self.initNodePathATTWibs(self)
 
     def destroy(self):
-        NodePathAttribs.destroy(self)
+        NodePathATTWibs.destroy(self)
         Entity.Entity.destroy(self)
         self.removeNode()
 
 
-class DistributedNodePathEntity(DistributedEntity.DistributedEntity, NodePath, NodePathAttribs):
+class DistributedNodePathEntity(DistributedEntity.DistributedEntity, NodePath, NodePathATTWibs):
 
     def __init__(self, cr):
         DistributedEntity.DistributedEntity.__init__(self, cr)
@@ -124,7 +124,7 @@ class DistributedNodePathEntity(DistributedEntity.DistributedEntity, NodePath, N
 
     def announceGenerate(self):
         DistributedEntity.DistributedEntity.announceGenerate(self)
-        self.initNodePathAttribs(self)
+        self.initNodePathATTWibs(self)
 
     def delete(self):
         self.removeNode()

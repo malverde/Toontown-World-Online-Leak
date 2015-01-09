@@ -22,7 +22,7 @@ class WinterPartyCatchActivityToonSD(PartyCatchActivityToonSD.PartyCatchActivity
         renderScale = fruitModel.getScale(render)
         fruitModel.reparentTo(handNode)
         fruitModel.setScale(render, renderScale)
-        fruitModel.setTransparency(1)
+        fruitModel.seTTWansparency(1)
         duration = self.toon.getDuration('catch-eatneutral')
         self.eatIval = Sequence(Parallel(WaitInterval(duration), Sequence(LerpColorScaleInterval(fruitModel, duration / 2.0, Vec4(1.0, 1.0, 1.0, 0.0)))), Func(self.fsm.request, 'normal'), name=self.toon.uniqueName('eatingIval'))
         self.eatIval.start()

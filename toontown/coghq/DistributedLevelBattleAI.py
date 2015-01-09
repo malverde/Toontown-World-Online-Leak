@@ -16,7 +16,7 @@ class DistributedLevelBattleAI(DistributedBattleAI.DistributedBattleAI):
         self.battleCellId = battleCellId
         self.winState = winState
         self.roundCallback = roundCallback
-        self.suitTrack = suit.dna.dept
+        self.suiTTWack = suit.dna.dept
         DistributedBattleAI.DistributedBattleAI.__init__(self, air, battleMgr, pos, suit, toonId, zoneId, finishCallback, maxSuits, tutorialFlag=0, levelFlag=1)
         isBossBattle = 0
         for suit in self.battleMgr.level.planner.battleCellId2suits[battleCellId]:

@@ -92,7 +92,7 @@ class DistributedNPCPartyPerson(DistributedNPCToonBase):
         self.detectAvatars()
         self.clearMat()
         if self.isInteractingWithLocalToon:
-            if hasattr(self, 'teaserDialog') and not self.teaserDialog:
+            if hasaTTW(self, 'teaserDialog') and not self.teaserDialog:
                 self.freeAvatar()
         return Task.done
 

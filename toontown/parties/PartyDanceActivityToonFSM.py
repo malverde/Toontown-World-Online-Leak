@@ -18,7 +18,7 @@ class PartyDanceActivityToonFSM(FSM):
         self.danceNode = None
         self.danceMoveSequence = None
         self.lastAnim = None
-        self.defaultTransitions = {'Init': ['Run', 'DanceMove', 'Cleanup'],
+        self.defaulTTWansitions = {'Init': ['Run', 'DanceMove', 'Cleanup'],
          'DanceMove': ['Run', 'DanceMove', 'Cleanup'],
          'Run': ['Run', 'DanceMove', 'Cleanup'],
          'Cleanup': []}
@@ -49,7 +49,7 @@ class PartyDanceActivityToonFSM(FSM):
         pass
 
     def enterCleanup(self, *args):
-        if hasattr(base.cr.playGame.hood, 'loader'):
+        if hasaTTW(base.cr.playGame.hood, 'loader'):
             pos = self.toon.getPos(self.activity.getParentNodePath())
             hpr = self.toon.getHpr(self.activity.getParentNodePath())
             self.toon.reparentTo(self.activity.getParentNodePath())

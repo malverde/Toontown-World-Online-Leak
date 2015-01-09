@@ -116,7 +116,7 @@ class PlayerDetailPanel(DirectFrame):
 
     def __showToon(self):
         messenger.send('wakeup')
-        hasManager = hasattr(base.cr, 'playerFriendsManager')
+        hasManager = hasaTTW(base.cr, 'playerFriendsManager')
         handle = base.cr.identifyFriend(self.avId)
         if not handle and hasManager:
             handle = base.cr.playerFriendsManager.getAvHandleFromId(self.avId)

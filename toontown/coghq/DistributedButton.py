@@ -85,8 +85,8 @@ class DistributedButton(DistributedSwitch.DistributedSwitch):
     def enterTrigger(self, args = None):
         DistributedSwitch.DistributedSwitch.enterTrigger(self, args)
 
-    def exitTrigger(self, args = None):
-        DistributedSwitch.DistributedSwitch.exitTrigger(self, args)
+    def exiTTWigger(self, args = None):
+        DistributedSwitch.DistributedSwitch.exiTTWigger(self, args)
 
     def switchOnTrack(self):
         onSfx = base.loadSfx('phase_9/audio/sfx/CHQ_FACT_switch_pressed.ogg')

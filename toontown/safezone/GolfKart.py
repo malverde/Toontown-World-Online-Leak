@@ -25,11 +25,11 @@ class GolfKart(StateData.StateData):
                             'trolleyTFA']),
             State.State('trolleyHFA',
                         self.enterTrolleyHFA,
-                        self.exitTrolleyHFA, [
+                        self.exiTTWolleyHFA, [
                             'final']),
             State.State('trolleyTFA',
                         self.enterTrolleyTFA,
-                        self.exitTrolleyTFA, [
+                        self.exiTTWolleyTFA, [
                             'final']),
             State.State('requestBoard',
                         self.enterRequestBoard,
@@ -52,7 +52,7 @@ class GolfKart(StateData.StateData):
                             'trolleyLeaving']),
             State.State('trolleyLeaving',
                         self.enterTrolleyLeaving,
-                        self.exitTrolleyLeaving, [
+                        self.exiTTWolleyLeaving, [
                             'final']),
             State.State('exiting',
                         self.enterExiting,
@@ -108,7 +108,7 @@ class GolfKart(StateData.StateData):
         base.localAvatar.b_setAnimState('neutral', 1)
         self.accept('noTrolleyAck', self.__handleNoTrolleyAck)
 
-    def exitTrolleyHFA(self):
+    def exiTTWolleyHFA(self):
         self.ignore('noTrolleyAck')
         self.noTrolleyBox.cleanup()
         del self.noTrolleyBox
@@ -119,7 +119,7 @@ class GolfKart(StateData.StateData):
         base.localAvatar.b_setAnimState('neutral', 1)
         self.accept('noTrolleyAck', self.__handleNoTrolleyAck)
 
-    def exitTrolleyTFA(self):
+    def exiTTWolleyTFA(self):
         self.ignore('noTrolleyAck')
         self.noTrolleyBox.cleanup()
         del self.noTrolleyBox
@@ -199,7 +199,7 @@ class GolfKart(StateData.StateData):
         doneStatus['courseId'] = courseId
         messenger.send(self.doneEvent, [doneStatus])
 
-    def exitTrolleyLeaving(self):
+    def exiTTWolleyLeaving(self):
         self.ignore('playMinigame')
         taskMgr.remove('leavingCamera')
         return None

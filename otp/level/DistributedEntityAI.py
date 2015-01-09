@@ -6,7 +6,7 @@ class DistributedEntityAI(DistributedObjectAI.DistributedObjectAI, Entity.Entity
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedEntityAI')
 
     def __init__(self, level, entId):
-        if hasattr(level, 'air'):
+        if hasaTTW(level, 'air'):
             air = level.air
             self.levelDoId = level.doId
         else:

@@ -261,7 +261,7 @@ class DistributedDivingGameAI(DistributedMinigameAI):
 
     def setGameReady(self):
         self.notify.debug('setGameReady')
-        self.sendUpdate('setTrolleyZone', [self.trolleyZone])
+        self.sendUpdate('seTTWolleyZone', [self.trolleyZone])
         for avId in self.scoreDict.keys():
             self.scoreDict[avId] = 0
 
@@ -299,7 +299,7 @@ class DistributedDivingGameAI(DistributedMinigameAI):
          dir])
 
     def treasureRecovered(self):
-        if not hasattr(self, 'scoreTracking'):
+        if not hasaTTW(self, 'scoreTracking'):
             return
         avId = self.air.getAvatarIdFromSender()
         if avId not in self.avIdList:
@@ -389,7 +389,7 @@ class DistributedDivingGameAI(DistributedMinigameAI):
         pass
 
     def pickupTreasure(self, chestId):
-        if not hasattr(self, 'scoreTracking'):
+        if not hasaTTW(self, 'scoreTracking'):
             return
         timestamp = globalClockDelta.getFrameNetworkTime()
         avId = self.air.getAvatarIdFromSender()
@@ -409,7 +409,7 @@ class DistributedDivingGameAI(DistributedMinigameAI):
             return
         self.scoreTracking[avId][2] += 1
         self.treasureHolders[chestId] = avId
-        self.sendUpdate('setTreasureGrabbed', [avId, chestId])
+        self.sendUpdate('seTTWeasureGrabbed', [avId, chestId])
 
     def spawnFish(self, spawnerId):
         timestamp = globalClockDelta.getFrameNetworkTime()
@@ -460,4 +460,4 @@ class DistributedDivingGameAI(DistributedMinigameAI):
         if avId in self.treasureHolders:
             self.treasureHolders[self.treasureHolders.index(avId)] = 0
             self.scoreTracking[avId][3] += 1
-            self.sendUpdate('setTreasureDropped', [avId, timestamp])
+            self.sendUpdate('seTTWeasureDropped', [avId, timestamp])

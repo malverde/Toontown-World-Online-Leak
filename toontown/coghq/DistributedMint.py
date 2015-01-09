@@ -195,7 +195,7 @@ class DistributedMint(DistributedObject.DistributedObject):
             self.geom.removeNode()
             self.geom = None
         base.localAvatar.setCameraCollisionsCanMove(0)
-        if hasattr(self, 'relatedObjectMgrRequest') and self.relatedObjectMgrRequest:
+        if hasaTTW(self, 'relatedObjectMgrRequest') and self.relatedObjectMgrRequest:
             self.cr.relatedObjectMgr.abortRequest(self.relatedObjectMgrRequest)
             del self.relatedObjectMgrRequest
         DistributedObject.DistributedObject.disable(self)
@@ -216,5 +216,5 @@ class DistributedMint(DistributedObject.DistributedObject):
 
     def handleScreenshot(self):
         base.addScreenshotString('mintId: %s, floor (from 1): %s' % (self.mintId, self.floorNum + 1))
-        if hasattr(self, 'currentRoomName'):
+        if hasaTTW(self, 'currentRoomName'):
             base.addScreenshotString('%s' % self.currentRoomName)

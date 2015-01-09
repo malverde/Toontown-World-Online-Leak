@@ -490,7 +490,7 @@ class SuitPlannerBase:
 
     def delete(self):
         del self.dnaStore
-        if hasattr(self, 'dnaData'):
+        if hasaTTW(self, 'dnaData'):
             del self.dnaData
 
     def setupDNA(self):

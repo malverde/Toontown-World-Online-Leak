@@ -97,13 +97,13 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.csm = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_CLIENT_SERVICES_MANAGER, 'ClientServicesManager')
         self.avatarFriendsManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_AVATAR_FRIENDS_MANAGER, 'AvatarFriendsManager')
         self.playerFriendsManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_PLAYER_FRIENDS_MANAGER, 'TTPlayerFriendsManager')
-        self.ttrFriendsManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TTR_FRIENDS_MANAGER, 'TTRFriendsManager')
+        self.TTWFriendsManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TTW_FRIENDS_MANAGER, 'TTWFriendsManager')
         self.speedchatRelay = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TOONTOWN_SPEEDCHAT_RELAY, 'TTSpeedchatRelay')
         self.deliveryManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER, 'DistributedDeliveryManager')
         if config.GetBool('want-code-redemption', 1):
             self.codeRedemptionManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER, 'TTCodeRedemptionMgr')
         if config.GetBool('want-arg-manager', 0):
-            self.argManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TTR_ARG_MANAGER, 'ARGManager')
+            self.argManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TTW_ARG_MANAGER, 'ARGManager')
 
         self.streetSign = None
         self.furnitureManager = None
@@ -215,7 +215,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.sendSetAvatarIdMsg(0)
         self.clearFriendState()
         if self.music == None and base.musicManagerIsValid:
-            self.music = base.musicManager.getSound('phase_3/audio/bgm/ttr_theme.ogg')
+            self.music = base.musicManager.getSound('phase_3/audio/bgm/TTW_theme.ogg')
             if self.music:
                 self.music.setLoop(1)
                 self.music.setVolume(0.9)
@@ -319,7 +319,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     def __handleMakeAToon(self, avList, avPosition):
         done = self.avCreate.getDoneStatus()
         if done == 'cancel':
-            if hasattr(self, 'newPotAv'):
+            if hasaTTW(self, 'newPotAv'):
                 if self.newPotAv in avList:
                     avList.remove(self.newPotAv)
             self.avCreate.exit()
@@ -343,7 +343,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.avCreate.unload()
         self.avCreate = None
         self.handler = None
-        if hasattr(self, 'newPotAv'):
+        if hasaTTW(self, 'newPotAv'):
             del self.newPotAv
         return
 
@@ -395,7 +395,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     def __sendGetAvatarDetails(self, avId):
         #return
 
-        self.ttrFriendsManager.d_getAvatarDetails(avId)
+        self.TTWFriendsManager.d_getAvatarDetails(avId)
 
         return
         datagram = PyDatagram()
@@ -427,7 +427,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         # fields = [['setHp', 15], ['setMaxHp', 15]]
 
         for currentField in fields:
-            getattr(pad.avatar, currentField[0])(currentField[1])
+            getaTTW(pad.avatar, currentField[0])(currentField[1])
 
         gotData = 1
 
@@ -486,7 +486,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         base.removeGlitchMessage()
         taskMgr.remove('avatarRequestQueueTask')
         OTPClientRepository.OTPClientRepository.exitPlayingGame(self)
-        if hasattr(base, 'localAvatar'):
+        if hasaTTW(base, 'localAvatar'):
             camera.reparentTo(render)
             camera.setPos(0, 0, 0)
             camera.setHpr(0, 0, 0)
@@ -816,7 +816,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
     def removeFriend(self, avatarId):
         #base.localAvatar.sendUpdate('friendsNotify', [base.localAvatar.doId, 1], sendToId=avatarId)
-        self.ttrFriendsManager.d_removeFriend(avatarId)
+        self.TTWFriendsManager.d_removeFriend(avatarId)
 
     def clearFriendState(self):
         self.friendsMap = {}
@@ -827,7 +827,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     def sendGetFriendsListRequest(self):
         self.friendsMapPending = 1
         self.friendsListError = 0
-        self.ttrFriendsManager.d_requestFriendsList()
+        self.TTWFriendsManager.d_requestFriendsList()
 
     def cleanPetsFromFriendsMap(self):
         for objId, obj in self.friendsMap.items():
@@ -949,7 +949,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         isAllowed = self.__forbidCheesyEffects != 0
         if wasAllowed != isAllowed:
             for av in Avatar.Avatar.ActiveAvatars:
-                if hasattr(av, 'reconsiderCheesyEffect'):
+                if hasaTTW(av, 'reconsiderCheesyEffect'):
                     av.reconsiderCheesyEffect()
 
             base.localAvatar.reconsiderCheesyEffect()
@@ -1014,7 +1014,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         if event is not None:
             if not base.killInterestResponse:
                 messenger.send(event)
-            elif not hasattr(self, '_dontSendSetZoneDone'):
+            elif not hasaTTW(self, '_dontSendSetZoneDone'):
                 import random
                 if random.random() < 0.05:
                     self._dontSendSetZoneDone = True
@@ -1098,7 +1098,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                 self.deleteObject(doId)
 
     def askAvatarKnown(self, avId):
-        if not hasattr(base, 'localAvatar'):
+        if not hasaTTW(base, 'localAvatar'):
             return 0
         for friendPair in base.localAvatar.friendsList:
             if friendPair[0] == avId:
@@ -1109,11 +1109,11 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     def requestAvatarInfo(self, avId):
         if avId == 0:
             return
-        self.ttrFriendsManager.d_requestAvatarInfo([avId])
+        self.TTWFriendsManager.d_requestAvatarInfo([avId])
 
     def queueRequestAvatarInfo(self, avId):
         removeTask = 0
-        if not hasattr(self, 'avatarInfoRequests'):
+        if not hasaTTW(self, 'avatarInfoRequests'):
             self.avatarInfoRequests = []
         if self.avatarInfoRequests:
             taskMgr.remove('avatarRequestQueueTask')
@@ -1122,8 +1122,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         taskMgr.doMethodLater(0.1, self.sendAvatarInfoRequests, 'avatarRequestQueueTask')
 
     def sendAvatarInfoRequests(self, task = None):
-        if not hasattr(self, 'avatarInfoRequests'):
+        if not hasaTTW(self, 'avatarInfoRequests'):
             return
         if len(self.avatarInfoRequests) == 0:
             return
-        self.ttrFriendsManager.d_requestAvatarInfo(self.avatarInfoRequests)
+        self.TTWFriendsManager.d_requestAvatarInfo(self.avatarInfoRequests)

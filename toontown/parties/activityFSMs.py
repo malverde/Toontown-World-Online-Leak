@@ -16,7 +16,7 @@ class FireworksActivityFSM(BaseActivityFSM, IdleMixin, ActiveMixin, DisabledMixi
     def __init__(self, activity):
         FireworksActivityFSM.notify.debug('__init__')
         BaseActivityFSM.__init__(self, activity)
-        self.defaultTransitions = {'Idle': ['Active', 'Disabled'],
+        self.defaulTTWansitions = {'Idle': ['Active', 'Disabled'],
          'Active': ['Disabled'],
          'Disabled': []}
 
@@ -27,7 +27,7 @@ class CatchActivityFSM(BaseActivityFSM, IdleMixin, ActiveMixin, ConclusionMixin)
     def __init__(self, activity):
         CatchActivityFSM.notify.debug('__init__')
         BaseActivityFSM.__init__(self, activity)
-        self.defaultTransitions = {'Idle': ['Active', 'Conclusion'],
+        self.defaulTTWansitions = {'Idle': ['Active', 'Conclusion'],
          'Active': ['Conclusion'],
          'Conclusion': ['Idle']}
 
@@ -38,7 +38,7 @@ class TrampolineActivityFSM(BaseActivityFSM, IdleMixin, RulesMixin, ActiveMixin)
     def __init__(self, activity):
         TrampolineActivityFSM.notify.debug('__init__')
         BaseActivityFSM.__init__(self, activity)
-        self.defaultTransitions = {'Idle': ['Rules', 'Active'],
+        self.defaulTTWansitions = {'Idle': ['Rules', 'Active'],
          'Rules': ['Active', 'Idle'],
          'Active': ['Idle']}
 
@@ -49,7 +49,7 @@ class DanceActivityFSM(BaseActivityFSM, IdleMixin, ActiveMixin, DisabledMixin):
     def __init__(self, activity):
         DanceActivityFSM.notify.debug('__init__')
         BaseActivityFSM.__init__(self, activity)
-        self.defaultTransitions = {'Active': ['Disabled'],
+        self.defaulTTWansitions = {'Active': ['Disabled'],
          'Disabled': ['Active']}
 
 
@@ -59,7 +59,7 @@ class TeamActivityAIFSM(BaseActivityFSM, WaitForEnoughMixin, WaitToStartMixin, W
     def __init__(self, activity):
         BaseActivityFSM.__init__(self, activity)
         self.notify.debug('__init__')
-        self.defaultTransitions = {'WaitForEnough': ['WaitToStart'],
+        self.defaulTTWansitions = {'WaitForEnough': ['WaitToStart'],
          'WaitToStart': ['WaitForEnough', 'WaitClientsReady'],
          'WaitClientsReady': ['WaitForEnough', 'Active'],
          'Active': ['WaitForEnough', 'Conclusion'],
@@ -71,7 +71,7 @@ class TeamActivityFSM(BaseActivityFSM, WaitForEnoughMixin, WaitToStartMixin, Rul
 
     def __init__(self, activity):
         BaseActivityFSM.__init__(self, activity)
-        self.defaultTransitions = {'WaitForEnough': ['WaitToStart'],
+        self.defaulTTWansitions = {'WaitForEnough': ['WaitToStart'],
          'WaitToStart': ['WaitForEnough', 'Rules'],
          'Rules': ['WaitForServer', 'Active', 'WaitForEnough'],
          'WaitForServer': ['Active', 'WaitForEnough'],

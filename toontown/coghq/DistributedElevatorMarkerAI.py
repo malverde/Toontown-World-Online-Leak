@@ -7,7 +7,7 @@ from otp.level import DistributedEntityAI
 from otp.level import BasicEntities
 from direct.directnotify import DirectNotifyGlobal
 
-class DistributedElevatorMarkerAI(DistributedEntityAI.DistributedEntityAI, NodePath, BasicEntities.NodePathAttribs):
+class DistributedElevatorMarkerAI(DistributedEntityAI.DistributedEntityAI, NodePath, BasicEntities.NodePathATTWibs):
 
     def __init__(self, level, entId):
         DistributedEntityAI.DistributedEntityAI.__init__(self, level, entId)

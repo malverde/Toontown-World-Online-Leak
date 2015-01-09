@@ -22,7 +22,7 @@ class GolfPage(ShtikerPage):
         return
 
     def enter(self):
-        if not hasattr(self, 'title'):
+        if not hasaTTW(self, 'title'):
             self.load()
         self.setMode(self.mode, 1)
         ShtikerPage.enter(self)

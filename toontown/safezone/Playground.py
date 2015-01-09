@@ -82,7 +82,7 @@ class Playground(Place.Place):
                             'trialerFA']),
             State.State('trolley',
                         self.enterTrolley,
-                        self.exitTrolley, [
+                        self.exiTTWolley, [
                             'walk']),
             State.State('doorIn',
                         self.enterDoorIn,
@@ -103,12 +103,12 @@ class Playground(Place.Place):
                             'walk']),
             State.State('trialerFA',
                         self.enterTrialerFA,
-                        self.exitTrialerFA, [
+                        self.exiTTWialerFA, [
                             'trialerFAReject',
                             'DFA']),
             State.State('trialerFAReject',
                         self.enterTrialerFAReject,
-                        self.exitTrialerFAReject, [
+                        self.exiTTWialerFAReject, [
                             'walk']),
             State.State('DFA',
                         self.enterDFA,
@@ -350,13 +350,13 @@ class Playground(Place.Place):
         self.debugText.attachNewNode(lines.create())
 
     def hideDebugPointText(self):
-        if hasattr(self, 'debugText'):
+        if hasaTTW(self, 'debugText'):
             children = self.debugText.getChildren()
             for i in range(children.getNumPaths()):
                 children[i].removeNode()
 
     def showDebugPointText(self, text, point):
-        if not hasattr(self, 'debugText'):
+        if not hasaTTW(self, 'debugText'):
             self.debugText = self.loader.geom.attachNewNode('debugText')
             self.debugTextNode = TextNode('debugTextNode')
             self.debugTextNode.setTextColor(1, 0, 0, 1)
@@ -377,7 +377,7 @@ class Playground(Place.Place):
         self.trolley.load()
         self.trolley.enter()
 
-    def exitTrolley(self):
+    def exiTTWolley(self):
         base.localAvatar.laffMeter.stop()
         base.localAvatar.cantLeaveGame = 0
         self.ignore(self.trolleyDoneEvent)
@@ -588,7 +588,7 @@ class Playground(Place.Place):
         if self.dialog:
             self.dialog.cleanup()
             self.dialog = None
-        if hasattr(self, 'fsm'):
+        if hasaTTW(self, 'fsm'):
             self.fsm.request('walk', [1])
         return
 
@@ -615,7 +615,7 @@ class Playground(Place.Place):
         self.ignore('teleportQuery')
 
     def __handleFallingAsleepPopup(self, task):
-        if hasattr(self, 'fsm'):
+        if hasaTTW(self, 'fsm'):
             self.fsm.request('walk')
             base.localAvatar.forceGotoSleep()
         return Task.done
@@ -625,7 +625,7 @@ class Playground(Place.Place):
 
     def __teleportOutDone(self, requestStatus):
         teleportDebug(requestStatus, 'Playground.__teleportOutDone(%s)' % (requestStatus,))
-        if hasattr(self, 'activityFsm'):
+        if hasaTTW(self, 'activityFsm'):
             self.activityFsm.requestFinalState()
         hoodId = requestStatus['hoodId']
         zoneId = requestStatus['zoneId']

@@ -9,7 +9,7 @@ from direct.fsm.FSM import FSM
 
 class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedElevatorFSMAI')
-    defaultTransitions = {'Off': ['Opening', 'Closed'],
+    defaulTTWansitions = {'Off': ['Opening', 'Closed'],
      'Opening': ['WaitEmpty',
                  'WaitCountdown',
                  'Opening',
@@ -39,7 +39,7 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
         self.setAntiShuffle(antiShuffle)
         self.setMinLaff(minLaff)
         if self.antiShuffle:
-            if not hasattr(simbase.air, 'elevatorTripId'):
+            if not hasaTTW(simbase.air, 'elevatorTripId'):
                 simbase.air.elevatorTripId = 1
             self.elevatorTripId = simbase.air.elevatorTripId
             simbase.air.elevatorTripId += 1
@@ -169,7 +169,7 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
         return
 
     def requestExit(self, *args):
-        if hasattr(self, 'air'):
+        if hasaTTW(self, 'air'):
             self.notify.debug('requestExit')
             avId = self.air.getAvatarIdFromSender()
             av = self.air.doId2do.get(avId)
@@ -188,7 +188,7 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
     def enterOff(self):
         self.accepting = 0
         self.timeOfBoarding = None
-        if hasattr(self, 'doId'):
+        if hasaTTW(self, 'doId'):
             for seatIndex in range(len(self.seats)):
                 taskMgr.remove(self.uniqueName('clearEmpty-' + str(seatIndex)))
 
@@ -238,7 +238,7 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
         taskMgr.remove(self.uniqueName('closing-timer'))
 
     def enterClosed(self):
-        if hasattr(self, 'doId'):
+        if hasaTTW(self, 'doId'):
             print self.doId
         self.d_setState('Closed')
 

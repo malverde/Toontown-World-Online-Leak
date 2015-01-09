@@ -12,7 +12,7 @@ from toontown.racing.KartShopGlobals import KartGlobals
 
 class DistributedRacePad(DistributedKartPad, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedRacePad')
-    defaultTransitions = {'Off': ['WaitEmpty'],
+    defaulTTWansitions = {'Off': ['WaitEmpty'],
      'WaitEmpty': ['WaitCountdown', 'Off'],
      'WaitCountdown': ['WaitEmpty',
                        'WaitBoarding',
@@ -74,7 +74,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
                  'hoodId': hoodId}
                 messenger.send(base.cr.playGame.getPlace().doneEvent)
 
-    def setTrackInfo(self, trackInfo):
+    def seTTWackInfo(self, trackInfo):
         if self.isDisabled():
             return
         self.trackId, self.trackType = trackInfo
@@ -177,7 +177,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
 
     def getTunnelSign(self):
         cPadId = RaceGlobals.RaceInfo2RacePadId(self.trackId, self.trackType)
-        genreId = RaceGlobals.getTrackGenre(self.trackId)
+        genreId = RaceGlobals.geTTWackGenre(self.trackId)
         tunnelName = RaceGlobals.getTunnelSignName(genreId, cPadId)
         self.tunnelSign = self.cr.playGame.hood.loader.geom.find('**/' + tunnelName)
 

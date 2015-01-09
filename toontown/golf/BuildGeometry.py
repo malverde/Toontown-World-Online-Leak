@@ -43,16 +43,16 @@ def addCircle(attachNode, vertexCount, radius, color = Vec4(1.0, 1.0, 1.0, 1.0),
         targetCircleVertexWriter.addData3f(0.0 + vertex[0], 0.0 + vertex[1], zFloat)
         targetCircleColorWriter.addData4f(color[0], color[1], color[2], color[3])
 
-    targetTris = GeomTrifans(Geom.UHStatic)
+    targeTTWis = GeomTrifans(Geom.UHStatic)
     sizeTarget = len(targetCircleShape)
-    targetTris.addVertex(0)
+    targeTTWis.addVertex(0)
     for countVertex in range(1, sizeTarget + 1):
-        targetTris.addVertex(countVertex)
+        targeTTWis.addVertex(countVertex)
 
-    targetTris.addVertex(1)
-    targetTris.closePrimitive()
+    targeTTWis.addVertex(1)
+    targeTTWis.closePrimitive()
     targetGeom = Geom(targetCircleVertexData)
-    targetGeom.addPrimitive(targetTris)
+    targetGeom.addPrimitive(targeTTWis)
     attachNode.addGeom(targetGeom)
     return targetGeom
 

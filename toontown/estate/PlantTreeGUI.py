@@ -6,14 +6,14 @@ from direct.fsm import StateData
 from toontown.toonbase.ToontownBattleGlobals import gagIsPaidOnly
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 
-class PlantTreeGUI(StateData.StateData):
-    notify = DirectNotifyGlobal.directNotify.newCategory('PlantTreeGUI')
+class PlanTTWeeGUI(StateData.StateData):
+    notify = DirectNotifyGlobal.directNotify.newCategory('PlanTTWeeGUI')
 
     def __init__(self, doneEvent):
         self.doneEvent = doneEvent
         self.oldActivateMode = base.localAvatar.inventory.activateMode
         self._teaserPanel = None
-        base.localAvatar.inventory.setActivateMode('plantTree')
+        base.localAvatar.inventory.setActivateMode('planTTWee')
         base.localAvatar.inventory.show()
         self.accept('inventory-selection', self.__handleInventory)
         self.accept('inventory-pass', self.__handleCancel)

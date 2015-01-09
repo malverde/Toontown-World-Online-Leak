@@ -14,7 +14,7 @@ class FlashEffect(NodePath, EffectController):
         self.effectModel.setBillboardAxis(0)
         self.effectModel.reparentTo(self)
         self.effectModel.setColorScale(0, 0, 0, 0)
-        self.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd, ColorBlendAttrib.OIncomingAlpha, ColorBlendAttrib.OOne))
+        self.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd, ColorBlendATTWib.OIncomingAlpha, ColorBlendATTWib.OOne))
         self.setBillboardPointWorld()
         self.setDepthWrite(0)
         self.setLightOff()

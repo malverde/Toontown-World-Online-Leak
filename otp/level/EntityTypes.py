@@ -4,7 +4,7 @@ from toontown.coghq.SpecImports import *
 class Entity(EntityTypeDesc):
     abstract = 1
     type = 'entity'
-    attribs = (('type', None, 'const'),
+    aTTWibs = (('type', None, 'const'),
      ('name', '<unnamed>', 'string'),
      ('comment', '', 'string'),
      ('parentEntId', 0, 'entId'))
@@ -13,14 +13,14 @@ class Entity(EntityTypeDesc):
 class LevelMgr(Entity):
     type = 'levelMgr'
     permanent = 1
-    attribs = (('name', 'LevelMgr', 'const'), ('parentEntId', 0, 'const'), ('modelFilename', '', 'const'))
+    aTTWibs = (('name', 'LevelMgr', 'const'), ('parentEntId', 0, 'const'), ('modelFilename', '', 'const'))
 
 
 class EditMgr(Entity):
     type = 'editMgr'
     permanent = 1
-    blockAttribs = ('comment',)
-    attribs = (('name', 'LevelMgr', 'const'),
+    blockATTWibs = ('comment',)
+    aTTWibs = (('name', 'LevelMgr', 'const'),
      ('parentEntId', 0, 'const'),
      ('requestSave', None, 'const'),
      ('requestNewEntity', None, 'const'),
@@ -28,22 +28,22 @@ class EditMgr(Entity):
      ('removeEntity', None, 'const'))
 
 
-class AttribModifier(Entity):
-    type = 'attribModifier'
-    attribs = (('recursive', 0, 'bool'),
+class ATTWibModifier(Entity):
+    type = 'aTTWibModifier'
+    aTTWibs = (('recursive', 0, 'bool'),
      ('typeName', '', 'string'),
-     ('attribName', '', 'string'),
+     ('aTTWibName', '', 'string'),
      ('value', '', 'string'))
 
 
 class Locator(Entity):
     type = 'locator'
-    attribs = (('searchPath', '', 'string'),)
+    aTTWibs = (('searchPath', '', 'string'),)
 
 
 class Nodepath(Entity):
     type = 'nodepath'
-    attribs = (('parentEntId',
+    aTTWibs = (('parentEntId',
       0,
       'entId',
       {'type': 'nodepath'}),
@@ -55,13 +55,13 @@ class Nodepath(Entity):
 class Zone(Nodepath):
     type = 'zone'
     permanent = 1
-    blockAttribs = ('pos', 'hpr')
-    attribs = (('parentEntId', 0, 'const'), ('description', '', 'string'), ('visibility', [], 'visZoneList'))
+    blockATTWibs = ('pos', 'hpr')
+    aTTWibs = (('parentEntId', 0, 'const'), ('description', '', 'string'), ('visibility', [], 'visZoneList'))
 
 
 class EntrancePoint(Nodepath):
     type = 'entrancePoint'
-    attribs = (('entranceId', -1, 'int'), ('radius',
+    aTTWibs = (('entranceId', -1, 'int'), ('radius',
       15,
       'float',
       {'min': 0}), ('theta',
@@ -73,7 +73,7 @@ class EntrancePoint(Nodepath):
 class LogicGate(Entity):
     type = 'logicGate'
     output = 'bool'
-    attribs = (('input1Event',
+    aTTWibs = (('input1Event',
       0,
       'entId',
       {'output': 'bool'}),
@@ -97,7 +97,7 @@ class LogicGate(Entity):
 class CutScene(Entity):
     type = 'cutScene'
     output = 'bool'
-    attribs = (('pos', Point3(0, 0, 0), 'pos'),
+    aTTWibs = (('pos', Point3(0, 0, 0), 'pos'),
      ('hpr', Vec3(0, 0, 0), 'hpr'),
      ('startStopEvent',
       0,
@@ -116,7 +116,7 @@ class CutScene(Entity):
 
 class CollisionSolid(Nodepath):
     type = 'collisionSolid'
-    attribs = (('solidType',
+    aTTWibs = (('solidType',
       'sphere',
       'choice',
       {'choiceSet': ['sphere', 'tube']}),
@@ -127,7 +127,7 @@ class CollisionSolid(Nodepath):
 
 class Model(Nodepath):
     type = 'model'
-    attribs = (('loadType',
+    aTTWibs = (('loadType',
       'loadModelCopy',
       'choice',
       {'choiceSet': ['loadModelCopy', 'loadModel', 'loadModelOnce']}),
@@ -148,12 +148,12 @@ class Model(Nodepath):
 
 class Path(Nodepath):
     type = 'path'
-    attribs = (('pathIndex', 0, 'int'), ('pathScale', 1.0, 'float'))
+    aTTWibs = (('pathIndex', 0, 'int'), ('pathScale', 1.0, 'float'))
 
 
 class VisibilityExtender(Entity):
     type = 'visibilityExtender'
-    attribs = (('event',
+    aTTWibs = (('event',
       None,
       'entId',
       {'output': 'bool'}), ('newZones', [], 'visZoneList'))
@@ -161,7 +161,7 @@ class VisibilityExtender(Entity):
 
 class AmbientSound(Nodepath):
     type = 'ambientSound'
-    attribs = (('soundPath', '', 'bamfilename'), ('volume',
+    aTTWibs = (('soundPath', '', 'bamfilename'), ('volume',
       1,
       'float',
       {'min': 0,

@@ -49,7 +49,7 @@ class BattleBlocker(BasicEntities.DistributedNodePathEntity):
         self.accept(self.enterEvent, self.__handleToonEnter)
 
     def unloadCollisionGeom(self):
-        if hasattr(self, 'cSphereNodePath'):
+        if hasaTTW(self, 'cSphereNodePath'):
             self.ignore(self.enterEvent)
             del self.cSphere
             del self.cSphereNode
@@ -90,6 +90,6 @@ class BattleBlocker(BasicEntities.DistributedNodePathEntity):
 
     if __dev__:
 
-        def attribChanged(self, *args):
+        def aTTWibChanged(self, *args):
             self.unloadCollisionGeom()
             self.initCollisionGeom()

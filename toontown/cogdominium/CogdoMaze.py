@@ -60,7 +60,7 @@ class CogdoMaze(MazeBase, DirectObject):
         base.win.setClearColor(self._clearColor)
         del self._clearColor
         MazeBase.destroy(self)
-        if __debug__ and hasattr(self, '_cubes'):
+        if __debug__ and hasaTTW(self, '_cubes'):
             self.ignoreAll()
             self._cubes.removeNode()
             del self._cubes
@@ -89,12 +89,12 @@ class CogdoMazeFactory:
         self.cellWidth = self._cogdoMazeData.QuadrantCellWidth
 
     def getMazeData(self):
-        if not hasattr(self, '_data'):
+        if not hasaTTW(self, '_data'):
             self._generateMazeData()
         return self._data
 
     def createCogdoMaze(self, flattenModel = True):
-        if not hasattr(self, '_maze'):
+        if not hasaTTW(self, '_maze'):
             self._loadAndBuildMazeModel(flatten=flattenModel)
         return CogdoMaze(self._model, self._data, self.cellWidth)
 
@@ -196,7 +196,7 @@ class CogdoMazeFactory:
         return
 
     def _generateMazeData(self):
-        if not hasattr(self, 'quadrantData'):
+        if not hasaTTW(self, 'quadrantData'):
             self._gatherQuadrantData()
         self._data = {}
         self._data['width'] = (self.width + 1) * self.frameWallThickness + self.width * self.quadrantSize

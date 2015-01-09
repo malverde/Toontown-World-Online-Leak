@@ -7,7 +7,7 @@ from toontown.minigame.MinigameCreatorAI import *
 from toontown.quest import Quests
 from otp.ai.MagicWordGlobal import *
 
-doesntWantTrolleyTracks = {}
+doesntWanTTWolleyTracks = {}
 
 class DistributedTrolleyAI(DistributedObjectAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedTrolleyAI")
@@ -75,8 +75,8 @@ class DistributedTrolleyAI(DistributedObjectAI, FSM):
             newbieIds = []
 
             for avId in players:
-            #    noTravel = doesntWantTrolleyTracks.get(avId)
-            #    aiNoTravel = doesntWantTrolleyTracks.get('everyone')
+            #    noTravel = doesntWanTTWolleyTracks.get(avId)
+            #    aiNoTravel = doesntWanTTWolleyTracks.get('everyone')
 
                 if self.isNewbie(avId):
                     newbieIds.append(avId)
@@ -173,16 +173,16 @@ class DistributedTrolleyAI(DistributedObjectAI, FSM):
 @magicWord(category=CATEGORY_OVERRIDE, types=[str])
 def travel(target='self'):
     if target=='everyone':
-        if 'everyone' in doesntWantTrolleyTracks:
-            del doesntWantTrolleyTracks['everyone']
+        if 'everyone' in doesntWanTTWolleyTracks:
+            del doesntWanTTWolleyTracks['everyone']
             return "Re-enabled Trolley Tracks in the current district."
         else:
-            doesntWantTrolleyTracks['everyone'] = True
+            doesntWanTTWolleyTracks['everyone'] = True
             return "Disabled Trolley Tracks in the current district."
     else:
-        if spellbook.getTarget().doId in doesntWantTrolleyTracks:
-            del doesntWantTrolleyTracks[spellbook.getTarget().doId]
+        if spellbook.getTarget().doId in doesntWanTTWolleyTracks:
+            del doesntWanTTWolleyTracks[spellbook.getTarget().doId]
             return "Re-enabled Trolley Tracks."
         else:
-            doesntWantTrolleyTracks[spellbook.getTarget().doId] = True
+            doesntWanTTWolleyTracks[spellbook.getTarget().doId] = True
             return "Disabled Trolley Tracks."

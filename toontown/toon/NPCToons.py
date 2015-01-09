@@ -157,7 +157,7 @@ def createNPC(air, npcId, desc, zoneId, posIndex = 0, questCallback = None):
     npc.setMaxHp(15)
     npc.setPositionIndex(posIndex)
     npc.generateWithRequired(zoneId)
-    if hasattr(npc, 'startAnimState'):
+    if hasaTTW(npc, 'startAnimState'):
         npc.d_setAnimState(npc.startAnimState, 1.0)
     else:
         npc.d_setAnimState('neutral', 1.0)
@@ -11597,7 +11597,7 @@ NPCToonDict = {
         'm',
         0,
         NPC_REGULAR),
-# McQuack, TTR Staff Member
+# McQuack, TTW Staff Member
 # This DNA isn't correct right now. Just for the name.
 91915: (-1,
         lnames[91915],
@@ -11617,7 +11617,26 @@ NPCToonDict = {
          27),
         'm',
         1,
-        NPC_REGULAR)}
+        NPC_REGULAR),
+91915: (1000,
+lnames[91915],
+('sss',	
+'l',
+'m',
+'m',
+26,
+26,
+26,
+26,
+0,
+0,
+0,
+0,
+0,
+0),
+'m',
+0,
+NPC_REGULAR)	}
 try:
     config = simbase.config
 except:
@@ -11747,8 +11766,8 @@ FOnpcFriends = {
 9306: (ToontownBattleGlobals.DROP_TRACK, 3, 50, 2),
 9301: (ToontownBattleGlobals.HEAL_TRACK, 3, 10, 0),
 9302: (ToontownBattleGlobals.HEAL_TRACK, 3, 20, 1),
-9303: (ToontownBattleGlobals.HEAL_TRACK, 3, 30, 2)
-}
+9303: (ToontownBattleGlobals.HEAL_TRACK, 3, 30, 2),
+91915: (ToontownBattleGlobals.DROP_TRACK,0, 999, 5) }
 
 npcFriends = dict(HQnpcFriends)
 npcFriends.update(FOnpcFriends)

@@ -222,7 +222,7 @@ class Char(Avatar.Avatar):
                 earNull = bundle.findChild('sphere3')
                 if not earNull:
                     earNull = bundle.findChild('*sphere3')
-                earNull.clearNetTransforms()
+                earNull.clearNeTTWansforms()
 
             for bundle in self.getPartBundleDict().values():
                 charNodepath = bundle['modelRoot'].partBundleNP
@@ -238,7 +238,7 @@ class Char(Avatar.Avatar):
                 earPitch = earRoot.attachNewNode('earPitch')
                 earPitch.setP(40.0)
                 ears.reparentTo(earPitch)
-                earNull.addNetTransform(earRoot.node())
+                earNull.addNeTTWansform(earRoot.node())
                 ears.clearMat()
                 ears.node().setPreserveTransform(ModelNode.PTNone)
                 ears.setP(-40.0)

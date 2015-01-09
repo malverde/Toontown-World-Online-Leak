@@ -235,7 +235,7 @@ class CatalogItemPanel(DirectFrame):
         if self.ival:
             self.ival.loop()
         if self['item'].getTypeCode() == CatalogItemTypes.TOON_STATUE_ITEM:
-            if hasattr(self, 'nameLabel'):
+            if hasaTTW(self, 'nameLabel'):
                 self.nameLabel['text'] = self.items[self.itemIndex].getDisplayName()
                 self['item'].gardenIndex = self.items[self.itemIndex].gardenIndex
 
@@ -328,13 +328,13 @@ class CatalogItemPanel(DirectFrame):
             else:
                 auxText = TTLocalizer.CatalogPurchasedMaxText
             self.buyButton['state'] = DGG.DISABLED
-        elif hasattr(self['item'], 'noGarden') and self['item'].noGarden(base.localAvatar):
+        elif hasaTTW(self['item'], 'noGarden') and self['item'].noGarden(base.localAvatar):
             auxText = TTLocalizer.NoGarden
             self.buyButton['state'] = DGG.DISABLED
-        elif hasattr(self['item'], 'isSkillTooLow') and self['item'].isSkillTooLow(base.localAvatar):
+        elif hasaTTW(self['item'], 'isSkillTooLow') and self['item'].isSkillTooLow(base.localAvatar):
             auxText = TTLocalizer.SkillTooLow
             self.buyButton['state'] = DGG.DISABLED
-        elif hasattr(self['item'], 'getDaysToGo') and self['item'].getDaysToGo(base.localAvatar):
+        elif hasaTTW(self['item'], 'getDaysToGo') and self['item'].getDaysToGo(base.localAvatar):
             auxText = TTLocalizer.DaysToGo % self['item'].getDaysToGo(base.localAvatar)
             self.buyButton['state'] = DGG.DISABLED
         elif self['item'].getEmblemPrices() and not base.localAvatar.isEnoughMoneyAndEmblemsToBuy(self['item'].getPrice(self['type']), self['item'].getEmblemPrices()):
@@ -510,7 +510,7 @@ class CatalogItemPanel(DirectFrame):
         item = self.items[self.itemIndex]
         self.soundOnButton.hide()
         self.soundOffButton.show()
-        if hasattr(item, 'changeIval'):
+        if hasaTTW(item, 'changeIval'):
             if self.ival:
                 self.ival.finish()
                 self.ival = None
@@ -522,7 +522,7 @@ class CatalogItemPanel(DirectFrame):
         item = self.items[self.itemIndex]
         self.soundOffButton.hide()
         self.soundOnButton.show()
-        if hasattr(item, 'changeIval'):
+        if hasaTTW(item, 'changeIval'):
             if self.ival:
                 self.ival.finish()
                 self.ival = None

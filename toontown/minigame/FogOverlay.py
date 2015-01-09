@@ -22,7 +22,7 @@ class FogOverlay:
         self.overlayGN = GeomNode('Overlay Geometry')
         self.overlayNodePathGeom = self.baseNode.attachNewNode(self.overlayGN)
         self.overlayNodePathGeom.setDepthWrite(False)
-        self.overlayNodePathGeom.setTransparency(TransparencyAttrib.MAlpha)
+        self.overlayNodePathGeom.seTTWansparency(TransparencyATTWib.MAlpha)
         shapeVertexs = []
         shapeVertexs.append((-2.0, 0.0, 1.0))
         shapeVertexs.append((-2.0, 0.0, -1.0))

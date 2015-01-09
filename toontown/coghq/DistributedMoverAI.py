@@ -11,25 +11,25 @@ from toontown.coghq import LaserGameMineSweeper
 from toontown.coghq import LaserGameRoll
 import random
 
-class DistributedMoverAI(DistributedEntityAI.DistributedEntityAI, NodePath, BasicEntities.NodePathAttribs):
+class DistributedMoverAI(DistributedEntityAI.DistributedEntityAI, NodePath, BasicEntities.NodePathATTWibs):
 
     def __init__(self, level, entId):
         DistributedEntityAI.DistributedEntityAI.__init__(self, level, entId)
         node = hidden.attachNewNode('DistributedMoverAI')
         NodePath.__init__(self, node)
-        if not hasattr(self, 'switchId'):
+        if not hasaTTW(self, 'switchId'):
             self.switchId = 0
-        if not hasattr(self, 'pos0Wait'):
+        if not hasaTTW(self, 'pos0Wait'):
             self.pos0Wait = 1.0
-        if not hasattr(self, 'pos0Move'):
+        if not hasaTTW(self, 'pos0Move'):
             self.pos0Move = 1.0
-        if not hasattr(self, 'pos1Wait'):
+        if not hasaTTW(self, 'pos1Wait'):
             self.pos1Wait = 1.0
-        if not hasattr(self, 'pos1Move'):
+        if not hasaTTW(self, 'pos1Move'):
             self.pos1Move = 1.0
-        if not hasattr(self, 'startOn'):
+        if not hasaTTW(self, 'startOn'):
             self.startOn = 0
-        if not hasattr(self, 'cycleType'):
+        if not hasaTTW(self, 'cycleType'):
             self.cycleType = 'return'
         self.moveTime = {}
         self.setTimes()

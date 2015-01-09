@@ -104,12 +104,12 @@ class ClickablePopup(PandaNode, DirectObject):
         self.clickStateChanged()
 
     def updateClickRegion(self, left, right, bottom, top, offset=0):
-        transform = NodePath.anyPath(self).getNetTransform()
+        transform = NodePath.anyPath(self).getNeTTWansform()
 
         if self.__cam:
             # We have a camera, so get its transform and move our net transform
             # into the coordinate space of the camera:
-            camTransform = self.__cam.getNetTransform()
+            camTransform = self.__cam.getNeTTWansform()
             transform = camTransform.invertCompose(transform)
 
         # We must discard the rotational component on our transform, thus:

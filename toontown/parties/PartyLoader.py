@@ -255,32 +255,32 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         self.cloudOrigin.stash()
 
     def __cleanupCloudFadeInterval(self):
-        if hasattr(self, 'cloudFadeInterval'):
+        if hasaTTW(self, 'cloudFadeInterval'):
             self.cloudFadeInterval.pause()
             self.cloudFadeInterval = None
         return
 
     def fadeClouds(self):
         self.__cleanupCloudFadeInterval()
-        self.cloudOrigin.setTransparency(1)
+        self.cloudOrigin.seTTWansparency(1)
         self.cloudFadeInterval = self.cloudOrigin.colorInterval(0.5, Vec4(1, 1, 1, int(self.cloudOrigin.isStashed())), blendType='easeIn')
         if self.cloudOrigin.isStashed():
             self.cloudOrigin.setColor(Vec4(1, 1, 1, 0))
             self.setCloudSwitch(1)
         else:
-            self.cloudFadeInterval = Sequence(self.cloudFadeInterval, Func(self.setCloudSwitch, 0), Func(self.cloudOrigin.setTransparency, 0))
+            self.cloudFadeInterval = Sequence(self.cloudFadeInterval, Func(self.setCloudSwitch, 0), Func(self.cloudOrigin.seTTWansparency, 0))
         self.cloudFadeInterval.start()
 
     def setCloudSwitch(self, on):
         self.cloudSwitch = on
-        if hasattr(self, 'cloudOrigin'):
+        if hasaTTW(self, 'cloudOrigin'):
             if on:
                 self.cloudOrigin.unstash()
             else:
                 self.cloudOrigin.stash()
 
     def _clearDayChangeInterval(self):
-        if hasattr(self, 'dayChangeInterval'):
+        if hasaTTW(self, 'dayChangeInterval'):
             self.dayChangeInterval.pause()
             self.dayChangeInterval = None
         return

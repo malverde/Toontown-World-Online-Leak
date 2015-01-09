@@ -52,7 +52,7 @@ class DistributedNPCToon(DistributedNPCToonBase):
             return True
         place = base.cr.playGame.getPlace()
         myHoodId = ZoneUtil.getCanonicalHoodId(place.zoneId)
-        if hasattr(place, 'id'):
+        if hasaTTW(place, 'id'):
             myHoodId = place.id
         if myHoodId in (ToontownGlobals.ToontownCentral,
          ToontownGlobals.MyEstate,

@@ -665,8 +665,8 @@ class DistributedPatternGame(DistributedMinigame):
             else:
                 self.colorStatusBall(avId, self.__otherToonIndex[avId], 1)
                 arrowTrack = self.getDanceArrowAnimTrack(avId, [index], 1)
-                potTrack = self.getDanceSequenceAnimTrack(av, [index])
-                self.animTracks[avId] = Parallel(potTrack, arrowTrack)
+                poTTWack = self.getDanceSequenceAnimTrack(av, [index])
+                self.animTracks[avId] = Parallel(poTTWack, arrowTrack)
             self.__otherToonIndex[avId] += 1
             self.animTracks[avId].start()
 
@@ -690,8 +690,8 @@ class DistributedPatternGame(DistributedMinigame):
             self.colorStatusBall('lt', len(self.__localPattern), 1)
             base.playSfx(self.__getButtonSound(index))
             arrowTrack = self.getDanceArrowAnimTrack('lt', [index], 1)
-            potTrack = self.getDanceSequenceAnimTrack(self.lt, [index])
-            self.animTracks[self.localAvId] = Parallel(potTrack, arrowTrack)
+            poTTWack = self.getDanceSequenceAnimTrack(self.lt, [index])
+            self.animTracks[self.localAvId] = Parallel(poTTWack, arrowTrack)
         self.sendUpdate('reportButtonPress', [index, badd])
         self.animTracks[self.localAvId].start()
         self.__localPattern.append(index)
@@ -781,8 +781,8 @@ class DistributedPatternGame(DistributedMinigame):
             sound = self.incorrectSound
             text = self.strWrong
         soundTrack = Sequence(Func(base.playSfx, sound), Wait(1.6))
-        textTrack = Sequence(Wait(0.2), Func(self.__setMinnieChat, text, 0), Wait(1.3), Func(self.__clearMinnieChat))
-        self.playBackPatternsTrack = Sequence(Parallel(soundTrack, textTrack, jumpTrack), Func(self.gameFSM.request, 'checkGameOver'))
+        texTTWack = Sequence(Wait(0.2), Func(self.__setMinnieChat, text, 0), Wait(1.3), Func(self.__clearMinnieChat))
+        self.playBackPatternsTrack = Sequence(Parallel(soundTrack, texTTWack, jumpTrack), Func(self.gameFSM.request, 'checkGameOver'))
         self.playBackPatternsTrack.start()
 
     def exitPlayBackPatterns(self):

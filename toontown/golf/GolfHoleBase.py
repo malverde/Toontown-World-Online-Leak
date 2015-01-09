@@ -328,7 +328,7 @@ class GolfHoleBase:
         self.frame += 1
 
     def preStep(self):
-        if hasattr(self, 'ballRay'):
+        if hasaTTW(self, 'ballRay'):
             bp = self.curGolfBall().getPosition()
             self.ballRayBody.setPosition(bp[0], bp[1], bp[2])
             self.skyRay.setPosition(bp[0], bp[1], 50.0)
@@ -495,7 +495,7 @@ class GolfHoleBase:
         self.notify.debug('processAVRecording')
         lastFrame = self.recording[len(self.recording) - 1][0]
         countRemovals = 0
-        countTrials = trials
+        counTTWials = trials
         for frame in self.aVRecording:
             if frame[0] == 0 or frame[0] == lastFrame:
                 pass
@@ -507,12 +507,12 @@ class GolfHoleBase:
                     self.aVRecording.remove(frame)
                     countRemovals += 1
                 else:
-                    countTrials += 1
+                    counTTWials += 1
 
         if countRemovals > 5:
-            self.processAVRecording(errorMult, countTrials)
+            self.processAVRecording(errorMult, counTTWials)
         elif len(self.aVRecording) > 80:
-            self.processAVRecording(errorMult * 1.25, countTrials)
+            self.processAVRecording(errorMult * 1.25, counTTWials)
         else:
             for frame in self.aVRecording:
                 pass

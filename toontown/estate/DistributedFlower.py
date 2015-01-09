@@ -39,7 +39,7 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
             return
         nodePath = self.model
         desat = None
-        flowerColorIndex = GardenGlobals.PlantAttributes[self.getSpecies()]['varieties'][self.getVariety()][1]
+        flowerColorIndex = GardenGlobals.PlantATTWibutes[self.getSpecies()]['varieties'][self.getVariety()][1]
         colorTuple = GardenGlobals.FlowerColors[flowerColorIndex]
         useWilted = self.waterLevel < 0
         wilt = nodePath.find('**/*wilt*')

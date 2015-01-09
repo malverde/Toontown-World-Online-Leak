@@ -17,7 +17,7 @@ class SkullBurst(PooledEffect, EffectController):
         self.effectModel = model.find('**/tt_t_efx_ext_skull')
         self.effectModel.reparentTo(self)
         self.effectModel.setColorScale(0, 0, 0, 0)
-        self.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd, ColorBlendAttrib.OIncomingAlpha, ColorBlendAttrib.OOne))
+        self.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd, ColorBlendATTWib.OIncomingAlpha, ColorBlendATTWib.OOne))
         self.setBillboardPointWorld()
         self.setDepthWrite(0)
         self.setLightOff()

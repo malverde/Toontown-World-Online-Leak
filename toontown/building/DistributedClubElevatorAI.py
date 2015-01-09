@@ -9,7 +9,7 @@ from direct.fsm.FSM import FSM
 
 class DistributedClubElevatorAI(DistributedElevatorFSMAI.DistributedElevatorFSMAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedElevatorFloorAI')
-    defaultTransitions = {'Off': ['Opening', 'Closed'],
+    defaulTTWansitions = {'Off': ['Opening', 'Closed'],
      'Opening': ['WaitEmpty',
                  'WaitCountdown',
                  'Opening',
@@ -290,7 +290,7 @@ class DistributedClubElevatorAI(DistributedElevatorFSMAI.DistributedElevatorFSMA
         if av.hp < self.minLaff:
             return ElevatorConstants.REJECT_MINLAFF
         if self.DoBlockedRoomCheck and self.bldg:
-            if hasattr(self.bldg, 'blockedRooms'):
+            if hasaTTW(self.bldg, 'blockedRooms'):
                 if self.bldg.blockedRooms:
                     return ElevatorConstants.REJECT_BLOCKED_ROOM
         return 0

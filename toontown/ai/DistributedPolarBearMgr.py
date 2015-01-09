@@ -9,11 +9,11 @@ def getDustCloudIval(toon):
     dustCloud.setZ(3)
     dustCloud.setScale(0.4)
     dustCloud.createTrack()
-    if getattr(toon, 'laffMeter', None):
+    if getaTTW(toon, 'laffMeter', None):
         toon.laffMeter.color = toon.style.getWhiteColor()
     seq = Sequence(Wait(0.5), Func(dustCloud.reparentTo, toon), dustCloud.track, Func(dustCloud.destroy))
     seq.append(Func(messenger.send, 'polarbear-transformed'))
-    if getattr(toon, 'laffMeter', None):
+    if getaTTW(toon, 'laffMeter', None):
         seq.append(Func(toon.laffMeter.adjustFace, toon.hp, toon.maxHp))
     return seq
     

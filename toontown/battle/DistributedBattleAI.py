@@ -28,7 +28,7 @@ class DistributedBattleAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
         DistributedBattleBaseAI.DistributedBattleBaseAI.generate(self)
         toon = simbase.air.doId2do.get(self.avId)
         if toon:
-            if hasattr(self, 'doId'):
+            if hasaTTW(self, 'doId'):
                 toon.b_setBattleId(self.doId)
             else:
                 toon.b_setBattleId(-1)

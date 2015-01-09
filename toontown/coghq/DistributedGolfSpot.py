@@ -45,7 +45,7 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
         self.lastChangeSeq = 0
         self.controlKeyAllowed = False
         self.flyBallTracks = {}
-        self.splatTracks = {}
+        self.splaTTWacks = {}
         self.__flyBallBubble = None
         self.flyBallHandler = None
         self.__flyBallSequenceNum = 0
@@ -163,13 +163,13 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
         if self.avId == localAvatar.doId:
             if not self.isDisabled():
                 self.ballModel.setAlphaScale(0.3)
-                self.ballModel.setTransparency(1)
+                self.ballModel.seTTWansparency(1)
                 taskMgr.doMethodLater(5, self.__allowDetect, self.triggerName)
-                self.fadeTrack = Sequence(Func(self.ballModel.setTransparency, 1), self.ballModel.colorScaleInterval(0.2, VBase4(1, 1, 1, 0.3)), name='fadeTrack-enterFree')
+                self.fadeTrack = Sequence(Func(self.ballModel.seTTWansparency, 1), self.ballModel.colorScaleInterval(0.2, VBase4(1, 1, 1, 0.3)), name='fadeTrack-enterFree')
                 self.fadeTrack.start()
         else:
             self.trigger.unstash()
-            self.accept(self.triggerEvent, self.__hitTrigger)
+            self.accept(self.triggerEvent, self.__hiTTWigger)
         self.avId = 0
         return
 
@@ -238,9 +238,9 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
         self.fadeTrack = Sequence(self.ballModel.colorScaleInterval(0.2, self.ballColor), Func(self.ballModel.clearTransparency), name='fadeTrack-allowDetect')
         self.fadeTrack.start()
         self.trigger.unstash()
-        self.accept(self.triggerEvent, self.__hitTrigger)
+        self.accept(self.triggerEvent, self.__hiTTWigger)
 
-    def __hitTrigger(self, event):
+    def __hiTTWigger(self, event):
         self.d_requestControl()
 
     def getRestoreScaleInterval(self):
@@ -564,7 +564,7 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
     def goToFinalBattle(self):
         if self.cr:
             place = self.cr.playGame.getPlace()
-            if place and hasattr(place, 'fsm'):
+            if place and hasaTTW(place, 'fsm'):
                 curState = place.fsm.getCurrentState().getName()
                 if place.fsm.getCurrentState().getName() == 'crane':
                     place.setState('finalBattle')
@@ -580,7 +580,7 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
                 lHand = av.getLeftHands()[0]
                 club.setPos(0, 0, 0)
                 club.reparentTo(lHand)
-                netScale = club.getNetTransform().getScale()[1]
+                netScale = club.getNeTTWansform().getScale()[1]
                 counterActToonScale = lHand.find('**/counteractToonScale')
                 if counterActToonScale.isEmpty():
                     counterActToonScale = lHand.attachNewNode('counteractToonScale')
@@ -684,8 +684,8 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
             flyBallTrack.finish()
 
     def flyBallFinishedSplatting(self, sequence):
-        if self.splatTracks.has_key(sequence):
-            del self.splatTracks[sequence]
+        if self.splaTTWacks.has_key(sequence):
+            del self.splaTTWacks[sequence]
 
     def __flyBallHit(self, entry):
         if not entry.hasSurfacePoint() or not entry.hasInto():
@@ -694,10 +694,10 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
             return
         sequence = int(entry.getFromNodePath().getNetTag('pieSequence'))
         self.__finishFlyBallTrack(sequence)
-        if self.splatTracks.has_key(sequence):
-            splatTrack = self.splatTracks[sequence]
-            del self.splatTracks[sequence]
-            splatTrack.finish()
+        if self.splaTTWacks.has_key(sequence):
+            splaTTWack = self.splaTTWacks[sequence]
+            del self.splaTTWacks[sequence]
+            splaTTWack.finish()
         flyBallCode = 0
         flyBallCodeStr = entry.getIntoNodePath().getNetTag('pieCode')
         if flyBallCodeStr:
@@ -707,7 +707,7 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
         throwerId = int(entry.getFromNodePath().getNetTag('throwerId'))
         splat = self.getFlyBallSplatInterval(pos[0], pos[1], pos[2], flyBallCode, throwerId)
         splat = Sequence(splat, Func(self.flyBallFinishedSplatting, sequence))
-        self.splatTracks[sequence] = splat
+        self.splaTTWacks[sequence] = splat
         splat.start()
         self.notify.debug('doId=%d into=%s flyBallCode=%d, throwerId=%d' % (self.doId,
          entry.getIntoNodePath(),

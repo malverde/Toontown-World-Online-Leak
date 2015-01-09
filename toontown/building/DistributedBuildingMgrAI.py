@@ -188,7 +188,7 @@ class DistributedBuildingMgrAI:
     def newHQBuilding(self, blockNumber):
         dnaStore = self.air.dnaStoreMap[self.canonicalBranchID]
         exteriorZoneId = dnaStore.getBlock(blockNumber).zone
-        exteriorZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.branchID)
+        exteriorZoneId = ZoneUtil.geTTWueZoneId(exteriorZoneId, self.branchID)
         interiorZoneId = self.branchID - self.branchID % 100 + 500 + blockNumber
         self.notify.debug("Spawning HQ ext: {0} int: {1}".format(exteriorZoneId, interiorZoneId))
         building = HQBuildingAI.HQBuildingAI(self.air, exteriorZoneId, interiorZoneId, blockNumber)
@@ -198,7 +198,7 @@ class DistributedBuildingMgrAI:
     def newGagshopBuilding(self, blockNumber):
         dnaStore = self.air.dnaStoreMap[self.canonicalBranchID]
         exteriorZoneId = dnaStore.getBlock(blockNumber).zone
-        exteriorZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.branchID)
+        exteriorZoneId = ZoneUtil.geTTWueZoneId(exteriorZoneId, self.branchID)
         interiorZoneId = self.branchID - self.branchID % 100 + 500 + blockNumber
         self.notify.debug("Spawning GagShop ext: {0} int: {1}".format(exteriorZoneId, interiorZoneId))
         building = GagshopBuildingAI.GagshopBuildingAI(self.air, exteriorZoneId, interiorZoneId, blockNumber)
@@ -209,7 +209,7 @@ class DistributedBuildingMgrAI:
         return
         dnaStore = self.air.dnaStoreMap[self.canonicalBranchID]
         exteriorZoneId = dnaStore.getBlock(blockNumber).zone
-        exteriorZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.branchID)
+        exteriorZoneId = ZoneUtil.geTTWueZoneId(exteriorZoneId, self.branchID)
         interiorZoneId = self.branchID - self.branchID % 100 + 500 + blockNumber
         building = PetshopBuildingAI.PetshopBuildingAI(self.air, exteriorZoneId, interiorZoneId, blockNumber)
         self.__buildings[blockNumber] = building
@@ -218,7 +218,7 @@ class DistributedBuildingMgrAI:
     def newKartShopBuilding(self, blockNumber):
         dnaStore = self.air.dnaStoreMap[self.canonicalBranchID]
         exteriorZoneId = dnaStore.getBlock(blockNumber).zone
-        exteriorZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.branchID)
+        exteriorZoneId = ZoneUtil.geTTWueZoneId(exteriorZoneId, self.branchID)
         interiorZoneId = self.branchID - self.branchID % 100 + 500 + blockNumber
         building = KartShopBuildingAI(self.air, exteriorZoneId, interiorZoneId, blockNumber)
         self.__buildings[blockNumber] = building

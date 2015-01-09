@@ -93,7 +93,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         if self.petIsLocal:
             self.listenForInteractionDone()
         messenger.send('petPanelDone')
-        if not self.petIsLocal and hasattr(self.avatar, 'updateMoodFromServer'):
+        if not self.petIsLocal and hasaTTW(self.avatar, 'updateMoodFromServer'):
             if self.avatar.doId != localAvatar.getPetId() or bboard.get(PetConstants.OurPetsMoodChangedKey, False):
                 self.stateLabel['text'] = ''
 
@@ -162,7 +162,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             return
         self.cancelListenForInteractionDone()
         taskMgr.remove('petpanel-proximity-check')
-        if hasattr(self, 'toonDetail'):
+        if hasaTTW(self, 'toonDetail'):
             del self.toonDetail
         self.frame.destroy()
         del self.frame

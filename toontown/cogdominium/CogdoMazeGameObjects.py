@@ -21,7 +21,7 @@ class CogdoMazeSplattable:
         self.splat.setBin('fixed', 40)
         self.splat.setDepthTest(False)
         self.splat.setDepthWrite(False)
-        self.splatTrack = None
+        self.splaTTWack = None
         self._splatSfxIval = base.cogdoGameAudioMgr.createSfxIval('splat')
         self.initGagCollision(name, collisionRadius)
         return
@@ -45,14 +45,14 @@ class CogdoMazeSplattable:
         self.gagCollNodePath.removeNode()
 
     def doSplat(self):
-        if self.splatTrack and self.splatTrack.isPlaying():
-            self.splatTrack.finish()
+        if self.splaTTWack and self.splaTTWack.isPlaying():
+            self.splaTTWack.finish()
         self.splat.reparentTo(render)
         self.splat.setPos(self.object, 0, 0, 3.0)
         self.splat.setY(self.splat.getY() - 1.0)
         self._splatSfxIval.node = self.splat
-        self.splatTrack = Parallel(self._splatSfxIval, Sequence(Func(self.splat.showThrough), LerpScaleInterval(self.splat, duration=0.5, scale=6, startScale=1, blendType='easeOut'), Func(self.splat.hide)))
-        self.splatTrack.start()
+        self.splaTTWack = Parallel(self._splatSfxIval, Sequence(Func(self.splat.showThrough), LerpScaleInterval(self.splat, duration=0.5, scale=6, startScale=1, blendType='easeOut'), Func(self.splat.hide)))
+        self.splaTTWack.start()
 
 
 class CogdoMazeDrop(NodePath, DirectObject):
@@ -108,7 +108,7 @@ class CogdoMazeDrop(NodePath, DirectObject):
         dropIval = LerpPosInterval(drop, dropTime, Point3(0, 0, 0), startPos=startPos, blendType='easeIn')
         dropSoundIval = self._dropSfx
         dropSoundIval.node = self
-        self.drop.setTransparency(1)
+        self.drop.seTTWansparency(1)
 
         def _setRandScale(t):
             self.drop.setScale(self, 1 - random.random() / 16, 1 - random.random() / 16, 1 - random.random() / 4)
