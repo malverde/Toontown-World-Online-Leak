@@ -10,6 +10,7 @@ TraitDivisor = 10000
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 def getTraitNames():
 <<<<<<< HEAD
     if not hasaTtr(PetTraits, 'TraitNames'):
@@ -40,12 +41,16 @@ def geTTWaitNames():
 def geTTWaitNames():
     if not hasaTTW(PeTTWaits, 'TraitNames'):
 >>>>>>> parent of 8472b20... fixed bugs
+=======
+def getTraitNames():
+    if not hasattr(PetTraits, 'TraitNames'):
+>>>>>>> parent of ac3cc91... removed all TTR and toontown rewritten to toontown world and to TTW
         traitNames = []
-        for desc in PeTTWaits.TraitDescs:
+        for desc in PetTraits.TraitDescs:
             traitNames.append(desc[0])
-            PeTTWaits.TraitNames = traitNames
+            PetTraits.TraitNames = traitNames
 
-    return PeTTWaits.TraitNames
+    return PetTraits.TraitNames
 
 
 def uniform(min, max, rng):
@@ -72,7 +77,7 @@ class TraitDistribution:
 
     def __init__(self, rndFunc = gaussian):
         self.rndFunc = rndFunc
-        if not hasaTTW(self.__class__, 'GlobalMinMax'):
+        if not hasattr(self.__class__, 'GlobalMinMax'):
             _min = 1.0
             _max = 0.0
             minMax = self.Sz2MinMax
@@ -96,7 +101,7 @@ class TraitDistribution:
     def getGlobalMinMax(self):
         return (self.GlobalMinMax[0], self.GlobalMinMax[1])
 
-    def _geTTWaitPercent(self, traitValue):
+    def _getTraitPercent(self, traitValue):
         gMin, gMax = self.getGlobalMinMax()
         if traitValue < gMin:
             gMin = traitValue
@@ -106,14 +111,14 @@ class TraitDistribution:
 
     def getPercentile(self, traitValue):
         if self.TraitType is TraitDistribution.TraitTypes.INCREASING:
-            return self._geTTWaitPercent(traitValue)
+            return self._getTraitPercent(traitValue)
         else:
-            return 1.0 - self._geTTWaitPercent(traitValue)
+            return 1.0 - self._getTraitPercent(traitValue)
 
     def getQuality(self, traitValue):
         TraitQuality = TraitDistribution.TraitQuality
         TraitCutoffs = self.TraitCutoffs[self.TraitType]
-        percent = self._geTTWaitPercent(traitValue)
+        percent = self._getTraitPercent(traitValue)
         if self.TraitType is TraitDistribution.TraitTypes.INCREASING:
             if percent <= TraitCutoffs[TraitQuality.VERY_BAD]:
                 return TraitQuality.VERY_BAD
@@ -137,7 +142,7 @@ class TraitDistribution:
             return TraitQuality.AVERAGE
 
     def getExtremeness(self, traitValue):
-        percent = self._geTTWaitPercent(traitValue)
+        percent = self._getTraitPercent(traitValue)
         if percent < 0.5:
             howExtreme = (0.5 - percent) * 2.0
         else:
@@ -145,7 +150,7 @@ class TraitDistribution:
         return clampScalar(howExtreme, 0.0, 1.0)
 
 
-class PeTTWaits:
+class PetTraits:
 
     class StdIncDistrib(TraitDistribution):
         TraitType = TraitDistribution.TraitTypes.INCREASING
@@ -192,7 +197,7 @@ class PeTTWaits:
     class Trait:
 
         def __init__(self, index, traitsObj, value = None):
-            self.name, distrib, self.hasWorth = PeTTWaits.TraitDescs[index]
+            self.name, distrib, self.hasWorth = PetTraits.TraitDescs[index]
             if value is not None:
                 self.value = value
             else:
@@ -216,11 +221,11 @@ class PeTTWaits:
         self.safeZoneId = safeZoneId
         self.rng = random.Random(self.traitSeed)
         self.traits = {}
-        for i in xrange(len(PeTTWaits.TraitDescs)):
+        for i in xrange(len(PetTraits.TraitDescs)):
             if i < len(traitValueList) and traitValueList[i] > 0.0:
-                trait = PeTTWaits.Trait(i, self, traitValueList[i])
+                trait = PetTraits.Trait(i, self, traitValueList[i])
             else:
-                trait = PeTTWaits.Trait(i, self)
+                trait = PetTraits.Trait(i, self)
             self.traits[trait.name] = trait
             self.__dict__[trait.name] = trait.value
 
@@ -242,13 +247,13 @@ class PeTTWaits:
 
     def getValueList(self):
         traitValues = []
-        for desc in PeTTWaits.TraitDescs:
+        for desc in PetTraits.TraitDescs:
             traitName = desc[0]
             traitValues.append(self.traits[traitName].value)
 
         return traitValues
 
-    def geTTWaitValue(self, traitName):
+    def getTraitValue(self, traitName):
         return self.traits[traitName].value
 
     def getExtremeTraits(self):
