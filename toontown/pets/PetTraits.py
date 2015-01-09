@@ -11,11 +11,11 @@ def getTraitNames():
     if not hasattr(PetTraits, 'TraitNames'):
 >>>>>>> parent of ac3cc91... removed all TTR and toontown rewritten to toontown world and to TTW
         traitNames = []
-        for desc in PetTraits.TraitDescs:
+        for desc in PeTtraits.TraitDescs:
             traitNames.append(desc[0])
-            PetTraits.TraitNames = traitNames
+            PeTtraits.TraitNames = traitNames
 
-    return PetTraits.TraitNames
+    return PeTtraits.TraitNames
 
 
 def uniform(min, max, rng):
@@ -115,7 +115,7 @@ class TraitDistribution:
         return clampScalar(howExtreme, 0.0, 1.0)
 
 
-class PetTraits:
+class PeTtraits:
 
     class StdIncDistrib(TraitDistribution):
         TraitType = TraitDistribution.TraitTypes.INCREASING
@@ -162,7 +162,7 @@ class PetTraits:
     class Trait:
 
         def __init__(self, index, traitsObj, value = None):
-            self.name, distrib, self.hasWorth = PetTraits.TraitDescs[index]
+            self.name, distrib, self.hasWorth = PeTtraits.TraitDescs[index]
             if value is not None:
                 self.value = value
             else:
@@ -186,11 +186,11 @@ class PetTraits:
         self.safeZoneId = safeZoneId
         self.rng = random.Random(self.traitSeed)
         self.traits = {}
-        for i in xrange(len(PetTraits.TraitDescs)):
+        for i in xrange(len(PeTtraits.TraitDescs)):
             if i < len(traitValueList) and traitValueList[i] > 0.0:
-                trait = PetTraits.Trait(i, self, traitValueList[i])
+                trait = PeTtraits.Trait(i, self, traitValueList[i])
             else:
-                trait = PetTraits.Trait(i, self)
+                trait = PeTtraits.Trait(i, self)
             self.traits[trait.name] = trait
             self.__dict__[trait.name] = trait.value
 
@@ -212,7 +212,7 @@ class PetTraits:
 
     def getValueList(self):
         traitValues = []
-        for desc in PetTraits.TraitDescs:
+        for desc in PeTtraits.TraitDescs:
             traitName = desc[0]
             traitValues.append(self.traits[traitName].value)
 
