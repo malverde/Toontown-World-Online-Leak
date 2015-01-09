@@ -5,7 +5,7 @@ from toontown.suit import DistributedSuitBaseAI
 import SuitBattleGlobals
 import BattleExperienceAI
 from toontown.toon import NPCToons
-from toontown.pets import PetTricks, DistributedPetProxyAI
+from toontown.pets import PeTTWicks, DistributedPetProxyAI
 from direct.showbase.PythonUtil import lerp
 from otp.ai.MagicWordGlobal import *
 
