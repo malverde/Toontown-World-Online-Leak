@@ -219,12 +219,12 @@ class DistributedElectionEvent(DistributedObject, FSM):
         self.speechGruntSfx = loader.loadSfx(phasePath + 'COG_VO_grunt.ogg')
 
         # We'll use these to check and see if a certain state has already happened
-        self.finishedPreShow = True
-        self.finishedBegin = True
-        self.finishedAlecSpeech = True
-        self.finishedCogLanding = True
-        self.finishedInvasion = True
-        self.finishedInvasionEnding = True
+        self.finishedPreShow = False
+        self.finishedBegin = False
+        self.finishedAlecSpeech = False
+        self.finishedCogLanding = False
+        self.finishedInvasion = False
+        self.finishedInvasionEnding = False
 
     def enterOff(self, offset):
         base.cr.parentMgr.unregisterParent(ToontownGlobals.SPSlappysBalloon)
