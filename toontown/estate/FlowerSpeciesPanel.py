@@ -110,7 +110,7 @@ class FlowerSpeciesPanel(DirectFrame):
             self['text'] = TTLocalizer.FlowerSpeciesNames[self.species]
             if base.localAvatar.flowerCollection.hasFlower(self.species, self.variety):
                 name = GardenGlobals.getFlowerVarietyName(self.species, self.variety)
-                recipeKey = GardenGlobals.PlantATTWibutes[self.species]['varieties'][self.variety][0]
+                recipeKey = GardenGlobals.PlantAttributes[self.species]['varieties'][self.variety][0]
                 self['text'] = name
                 self.createBeanRecipeGui(GardenGlobals.Recipes[recipeKey]['beans'])
             else:

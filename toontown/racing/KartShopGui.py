@@ -561,7 +561,7 @@ class KartShopGuiMgr(object, DirectObject.DirectObject):
                 self.curAccIndex[self.curAccType] = -1
             else:
                 self.curAccIndex[self.curAccType] = (self.curAccIndex[self.curAccType] + nDir) % len(self.unownedAccDict[self.curAccType])
-            if hasaTTW(self, 'accDescription'):
+            if hasattr(self, 'accDescription'):
                 self.accDescription.destroy()
                 self.accCost.destroy()
             self.showAccessory()
@@ -678,7 +678,7 @@ class KartShopGuiMgr(object, DirectObject.DirectObject):
             cm.setFrame(xCenter - radius, xCenter + radius, bounds[2], bounds[3])
             self.kartView['geom'] = NodePath(cm.generate())
             self.kartView.component('geom0').setColorScale(1.0, 1.0, 0.8, 1.0)
-            self.kartView.component('geom0').seTTWansparency(True)
+            self.kartView.component('geom0').setTransparency(True)
             accType = getAccessoryType(accID)
             texNodePath = None
             tex = None
@@ -738,7 +738,7 @@ class KartShopGuiMgr(object, DirectObject.DirectObject):
             cm.setFrame(xCenter - radius, xCenter + radius, yCenter - radius, yCenter + radius)
             self.kartView['geom'] = NodePath(cm.generate())
             self.kartView.component('geom0').setColorScale(1.0, 1.0, 0.8, 1.0)
-            self.kartView.component('geom0').seTTWansparency(True)
+            self.kartView.component('geom0').setTransparency(True)
             accType = getAccessoryType(accID)
             texNodePath = None
             tex = None
@@ -799,7 +799,7 @@ class KartShopGuiMgr(object, DirectObject.DirectObject):
         return
 
     def __resetTimer(self):
-        if hasaTTW(self, 'timer') and self.timer:
+        if hasattr(self, 'timer') and self.timer:
             self.timer.stop()
             self.timer.countdown(KartShopGlobals.KARTCLERK_TIMER, self.__timerExpired)
 
@@ -825,7 +825,7 @@ class KartShopGuiMgr(object, DirectObject.DirectObject):
         return
 
     def __destroyDialog(self):
-        if hasaTTW(self, 'timer'):
+        if hasattr(self, 'timer'):
             self.ignoreAll()
         if self.dialog != None:
             self.dialog.destroy()
@@ -894,7 +894,7 @@ class KartShopGuiMgr(object, DirectObject.DirectObject):
 
     def __handleBoughtKartDlg(self, exitType):
         self.notify.debug('__handleBoughtKartDlg: Telling the player their purchase was successful')
-        if not hasaTTW(base.localAvatar, 'kartPage'):
+        if not hasattr(base.localAvatar, 'kartPage'):
             base.localAvatar.addKartPage()
         self.kartID = -1
         self.__doDialog(MENUS.MainMenu)
@@ -970,13 +970,13 @@ class KartShopGuiMgr(object, DirectObject.DirectObject):
                     self.accept(KartShopGlobals.EVENTDICT['buyKart'], self.__handleBuyKart)
 
                 def __popupKartShopGui(self):
-                    if not hasaTTW(self, 'kartShopGui') or self.kartShopGui == None:
+                    if not hasattr(self, 'kartShopGui') or self.kartShopGui == None:
                         self.acceptOnce(KartShopGlobals.EVENTDICT['guiDone'], self.__handleGuiDone)
                         self.kartShopGui = KartShopGuiMgr(KartShopGlobals.EVENTDICT)
                     return
 
                 def __handleGuiDone(self, args = []):
-                    if hasaTTW(self, 'kartShopGui') and self.kartShopGui != None:
+                    if hasattr(self, 'kartShopGui') and self.kartShopGui != None:
                         self.ignoreAll()
                         self.kartShopGui.destroy()
                         del self.kartShopGui

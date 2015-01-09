@@ -9,7 +9,7 @@ import BattleParticles
 import HealJokes
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
-from toontown.pets import Pet, PeTTWicks
+from toontown.pets import Pet, PetTricks
 from otp.nametag.NametagConstants import *
 from otp.nametag import NametagGlobals
 notify = DirectNotifyGlobal.directNotify.newCategory('MoviePetSOS')
@@ -20,7 +20,7 @@ def doPetSOSs(PetSOSs):
     if len(PetSOSs) == 0:
         return (None, None)
     track = Sequence()
-    texTTWack = Sequence()
+    textTrack = Sequence()
     for p in PetSOSs:
         ival = __doPetSOS(p)
         if ival:
@@ -74,7 +74,7 @@ def __teleportIn(attack, pet, pos = Point3(0, 0, 0), hpr = Vec3(180.0, 0.0, 0.0)
 
 
 def __teleportOut(attack, pet):
-    a = pet.getTeleportOuTTWack()
+    a = pet.getTeleportOutTrack()
     c = Func(pet.detachNode)
     d = Func(pet.delete)
     return Sequence(a, c)
@@ -116,11 +116,11 @@ def __healJuggle(heal):
     if ineffective:
         trickTrack = Parallel(Wait(1.0), Func(pet.loop, 'neutralSad'), Func(pet.showMood, 'confusion'))
     else:
-        trickTrack = PeTTWicks.geTTWickIval(pet, level)
+        trickTrack = PetTricks.getTrickIval(pet, level)
     track.append(trickTrack)
     delay = 4.0
     first = 1
-    targeTTWack = Sequence()
+    targetTrack = Sequence()
     for target in targets:
         targetToon = target['toon']
         hp = target['hp']
@@ -128,9 +128,9 @@ def __healJuggle(heal):
         reactIval = Func(__healToon, targetToon, hp, gender, callerToonId, ineffective)
         if first == 1:
             first = 0
-        targeTTWack.append(reactIval)
+        targetTrack.append(reactIval)
 
-    mtrack = Parallel(Wait(2.0), targeTTWack)
+    mtrack = Parallel(Wait(2.0), targetTrack)
     track.append(mtrack)
     track.append(Sequence(Func(pet.clearMood)))
     track.append(__teleportOut(heal, pet))

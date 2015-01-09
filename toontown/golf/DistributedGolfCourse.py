@@ -18,7 +18,7 @@ from toontown.toon import ToonHeadFrame
 
 class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDeletable):
     notify = directNotify.newCategory('DistributedGolfCourse')
-    defaulTTWansitions = {'Off': ['Join'],
+    defaultTransitions = {'Off': ['Join'],
      'Join': ['WaitStartHole', 'Cleanup'],
      'WaitStartHole': ['PlayHole', 'Cleanup', 'WaitReward'],
      'PlayHole': ['WaitFinishCourse',

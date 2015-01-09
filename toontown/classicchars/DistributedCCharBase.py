@@ -31,7 +31,7 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
         dna.newChar(dnaName)
         self.setDNA(dna)
         self.setName(name)
-        self.seTTWansparency(TransparencyATTWib.MDual, 1)
+        self.setTransparency(TransparencyAttrib.MDual, 1)
         fadeIn = self.colorScaleInterval(0.5, Vec4(1, 1, 1, 1), startColorScale=Vec4(1, 1, 1, 0), blendType='easeInOut')
         fadeIn.start()
         self.diffPath = None
@@ -78,8 +78,8 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
     def disable(self):
         self.stopBlink()
         self.ignoreAll()
-        self.chaTTWack.finish()
-        del self.chaTTWack
+        self.chatTrack.finish()
+        del self.chatTrack
         if self.chatterDialogue:
             self.chatterDialogue.stop()
         del self.chatterDialogue
@@ -105,7 +105,7 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
         self.setParent(ToontownGlobals.SPRender)
         self.startBlink()
         self.startEarTask()
-        self.chaTTWack = Sequence()
+        self.chatTrack = Sequence()
         self.chatterDialogue = None
         self.acceptOnce('enter' + self.cSphereNode.getName(), self.__handleCollisionSphereEnter)
         self.accept('exitSafeZone', self.__handleExitSafeZone)
@@ -189,7 +189,7 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
                 track.append(self.makeTurnToHeadingTrack(destHpr[0]))
             if self.getName() == Donald or self.getName() == WesternPluto or self.getName() == Pluto:
                 chatFlags = CFThought | CFTimeout
-                if hasaTTW(base.cr, 'newsManager') and base.cr.newsManager:
+                if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
                     holidayIds = base.cr.newsManager.getHolidayIdList()
                     if ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds:
                         if self.getName() == Pluto:
@@ -201,9 +201,9 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
                 chatFlags = CFTimeout | CFSpeech
             self.chatterDialogue = self.getChatterDialogue(category, msg)
             track.append(Func(self.setChatAbsolute, str, chatFlags, self.chatterDialogue))
-            self.chaTTWack.finish()
-            self.chaTTWack = track
-            self.chaTTWack.start()
+            self.chatTrack.finish()
+            self.chatTrack = track
+            self.chatTrack.start()
 
     def setWalk(self, srcNode, destNode, timestamp):
         pass
@@ -212,7 +212,7 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
         return 0.1
 
     def enableRaycast(self, enable = 1):
-        if not self.cTrav or not hasaTTW(self, 'cRayNode') or not self.cRayNode:
+        if not self.cTrav or not hasattr(self, 'cRayNode') or not self.cRayNode:
             self.notify.debug('raycast info not found for ' + self.getName())
             return
         self.cTrav.removeCollider(self.cRayNodePath)
@@ -232,7 +232,7 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
 
     def handleHolidays(self):
         self.CCChatter = 0
-        if hasaTTW(base.cr, 'newsManager') and base.cr.newsManager:
+        if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
             if ToontownGlobals.CRASHED_LEADERBOARD in holidayIds:
                 self.CCChatter = ToontownGlobals.CRASHED_LEADERBOARD
@@ -272,7 +272,7 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
         fadeOut.start()
         self.loop('neutral')
         if self.fsm:
-            self.fsm.addState(State.State('TransitionToCostume', self.enterTransitionToCostume, self.exiTTWansitionToCostume, ['Off']))
+            self.fsm.addState(State.State('TransitionToCostume', self.enterTransitionToCostume, self.exitTransitionToCostume, ['Off']))
             self.fsm.request('TransitionToCostume', force=1)
         self.ignoreAll()
 
@@ -289,5 +289,5 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
         dust = getDustCloudIval()
         dust.start()
 
-    def exiTTWansitionToCostume(self):
+    def exitTransitionToCostume(self):
         pass

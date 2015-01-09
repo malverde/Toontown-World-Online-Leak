@@ -117,8 +117,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.savedCheesyEffect = ToontownGlobals.CENormal
         self.savedCheesyHoodId = 0
         self.savedCheesyExpireTime = 0
-        if hasaTTW(base, 'wantPets') and base.wantPets:
-            self.peTTWickPhrases = []
+        if hasattr(base, 'wantPets') and base.wantPets:
+            self.petTrickPhrases = []
             self.petDNA = None
         self.customMessages = []
         self.resistanceMessages = []
@@ -141,7 +141,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.splash = None
         self.tossTrack = None
         self.pieTracks = {}
-        self.splaTTWacks = {}
+        self.splatTracks = {}
         self.lastTossedPie = 0
         self.clothesTopsList = []
         self.clothesBottomsList = []
@@ -228,7 +228,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if self.tunnelTrack:
             self.tunnelTrack.finish()
             self.tunnelTrack = None
-        self.seTTWophyScore(0)
+        self.setTrophyScore(0)
         self.removeGMIcon()
         if self.cr.toons.has_key(self.doId):
             del self.cr.toons[self.doId]
@@ -250,7 +250,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         DistributedSmoothNode.DistributedSmoothNode.generate(self)
         self.cr.toons[self.doId] = self
         if base.cr.trophyManager != None:
-            base.cr.trophyManager.d_requesTTWophyScore()
+            base.cr.trophyManager.d_requestTrophyScore()
         self.startBlink()
         self.startSmooth()
         self.accept('clientCleanup', self._handleClientCleanup)
@@ -261,7 +261,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if self.animFSM.getCurrentState().getName() == 'off':
             self.setAnimState('neutral')
         # The client April Toons Manager is currently broken, so we have to do this hacky thing instead. :(
-        #if hasaTTW(base.cr, 'aprilToonsMgr'):
+        #if hasattr(base.cr, 'aprilToonsMgr'):
             #if self.isEventActive(AprilToonsGlobals.EventGlobalGravity):
                 #self.startAprilToonsControls()
         if config.GetBool('want-april-toons'):
@@ -409,7 +409,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         return
 
     def getDialogueArray(self, *args):
-        if hasaTTW(self, 'animalSound'):
+        if hasattr(self, 'animalSound'):
             types = [
                 Toon.DogDialogueArray,
                 Toon.CatDialogueArray,
@@ -462,7 +462,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def refreshName(self):
         return
         self.notify.debug('Refreshing GM Nametag String: %s Color: %s State: %s' % (self.gmNameTagString, self.gmNameTagColor, self.gmNameTagEnabled))
-        if hasaTTW(self, 'nametag') and self.gmNameTagEnabled:
+        if hasattr(self, 'nametag') and self.gmNameTagEnabled:
             self.setDisplayName(self.gmNameTagString)
             self.setName(self.gmNameTagString)
             self.trophyStar1 = loader.loadModel('models/misc/smiley')
@@ -470,7 +470,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             self.trophyStar1.setScale(1)
             self.trophyStar1.setZ(2.25)
             self.trophyStar1.setColor(Vec4(0.75, 0.75, 0.75, 0.75))
-            self.trophyStar1.seTTWansparency(1)
+            self.trophyStar1.setTransparency(1)
             self.trophyStarSpeed = 15
         else:
             taskMgr.add(self.__refreshNameCallBack, self.uniqueName('refreshNameCallBack'))
@@ -482,7 +482,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         return Task.cont
 
     def __refreshNameCallBack(self, task):
-        if hasaTTW(self, 'nametag') and self.nametag.getName() != '':
+        if hasattr(self, 'nametag') and self.nametag.getName() != '':
             self.refreshName()
             return Task.done
         else:
@@ -943,17 +943,17 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def setCogCount(self, cogCountList):
         self.cogCounts = cogCountList
-        if hasaTTW(self, 'suitPage'):
+        if hasattr(self, 'suitPage'):
             self.suitPage.updatePage()
 
     def setCogRadar(self, radar):
         self.cogRadar = radar
-        if hasaTTW(self, 'suitPage'):
+        if hasattr(self, 'suitPage'):
             self.suitPage.updateCogRadarButtons(radar)
 
     def setBuildingRadar(self, radar):
         self.buildingRadar = radar
-        if hasaTTW(self, 'suitPage'):
+        if hasattr(self, 'suitPage'):
             self.suitPage.updateBuildingRadarButtons(radar)
 
     def setCogTypes(self, types):
@@ -1011,12 +1011,12 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             return 1
 
     def setDisguisePageFlag(self, flag):
-        if flag and hasaTTW(self, 'book'):
+        if flag and hasattr(self, 'book'):
             self.loadDisguisePages()
         self.disguisePageFlag = flag
 
     def setSosPageFlag(self, flag):
-        if flag and hasaTTW(self, 'book'):
+        if flag and hasattr(self, 'book'):
             self.loadSosPages()
         self.sosPageFlag = flag
 
@@ -1135,7 +1135,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def setGhostMode(self, flag):
         if self.ghostMode != flag:
             self.ghostMode = flag
-            if not hasaTTW(self, 'cr'):
+            if not hasattr(self, 'cr'):
                 return
             if self.activeState <= DistributedObject.ESDisabled:
                 self.notify.debug('not applying cheesy effect to disabled Toon')
@@ -1147,7 +1147,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                 self.notify.warning('unknown activeState: %s' % self.activeState)
             self.showNametag2d()
             self.showNametag3d()
-            if hasaTTW(self, 'collNode'):
+            if hasattr(self, 'collNode'):
                 if self.ghostMode:
                     self.collNode.setCollideMask(ToontownGlobals.GhostBitmask)
                 else:
@@ -1158,12 +1158,12 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                 else:
                     self.useWalkControls()
 
-    if hasaTTW(base, 'wantPets') and base.wantPets:
+    if hasattr(base, 'wantPets') and base.wantPets:
 
-        def setPeTTWickPhrases(self, peTTWicks):
-            self.peTTWickPhrases = peTTWicks
+        def setPetTrickPhrases(self, petTricks):
+            self.petTrickPhrases = petTricks
             if self.isLocal():
-                messenger.send('peTTWickPhrasesChanged')
+                messenger.send('petTrickPhrasesChanged')
 
     def setCustomMessages(self, customMessages):
         self.customMessages = customMessages
@@ -1262,7 +1262,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         return
 
     def playSplashEffect(self, x, y, z):
-        if localAvatar.zoneId not in [ToontownGlobals.DonaldsDock, ToontownGlobals.OutdoorZone] and (not hasaTTW(localAvatar, 'inEstate') or localAvatar.inEstate != 1):
+        if localAvatar.zoneId not in [ToontownGlobals.DonaldsDock, ToontownGlobals.OutdoorZone] and (not hasattr(localAvatar, 'inEstate') or localAvatar.inEstate != 1):
             if random.random() < 0.1:
                 self.sendLogSuspiciousEvent('AvatarHackWarning! playing hacked splash effect')
             return
@@ -1274,34 +1274,34 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.splash.play()
         place = base.cr.playGame.getPlace()
         if place:
-            if hasaTTW(place.loader, 'submergeSound'):
+            if hasattr(place.loader, 'submergeSound'):
                 base.playSfx(place.loader.submergeSound, node=self)
         return
 
     def d_playSplashEffect(self, x, y, z):
         self.sendUpdate('playSplashEffect', [x, y, z])
 
-    def seTTWackAccess(self, trackArray):
+    def setTrackAccess(self, trackArray):
         self.trackArray = trackArray
         if self.inventory:
             self.inventory.updateGUI()
 
-    def geTTWackAccess(self):
+    def getTrackAccess(self):
         return self.trackArray
 
     def hasTrackAccess(self, track):
         return self.trackArray[track]
 
-    def seTTWackProgress(self, trackId, progress):
+    def setTrackProgress(self, trackId, progress):
         self.trackProgressId = trackId
         self.trackProgress = progress
-        if hasaTTW(self, 'trackPage'):
+        if hasattr(self, 'trackPage'):
             self.trackPage.updatePage()
 
-    def geTTWackProgress(self):
+    def getTrackProgress(self):
         return [self.trackProgressId, self.trackProgress]
 
-    def geTTWackProgressAsArray(self, maxLength = 15):
+    def getTrackProgressAsArray(self, maxLength = 15):
         shifts = map(operator.rshift, maxLength * [self.trackProgress], range(maxLength - 1, -1, -1))
         digits = map(operator.mod, shifts, maxLength * [2])
         digits.reverse()
@@ -1517,8 +1517,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             del self.pieTracks[sequence]
 
     def pieFinishedSplatting(self, sequence):
-        if self.splaTTWacks.has_key(sequence):
-            del self.splaTTWacks[sequence]
+        if self.splatTracks.has_key(sequence):
+            del self.splatTracks[sequence]
 
     def pieSplat(self, x, y, z, sequence, pieCode, timestamp32):
         if self.isLocal():
@@ -1532,10 +1532,10 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if self.pieTracks.has_key(sequence):
             lastPieTrack = self.pieTracks[sequence]
             del self.pieTracks[sequence]
-        if self.splaTTWacks.has_key(sequence):
-            lastSplaTTWack = self.splaTTWacks[sequence]
-            del self.splaTTWacks[sequence]
-            lastSplaTTWack.finish()
+        if self.splatTracks.has_key(sequence):
+            lastSplatTrack = self.splatTracks[sequence]
+            del self.splatTracks[sequence]
+            lastSplatTrack.finish()
         ts = globalClockDelta.localElapsedTime(timestamp32, bits=32)
         ts -= self.smoother.getDelay()
         splat = self.getPieSplatInterval(x, y, z, pieCode)
@@ -1547,7 +1547,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             splat = Sequence(Wait(-ts), splat)
             startTime = 0
         splat = Sequence(splat, Func(self.pieFinishedSplatting, sequence))
-        self.splaTTWacks[sequence] = splat
+        self.splatTracks[sequence] = splat
         splat.start(startTime)
 
     def cleanupPies(self):
@@ -1555,10 +1555,10 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             track.finish()
 
         self.pieTracks = {}
-        for track in self.splaTTWacks.values():
+        for track in self.splatTracks.values():
             track.finish()
 
-        self.splaTTWacks = {}
+        self.splatTracks = {}
         self.cleanupPieInHand()
 
     def cleanupPieInHand(self):
@@ -1583,7 +1583,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def setPieThrowType(self, throwType):
         self.pieThrowType = throwType
 
-    def seTTWophyScore(self, score):
+    def setTrophyScore(self, score):
         self.trophyScore = score
         if self.trophyStar != None:
             self.trophyStar.removeNode()
@@ -1591,7 +1591,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if self.trophyStarSpeed != 0:
             taskMgr.remove(self.uniqueName('starSpin'))
             self.trophyStarSpeed = 0
-        if hasaTTW(self, 'gmIcon') and self.gmIcon:
+        if hasattr(self, 'gmIcon') and self.gmIcon:
             return
         if self.trophyScore >= ToontownGlobals.TrophyStarLevels[4]:
             self.trophyStar = loader.loadModel('phase_3.5/models/gui/name_star')
@@ -1816,7 +1816,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             return self.kartingPersonalBest + self.kartingPersonalBest2
 
 
-    if hasaTTW(base, 'wantPets') and base.wantPets:
+    if hasattr(base, 'wantPets') and base.wantPets:
 
         def setPetId(self, petId):
             self.petId = petId
@@ -1994,9 +1994,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         can.setHpr(scalePosHprsTable[self.wateringCan][4], scalePosHprsTable[self.wateringCan][5], scalePosHprsTable[self.wateringCan][6])
         can.detachNode()
         cans.removeNode()
-        if hasaTTW(base, 'rwc'):
+        if hasattr(base, 'rwc'):
             if base.rwc:
-                if hasaTTW(self, 'wateringCan2'):
+                if hasattr(self, 'wateringCan2'):
                     self.wateringCan2.removeNode()
                 self.wateringCan2 = can.copyTo(self.rightHand)
             else:
@@ -2008,7 +2008,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def setGardenSpecials(self, specials):
         self.gardenSpecials = specials
-        if hasaTTW(self, 'gardenPage') and self.gardenPage:
+        if hasattr(self, 'gardenPage') and self.gardenPage:
             self.gardenPage.updatePage()
 
     def getGardenSpecials(self):
@@ -2048,12 +2048,12 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
         return haveRequired
 
-    def seTTWackBonusLevel(self, trackArray):
+    def setTrackBonusLevel(self, trackArray):
         self.trackBonusLevel = trackArray
         if self.inventory:
             self.inventory.updateGUI()
 
-    def geTTWackBonusLevel(self, track = None):
+    def getTrackBonusLevel(self, track = None):
         if track == None:
             return self.trackBonusLevel
         else:
@@ -2061,7 +2061,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         return
 
     def checkGagBonus(self, track, level):
-        trackBonus = self.geTTWackBonusLevel(track)
+        trackBonus = self.getTrackBonusLevel(track)
         return trackBonus >= level
 
     def setGardenTrophies(self, trophyList):
@@ -2102,7 +2102,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.golfHistory = history
         self.golfTrophies = GolfGlobals.calcTrophyListFromHistory(self.golfHistory)
         self.golfCups = GolfGlobals.calcCupListFromHistory(self.golfHistory)
-        if hasaTTW(self, 'book'):
+        if hasattr(self, 'book'):
             self.addGolfPage()
 
     def getGolfHistory(self):
@@ -2140,7 +2140,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         return self.unlimitedSwing
 
     def getPinkSlips(self):
-        if hasaTTW(self, 'pinkSlips'):
+        if hasattr(self, 'pinkSlips'):
             return self.pinkSlips
         else:
             return 0
@@ -2156,7 +2156,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.gameAccess = access
 
     def getGameAccess(self):
-        if hasaTTW(self, 'gameAccess'):
+        if hasattr(self, 'gameAccess'):
             return self.gameAccess
         else:
             return 0
@@ -2182,13 +2182,13 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.nametag.clearShadow()
 
     def getNametagStyle(self):
-        if hasaTTW(self, 'nametagStyle'):
+        if hasattr(self, 'nametagStyle'):
             return self.nametagStyle
         else:
             return 0
 
     def setNametagStyle(self, nametagStyle):
-        if hasaTTW(self, 'gmToonLockStyle') and self.gmToonLockStyle:
+        if hasattr(self, 'gmToonLockStyle') and self.gmToonLockStyle:
             return
         if config.GetBool('want-nametag-avids', 0):
             nametagStyle = 0
@@ -2424,9 +2424,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             if partyInfo.partyId == partyId:
                 partyInfo.status = PartyGlobals.PartyStatus.CanStart
                 from toontown.shtiker import EventsPage
-                if hasaTTW(self, 'eventsPage') and base.localAvatar.book.entered and base.localAvatar.book.isOnPage(self.eventsPage) and self.eventsPage.getMode() == EventsPage.EventsPage_Host:
+                if hasattr(self, 'eventsPage') and base.localAvatar.book.entered and base.localAvatar.book.isOnPage(self.eventsPage) and self.eventsPage.getMode() == EventsPage.EventsPage_Host:
                     base.localAvatar.eventsPage.loadHostedPartyInfo()
-                if hasaTTW(self, 'displaySystemClickableWhisper'):
+                if hasattr(self, 'displaySystemClickableWhisper'):
                     self.displaySystemClickableWhisper(0, TTLocalizer.PartyCanStart, whisperType=WhisperPopup.WTSystem)
                 else:
                     self.setSystemMessage(0, TTLocalizer.PartyCanStart)
@@ -2445,9 +2445,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                 partyInfo.status = newStatus
                 found = True
                 from toontown.shtiker import EventsPage
-                if hasaTTW(self, 'eventsPage') and base.localAvatar.book.entered and base.localAvatar.book.isOnPage(self.eventsPage) and self.eventsPage.getMode() == EventsPage.EventsPage_Invited:
+                if hasattr(self, 'eventsPage') and base.localAvatar.book.entered and base.localAvatar.book.isOnPage(self.eventsPage) and self.eventsPage.getMode() == EventsPage.EventsPage_Invited:
                     base.localAvatar.eventsPage.loadInvitations()
-                if newStatus == PartyStatus.Started and hasaTTW(self, 'displaySystemClickableWhisper'):
+                if newStatus == PartyStatus.Started and hasattr(self, 'displaySystemClickableWhisper'):
                     invite = self.getInviteForPartyId(partyId)
                     if invite:
                         name = ' '
@@ -2622,7 +2622,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             self.setNametagStyle(100)
 
     def setGMIcon(self, gmType = None):
-        if hasaTTW(self, 'gmIcon') and self.gmIcon:
+        if hasattr(self, 'gmIcon') and self.gmIcon:
             return
         if not gmType:
             gmType = self._gmType
@@ -2638,11 +2638,11 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.gmIcon.setScale(scale)
         np = NodePath(self.nametag.getNameIcon())
         self.gmIcon.reparentTo(np)
-        self.seTTWophyScore(self.trophyScore)
+        self.setTrophyScore(self.trophyScore)
         self.gmIcon.setZ(-2.5)
         self.gmIcon.setY(0.0)
         self.gmIcon.setColor(Vec4(1.0, 1.0, 1.0, 1.0))
-        self.gmIcon.seTTWansparency(1)
+        self.gmIcon.setTransparency(1)
         self.gmIconInterval = LerpHprInterval(self.gmIcon, 3.0, Point3(0, 0, 0), Point3(-360, 0, 0))
         self.gmIconInterval.loop()
 
@@ -2654,19 +2654,19 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.gmIcon = loader.loadModel(iconInfo[gmType])
         self.gmIcon.reparentTo(NodePath(self.nametag.getNameIcon()))
         self.gmIcon.setScale(3.25)
-        self.seTTWophyScore(self.trophyScore)
+        self.setTrophyScore(self.trophyScore)
         self.gmIcon.setZ(1.0)
         self.gmIcon.setY(0.0)
         self.gmIcon.setColor(Vec4(1.0, 1.0, 1.0, 1.0))
-        self.gmIcon.seTTWansparency(1)
+        self.gmIcon.setTransparency(1)
         self.gmIconInterval = LerpHprInterval(self.gmIcon, 3.0, Point3(0, 0, 0), Point3(-360, 0, 0))
         self.gmIconInterval.loop()
 
     def removeGMIcon(self):
-        if hasaTTW(self, 'gmIconInterval') and self.gmIconInterval:
+        if hasattr(self, 'gmIconInterval') and self.gmIconInterval:
             self.gmIconInterval.finish()
             del self.gmIconInterval
-        if hasaTTW(self, 'gmIcon') and self.gmIcon:
+        if hasattr(self, 'gmIcon') and self.gmIcon:
             self.gmIcon.detachNode()
             del self.gmIcon
 

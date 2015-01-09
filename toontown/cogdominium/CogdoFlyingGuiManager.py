@@ -89,7 +89,7 @@ class CogdoFlyingGuiManager:
         return
 
     def stopTimer(self):
-        if hasaTTW(self, '_timer') and self._timer is not None:
+        if hasattr(self, '_timer') and self._timer is not None:
             self.hideTimer()
             self._timer.stop()
         return

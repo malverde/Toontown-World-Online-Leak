@@ -19,20 +19,20 @@ def doTraps(traps):
         return (None, None)
     npcArrivals, npcDepartures, npcs = MovieNPCSOS.doNPCTeleports(traps)
     hasUberTrapConflict = False
-    suiTTWapsDict = {}
+    suitTrapsDict = {}
     for trap in traps:
         targets = trap['target']
         if len(targets) == 1:
             suitId = targets[0]['suit'].doId
-            if suiTTWapsDict.has_key(suitId):
-                suiTTWapsDict[suitId].append(trap)
+            if suitTrapsDict.has_key(suitId):
+                suitTrapsDict[suitId].append(trap)
             else:
-                suiTTWapsDict[suitId] = [trap]
+                suitTrapsDict[suitId] = [trap]
         else:
             for target in targets:
                 suitId = target['suit'].doId
-                if not suiTTWapsDict.has_key(suitId):
-                    suiTTWapsDict[suitId] = [trap]
+                if not suitTrapsDict.has_key(suitId):
+                    suitTrapsDict[suitId] = [trap]
                     break
 
             if trap['level'] == UBER_GAG_LEVEL_INDEX:
@@ -43,9 +43,9 @@ def doTraps(traps):
                     if suit.battleTrap != NO_TRAP:
                         hasUberTrapConflict = True
 
-    suiTTWapLists = suiTTWapsDict.values()
+    suitTrapLists = suitTrapsDict.values()
     mtrack = Parallel()
-    for trapList in suiTTWapLists:
+    for trapList in suitTrapLists:
         trapPropList = []
         for i in range(len(trapList)):
             trap = trapList[i]
@@ -544,10 +544,10 @@ def __createPlacedGroupTrapTrack(trap, prop, propName, centerSuit, propPos = Non
                 kbbonus = target['kbbonus']
                 if kbbonus == 0:
                     unluredSuit = target['suit']
-                    suiTTWack = Sequence()
-                    suiTTWack.append(createSuitResetPosTrack(unluredSuit, battle))
-                    suiTTWack.append(Func(battle.unlureSuit, unluredSuit))
-                    unlureSuits.append(suiTTWack)
+                    suitTrack = Sequence()
+                    suitTrack.append(createSuitResetPosTrack(unluredSuit, battle))
+                    suitTrack.append(Func(battle.unlureSuit, unluredSuit))
+                    unlureSuits.append(suitTrack)
 
             trapTrack.append(unlureSuits)
             for otherSuit in battle.suits:

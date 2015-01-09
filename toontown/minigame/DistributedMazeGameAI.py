@@ -85,7 +85,7 @@ class DistributedMazeGameAI(DistributedMinigameAI):
             return
         self.takenTable[treasureNum] = 1
         avId = self.air.getAvatarIdFromSender()
-        self.sendUpdate('seTTWeasureGrabbed', [avId, treasureNum])
+        self.sendUpdate('setTreasureGrabbed', [avId, treasureNum])
         self.scoreDict[avId] += 1
         self.numTreasuresTaken += 1
         if self.numTreasuresTaken >= self.numTreasures:

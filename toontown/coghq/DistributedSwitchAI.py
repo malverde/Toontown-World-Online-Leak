@@ -10,7 +10,7 @@ class DistributedSwitchAI(DistributedSwitchBase.DistributedSwitchBase, Distribut
 
     def __init__(self, level, entId, zoneId = None):
         DistributedEntityAI.DistributedEntityAI.__init__(self, level, entId)
-        self.fsm = ClassicFSM.ClassicFSM('DistributedSwitch', [State.State('off', self.enterOff, self.exitOff, ['playing']), State.State('aTTWact', self.enterATTWact, self.exitATTWact, ['playing']), State.State('playing', self.enterPlaying, self.exitPlaying, ['aTTWact'])], 'off', 'off')
+        self.fsm = ClassicFSM.ClassicFSM('DistributedSwitch', [State.State('off', self.enterOff, self.exitOff, ['playing']), State.State('attract', self.enterAttract, self.exitAttract, ['playing']), State.State('playing', self.enterPlaying, self.exitPlaying, ['attract'])], 'off', 'off')
         self.fsm.enterInitialState()
         self.avatarId = 0
         self.doLaterTask = None
@@ -51,8 +51,8 @@ class DistributedSwitchAI(DistributedSwitchBase.DistributedSwitchBase, Distribut
             if isOn:
                 if stateName != 'playing':
                     self.fsm.request('playing')
-            elif stateName != 'aTTWact':
-                self.fsm.request('aTTWact')
+            elif stateName != 'attract':
+                self.fsm.request('attract')
             messenger.send(self.getOutputEventName(), [isOn])
 
     def getIsOn(self):
@@ -63,7 +63,7 @@ class DistributedSwitchAI(DistributedSwitchBase.DistributedSwitchBase, Distribut
 
     def switchOffTask(self, task):
         self.setIsOn(0)
-        self.fsm.request('aTTWact')
+        self.fsm.request('attract')
         return Task.done
 
     def requestInteract(self):
@@ -93,10 +93,10 @@ class DistributedSwitchAI(DistributedSwitchBase.DistributedSwitchBase, Distribut
     def exitOff(self):
         pass
 
-    def enterATTWact(self):
+    def enterAttract(self):
         self.sendState()
 
-    def exitATTWact(self):
+    def exitAttract(self):
         pass
 
     def enterPlaying(self):
@@ -111,6 +111,6 @@ class DistributedSwitchAI(DistributedSwitchBase.DistributedSwitchBase, Distribut
 
     if __dev__:
 
-        def aTTWibChanged(self, aTTWib, value):
+        def attribChanged(self, attrib, value):
             self.takedown()
             self.setup()

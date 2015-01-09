@@ -14,7 +14,7 @@ from toontown.pets import Pet, PetConstants
 from toontown.pets import PetDNA
 from toontown.pets import PetUtil
 from toontown.pets import PetDetail
-from toontown.pets import PeTTWaits
+from toontown.pets import PetTraits
 from toontown.pets import PetNameGenerator
 from toontown.hood import ZoneUtil
 import string
@@ -337,7 +337,7 @@ class PetshopGUI(DirectObject):
                 zoneId = ZoneUtil.getCanonicalSafeZoneId(base.localAvatar.getZoneId())
                 name, dna, traitSeed = PetUtil.getPetInfoFromSeed(self.petSeeds[i], zoneId)
                 cost = PetUtil.getPetCostFromSeed(self.petSeeds[i], zoneId)
-                traits = PeTTWaits.PeTTWaits(traitSeed, zoneId)
+                traits = PetTraits.PetTraits(traitSeed, zoneId)
                 traitList = traits.getExtremeTraitDescriptions()
                 numGenders = len(PetDNA.PetGenders)
                 gender = i % numGenders

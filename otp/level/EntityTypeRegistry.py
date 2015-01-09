@@ -1,7 +1,7 @@
 from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 import types
-import ATTWibDesc
+import AttribDesc
 import EntityTypeDesc
 from direct.showbase.PythonUtil import mostDerivedLast
 import os
@@ -49,7 +49,7 @@ class EntityTypeRegistry:
         self.output2typeNames = {}
         for typename, typeDesc in self.entTypeName2typeDesc.items():
             if typeDesc.isConcrete():
-                if hasaTTW(typeDesc, 'output'):
+                if hasattr(typeDesc, 'output'):
                     outputType = typeDesc.output
                     self.output2typeNames.setdefault(outputType, [])
                     self.output2typeNames[outputType].append(typename)

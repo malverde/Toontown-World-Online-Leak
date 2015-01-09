@@ -21,11 +21,11 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
     def __init__(self, cr):
         BattleBlocker.BattleBlocker.__init__(self, cr)
         node = hidden.attachNewNode('DistributedNodePathEntity')
-        if not hasaTTW(self, 'radius'):
+        if not hasattr(self, 'radius'):
             self.radius = 5
-        if not hasaTTW(self, 'blockerX'):
+        if not hasattr(self, 'blockerX'):
             self.blockerX = 0.0
-        if not hasaTTW(self, 'blockerY'):
+        if not hasattr(self, 'blockerY'):
             self.blockerY = 0.0
         self.blockerZ = -10000
         self.gridWireGN = None
@@ -77,15 +77,15 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         self.gridWireGN = GeomNode('grid wire')
         self.gridWireNode.attachNewNode(self.gridWireGN)
         self.gridWireNode.setRenderModeWireframe()
-        self.gridWireNode.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd))
+        self.gridWireNode.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd))
         self.gridWireNode.setTwoSided(True)
         self.gridWireNode.setBin('fixed', 1)
         self.gridWireNode.setDepthWrite(False)
         self.gridBeamNode = self.attachNewNode('grid Beam Node')
         self.gridBeamGN = GeomNode('grid beam')
         self.gridBeamNode.attachNewNode(self.gridBeamGN)
-        self.gridBeamNode.seTTWansparency(TransparencyATTWib.MAlpha)
-        self.gridBeamNode.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd))
+        self.gridBeamNode.setTransparency(TransparencyAttrib.MAlpha)
+        self.gridBeamNode.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd))
         self.gridBeamNode.setTwoSided(True)
         self.gridBeamNode.setBin('fixed', 1)
         self.gridBeamNode.setDepthWrite(False)
@@ -93,16 +93,16 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         self.traceWireGN = GeomNode('trace Wire')
         self.traceWireNode.attachNewNode(self.traceWireGN)
         self.traceWireNode.setRenderModeWireframe()
-        self.traceWireNode.seTTWansparency(TransparencyATTWib.MAlpha)
-        self.traceWireNode.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd))
+        self.traceWireNode.setTransparency(TransparencyAttrib.MAlpha)
+        self.traceWireNode.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd))
         self.traceWireNode.setTwoSided(True)
         self.traceWireNode.setBin('fixed', 1)
         self.traceWireNode.setDepthWrite(False)
         self.traceBeamNode = self.attachNewNode('trace Beam Node')
         self.traceBeamGN = GeomNode('trace Beam')
         self.traceBeamNode.attachNewNode(self.traceBeamGN)
-        self.traceBeamNode.seTTWansparency(TransparencyATTWib.MAlpha)
-        self.traceBeamNode.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd))
+        self.traceBeamNode.setTransparency(TransparencyAttrib.MAlpha)
+        self.traceBeamNode.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd))
         self.traceBeamNode.setTwoSided(True)
         self.traceBeamNode.setBin('fixed', 1)
         self.traceBeamNode.setDepthWrite(False)

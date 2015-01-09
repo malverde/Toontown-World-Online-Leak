@@ -25,11 +25,11 @@ class Trolley(StateData.StateData):
                  'trolleyTFA']),
             State.State('trolleyHFA',
                 self.enterTrolleyHFA,
-                self.exiTTWolleyHFA,
+                self.exitTrolleyHFA,
                 ['final']),
             State.State('trolleyTFA',
                 self.enterTrolleyTFA,
-                self.exiTTWolleyTFA,
+                self.exitTrolleyTFA,
                 ['final']),
             State.State('requestBoard',
                 self.enterRequestBoard,
@@ -52,7 +52,7 @@ class Trolley(StateData.StateData):
                  'trolleyLeaving']),
             State.State('trolleyLeaving',
                 self.enterTrolleyLeaving,
-                self.exiTTWolleyLeaving,
+                self.exitTrolleyLeaving,
                 ['final']),
             State.State('exiting',
                 self.enterExiting,
@@ -108,7 +108,7 @@ class Trolley(StateData.StateData):
         base.localAvatar.b_setAnimState('neutral', 1)
         self.accept('noTrolleyAck', self.__handleNoTrolleyAck)
 
-    def exiTTWolleyHFA(self):
+    def exitTrolleyHFA(self):
         self.ignore('noTrolleyAck')
         self.noTrolleyBox.cleanup()
         del self.noTrolleyBox
@@ -119,7 +119,7 @@ class Trolley(StateData.StateData):
         base.localAvatar.b_setAnimState('neutral', 1)
         self.accept('noTrolleyAck', self.__handleNoTrolleyAck)
 
-    def exiTTWolleyTFA(self):
+    def exitTrolleyTFA(self):
         self.ignore('noTrolleyAck')
         self.noTrolleyBox.cleanup()
         del self.noTrolleyBox
@@ -192,7 +192,7 @@ class Trolley(StateData.StateData):
         doneStatus['minigameId'] = minigameId
         messenger.send(self.doneEvent, [doneStatus])
 
-    def exiTTWolleyLeaving(self):
+    def exitTrolleyLeaving(self):
         self.ignore('playMinigame')
         taskMgr.remove('leavingCamera')
         return None

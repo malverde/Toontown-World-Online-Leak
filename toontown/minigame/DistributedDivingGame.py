@@ -124,7 +124,7 @@ class DistributedDivingGame(DistributedMinigame):
         self.swimSound.play()
 
     def addSound(self, name, soundName, path = None):
-        if not hasaTTW(self, 'soundTable'):
+        if not hasattr(self, 'soundTable'):
             self.soundTable = {}
         if path:
             self.soundPath = path
@@ -140,7 +140,7 @@ class DistributedDivingGame(DistributedMinigame):
         DistributedMinigame.unload(self)
         self.mapModel.removeNode()
         del self.mapModel
-        if hasaTTW(self, 'soundTable'):
+        if hasattr(self, 'soundTable'):
             del self.soundTable
         del self.sndAmbience
         del self.hitSound
@@ -179,7 +179,7 @@ class DistributedDivingGame(DistributedMinigame):
         if self.dead is 1:
             return
         ts = globalClockDelta.localElapsedTime(timestamp)
-        if not hasaTTW(self, 'spawners'):
+        if not hasattr(self, 'spawners'):
             return
         if abs(self.spawners[spawnerId].lastSpawn - timestamp) < 150:
             return
@@ -274,7 +274,7 @@ class DistributedDivingGame(DistributedMinigame):
         self.mapScaleRatio = 40
         self.mapModel.reparentTo(base.a2dTopRight)
         self.mapModel.setScale(1.0 / self.mapScaleRatio)
-        self.mapModel.seTTWansparency(1)
+        self.mapModel.setTransparency(1)
         self.mapModel.setPos(-0.22, 0.0, -1.30)
         self.mapModel.setColorScale(1, 1, 1, 0.7)
         self.mapModel.hide()
@@ -323,18 +323,18 @@ class DistributedDivingGame(DistributedMinigame):
             crab.removeNode()
             del crab
 
-        if hasaTTW(self, 'treasures') and self.treasures:
+        if hasattr(self, 'treasures') and self.treasures:
             for i in range(self.NUMTREASURES):
                 self.treasures[i].destroy()
 
             del self.treasures
-        if hasaTTW(self, 'cSphereNodePath1'):
+        if hasattr(self, 'cSphereNodePath1'):
             self.cSphereNodePath1.removeNode()
             del self.cSphereNodePath1
-        if hasaTTW(self, 'cSphereNodePath1'):
+        if hasattr(self, 'cSphereNodePath1'):
             self.cSphereNodePath2.removeNode()
             del self.cSphereNodePath2
-        if hasaTTW(self, 'remoteToonCollNPs'):
+        if hasattr(self, 'remoteToonCollNPs'):
             for np in self.remoteToonCollNPs.values():
                 np.removeNode()
 
@@ -659,8 +659,8 @@ class DistributedDivingGame(DistributedMinigame):
             self.grabbingTreasure = chestId
             self.sendUpdate('pickupTreasure', [chestId])
 
-    def seTTWeasureDropped(self, avId, timestamp):
-        if not hasaTTW(self, 'treasures'):
+    def setTreasureDropped(self, avId, timestamp):
+        if not hasattr(self, 'treasures'):
             return
         ts = globalClockDelta.localElapsedTime(timestamp)
         for i in range(self.NUMTREASURES):
@@ -696,7 +696,7 @@ class DistributedDivingGame(DistributedMinigame):
             self.hitSound.setVolume(volume)
 
     def performFishCollision(self, avId, spawnId, spawnerId, timestamp):
-        if not hasaTTW(self, 'spawners'):
+        if not hasattr(self, 'spawners'):
             return
         toonSD = self.toonSDs[avId]
         ts = globalClockDelta.localElapsedTime(timestamp)
@@ -774,10 +774,10 @@ class DistributedDivingGame(DistributedMinigame):
             del self.spawners[spawnerId].fishArray[spawnId]
         else:
             import pdb
-            pdb.seTTWace()
+            pdb.setTrace()
         return
 
-    def seTTWeasureGrabbed(self, avId, chestId):
+    def setTreasureGrabbed(self, avId, chestId):
         if not self.hasLocalToon:
             return
 
@@ -829,7 +829,7 @@ class DistributedDivingGame(DistributedMinigame):
         if self.dead == 1:
             self.__killCrabTask()
             return
-        if not hasaTTW(self, 'crabs'):
+        if not hasattr(self, 'crabs'):
             return
         crab = self.crabs[crabId]
         ts = globalClockDelta.localElapsedTime(timestamp)

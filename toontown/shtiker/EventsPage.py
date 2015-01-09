@@ -317,7 +317,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
                     elif partyInfo.status == PartyGlobals.PartyStatus.Started:
                         place = base.cr.playGame.getPlace()
                         if isinstance(place, Party):
-                            if hasaTTW(base, 'distributedParty'):
+                            if hasattr(base, 'distributedParty'):
                                 if base.distributedParty.partyInfo.hostId == base.localAvatar.doId:
                                     self.partyGoButton['state'] = DirectGuiGlobals.DISABLED
                                 else:
@@ -355,11 +355,11 @@ class EventsPage(ShtikerPage.ShtikerPage):
         return result
 
     def confirmTooLateParty(self):
-        if hasaTTW(self, 'confirmTooLatePartyGui'):
+        if hasattr(self, 'confirmTooLatePartyGui'):
             self.confirmTooLatePartyGui.hide()
 
     def confirmPublicPrivateChange(self):
-        if hasaTTW(self, 'confirmPublicPrivateGui'):
+        if hasattr(self, 'confirmPublicPrivateGui'):
             self.confirmPublicPrivateGui.hide()
 
     def _startParty(self):
@@ -455,7 +455,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
         del self.cancelPartyResultGui
         self.ignore(self.confirmCancelPartyEvent)
         self.ignore(self.cancelPartyResultGuiEvent)
-        if hasaTTW(self, 'rssFeed') and self.rssFeed:
+        if hasattr(self, 'rssFeed') and self.rssFeed:
             self.rssFeed = None
         if self.articleTextList:
             self.articleTextList.removeAndDestroyAllItems()

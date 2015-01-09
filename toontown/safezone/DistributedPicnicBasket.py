@@ -27,7 +27,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         self.seed = 0
         self.random = None
         self.picnicCountdownTime = config.GetFloat('picnic-countdown-time', ToontownGlobals.PICNIC_COUNTDOWN_TIME)
-        self.picnicBaskeTTWack = None
+        self.picnicBasketTrack = None
         self.fsm = ClassicFSM.ClassicFSM('DistributedTrolley', [State.State('off', self.enterOff, self.exitOff, ['waitEmpty', 'waitCountdown']), State.State('waitEmpty', self.enterWaitEmpty, self.exitWaitEmpty, ['waitCountdown']), State.State('waitCountdown', self.enterWaitCountdown, self.exitWaitCountdown, ['waitEmpty'])], 'off', 'off')
         self.fsm.enterInitialState()
         self.__toonTracks = {}
@@ -93,7 +93,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         del self.picnicTableSphereNodes
         self.notify.debug('Deleted self loader ' + str(self.getDoId()))
         self.picnicTable.removeNode()
-        self.picnicBaskeTTWack = None
+        self.picnicBasketTrack = None
         return
 
     def delete(self):
@@ -140,13 +140,13 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                     side = -1
                 else:
                     side = 1
-                if hasaTTW(self.loader.place, 'trolley'):
+                if hasattr(self.loader.place, 'trolley'):
                     self.loader.place.trolley.fsm.request('boarding', [self.tablecloth, side])
                 else:
                     self.notify.warning('fillSlot no trolley in place')
                 self.localToonOnBoard = 1
             if avId == base.localAvatar.getDoId():
-                if hasaTTW(self.loader.place, 'trolley'):
+                if hasattr(self.loader.place, 'trolley'):
                     self.loader.place.trolley.fsm.request('boarded')
                     self.loader.place.trolley.exitButton.hide()
             if self.cr.doId2do.has_key(avId):
@@ -159,15 +159,15 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                 self.notify.debug('### fillSlot: fullSeat = %s' % self.fullSeat)
                 if self.fullSeat.count(0) == 3:
                     self.notify.debug('### fillSlot: adding basketAppear')
-                    if self.picnicBaskeTTWack:
-                        self.picnicBaskeTTWack.finish()
+                    if self.picnicBasketTrack:
+                        self.picnicBasketTrack.finish()
                     waitDuration = track.getDuration()
-                    self.picnicBaskeTTWack = Sequence(Wait(waitDuration), self.generateBasketAppearTrack())
-                    self.picnicBaskeTTWack.start()
+                    self.picnicBasketTrack = Sequence(Wait(waitDuration), self.generateBasketAppearTrack())
+                    self.picnicBasketTrack.start()
                 track.append(self.generateFoodAppearTrack(index))
                 track.append(Sequence(Func(self.clearToonTrack, avId), name=toon.uniqueName('fillTrolley'), autoPause=1))
                 if avId == base.localAvatar.getDoId():
-                    if hasaTTW(self.loader.place, 'trolley'):
+                    if hasattr(self.loader.place, 'trolley'):
                         track.append(Func(self.loader.place.trolley.exitButton.show))
                 track.delayDelete = DelayDelete.DelayDelete(toon, 'PicnicBasket.fillSlot')
                 self.storeToonTrack(avId, track)
@@ -187,8 +187,8 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
 
     def notifyToonOffTrolley(self, toon):
         toon.setAnimState('neutral', 1.0)
-        if hasaTTW(base, 'localAvatar') and toon == base.localAvatar:
-            if hasaTTW(self.loader.place, 'trolley'):
+        if hasattr(base, 'localAvatar') and toon == base.localAvatar:
+            if hasattr(self.loader.place, 'trolley'):
                 self.loader.place.trolley.handleOffTrolley()
             self.localToonOnBoard = 0
         else:
@@ -208,11 +208,11 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
             self.notify.debug('### empty slot - unexpetected: fullSeat = %s' % self.fullSeat)
             if self.fullSeat.count(0) == 4:
                 self.notify.debug('### empty slot - unexpected: losing basket')
-                if self.picnicBaskeTTWack:
-                    self.picnicBaskeTTWack.finish()
+                if self.picnicBasketTrack:
+                    self.picnicBasketTrack.finish()
                 waitDuration = track.getDuration()
-                self.picnicBaskeTTWack = Sequence(Wait(waitDuration), self.generateBasketDisappearTrack())
-                self.picnicBaskeTTWack.start()
+                self.picnicBasketTrack = Sequence(Wait(waitDuration), self.generateBasketDisappearTrack())
+                self.picnicBasketTrack.start()
             track.start()
         else:
             self.fullSeat[index] = self.seatState.Empty
@@ -223,17 +223,17 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                 toon = self.cr.doId2do[avId]
                 toon.stopSmooth()
                 sitStartDuration = toon.getDuration('sit-start')
-                jumpOuTTWack = self.generateToonReverseJumpTrack(toon, index)
-                track = Sequence(jumpOuTTWack)
+                jumpOutTrack = self.generateToonReverseJumpTrack(toon, index)
+                track = Sequence(jumpOutTrack)
                 track.append(self.generateFoodDisappearTrack(index))
                 self.notify.debug('### empty slot: fullSeat = %s' % self.fullSeat)
                 if self.fullSeat.count(0) == 4:
                     self.notify.debug('### empty slot: losing basket')
-                    if self.picnicBaskeTTWack:
-                        self.picnicBaskeTTWack.finish()
+                    if self.picnicBasketTrack:
+                        self.picnicBasketTrack.finish()
                     waitDuration = track.getDuration()
-                    self.picnicBaskeTTWack = Sequence(Wait(waitDuration), self.generateBasketDisappearTrack())
-                    self.picnicBaskeTTWack.start()
+                    self.picnicBasketTrack = Sequence(Wait(waitDuration), self.generateBasketDisappearTrack())
+                    self.picnicBasketTrack.start()
                 track.append(Sequence(Func(self.notifyToonOffTrolley, toon), Func(self.clearToonTrack, avId), Func(self.doneExit, avId), Func(emptySeat, index), name=toon.uniqueName('emptyTrolley'), autoPause=1))
                 track.delayDelete = DelayDelete.DelayDelete(toon, 'PicnicBasket.emptySlot')
                 self.storeToonTrack(avId, track)
@@ -343,13 +343,13 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
             toonJumpTrack = Parallel(ActorInterval(av, 'jump'), Sequence(Wait(0.43), Parallel(LerpHprInterval(av, hpr=getJumpHpr, duration=0.9), ProjectileInterval(av, endPos=getJumpDest, duration=0.9))))
             return toonJumpTrack
 
-        def getToonSiTTWack(av):
-            toonSiTTWack = Sequence(ActorInterval(av, 'sit-start'), Func(av.loop, 'sit'))
-            return toonSiTTWack
+        def getToonSitTrack(av):
+            toonSitTrack = Sequence(ActorInterval(av, 'sit-start'), Func(av.loop, 'sit'))
+            return toonSitTrack
 
         toonJumpTrack = getToonJumpTrack(av, seatIndex)
-        toonSiTTWack = getToonSiTTWack(av)
-        jumpTrack = Sequence(Parallel(toonJumpTrack, Sequence(Wait(1), toonSiTTWack)), Func(av.wrtReparentTo, self.tablecloth))
+        toonSitTrack = getToonSitTrack(av)
+        jumpTrack = Sequence(Parallel(toonJumpTrack, Sequence(Wait(1), toonSitTrack)), Func(av.wrtReparentTo, self.tablecloth))
         return jumpTrack
 
     def generateToonReverseJumpTrack(self, av, seatIndex):
@@ -380,7 +380,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         if self.basket == None:
             self.basket = loader.loadModel('phase_6/models/golf/picnic_basket')
         self.basket.setScale(0.1)
-        baskeTTWack = Sequence(
+        basketTrack = Sequence(
             Func(self.basket.show),
             SoundInterval(
                 globalBattleSoundCache.getSound('GUI_balloon_popup.ogg'),
@@ -417,14 +417,14 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                     duration=0.1),
                 Func(self.basket.wrtReparentTo, self.tablecloth),
                 Func(self.basket.setPos, 0, 0, 0)))
-        return baskeTTWack
+        return basketTrack
 
     def generateBasketDisappearTrack(self):
         if not self.basket:
             return Sequence()
         pos = self.basket.getPos()
         pos.addZ(-1)
-        baskeTTWack = Sequence(
+        basketTrack = Sequence(
             LerpScaleInterval(
                 self.basket,
                 scale=Point3(2.0, 2.0, 1.8),
@@ -458,7 +458,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
                 pos=pos,
                 duration=0.2),
             Func(self.basket.hide))
-        return baskeTTWack
+        return basketTrack
 
     def generateFoodAppearTrack(self, seat):
         if self.fullSeat[seat] == self.seatState.Full:
@@ -565,7 +565,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
 
     def setPicnicDone(self):
         if self.localToonOnBoard:
-            if hasaTTW(self.loader.place, 'trolley'):
+            if hasattr(self.loader.place, 'trolley'):
                 self.loader.place.trolley.fsm.request('final')
                 self.loader.place.trolley.fsm.request('start')
             self.localToonOnBoard = 0

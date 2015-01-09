@@ -43,8 +43,8 @@ def doAnnoyed(toon, volume = 1):
         base.playSfx(sfx, volume=volume, node=toon)
 
     track = Sequence(Func(toon.angryEyes), Func(toon.blinkEyes), Func(toon.play, 'angry'), Func(playSfx))
-    exiTTWack = Sequence(Func(toon.normalEyes), Func(toon.blinkEyes))
-    return (track, duration, exiTTWack)
+    exitTrack = Sequence(Func(toon.normalEyes), Func(toon.blinkEyes))
+    return (track, duration, exitTrack)
 
 
 def doAngryEyes(toon, volume = 1):
@@ -60,8 +60,8 @@ def doHappy(toon, volume = 1):
 
 def doSad(toon, volume = 1):
     track = Sequence(Func(toon.sadEyes), Func(toon.blinkEyes))
-    exiTTWack = Sequence(Func(toon.normalEyes), Func(toon.blinkEyes))
-    return (track, 3, exiTTWack)
+    exitTrack = Sequence(Func(toon.normalEyes), Func(toon.blinkEyes))
+    return (track, 3, exitTrack)
 
 
 def doSleep(toon, volume = 1):
@@ -77,8 +77,8 @@ def doSleep(toon, volume = 1):
             toon.clearChat()
         toon.lerpLookAt(Point3(0, 1, 0), time=0.25)
 
-    exiTTWack = Sequence(Func(wakeUpFromSleepEmote))
-    return (track, duration, exiTTWack)
+    exitTrack = Sequence(Func(wakeUpFromSleepEmote))
+    return (track, duration, exitTrack)
 
 
 def doYes(toon, volume = 1):
@@ -232,8 +232,8 @@ def doSurprise(toon, volume = 1):
 
     anim = Sequence(ActorInterval(toon, 'conked', startFrame=9, endFrame=50), ActorInterval(toon, 'conked', startFrame=70, endFrame=101))
     track = Sequence(Func(toon.stopBlink), Func(toon.surpriseEyes), Func(toon.showSurpriseMuzzle), Parallel(Func(playAnim, anim), Func(playSfx, volume)))
-    exiTTWack = Sequence(Func(toon.hideSurpriseMuzzle), Func(toon.openEyes), Func(toon.startBlink), Func(stopAnim, anim))
-    return (track, 3.0, exiTTWack)
+    exitTrack = Sequence(Func(toon.hideSurpriseMuzzle), Func(toon.openEyes), Func(toon.startBlink), Func(stopAnim, anim))
+    return (track, 3.0, exitTrack)
 
 
 def doUpset(toon, volume = 1):
@@ -253,8 +253,8 @@ def doUpset(toon, volume = 1):
 
     anim = Sequence(ActorInterval(toon, 'bad-putt', startFrame=29, endFrame=59, playRate=-0.75), ActorInterval(toon, 'bad-putt', startFrame=29, endFrame=59, playRate=0.75))
     track = Sequence(Func(toon.sadEyes), Func(toon.blinkEyes), Func(toon.showSadMuzzle), Parallel(Func(playAnim, anim), Func(playSfx, volume)))
-    exiTTWack = Sequence(Func(toon.hideSadMuzzle), Func(toon.normalEyes), Func(stopAnim, anim))
-    return (track, 4.0, exiTTWack)
+    exitTrack = Sequence(Func(toon.hideSadMuzzle), Func(toon.normalEyes), Func(stopAnim, anim))
+    return (track, 4.0, exitTrack)
 
 
 def doDelighted(toon, volume = 1):
@@ -274,8 +274,8 @@ def doDelighted(toon, volume = 1):
 
     anim = Sequence(ActorInterval(toon, 'left'), Wait(1), ActorInterval(toon, 'left', playRate=-1))
     track = Sequence(Func(toon.blinkEyes), Func(toon.showSmileMuzzle), Parallel(Func(playAnim, anim), Func(playSfx, volume)))
-    exiTTWack = Sequence(Func(toon.hideSmileMuzzle), Func(toon.blinkEyes), Func(stopAnim, anim))
-    return (track, 2.5, exiTTWack)
+    exitTrack = Sequence(Func(toon.hideSmileMuzzle), Func(toon.blinkEyes), Func(stopAnim, anim))
+    return (track, 2.5, exitTrack)
 
 
 def doFurious(toon, volume = 1):
@@ -287,8 +287,8 @@ def doFurious(toon, volume = 1):
         base.playSfx(sfx, volume=volume, node=toon)
 
     track = Sequence(Func(toon.angryEyes), Func(toon.blinkEyes), Func(toon.showAngryMuzzle), Func(toon.play, 'angry'), Func(playSfx, volume))
-    exiTTWack = Sequence(Func(toon.normalEyes), Func(toon.blinkEyes), Func(toon.hideAngryMuzzle))
-    return (track, duration, exiTTWack)
+    exitTrack = Sequence(Func(toon.normalEyes), Func(toon.blinkEyes), Func(toon.hideAngryMuzzle))
+    return (track, duration, exitTrack)
 
 
 def doLaugh(toon, volume = 1):
@@ -306,8 +306,8 @@ def doLaugh(toon, volume = 1):
         toon.setPlayRate(1, 'neutral')
 
     track = Sequence(Func(toon.blinkEyes), Func(toon.showLaughMuzzle), Func(playAnim), Func(playSfx, volume))
-    exiTTWack = Sequence(Func(toon.hideLaughMuzzle), Func(toon.blinkEyes), Func(stopAnim))
-    return (track, 2, exiTTWack)
+    exitTrack = Sequence(Func(toon.hideLaughMuzzle), Func(toon.blinkEyes), Func(stopAnim))
+    return (track, 2, exitTrack)
 
 
 def getSingingNote(toon, note, volume = 1):
@@ -328,8 +328,8 @@ def getSingingNote(toon, note, volume = 1):
         toon.setPlayRate(1, 'neutral')
 
     track = Sequence(Func(toon.showSurpriseMuzzle), Parallel(Func(playAnim), Func(playSfx, volume)))
-    exiTTWack = Sequence(Func(toon.hideSurpriseMuzzle), Func(stopAnim))
-    return (track, 0.1, exiTTWack)
+    exitTrack = Sequence(Func(toon.hideSurpriseMuzzle), Func(stopAnim))
+    return (track, 0.1, exitTrack)
 
 
 def playSingingAnim(toon):
@@ -426,9 +426,9 @@ def singNoteEmpty(toon, volume = 0):
 
 
 def returnToLastAnim(toon):
-    if hasaTTW(toon, 'playingAnim') and toon.playingAnim:
+    if hasattr(toon, 'playingAnim') and toon.playingAnim:
         toon.loop(toon.playingAnim)
-    elif not hasaTTW(toon, 'hp') or toon.hp > 0:
+    elif not hasattr(toon, 'hp') or toon.hp > 0:
         toon.loop('neutral')
     else:
         toon.loop('sad-neutral')
@@ -591,15 +591,15 @@ class TTEmote(Emote.Emote):
             return
 
         if volume == 1:
-            track, duration, exiTTWack = func(toon)
+            track, duration, exitTrack = func(toon)
         else:
-            track, duration, exiTTWack = func(toon, volume)
+            track, duration, exitTrack = func(toon, volume)
         if track != None:
             track = Sequence(Func(self.disableAll, toon, 'doEmote'), track)
             if duration > 0:
                 track = Sequence(track, Wait(duration))
-            if exiTTWack != None:
-                track = Sequence(track, exiTTWack)
+            if exitTrack != None:
+                track = Sequence(track, exitTrack)
             if duration > 0:
                 track = Sequence(track, Func(returnToLastAnim, toon))
             track = Sequence(track, Func(self.releaseAll, toon, 'doEmote'), autoFinish=1)

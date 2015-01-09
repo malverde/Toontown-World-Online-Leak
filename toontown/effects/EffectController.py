@@ -91,7 +91,7 @@ class EffectController:
             self.endEffect.start()
         return
 
-    def geTTWack(self):
+    def getTrack(self):
         if not self.track:
             self.createTrack()
         return self.track

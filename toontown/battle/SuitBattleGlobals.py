@@ -22,13 +22,13 @@ def pickFromFreqList(freqList):
 
 
 def getActualFromRelativeLevel(name, relLevel):
-    data = SuitATTWibutes[name]
+    data = SuitAttributes[name]
     actualLevel = data['level'] + relLevel
     return actualLevel
 
 
 def getSuitVitals(name, level = -1):
-    data = SuitATTWibutes[name]
+    data = SuitAttributes[name]
     if level == -1:
         level = pickFromFreqList(data['freq'])
     dict = {}
@@ -92,7 +92,7 @@ def pickSuitAttack(attacks, suitLevel):
 
 
 def getSuitAttack(suitName, suitLevel, attackNum = -1):
-    attackChoices = SuitATTWibutes[suitName]['attacks']
+    attackChoices = SuitAttributes[suitName]['attacks']
     if attackNum == -1:
         notify.debug('getSuitAttack: picking attacking for %s' % suitName)
         attackNum = pickSuitAttack(attackChoices, suitLevel)
@@ -144,7 +144,7 @@ SuitSizes = {
     'mh': 7.0,
 }
 
-SuitATTWibutes = {'f': {'name': TTLocalizer.SuitFlunky,
+SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
        'singularname': TTLocalizer.SuitFlunkyS,
        'pluralname': TTLocalizer.SuitFlunkyP,
        'level': 0,
@@ -2640,7 +2640,7 @@ SuitATTWibutes = {'f': {'name': TTLocalizer.SuitFlunky,
                 45,
                 50,
                 55),
-        'attacks': (('GuilTTWip',
+        'attacks': (('GuiltTrip',
                      (8,
                       11,
                       13,
@@ -2946,7 +2946,7 @@ SuitAttacks = {'Audit': ('phone', ATK_TGT_SINGLE),
  'FreezeAssets': ('glower', ATK_TGT_SINGLE),
  'Gavel': ('gavel', ATK_TGT_SINGLE),
  'GlowerPower': ('glower', ATK_TGT_SINGLE),
- 'GuilTTWip': ('magic1', ATK_TGT_GROUP),
+ 'GuiltTrip': ('magic1', ATK_TGT_GROUP),
  'HalfWindsor': ('throw-paper', ATK_TGT_SINGLE),
  'HangUp': ('phone', ATK_TGT_SINGLE),
  'HeadShrink': ('magic1', ATK_TGT_SINGLE),
@@ -3013,7 +3013,7 @@ FOUNTAIN_PEN = SuitAttacks.keys().index('FountainPen')
 FREEZE_ASSETS = SuitAttacks.keys().index('FreezeAssets')
 GAVEL = SuitAttacks.keys().index('Gavel')
 GLOWER_POWER = SuitAttacks.keys().index('GlowerPower')
-GUILT_TRIP = SuitAttacks.keys().index('GuilTTWip')
+GUILT_TRIP = SuitAttacks.keys().index('GuiltTrip')
 HALF_WINDSOR = SuitAttacks.keys().index('HalfWindsor')
 HANG_UP = SuitAttacks.keys().index('HangUp')
 HEAD_SHRINK = SuitAttacks.keys().index('HeadShrink')

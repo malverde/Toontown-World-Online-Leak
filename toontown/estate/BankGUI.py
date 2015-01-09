@@ -28,7 +28,7 @@ class BankGui(DirectFrame):
          arrowGui.find('**/CrtATn_R_Arrow_RLVR'),
          arrowGui.find('**/CrtATn_R_Arrow_UP'))
         self.cancelButton = DirectButton(parent=self, relief=None, image=cancelImageList, pos=(-0.2, 0, -0.4), text=TTLocalizer.BankGuiCancel, text_scale=0.06, text_pos=(0, -0.1), command=self.__cancel)
-        self.okButton = DirectButton(parent=self, relief=None, image=okImageList, pos=(0.2, 0, -0.4), text=TTLocalizer.BankGuiOk, text_scale=0.06, text_pos=(0, -0.1), command=self.__requesTTWansaction)
+        self.okButton = DirectButton(parent=self, relief=None, image=okImageList, pos=(0.2, 0, -0.4), text=TTLocalizer.BankGuiOk, text_scale=0.06, text_pos=(0, -0.1), command=self.__requestTransaction)
         self.jarDisplay = DirectLabel(parent=self, relief=None, pos=(-0.4, 0, 0), scale=0.7, text=str(base.localAvatar.getMoney()), text_scale=0.2, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_pos=(0, -0.1, 0), image=jarGui.find('**/Jar'), text_font=ToontownGlobals.getSignFont())
         self.bankDisplay = DirectLabel(parent=self, relief=None, pos=(0.4, 0, 0), scale=0.9, text=str(base.localAvatar.getBankMoney()), text_scale=0.2, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_pos=(0, -0.1, 0), geom=bankModel, geom_scale=0.08, geom_pos=(0, 10, -0.26), geom_hpr=(0, 0, 0), text_font=ToontownGlobals.getSignFont())
         self.depositArrow = DirectButton(parent=self, relief=None, image=arrowImageList, image_scale=(1, 1, 1), image3_color=Vec4(0.6, 0.6, 0.6, 0.25), pos=(0.01, 0, 0.15))
@@ -61,7 +61,7 @@ class BankGui(DirectFrame):
     def __cancel(self):
         messenger.send(self.doneEvent, [0])
 
-    def __requesTTWansaction(self):
+    def __requestTransaction(self):
         messenger.send(self.doneEvent, [self.__transactionAmount])
 
     def __updateTransaction(self, amount):

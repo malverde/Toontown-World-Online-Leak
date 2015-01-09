@@ -61,7 +61,7 @@ class TwoDDrive:
         base.localAvatar.disableAvatarControls()
         taskMgr.remove(TwoDDrive.TASK_NAME)
         taskMgr.remove(TwoDDrive.SET_ATREST_HEADING_TASK)
-        if hasaTTW(self, 'turnLocalToonIval'):
+        if hasattr(self, 'turnLocalToonIval'):
             if self.turnLocalToonIval.isPlaying():
                 self.turnLocalToonIval.pause()
             del self.turnLocalToonIval

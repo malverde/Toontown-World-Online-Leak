@@ -472,7 +472,7 @@ class FriendSecret(DirectFrame, StateData.StateData):
                 else:
                     self.notify.info('### useUnlimitedSecret')
                     base.cr.playerFriendsManager.sendRequestUseUnlimitedSecret(secret)
-        self.nextText['text'] = OTPLocalizer.FriendSecreTTWyingSecret
+        self.nextText['text'] = OTPLocalizer.FriendSecretTryingSecret
         self.nextText.setPos(0, 0, 0.3)
         self.nextText.show()
         self.ok1.hide()

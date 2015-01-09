@@ -3,7 +3,7 @@ from toontown.toonbase import ToontownGlobals
 from direct.task import Task
 
 def acquirePetManager():
-    if not hasaTTW(base, 'petManager'):
+    if not hasattr(base, 'petManager'):
         PetManager()
     base.petManager.incRefCount()
 

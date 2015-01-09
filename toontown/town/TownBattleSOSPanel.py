@@ -169,7 +169,7 @@ class TownBattleSOSPanel(DirectFrame, StateData.StateData):
                     if self.factoryToonIdList is None or friendPair[0] in self.factoryToonIdList:
                         newFriends.append(friendPair)
 
-            if hasaTTW(base.cr, 'playerFriendsManager'):
+            if hasattr(base.cr, 'playerFriendsManager'):
                 for avatarId in base.cr.playerFriendsManager.getAllOnlinePlayerAvatars():
                     if not base.cr.playerFriendsManager.askAvatarKnownElseWhere(avatarId):
                         newFriends.append((avatarId, 0))

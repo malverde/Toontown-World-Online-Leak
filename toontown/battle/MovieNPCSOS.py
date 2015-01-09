@@ -36,19 +36,19 @@ def doNPCSOSs(NPCSOSs):
     if len(NPCSOSs) == 0:
         return (None, None)
     track = Sequence()
-    texTTWack = Sequence()
+    textTrack = Sequence()
     for n in NPCSOSs:
         ival, textIval = __doNPCSOS(n)
         if ival:
             track.append(ival)
-            texTTWack.append(textIval)
+            textTrack.append(textIval)
 
     camDuration = track.getDuration()
     if camDuration > 0.0:
         camTrack = MovieCamera.chooseHealShot(NPCSOSs, camDuration)
     else:
         camTrack = Sequence()
-    return (track, Parallel(camTrack, texTTWack))
+    return (track, Parallel(camTrack, textTrack))
 
 
 def __doNPCSOS(sos):
@@ -107,14 +107,14 @@ def teleportOut(attack, npc):
     else:
         a = ActorInterval(npc, 'curtsy')
     b = Func(npc.setChatAbsolute, TTLocalizer.MovieNPCSOSGoodbye, CFSpeech | CFTimeout)
-    c = npc.getTeleportOuTTWack()
+    c = npc.getTeleportOutTrack()
     d = Func(npc.removeActive)
     e = Func(npc.detachNode)
     f = Func(npc.delete)
     return Sequence(a, b, c, d, e, f)
 
 
-def __getParTTWack(particleEffect, startDelay, durationDelay, partExtraArgs):
+def __getPartTrack(particleEffect, startDelay, durationDelay, partExtraArgs):
     pEffect = partExtraArgs[0]
     parent = partExtraArgs[1]
     if len(partExtraArgs) == 3:
@@ -143,17 +143,17 @@ def __doSprinkle(attack, recipients, hp = 0):
         toon.headsUp(battle, targetPoint)
 
     delay = 2.5
-    effecTTWack = Sequence()
+    effectTrack = Sequence()
     for target in targets:
         sprayEffect = BattleParticles.createParticleEffect(file='pixieSpray')
         dropEffect = BattleParticles.createParticleEffect(file='pixieDrop')
         explodeEffect = BattleParticles.createParticleEffect(file='pixieExplode')
         poofEffect = BattleParticles.createParticleEffect(file='pixiePoof')
         wallEffect = BattleParticles.createParticleEffect(file='pixieWall')
-        mtrack = Parallel(__getParTTWack(sprayEffect, 1.5, 0.5, [sprayEffect, toon, 0]), __getParTTWack(dropEffect, 1.9, 2.0, [dropEffect, target, 0]), __getParTTWack(explodeEffect, 2.7, 1.0, [explodeEffect, toon, 0]), __getParTTWack(poofEffect, 3.4, 1.0, [poofEffect, target, 0]), __getParTTWack(wallEffect, 4.05, 1.2, [wallEffect, toon, 0]), __getSoundTrack(level, 2, duration=3.1, node=toon), Sequence(Func(face90, target, toon, battle), ActorInterval(toon, 'sprinkle-dust')), Sequence(Wait(delay), Func(__healToon, target, hp)))
-        effecTTWack.append(mtrack)
+        mtrack = Parallel(__getPartTrack(sprayEffect, 1.5, 0.5, [sprayEffect, toon, 0]), __getPartTrack(dropEffect, 1.9, 2.0, [dropEffect, target, 0]), __getPartTrack(explodeEffect, 2.7, 1.0, [explodeEffect, toon, 0]), __getPartTrack(poofEffect, 3.4, 1.0, [poofEffect, target, 0]), __getPartTrack(wallEffect, 4.05, 1.2, [wallEffect, toon, 0]), __getSoundTrack(level, 2, duration=3.1, node=toon), Sequence(Func(face90, target, toon, battle), ActorInterval(toon, 'sprinkle-dust')), Sequence(Wait(delay), Func(__healToon, target, hp)))
+        effectTrack.append(mtrack)
 
-    track.append(effecTTWack)
+    track.append(effectTrack)
     track.append(Func(toon.setHpr, Vec3(180.0, 0.0, 0.0)))
     track.append(teleportOut(attack, toon))
     return track
@@ -185,16 +185,16 @@ def __doSmooch(attack, hp = 0):
         hand = toon.getRightHands()[0]
         return hand.getPos(render)
 
-    effecTTWack = Sequence()
+    effectTrack = Sequence()
     for target in targets:
         lipcopy = MovieUtil.copyProp(lips)
         lipsTrack = Sequence(Wait(tLips), Func(MovieUtil.showProp, lipcopy, render, getLipPos), Func(lipcopy.setBillboardPointWorld), LerpScaleInterval(lipcopy, dScale, Point3(3, 3, 3), startScale=MovieUtil.PNT3_NEARZERO), Wait(tThrow - tLips - dScale), LerpPosInterval(lipcopy, dThrow, Point3(target.getPos() + Point3(0, 0, target.getHeight()))), Func(MovieUtil.removeProp, lipcopy))
         delay = tThrow + dThrow
         mtrack = Parallel(lipstickTrack, lipsTrack, __getSoundTrack(level, 2, node=toon), Sequence(ActorInterval(toon, 'smooch')), Sequence(Wait(delay), ActorInterval(target, 'conked')), Sequence(Wait(delay), Func(__healToon, target, hp)))
-        effecTTWack.append(mtrack)
+        effectTrack.append(mtrack)
 
-    effecTTWack.append(Func(MovieUtil.removeProps, lipsticks))
-    track.append(effecTTWack)
+    effectTrack.append(Func(MovieUtil.removeProps, lipsticks))
+    track.append(effectTrack)
     track.append(teleportOut(attack, toon))
     track.append(Func(target.clearChat))
     return track

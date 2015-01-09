@@ -20,7 +20,7 @@ class QuestMap(DirectFrame):
         cm = CardMaker('bg')
         cm.setFrame(-0.5, 0.5, -0.5, 0.5)
         bg = self.cogInfoFrame.attachNewNode(cm.generate())
-        bg.seTTWansparency(1)
+        bg.setTransparency(1)
         bg.setColor(0.5, 0.5, 0.5, 0.5)
         bg.setBin('fixed', 0)
         self.cogInfoFrame['geom'] = bg
@@ -213,7 +213,7 @@ class QuestMap(DirectFrame):
 
     def initMarker(self, task):
         if self.av:
-            if not hasaTTW(base.cr.playGame.getPlace(), 'isInterior') or not base.cr.playGame.getPlace().isInterior:
+            if not hasattr(base.cr.playGame.getPlace(), 'isInterior') or not base.cr.playGame.getPlace().isInterior:
                 relX, relY = self.transformAvPos(self.av.getPos())
                 self.marker.setPos(relX, 0, relY)
                 self.marker.setHpr(0, 0, -180 - self.av.getH())
@@ -262,7 +262,7 @@ class QuestMap(DirectFrame):
         taskMgr.remove('questMapUpdate')
 
     def handleMarker(self):
-        if hasaTTW(base.cr.playGame.getPlace(), 'isInterior') and base.cr.playGame.getPlace().isInterior:
+        if hasattr(base.cr.playGame.getPlace(), 'isInterior') and base.cr.playGame.getPlace().isInterior:
             self.updateMarker = False
         else:
             self.updateMarker = True

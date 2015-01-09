@@ -74,16 +74,16 @@ class NewsPageButtonManager(FSM.FSM):
             fsm = base.cr.playGame.getPlace().fsm
             curState = fsm.getCurrentState().getName()
             if curState == 'walk':
-                if hasaTTW(localAvatar, 'newsPage'):
+                if hasattr(localAvatar, 'newsPage'):
                     base.cr.centralLogger.writeClientEvent('news gotoNewsButton clicked')
                     localAvatar.book.setPage(localAvatar.newsPage)
                     fsm.request('stickerBook')
                     self.goingToNewsPageFrom3dWorld = True
             elif curState == 'stickerBook':
-                if hasaTTW(localAvatar, 'newsPage'):
+                if hasattr(localAvatar, 'newsPage'):
                     base.cr.centralLogger.writeClientEvent('news gotoNewsButton clicked')
                     fsm.request('stickerBook')
-                    if hasaTTW(localAvatar, 'newsPage') and localAvatar.newsPage:
+                    if hasattr(localAvatar, 'newsPage') and localAvatar.newsPage:
                         localAvatar.book.goToNewsPage(localAvatar.newsPage)
 
     def __handleGotoPrevPageButton(self):
@@ -96,7 +96,7 @@ class NewsPageButtonManager(FSM.FSM):
         localAvatar.book.closeBook()
 
     def hideNewIssueButton(self):
-        if hasaTTW(self, 'newIssueButton') and self.newIssueButton:
+        if hasattr(self, 'newIssueButton') and self.newIssueButton:
             self.newIssueButton.hide()
             localAvatar.clarabelleNewsPageCollision(False)
 
@@ -172,7 +172,7 @@ class NewsPageButtonManager(FSM.FSM):
             return
         if not self.buttonsLoaded:
             return
-        if base.cr and base.cr.playGame and base.cr.playGame.getPlace() and hasaTTW(base.cr.playGame.getPlace(), 'fsm') and base.cr.playGame.getPlace().fsm:
+        if base.cr and base.cr.playGame and base.cr.playGame.getPlace() and hasattr(base.cr.playGame.getPlace(), 'fsm') and base.cr.playGame.getPlace().fsm:
             fsm = base.cr.playGame.getPlace().fsm
             curState = fsm.getCurrentState().getName()
             book = localAvatar.book
@@ -187,7 +187,7 @@ class NewsPageButtonManager(FSM.FSM):
                         self.request('GotoWorld')
                     else:
                         self.request('Hidden')
-                elif self.goingToNewsPageFromStickerBook or hasaTTW(localAvatar, 'newsPage') and localAvatar.book.isOnPage(localAvatar.newsPage):
+                elif self.goingToNewsPageFromStickerBook or hasattr(localAvatar, 'newsPage') and localAvatar.book.isOnPage(localAvatar.newsPage):
                     if localAvatar.tutorialAck:
                         self.request('PrevPage')
                     else:

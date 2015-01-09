@@ -67,14 +67,14 @@ class FishPicker(DirectScrolledList):
         self.fishPanel.hide()
 
     def hide(self):
-        if not hasaTTW(self, 'loaded'):
+        if not hasattr(self, 'loaded'):
             return
         self.hideFishPanel()
         DirectScrolledList.hide(self)
         self.shown = 0
 
     def show(self):
-        if not hasaTTW(self, 'loaded'):
+        if not hasattr(self, 'loaded'):
             self.load()
         self.updatePanel()
         DirectScrolledList.show(self)

@@ -66,7 +66,7 @@ class LeaveToPayDialog:
         return
 
     def removed(self):
-        if hasaTTW(self, 'dialog') and self.dialog:
+        if hasattr(self, 'dialog') and self.dialog:
             return self.dialog.removed()
         else:
             return 1

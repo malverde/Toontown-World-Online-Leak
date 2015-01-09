@@ -317,7 +317,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.shadow = self.craneGame.geomRoot.attachNewNode('%s-shadow' % self.name)
         self.shadow.setColor(1, 1, 1, 0.3)
         self.shadow.setDepthWrite(0)
-        self.shadow.seTTWansparency(1)
+        self.shadow.setTransparency(1)
         self.shadow.setBin('shadow', 0)
         self.shadow.node().setFinal(1)
         self.magnetShadow = loader.loadModel('phase_3/models/props/drop_shadow')
@@ -639,7 +639,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
             if obj.state == 'Grabbed':
                 obj.demand('LocalDropped', localAvatar.doId, self.doId)
 
-    def __hiTTWigger(self, event):
+    def __hitTrigger(self, event):
         pass
 
     def setCraneGameId(self, craneGameId):
@@ -833,13 +833,13 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.restoreScaleTrack.start()
         if self.avId == localAvatar.doId:
             self.controlModel.setAlphaScale(0.3)
-            self.controlModel.seTTWansparency(1)
+            self.controlModel.setTransparency(1)
             taskMgr.doMethodLater(5, self.__allowDetect, self.triggerName)
-            self.fadeTrack = Sequence(Func(self.controlModel.seTTWansparency, 1), self.controlModel.colorScaleInterval(0.2, VBase4(1, 1, 1, 0.3)))
+            self.fadeTrack = Sequence(Func(self.controlModel.setTransparency, 1), self.controlModel.colorScaleInterval(0.2, VBase4(1, 1, 1, 0.3)))
             self.fadeTrack.start()
         else:
             self.trigger.unstash()
-            self.accept(self.triggerEvent, self.__hiTTWigger)
+            self.accept(self.triggerEvent, self.__hitTrigger)
         self.avId = 0
         return
 
@@ -849,7 +849,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.fadeTrack = Sequence(self.controlModel.colorScaleInterval(0.2, VBase4(1, 1, 1, 1)), Func(self.controlModel.clearColorScale), Func(self.controlModel.clearTransparency))
         self.fadeTrack.start()
         self.trigger.unstash()
-        self.accept(self.triggerEvent, self.__hiTTWigger)
+        self.accept(self.triggerEvent, self.__hitTrigger)
 
     def exitFree(self):
         if self.fadeTrack:

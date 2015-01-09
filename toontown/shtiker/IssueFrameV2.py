@@ -95,7 +95,7 @@ class IssueFrameV2(IssueFrame.IssueFrame):
          'new': 'tt_i_art_btn_NavNewRo2',
          'evt': 'tt_i_art_btn_NavEvtRo2',
          'tot': 'tt_i_art_btn_NavTotRo2',
-         'att': 'tt_i_art_btn_NavATTWo2',
+         'att': 'tt_i_art_btn_NavAttRo2',
          'tnr': 'tt_i_art_btn_NavTnrRo2',
          'ext': 'tt_i_art_btn_NavExtRo2'}
         xPos = 1.24667

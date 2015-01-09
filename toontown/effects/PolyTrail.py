@@ -158,8 +158,8 @@ class PolyTrail(NodePath):
 
     def setBlendModeOn(self):
         if self.motion_trail:
-            self.motion_trail.geom_node_path.node().setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd, ColorBlendATTWib.OIncomingAlpha, ColorBlendATTWib.OOne))
+            self.motion_trail.geom_node_path.node().setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd, ColorBlendAttrib.OIncomingAlpha, ColorBlendAttrib.OOne))
 
     def setBlendModeOff(self):
         if self.motion_trail:
-            self.motion_trail.geom_node_path.node().setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MNone))
+            self.motion_trail.geom_node_path.node().setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MNone))

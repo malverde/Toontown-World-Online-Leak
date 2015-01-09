@@ -24,5 +24,5 @@ class TreasureScorePanel(DirectFrame):
         self.scoreText['text'] = str(self.score)
 
     def makeTransparent(self, alpha):
-        self.seTTWansparency(1)
+        self.setTransparency(1)
         self.setColorScale(1, 1, 1, alpha)

@@ -34,7 +34,7 @@ class EntrancePoint(BasicEntities.NodePathEntity):
 
     if __dev__:
 
-        def aTTWibChanged(self, *args):
-            BasicEntities.NodePathEntity.aTTWibChanged(self, *args)
+        def attribChanged(self, *args):
+            BasicEntities.NodePathEntity.attribChanged(self, *args)
             self.destroyEntrancePoint()
             self.initEntrancePoint()

@@ -269,7 +269,7 @@ class DistributedTrunk(DistributedCloset.DistributedCloset):
             self.d_setDNA(oldHat[0], oldHat[1], oldHat[2], oldGlasses[0], oldGlasses[1], oldGlasses[2], oldBackpack[0], oldBackpack[1], oldBackpack[2], oldShoes[0], oldShoes[1], oldShoes[2], 1)
         else:
             which = 0
-            if hasaTTW(self.closetGUI, 'hatChoice') and hasaTTW(self.closetGUI, 'glassesChoice') and hasaTTW(self.closetGUI, 'backpackChoice') and hasaTTW(self.closetGUI, 'shoesChoice'):
+            if hasattr(self.closetGUI, 'hatChoice') and hasattr(self.closetGUI, 'glassesChoice') and hasattr(self.closetGUI, 'backpackChoice') and hasattr(self.closetGUI, 'shoesChoice'):
                 if self.closetGUI.hatChoice != 0 or self.hatDeleted:
                     which = which | ToonDNA.HAT
                 if self.closetGUI.glassesChoice != 0 or self.glassesDeleted:
@@ -362,23 +362,23 @@ class DistributedTrunk(DistributedCloset.DistributedCloset):
         return
 
     def _openDoors(self):
-        if self.closeTTWack:
-            self.closeTTWack.finish()
+        if self.closetTrack:
+            self.closetTrack.finish()
         openHpr = Vec3(0, -80, 0)
         if self.av:
             self.av.applyCheesyEffect(ToontownGlobals.CENormal)
-        self.closeTTWack = Parallel()
+        self.closetTrack = Parallel()
         if self.lid:
-            self.closeTTWack.append(self.lid.hprInterval(0.5, openHpr))
-        self.closeTTWack.start()
+            self.closetTrack.append(self.lid.hprInterval(0.5, openHpr))
+        self.closetTrack.start()
 
     def _closeDoors(self):
-        if self.closeTTWack:
-            self.closeTTWack.finish()
+        if self.closetTrack:
+            self.closetTrack.finish()
         closeHpr = Vec3(0, 0, 0)
         if self.av:
             self.av.reconsiderCheesyEffect()
-        self.closeTTWack = Parallel()
+        self.closetTrack = Parallel()
         if self.lid:
-            self.closeTTWack.append(self.lid.hprInterval(0.5, closeHpr))
-        self.closeTTWack.start()
+            self.closetTrack.append(self.lid.hprInterval(0.5, closeHpr))
+        self.closetTrack.start()

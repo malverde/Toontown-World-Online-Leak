@@ -53,7 +53,7 @@ class DistributedBattleWaiters(DistributedBattleFinal.DistributedBattleFinal):
     def showSuitsFalling(self, suits, ts, name, callback):
         if self.bossCog == None:
             return
-        suiTTWack = Parallel()
+        suitTrack = Parallel()
         delay = 0
         for suit in suits:
             suit.makeWaiter()
@@ -73,7 +73,7 @@ class DistributedBattleWaiters(DistributedBattleFinal.DistributedBattleFinal):
             suit.setPos(startPos)
             suit.headsUp(self)
             flyIval = suit.beginSupaFlyMove(destPos, True, 'flyIn')
-            suiTTWack.append(Track((delay, Sequence(flyIval, Func(suit.loop, 'neutral')))))
+            suitTrack.append(Track((delay, Sequence(flyIval, Func(suit.loop, 'neutral')))))
             delay += 1
 
         if self.hasLocalToon():
@@ -83,7 +83,7 @@ class DistributedBattleWaiters(DistributedBattleFinal.DistributedBattleFinal):
             else:
                 camera.setPosHpr(-20, -4, 7, -60, 0, 0)
         done = Func(callback)
-        track = Sequence(suiTTWack, done, name=name)
+        track = Sequence(suitTrack, done, name=name)
         track.start(ts)
         self.storeInterval(track, name)
         return

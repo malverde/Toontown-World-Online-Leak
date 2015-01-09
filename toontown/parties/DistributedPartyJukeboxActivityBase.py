@@ -168,7 +168,7 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
     def __play(self, phase, filename, length):
         self.music = base.loadMusic((MUSIC_PATH + '%s') % (phase, filename))
         if self.music:
-            if self.__checkPartyValidity() and hasaTTW(base.cr.playGame.getPlace().loader, 'music') and base.cr.playGame.getPlace().loader.music:
+            if self.__checkPartyValidity() and hasattr(base.cr.playGame.getPlace().loader, 'music') and base.cr.playGame.getPlace().loader.music:
                 base.cr.playGame.getPlace().loader.music.stop()
             self.music.setTime(0.0)
             self.music.setLoopCount(getMusicRepeatTimes(length))
@@ -224,7 +224,7 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
         return data
 
     def __checkPartyValidity(self):
-        if hasaTTW(base.cr.playGame, 'getPlace') and base.cr.playGame.getPlace() and hasaTTW(base.cr.playGame.getPlace(), 'loader') and base.cr.playGame.getPlace().loader:
+        if hasattr(base.cr.playGame, 'getPlace') and base.cr.playGame.getPlace() and hasattr(base.cr.playGame.getPlace(), 'loader') and base.cr.playGame.getPlace().loader:
             return True
         else:
             return False

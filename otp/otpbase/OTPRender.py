@@ -35,12 +35,12 @@ def renderGlow(default, node_path, tag = None, tag_function = None, context = No
 
 def setAdditiveEffect(node_path, tag = None, bin_name = None, lighting_on = False, reflect = False):
     if node_path:
-        node_path.seTTWansparency(True)
+        node_path.setTransparency(True)
         node_path.setDepthWrite(False)
-        node_path.node().setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd))
+        node_path.node().setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd))
         if lighting_on == False:
             node_path.setLightOff()
-        node_path.setATTWib(ColorWriteATTWib.make(ColorWriteATTWib.CRed | ColorWriteATTWib.CGreen | ColorWriteATTWib.CBlue))
+        node_path.setAttrib(ColorWriteAttrib.make(ColorWriteAttrib.CRed | ColorWriteAttrib.CGreen | ColorWriteAttrib.CBlue))
         if reflect == False:
             renderReflection(False, node_path, tag, None)
         if bin_name:

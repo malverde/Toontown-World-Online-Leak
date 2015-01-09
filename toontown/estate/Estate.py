@@ -70,8 +70,8 @@ class Estate(Place.Place):
          State.State('mailbox', self.enterMailbox, self.exitMailbox, ['walk', 'stopped']),
          State.State('stopped', self.enterStopped, self.exitStopped, ['walk']),
          State.State('pet', self.enterPet, self.exitPet, ['walk', 'trialerFA']),
-         State.State('trialerFA', self.enterTrialerFA, self.exiTTWialerFA, ['trialerFAReject', 'DFA']),
-         State.State('trialerFAReject', self.enterTrialerFAReject, self.exiTTWialerFAReject, ['walk']),
+         State.State('trialerFA', self.enterTrialerFA, self.exitTrialerFA, ['trialerFAReject', 'DFA']),
+         State.State('trialerFAReject', self.enterTrialerFAReject, self.exitTrialerFAReject, ['walk']),
          State.State('DFA', self.enterDFA, self.exitDFA, ['DFAReject', 'teleportOut']),
          State.State('DFAReject', self.enterDFAReject, self.exitDFAReject, ['walk'])], 'init', 'final')
         self.fsm.enterInitialState()
@@ -130,7 +130,7 @@ class Estate(Place.Place):
 
         self.loader.geom.reparentTo(render)
         # The client April Toons Manager is currently broken, so we have to do this hacky thing instead. :(
-        #if hasaTTW(base.cr, 'aprilToonsMgr'):
+        #if hasattr(base.cr, 'aprilToonsMgr'):
             #if self.isEventActive(AprilToonsGlobals.EventEstateGravity):
                 #base.localAvatar.startAprilToonsControls()
         if config.GetBool('want-april-toons'):
@@ -144,7 +144,7 @@ class Estate(Place.Place):
         base.localAvatar.stopAprilToonsControls()
         self._telemLimiter.destroy()
         del self._telemLimiter
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.requestFinalState()
         self.loader.geom.reparentTo(hidden)
         for i in self.loader.nodeList:
@@ -161,19 +161,19 @@ class Estate(Place.Place):
         self.fsm.request('mailbox')
 
     def detectedGardenPlotUse(self):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.request('stopped')
 
     def detectedGardenPlotDone(self):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.request('walk')
 
     def detectedFlowerSellUse(self):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.request('stopped')
 
     def detectedFlowerSellDone(self):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.request('walk')
 
     def doRequestLeave(self, requestStatus):
@@ -194,9 +194,9 @@ class Estate(Place.Place):
 
     def exitPetTutorial(self):
         self.notify.info('add estate-check-toon-underwater to TaskMgr in exitPetTutorial()')
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             taskMgr.add(self.__checkToonUnderwater, 'estate-check-toon-underwater')
-        if hasaTTW(self, 'petTutorial') and self.petTutorial is not None:
+        if hasattr(self, 'petTutorial') and self.petTutorial is not None:
             self.petTutorial.destroy()
         return
 
@@ -213,7 +213,7 @@ class Estate(Place.Place):
         self.enablePeriodTimer()
 
     def __handleFallingAsleepMailbox(self, arg):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.request('walk')
         messenger.send('mailboxAsleep')
         base.localAvatar.forceGotoSleep()
@@ -252,7 +252,7 @@ class Estate(Place.Place):
         self.toonSubmerged = -1
         if self.nextState is not 'petTutorial':
             self.notify.info('add estate-check-toon-underwater to TaskMgr in teleportInDone()')
-            if hasaTTW(self, 'fsm'):
+            if hasattr(self, 'fsm'):
                 taskMgr.add(self.__checkToonUnderwater, 'estate-check-toon-underwater')
         Place.Place.teleportInDone(self)
 
@@ -264,7 +264,7 @@ class Estate(Place.Place):
         Place.Place.enterTeleportOut(self, requestStatus, self.__teleportOutDone)
 
     def __teleportOutDone(self, requestStatus):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.requestFinalState()
         hoodId = requestStatus['hoodId']
         zoneId = requestStatus['zoneId']
@@ -294,7 +294,7 @@ class Estate(Place.Place):
     def exitDoorIn(self):
         self.toonSubmerged = -1
         self.notify.info('add estate-check-toon-underwater to TaskMgr in exitDoorIn()')
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             taskMgr.add(self.__checkToonUnderwater, 'estate-check-toon-underwater')
         Place.Place.exitDoorIn(self)
 
@@ -343,7 +343,7 @@ class Estate(Place.Place):
         if self.toonSubmerged == 1:
             return
         self.notify.debug('continuing in __submergeToon')
-        if hasaTTW(self, 'loader') and self.loader:
+        if hasattr(self, 'loader') and self.loader:
             base.playSfx(self.loader.submergeSound)
         if config.GetBool('disable-flying-glitch') == 0:
             self.fsm.request('walk')
@@ -356,11 +356,11 @@ class Estate(Place.Place):
         if self.toonSubmerged == 0:
             return
         self.notify.debug('continuing in __emergeToon')
-        if hasaTTW(self, 'walkStateData'):
+        if hasattr(self, 'walkStateData'):
             self.walkStateData.fsm.request('walking')
         self.toonSubmerged = 0
         # The client April Toons Manager is currently broken, so we have to do this hacky thing instead. :(
-        #if hasaTTW(base.cr, 'aprilToonsMgr'):
+        #if hasattr(base.cr, 'aprilToonsMgr'):
             #if self.isEventActive(AprilToonsGlobals.EventEstateGravity):
                 #base.localAvatar.startAprilToonsControls()
         if config.GetBool('want-april-toons'):

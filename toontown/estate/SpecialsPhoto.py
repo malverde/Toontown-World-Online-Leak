@@ -31,7 +31,7 @@ class DirectRegion(NodePath):
         NodePath.hide(self)
 
     def load(self):
-        if not hasaTTW(self, 'cRender'):
+        if not hasattr(self, 'cRender'):
             self.cRender = NodePath('fishSwimRender')
             self.fishSwimCamera = self.cRender.attachNewNode('fishSwimCamera')
             self.cCamNode = Camera('fishSwimCam')
@@ -63,7 +63,7 @@ class DirectRegion(NodePath):
         return self.cRender
 
     def unload(self):
-        if hasaTTW(self, 'cRender'):
+        if hasattr(self, 'cRender'):
             base.win.removeDisplayRegion(self.cDr)
             del self.cRender
             del self.fishSwimCamera
@@ -89,12 +89,12 @@ class SpecialsPhoto(NodePath):
 
     def destroy(self):
         self.hide()
-        if hasaTTW(self, 'background'):
+        if hasattr(self, 'background'):
             self.background.destroy()
             del self.background
-        if hasaTTW(self, 'specialsFrame') and hasaTTW(self.specialsFrame, 'destroy'):
+        if hasattr(self, 'specialsFrame') and hasattr(self.specialsFrame, 'destroy'):
             self.specialsFrame.destroy()
-        if hasaTTW(self, 'toonStatuary'):
+        if hasattr(self, 'toonStatuary'):
             if self.toonStatuary.toon:
                 self.toonStatuary.deleteToon()
         self.type = None
@@ -118,7 +118,7 @@ class SpecialsPhoto(NodePath):
     def makeSpecialsFrame(self, actor):
         actor.setDepthTest(1)
         actor.setDepthWrite(1)
-        if not hasaTTW(self, 'specialsDisplayRegion'):
+        if not hasattr(self, 'specialsDisplayRegion'):
             self.specialsDisplayRegion = DirectRegion(parent=self)
             apply(self.specialsDisplayRegion.setBounds, self.backBounds)
             apply(self.specialsDisplayRegion.setColor, self.backColor)
@@ -176,15 +176,15 @@ class SpecialsPhoto(NodePath):
         self.notify.debug('show')
         messenger.send('wakeup')
         if self.specialsFrame:
-            if hasaTTW(self.actor, 'cleanup'):
+            if hasattr(self.actor, 'cleanup'):
                 self.actor.cleanup()
-            if hasaTTW(self, 'specialsDisplayRegion'):
+            if hasattr(self, 'specialsDisplayRegion'):
                 self.specialsDisplayRegion.unload()
             self.hide()
         self.actor = self.loadModel(self.type)
         self.specialsFrame = self.makeSpecialsFrame(self.actor)
         if showBackground:
-            if not hasaTTW(self, 'background'):
+            if not hasattr(self, 'background'):
                 background = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
                 background = background.find('**/Fish_BG')
                 self.background = background
@@ -194,12 +194,12 @@ class SpecialsPhoto(NodePath):
 
     def hide(self):
         NodePath.hide(self)
-        if hasaTTW(self, 'specialsDisplayRegion'):
+        if hasattr(self, 'specialsDisplayRegion'):
             self.specialsDisplayRegion.unload()
-        if hasaTTW(self, 'background'):
+        if hasattr(self, 'background'):
             self.background.hide()
         if self.actor:
-            if hasaTTW(self.actor, 'stop'):
+            if hasattr(self.actor, 'stop'):
                 self.actor.stop()
             self.actor.hide()
         if self.sound:
@@ -211,7 +211,7 @@ class SpecialsPhoto(NodePath):
         if self.track:
             self.track.pause()
             self.track = None
-        if hasaTTW(self, 'toonStatuary'):
+        if hasattr(self, 'toonStatuary'):
             if self.toonStatuary.toon:
                 self.toonStatuary.deleteToon()
         return

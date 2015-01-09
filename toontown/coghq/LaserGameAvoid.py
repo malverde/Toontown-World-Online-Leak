@@ -54,7 +54,7 @@ class LaserGameAvoid(LaserGameBase.LaserGameBase):
 
     
     def __cycle(self, taskMgrFooler = 0):
-        if not hasaTTW(self, 'gridNumX'):
+        if not hasattr(self, 'gridNumX'):
             return Task.done
         for column in range(0, self.gridNumX):
             for row in range(0, self.gridNumY):

@@ -34,13 +34,13 @@ class ShadowCaster:
         self.activeShadow = 0
         self.wantsActive = 1
         self.storedActiveState = 0
-        if hasaTTW(base, 'wantDynamicShadows') and base.wantDynamicShadows:
+        if hasattr(base, 'wantDynamicShadows') and base.wantDynamicShadows:
             messenger.accept('globalDropShadowFlagChanged', self, self.__globalDropShadowFlagChanged)
             messenger.accept('globalDropShadowGrayLevelChanged', self, self.__globalDropShadowGrayLevelChanged)
         return
 
     def delete(self):
-        if hasaTTW(base, 'wantDynamicShadows') and base.wantDynamicShadows:
+        if hasattr(base, 'wantDynamicShadows') and base.wantDynamicShadows:
             messenger.ignore('globalDropShadowFlagChanged', self)
             messenger.ignore('globalDropShadowGrayLevelChanged', self)
         self.deleteDropShadow()
@@ -99,7 +99,7 @@ class ShadowCaster:
             self.dropShadow.setZ(-shadowHeight)
 
     def getShadowJoint(self):
-        if hasaTTW(self, 'shadowJoint'):
+        if hasattr(self, 'shadowJoint'):
             return self.shadowJoint
         shadowJoint = self.find('**/attachShadow')
         if shadowJoint.isEmpty():

@@ -62,7 +62,7 @@ class DistributedGag(DistributedObject.DistributedObject):
         elif self.type == 1:
             base.race.localKart.hitPie()
         self.nodePath.hide()
-        if hasaTTW(self, 'bnp'):
+        if hasattr(self, 'bnp'):
             self.bnp.removeNode()
 
     def hitSomebody(self, avId, timeStamp):
@@ -70,7 +70,7 @@ class DistributedGag(DistributedObject.DistributedObject):
             kart = DistributedVehicle.getKartFromAvId(avId)
             if kart:
                 self.nodePath.hide()
-                if hasaTTW(self, 'bnp'):
+                if hasattr(self, 'bnp'):
                     self.bnp.removeNode()
                 kart.playSpin(timeStamp)
 

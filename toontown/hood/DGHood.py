@@ -44,7 +44,7 @@ class DGHood(ToonHood.ToonHood):
         SkyUtil.startCloudSky(self)
 
     def startSpookySky(self):
-        if hasaTTW(self, 'sky') and self.sky:
+        if hasattr(self, 'sky') and self.sky:
             self.stopSky()
         self.sky = loader.loadModel(self.spookySkyFile)
         self.sky.setTag('sky', 'Halloween')
@@ -55,7 +55,7 @@ class DGHood(ToonHood.ToonHood):
         self.sky.setBin('background', 100)
         self.sky.setFogOff()
         self.sky.reparentTo(camera)
-        self.sky.seTTWansparency(TransparencyATTWib.MDual, 1)
+        self.sky.setTransparency(TransparencyAttrib.MDual, 1)
         fadeIn = self.sky.colorScaleInterval(1.5, Vec4(1, 1, 1, 1), startColorScale=Vec4(1, 1, 1, 0.25), blendType='easeInOut')
         fadeIn.start()
         self.sky.setZ(0.0)

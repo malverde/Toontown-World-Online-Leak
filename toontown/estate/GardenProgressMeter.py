@@ -54,9 +54,9 @@ class GardenProgressMeter(DirectObject.DirectObject):
         itemBoard = model.find('**/item_board')
         congratsMessage = 'Super Congratulations!!'
         if self.typePromotion == SHOVEL:
-            congratsMessage = TTLocalizer.GardenShovelLevelUp + ' \n' + GardenGlobals.ShovelATTWibutes[self.level]['name']
+            congratsMessage = TTLocalizer.GardenShovelLevelUp + ' \n' + GardenGlobals.ShovelAttributes[self.level]['name']
         elif self.typePromotion == WATERINGCAN:
-            congratsMessage = TTLocalizer.GardenWateringCanLevelUp + ' \n' + GardenGlobals.WateringCanATTWibutes[self.level]['name']
+            congratsMessage = TTLocalizer.GardenWateringCanLevelUp + ' \n' + GardenGlobals.WateringCanAttributes[self.level]['name']
         elif self.typePromotion == GAMEWIN:
             congratsMessage = TTLocalizer.GardenMiniGameWon
         self.frame = DirectFrame(scale=1.1, relief=None, image=DGG.getDefaultDialogGeom(), image_scale=(1.75, 1, 0.75), image_color=ToontownGlobals.GlobalDialogColor, frameSize=(-0.5,
@@ -88,7 +88,7 @@ class GardenProgressMeter(DirectObject.DirectObject):
         self.__acceptExit()
 
     def __acceptExit(self, buttonValue = None):
-        if hasaTTW(self, 'frame'):
+        if hasattr(self, 'frame'):
             self.hide()
             self.unload()
             messenger.send(self.doneEvent)
