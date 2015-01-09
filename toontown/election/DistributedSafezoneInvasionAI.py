@@ -8,6 +8,7 @@ from InvasionMasterAI import InvasionMasterAI
 import SafezoneInvasionGlobals
 import DistributedElectionEventAI
 from toontown.suit import SuitTimings
+from toontown.suit import SuitDNA
 from toontown.toonbase import ToontownBattleGlobals
 
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
@@ -350,7 +351,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
 
         # Define our suit:
         suit = DistributedInvasionSuitAI(self.air, self)
-        return suit.dna.newSuit(suitType)
+        suit.dna.newSuit(suitType)
         suit.setSpawnPoint(pointId)
         suit.setLevel(levelOffset)
         suit.generateWithRequired(self.zoneId)
