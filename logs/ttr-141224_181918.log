@@ -1,0 +1,69 @@
+ToontownStart: Polling for game2 to finish...
+ToontownStart: Game2 is finished.
+ToontownStart: Starting the game.
+ToontownStart: setting default font
+TTLocalizer: Running in language: english
+from toontown.toonbase.TTLocalizerEnglish import *
+OTPLocalizer: Running in language: english
+from otp.otpbase.OTPLocalizerEnglish import *
+ToontownStart: Loading default gui sounds
+ToontownStart: serverVersion:  ttw-alpha-2.0.0
+{401000001: <toontown.distributed.ToontownDistrict.ToontownDistrict instance at 0x122577b90>}
+local
+2
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 20.5 fps|0.005d|3 avs||439|453||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+frame rate: 22.6 fps|0.010d|3 avs||739|753||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+ignoring InputState-forward
+local
+2
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+Battle Event localtoon-battle-event-3
+chooseFireOpenShot <function avatarCloseUpThrowShot at 0x11affec08>
+chooseFireOpenShot <function suitGroupThreeQuarterLeftBehindShot at 0x11affea28>
+frame rate: 34.8 fps|0.110d|7 avs||1384|1399||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+frame rate: 28.2 fps|0.014d|0 avs||1684|1699||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+ToonAvatarDetailPanel None
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+Battle Event localtoon-battle-event-9
+chooseFireOpenShot <function suitGroupThreeQuarterLeftBehindShot at 0x11affea28>
+chooseFireOpenShot <function avatarCloseUpFireShot at 0x11b000758>
+frame rate: 23.9 fps|0.041d|3 avs||1985|1999||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+Traceback (most recent call last):
+  File "/Developer/Panda3D/direct/distributed/RelatedObjectMgr.py", line 180, in __timeoutExpired
+    allCallback(objects)
+  File "toontown/building/DistributedElevatorExt.py", line 72, in gotBldg
+    self.notify.error('setBldgDoId: elevator %d cannot find bldg %d!' % (self.doId, self.bldgDoId))
+  File "/Developer/Panda3D/direct/directnotify/Notifier.py", line 136, in error
+    raise exception(errorString)
+StandardError: setBldgDoId: elevator 401004421 cannot find bldg 401003295!
+Traceback (most recent call last):
+  File "otp/otpbase/OTPBase.py", line 238, in run
+    taskMgr.run()
+  File "/Developer/Panda3D/direct/task/Task.py", line 503, in run
+    self.step()
+  File "/Developer/Panda3D/direct/task/Task.py", line 461, in step
+    self.mgr.poll()
+  File "/Developer/Panda3D/direct/distributed/RelatedObjectMgr.py", line 180, in __timeoutExpired
+    allCallback(objects)
+  File "toontown/building/DistributedElevatorExt.py", line 72, in gotBldg
+    self.notify.error('setBldgDoId: elevator %d cannot find bldg %d!' % (self.doId, self.bldgDoId))
+  File "/Developer/Panda3D/direct/directnotify/Notifier.py", line 136, in error
+    raise exception(errorString)
+StandardError: setBldgDoId: elevator 401004421 cannot find bldg 401003295!
+/usr/bin/python: No module named toontown.toonbase.ToontownStart.py
