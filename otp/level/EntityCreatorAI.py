@@ -25,7 +25,7 @@ class EntityCreatorAI(EntityCreatorBase.EntityCreatorBase):
     def __init__(self, level):
         EntityCreatorBase.EntityCreatorBase.__init__(self, level)
         cLE = createLocalEntity
-        self.privRegisterTypes({'attribModifier': nothing,
+        self.privRegisterTypes({'aTTWibModifier': nothing,
          'ambientSound': nothing,
          'collisionSolid': nothing,
          'cutScene': nothing,

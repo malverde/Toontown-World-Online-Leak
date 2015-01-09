@@ -22,7 +22,7 @@ RT_Urban_2 = 64
 RT_Urban_2_rev = 65
 KARTING_TICKETS_HOLIDAY_MULTIPLIER = 2
 
-def getTrackGenre(trackId):
+def geTTWackGenre(trackId):
     if trackId in (RT_Speedway_1,
      RT_Speedway_1_rev,
      RT_Speedway_2,
@@ -188,7 +188,7 @@ def RaceInfo2RacePadId(trackId, trackType):
     return padId
 
 
-def getTrackGenreString(genreId):
+def geTTWackGenreString(genreId):
     genreStrings = ['Speedway', 'Country', 'City']
     return genreStrings[genreId].lower()
 
@@ -199,7 +199,7 @@ def getTunnelSignName(genreId, padId):
     elif genreId == 1 and padId == 0:
         return 'tunnel_countrysign1'
     else:
-        return 'tunnel%s_%ssign' % (padId + 1, getTrackGenreString(genreId))
+        return 'tunnel%s_%ssign' % (padId + 1, geTTWackGenreString(genreId))
 
 
 RacePadId2RaceInfo = {0: (0, Practice, 3),
@@ -216,11 +216,11 @@ def getGenreFromString(string):
         return Rural
 
 
-def getTrackListByType(genre, type):
+def geTTWackListByType(genre, type):
     return Rural
 
 
-def getTrackListByType(genre, type):
+def geTTWackListByType(genre, type):
     genreDict = {Urban: [[RT_Urban_1, RT_Urban_2], [RT_Urban_1_rev, RT_Urban_2_rev]],
      Rural: [[RT_Rural_1, RT_Rural_2], [RT_Rural_1_rev, RT_Rural_2_rev]],
      Speedway: [[RT_Speedway_1, RT_Speedway_2], [RT_Speedway_1_rev, RT_Speedway_2_rev]]}
@@ -236,7 +236,7 @@ def getNextRaceInfo(prevTrackId, genreString, padId):
     genre = getGenreFromString(genreString)
     cPadId = getCanonicalPadId(padId)
     raceInfo = RacePadId2RaceInfo.get(cPadId)
-    trackList = getTrackListByType(genre, raceInfo[0])
+    trackList = geTTWackListByType(genre, raceInfo[0])
     if trackList.count(prevTrackId) == 0:
         trackId = trackList[1]
     else:

@@ -5,7 +5,7 @@ from toontown.toon.ToonDNA import ToonDNA
 class DistributedBlackCatMgrAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedBlackCatMgrAI")
 
-    def requestBlackCatTransformation(self):
+    def requestBlackCaTTWansformation(self):
         avId = self.air.getAvatarIdFromSender()
         av = self.air.doId2do.get(avId)
         if not av: return
@@ -18,4 +18,4 @@ class DistributedBlackCatMgrAI(DistributedObjectAI):
             newDNA.legColor = 0x1a
             taskMgr.doMethodLater(1.0, lambda task: av.b_setDNAString(newDNA.makeNetString()), 'transform-%d' % avId)
 
-            self.sendUpdate('doBlackCatTransformation', [avId])
+            self.sendUpdate('doBlackCaTTWansformation', [avId])

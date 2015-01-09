@@ -122,12 +122,12 @@ class NameTumbler(DirectFrame):
          0.48,
          -0.5,
          0.1), itemFrame_borderWidth=(0.01, 0.01), numItemsVisible=5)
-        ds.setTransparency(1)
+        ds.seTTWansparency(1)
         return ds
 
     def makeCheckBox(self, npos, ntex, ntexcolor, comm):
         dcf = DirectCheckButton(parent=aspect2d, relief=None, scale=0.1, boxBorder=0.08, boxImage=self.circle, boxImageScale=(0.4, 0.4, 0.4), boxRelief=None, pos=npos, text=ntex, text_fg=ntexcolor, text_scale=0.8, text_pos=(0.2, 0), indicator_pos=(-0.566667, 0, -0.045), indicator_image_pos=(-0.26, 0, 0.075), command=comm, text_align=TextNode.ALeft)
-        dcf.setTransparency(1)
+        dcf.seTTWansparency(1)
         return dcf
 
     def makeHighlight(self, npos):

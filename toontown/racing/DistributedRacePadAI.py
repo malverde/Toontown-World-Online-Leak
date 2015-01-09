@@ -15,7 +15,7 @@ from toontown.racing.DistributedStartingBlockAI import DistributedStartingBlockA
 
 class DistributedRacePadAI(DistributedKartPadAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedRacePadAI")
-    defaultTransitions = {'Off': ['WaitEmpty'],
+    defaulTTWansitions = {'Off': ['WaitEmpty'],
      'WaitEmpty': ['WaitCountdown', 'Off'],
      'WaitCountdown': ['WaitEmpty',
                        'WaitBoarding',
@@ -73,7 +73,7 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
     
     def changeTrack(self):
         nri = RaceGlobals.getNextRaceInfo(self.trackId, self.nameType, self.index)
-        self.b_setTrackInfo([nri[0], nri[1]])
+        self.b_seTTWackInfo([nri[0], nri[1]])
         taskMgr.doMethodLater(30, DistributedRacePadAI.changeTrack, 'changeTrack%i' % self.doId, [self])
     
     def updateTimer(self):
@@ -126,7 +126,7 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
                 self.sendUpdateToAvatarId(block.avId, 'setRaceZone', [self.raceZone])
         race = DistributedRaceAI(self.air)
         race.setZoneId(self.raceZone)
-        race.setTrackId(self.trackId)
+        race.seTTWackId(self.trackId)
         race.setRaceType(self.trackType)
         race.setCircuitLoop([])
         race.setAvatars(avatars)
@@ -161,18 +161,18 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
     def setRaceZone(self, todo0):
         pass
         
-    def getTrackInfo(self):
+    def geTTWackInfo(self):
         return [self.trackId, self.trackType]
         
-    def setTrackInfo(self, trackInfo):
+    def seTTWackInfo(self, trackInfo):
         self.trackId, self.trackType = trackInfo
         
-    def d_setTrackInfo(self, trackInfo):
-        self.sendUpdate('setTrackInfo',  [trackInfo])
+    def d_seTTWackInfo(self, trackInfo):
+        self.sendUpdate('seTTWackInfo',  [trackInfo])
     
-    def b_setTrackInfo(self, trackInfo):
-        self.setTrackInfo(trackInfo)
-        self.d_setTrackInfo(trackInfo)
+    def b_seTTWackInfo(self, trackInfo):
+        self.seTTWackInfo(trackInfo)
+        self.d_seTTWackInfo(trackInfo)
 
 @dnaSpawn(DNANode, 'racing_pad_([0-9]+)_(.*)')
 def spawn(air, zone, element, match):
@@ -183,7 +183,7 @@ def spawn(air, zone, element, match):
     pad.nameType = dest
     pad.index = index
     nri = RaceGlobals.getNextRaceInfo(-1, dest, index)
-    pad.setTrackInfo(nri[:2])
+    pad.seTTWackInfo(nri[:2])
     pad.generateWithRequired(zone)
     for child in element.children:
         if isinstance(child, DNAProp) and child.code == 'gs_parkingspot':

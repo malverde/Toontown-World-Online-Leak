@@ -31,8 +31,8 @@ class DistributedDonald(DistributedCCharBase.DistributedCCharBase):
         del self.neutral
         del self.walkDoneEvent
         del self.walk
-        del self.walkStartTrack
-        del self.neutralStartTrack
+        del self.walkStarTTWack
+        del self.neutralStarTTWack
         self.fsm.requestFinalState()
 
     def delete(self):
@@ -53,8 +53,8 @@ class DistributedDonald(DistributedCCharBase.DistributedCCharBase):
             self.walk = CharStateDatas.CharWalkState(self.walkDoneEvent, self)
         else:
             self.walk = CharStateDatas.CharWalkState(self.walkDoneEvent, self, self.diffPath)
-        self.walkStartTrack = self.actorInterval('trans-back')
-        self.neutralStartTrack = self.actorInterval('trans')
+        self.walkStarTTWack = self.actorInterval('trans-back')
+        self.neutralStarTTWack = self.actorInterval('trans')
         self.fsm.request('Neutral')
         return
 
@@ -66,7 +66,7 @@ class DistributedDonald(DistributedCCharBase.DistributedCCharBase):
 
     def enterNeutral(self):
         self.notify.debug('Neutral ' + self.getName() + '...')
-        self.neutral.enter(startTrack=self.neutralStartTrack, playRate=0.5)
+        self.neutral.enter(starTTWack=self.neutralStarTTWack, playRate=0.5)
         self.acceptOnce(self.neutralDoneEvent, self.__decideNextState)
 
     def exitNeutral(self):
@@ -75,7 +75,7 @@ class DistributedDonald(DistributedCCharBase.DistributedCCharBase):
 
     def enterWalk(self):
         self.notify.debug('Walking ' + self.getName() + '...')
-        self.walk.enter(startTrack=self.walkStartTrack)
+        self.walk.enter(starTTWack=self.walkStarTTWack)
         self.acceptOnce(self.walkDoneEvent, self.__decideNextState)
 
     def exitWalk(self):
@@ -95,7 +95,7 @@ class DistributedDonald(DistributedCCharBase.DistributedCCharBase):
 
     def handleHolidays(self):
         DistributedCCharBase.DistributedCCharBase.handleHolidays(self)
-        if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
+        if hasaTTW(base.cr, 'newsManager') and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
             if ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds and isinstance(self.cr.playGame.hood, GSHood.GSHood):
                 self.diffPath = TTLocalizer.Goofy

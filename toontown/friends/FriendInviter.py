@@ -154,7 +154,7 @@ class FriendInviter(DirectFrame):
     def __handleClickedNametag(self, avatar):
         self.avId = avatar.doId
         self.toonName = avatar.getName()
-        if hasattr(avatar, 'DISLid'):
+        if hasaTTW(avatar, 'DISLid'):
             self.playerId = avatar.DISLid
             self.playerName = avatar.DISLname
         self.avDisableName = avatar.uniqueName('disable')

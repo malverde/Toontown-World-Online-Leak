@@ -106,7 +106,7 @@ class ToonStatueSelectionGUI(DirectFrame):
             friendId, flags = friendPair
             handle = base.cr.identifyFriend(friendId)
             if handle and not self.checkFamily(friendId):
-                if hasattr(handle, 'getName'):
+                if hasaTTW(handle, 'getName'):
                     colorCode = NametagGroup.CCSpeedChat
                     if flags & ToontownGlobals.FriendChat:
                         colorCode = NametagGroup.CCFreeChat
@@ -151,7 +151,7 @@ class ToonStatueSelectionGUI(DirectFrame):
         avatar.delete()
 
     def createPreviewToon(self, dna):
-        if hasattr(self, 'previewToon'):
+        if hasaTTW(self, 'previewToon'):
             self.previewToon.delete()
         self.dnaSelected = dna
         self.previewToon = Toon.Toon()

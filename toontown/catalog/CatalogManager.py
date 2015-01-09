@@ -13,7 +13,7 @@ class CatalogManager(DistributedObject.DistributedObject):
             base.cr.catalogManager.delete()
         base.cr.catalogManager = self
         DistributedObject.DistributedObject.generate(self)
-        if hasattr(base.localAvatar, 'catalogScheduleNextTime') and base.localAvatar.catalogScheduleNextTime == 0:
+        if hasaTTW(base.localAvatar, 'catalogScheduleNextTime') and base.localAvatar.catalogScheduleNextTime == 0:
             self.d_startCatalog()
         return
 

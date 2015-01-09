@@ -201,7 +201,7 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
 
     def enterOff(self):
         self.accepting = 0
-        if hasattr(self, 'doId'):
+        if hasaTTW(self, 'doId'):
             for seatIndex in range(4):
                 taskMgr.remove(self.uniqueName('clearEmpty-' + str(seatIndex)))
 

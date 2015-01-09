@@ -120,7 +120,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
         for bean in self.beans:
             bean.find('**/jellybean').setP(-35.0)
             bean.setScale(3.0)
-            bean.setTransparency(True)
+            bean.seTTWansparency(True)
             bean.reparentTo(self.tramp)
             bean.stash()
 
@@ -209,7 +209,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
         del self.hopOnAnim
         del self.hopOffAnim
         del self.flashTextInterval
-        if hasattr(self, 'beanAnims'):
+        if hasaTTW(self, 'beanAnims'):
             self.cleanupJellyBeans()
         self.quitEarlyButton.destroy()
         del self.quitEarlyButton
@@ -351,7 +351,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
         for guiBean in self.guiBeans:
             guiBean.stash()
 
-        if hasattr(self, 'beanAnims'):
+        if hasaTTW(self, 'beanAnims'):
             for beanAnim in self.beanAnims:
                 beanAnim.finish()
 

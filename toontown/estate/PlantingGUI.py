@@ -141,7 +141,7 @@ class SpiffyBeanBox(DirectButton):
         self.selectedBean = self.attachNewNode('selectedBean')
 
     def getSelectedIndex(self):
-        if hasattr(self, 'selectedIndex'):
+        if hasaTTW(self, 'selectedIndex'):
             return self.selectedIndex
         return 0
 
@@ -205,7 +205,7 @@ class PlantingGUI(DirectFrame):
         if self.jellyBeanPicker:
             self.jellyBeanPicker.destroy()
         self.jellyBeanPicker = None
-        if hasattr(self, 'specialPhotoList') and self.specialPhotoList:
+        if hasaTTW(self, 'specialPhotoList') and self.specialPhotoList:
             for photo in self.specialPhotoList:
                 photo.destroy()
 
@@ -293,7 +293,7 @@ class PlantingGUI(DirectFrame):
         return
 
     def photoSpecialChanged(self):
-        if not hasattr(self, 'specialButton'):
+        if not hasaTTW(self, 'specialButton'):
             return
         messenger.send('wakeup')
         selectedSpecial = self.specialButton.getSelectedIndex()

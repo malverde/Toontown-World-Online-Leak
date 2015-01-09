@@ -357,7 +357,7 @@ class IssueFrame(DirectFrame):
             guiTex.setWrapV(Texture.WMClamp)
             ts = TextureStage('webTS')
             quad.setTexture(ts, guiTex)
-            quad.setTransparency(0)
+            quad.seTTWansparency(0)
             quad.setTwoSided(True)
             quad.setColor(1.0, 1.0, 1.0, 1.0)
             result = quad

@@ -174,9 +174,9 @@ class DistributedStageRoom(DistributedLevel.DistributedLevel, StageRoomBase.Stag
     def disable(self):
         self.notify.debug('disable')
         StageRoom.StageRoom.exit(self)
-        if hasattr(self, 'suits'):
+        if hasaTTW(self, 'suits'):
             del self.suits
-        if hasattr(self, 'relatedObjectMgrRequest') and self.relatedObjectMgrRequest:
+        if hasaTTW(self, 'relatedObjectMgrRequest') and self.relatedObjectMgrRequest:
             self.cr.relatedObjectMgr.abortRequest(self.relatedObjectMgrRequest)
             del self.relatedObjectMgrRequest
         bboard.remove(self.getReadyPostName())
@@ -227,7 +227,7 @@ class DistributedStageRoom(DistributedLevel.DistributedLevel, StageRoomBase.Stag
         return TTLocalizer.StageBossBattleTaunt
 
     def __str__(self):
-        if hasattr(self, 'roomId'):
+        if hasaTTW(self, 'roomId'):
             return '%s %s: %s' % (self.__class__.__name__, self.roomId, StageRoomSpecs.CashbotStageRoomId2RoomName[self.roomId])
         else:
             return 'DistributedStageRoom'

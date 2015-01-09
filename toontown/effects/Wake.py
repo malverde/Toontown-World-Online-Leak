@@ -95,8 +95,8 @@ class WakeSequence(NodePath):
         self.stop()
         self.tracks = []
         tflipDuration = self.startSeqNode.getNumChildren() / (float(rate) * 24)
-        startTrack = Sequence(Func(self.show), Func(self.showTrack, 0), Func(self.startSeqNode.play, 0, self.startSeqNode.getNumFrames() - 1), Func(self.startSeqNode.setPlayRate, rate), Wait(tflipDuration), Func(self.showTrack, 1), Func(self.startSeqNode.play, 0, self.startSeqNode.getNumFrames() - 1), Func(self.cycleSeqNode.setPlayRate, rate), name='start-wake-track-%d' % self.trackId)
-        self.tracks.append(startTrack)
+        starTTWack = Sequence(Func(self.show), Func(self.showTrack, 0), Func(self.startSeqNode.play, 0, self.startSeqNode.getNumFrames() - 1), Func(self.startSeqNode.setPlayRate, rate), Wait(tflipDuration), Func(self.showTrack, 1), Func(self.startSeqNode.play, 0, self.startSeqNode.getNumFrames() - 1), Func(self.cycleSeqNode.setPlayRate, rate), name='start-wake-track-%d' % self.trackId)
+        self.tracks.append(starTTWack)
         tflipDuration = self.endSeqNode.getNumChildren() / (float(rate) * 24)
         endTrack = Sequence(Func(self.showTrack, 2), Func(self.endSeqNode.play, 0, self.endSeqNode.getNumFrames() - 1), Func(self.endSeqNode.setPlayRate, rate), Wait(tflipDuration), Func(self.endSeqNode.setPlayRate, 0), Func(self.hide), name='end-wake-track-%d' % self.trackId)
         self.tracks.append(endTrack)

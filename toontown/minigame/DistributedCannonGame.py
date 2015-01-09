@@ -461,7 +461,7 @@ class DistributedCannonGame(DistributedMinigame):
         self.notify.debug('enterCleanup')
         self.music.stop()
         self.__killRewardCountdown()
-        if hasattr(self, 'jarIval'):
+        if hasaTTW(self, 'jarIval'):
             self.jarIval.finish()
             del self.jarIval
         for avId in self.avIdList:
@@ -883,7 +883,7 @@ class DistributedCannonGame(DistributedMinigame):
         taskMgr.remove(self.REWARD_COUNTDOWN_TASK)
 
     def __updateRewardCountdown(self, task):
-        if not hasattr(self, 'rewardPanel'):
+        if not hasaTTW(self, 'rewardPanel'):
             return Task.cont
         curTime = self.getCurrentGameTime()
         if self.clockStopTime is not None:
@@ -891,11 +891,11 @@ class DistributedCannonGame(DistributedMinigame):
                 self.__killRewardCountdown()
                 curTime = self.clockStopTime
         score = int(self.scoreMult * CannonGameGlobals.calcScore(curTime) + 0.5)
-        if not hasattr(task, 'curScore'):
+        if not hasaTTW(task, 'curScore'):
             task.curScore = score
         self.rewardPanel['text'] = str(score)
         if task.curScore != score:
-            if hasattr(self, 'jarIval'):
+            if hasaTTW(self, 'jarIval'):
                 self.jarIval.finish()
             s = self.rewardPanel.getScale()
             self.jarIval = Parallel(Sequence(self.rewardPanel.scaleInterval(0.15, s * 3.0 / 4.0, blendType='easeOut'), self.rewardPanel.scaleInterval(0.15, s, blendType='easeIn')), SoundInterval(self.sndRewardTick), name='cannonGameRewardJarThrob')

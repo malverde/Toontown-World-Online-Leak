@@ -27,7 +27,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
 
     def enter(self):
         self.notify.debug('enter')
-        if not hasattr(self, 'title'):
+        if not hasaTTW(self, 'title'):
             self.load()
         self.setMode(self.mode, 1)
         self.accept(localAvatar.uniqueName('flowerBasketChange'), self.updatePage)
@@ -35,15 +35,15 @@ class GardenPage(ShtikerPage.ShtikerPage):
 
     def exit(self):
         self.notify.debug('exit')
-        if hasattr(self, 'picker'):
+        if hasaTTW(self, 'picker'):
             self.picker.hide()
-        if hasattr(self, 'browser'):
+        if hasaTTW(self, 'browser'):
             self.browser.hide()
-        if hasattr(self, 'specialsFrame'):
+        if hasaTTW(self, 'specialsFrame'):
             self.specialsFrame.hide()
-        if hasattr(self, 'specialsPhoto'):
+        if hasaTTW(self, 'specialsPhoto'):
             self.specialsPhoto.hide()
-        if hasattr(self, 'useSpecialButton'):
+        if hasaTTW(self, 'useSpecialButton'):
             self.hide()
         self.cleanupResultDialog()
         ShtikerPage.ShtikerPage.exit(self)
@@ -102,12 +102,12 @@ class GardenPage(ShtikerPage.ShtikerPage):
         self.useSpecialButton.hide()
         if mode == GardenPage_Basket:
             self.title['text'] = TTLocalizer.GardenPageTitleBasket
-            if not hasattr(self, 'picker'):
+            if not hasaTTW(self, 'picker'):
                 self.createFlowerPicker()
             self.picker.show()
-            if hasattr(self, 'browser'):
+            if hasaTTW(self, 'browser'):
                 self.browser.hide()
-            if hasattr(self, 'trophyFrame'):
+            if hasaTTW(self, 'trophyFrame'):
                 self.trophyFrame.hide()
             self.basketTab['state'] = DGG.DISABLED
             self.collectionTab['state'] = DGG.NORMAL
@@ -115,12 +115,12 @@ class GardenPage(ShtikerPage.ShtikerPage):
             self.specialsTab['state'] = DGG.NORMAL
         elif mode == GardenPage_Collection:
             self.title['text'] = TTLocalizer.GardenPageTitleCollection
-            if hasattr(self, 'picker'):
+            if hasaTTW(self, 'picker'):
                 self.picker.hide()
-            if not hasattr(self, 'browser'):
+            if not hasaTTW(self, 'browser'):
                 self.createAlbumBrowser()
             self.browser.show()
-            if hasattr(self, 'trophyFrame'):
+            if hasaTTW(self, 'trophyFrame'):
                 self.trophyFrame.hide()
             self.basketTab['state'] = DGG.NORMAL
             self.collectionTab['state'] = DGG.DISABLED
@@ -128,11 +128,11 @@ class GardenPage(ShtikerPage.ShtikerPage):
             self.specialsTab['state'] = DGG.NORMAL
         elif mode == GardenPage_Trophy:
             self.title['text'] = TTLocalizer.GardenPageTitleTrophy
-            if hasattr(self, 'picker'):
+            if hasaTTW(self, 'picker'):
                 self.picker.hide()
-            if hasattr(self, 'browser'):
+            if hasaTTW(self, 'browser'):
                 self.browser.hide()
-            if not hasattr(self, 'trophyFrame'):
+            if not hasaTTW(self, 'trophyFrame'):
                 self.createGardenTrophyFrame()
             self.trophyFrame.show()
             self.basketTab['state'] = DGG.NORMAL
@@ -141,11 +141,11 @@ class GardenPage(ShtikerPage.ShtikerPage):
             self.specialsTab['state'] = DGG.NORMAL
         elif mode == GardenPage_Specials:
             self.title['text'] = TTLocalizer.GardenPageTitleSpecials
-            if hasattr(self, 'picker'):
+            if hasaTTW(self, 'picker'):
                 self.picker.hide()
-            if hasattr(self, 'browser'):
+            if hasaTTW(self, 'browser'):
                 self.browser.hide()
-            if hasattr(self, 'trophyFrame'):
+            if hasaTTW(self, 'trophyFrame'):
                 self.trophyFrame.hide()
             self.basketTab['state'] = DGG.NORMAL
             self.collectionTab['state'] = DGG.NORMAL
@@ -210,21 +210,21 @@ class GardenPage(ShtikerPage.ShtikerPage):
         while len(self.gardenSpecialsList['items']) > 0:
             for item in self.gardenSpecialsList['items']:
                 self.gardenSpecialsList.removeItem(item, 1)
-                if hasattr(item, 'destroy'):
+                if hasaTTW(item, 'destroy'):
                     item.destroy()
-                if hasattr(item, 'delete'):
+                if hasaTTW(item, 'delete'):
                     item.delete()
                 del item
 
     def createAlbumBrowser(self):
-        if not hasattr(self, 'browser'):
+        if not hasaTTW(self, 'browser'):
             self.browser = FlowerBrowser.FlowerBrowser(self)
             self.browser.setScale(1.1)
             self.collectedTotal = DirectLabel(parent=self.browser, relief=None, text='', text_scale=0.06, pos=(0, 0, -0.61))
         return
 
     def createGardenTrophyFrame(self):
-        if not hasattr(self, 'trophyFrame'):
+        if not hasaTTW(self, 'trophyFrame'):
             self.trophyFrame = DirectFrame(parent=self, relief=None, image=self.trophyCase, image_pos=(0, 1, 0), image_scale=0.034)
             self.trophyFrame.hide()
             self.trophies = []
@@ -245,7 +245,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
         return
 
     def createFlowerPicker(self):
-        if not hasattr(self, 'picker'):
+        if not hasaTTW(self, 'picker'):
             self.picker = FlowerPicker.FlowerPicker(self)
             self.picker.setPos(-0.555, 0, 0.1)
             self.picker.setScale(0.95)
@@ -262,13 +262,13 @@ class GardenPage(ShtikerPage.ShtikerPage):
 
     def unload(self):
         print 'gardenPage Unloading'
-        if hasattr(self, 'specialsPhoto'):
+        if hasaTTW(self, 'specialsPhoto'):
             del self.specialsPhoto
-        if hasattr(self, 'trophies'):
+        if hasaTTW(self, 'trophies'):
             del self.trophies
-        if hasattr(self, 'trophyCase'):
+        if hasaTTW(self, 'trophyCase'):
             del self.trophyCase
-        if hasattr(self, 'useSpecialButton'):
+        if hasaTTW(self, 'useSpecialButton'):
             self.useSpecialButton.destroy()
             del self.useSpecialButton
         self.cleanupResultDialog()
@@ -280,19 +280,19 @@ class GardenPage(ShtikerPage.ShtikerPage):
         ShtikerPage.ShtikerPage.unload(self)
 
     def updatePage(self):
-        if hasattr(self, 'collectedTotal'):
+        if hasaTTW(self, 'collectedTotal'):
             self.collectedTotal['text'] = TTLocalizer.GardenPageCollectedTotal % (len(base.localAvatar.flowerCollection), GardenGlobals.getNumberOfFlowerVarieties())
-        if hasattr(self, 'shovelBar'):
+        if hasaTTW(self, 'shovelBar'):
             shovel = base.localAvatar.shovel
             shovelName = TTLocalizer.ShovelNameDict[shovel]
             curShovelSkill = base.localAvatar.shovelSkill
-            maxShovelSkill = GardenGlobals.ShovelAttributes[shovel]['skillPts']
+            maxShovelSkill = GardenGlobals.ShovelATTWibutes[shovel]['skillPts']
             if shovel == GardenGlobals.MAX_SHOVELS - 1:
                 maxShovelSkill -= 1
             wateringCan = base.localAvatar.wateringCan
             wateringCanName = TTLocalizer.WateringCanNameDict[wateringCan]
             curWateringCanSkill = base.localAvatar.wateringCanSkill
-            maxWateringCanSkill = GardenGlobals.WateringCanAttributes[wateringCan]['skillPts']
+            maxWateringCanSkill = GardenGlobals.WateringCanATTWibutes[wateringCan]['skillPts']
             if wateringCan == GardenGlobals.MAX_WATERING_CANS - 1:
                 maxWateringCanSkill -= 1
             textToUse = TTLocalizer.GardenPageShovelInfo % (shovelName, curShovelSkill, maxShovelSkill)
@@ -304,14 +304,14 @@ class GardenPage(ShtikerPage.ShtikerPage):
         else:
             print 'no shovel bar'
         if self.mode == GardenPage_Collection:
-            if hasattr(self, 'browser'):
+            if hasaTTW(self, 'browser'):
                 self.browser.update()
         elif self.mode == GardenPage_Basket:
-            if hasattr(self, 'picker'):
+            if hasaTTW(self, 'picker'):
                 newBasketFlower = base.localAvatar.flowerBasket.getFlower()
                 self.picker.update(newBasketFlower)
         elif self.mode == GardenPage_Trophy:
-            if hasattr(self, 'trophies'):
+            if hasaTTW(self, 'trophies'):
                 for trophy in self.trophies:
                     trophy.setLevel(-1)
 
@@ -326,7 +326,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
     def destroy(self):
         self.notify.debug('destroy')
         self.useSpecialButton.destroy()
-        if hasattr(self, 'gardenSpecialsList'):
+        if hasaTTW(self, 'gardenSpecialsList'):
             self.clearGS()
             self.gardenSpecialsList.destroy()
         self.ignoreAll()
@@ -476,6 +476,6 @@ class GardenTrophy(DirectFrame):
         self.trophy.removeNode()
         self.bowl.removeNode()
         self.shadow.removeNode()
-        if hasattr(self, 'gardenTrophy'):
+        if hasaTTW(self, 'gardenTrophy'):
             self.gardenTrophy.removeNode()
         DirectFrame.destroy(self)

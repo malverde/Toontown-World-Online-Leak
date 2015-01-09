@@ -102,7 +102,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.suitAttacks = getDefaultSuitAttacks()
 
     def requestDelete(self):
-        if hasattr(self, 'fsm'):
+        if hasaTTW(self, 'fsm'):
             self.fsm.request('Off')
         self.__removeTaskName(self.uniqueName('make-movie'))
         DistributedObjectAI.DistributedObjectAI.requestDelete(self)
@@ -249,14 +249,14 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         for s in self.luredSuits:
             luredSuits += str(suits.index(s.doId))
 
-        suitTraps = ''
+        suiTTWaps = ''
         for s in self.suits:
             if s.battleTrap == NO_TRAP:
-                suitTraps += '9'
+                suiTTWaps += '9'
             elif s.battleTrap == BattleCalculatorAI.TRAP_CONFLICT:
-                suitTraps += '9'
+                suiTTWaps += '9'
             else:
-                suitTraps += str(s.battleTrap)
+                suiTTWaps += str(s.battleTrap)
 
         toons = []
         for t in self.toons:
@@ -278,12 +278,12 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         for t in self.runningToons:
             runningToons += str(toons.index(t))
 
-        self.notify.debug('getMembers() - suits: %s joiningSuits: %s pendingSuits: %s activeSuits: %s luredSuits: %s suitTraps: %s toons: %s joiningToons: %s pendingToons: %s activeToons: %s runningToons: %s' % (suits,
+        self.notify.debug('getMembers() - suits: %s joiningSuits: %s pendingSuits: %s activeSuits: %s luredSuits: %s suiTTWaps: %s toons: %s joiningToons: %s pendingToons: %s activeToons: %s runningToons: %s' % (suits,
          joiningSuits,
          pendingSuits,
          activeSuits,
          luredSuits,
-         suitTraps,
+         suiTTWaps,
          toons,
          joiningToons,
          pendingToons,
@@ -294,7 +294,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
          pendingSuits,
          activeSuits,
          luredSuits,
-         suitTraps,
+         suiTTWaps,
          toons,
          joiningToons,
          pendingToons,
@@ -510,7 +510,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.toons.append(avId)
         toon = simbase.air.doId2do.get(avId)
         if toon:
-            if hasattr(self, 'doId'):
+            if hasaTTW(self, 'doId'):
                 toon.b_setBattleId(self.doId)
             else:
                 toon.b_setBattleId(-1)
@@ -556,7 +556,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         for toon in self.activeToons:
             if toon in self.newToons:
                 for suit in self.activeSuits:
-                    if hasattr(suit, 'dna'):
+                    if hasaTTW(suit, 'dna'):
                         self.suitsEncountered.append({'type': suit.dna.name,
                          'activeToons': self.activeToons[:]})
                     else:
@@ -567,7 +567,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
 
         for suit in self.activeSuits:
             if suit in self.newSuits:
-                if hasattr(suit, 'dna'):
+                if hasaTTW(suit, 'dna'):
                     self.suitsEncountered.append({'type': suit.dna.name,
                      'activeToons': self.activeToons[:]})
                 else:
@@ -1039,7 +1039,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
             toon = self.getToon(toonId)
             if toon == None:
                 return
-            if not self.validate(toonId, level in toon.petTrickPhrases, 'requestAttack: invalid pet trickId: %s' % level):
+            if not self.validate(toonId, level in toon.peTTWickPhrases, 'requestAttack: invalid pet trickId: %s' % level):
                 return
             self.toonAttacks[toonId] = getToonAttack(toonId, track=PETSOS, level=level, target=av)
         elif track == UN_ATTACK:
@@ -1147,7 +1147,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.notify.debug('makeMovie()')
         if self._DOAI_requestedDelete:
             self.notify.warning('battle %s requested delete, then __makeMovie was called!' % self.doId)
-            if hasattr(self, 'levelDoId'):
+            if hasaTTW(self, 'levelDoId'):
                 self.notify.warning('battle %s in level %s' % (self.doId, self.levelDoId))
             return
         self.__removeTaskName(self.uniqueName('make-movie'))
@@ -1552,7 +1552,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                 if suit == None:
                     self.notify.warning('movieDone() - suit: %d is gone!' % suitId)
                     continue
-                if not (hasattr(suit, 'dna') and suit.dna):
+                if not (hasaTTW(suit, 'dna') and suit.dna):
                     toonId = self.air.getAvatarIdFromSender()
                     self.notify.warning('_movieDone avoiding crash, sender=%s but suit has no dna' % toonId)
                     self.air.writeServerEvent('suspicious', avId=toonId, issue='_movieDone avoiding crash, suit has no dna')

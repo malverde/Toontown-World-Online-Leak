@@ -97,7 +97,7 @@ class TrunkGUI(StateData.StateData):
             def addTrashButton(posZ, text, extraArg):
                 return DirectButton(parent=self.trashPanel, image=trashImage, relief=None, pos=(-0.09, 0, posZ), command=self.__handleDelete, text=text, extraArgs=[extraArg], scale=(0.5, 0.5, 0.5), text_font=ToontownGlobals.getInterfaceFont(), text_scale=0.12, text_pos=(0.3, 0), text_fg=(0.8, 0.2, 0.2, 1), text_shadow=(0, 0, 0, 1), textMayChange=0)
 
-            self.hatTrashButton = addTrashButton(0.5, TTLocalizer.TrunkDeleteHat, ToonDNA.HAT)
+            self.haTTWashButton = addTrashButton(0.5, TTLocalizer.TrunkDeleteHat, ToonDNA.HAT)
             self.glassesTrashButton = addTrashButton(0.2, TTLocalizer.TrunkDeleteGlasses, ToonDNA.GLASSES)
             self.backpackTrashButton = addTrashButton(-0.1, TTLocalizer.TrunkDeleteBackpack, ToonDNA.BACKPACK)
             self.shoesTrashButton = addTrashButton(-0.4, TTLocalizer.TrunkDeleteShoes, ToonDNA.SHOES)
@@ -146,12 +146,12 @@ class TrunkGUI(StateData.StateData):
         self.rotateR.destroy()
         del self.rotateR
         if self.isOwner:
-            self.hatTrashButton.destroy()
+            self.haTTWashButton.destroy()
             self.glassesTrashButton.destroy()
             self.backpackTrashButton.destroy()
             self.shoesTrashButton.destroy()
             self.button.destroy()
-            del self.hatTrashButton
+            del self.haTTWashButton
             del self.glassesTrashButton
             del self.backpackTrashButton
             del self.shoesTrashButton
@@ -168,7 +168,7 @@ class TrunkGUI(StateData.StateData):
         self.rotateL.show()
         self.rotateR.show()
         if self.isOwner:
-            self.hatTrashButton.show()
+            self.haTTWashButton.show()
             self.glassesTrashButton.show()
             self.backpackTrashButton.show()
             self.shoesTrashButton.show()
@@ -180,7 +180,7 @@ class TrunkGUI(StateData.StateData):
         self.rotateL.hide()
         self.rotateR.hide()
         if self.isOwner:
-            self.hatTrashButton.hide()
+            self.haTTWashButton.hide()
             self.glassesTrashButton.hide()
             self.backpackTrashButton.hide()
             self.shoesTrashButton.hide()
@@ -282,9 +282,9 @@ class TrunkGUI(StateData.StateData):
         if not self.isOwner:
             return
         if len(self.hats) < 2 or self.toon.hat[0] == 0:
-            self.hatTrashButton['state'] = DGG.DISABLED
+            self.haTTWashButton['state'] = DGG.DISABLED
         else:
-            self.hatTrashButton['state'] = DGG.NORMAL
+            self.haTTWashButton['state'] = DGG.NORMAL
         if len(self.glasses) < 2 or self.toon.glasses[0] == 0:
             self.glassesTrashButton['state'] = DGG.DISABLED
         else:

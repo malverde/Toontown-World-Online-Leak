@@ -134,7 +134,7 @@ class DistributedEstateAI(DistributedObjectAI):
     def setClosestHouse(self, todo0):
         pass
 
-    def setTreasureIds(self, todo0):
+    def seTTWeasureIds(self, todo0):
         pass
 
     def createTreasurePlanner(self):

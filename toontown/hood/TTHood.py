@@ -42,14 +42,14 @@ class TTHood(ToonHood.ToonHood):
         return SkyUtil.cloudSkyTrack(task)
 
     def startSky(self):
-        self.sky.setTransparency(TransparencyAttrib.MDual, 1)
+        self.sky.seTTWansparency(TransparencyATTWib.MDual, 1)
         self.notify.debug('The sky is: %s' % self.sky)
         if not self.sky.getTag('sky') == 'Regular':
             self.endSpookySky()
         SkyUtil.startCloudSky(self)
 
     def startSpookySky(self):
-        if hasattr(self, 'sky') and self.sky:
+        if hasaTTW(self, 'sky') and self.sky:
             self.stopSky()
         self.sky = loader.loadModel(self.spookySkyFile)
         self.sky.setTag('sky', 'Halloween')
@@ -60,7 +60,7 @@ class TTHood(ToonHood.ToonHood):
         self.sky.setBin('background', 100)
         self.sky.setFogOff()
         self.sky.reparentTo(camera)
-        self.sky.setTransparency(TransparencyAttrib.MDual, 1)
+        self.sky.seTTWansparency(TransparencyATTWib.MDual, 1)
         fadeIn = self.sky.colorScaleInterval(1.5, Vec4(1, 1, 1, 1), startColorScale=Vec4(1, 1, 1, 0.25), blendType='easeInOut')
         fadeIn.start()
         self.sky.setZ(0.0)

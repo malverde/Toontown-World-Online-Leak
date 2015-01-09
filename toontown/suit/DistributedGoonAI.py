@@ -96,7 +96,7 @@ class DistributedGoonAI(DistributedCrushableEntityAI.DistributedCrushableEntityA
     def updateGrid(self):
         if not self.parameterized:
             return
-        if self.grid and hasattr(self, 'entId'):
+        if self.grid and hasaTTW(self, 'entId'):
             self.grid.removeObject(self.entId)
             if not self.crushed:
                 curT = globalClock.getFrameTime()
@@ -121,7 +121,7 @@ class DistributedGoonAI(DistributedCrushableEntityAI.DistributedCrushableEntityA
         return Task.done
 
     def setParameterize(self, x, y, z, pathIndex):
-        if not hasattr(self, 'level') or not self.level:
+        if not hasaTTW(self, 'level') or not self.level:
             return
         pathId = GoonPathData.taskZoneId2pathId[self.level.getTaskZoneId()]
         pathData = GoonPathData.Paths[pathId]

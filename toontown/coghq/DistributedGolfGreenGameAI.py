@@ -12,14 +12,14 @@ from GolfGreenGameGlobals import *
 import random
 import time
 
-class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEntities.NodePathAttribs):
+class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEntities.NodePathATTWibs):
 
     def __init__(self, level, entId):
         BattleBlockerAI.BattleBlockerAI.__init__(self, level, entId)
         random.seed(time.time() * entId)
         node = hidden.attachNewNode('DistributedLaserFieldAI')
         NodePath.__init__(self, node)
-        if not hasattr(self, 'switchId'):
+        if not hasaTTW(self, 'switchId'):
             self.switchId = 0
         self.gridScale = 1
         self.enabled = 1
@@ -56,7 +56,7 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
         BattleBlockerAI.BattleBlockerAI.announceGenerate(self)
         self.totalTime = self.timeToPlay
         numToons = 0
-        if hasattr(self, 'level'):
+        if hasaTTW(self, 'level'):
             numToons = len(self.level.presentAvIds)
         numBoards = self.puzzleBase + numToons * self.puzzlePerPlayer
         boardSelect = range(0, len(gameBoards))
@@ -284,7 +284,7 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
 
     def registerBlocker(self):
         BattleBlockerAI.BattleBlockerAI.registerBlocker(self)
-        if hasattr(self, 'hideSuits'):
+        if hasaTTW(self, 'hideSuits'):
             self.hideSuits()
 
     def delete(self):
@@ -298,7 +298,7 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
 
     def __detect(self, task):
         isThereAnyToons = False
-        if hasattr(self, 'level'):
+        if hasaTTW(self, 'level'):
             toonInRange = 0
             for avId in self.level.presentAvIds:
                 if avId in self.air.doId2do:

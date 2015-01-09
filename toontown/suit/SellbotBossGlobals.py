@@ -45,9 +45,9 @@ BarrelDefs = {8000: {'type': DistributedHealBarrelAI,
         'rewardPerGrab': 10,
         'rewardPerGrabMax': 0}}
 
-def setBarrelAttr(barrel, entId):
-    for defAttr, defValue in BarrelDefs[entId].iteritems():
-        setattr(barrel, defAttr, defValue)
+def setBarrelATTW(barrel, entId):
+    for defATTW, defValue in BarrelDefs[entId].iteritems():
+        setaTTW(barrel, defATTW, defValue)
 
 
 BarrelsStartPos = (0, -36, -8)

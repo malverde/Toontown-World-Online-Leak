@@ -35,7 +35,7 @@ class ActiveCell(BasicEntities.DistributedNodePathEntity):
 
     if __dev__:
 
-        def attribChanged(self, *args):
+        def aTTWibChanged(self, *args):
             model = self.find('*')
             if not model.isEmpty():
                 model.removeNode()

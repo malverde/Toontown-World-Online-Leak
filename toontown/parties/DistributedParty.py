@@ -346,7 +346,7 @@ class DistributedParty(DistributedObject.DistributedObject):
     def delete(self):
         self.notify.debug('delete')
         self.unload()
-        if hasattr(base, 'distributedParty'):
+        if hasaTTW(base, 'distributedParty'):
             del base.distributedParty
         DistributedObject.DistributedObject.delete(self)
 
@@ -382,7 +382,7 @@ class DistributedParty(DistributedObject.DistributedObject):
             self.decorationsList.append(Decoration(PartyGlobals.DecorationIds.getString(decorBase.decorId), PartyUtils.convertDistanceFromPartyGrid(decorBase.x, 0), PartyUtils.convertDistanceFromPartyGrid(decorBase.y, 1), PartyUtils.convertDegreesFromPartyGrid(decorBase.h)))
 
     def unload(self):
-        if hasattr(self, 'decorationsList') and self.decorationsList:
+        if hasaTTW(self, 'decorationsList') and self.decorationsList:
             for decor in self.decorationsList:
                 decor.unload()
 
@@ -390,14 +390,14 @@ class DistributedParty(DistributedObject.DistributedObject):
         self.stopPartyClock()
         self.grassRoot.removeNode()
         del self.grassRoot
-        if hasattr(self, 'testGrid'):
+        if hasaTTW(self, 'testGrid'):
             self.testGrid.removeNode()
             del self.testGrid
         self.ignoreAll()
         Toon.unloadMinigameAnims()
         self.partyHat.removeNode()
         del self.partyHat
-        if hasattr(base, 'partyHasJukebox'):
+        if hasaTTW(base, 'partyHasJukebox'):
             del base.partyHasJukebox
 
     def announceGenerate(self):
@@ -555,9 +555,9 @@ class DistributedParty(DistributedObject.DistributedObject):
 
     def setHostName(self, hostName):
         self.hostName = hostName
-        if hasattr(self, 'partyClockSignFront'):
+        if hasaTTW(self, 'partyClockSignFront'):
             self.attachHostNameToSign(self.partyClockSignFront)
-        if hasattr(self, 'partyClockSignBack'):
+        if hasaTTW(self, 'partyClockSignBack'):
             self.attachHostNameToSign(self.partyClockSignBack)
 
     def spawnTitleText(self):

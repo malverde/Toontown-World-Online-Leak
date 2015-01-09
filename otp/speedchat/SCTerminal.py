@@ -40,7 +40,7 @@ class SCTerminal(SCElement):
         if handleWhisperMode:
             self._wmcListener = DirectObject()
             self._wmcListener.accept(self.getEventName(SCWhisperModeChangeEvent), self._handleWhisperModeChange)
-        elif hasattr(self, '_wmcListener'):
+        elif hasaTTW(self, '_wmcListener'):
             self._wmcListener.ignoreAll()
             del self._wmcListener
             self.invalidate()
@@ -125,7 +125,7 @@ class SCTerminal(SCElement):
          1)
 
     def updateEmoteIcon(self):
-        if hasattr(self, 'button'):
+        if hasaTTW(self, 'button'):
             self.lastEmoteIconColor = self.getEmoteIconColor()
             for i in range(self.button['numStates']):
                 self.button['image%s_image' % i].setColorScale(*self.lastEmoteIconColor)
@@ -135,7 +135,7 @@ class SCTerminal(SCElement):
 
     def enterVisible(self):
         SCElement.enterVisible(self)
-        if hasattr(self, 'lastEmoteIconColor'):
+        if hasaTTW(self, 'lastEmoteIconColor'):
             if self.getEmoteIconColor() != self.lastEmoteIconColor:
                 self.invalidate()
 

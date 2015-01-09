@@ -155,7 +155,7 @@ class DistributedTravelGame(DistributedMinigame):
             ref = self.trolleyCar.attachNewNode('key' + `i` + 'ref')
             ref.iPosHpr(key)
             self.keyRef.append(ref)
-            self.keyInit.append(key.getTransform())
+            self.keyInit.append(key.geTTWansform())
 
         self.frontWheels = self.trolleyCar.findAllMatches('**/front_wheels')
         self.numFrontWheels = self.frontWheels.getNumPaths()
@@ -166,7 +166,7 @@ class DistributedTravelGame(DistributedMinigame):
             ref = self.trolleyCar.attachNewNode('frontWheel' + `i` + 'ref')
             ref.iPosHpr(wheel)
             self.frontWheelRef.append(ref)
-            self.frontWheelInit.append(wheel.getTransform())
+            self.frontWheelInit.append(wheel.geTTWansform())
 
         self.backWheels = self.trolleyCar.findAllMatches('**/back_wheels')
         self.numBackWheels = self.backWheels.getNumPaths()
@@ -177,7 +177,7 @@ class DistributedTravelGame(DistributedMinigame):
             ref = self.trolleyCar.attachNewNode('backWheel' + `i` + 'ref')
             ref.iPosHpr(wheel)
             self.backWheelRef.append(ref)
-            self.backWheelInit.append(wheel.getTransform())
+            self.backWheelInit.append(wheel.geTTWansform())
 
         trolleyAnimationReset = Func(self.resetAnimation)
         self.trainSwitches = {}
@@ -364,7 +364,7 @@ class DistributedTravelGame(DistributedMinigame):
             icon.removeNode()
 
         self.minigameIcons = []
-        if hasattr(self, 'mg_icons'):
+        if hasaTTW(self, 'mg_icons'):
             del self.mg_icons
         for label in self.bonusLabels:
             label.destroy()
@@ -774,7 +774,7 @@ class DistributedTravelGame(DistributedMinigame):
     def getAbsVoteChoice(self):
         available = self.currentVotes[self.localAvId]
         retval = 0
-        if hasattr(self, 'scrollList'):
+        if hasaTTW(self, 'scrollList'):
             selectedIndex = self.scrollList.getSelectedIndex()
             if self.indexToVotes.has_key(selectedIndex):
                 retval = self.indexToVotes[selectedIndex]
@@ -795,7 +795,7 @@ class DistributedTravelGame(DistributedMinigame):
         self.votesToGoLabel.hide()
         self.upLabel.hide()
         self.downLabel.hide()
-        if not hasattr(self, 'scrollList') or not hasattr(self, 'zeroVoteIndex'):
+        if not hasaTTW(self, 'scrollList') or not hasaTTW(self, 'zeroVoteIndex'):
             return
         selectedIndex = self.scrollList.getSelectedIndex()
         if selectedIndex < self.zeroVoteIndex:
@@ -870,7 +870,7 @@ class DistributedTravelGame(DistributedMinigame):
         return retval
 
     def __cleanupWinDialog(self, value):
-        if hasattr(self, 'winDialog') and self.winDialog:
+        if hasaTTW(self, 'winDialog') and self.winDialog:
             self.winDialog.cleanup()
             self.winDialog = None
         return
@@ -1026,10 +1026,10 @@ class DistributedTravelGame(DistributedMinigame):
 
     def resetAnimation(self):
         for i in range(self.numKeys):
-            self.keys[i].setTransform(self.keyInit[i])
+            self.keys[i].seTTWansform(self.keyInit[i])
 
         for i in range(self.numFrontWheels):
-            self.frontWheels[i].setTransform(self.frontWheelInit[i])
+            self.frontWheels[i].seTTWansform(self.frontWheelInit[i])
 
         for i in range(self.numBackWheels):
-            self.backWheels[i].setTransform(self.backWheelInit[i])
+            self.backWheels[i].seTTWansform(self.backWheelInit[i])

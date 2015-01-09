@@ -55,16 +55,16 @@ class ScavengerHuntEffect:
     def destroy(self):
         self.stop()
         self.track = None
-        if hasattr(self, 'eventImage') and self.eventImage:
+        if hasaTTW(self, 'eventImage') and self.eventImage:
             self.eventImage.detachNode()
             del self.eventImage
-        if hasattr(self, 'countLabel') and self.countLabel:
+        if hasaTTW(self, 'countLabel') and self.countLabel:
             self.countLabel.destroy()
             del self.countLabel
-        if hasattr(self, 'jar') and self.jar:
+        if hasaTTW(self, 'jar') and self.jar:
             self.jar.destroy()
             del self.jar
-        if hasattr(self, 'npRoot') and self.npRoot:
+        if hasaTTW(self, 'npRoot') and self.npRoot:
             self.npRoot.destroy()
             del self.npRoot
         return
@@ -83,7 +83,7 @@ class TrickOrTreatTargetEffect(ScavengerHuntEffect):
         return
 
     def destroy(self):
-        if hasattr(self, 'pumpkin') and self.pumpkin:
+        if hasaTTW(self, 'pumpkin') and self.pumpkin:
             self.pumpkin.destroy()
         ScavengerHuntEffect.destroy(self)
 
@@ -102,7 +102,7 @@ class WinterCarolingEffect(ScavengerHuntEffect):
         return
 
     def destroy(self):
-        if hasattr(self, 'snowman') and self.snowman:
+        if hasaTTW(self, 'snowman') and self.snowman:
             self.snowman.destroy()
         ScavengerHuntEffect.destroy(self)
 

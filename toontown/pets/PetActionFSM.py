@@ -4,7 +4,7 @@ from direct.interval.IntervalGlobal import *
 from direct.task import Task
 from direct.distributed.ClockDelta import globalClockDelta
 from direct.showbase.PythonUtil import lerp
-from toontown.pets import PetTricks
+from toontown.pets import PeTTWicks
 from toontown.toon import DistributedToonAI
 
 class PetActionFSM(FSM.FSM):
@@ -90,9 +90,9 @@ class PetActionFSM(FSM.FSM):
         self.pet.sendUpdate('doTrick', [trickId, globalClockDelta.getRealNetworkTime()])
 
         def finish(avatar = avatar, trickId = trickId, self = self):
-            if hasattr(self.pet, 'brain'):
-                healRange = PetTricks.TrickHeals[trickId]
-                aptitude = self.pet.getTrickAptitude(trickId)
+            if hasaTTW(self.pet, 'brain'):
+                healRange = PeTTWicks.TrickHeals[trickId]
+                aptitude = self.pet.geTTWickAptitude(trickId)
                 healAmt = int(lerp(healRange[0], healRange[1], aptitude))
                 if healAmt:
                     for avId in self.pet.brain.getAvIdsLookingAtUs():
@@ -104,20 +104,20 @@ class PetActionFSM(FSM.FSM):
                 self.pet._handleDidTrick(trickId)
                 if not self.pet.isLockedDown():
                     self.pet.unlockPet()
-                messenger.send(self.getTrickDoneEvent())
+                messenger.send(self.geTTWickDoneEvent())
 
         self.trickDoneEvent = 'trickDone-%s-%s' % (self.pet.doId, self.trickSerialNum)
         self.trickSerialNum += 1
-        self.trickFinishIval = Sequence(WaitInterval(PetTricks.TrickLengths[trickId]), Func(finish), name='petTrickFinish-%s' % self.pet.doId)
+        self.trickFinishIval = Sequence(WaitInterval(PeTTWicks.TrickLengths[trickId]), Func(finish), name='peTTWickFinish-%s' % self.pet.doId)
         self.trickFinishIval.start()
 
-    def getTrickDoLaterName(self):
-        return 'petTrickDoLater-%s' % self.pet.doId
+    def geTTWickDoLaterName(self):
+        return 'peTTWickDoLater-%s' % self.pet.doId
 
-    def getTrickDoneEvent(self):
+    def geTTWickDoneEvent(self):
         return self.trickDoneEvent
 
-    def exitTrick(self):
+    def exiTTWick(self):
         if self.trickFinishIval.isPlaying():
             self.trickFinishIval.finish()
         del self.trickFinishIval

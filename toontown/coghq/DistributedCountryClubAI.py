@@ -53,7 +53,7 @@ class DistributedCountryClubAI(DistributedObjectAI.DistributedObjectAI):
         for room in self.rooms:
             room.requestDelete()
 
-        if hasattr(self, 'elevatorList'):
+        if hasaTTW(self, 'elevatorList'):
             for elevator in self.elevatorList:
                 elevator.requestDelete()
 
@@ -62,12 +62,12 @@ class DistributedCountryClubAI(DistributedObjectAI.DistributedObjectAI):
     def delete(self):
         self.notify.info('delete: %s' % self.doId)
         if __dev__:
-            if hasattr(simbase, 'countryClub') and simbase.countryClub is self:
+            if hasaTTW(simbase, 'countryClub') and simbase.countryClub is self:
                 del simbase.countryClub
         del self.rooms
         del self.layout
         del self.battleExpAggreg
-        if hasattr(self, 'elevatorList'):
+        if hasaTTW(self, 'elevatorList'):
             del self.elevatorList
         DistributedObjectAI.DistributedObjectAI.delete(self)
 

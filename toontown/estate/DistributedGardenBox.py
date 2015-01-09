@@ -4,7 +4,7 @@ from direct.showbase.ShowBase import *
 import GardenGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.estate import PlantingGUI
-from toontown.estate import PlantTreeGUI
+from toontown.estate import PlanTTWeeGUI
 from direct.distributed import DistributedNode
 from pandac.PandaModules import NodePath
 from pandac.PandaModules import Vec3

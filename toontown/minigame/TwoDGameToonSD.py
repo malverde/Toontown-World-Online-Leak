@@ -131,8 +131,8 @@ class TwoDGameToonSD(StateData.StateData):
                 endPoint = Point3(self.toon.getX() + fallBackDist, self.toon.getY(), self.toon.getZ())
             else:
                 endPoint = Point3(self.toon.getX() - fallBackDist, self.toon.getY(), self.toon.getZ())
-            enemyHitTrajectory = LerpFunc(self.toon.setX, fromData=self.toon.getX(), toData=endPoint.getX(), duration=0.75, name='enemyHitTrajectory')
-            self.fallBackIval.append(enemyHitTrajectory)
+            enemyHiTTWajectory = LerpFunc(self.toon.setX, fromData=self.toon.getX(), toData=endPoint.getX(), duration=0.75, name='enemyHiTTWajectory')
+            self.fallBackIval.append(enemyHiTTWajectory)
             base.playSfx(self.game.assetMgr.sndOof)
         self.fallBackIval.start()
 
@@ -277,7 +277,7 @@ class TwoDGameToonSD(StateData.StateData):
             self.scoreText.setBillboardPointEye()
             self.scoreText.setBin('fixed', 100)
             self.scoreText.setPos(0, 0, self.toon.height / 2)
-            self.scoreText.setTransparency(1)
+            self.scoreText.seTTWansparency(1)
             self.scoreText.setColor(r, g, b, a)
             self.scoreText.setDepthTest(0)
             self.scoreText.setDepthWrite(0)

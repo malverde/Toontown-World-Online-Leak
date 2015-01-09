@@ -198,7 +198,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
 
     def unload(self):
         self.notify.debug('BASE: unload')
-        if hasattr(base, 'curMinigame'):
+        if hasaTTW(base, 'curMinigame'):
             del base.curMinigame
         Toon.unloadMinigameAnims()
 
@@ -215,10 +215,10 @@ class DistributedMinigame(DistributedObject.DistributedObject):
             if avId != self.localAvId:
                 self.remoteAvIdList.append(avId)
 
-    def setTrolleyZone(self, trolleyZone):
+    def seTTWolleyZone(self, trolleyZone):
         if not self.hasLocalToon:
             return
-        self.notify.debug('BASE: setTrolleyZone: %s' % trolleyZone)
+        self.notify.debug('BASE: seTTWolleyZone: %s' % trolleyZone)
         self.trolleyZone = trolleyZone
 
     def setDifficultyOverrides(self, difficultyOverride, trolleyZoneOverride):
@@ -412,14 +412,14 @@ class DistributedMinigame(DistributedObject.DistributedObject):
     def getDifficulty(self):
         if self.difficultyOverride is not None:
             return self.difficultyOverride
-        if hasattr(base, 'minigameDifficulty'):
+        if hasaTTW(base, 'minigameDifficulty'):
             return float(base.minigameDifficulty)
         return MinigameGlobals.getDifficulty(self.getSafezoneId())
 
     def getSafezoneId(self):
         if self.trolleyZoneOverride is not None:
             return self.trolleyZoneOverride
-        if hasattr(base, 'minigameSafezoneId'):
+        if hasaTTW(base, 'minigameSafezoneId'):
             return MinigameGlobals.getSafezoneId(base.minigameSafezoneId)
         return MinigameGlobals.getSafezoneId(self.trolleyZone)
 

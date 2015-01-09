@@ -4,14 +4,14 @@ from toontown.toonbase import TTLocalizer, ToontownGlobals
 import random, copy
 TraitDivisor = 10000
 
-def getTraitNames():
-    if not hasattr(PetTraits, 'TraitNames'):
+def geTTWaitNames():
+    if not hasaTTW(PeTTWaits, 'TraitNames'):
         traitNames = []
-        for desc in PetTraits.TraitDescs:
+        for desc in PeTTWaits.TraitDescs:
             traitNames.append(desc[0])
-            PetTraits.TraitNames = traitNames
+            PeTTWaits.TraitNames = traitNames
 
-    return PetTraits.TraitNames
+    return PeTTWaits.TraitNames
 
 
 def uniform(min, max, rng):
@@ -38,7 +38,7 @@ class TraitDistribution:
 
     def __init__(self, rndFunc = gaussian):
         self.rndFunc = rndFunc
-        if not hasattr(self.__class__, 'GlobalMinMax'):
+        if not hasaTTW(self.__class__, 'GlobalMinMax'):
             _min = 1.0
             _max = 0.0
             minMax = self.Sz2MinMax
@@ -62,7 +62,7 @@ class TraitDistribution:
     def getGlobalMinMax(self):
         return (self.GlobalMinMax[0], self.GlobalMinMax[1])
 
-    def _getTraitPercent(self, traitValue):
+    def _geTTWaitPercent(self, traitValue):
         gMin, gMax = self.getGlobalMinMax()
         if traitValue < gMin:
             gMin = traitValue
@@ -72,14 +72,14 @@ class TraitDistribution:
 
     def getPercentile(self, traitValue):
         if self.TraitType is TraitDistribution.TraitTypes.INCREASING:
-            return self._getTraitPercent(traitValue)
+            return self._geTTWaitPercent(traitValue)
         else:
-            return 1.0 - self._getTraitPercent(traitValue)
+            return 1.0 - self._geTTWaitPercent(traitValue)
 
     def getQuality(self, traitValue):
         TraitQuality = TraitDistribution.TraitQuality
         TraitCutoffs = self.TraitCutoffs[self.TraitType]
-        percent = self._getTraitPercent(traitValue)
+        percent = self._geTTWaitPercent(traitValue)
         if self.TraitType is TraitDistribution.TraitTypes.INCREASING:
             if percent <= TraitCutoffs[TraitQuality.VERY_BAD]:
                 return TraitQuality.VERY_BAD
@@ -103,7 +103,7 @@ class TraitDistribution:
             return TraitQuality.AVERAGE
 
     def getExtremeness(self, traitValue):
-        percent = self._getTraitPercent(traitValue)
+        percent = self._geTTWaitPercent(traitValue)
         if percent < 0.5:
             howExtreme = (0.5 - percent) * 2.0
         else:
@@ -111,7 +111,7 @@ class TraitDistribution:
         return clampScalar(howExtreme, 0.0, 1.0)
 
 
-class PetTraits:
+class PeTTWaits:
 
     class StdIncDistrib(TraitDistribution):
         TraitType = TraitDistribution.TraitTypes.INCREASING
@@ -158,7 +158,7 @@ class PetTraits:
     class Trait:
 
         def __init__(self, index, traitsObj, value = None):
-            self.name, distrib, self.hasWorth = PetTraits.TraitDescs[index]
+            self.name, distrib, self.hasWorth = PeTTWaits.TraitDescs[index]
             if value is not None:
                 self.value = value
             else:
@@ -182,11 +182,11 @@ class PetTraits:
         self.safeZoneId = safeZoneId
         self.rng = random.Random(self.traitSeed)
         self.traits = {}
-        for i in xrange(len(PetTraits.TraitDescs)):
+        for i in xrange(len(PeTTWaits.TraitDescs)):
             if i < len(traitValueList) and traitValueList[i] > 0.0:
-                trait = PetTraits.Trait(i, self, traitValueList[i])
+                trait = PeTTWaits.Trait(i, self, traitValueList[i])
             else:
-                trait = PetTraits.Trait(i, self)
+                trait = PeTTWaits.Trait(i, self)
             self.traits[trait.name] = trait
             self.__dict__[trait.name] = trait.value
 
@@ -208,13 +208,13 @@ class PetTraits:
 
     def getValueList(self):
         traitValues = []
-        for desc in PetTraits.TraitDescs:
+        for desc in PeTTWaits.TraitDescs:
             traitName = desc[0]
             traitValues.append(self.traits[traitName].value)
 
         return traitValues
 
-    def getTraitValue(self, traitName):
+    def geTTWaitValue(self, traitName):
         return self.traits[traitName].value
 
     def getExtremeTraits(self):
@@ -243,6 +243,6 @@ class PetTraits:
          TraitQuality.GOOD: 2,
          TraitQuality.VERY_GOOD: 3}
         for name, quality in self.extremeTraits:
-            descs.append(TTLocalizer.PetTrait2descriptions[name][Quality2index[quality]])
+            descs.append(TTLocalizer.PeTTWait2descriptions[name][Quality2index[quality]])
 
         return descs

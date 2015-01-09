@@ -54,9 +54,9 @@ class Level:
         del self.createdEntIds
         del self.nonlocalEntIds
         del self.nothingEntIds
-        if hasattr(self, 'entities'):
+        if hasaTTW(self, 'entities'):
             del self.entities
-        if hasattr(self, 'levelSpec'):
+        if hasaTTW(self, 'levelSpec'):
             self.levelSpec.destroy()
             del self.levelSpec
 
@@ -80,7 +80,7 @@ class Level:
         self.nonlocalEntIds = {}
         self.nothingEntIds = {}
         if not uniqueElements(self.createdEntIds):
-            Level.notify.warning('%s: self.createdEntIds is not unique: %s' % (getattr(self, 'doId', None), self.createdEntIds))
+            Level.notify.warning('%s: self.createdEntIds is not unique: %s' % (getaTTW(self, 'doId', None), self.createdEntIds))
         while len(self.createdEntIds) > 0:
             entId = self.createdEntIds.pop()
             entity = self.getEntity(entId)
@@ -122,12 +122,12 @@ class Level:
         for key, value in spec.items():
             if key in ('type', 'name', 'comment'):
                 continue
-            entity.setAttribInit(key, value)
+            entity.setATTWibInit(key, value)
 
         self.entities[entId] = entity
 
     def getEntity(self, entId):
-        if hasattr(self, 'entities'):
+        if hasaTTW(self, 'entities'):
             return self.entities.get(entId)
         else:
             return None
@@ -141,7 +141,7 @@ class Level:
 
     def getEntityZoneId(self, entId):
         zoneEntId = self.getEntityZoneEntId(entId)
-        if not hasattr(self, 'zoneNum2zoneId'):
+        if not hasaTTW(self, 'zoneNum2zoneId'):
             return None
         return self.zoneNum2zoneId.get(zoneEntId)
 
@@ -222,8 +222,8 @@ class Level:
 
     if __dev__:
 
-        def getAttribChangeEventName(self):
-            return 'attribChange-%s' % self.levelId
+        def getATTWibChangeEventName(self):
+            return 'aTTWibChange-%s' % self.levelId
 
         def getInsertEntityEventName(self):
             return 'insertEntity-%s' % self.levelId
@@ -231,12 +231,12 @@ class Level:
         def getRemoveEntityEventName(self):
             return 'removeEntity-%s' % self.levelId
 
-        def handleAttribChange(self, entId, attrib, value, username = None):
+        def handleATTWibChange(self, entId, aTTWib, value, username = None):
             entity = self.getEntity(entId)
             if entity is not None:
-                entity.handleAttribChange(attrib, value)
-            messenger.send(self.getAttribChangeEventName(), [entId,
-             attrib,
+                entity.handleATTWibChange(aTTWib, value)
+            messenger.send(self.getATTWibChangeEventName(), [entId,
+             aTTWib,
              value,
              username])
             return

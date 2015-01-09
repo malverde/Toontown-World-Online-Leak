@@ -131,7 +131,7 @@ class CatalogItem:
         self.loyaltyDays = days
 
     def loyaltyRequirement(self):
-        if not hasattr(self, 'loyaltyDays'):
+        if not hasaTTW(self, 'loyaltyDays'):
             return 0
         else:
             return self.loyaltyDays
@@ -346,7 +346,7 @@ class CatalogItem:
                 for i in range(matches.getNumPaths()):
                     matches.getPath(i).setColorScale(color, 1)
                     if needsAlpha:
-                        matches.getPath(i).setTransparency(1)
+                        matches.getPath(i).seTTWansparency(1)
 
         return
 

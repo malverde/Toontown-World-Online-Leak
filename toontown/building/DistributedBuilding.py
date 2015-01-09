@@ -90,7 +90,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self.elevatorNodePath.removeNode()
             del self.elevatorNodePath
             del self.elevatorModel
-            if hasattr(self, 'cab'):
+            if hasaTTW(self, 'cab'):
                 del self.cab
             del self.leftDoor
             del self.rightDoor
@@ -104,8 +104,8 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self.block = block
         self.interiorZoneId = interiorZoneId
 
-    def setSuitData(self, suitTrack, difficulty, numFloors):
-        self.track = suitTrack
+    def setSuitData(self, suiTTWack, difficulty, numFloors):
+        self.track = suiTTWack
         self.difficulty = difficulty
         self.numFloors = numFloors
 
@@ -399,7 +399,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         newNP.stash()
         sideBldgNodes.append(newNP)
         soundPlayed = 0
-        tracks = Parallel(name=self.taskName('toSuitTrack'))
+        tracks = Parallel(name=self.taskName('toSuiTTWack'))
         for i in sideBldgNodes:
             name = i.getName()
             timeForDrop = TO_SUIT_BLDG_TIME * 0.85
@@ -444,7 +444,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         level = int(self.difficulty / 2) + 1
         suitNP = dnaStore.findNode('suit_landmark_' + chr(self.track) + str(level))
         zoneId = dnaData.getBlock(self.block).zone
-        zoneId = ZoneUtil.getTrueZoneId(zoneId, self.interiorZoneId)
+        zoneId = ZoneUtil.geTTWueZoneId(zoneId, self.interiorZoneId)
         newParentNP = base.cr.playGame.hood.loader.zoneDict[zoneId]
         suitBuildingNP = suitNP.copyTo(newParentNP)
         buildingTitle = dnaData.getBlock(self.block).title
@@ -479,7 +479,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         return suitBuildingNP
 
     def cleanupSuitBuilding(self):
-        if hasattr(self, 'floorIndicator'):
+        if hasaTTW(self, 'floorIndicator'):
             del self.floorIndicator
 
     def adjustColorScale(self, scale, node):
@@ -545,7 +545,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         level = int(self.difficulty / 2) + 1
         suitNP = dnaStore.findNode(FO_DICT[chr(self.track)])
         zoneId = dnaStore.getZoneFromBlockNumber(self.block)
-        zoneId = ZoneUtil.getTrueZoneId(zoneId, self.interiorZoneId)
+        zoneId = ZoneUtil.geTTWueZoneId(zoneId, self.interiorZoneId)
         newParentNP = base.cr.playGame.hood.loader.zoneDict[zoneId]
         suitBuildingNP = suitNP.copyTo(newParentNP)
         buildingTitle = dnaStore.getTitleFromBlockNumber(self.block)
@@ -865,7 +865,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         for i in range(npc.getNumPaths()):
             nodePath = npc.getPath(i)
             self.adjustSbNodepathScale(nodePath)
-            self.notify.debug('net transform = %s' % str(nodePath.getNetTransform()))
+            self.notify.debug('net transform = %s' % str(nodePath.getNeTTWansform()))
             self.setupSuitBuilding(nodePath)
 
     def setToCogdo(self):
@@ -900,7 +900,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         for i in range(npc.getNumPaths()):
             nodePath = npc.getPath(i)
             self.adjustSbNodepathScale(nodePath)
-            self.notify.debug('net transform = %s' % str(nodePath.getNetTransform()))
+            self.notify.debug('net transform = %s' % str(nodePath.getNeTTWansform()))
             self.setupCogdo(nodePath)
 
     def setToToon(self):
@@ -944,7 +944,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
 
     def getVisZoneId(self):
         exteriorZoneId = base.cr.playGame.dnaData.getBlock(self.block).zone
-        visZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.zoneId)
+        visZoneId = ZoneUtil.geTTWueZoneId(exteriorZoneId, self.zoneId)
         return visZoneId
 
     def getInteractiveProp(self):
@@ -955,7 +955,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             visZoneId = self.getVisZoneId()
             if base.cr.playGame.hood:
                 loader = base.cr.playGame.hood.loader
-                if hasattr(loader, 'getInteractiveProp'):
+                if hasaTTW(loader, 'getInteractiveProp'):
                     self.interactiveProp = loader.getInteractiveProp(visZoneId)
                     result = self.interactiveProp
                     self.notify.debug('self.interactiveProp = %s' % self.interactiveProp)

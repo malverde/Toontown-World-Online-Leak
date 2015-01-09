@@ -18,7 +18,7 @@ class CogdoMazePlayer(FSM, CogdoMazeSplattable):
         CogdoMazeSplattable.__init__(self, toon, '%s-%i' % (Globals.PlayerCollisionName, id), 0.5)
         self.id = id
         self.toon = toon
-        self.defaultTransitions = {'Off': ['Ready'],
+        self.defaulTTWansitions = {'Off': ['Ready'],
          'Ready': ['Normal', 'Off'],
          'Normal': ['Hit', 'Done', 'Off'],
          'Hit': ['Normal', 'Done', 'Off'],

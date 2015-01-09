@@ -30,9 +30,9 @@ class TwoDTreasureMgr(DirectObject):
             self.treasuresNP.reparentTo(self.section.sectionNP)
         self.treasures = []
         for index in xrange(len(self.treasureList)):
-            treasureAttribs = self.treasureList[index][0]
+            treasureATTWibs = self.treasureList[index][0]
             treasureValue = self.treasureList[index][1]
-            self.createNewTreasure(treasureAttribs, treasureValue)
+            self.createNewTreasure(treasureATTWibs, treasureValue)
 
         self.enemyTreasures = []
         numPlayers = self.section.sectionMgr.game.numPlayers
@@ -40,11 +40,11 @@ class TwoDTreasureMgr(DirectObject):
         for index in xrange(len(self.enemyList)):
             self.createNewTreasure([pos], numPlayers, isEnemyGenerated=True)
 
-    def createNewTreasure(self, attrib, value, isEnemyGenerated = False, model = None):
+    def createNewTreasure(self, aTTWib, value, isEnemyGenerated = False, model = None):
         treasureId = self.section.getSectionizedId(len(self.treasures))
         if model == None:
             model = self.getModel(value, self.section.sectionMgr.game.assetMgr.treasureModelList)
-        newTreasure = TwoDTreasure.TwoDTreasure(self, treasureId, attrib[0], value, isEnemyGenerated, model)
+        newTreasure = TwoDTreasure.TwoDTreasure(self, treasureId, aTTWib[0], value, isEnemyGenerated, model)
         newTreasure.model.reparentTo(self.treasuresNP)
         self.treasures.append(newTreasure)
         if isEnemyGenerated:

@@ -78,14 +78,14 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
                     leaderIndex = self.suits.index(suit)
 
         delay = FACEOFF_TAUNT_T
-        suitTrack = Parallel()
+        suiTTWack = Parallel()
         suitLeader = None
         for suit in self.suits:
             suit.setState('Battle')
             suitIsLeader = 0
-            oneSuitTrack = Sequence()
-            oneSuitTrack.append(Func(suit.loop, 'neutral'))
-            oneSuitTrack.append(Func(suit.headsUp, elevatorPos))
+            oneSuiTTWack = Sequence()
+            oneSuiTTWack.append(Func(suit.loop, 'neutral'))
+            oneSuiTTWack.append(Func(suit.headsUp, elevatorPos))
             if self.suits.index(suit) == leaderIndex:
                 suitLeader = suit
                 suitIsLeader = 1
@@ -93,13 +93,13 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
                     taunt = self.getBossBattleTaunt()
                 else:
                     taunt = SuitBattleGlobals.getFaceoffTaunt(suit.getStyleName(), suit.doId)
-                oneSuitTrack.append(Func(suit.setChatAbsolute, taunt, CFSpeech | CFTimeout))
+                oneSuiTTWack.append(Func(suit.setChatAbsolute, taunt, CFSpeech | CFTimeout))
             destPos, destHpr = self.getActorPosHpr(suit, self.suits)
-            oneSuitTrack.append(Wait(delay))
+            oneSuiTTWack.append(Wait(delay))
             if suitIsLeader == 1:
-                oneSuitTrack.append(Func(suit.clearChat))
-            oneSuitTrack.append(self.createAdjustInterval(suit, destPos, destHpr))
-            suitTrack.append(oneSuitTrack)
+                oneSuiTTWack.append(Func(suit.clearChat))
+            oneSuiTTWack.append(self.createAdjustInterval(suit, destPos, destHpr))
+            suiTTWack.append(oneSuiTTWack)
 
         toonTrack = Parallel()
         for toon in self.toons:
@@ -133,7 +133,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         camTrack.append(Func(camera.reparentTo, base.localAvatar))
         camTrack.append(Func(setCamFov, ToontownGlobals.DefaultCameraFov))
         camTrack.append(Func(camera.setPosHpr, camPos, camHpr))
-        mtrack = Parallel(suitTrack, toonTrack, camTrack)
+        mtrack = Parallel(suiTTWack, toonTrack, camTrack)
         done = Func(callback)
         track = Sequence(mtrack, done, name=name)
         track.start(ts)

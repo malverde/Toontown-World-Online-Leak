@@ -82,7 +82,7 @@ class GlobalDialog(OTPDialog):
     notify = DirectNotifyGlobal.directNotify.newCategory('GlobalDialog')
 
     def __init__(self, message = '', doneEvent = None, style = NoButtons, okButtonText = OTPLocalizer.DialogOK, cancelButtonText = OTPLocalizer.DialogCancel, **kw):
-        if not hasattr(self, 'path'):
+        if not hasaTTW(self, 'path'):
             self.path = 'phase_3/models/gui/dialog_box_buttons_gui'
         if doneEvent == None and style != NoButtons:
             self.notify.error('Boxes with buttons must specify a doneEvent.')

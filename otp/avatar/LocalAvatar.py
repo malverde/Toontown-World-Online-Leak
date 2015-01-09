@@ -156,7 +156,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         del self.chatMgr
         del self.soundRun
         del self.soundWalk
-        if hasattr(self, 'soundWhisper'):
+        if hasaTTW(self, 'soundWhisper'):
             del self.soundWhisper
         DistributedAvatar.DistributedAvatar.delete(self)
         return
@@ -1132,7 +1132,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         taskName = self.taskName('trackAnimToSpeed')
         return taskMgr.hasTaskNamed(taskName)
 
-    def startTrackAnimToSpeed(self):
+    def starTTWackAnimToSpeed(self):
         taskName = self.taskName('trackAnimToSpeed')
         taskMgr.remove(taskName)
         task = Task.Task(self.trackAnimToSpeed)
@@ -1194,7 +1194,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
 
     def __friendOnline(self, doId, commonChatFlags = 0, whitelistChatFlags = 0):
         friend = base.cr.identifyFriend(doId)
-        if friend != None and hasattr(friend, 'setCommonAndWhitelistChatFlags'):
+        if friend != None and hasaTTW(friend, 'setCommonAndWhitelistChatFlags'):
             friend.setCommonAndWhitelistChatFlags(commonChatFlags, whitelistChatFlags)
         if self.oldFriendsList != None:
             now = globalClock.getFrameTime()

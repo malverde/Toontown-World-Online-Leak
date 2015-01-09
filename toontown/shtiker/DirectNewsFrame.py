@@ -90,7 +90,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
                     self.issues[-1].show()
                     self.curIssueIndex = len(self.issues) - 1
                     result = True
-        if hasattr(base.cr, 'inGameNewsMgr') and base.cr.inGameNewsMgr:
+        if hasaTTW(base.cr, 'inGameNewsMgr') and base.cr.inGameNewsMgr:
             self.createdTime = base.cr.inGameNewsMgr.getLatestIssue()
             self.notify.debug('setting created time to latest issue %s' % self.createdTime)
         else:
@@ -169,7 +169,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
         self.mainFrame = DirectFrame(parent=self.backFrame, frameSize=self.FrameDimensions, frameColor=(1, 0, 0, 1))
 
     def activate(self):
-        if hasattr(self, 'createdTime') and self.createdTime < base.cr.inGameNewsMgr.getLatestIssue() and self.NewsOverHttp and not self.redownloadingNews:
+        if hasaTTW(self, 'createdTime') and self.createdTime < base.cr.inGameNewsMgr.getLatestIssue() and self.NewsOverHttp and not self.redownloadingNews:
             self.redownloadNews()
         else:
             self.addDownloadingTextTask()
@@ -285,7 +285,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
             del self.newsDir
             del self.ch
             del self.url
-            if hasattr(self, 'filename'):
+            if hasaTTW(self, 'filename'):
                 del self.filename
             self.redownloadingNews = False
             if self.active:
@@ -362,7 +362,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
             print >> file, '%s\t%s\t%s' % (filename, size, date)
 
     def handleNewIssueOut(self):
-        if hasattr(self, 'createdTime') and base.cr.inGameNewsMgr.getLatestIssue() < self.createdTime:
+        if hasaTTW(self, 'createdTime') and base.cr.inGameNewsMgr.getLatestIssue() < self.createdTime:
             self.createdTime = base.cr.inGameNewsMgr.getLatestIssue()
         elif self.NewsOverHttp and not self.redownloadingNews:
             if not self.active:

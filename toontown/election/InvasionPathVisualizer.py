@@ -77,7 +77,7 @@ def planPathFrom():
 
 @magicWord()
 def planPathTo():
-    fromPos = getattr(base.localAvatar, '_planPos', None)
+    fromPos = getaTTW(base.localAvatar, '_planPos', None)
     if not fromPos:
         return 'No planFrom point set!'
 

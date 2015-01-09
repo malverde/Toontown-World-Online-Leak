@@ -46,7 +46,7 @@ class MovingPlatform(DirectObject.DirectObject, NodePath):
         if self.ownsModel:
             self.model.removeNode()
             del self.model
-        if hasattr(self, 'parentingNode') and self.parentingNode is self:
+        if hasaTTW(self, 'parentingNode') and self.parentingNode is self:
             del self.parentingNode
 
     def getEnterEvent(self):

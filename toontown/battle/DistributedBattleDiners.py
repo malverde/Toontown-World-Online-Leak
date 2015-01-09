@@ -50,7 +50,7 @@ class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
     def showSuitsFalling(self, suits, ts, name, callback):
         if self.bossCog == None:
             return
-        suitTrack = Parallel()
+        suiTTWack = Parallel()
         delay = 0
         for suit in suits:
             suit.setState('Battle')
@@ -72,7 +72,7 @@ class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
             chairInfo = self.bossCog.claimOneChair()
             if chairInfo:
                 moveIval = self.createDinerMoveIval(suit, destPos, chairInfo)
-            suitTrack.append(Track((delay, Sequence(moveIval, Func(suit.loop, 'neutral')))))
+            suiTTWack.append(Track((delay, Sequence(moveIval, Func(suit.loop, 'neutral')))))
             delay += 1
 
         if self.hasLocalToon():
@@ -85,7 +85,7 @@ class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
                 camX = 4
             camera.setPosHpr(camX, -15, 7, camHeading, 0, 0)
         done = Func(callback)
-        track = Sequence(suitTrack, done, name=name)
+        track = Sequence(suiTTWack, done, name=name)
         track.start(ts)
         self.storeInterval(track, name)
         return

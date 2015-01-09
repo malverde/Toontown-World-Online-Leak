@@ -124,7 +124,7 @@ class CogdoExecutiveSuiteIntro(CogdoGameMovie):
     def unload(self):
         self._shopOwner = None
         self._camTarget = None
-        if hasattr(self, '_camHelperNode') and self._camHelperNode:
+        if hasaTTW(self, '_camHelperNode') and self._camHelperNode:
             self._camHelperNode.removeNode()
             del self._camHelperNode
         self.frame.destroy()

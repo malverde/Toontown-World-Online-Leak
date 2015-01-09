@@ -110,7 +110,7 @@ class JukeboxGui(DirectObject):
         pass
 
     def __handleAddSongButtonClick(self):
-        if hasattr(self._songsList, 'currentSelected'):
+        if hasaTTW(self._songsList, 'currentSelected'):
             song = self._songsList.currentSelected
             messenger.send(JukeboxGui.ADD_SONG_CLICK_EVENT, [song['text'], song.getPythonTag('value')])
 

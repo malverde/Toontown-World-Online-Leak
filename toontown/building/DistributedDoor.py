@@ -59,18 +59,18 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
         self.avatarTracks = []
-        self.avatarExitTracks = []
+        self.avatarExiTTWacks = []
         self.avatarIDList = []
         self.avatarExitIDList = []
         self.doorTrack = None
-        self.doorExitTrack = None
+        self.doorExiTTWack = None
         return
 
     def disable(self):
         self.clearNametag()
         taskMgr.remove(self.checkIsDoorHitTaskName())
         self.ignore(self.getEnterTriggerEvent())
-        self.ignore(self.getExitTriggerEvent())
+        self.ignore(self.getExiTTWiggerEvent())
         self.ignore('clearOutToonInterior')
         self.fsm.request('off')
         self.exitDoorFSM.request('off')
@@ -79,7 +79,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         self.finishAllTracks()
         self.avatarIDList = []
         self.avatarExitIDList = []
-        if hasattr(self, 'tempDoorNodePath'):
+        if hasaTTW(self, 'tempDoorNodePath'):
             self.tempDoorNodePath.removeNode()
             del self.tempDoorNodePath
         DistributedObject.DistributedObject.disable(self)
@@ -120,21 +120,21 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             self.nametag = None
         return
 
-    def getTriggerName(self):
+    def geTTWiggerName(self):
         if self.doorType == DoorTypes.INT_HQ or self.specialDoorTypes.has_key(self.doorType):
             return 'door_trigger_' + str(self.block) + '_' + str(self.doorIndex)
         else:
             return 'door_trigger_' + str(self.block)
 
-    def getTriggerName_wip(self):
+    def geTTWiggerName_wip(self):
         name = 'door_trigger_%d' % (self.doId,)
         return name
 
     def getEnterTriggerEvent(self):
-        return 'enter' + self.getTriggerName()
+        return 'enter' + self.geTTWiggerName()
 
-    def getExitTriggerEvent(self):
-        return 'exit' + self.getTriggerName()
+    def getExiTTWiggerEvent(self):
+        return 'exit' + self.geTTWiggerName()
 
     def hideDoorParts(self):
         if self.specialDoorTypes.has_key(self.doorType):
@@ -145,15 +145,15 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         else:
             return
 
-    def setTriggerName(self):
+    def seTTWiggerName(self):
         if self.specialDoorTypes.has_key(self.doorType):
             building = self.getBuilding()
             doorTrigger = building.find('**/door_' + str(self.doorIndex) + '/**/door_trigger*')
-            doorTrigger.node().setName(self.getTriggerName())
+            doorTrigger.node().setName(self.geTTWiggerName())
         else:
             return
 
-    def setTriggerName_wip(self):
+    def seTTWiggerName_wip(self):
         building = self.getBuilding()
         doorTrigger = building.find('**/door_%d/**/door_trigger_%d' % (self.doorIndex, self.block))
         if doorTrigger.isEmpty():
@@ -162,7 +162,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             doorTrigger = building.find('**/door_%d/**/door_trigger_*' % (self.doorIndex,))
         if doorTrigger.isEmpty():
             doorTrigger = building.find('**/door_trigger_*')
-        doorTrigger.node().setName(self.getTriggerName())
+        doorTrigger.node().setName(self.geTTWiggerName())
 
     def setZoneIdAndBlock(self, zoneId, block):
         self.zoneId = zoneId
@@ -192,7 +192,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
         if self.doorType == DoorTypes.INT_HQ:
-            if not getattr(base.cr, 'hqLoaded', False):
+            if not getaTTW(base.cr, 'hqLoaded', False):
                 messenger.accept('hqInternalDone', self, self.__doPostAnnounceGenerate)
             else:
                 self.doPostAnnounceGenerate()
@@ -209,7 +209,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         else:
             self.bHasFlat = not self.findDoorNode('door*flat', True).isEmpty()
         self.hideDoorParts()
-        self.setTriggerName()
+        self.seTTWiggerName()
         self.accept(self.getEnterTriggerEvent(), self.doorTrigger)
         self.acceptOnce('clearOutToonInterior', self.doorTrigger)
         self.setupNametag()
@@ -251,7 +251,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         trackName = 'avatarEnterDoor-%d-%d' % (self.doId, avatar.doId)
         track = Parallel(name=trackName)
         otherNP = self.getDoorNodePath()
-        if hasattr(avatar, 'stopSmooth'):
+        if hasaTTW(avatar, 'stopSmooth'):
             avatar.stopSmooth()
         if avatar.doId == base.localAvatar.doId:
             track.append(LerpPosHprInterval(nodePath=camera, other=avatar, duration=duration, pos=Point3(0, -8, avatar.getHeight()), hpr=VBase3(0, 0, 0), blendType='easeInOut'))
@@ -264,7 +264,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         return track
 
     def avatarEnqueueTrack(self, avatar, duration):
-        if hasattr(avatar, 'stopSmooth'):
+        if hasaTTW(avatar, 'stopSmooth'):
             avatar.stopSmooth()
         back = -5.0 - 2.0 * len(self.avatarIDList)
         if back < -9.0:
@@ -287,7 +287,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
 
     def isDoorHit(self):
         vec = base.localAvatar.getRelativeVector(self.currentDoorNp, self.currentDoorVec)
-        netScale = self.currentDoorNp.getNetTransform().getScale()
+        netScale = self.currentDoorNp.getNeTTWansform().getScale()
         yToTest = vec.getY() / netScale[1]
         return yToTest < -0.5
 
@@ -308,7 +308,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         del self.confirm
         if status == 'ok':
             base.localAvatar.enableAvatarControls()
-            self.accept(self.getExitTriggerEvent(), self.cancelCheckIsDoorHitTask) # Incase people want to try again
+            self.accept(self.getExiTTWiggerEvent(), self.cancelCheckIsDoorHitTask) # Incase people want to try again
 
     def handleOkTeaser(self):
         self.accept(self.getEnterTriggerEvent(), self.doorTrigger)
@@ -320,7 +320,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
 
     def allowedToEnter(self, zoneId = None):
         allowed = False
-        if hasattr(base, 'ttAccess') and base.ttAccess:
+        if hasaTTW(base, 'ttAccess') and base.ttAccess:
             if zoneId:
                 allowed = base.ttAccess.canAccess(zoneId)
             else:
@@ -328,12 +328,12 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         return allowed
 
     def checkIsDoorHitTaskName(self):
-        return 'checkIsDoorHit' + self.getTriggerName()
+        return 'checkIsDoorHit' + self.geTTWiggerName()
 
     def checkIsDoorHitTask(self, task):
         if self.isDoorHit():
             self.ignore(self.checkIsDoorHitTaskName())
-            self.ignore(self.getExitTriggerEvent())
+            self.ignore(self.getExiTTWiggerEvent())
             self.enterDoor()
             return Task.done
         return Task.cont
@@ -342,7 +342,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         taskMgr.remove(self.checkIsDoorHitTaskName())
         del self.currentDoorNp
         del self.currentDoorVec
-        self.ignore(self.getExitTriggerEvent())
+        self.ignore(self.getExiTTWiggerEvent())
         self.accept(self.getEnterTriggerEvent(), self.doorTrigger)
 
     def doorTrigger(self, args = None):
@@ -355,7 +355,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             if self.isDoorHit():
                 self.enterDoor()
             else:
-                self.accept(self.getExitTriggerEvent(), self.cancelCheckIsDoorHitTask)
+                self.accept(self.getExiTTWiggerEvent(), self.cancelCheckIsDoorHitTask)
                 taskMgr.add(self.checkIsDoorHitTask, self.checkIsDoorHitTaskName())
         return
 
@@ -392,7 +392,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         self.acceptOnce('stoppedAsleep', self.__handleFallAsleepDoor)
 
     def __handleClientCleanup(self):
-        if hasattr(self, 'rejectDialog') and self.rejectDialog:
+        if hasaTTW(self, 'rejectDialog') and self.rejectDialog:
             self.rejectDialog.doneStatus = 'ok'
         self.__handleRejectAck()
 
@@ -426,8 +426,8 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             self.notify.error('No such door type as ' + str(self.doorType))
         return otherNP
 
-    def avatarExitTrack(self, avatar, duration):
-        if hasattr(avatar, 'stopSmooth'):
+    def avatarExiTTWack(self, avatar, duration):
+        if hasaTTW(avatar, 'stopSmooth'):
             avatar.stopSmooth()
         otherNP = self.getDoorNodePath()
         trackName = 'avatarExitDoor-%d-%d' % (self.doId, avatar.doId)
@@ -445,9 +445,9 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         if avatar.doId == base.localAvatar.doId:
             track.append(Func(self.exitCompleted))
             track.append(Func(base.transitions.irisIn))
-        if hasattr(avatar, 'startSmooth'):
+        if hasaTTW(avatar, 'startSmooth'):
             track.append(Func(avatar.startSmooth))
-        track.delayDelete = DelayDelete.DelayDelete(avatar, 'DistributedDoor.avatarExitTrack')
+        track.delayDelete = DelayDelete.DelayDelete(avatar, 'DistributedDoor.avatarExiTTWack')
         return track
 
     def exitCompleted(self):
@@ -471,25 +471,25 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         self.doorTrack = None
         return
 
-    def finishDoorExitTrack(self):
-        if self.doorExitTrack:
-            self.doorExitTrack.finish()
-        self.doorExitTrack = None
+    def finishDoorExiTTWack(self):
+        if self.doorExiTTWack:
+            self.doorExiTTWack.finish()
+        self.doorExiTTWack = None
         return
 
     def finishAllTracks(self):
         self.finishDoorTrack()
-        self.finishDoorExitTrack()
+        self.finishDoorExiTTWack()
         for t in self.avatarTracks:
             t.finish()
             DelayDelete.cleanupDelayDeletes(t)
 
         self.avatarTracks = []
-        for t in self.avatarExitTracks:
+        for t in self.avatarExiTTWacks:
             t.finish()
             DelayDelete.cleanupDelayDeletes(t)
 
-        self.avatarExitTracks = []
+        self.avatarExiTTWacks = []
 
     def enterOff(self):
         pass
@@ -528,7 +528,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         self.finishDoorTrack()
         self.doorTrack = Sequence(LerpHprInterval(nodePath=rightDoor, duration=1.0, hpr=VBase3(0, 0, 0), startHpr=VBase3(h, 0, 0), other=otherNP, blendType='easeInOut'), Func(doorFrameHoleRight.hide), Func(self.hideIfHasFlat, rightDoor), SoundInterval(self.closeSfx, node=rightDoor), name=trackName)
         self.doorTrack.start(ts)
-        if hasattr(self, 'done'):
+        if hasaTTW(self, 'done'):
             request = self.getRequestStatus()
             messenger.send('doorDoneEvent', [request])
 
@@ -600,10 +600,10 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         leftDoor = self.findDoorNode('leftDoor')
         if not leftDoor.isEmpty():
             otherNP = self.getDoorNodePath()
-            trackName = 'doorExitTrack-%d' % self.doId
-            self.finishDoorExitTrack()
-            self.doorExitTrack = Sequence(LerpHprInterval(nodePath=leftDoor, duration=1.0, hpr=VBase3(0, 0, 0), startHpr=VBase3(h, 0, 0), other=otherNP, blendType='easeInOut'), Func(doorFrameHoleLeft.hide), Func(self.hideIfHasFlat, leftDoor), SoundInterval(self.closeSfx, node=leftDoor), name=trackName)
-            self.doorExitTrack.start(ts)
+            trackName = 'doorExiTTWack-%d' % self.doId
+            self.finishDoorExiTTWack()
+            self.doorExiTTWack = Sequence(LerpHprInterval(nodePath=leftDoor, duration=1.0, hpr=VBase3(0, 0, 0), startHpr=VBase3(h, 0, 0), other=otherNP, blendType='easeInOut'), Func(doorFrameHoleLeft.hide), Func(self.hideIfHasFlat, leftDoor), SoundInterval(self.closeSfx, node=leftDoor), name=trackName)
+            self.doorExiTTWack.start(ts)
 
     def exitDoorExitClosing(self):
         pass
@@ -626,10 +626,10 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             h = 100
         if not leftDoor.isEmpty():
             otherNP = self.getDoorNodePath()
-            trackName = 'doorDoorExitTrack-%d' % self.doId
-            self.finishDoorExitTrack()
-            self.doorExitTrack = Parallel(SoundInterval(self.openSfx, node=leftDoor), Sequence(Func(leftDoor.show), Func(doorFrameHoleLeft.show), LerpHprInterval(nodePath=leftDoor, duration=0.6, hpr=VBase3(h, 0, 0), startHpr=VBase3(0, 0, 0), other=otherNP, blendType='easeInOut')), name=trackName)
-            self.doorExitTrack.start(ts)
+            trackName = 'doorDoorExiTTWack-%d' % self.doId
+            self.finishDoorExiTTWack()
+            self.doorExiTTWack = Parallel(SoundInterval(self.openSfx, node=leftDoor), Sequence(Func(leftDoor.show), Func(doorFrameHoleLeft.show), LerpHprInterval(nodePath=leftDoor, duration=0.6, hpr=VBase3(h, 0, 0), startHpr=VBase3(0, 0, 0), other=otherNP, blendType='easeInOut')), name=trackName)
+            self.doorExiTTWack.start(ts)
         else:
             self.notify.warning('exitDoorEnterOpening(): did not find leftDoor')
 
@@ -640,18 +640,18 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         for avatarID in self.avatarExitIDList:
             avatar = self.cr.doId2do.get(avatarID)
             if avatar:
-                track = self.avatarExitTrack(avatar, 0.2)
+                track = self.avatarExiTTWack(avatar, 0.2)
                 track.start()
-                self.avatarExitTracks.append(track)
+                self.avatarExiTTWacks.append(track)
 
         self.avatarExitIDList = []
 
     def exitDoorExitOpen(self):
-        for track in self.avatarExitTracks:
+        for track in self.avatarExiTTWacks:
             track.finish()
             DelayDelete.cleanupDelayDeletes(track)
 
-        self.avatarExitTracks = []
+        self.avatarExiTTWacks = []
 
     def findDoorNode(self, string, allowEmpty = False):
         building = self.getBuilding()

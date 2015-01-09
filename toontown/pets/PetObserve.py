@@ -1,6 +1,6 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.PythonUtil import list2dict, Enum
-from toontown.pets import PetTricks
+from toontown.pets import PeTTWicks
 import types
 notify = DirectNotifyGlobal.directNotify.newCategory('PetObserve')
 
@@ -98,7 +98,7 @@ class TrickRequestObserve(PetPhraseObserve):
     def isForgettable(self):
         return 0
 
-    def getTrickId(self):
+    def geTTWickId(self):
         return self.trickId
 
 
@@ -190,7 +190,7 @@ _scPhrase2petPhrase = {1: OP.YES,
  21003: OP.PRAISE,
  21004: OP.PRAISE,
  21005: OP.PRAISE}
-for scId in PetTricks.ScId2trickId:
+for scId in PeTTWicks.ScId2trickId:
     _scPhrase2petPhrase[scId] = OP.DO_TRICK
 
 del OP
@@ -198,6 +198,6 @@ del OP
 def getSCObserve(msgId, speakerDoId):
     phrase = _scPhrase2petPhrase.get(msgId)
     if phrase == Phrases.DO_TRICK:
-        trickId = PetTricks.ScId2trickId[msgId]
+        trickId = PeTTWicks.ScId2trickId[msgId]
         return TrickRequestObserve(trickId, speakerDoId)
     return SCObserve(msgId, phrase, speakerDoId)

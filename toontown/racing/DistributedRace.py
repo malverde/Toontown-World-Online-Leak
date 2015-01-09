@@ -355,8 +355,8 @@ class DistributedRace(DistributedObject.DistributedObject):
     def setCircuitLoop(self, circuitLoop):
         self.circuitLoop = circuitLoop
 
-    def setTrackId(self, id):
-        DistributedRace.notify.debug('setTrackId: %s' % id)
+    def seTTWackId(self, id):
+        DistributedRace.notify.debug('seTTWackId: %s' % id)
         self.trackId = id
 
     def setAvatars(self, avIds):
@@ -1163,7 +1163,7 @@ class DistributedRace(DistributedObject.DistributedObject):
         arrowNode = factory.generate()
         arrowRoot = NodePath('root')
         baseArrow = NodePath(arrowNode)
-        baseArrow.setTransparency(1)
+        baseArrow.seTTWansparency(1)
         baseArrow.setTexture(self.boostArrowTexture)
         baseArrow.reparentTo(arrowRoot)
         arrow2 = baseArrow.copyTo(baseArrow)

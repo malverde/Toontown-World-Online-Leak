@@ -42,5 +42,5 @@ Traceback (most recent call last):
   File "toontown/effects/FireworkShowMixin.py", line 6, in <module>
     from toontown.parties import PartyGlobals
   File "toontown/parties/PartyGlobals.py", line 788, in <module>
-    'ttr_theme.ogg': [TTLocalizer.MusicttwTheme, 51]},
-AttributeError: 'module' object has no attribute 'MusicttwTheme'
+    'TTW_theme.ogg': [TTLocalizer.MusicttwTheme, 51]},
+ATTWibuteError: 'module' object has no aTTWibute 'MusicttwTheme'

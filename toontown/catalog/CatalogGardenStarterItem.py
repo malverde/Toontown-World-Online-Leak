@@ -16,7 +16,7 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
         return 0
 
     def reachedPurchaseLimit(self, avatar):
-        if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder or hasattr(avatar, 'gardenStarted') and avatar.getGardenStarted():
+        if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder or hasaTTW(avatar, 'gardenStarted') and avatar.getGardenStarted():
             return 1
         return 0
 
@@ -95,7 +95,7 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
                 return
 
             self.gardenTutorial = GardenTutorial.GardenTutorial(callback=handleTutorialDone)
-            if hasattr(mailbox, 'mailboxGui') and mailbox.mailboxGui:
+            if hasaTTW(mailbox, 'mailboxGui') and mailbox.mailboxGui:
                 mailbox.acceptItem(self, index, callback)
                 mailbox.mailboxGui.justExit()
         else:

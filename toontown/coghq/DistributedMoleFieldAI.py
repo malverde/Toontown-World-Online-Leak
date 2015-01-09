@@ -20,7 +20,7 @@ class DistributedMoleFieldAI(DistributedEntityAI.DistributedEntityAI, MoleFieldB
         self.moleFieldEndTimeTaskName = self.uniqueName('moleFieldEndTime')
         self.GameDuration = self.timeToPlay
         numToons = 0
-        if hasattr(self, 'level'):
+        if hasaTTW(self, 'level'):
             numToons = len(self.level.presentAvIds)
         self.moleTarget = self.molesBase + self.molesPerPlayer * numToons
 
@@ -28,8 +28,8 @@ class DistributedMoleFieldAI(DistributedEntityAI.DistributedEntityAI, MoleFieldB
         DistributedEntityAI.DistributedEntityAI.delete(self)
         self.removeAllTasks()
 
-    def setClientTriggered(self):
-        if not hasattr(self, 'gameStartTime'):
+    def setClienTTWiggered(self):
+        if not hasaTTW(self, 'gameStartTime'):
             self.gameStartTime = globalClock.getRealTime()
         if not self.started:
             self.b_setGameStart(globalClockDelta.localToNetworkTime(self.gameStartTime), self.moleTarget, self.timeToPlay)
@@ -113,7 +113,7 @@ class DistributedMoleFieldAI(DistributedEntityAI.DistributedEntityAI, MoleFieldB
             room.sendUpdate('forceOuch', [self.DamageOnFailure])
 
     def restartGame(self):
-        if not hasattr(self, 'entId'):
+        if not hasaTTW(self, 'entId'):
             return
         self.gameStartTime = globalClock.getRealTime()
         self.started = 0

@@ -20,7 +20,7 @@ def circle(x, y, radius, vertices=5):
 
 LampPostRadius = 2
 SmallTreeRadius = 2
-FatTreeRadius = 4
+FaTTWeeRadius = 4
 
 # All of the polygons that define where Cogs can and can't walk.
 # NOTE: All of the polygons must have their vertices defined in clockwise order,
@@ -202,14 +202,14 @@ InvasionPathPolygons = [
     circle(120.1, -44.5, SmallTreeRadius),
     circle(96.9, -146.4, SmallTreeRadius),
     circle(114.1, -57.3, SmallTreeRadius),
-    circle(142.7, 108.7, FatTreeRadius),
-    circle(6.3, 100.9, FatTreeRadius),
+    circle(142.7, 108.7, FaTTWeeRadius),
+    circle(6.3, 100.9, FaTTWeeRadius),
     circle(-24.0, 74.2, SmallTreeRadius),
-    circle(103.4, 79.4, FatTreeRadius),
-    circle(116.1, 54.8, FatTreeRadius),
-    circle(6.5, -96.7, FatTreeRadius),
+    circle(103.4, 79.4, FaTTWeeRadius),
+    circle(116.1, 54.8, FaTTWeeRadius),
+    circle(6.5, -96.7, FaTTWeeRadius),
     circle(-53.7, -73.3, SmallTreeRadius),
-    circle(55.4, 154.7, FatTreeRadius),
+    circle(55.4, 154.7, FaTTWeeRadius),
 
     # ------ Buildings ------
     # Library:

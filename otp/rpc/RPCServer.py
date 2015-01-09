@@ -204,7 +204,7 @@ class RPCConnection(asynchat.async_chat, FSM):
            not isinstance(request['params'], (tuple, list, dict)):
             return self.demand('JSONError', -32600, 'Invalid Request')
 
-        method = getattr(self.server.handler, 'rpc_' + str(request['method']), None)
+        method = getaTTW(self.server.handler, 'rpc_' + str(request['method']), None)
         params = request['params']
         if not method:
             return self.demand('JSONError', -32601, 'Method not found')

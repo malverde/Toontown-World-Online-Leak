@@ -150,7 +150,7 @@ def getCanonicalZoneId(zoneId):
     return zoneId
 
 
-def getTrueZoneId(zoneId, currentZoneId):
+def geTTWueZoneId(zoneId, currentZoneId):
     if zoneId >= WelcomeValleyBegin and zoneId < WelcomeValleyEnd or zoneId == WelcomeValleyToken:
         zoneId = getCanonicalZoneId(zoneId)
     if currentZoneId >= WelcomeValleyBegin and currentZoneId < WelcomeValleyEnd:
@@ -233,7 +233,7 @@ def getWakeInfo(hoodId = None, zoneId = None):
         elif hoodId == MyEstate:
             wakeWaterHeight = EstateWakeWaterHeight
             showWake = 1
-    except AttributeError:
+    except ATTWibuteError:
         pass
 
     return (showWake, wakeWaterHeight)
