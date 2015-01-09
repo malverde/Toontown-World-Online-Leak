@@ -110,7 +110,7 @@ class RPCClient:
 
     def __init__(self, url=None):
         self.url = URLSpec(url or rpc_client_endpoint.getValue())
-        self.defaulTTWies = rpc_client_retry.getValue()
+        self.defaultTries = rpc_client_retry.getValue()
 
         self.client = HTTPClient()
         self.client.setVerifySsl(0)
@@ -134,7 +134,7 @@ class RPCClient:
             return
 
         if _retry == True:
-            tries = self.defaulTTWies
+            tries = self.defaultTries
         elif _retry == False:
             tries = 1
         elif isinstance(_retry, (int, long)):

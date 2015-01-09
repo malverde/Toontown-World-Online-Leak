@@ -8,8 +8,8 @@ from direct.distributed.ClockDelta import globalClockDelta
 from direct.distributed.MsgTypes import *
 from direct.task import Task
 from otp.otpbase import OTPGlobals
-from toontown.pets import Pet, PetBase, PeTTWaits, PetConstants, PetManager, PetAvatarPanel
-from toontown.pets import PetMood, PeTTWicks
+from toontown.pets import Pet, PetBase, PetTraits, PetConstants, PetManager, PetAvatarPanel
+from toontown.pets import PetMood, PetTricks
 from toontown.hood import ZoneUtil
 from toontown.toonbase import TTLocalizer
 from toontown.distributed import DelayDelete
@@ -38,7 +38,7 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         self.isLocalToon = 0
         self.inWater = 0
         self.__funcsToDelete = []
-        self.__generateDisTTWaitFuncs()
+        self.__generateDistTraitFuncs()
         self.__generateDistMoodFuncs()
         self.trickAptitudes = []
         self.avDelayDelete = None
@@ -51,7 +51,7 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         DistributedSmoothNode.DistributedSmoothNode.generate(self)
         self.trickIval = None
         self.movieTrack = None
-        self.traitList = [0] * PeTTWaits.PeTTWaits.NumTraits
+        self.traitList = [0] * PetTraits.PetTraits.NumTraits
         self.requiredMoodComponents = {}
         return
 
@@ -101,15 +101,15 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
             Pet.Pet.setName(self, self.petName)
         messenger.send('petNameChanged', [self])
 
-    def seTTWaitSeed(self, traitSeed):
+    def setTraitSeed(self, traitSeed):
         self.traitSeed = traitSeed
 
     def setSafeZone(self, safeZone):
         self.safeZone = safeZone
 
-    def __generateDisTTWaitFuncs(self):
-        for i in xrange(PeTTWaits.PeTTWaits.NumTraits):
-            traitName = PeTTWaits.geTTWaitNames()[i]
+    def __generateDistTraitFuncs(self):
+        for i in xrange(PetTraits.PetTraits.NumTraits):
+            traitName = PetTraits.getTraitNames()[i]
             setterName = self.getSetterName(traitName)
 
             def traitSetter(value, self = self, i = i):
@@ -190,8 +190,8 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         if not self.isLockedDown():
             if self.trickIval is not None and self.trickIval.isPlaying():
                 self.trickIval.finish()
-            self.trickIval = PeTTWicks.geTTWickIval(self, trickId)
-            if trickId == PeTTWicks.Tricks.BALK:
+            self.trickIval = PetTricks.getTrickIval(self, trickId)
+            if trickId == PetTricks.Tricks.BALK:
                 mood = self.getDominantMood()
                 self.trickIval = Parallel(self.trickIval, Sequence(Func(self.handleMoodChange, 'confusion'), Wait(1.0), Func(self.handleMoodChange, mood)))
             self.trickIval.start(globalClockDelta.localElapsedTime(timestamp))
@@ -203,9 +203,9 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
     def announceGenerate(self):
         DistributedPet.notify.debug('announceGenerate(), fake=%s' % self.bFake)
         DistributedSmoothNode.DistributedSmoothNode.announceGenerate(self)
-        if hasaTTW(self, 'petName'):
+        if hasattr(self, 'petName'):
             Pet.Pet.setName(self, self.petName)
-        self.traits = PeTTWaits.PeTTWaits(self.traitSeed, self.safeZone)
+        self.traits = PetTraits.PetTraits(self.traitSeed, self.safeZone)
         self.mood = PetMood.PetMood(self)
         for mood, value in self.requiredMoodComponents.items():
             self.mood.setComponent(mood, value, announce=0)
@@ -252,7 +252,7 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
             self.freeAvatar()
         self.ignore(self.mood.getDominantMoodChangeEvent())
         self.ignore(self.mood.getMoodChangeEvent())
-        if hasaTTW(self, 'lastKnownMood'):
+        if hasattr(self, 'lastKnownMood'):
             self.lastKnownMood.destroy()
             del self.lastKnownMood
         self.mood.destroy()
@@ -372,7 +372,7 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         return
 
     def getDominantMood(self):
-        if not hasaTTW(self, 'mood'):
+        if not hasattr(self, 'mood'):
             return PetMood.PetMood.Neutral
         return self.mood.getDominantMood()
 
@@ -486,5 +486,5 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
             self.movieTrack.start()
         return
 
-    def seTTWickAptitudes(self, aptitudes):
+    def setTrickAptitudes(self, aptitudes):
         self.trickAptitudes = aptitudes

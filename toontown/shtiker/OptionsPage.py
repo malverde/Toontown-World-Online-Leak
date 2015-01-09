@@ -563,7 +563,7 @@ class CodesTabPage(DirectFrame):
         if input == '':
             return
         messenger.send('wakeup')
-        if hasaTTW(base, 'codeRedemptionMgr'):
+        if hasattr(base, 'codeRedemptionMgr'):
             base.codeRedemptionMgr.redeemCode(input, self.__getCodeResult)
         self.codeInput.enterText('')
         self.__disableCodeEntry()

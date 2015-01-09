@@ -56,7 +56,7 @@ class PartyEditorGridElement(DirectButton):
         self.overValidSquare = False
         self.lastValidPosition = None
         self.setColorScale(0.9, 0.9, 0.9, 0.7)
-        self.seTTWansparency(True)
+        self.setTransparency(True)
         self.mouseOverTrash = False
         self.centerGridSquare = None
         return

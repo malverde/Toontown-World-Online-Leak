@@ -32,7 +32,7 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
         return
 
     def unload(self):
-        if hasaTTW(self, 'view') and self.view is not None:
+        if hasattr(self, 'view') and self.view is not None:
             self.view.unload()
             del self.view
         DistributedPartyTeamActivity.unload(self)

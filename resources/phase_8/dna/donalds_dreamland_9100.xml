@@ -4918,7 +4918,7 @@
 				</sign>
 			</landmark_building>
 			<landmark_building id="tb34:toon_landmark_DL_B1_DNARoot" code="toon_landmark_DL_B1">
-				<title>Mind Over MaTTWess</title>
+				<title>Mind Over Mattress</title>
 				<pos x="-273.65" y="-283.8" z="0" />
 				<nhpr h="120" p="0" r="0" />
 				<door code="door_double_curvedDL_ur">
@@ -4937,7 +4937,7 @@
 						<color r="0.501961" g="0" b="0.25098" a="1" />
 						<pos x="0" y="0" z="-0.04" />
 						<scale x="1.1" y="1" z="1.1" />
-						<text>MaTTWess</text>
+						<text>Mattress</text>
 					</baseline>
 				</sign>
 			</landmark_building>

@@ -167,7 +167,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
     def storeInterval(self, interval, name):
         if name in self.activeIntervals:
             ival = self.activeIntervals[name]
-            if hasaTTW(ival, 'delayDelete') or hasaTTW(ival, 'delayDeletes'):
+            if hasattr(ival, 'delayDelete') or hasattr(ival, 'delayDeletes'):
                 self.clearInterval(name, finish=1)
         self.activeIntervals[name] = interval
 
@@ -369,31 +369,31 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
     def toOuchMode(self):
         if self.cr:
             place = self.cr.playGame.getPlace()
-            if place and hasaTTW(place, 'fsm'):
+            if place and hasattr(place, 'fsm'):
                 place.setState('ouch')
 
     def toCraneMode(self):
         if self.cr:
             place = self.cr.playGame.getPlace()
-            if place and hasaTTW(place, 'fsm'):
+            if place and hasattr(place, 'fsm'):
                 place.setState('crane')
 
     def toMovieMode(self):
         if self.cr:
             place = self.cr.playGame.getPlace()
-            if place and hasaTTW(place, 'fsm'):
+            if place and hasattr(place, 'fsm'):
                 place.setState('movie')
 
     def toWalkMode(self):
         if self.cr:
             place = self.cr.playGame.getPlace()
-            if place and hasaTTW(place, 'fsm'):
+            if place and hasattr(place, 'fsm'):
                 place.setState('walk')
 
     def toFinalBattleMode(self):
         if self.cr:
             place = self.cr.playGame.getPlace()
-            if place and hasaTTW(place, 'fsm'):
+            if place and hasattr(place, 'fsm'):
                 place.setState('finalBattle')
 
     def releaseToons(self, finalBattle = 0):
@@ -538,7 +538,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
             rollTreadRate = ToontownGlobals.BossCogTreadSpeed
         rollTime = distance / ToontownGlobals.BossCogRollSpeed
         deltaPos = toPos - fromPos
-        track = Sequence(Func(self.setPos, fromPos), Func(self.headsUp, toPos), Parallel(self.hprInterval(turnTime, toHpr, fromHpr), self.rollLefTTWeads(turnTime, leftRate), self.rollRighTTWeads(turnTime, -leftRate)), Parallel(LerpFunctionInterval(self.rollBoss, duration=rollTime, extraArgs=[fromPos, deltaPos]), self.rollLefTTWeads(rollTime, rollTreadRate), self.rollRighTTWeads(rollTime, rollTreadRate)))
+        track = Sequence(Func(self.setPos, fromPos), Func(self.headsUp, toPos), Parallel(self.hprInterval(turnTime, toHpr, fromHpr), self.rollLeftTreads(turnTime, leftRate), self.rollRightTreads(turnTime, -leftRate)), Parallel(LerpFunctionInterval(self.rollBoss, duration=rollTime, extraArgs=[fromPos, deltaPos]), self.rollLeftTreads(rollTime, rollTreadRate), self.rollRightTreads(rollTime, rollTreadRate)))
         return (track, toHpr)
 
     def setupElevator(self, elevatorModel):
@@ -746,7 +746,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
             currentState = self.state
             if currentState == 'BattleThree':
                 zapTrack.append(Func(self.toFinalBattleMode))
-            elif hasaTTW(self, 'chairs'):
+            elif hasattr(self, 'chairs'):
                 zapTrack.append(Func(self.toFinalBattleMode))
             else:
                 zapTrack.append(Func(self.toWalkMode))
@@ -904,7 +904,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
             self.doAnimate(seq, now=1, raised=1)
 
     def announceAreaAttack(self):
-        if not getaTTW(localAvatar.controlManager.currentControls, 'isAirborne', 0):
+        if not getattr(localAvatar.controlManager.currentControls, 'isAirborne', 0):
             self.zapLocalToon(ToontownGlobals.BossCogAreaAttack)
 
     def loadEnvironment(self):
@@ -1036,7 +1036,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
             return
         if self.cr:
             place = self.cr.playGame.getPlace()
-            if place and hasaTTW(place, 'fsm'):
+            if place and hasattr(place, 'fsm'):
                 FriendsListManager.FriendsListManager._FriendsListManager__handleClickedNametag(place, avatar)
 
     def __handleFriendAvatar(self, avId, avName, avDisableName):
@@ -1047,7 +1047,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
             return
         if self.cr:
             place = self.cr.playGame.getPlace()
-            if place and hasaTTW(place, 'fsm'):
+            if place and hasattr(place, 'fsm'):
                 FriendsListManager.FriendsListManager._FriendsListManager__handleFriendAvatar(place, avId, avName, avDisableName)
 
     def __handleAvatarDetails(self, avId, avName, playerId = None):
@@ -1058,7 +1058,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
             return
         if self.cr:
             place = self.cr.playGame.getPlace()
-            if place and hasaTTW(place, 'fsm'):
+            if place and hasattr(place, 'fsm'):
                 FriendsListManager.FriendsListManager._FriendsListManager__handleAvatarDetails(place, avId, avName, playerId)
 
     def enterBattleFour(self):

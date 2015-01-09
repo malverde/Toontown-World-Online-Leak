@@ -78,7 +78,7 @@ class DummyLauncherBase:
         pass
 
     def getLastLogin(self):
-        if hasaTTW(self, 'lastLogin'):
+        if hasattr(self, 'lastLogin'):
             return self.lastLogin
         return ''
 

@@ -538,7 +538,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         self.zoneId = zoneId
         self.canonicalZoneId = ZoneUtil.getCanonicalZoneId(zoneId)
         if config.GetBool('want-cogdos', False):
-            if not hasaTTW(self.__class__, 'CogdoPopAdjusted'):
+            if not hasattr(self.__class__, 'CogdoPopAdjusted'):
                 self.__class__.CogdoPopAdjusted = True
                 for index in xrange(len(self.SuitHoodInfo)):
                     hoodInfo = self.SuitHoodInfo[index]
@@ -724,7 +724,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
 
         return pointList
 
-    def createNewSuit(self, blockNumbers, streetPoints, toonBlockTakeover = None, cogdoTakeover = None, minPathLen = None, maxPathLen = None, buildingHeight = None, suitLevel = None, suitType = None, suiTTWack = None, suitName = None, specialSuit = 0):
+    def createNewSuit(self, blockNumbers, streetPoints, toonBlockTakeover = None, cogdoTakeover = None, minPathLen = None, maxPathLen = None, buildingHeight = None, suitLevel = None, suitType = None, suitTrack = None, suitName = None, specialSuit = 0):
         startPoint = None
         blockNumber = None
         if self.notify.getDebug():
@@ -757,16 +757,16 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         newSuit.startPoint = startPoint
         if blockNumber != None:
             newSuit.buildingSuit = 1
-            if suiTTWack == None:
-                suiTTWack = self.buildingMgr.getBuildingTrack(blockNumber)
+            if suitTrack == None:
+                suitTrack = self.buildingMgr.getBuildingTrack(blockNumber)
         else:
             newSuit.flyInSuit = 1
             newSuit.attemptingTakeover = self.newSuitShouldAttemptTakeover()
             if newSuit.attemptingTakeover:
-                if suiTTWack == None and len(self.pendingBuildingTracks) > 0:
-                    suiTTWack = self.pendingBuildingTracks[0]
+                if suitTrack == None and len(self.pendingBuildingTracks) > 0:
+                    suitTrack = self.pendingBuildingTracks[0]
                     del self.pendingBuildingTracks[0]
-                    self.pendingBuildingTracks.append(suiTTWack)
+                    self.pendingBuildingTracks.append(suitTrack)
                 if buildingHeight == None and len(self.pendingBuildingHeights) > 0:
                     buildingHeight = self.pendingBuildingHeights[0]
                     del self.pendingBuildingHeights[0]
@@ -777,11 +777,11 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 suitName = self.defaultSuitName
         if suitType == None and suitName != None:
             suitType = SuitDNA.getSuitType(suitName)
-            suiTTWack = SuitDNA.getSuitDept(suitName)
+            suitTrack = SuitDNA.getSuitDept(suitName)
         if suitLevel == None and buildingHeight != None:
             suitLevel = self.chooseSuitLevel(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_LVL], buildingHeight)
-        suitLevel, suitType, suiTTWack = self.pickLevelTypeAndTrack(suitLevel, suitType, suiTTWack)
-        newSuit.setupSuitDNA(suitLevel, suitType, suiTTWack)
+        suitLevel, suitType, suitTrack = self.pickLevelTypeAndTrack(suitLevel, suitType, suitTrack)
+        newSuit.setupSuitDNA(suitLevel, suitType, suitTrack)
         newSuit.buildingHeight = buildingHeight
         gotDestination = self.chooseDestination(newSuit, startTime, toonBlockTakeover=toonBlockTakeover, cogdoTakeover=cogdoTakeover, minPathLen=minPathLen, maxPathLen=maxPathLen)
         if not gotDestination:
@@ -993,7 +993,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 now = time.time()
                 for b in suitBuildings:
                     building = self.buildingMgr.getBuilding(b)
-                    if hasaTTW(building, 'elevator'):
+                    if hasattr(building, 'elevator'):
                         if building.elevator.fsm.getCurrentState().getName() == 'waitEmpty':
                             age = now - building.becameSuitTime
                             if age > oldestAge:
@@ -1028,13 +1028,13 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         self.__waitForNextAdjust()
         return Task.done
 
-    def suitTakeOver(self, blockNumber, suiTTWack, difficulty, buildingHeight):
-        if self.pendingBuildingTracks.count(suiTTWack) > 0:
-            self.pendingBuildingTracks.remove(suiTTWack)
+    def suitTakeOver(self, blockNumber, suitTrack, difficulty, buildingHeight):
+        if self.pendingBuildingTracks.count(suitTrack) > 0:
+            self.pendingBuildingTracks.remove(suitTrack)
         if self.pendingBuildingHeights.count(buildingHeight) > 0:
             self.pendingBuildingHeights.remove(buildingHeight)
         building = self.buildingMgr.getBuilding(blockNumber)
-        building.suitTakeOver(suiTTWack, difficulty, buildingHeight)
+        building.suitTakeOver(suitTrack, difficulty, buildingHeight)
 
     def cogdoTakeOver(self, blockNumber, difficulty, buildingHeight):
         if self.pendingBuildingHeights.count(buildingHeight) > 0:
@@ -1117,21 +1117,21 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
 
         while numToAssign > 0:
             smallestCount = None
-            smallesTTWacks = []
+            smallestTracks = []
             for trackIndex in range(4):
                 if totalWeightPerTrack[trackIndex]:
                     track = SuitDNA.suitDepts[trackIndex]
                     count = numPerTrack[track]
                     if smallestCount == None or count < smallestCount:
-                        smallesTTWacks = [track]
+                        smallestTracks = [track]
                         smallestCount = count
                     elif count == smallestCount:
-                        smallesTTWacks.append(track)
+                        smallestTracks.append(track)
 
-            if not smallesTTWacks:
+            if not smallestTracks:
                 self.notify.info('No more room for buildings, with %s still to assign.' % numToAssign)
                 return
-            buildingTrack = random.choice(smallesTTWacks)
+            buildingTrack = random.choice(smallestTracks)
             buildingTrackIndex = SuitDNA.suitDepts.index(buildingTrack)
             smallestCount = None
             smallestHeights = []
@@ -1150,7 +1150,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             buildingHeight = random.choice(smallestHeights)
             self.notify.debug('Existing buildings are (%s, %s), choosing from (%s, %s), chose %s, %s.' % (self.formatNumSuitsPerTrack(numPerTrack),
              self.formatNumSuitsPerTrack(numPerHeight),
-             smallesTTWacks,
+             smallestTracks,
              smallestHeights,
              buildingTrack,
              buildingHeight))
@@ -1294,7 +1294,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             self.notify.warning('We tried to request a battle when the toon was already in battle')
             return 0
         if toon:
-            if hasaTTW(toon, 'doId'):
+            if hasattr(toon, 'doId'):
                 print ('Setting toonID ', toonId)
                 toon.b_setBattleId(toonId)
         pos = self.battlePosDict[canonicalZoneId]

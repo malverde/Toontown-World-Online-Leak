@@ -101,9 +101,9 @@ class FriendsListManager:
         if avatar.isPet():
             self.avatarPanel = PetAvatarPanel.PetAvatarPanel(avatar)
         elif isinstance(avatar, Toon.Toon) or isinstance(avatar, FriendHandle.FriendHandle):
-            if hasaTTW(self, 'avatarPanel'):
+            if hasattr(self, 'avatarPanel'):
                 if self.avatarPanel:
-                    if not hasaTTW(self.avatarPanel, 'getAvId') or self.avatarPanel.getAvId() == avatar.doId:
+                    if not hasattr(self.avatarPanel, 'getAvId') or self.avatarPanel.getAvId() == avatar.doId:
                         if not self.avatarPanel.isHidden():
                             if self.avatarPanel.getType() == 'toon':
                                 return
@@ -114,17 +114,17 @@ class FriendsListManager:
     def __handleClickedNametagPlayer(self, avatar, playerId, showType = 1):
         self.notify.debug('__handleClickedNametagPlayer PlayerId%s' % playerId)
         if showType == 1:
-            if hasaTTW(self, 'avatarPanel'):
+            if hasattr(self, 'avatarPanel'):
                 if self.avatarPanel:
-                    if not hasaTTW(self.avatarPanel, 'getPlayerId') or self.avatarPanel.getPlayerId() == playerId:
+                    if not hasattr(self.avatarPanel, 'getPlayerId') or self.avatarPanel.getPlayerId() == playerId:
                         if not self.avatarPanel.isHidden():
                             if self.avatarPanel.getType() == 'player':
                                 return
             self.avatarPanel = PlayerInfoPanel.PlayerInfoPanel(playerId)
         elif isinstance(avatar, Toon.Toon) or isinstance(avatar, FriendHandle.FriendHandle):
-            if hasaTTW(self, 'avatarPanel'):
+            if hasattr(self, 'avatarPanel'):
                 if self.avatarPanel:
-                    if not hasaTTW(self.avatarPanel, 'getAvId') or self.avatarPanel.getAvId() == avatar.doId:
+                    if not hasattr(self.avatarPanel, 'getAvId') or self.avatarPanel.getAvId() == avatar.doId:
                         if not self.avatarPanel.isHidden():
                             if self.avatarPanel.getType() == 'toon':
                                 return

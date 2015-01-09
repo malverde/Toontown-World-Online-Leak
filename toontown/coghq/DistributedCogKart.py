@@ -25,7 +25,7 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
         self.kartModelPath = 'phase_12/models/bossbotHQ/Coggolf_cart3'
         self.leftDoor = None
         self.rightDoor = None
-        self.fillSloTTWack = None
+        self.fillSlotTrack = None
         return
 
     def generate(self):
@@ -57,15 +57,15 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
         dist = Vec3(self.endPos - self.enteringPos).length()
         wheelAngle = dist / (4.8 * 1.4 * math.pi) * 360
         self.kartEnterAnimateInterval = Parallel(LerpHprInterval(self.wheels[0], 5.0, Vec3(self.wheels[0].getH(), wheelAngle, self.wheels[0].getR())), LerpHprInterval(self.wheels[1], 5.0, Vec3(self.wheels[1].getH(), wheelAngle, self.wheels[1].getR())), LerpHprInterval(self.wheels[2], 5.0, Vec3(self.wheels[2].getH(), wheelAngle, self.wheels[2].getR())), LerpHprInterval(self.wheels[3], 5.0, Vec3(self.wheels[3].getH(), wheelAngle, self.wheels[3].getR())), name='CogKartAnimate')
-        trolleyExiTTWack1 = Parallel(LerpPosInterval(self.golfKart, 5.0, self.endPos), self.kartEnterAnimateInterval, name='CogKartExiTTWack')
-        self.trolleyExiTTWack = Sequence(trolleyExiTTWack1)
+        trolleyExitTrack1 = Parallel(LerpPosInterval(self.golfKart, 5.0, self.endPos), self.kartEnterAnimateInterval, name='CogKartExitTrack')
+        self.trolleyExitTrack = Sequence(trolleyExitTrack1)
         self.trolleyEnterTrack = Sequence(LerpPosInterval(self.golfKart, 5.0, self.startingPos, startPos=self.enteringPos))
-        self.closeDoors = Sequence(self.trolleyExiTTWack, Func(self.onDoorCloseFinish))
+        self.closeDoors = Sequence(self.trolleyExitTrack, Func(self.onDoorCloseFinish))
         self.openDoors = Sequence(self.trolleyEnterTrack)
 
     def delete(self):
         DistributedElevatorExt.DistributedElevatorExt.delete(self)
-        if hasaTTW(self, 'elevatorFSM'):
+        if hasattr(self, 'elevatorFSM'):
             del self.elevatorFSM
 
     def setBldgDoId(self, bldgDoId):
@@ -163,7 +163,7 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
              'zoneId': zoneId,
              'countryClubId': self.countryClubId,
              'hoodId': hoodId}
-            if hasaTTW(place, 'elevator') and place.elevator:
+            if hasattr(place, 'elevator') and place.elevator:
                 place.elevator.signalDone(doneStatus)
             else:
                 self.notify.warning("setMintInteriorZoneForce: Couldn't find playGame.getPlace().elevator, zoneId: %s" % zoneId)
@@ -204,10 +204,10 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
                 if not elevator:
                     return
                 self.localToonOnBoard = 1
-                if hasaTTW(localAvatar, 'boardingParty') and localAvatar.boardingParty:
+                if hasattr(localAvatar, 'boardingParty') and localAvatar.boardingParty:
                     localAvatar.boardingParty.forceCleanupInviteePanel()
                     localAvatar.boardingParty.forceCleanupInviterPanels()
-                if hasaTTW(base.localAvatar, 'elevatorNotifier'):
+                if hasattr(base.localAvatar, 'elevatorNotifier'):
                     base.localAvatar.elevatorNotifier.cleanup()
                 cameraTrack = Sequence()
                 cameraTrack.append(Func(elevator.fsm.request, 'boarding', [self.getElevatorModel()]))
@@ -233,7 +233,7 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
             track.delayDelete = DelayDelete.DelayDelete(toon, 'CogKart.fillSlot')
             self.storeToonTrack(avId, track)
             track.start()
-            self.fillSloTTWack = track
+            self.fillSlotTrack = track
             self.boardedAvIds[avId] = None
         return
 
@@ -245,7 +245,7 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
 
             def getJumpDest(av = av, node = self.golfKart):
                 dest = Point3(0, 0, 0)
-                if hasaTTW(self, 'golfKart') and self.golfKart:
+                if hasattr(self, 'golfKart') and self.golfKart:
                     dest = Vec3(self.golfKart.getPos(av.getParent()))
                     seatNode = self.golfKart.find('**/seat' + str(seatIndex + 1))
                     dest += seatNode.getPos(self.golfKart)
@@ -260,7 +260,7 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
 
             def getJumpHpr(av = av, node = self.golfKart):
                 hpr = Point3(0, 0, 0)
-                if hasaTTW(self, 'golfKart') and self.golfKart:
+                if hasattr(self, 'golfKart') and self.golfKart:
                     hpr = self.golfKart.getHpr(av.getParent())
                     if seatIndex < 2:
                         hpr.setX(hpr.getX() + 180)
@@ -275,19 +275,19 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
             toonJumpTrack = Parallel(ActorInterval(av, 'jump'), Sequence(Wait(0.43), Parallel(LerpHprInterval(av, hpr=getJumpHpr, duration=0.9), ProjectileInterval(av, endPos=getJumpDest, duration=0.9))))
             return toonJumpTrack
 
-        def getToonSiTTWack(av):
-            toonSiTTWack = Sequence(ActorInterval(av, 'sit-start'), Func(av.loop, 'sit'))
-            return toonSiTTWack
+        def getToonSitTrack(av):
+            toonSitTrack = Sequence(ActorInterval(av, 'sit-start'), Func(av.loop, 'sit'))
+            return toonSitTrack
 
         toonJumpTrack = getToonJumpTrack(av, seatIndex)
-        toonSiTTWack = getToonSiTTWack(av)
-        jumpTrack = Sequence(Parallel(toonJumpTrack, Sequence(Wait(1), toonSiTTWack)))
+        toonSitTrack = getToonSitTrack(av)
+        jumpTrack = Sequence(Parallel(toonJumpTrack, Sequence(Wait(1), toonSitTrack)))
         return jumpTrack
 
     def emptySlot(self, index, avId, bailFlag, timestamp, timeSent = 0):
-        if self.fillSloTTWack:
-            self.fillSloTTWack.finish()
-            self.fillSloTTWack = None
+        if self.fillSlotTrack:
+            self.fillSlotTrack.finish()
+            self.fillSlotTrack = None
         if avId == 0:
             pass
         elif not self.isSetup:
@@ -298,7 +298,7 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
 
             self.deferredSlots = newSlots
         elif self.cr.doId2do.has_key(avId):
-            if bailFlag == 1 and hasaTTW(self, 'clockNode'):
+            if bailFlag == 1 and hasattr(self, 'clockNode'):
                 if timestamp < self.countdownTime and timestamp >= 0:
                     self.countdown(self.countdownTime - timestamp)
                 else:
@@ -306,8 +306,8 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
             toon = self.cr.doId2do[avId]
             toon.stopSmooth()
             sitStartDuration = toon.getDuration('sit-start')
-            jumpOuTTWack = self.generateToonReverseJumpTrack(toon, index)
-            track = Sequence(jumpOuTTWack, Func(self.notifyToonOffElevator, toon), Func(self.clearToonTrack, avId), name=toon.uniqueName('emptyElevator'), autoPause=1)
+            jumpOutTrack = self.generateToonReverseJumpTrack(toon, index)
+            track = Sequence(jumpOutTrack, Func(self.notifyToonOffElevator, toon), Func(self.clearToonTrack, avId), name=toon.uniqueName('emptyElevator'), autoPause=1)
             if self.canHideBoardingQuitBtn(avId):
                 track.append(Func(localAvatar.boardingParty.groupPanel.enableQuitButton))
                 track.append(Func(localAvatar.boardingParty.enableGoButton))
@@ -352,7 +352,7 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
 
     def rejectBoard(self, avId, reason = 0):
         print 'rejectBoard %s' % reason
-        if hasaTTW(base.localAvatar, 'elevatorNotifier'):
+        if hasattr(base.localAvatar, 'elevatorNotifier'):
             if reason == ElevatorConstants.REJECT_SHUFFLE:
                 base.localAvatar.elevatorNotifier.showMe(TTLocalizer.ElevatorHoppedOff)
             elif reason == ElevatorConstants.REJECT_MINLAFF:

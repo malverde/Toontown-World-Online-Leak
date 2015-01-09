@@ -33,7 +33,7 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
     cameraHpr = Point3(0, -10, 0)
     SFX_BaseDir = 'phase_6/audio/sfx/'
     SFX_KartAppear = SFX_BaseDir + 'KART_Appear.ogg'
-    defaulTTWansitions = {'Off': ['EnterMovie'],
+    defaultTransitions = {'Off': ['EnterMovie'],
      'EnterMovie': ['Off', 'Waiting', 'ExitMovie'],
      'Waiting': ['ExitMovie', 'Off'],
      'ExitMovie': ['Off', 'ExitMovie']}
@@ -77,14 +77,14 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
         return
 
     def delete(self):
-        if hasaTTW(self, 'dialog'):
+        if hasattr(self, 'dialog'):
             if not self.dialog.removed():
                 self.dialog.ignoreAll()
                 if not self.dialog.isEmpty():
                     self.dialog.cleanup()
                 del self.dialog
         self.finishMovie()
-        if hasaTTW(self, 'cancelButton'):
+        if hasattr(self, 'cancelButton'):
             self.cancelButton.destroy()
             del self.cancelButton
         del self.kartPad
@@ -147,7 +147,7 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
 
             def handleEnterRequest(self = self):
                 self.ignore('stoppedAsleep')
-                if hasaTTW(self.dialog, 'doneStatus') and self.dialog.doneStatus == 'ok':
+                if hasattr(self.dialog, 'doneStatus') and self.dialog.doneStatus == 'ok':
                     self.d_requestEnter(base.cr.isPaid())
                 elif self.cr and not self.isDisabled():
                     self.cr.playGame.getPlace().setState('walk')
@@ -328,7 +328,7 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
 
     def makeGui(self):
         self.notify.debugStateCall(self)
-        if hasaTTW(self, 'cancelButton'):
+        if hasattr(self, 'cancelButton'):
             return
         fishGui = loader.loadModel('phase_4/models/gui/fishingGui')
         self.cancelButton = DirectGui.DirectButton(relief=None, scale=0.67, pos=(1.16, 0, -0.9), text=('', TTLocalizer.FishingExit, TTLocalizer.FishingExit), text_align=TextNode.ACenter, text_fg=Vec4(1, 1, 1, 1), text_shadow=Vec4(0, 0, 0, 1), text_pos=(0.0, -0.12), textMayChange=0, text_scale=0.1, image=(fishGui.find('**/exit_buttonUp'), fishGui.find('**/exit_buttonDown'), fishGui.find('**/exit_buttonRollover')), text_font=ToontownGlobals.getInterfaceFont(), command=self.d_requestExit)
@@ -337,14 +337,14 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
 
     def showGui(self):
         self.notify.debugStateCall(self)
-        if hasaTTW(self.kartPad, 'state'):
+        if hasattr(self.kartPad, 'state'):
             if not self.kartPad.state == 'WaitCountdown':
                 return
         self.cancelButton.show()
 
     def hideGui(self):
         self.notify.debugStateCall(self)
-        if not hasaTTW(self, 'cancelButton'):
+        if not hasattr(self, 'cancelButton'):
             return
         self.cancelButton.hide()
 
@@ -365,7 +365,7 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
             self.kart.reparentTo(self.kartNode)
             return Parallel()
         self.kart.setScale(0.1)
-        karTTWack = Parallel(
+        kartTrack = Parallel(
             Sequence(
                 ActorInterval(self.av, 'feedPet'),
                 Func(self.av.loop, 'neutral')),
@@ -388,7 +388,7 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
                     LerpScaleInterval(self.kart, scale=Point3(1.0, 1.0, 0.9), duration=0.1),
                     LerpScaleInterval(self.kart, scale=Point3(1.0, 1.0, 1.0), duration=0.1),
                     Func(self.kart.wrtReparentTo, self.kartNode))))
-        return karTTWack
+        return kartTrack
 
     def generateToonJumpTrack(self):
         base.sb = self
@@ -411,18 +411,18 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
                              ProjectileInterval(av, endPos=getJumpDest, duration=0.9))))
             return toonJumpTrack
 
-        def getToonSiTTWack(av):
-            toonSiTTWack = Sequence(ActorInterval(av, 'sit-start'), Func(av.loop, 'sit'))
-            return toonSiTTWack
+        def getToonSitTrack(av):
+            toonSitTrack = Sequence(ActorInterval(av, 'sit-start'), Func(av.loop, 'sit'))
+            return toonSitTrack
 
         toonJumpTrack = getToonJumpTrack(self.av, self.kart)
-        toonSiTTWack = getToonSiTTWack(self.av)
+        toonSitTrack = getToonSitTrack(self.av)
         jumpTrack = Sequence(
             Parallel(
                 toonJumpTrack,
                 Sequence(
                     Wait(1),
-                    toonSiTTWack)),
+                    toonSitTrack)),
                 Func(self.av.setPosHpr, 0, 0.45, -.25, 0, 0, 0),
                 Func(self.av.reparentTo, self.kart.toonSeat))
         return jumpTrack
@@ -475,15 +475,15 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
         def getKartShrinkTrack(kart):
             pos = kart.getPos()
             pos.addZ(-1.0)
-            karTTWack = Sequence(LerpScaleInterval(kart, scale=Point3(1.0, 1.0, 0.9), duration=0.1), LerpScaleInterval(kart, scale=Point3(1.0, 1.0, 1.1), duration=0.1), LerpScaleInterval(kart, scale=Point3(1.0, 1.0, 0.1), duration=0.2), LerpScaleInterval(kart, scale=Point3(0.9, 0.9, 0.1), duration=0.1), LerpScaleInterval(kart, scale=Point3(1.1, 1.1, 0.1), duration=0.1), LerpScaleInterval(kart, scale=Point3(0.1, 0.1, 0.1), duration=0.2), Wait(0.2), LerpPosInterval(kart, pos=pos, duration=0.2), Func(kart.hide))
-            return karTTWack
+            kartTrack = Sequence(LerpScaleInterval(kart, scale=Point3(1.0, 1.0, 0.9), duration=0.1), LerpScaleInterval(kart, scale=Point3(1.0, 1.0, 1.1), duration=0.1), LerpScaleInterval(kart, scale=Point3(1.0, 1.0, 0.1), duration=0.2), LerpScaleInterval(kart, scale=Point3(0.9, 0.9, 0.1), duration=0.1), LerpScaleInterval(kart, scale=Point3(1.1, 1.1, 0.1), duration=0.1), LerpScaleInterval(kart, scale=Point3(0.1, 0.1, 0.1), duration=0.2), Wait(0.2), LerpPosInterval(kart, pos=pos, duration=0.2), Func(kart.hide))
+            return kartTrack
 
         if not self.holeActor:
             self.holeActor = Actor.Actor('phase_3.5/models/props/portal-mod', {'hole': 'phase_3.5/models/props/portal-chan'})
         holeTrack = getHoleTrack(self.holeActor, self.kartNode)
         shrinkTrack = getKartShrinkTrack(self.kart)
-        karTTWack = Parallel(shrinkTrack, holeTrack)
-        return karTTWack
+        kartTrack = Parallel(shrinkTrack, holeTrack)
+        return kartTrack
 
     def enterOff(self):
         self.notify.debug('%d enterOff: Entering the Off State.' % self.doId)
@@ -498,19 +498,19 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
             raceName = TTLocalizer.KartRace_RaceNames[self.kartPad.trackType]
             self.notify.info('QA-REGRESSION: KARTING: %s' % raceName)
         toonTrack = self.generateToonMoveTrack()
-        karTTWack = self.generateKartAppearTrack()
+        kartTrack = self.generateKartAppearTrack()
         jumpTrack = self.generateToonJumpTrack()
         name = self.av.uniqueName('EnterRaceTrack')
         if self.av is not None and self.localToonKarting:
             kartAppearSfx = base.loadSfx(self.SFX_KartAppear)
             cameraTrack = self.generateCameraMoveTrack()
-            engineStarTTWack = self.kart.generateEngineStarTTWack()
+            engineStartTrack = self.kart.generateEngineStartTrack()
             self.finishMovie()
-            self.movieTrack = Sequence(Parallel(cameraTrack, toonTrack), Parallel(SoundInterval(kartAppearSfx), Sequence(karTTWack, jumpTrack, engineStarTTWack, Func(self.makeGui), Func(self.showGui), Func(self.request, 'Waiting'), Func(self.d_movieFinished))), name=name, autoFinish=1)
+            self.movieTrack = Sequence(Parallel(cameraTrack, toonTrack), Parallel(SoundInterval(kartAppearSfx), Sequence(kartTrack, jumpTrack, engineStartTrack, Func(self.makeGui), Func(self.showGui), Func(self.request, 'Waiting'), Func(self.d_movieFinished))), name=name, autoFinish=1)
             self.exitRequested = False
         else:
             self.finishMovie()
-            self.movieTrack = Sequence(toonTrack, karTTWack, jumpTrack, name=name, autoFinish=1)
+            self.movieTrack = Sequence(toonTrack, kartTrack, jumpTrack, name=name, autoFinish=1)
         self.movieTrack.start()
         return
 
@@ -527,9 +527,9 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
         self.notify.debug('%d enterExitMovie: Entering the Exit Movie State.' % self.doId)
         self.hideGui()
         jumpTrack = self.generateToonReverseJumpTrack()
-        karTTWack = self.generateKartDisappearTrack()
+        kartTrack = self.generateKartDisappearTrack()
         self.finishMovie()
-        self.movieTrack = Sequence(Func(self.kart.kartLoopSfx.stop), jumpTrack, karTTWack, name=self.av.uniqueName('ExitRaceTrack'), autoFinish=1)
+        self.movieTrack = Sequence(Func(self.kart.kartLoopSfx.stop), jumpTrack, kartTrack, name=self.av.uniqueName('ExitRaceTrack'), autoFinish=1)
         if self.av is not None and self.localToonKarting:
             cameraTrack = self.generateCameraReturnMoveTrack()
             self.movieTrack.append(cameraTrack)
@@ -620,7 +620,7 @@ class DistributedViewingBlock(DistributedStartingBlock):
 
             def handleEnterRequest(self = self):
                 self.ignore('stoppedAsleep')
-                if hasaTTW(self.dialog, 'doneStatus') and self.dialog.doneStatus == 'ok':
+                if hasattr(self.dialog, 'doneStatus') and self.dialog.doneStatus == 'ok':
                     self.d_requestEnter(base.cr.isPaid())
                 else:
                     self.cr.playGame.getPlace().setState('walk')
@@ -662,7 +662,7 @@ class DistributedViewingBlock(DistributedStartingBlock):
 
     def hideGui(self):
         self.notify.debugStateCall(self)
-        if not hasaTTW(self, 'timer') or self.timer is None:
+        if not hasattr(self, 'timer') or self.timer is None:
             return
         self.timer.reset()
         self.timer.hide()
@@ -684,16 +684,16 @@ class DistributedViewingBlock(DistributedStartingBlock):
         hpr.addX(270)
         self.kartNode.setPosHpr(pos, hpr)
         toonTrack = self.generateToonMoveTrack()
-        karTTWack = self.generateKartAppearTrack()
+        kartTrack = self.generateKartAppearTrack()
         jumpTrack = self.generateToonJumpTrack()
         name = self.av.uniqueName('EnterRaceTrack')
         if self.av is not None and self.localToonKarting:
             cameraTrack = self.generateCameraMoveTrack()
             self.finishMovie()
-            self.movieTrack = Sequence(Parallel(cameraTrack, Sequence()), karTTWack, jumpTrack, Func(self.makeGui), Func(self.showGui), Func(self.countdown), Func(self.request, 'Waiting'), Func(self.d_movieFinished), name=name, autoFinish=1)
+            self.movieTrack = Sequence(Parallel(cameraTrack, Sequence()), kartTrack, jumpTrack, Func(self.makeGui), Func(self.showGui), Func(self.countdown), Func(self.request, 'Waiting'), Func(self.d_movieFinished), name=name, autoFinish=1)
         else:
             self.finishMovie()
-            self.movieTrack = Sequence(toonTrack, karTTWack, jumpTrack, name=name, autoFinish=1)
+            self.movieTrack = Sequence(toonTrack, kartTrack, jumpTrack, name=name, autoFinish=1)
         self.movieTrack.start()
         self.exitRequested = True
         return

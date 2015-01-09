@@ -112,7 +112,7 @@ class QuestPoster(DirectFrame):
         for icon in (self.lQuestIcon, self.rQuestIcon):
             geom = icon['geom']
             if geom:
-                if hasaTTW(geom, 'delete'):
+                if hasattr(geom, 'delete'):
                     geom.delete()
 
     def mouseEnterPoster(self, event):
@@ -233,14 +233,14 @@ class QuestPoster(DirectFrame):
         self.lPictureFrame.hide()
         self.rPictureFrame.hide()
         self.questProgress.hide()
-        if hasaTTW(self, 'chooseButton'):
+        if hasattr(self, 'chooseButton'):
             self.chooseButton.destroy()
             del self.chooseButton
-        if hasaTTW(self, 'deleteButton'):
+        if hasattr(self, 'deleteButton'):
             self.deleteButton.destroy()
             del self.deleteButton
         self.ignore(self.confirmDeleteButtonEvent)
-        if hasaTTW(self, 'confirmDeleteButton'):
+        if hasattr(self, 'confirmDeleteButton'):
             self.confirmDeleteButton.cleanup()
             del self.confirmDeleteButton
         if self.laffMeter != None:
@@ -259,13 +259,13 @@ class QuestPoster(DirectFrame):
         self.rewardText.show()
         self.rewardText.setZ(-0.205)
         self.questProgress.hide()
-        if not hasaTTW(self, 'chooseButton'):
+        if not hasattr(self, 'chooseButton'):
             guiButton = loader.loadModel('phase_3/models/gui/quit_button')
             self.chooseButton = DirectButton(parent=self.questFrame, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=(0.7, 1, 1), text=TTLocalizer.QuestPageChoose, text_scale=0.06, text_pos=(0, -0.02), pos=(0.285, 0, 0.245), scale=0.65)
             guiButton.removeNode()
         npcZone = NPCToons.getNPCZone(toNpcId)
         hoodId = ZoneUtil.getCanonicalHoodId(npcZone)
-        if not base.cr.isPaid() and (questId == 401 or hasaTTW(quest, 'getLocation') and quest.getLocation() == 1000 or hoodId == 1000):
+        if not base.cr.isPaid() and (questId == 401 or hasattr(quest, 'getLocation') and quest.getLocation() == 1000 or hoodId == 1000):
 
             def showTeaserPanel():
                 TeaserPanel(pageName='getGags')
@@ -964,7 +964,7 @@ class QuestPoster(DirectFrame):
         return
 
     def hideDeleteButton(self):
-        if hasaTTW(self, 'deleteButton'):
+        if hasattr(self, 'deleteButton'):
             self.deleteButton.destroy()
             del self.deleteButton
 

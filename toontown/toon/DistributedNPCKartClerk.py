@@ -122,7 +122,7 @@ class DistributedNPCKartClerk(DistributedNPCToonBase):
 
     def __handleGuiDone(self, bTimedOut = False):
         self.ignoreAll()
-        if hasaTTW(self, 'kartShopGui') and self.kartShopGui != None:
+        if hasattr(self, 'kartShopGui') and self.kartShopGui != None:
             self.kartShopGui.destroy()
             self.kartShopGui = None
         if not bTimedOut:

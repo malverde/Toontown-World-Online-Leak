@@ -118,9 +118,9 @@ class DistributedLawOfficeFloor(DistributedLevel.DistributedLevel, LawOfficeBase
     def disable(self):
         self.notify.debug('disable')
         base.localAvatar.setCameraCollisionsCanMove(0)
-        if hasaTTW(self, 'suits'):
+        if hasattr(self, 'suits'):
             del self.suits
-        if hasaTTW(self, 'relatedObjectMgrRequest') and self.relatedObjectMgrRequest:
+        if hasattr(self, 'relatedObjectMgrRequest') and self.relatedObjectMgrRequest:
             self.cr.relatedObjectMgr.abortRequest(self.relatedObjectMgrRequest)
             del self.relatedObjectMgrRequest
         DistributedLevel.DistributedLevel.disable(self)

@@ -2010,7 +2010,7 @@ PetPanelOwner = 'Show Owner'
 PetPanelDetail = 'Pet Details'
 PetPanelScratch = 'Scratch'
 PetDetailPanelTitle = 'Trick Training'
-PeTTWickStrings = {0: 'Jump',
+PetTrickStrings = {0: 'Jump',
  1: 'Beg',
  2: 'Play dead',
  3: 'Rollover',
@@ -2445,7 +2445,7 @@ SuitAttackNames = {'Audit': 'Audit!',
  'FreezeAssets': 'Freeze Assets!',
  'Gavel': 'Gavel!',
  'GlowerPower': 'Glower Power!',
- 'GuilTTWip': 'Guilt Trip!',
+ 'GuiltTrip': 'Guilt Trip!',
  'HalfWindsor': 'Half Windsor!',
  'HangUp': 'Hang Up!',
  'HeadShrink': 'Head Shrink!',
@@ -2703,7 +2703,7 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
                  'Peeka-boo, I see you.',
                  'Look into my eyes...',
                  'Shall we take a peek at your future?'],
- 'GuilTTWip': ["I'll lay a real guilt trip on you!",
+ 'GuiltTrip': ["I'll lay a real guilt trip on you!",
                'Feeling guilty?',
                "It's all your fault!",
                'I always blame everything on you.',
@@ -5794,7 +5794,7 @@ EmoteTypeName = 'Acting Lessons'
 BeanTypeName = 'Jellybeans'
 PoleTypeName = 'Fishing Pole'
 WindowViewTypeName = 'Window View'
-PeTTWickTypeName = 'Doodle Training'
+PetTrickTypeName = 'Doodle Training'
 GardenTypeName = 'Garden Supplies'
 RentalTypeName = 'Rental Item'
 GardenStarterTypeName = 'Gardening Kit'
@@ -5811,7 +5811,7 @@ CatalogItemTypeNames = {0: 'INVALID_ITEM',
  8: 'MOULDING',
  9: 'WAINSCOTING',
  10: PoleTypeName,
- 11: PeTTWickTypeName,
+ 11: PetTrickTypeName,
  12: BeanTypeName,
  13: GardenTypeName,
  14: RentalTypeName,
@@ -6928,7 +6928,7 @@ CatalogPurchaseNoTrunk = 'In order to wear this item, you need to buy a trunk.\n
 CatalogPurchaseTrunkFull = 'Your trunk is full. If you purchase this item, you\xe2\x80\x99ll need to delete another item from your trunk to make more room.\n\nDo you still want to purchase this item?'
 CatalogAcceptClosetFull = 'Your closet is full.  You must go inside and delete something from your closet to make room for this item before you can take it out of your mailbox.'
 CatalogAcceptNoTrunk = "You don't have a trunk. You must buy a trunk before you can take this item out of your mailbox."
-CatalogAccepTTWunkFull = 'Your trunk is full.  You must delete something from your trunk before you can take this item out of your mailbox.'
+CatalogAcceptTrunkFull = 'Your trunk is full.  You must delete something from your trunk before you can take this item out of your mailbox.'
 CatalogAcceptShirt = 'You are now wearing your new hat.  The hat you were wearing before has been moved to your trunk.'
 CatalogAcceptShorts = 'You are now wearing your new shorts.  What you were wearing before has been moved to your closet.'
 CatalogAcceptSkirt = 'You are now wearing your new skirt.  What you were wearing before has been moved to your closet.'
@@ -8085,7 +8085,7 @@ zone2TitleDict = {2513: ('Toon Hall', ''),
  9630: ('Rock to Sleep Quarry', ''),
  9631: ('Down Time Watch Repair', ''),
  9633: ('The Dreamland Screening Room', ''),
- 9634: ('Mind Over MaTTWess', ''),
+ 9634: ('Mind Over Mattress', ''),
  9636: ('Insomniac Insurance', ''),
  9639: ('House of Hibernation', ''),
  9640: ('Nightstand Furniture Company', ''),
@@ -8284,7 +8284,7 @@ def GetPossesive(name, place):
     return possesive
 
 
-PeTTWait2descriptions = {'hungerThreshold': ('Always Hungry',
+PetTrait2descriptions = {'hungerThreshold': ('Always Hungry',
                      'Often Hungry',
                      'Sometimes Hungry',
                      'Rarely Hungry'),
@@ -8903,7 +8903,7 @@ Races = 'races'
 Total = 'total'
 GrandTouring = 'Grand Touring'
 
-def geTTWackGenreString(genreId):
+def getTrackGenreString(genreId):
     genreStrings = ['Speedway', 'Country', 'City']
     return genreStrings[genreId].lower()
 
@@ -8914,11 +8914,11 @@ def getTunnelSignName(trackId, padId):
     elif trackId == 1 and padId == 0:
         return 'tunnel_countrysign1'
     else:
-        genreId = RaceGlobals.geTTWackGenre(trackId)
-        return 'tunnel%s_%ssign' % (padId + 1, RaceGlobals.geTTWackGenreString(genreId))
+        genreId = RaceGlobals.getTrackGenre(trackId)
+        return 'tunnel%s_%ssign' % (padId + 1, RaceGlobals.getTrackGenreString(genreId))
 
 
-KarTTWophyDescriptions = [str(RaceGlobals.QualifiedRaces[0]) + ' ' + RaceHoodSpeedway + ' ' + Race + ' ' + RaceQualified,
+KartTrophyDescriptions = [str(RaceGlobals.QualifiedRaces[0]) + ' ' + RaceHoodSpeedway + ' ' + Race + ' ' + RaceQualified,
  str(RaceGlobals.QualifiedRaces[1]) + ' ' + RaceHoodSpeedway + ' ' + Races + ' ' + RaceQualified,
  str(RaceGlobals.QualifiedRaces[2]) + ' ' + RaceHoodSpeedway + ' ' + Races + ' ' + RaceQualified,
  str(RaceGlobals.QualifiedRaces[0]) + ' ' + RaceHoodRural + ' ' + Race + ' ' + RaceQualified,
@@ -9174,7 +9174,7 @@ GardeningWaterSkill = 'Water Skill'
 GardeningShovelSkill = 'Shovel Skill'
 GardeningNoSkill = 'No Skill Up'
 GardeningPlantFlower = 'Plant\nFlower'
-GardeningPlanTTWee = 'Plant\nTree'
+GardeningPlantTree = 'Plant\nTree'
 GardeningPlantItem = 'Plant\nItem'
 PlantingGuiOk = 'Plant'
 PlantingGuiCancel = 'Cancel'

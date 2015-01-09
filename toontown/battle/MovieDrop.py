@@ -198,18 +198,18 @@ def __dropGroupObject(drop, delay, closestTarget, alreadyDodged, alreadyTeased):
     returnedParallel = __dropObject(drop, delay, objName, level, alreadyDodged, alreadyTeased, npcs, target, npcDrops)
     for i in range(len(drop['target'])):
         target = drop['target'][i]
-        suiTTWack = __createSuiTTWack(drop, delay, level, alreadyDodged, alreadyTeased, target, npcs)
-        if suiTTWack:
-            returnedParallel.append(suiTTWack)
+        suitTrack = __createSuitTrack(drop, delay, level, alreadyDodged, alreadyTeased, target, npcs)
+        if suitTrack:
+            returnedParallel.append(suitTrack)
 
     return returnedParallel
 
 
 def __dropObjectForSingle(drop, delay, objName, level, alreadyDodged, alreadyTeased, npcs, target, npcDrops):
     singleDropParallel = __dropObject(drop, delay, objName, level, alreadyDodged, alreadyTeased, npcs, target, npcDrops)
-    suiTTWack = __createSuiTTWack(drop, delay, level, alreadyDodged, alreadyTeased, target, npcs)
-    if suiTTWack:
-        singleDropParallel.append(suiTTWack)
+    suitTrack = __createSuitTrack(drop, delay, level, alreadyDodged, alreadyTeased, target, npcs)
+    if suitTrack:
+        singleDropParallel.append(suitTrack)
     return singleDropParallel
 
 
@@ -272,7 +272,7 @@ def __dropObject(drop, delay, objName, level, alreadyDodged, alreadyTeased, npcs
         buttonTrack.append(Wait(2.5))
         buttonTrack.append(buttonScaleDown)
         buttonTrack.append(buttonHide)
-    objecTTWack = Sequence()
+    objectTrack = Sequence()
 
     def posObject(object, suit, level, majorObject, miss, battle = battle):
         object.reparentTo(battle)
@@ -293,16 +293,16 @@ def __dropObject(drop, delay, objName, level, alreadyDodged, alreadyTeased, npcs
                 object.setZ(object.getPos(battle)[2] + shoulderHeight)
         object.setZ(object.getPos(battle)[2] + objZOffsets[level])
 
-    objecTTWack.append(Func(battle.movie.needRestoreRenderProp, object))
+    objectTrack.append(Func(battle.movie.needRestoreRenderProp, object))
     objInit = Func(posObject, object, suit, level, majorObject, hp <= 0)
-    objecTTWack.append(Wait(delay + tObjectAppears))
-    objecTTWack.append(objInit)
+    objectTrack.append(Wait(delay + tObjectAppears))
+    objectTrack.append(objInit)
     if hp > 0 or level == 1 or level == 2:
-        if hasaTTW(object, 'getAnimControls'):
+        if hasattr(object, 'getAnimControls'):
             animProp = ActorInterval(object, objName)
             shrinkProp = LerpScaleInterval(object, dShrink, Point3(0.01, 0.01, 0.01), startScale=object.getScale())
             objAnimShrink = ParallelEndTogether(animProp, shrinkProp)
-            objecTTWack.append(objAnimShrink)
+            objectTrack.append(objAnimShrink)
         else:
             startingScale = objStartingScales[level]
             object2 = MovieUtil.copyProp(object)
@@ -315,9 +315,9 @@ def __dropObject(drop, delay, objName, level, alreadyDodged, alreadyTeased, npcs
             shrinkProp = LerpScaleInterval(object, dShrink, Point3(0.01, 0.01, 0.01), startScale=startingScale)
             bounceProp = Effects.createZBounce(object, 2, endingPos, 0.5, 1.5)
             objAnimShrink = Sequence(Func(object.setScale, startingScale), Func(object.setH, endHpr[0]), animProp, bounceProp, Wait(1.5), shrinkProp)
-            objecTTWack.append(objAnimShrink)
+            objectTrack.append(objAnimShrink)
             MovieUtil.removeProp(object2)
-    elif hasaTTW(object, 'getAnimControls'):
+    elif hasattr(object, 'getAnimControls'):
         animProp = ActorInterval(object, objName, duration=landFrames[level] / 24.0)
 
         def poseProp(prop, animName, level):
@@ -326,10 +326,10 @@ def __dropObject(drop, delay, objName, level, alreadyDodged, alreadyTeased, npcs
         poseProp = Func(poseProp, object, objName, level)
         wait = Wait(1.0)
         shrinkProp = LerpScaleInterval(object, dShrinkOnMiss, Point3(0.01, 0.01, 0.01), startScale=object.getScale())
-        objecTTWack.append(animProp)
-        objecTTWack.append(poseProp)
-        objecTTWack.append(wait)
-        objecTTWack.append(shrinkProp)
+        objectTrack.append(animProp)
+        objectTrack.append(poseProp)
+        objectTrack.append(wait)
+        objectTrack.append(shrinkProp)
     else:
         startingScale = objStartingScales[level]
         object2 = MovieUtil.copyProp(object)
@@ -342,10 +342,10 @@ def __dropObject(drop, delay, objName, level, alreadyDodged, alreadyTeased, npcs
         shrinkProp = LerpScaleInterval(object, dShrinkOnMiss, Point3(0.01, 0.01, 0.01), startScale=startingScale)
         bounceProp = Effects.createZBounce(object, 2, endingPos, 0.5, 1.5)
         objAnimShrink = Sequence(Func(object.setScale, startingScale), Func(object.setH, endHpr[0]), animProp, bounceProp, Wait(1.5), shrinkProp)
-        objecTTWack.append(objAnimShrink)
+        objectTrack.append(objAnimShrink)
         MovieUtil.removeProp(object2)
-    objecTTWack.append(Func(MovieUtil.removeProp, object))
-    objecTTWack.append(Func(battle.movie.clearRenderProp, object))
+    objectTrack.append(Func(MovieUtil.removeProp, object))
+    objectTrack.append(Func(battle.movie.clearRenderProp, object))
     dropShadow = MovieUtil.copyProp(suit.getShadowJoint())
     if level == 0:
         dropShadow.setScale(0.5)
@@ -374,10 +374,10 @@ def __dropObject(drop, delay, objName, level, alreadyDodged, alreadyTeased, npcs
         dropShadow.setZ(dropShadow.getZ() + 0.5)
 
     shadowTrack = Sequence(Wait(delay + tButtonPressed), Func(battle.movie.needRestoreRenderProp, dropShadow), Func(posShadow), LerpScaleInterval(dropShadow, tObjectAppears - tButtonPressed, dropShadow.getScale(), startScale=Point3(0.01, 0.01, 0.01)), Wait(0.3), Func(MovieUtil.removeProp, dropShadow), Func(battle.movie.clearRenderProp, dropShadow))
-    return Parallel(toonTrack, soundTrack, buttonTrack, objecTTWack, shadowTrack)
+    return Parallel(toonTrack, soundTrack, buttonTrack, objectTrack, shadowTrack)
 
 
-def __createSuiTTWack(drop, delay, level, alreadyDodged, alreadyTeased, target, npcs):
+def __createSuitTrack(drop, delay, level, alreadyDodged, alreadyTeased, target, npcs):
     toon = drop['toon']
     if drop.has_key('npc'):
         toon = drop['npc']
@@ -393,7 +393,7 @@ def __createSuiTTWack(drop, delay, level, alreadyDodged, alreadyTeased, target, 
     kbbonus = target['kbbonus']
     hpbonus = drop['hpbonus']
     if hp > 0:
-        suiTTWack = Sequence()
+        suitTrack = Sequence()
         showDamage = Func(suit.showHpText, -hp, openEnded=0)
         updateHealthBar = Func(suit.updateHealthBar, hp)
         if majorObject:
@@ -401,27 +401,27 @@ def __createSuiTTWack(drop, delay, level, alreadyDodged, alreadyTeased, target, 
         else:
             anim = 'drop-react'
         suitReact = ActorInterval(suit, anim)
-        suiTTWack.append(Wait(delay + tObjectAppears))
-        suiTTWack.append(showDamage)
-        suiTTWack.append(updateHealthBar)
+        suitTrack.append(Wait(delay + tObjectAppears))
+        suitTrack.append(showDamage)
+        suitTrack.append(updateHealthBar)
         suitGettingHit = Parallel(suitReact)
         if level == UBER_GAG_LEVEL_INDEX:
             gotHitSound = globalBattleSoundCache.getSound('AA_drop_boat_cog.ogg')
             suitGettingHit.append(SoundInterval(gotHitSound, node=toon))
-        suiTTWack.append(suitGettingHit)
+        suitTrack.append(suitGettingHit)
         bonusTrack = None
         if hpbonus > 0:
             bonusTrack = Sequence(Wait(delay + tObjectAppears + 0.75), Func(suit.showHpText, -hpbonus, 1, openEnded=0))
         if revived != 0:
-            suiTTWack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle, npcs))
+            suitTrack.append(MovieUtil.createSuitReviveTrack(suit, toon, battle, npcs))
         elif died != 0:
-            suiTTWack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle, npcs))
+            suitTrack.append(MovieUtil.createSuitDeathTrack(suit, toon, battle, npcs))
         else:
-            suiTTWack.append(Func(suit.loop, 'neutral'))
+            suitTrack.append(Func(suit.loop, 'neutral'))
         if bonusTrack != None:
-            suiTTWack = Parallel(suiTTWack, bonusTrack)
+            suitTrack = Parallel(suitTrack, bonusTrack)
     elif kbbonus == 0:
-        suiTTWack = Sequence(Wait(delay + tObjectAppears), Func(MovieUtil.indicateMissed, suit, 0.6), Func(suit.loop, 'neutral'))
+        suitTrack = Sequence(Wait(delay + tObjectAppears), Func(MovieUtil.indicateMissed, suit, 0.6), Func(suit.loop, 'neutral'))
     else:
         if alreadyDodged > 0:
             return
@@ -429,7 +429,7 @@ def __createSuiTTWack(drop, delay, level, alreadyDodged, alreadyTeased, target, 
             if alreadyTeased > 0:
                 return
             else:
-                suiTTWack = MovieUtil.createSuitTeaseMultiTrack(suit, delay=delay + tObjectAppears)
+                suitTrack = MovieUtil.createSuitTeaseMultiTrack(suit, delay=delay + tObjectAppears)
         else:
-            suiTTWack = MovieUtil.createSuitDodgeMultitrack(delay + tSuitDodges, suit, leftSuits, rightSuits)
-    return suiTTWack
+            suitTrack = MovieUtil.createSuitDodgeMultitrack(delay + tSuitDodges, suit, leftSuits, rightSuits)
+    return suitTrack

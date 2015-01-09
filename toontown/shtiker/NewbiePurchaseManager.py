@@ -41,7 +41,7 @@ class NewbiePurchaseManager(PurchaseManager.PurchaseManager):
 
     def disable(self):
         PurchaseManager.PurchaseManager.disable(self)
-        if hasaTTW(self, 'movie'):
+        if hasattr(self, 'movie'):
             self.npc.removeActive()
             self.npc.delete()
             del self.npc

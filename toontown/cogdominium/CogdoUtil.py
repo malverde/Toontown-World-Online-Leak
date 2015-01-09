@@ -1,4 +1,4 @@
-from pandac.PandaModules import ColorBlendATTWib
+from pandac.PandaModules import ColorBlendAttrib
 ModelPhase = 5
 ModelTypes = {'animation': 'a',
  'model': 'm',
@@ -37,7 +37,7 @@ class DevVariableContainer:
     def __init__(self, name):
         self.__dict__['_enabled'] = config.GetBool('%s-dev' % name, False)
 
-    def __setaTTW__(self, name, value):
+    def __setattr__(self, name, value):
         self.__dict__[name] = self._enabled and value
 
 
@@ -100,7 +100,7 @@ class CogdoGameMovie:
 
 
 def initializeLightCone(np, bin = 'fixed', sorting = 3):
-    np.node().setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd, ColorBlendATTWib.OIncomingAlpha, ColorBlendATTWib.OOne))
+    np.node().setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd, ColorBlendAttrib.OIncomingAlpha, ColorBlendAttrib.OOne))
     if bin:
         np.setBin(bin, sorting)
     np.setDepthWrite(False)

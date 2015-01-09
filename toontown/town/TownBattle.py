@@ -194,7 +194,7 @@ class TownBattle(StateData.StateData):
         self.chooseCogPanel.load()
         self.chooseToonPanel.load()
         self.SOSPanel.load()
-        if hasaTTW(base, 'wantPets') and base.wantPets:
+        if hasattr(base, 'wantPets') and base.wantPets:
             self.SOSPetSearchPanel.load()
             self.SOSPetInfoPanel.load()
         self.isLoaded = 1
@@ -208,13 +208,13 @@ class TownBattle(StateData.StateData):
         self.chooseToonPanel.unload()
         self.FireCogPanel.unload()
         self.SOSPanel.unload()
-        if hasaTTW(base, 'wantPets') and base.wantPets:
+        if hasattr(base, 'wantPets') and base.wantPets:
             self.SOSPetSearchPanel.unload()
             self.SOSPetInfoPanel.unload()
         self.isLoaded = 0
 
     def setState(self, state):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.request(state)
 
     def updateTimer(self, time):
@@ -316,7 +316,7 @@ class TownBattle(StateData.StateData):
          (-1, 0, 0),
          (-1, 0, 0)]
         self.target = 0
-        if hasaTTW(self, 'timer'):
+        if hasattr(self, 'timer'):
             self.timer.hide()
         return None
 

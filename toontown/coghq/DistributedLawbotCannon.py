@@ -62,7 +62,7 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
         self.t = 0
         self.lastT = 0
         self.deltaT = 0
-        self.hiTTWack = None
+        self.hitTrack = None
         self.flyColNode = None
         self.flyColNodePath = None
         self.localAvId = base.localAvatar.doId
@@ -78,10 +78,10 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
         self.setMovie(CannonGlobals.CANNON_MOVIE_CLEAR, 0, 0)
         self.nodePath.detachNode()
         self.__unmakeGui()
-        if self.hiTTWack:
-            self.hiTTWack.finish()
-            del self.hiTTWack
-            self.hiTTWack = None
+        if self.hitTrack:
+            self.hitTrack.finish()
+            del self.hitTrack
+            self.hitTrack = None
         DistributedObject.DistributedObject.disable(self)
         return
 
@@ -572,7 +572,7 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
             if self.avId:
                 avatar = base.cr.doId2do.get(self.avId, None)
         if avatar:
-            if hasaTTW(self, 'cannon') and self.cannon:
+            if hasattr(self, 'cannon') and self.cannon:
                 avatar.reparentTo(self.cannon)
                 avatar.setPosHpr(3, 0, 0, 90, 0, 0)
                 avatar.wrtReparentTo(render)
@@ -790,10 +790,10 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
         track.append(Func(self.b_setLanded))
         if self.localToonShooting:
             pass
-        if self.hiTTWack:
-            self.hiTTWack.finish()
-        self.hiTTWack = track
-        self.hiTTWack.start()
+        if self.hitTrack:
+            self.hitTrack.finish()
+        self.hitTrack = track
+        self.hitTrack.start()
         return
 
     def enterCannonHit(self, collisionEntry):
@@ -872,5 +872,5 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
     def generateCannonAppearTrack(self, avatar):
         self.cannon.setScale(0.1)
         self.cannon.show()
-        karTTWack = Parallel(Sequence(ActorInterval(avatar, 'feedPet'), Func(avatar.loop, 'neutral')), Sequence(Func(self.cannon.reparentTo, avatar.rightHand), Wait(2.1), Func(self.cannon.wrtReparentTo, render), Func(self.cannon.setShear, 0, 0, 0), Parallel(LerpHprInterval(self.cannon, hpr=self.nodePath.getHpr(render), duration=1.2), ProjectileInterval(self.cannon, endPos=self.nodePath.getPos(render), duration=1.2, gravityMult=0.45)), Wait(0.2), Sequence(LerpScaleInterval(self.cannon, scale=Point3(1.1, 1.1, 0.1), duration=0.2), LerpScaleInterval(self.cannon, scale=Point3(0.9, 0.9, 0.1), duration=0.1), LerpScaleInterval(self.cannon, scale=Point3(1.0, 1.0, 0.1), duration=0.1), LerpScaleInterval(self.cannon, scale=Point3(1.0, 1.0, 1.1), duration=0.2), LerpScaleInterval(self.cannon, scale=Point3(1.0, 1.0, 0.9), duration=0.1), LerpScaleInterval(self.cannon, scale=Point3(1.0, 1.0, 1.0), duration=0.1), Func(self.cannon.wrtReparentTo, self.nodePath))))
-        return karTTWack
+        kartTrack = Parallel(Sequence(ActorInterval(avatar, 'feedPet'), Func(avatar.loop, 'neutral')), Sequence(Func(self.cannon.reparentTo, avatar.rightHand), Wait(2.1), Func(self.cannon.wrtReparentTo, render), Func(self.cannon.setShear, 0, 0, 0), Parallel(LerpHprInterval(self.cannon, hpr=self.nodePath.getHpr(render), duration=1.2), ProjectileInterval(self.cannon, endPos=self.nodePath.getPos(render), duration=1.2, gravityMult=0.45)), Wait(0.2), Sequence(LerpScaleInterval(self.cannon, scale=Point3(1.1, 1.1, 0.1), duration=0.2), LerpScaleInterval(self.cannon, scale=Point3(0.9, 0.9, 0.1), duration=0.1), LerpScaleInterval(self.cannon, scale=Point3(1.0, 1.0, 0.1), duration=0.1), LerpScaleInterval(self.cannon, scale=Point3(1.0, 1.0, 1.1), duration=0.2), LerpScaleInterval(self.cannon, scale=Point3(1.0, 1.0, 0.9), duration=0.1), LerpScaleInterval(self.cannon, scale=Point3(1.0, 1.0, 1.0), duration=0.1), Func(self.cannon.wrtReparentTo, self.nodePath))))
+        return kartTrack

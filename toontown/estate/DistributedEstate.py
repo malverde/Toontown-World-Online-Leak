@@ -229,7 +229,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
     def sendHouseColor(self, index, r, g, b, a):
         self.house[index].setColor(r, g, b, a)
 
-    def seTTWeasureIds(self, doIds):
+    def setTreasureIds(self, doIds):
         self.flyingTreasureId = []
         for id in doIds:
             self.flyingTreasureId.append(id)
@@ -275,7 +275,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
             self.dayTrack.finish()
         self.dayTrack = track
         ts = 0
-        if hasaTTW(task, 'ts'):
+        if hasattr(task, 'ts'):
             ts = task.ts
         self.dayTrack.start(ts)
         taskMgr.doMethodLater(HouseGlobals.DAY_NIGHT_PERIOD - ts, self.__dayTimeTask, self.taskName('daytime'))
@@ -301,7 +301,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
             self.sunTrack.finish()
         self.sunTrack = track
         ts = 0
-        if hasaTTW(task, 'ts'):
+        if hasattr(task, 'ts'):
             ts = task.ts
             if ts > HouseGlobals.HALF_DAY_PERIOD and ts < HouseGlobals.DAY_NIGHT_PERIOD - HouseGlobals.HALF_DAY_PERIOD:
                 self.__stopBirds()
@@ -394,7 +394,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         base.cr.playGame.hood.loader.setCloudSwitch(clouds)
 
     def getClouds(self):
-        if hasaTTW(self, 'clouds'):
+        if hasattr(self, 'clouds'):
             return self.clouds
         else:
             return 0

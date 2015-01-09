@@ -66,7 +66,7 @@ class DistributedPhotoGameAI(DistributedMinigameAI, PhotoGameBase.PhotoGameBase)
             return task.done
 
     def __playing(self):
-        if not hasaTTW(self, 'gameFSM'):
+        if not hasattr(self, 'gameFSM'):
             return 0
         return self.gameFSM.getCurrentState().getName() == 'play'
 

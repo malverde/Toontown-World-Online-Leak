@@ -97,7 +97,7 @@ class DistributedMintElevatorExt(DistributedElevatorExt.DistributedElevatorExt):
              'zoneId': zoneId,
              'mintId': self.mintId,
              'hoodId': hoodId}
-            if hasaTTW(place, 'elevator') and place.elevator:
+            if hasattr(place, 'elevator') and place.elevator:
                 place.elevator.signalDone(doneStatus)
             else:
                 self.notify.warning("setMintInteriorZoneForce: Couldn't find playGame.getPlace().elevator, zoneId: %s" % zoneId)

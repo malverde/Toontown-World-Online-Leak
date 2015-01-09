@@ -11,15 +11,15 @@ from toontown.coghq import LaserGameMineSweeper
 from toontown.coghq import LaserGameRoll
 import random
 
-class DistributedSecurityCameraAI(DistributedEntityAI.DistributedEntityAI, NodePath, BasicEntities.NodePathATTWibs):
+class DistributedSecurityCameraAI(DistributedEntityAI.DistributedEntityAI, NodePath, BasicEntities.NodePathAttribs):
 
     def __init__(self, level, entId):
         DistributedEntityAI.DistributedEntityAI.__init__(self, level, entId)
         node = hidden.attachNewNode('DistributedSecurityCameraAI')
         NodePath.__init__(self, node)
-        if not hasaTTW(self, 'switchId'):
+        if not hasattr(self, 'switchId'):
             self.switchId = 0
-        if not hasaTTW(self, 'damPow'):
+        if not hasattr(self, 'damPow'):
             self.damPow = 1
         self.enabled = 1
         self.detectName = None
@@ -46,7 +46,7 @@ class DistributedSecurityCameraAI(DistributedEntityAI.DistributedEntityAI, NodeP
 
     def __detect(self, task):
         isThereAnyToons = False
-        if hasaTTW(self, 'level'):
+        if hasattr(self, 'level'):
             toonInRange = 0
             for avId in self.level.presentAvIds:
                 if avId in self.air.doId2do:

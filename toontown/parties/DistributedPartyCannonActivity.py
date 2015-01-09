@@ -73,7 +73,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
         self.flyingToonCloudsHit = 0
         self.initialFlyVel = 0
         self._localPlayedBefore = False
-        self.hiTTWack = None
+        self.hitTrack = None
         self.cTrav = None
         self.flyColNode = None
         self.flyColNodePath = None
@@ -174,10 +174,10 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             self.__stopCollisionHandler(self.localFlyingToon)
             self.__stopLocalFlyTask(self.localFlyingToonId)
             self.setMovie(PartyGlobals.CANNON_MOVIE_CLEAR, self.localFlyingToonId)
-        if self.hiTTWack is not None:
-            self.hiTTWack.finish()
-            del self.hiTTWack
-            self.hiTTWack = None
+        if self.hitTrack is not None:
+            self.hitTrack.finish()
+            del self.hitTrack
+            self.hitTrack = None
         DistributedPartyActivity.disable(self)
         return
 
@@ -422,7 +422,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             toon.dropShadow.show()
         place = base.cr.playGame.getPlace()
         if place is not None:
-            if not hasaTTW(place, 'fsm'):
+            if not hasattr(place, 'fsm'):
                 return
         if toon is not None and toon == base.localAvatar:
             self.__localDisplayLandedResults()
@@ -457,7 +457,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
                 pos = toon.getPos(render)
             toon.setPos(render, pos)
             toon.loop('neutral')
-            if self.localFiringCannon and hasaTTW(self.localFiringCannon, 'cannonNode'):
+            if self.localFiringCannon and hasattr(self.localFiringCannon, 'cannonNode'):
                 if self.localFiringCannon.cannonNode:
                     toon.lookAt(self.localFiringCannon.cannonNode)
                 else:
@@ -664,7 +664,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
                 self.localFlyingToon = None
                 self.localFlyingToonId = 0
                 self.localFiringCannon = None
-                if hasaTTW(self, 'camNode') and self.camNode:
+                if hasattr(self, 'camNode') and self.camNode:
                     self.camNode.removeNode()
                     self.camNode = None
         return
@@ -810,10 +810,10 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
         track.append(Func(self.d_setLanded, self.localFlyingToonId))
         if self.isLocalToonId(self.localFlyingToonId):
             track.append(Func(self.localFlyingToon.collisionsOn))
-        if self.hiTTWack:
-            self.hiTTWack.finish()
-        self.hiTTWack = track
-        self.hiTTWack.start()
+        if self.hitTrack:
+            self.hitTrack.finish()
+        self.hitTrack = track
+        self.hitTrack.start()
         return
 
     def __hitBumper(self, avatar, collisionEntry, sound, kr = 0.6, angVel = 1):
@@ -942,7 +942,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             self.notify.debug('Toon has left the party')
 
     def __checkHoodValidity(self):
-        if hasaTTW(base.cr.playGame, 'hood') and base.cr.playGame.hood and hasaTTW(base.cr.playGame.hood, 'loader') and base.cr.playGame.hood.loader and hasaTTW(base.cr.playGame.hood.loader, 'geom') and base.cr.playGame.hood.loader.geom:
+        if hasattr(base.cr.playGame, 'hood') and base.cr.playGame.hood and hasattr(base.cr.playGame.hood, 'loader') and base.cr.playGame.hood.loader and hasattr(base.cr.playGame.hood.loader, 'geom') and base.cr.playGame.hood.loader.geom:
             return True
         else:
             return False

@@ -49,5 +49,5 @@ class DistCogdoBoardroomGame(CogdoBoardroomGameBase, DistCogdoLevelGame):
     if __dev__:
 
         def _handleTimerScaleChanged(self, timerScale):
-            if hasaTTW(self, 'timer'):
+            if hasattr(self, 'timer'):
                 self.timer.setScale(timerScale)

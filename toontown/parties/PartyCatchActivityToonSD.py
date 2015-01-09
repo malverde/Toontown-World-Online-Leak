@@ -121,7 +121,7 @@ class PartyCatchActivityToonSD(StateData.StateData):
     def exitRules(self):
         self.setAnimState('off', 1.0)
         self.ignore(self.activity.rulesDoneEvent)
-        if hasaTTW(self, 'rulesPanel'):
+        if hasattr(self, 'rulesPanel'):
             self.rulesPanel.exit()
             self.rulesPanel.unload()
             del self.rulesPanel

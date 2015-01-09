@@ -48,11 +48,11 @@ class DistributedStageAI(DistributedObjectAI.DistributedObjectAI):
 
     def requestDelete(self):
         self.notify.info('requestDelete: %s' % self.doId)
-        if hasaTTW(self, 'rooms'):
+        if hasattr(self, 'rooms'):
             for room in self.rooms:
                 room.requestDelete()
 
-        if hasaTTW(self, 'elevatorList'):
+        if hasattr(self, 'elevatorList'):
             for elevator in self.elevatorList:
                 elevator.requestDelete()
 
@@ -61,16 +61,16 @@ class DistributedStageAI(DistributedObjectAI.DistributedObjectAI):
     def delete(self):
         self.notify.info('delete: %s' % self.doId)
         if __dev__:
-            if hasaTTW(simbase, 'stage') and simbase.stage is self:
+            if hasattr(simbase, 'stage') and simbase.stage is self:
                 del simbase.stage
         self.air.deallocateZone(self.zoneId)
-        if hasaTTW(self, 'elevatorList'):
+        if hasattr(self, 'elevatorList'):
             del self.elevatorList
-        if hasaTTW(self, 'rooms'):
+        if hasattr(self, 'rooms'):
             del self.rooms
-        if hasaTTW(self, 'layout'):
+        if hasattr(self, 'layout'):
             del self.layout
-        if hasaTTW(self, 'battleExpAggreg'):
+        if hasattr(self, 'battleExpAggreg'):
             del self.battleExpAggreg
         DistributedObjectAI.DistributedObjectAI.delete(self)
 

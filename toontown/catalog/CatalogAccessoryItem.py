@@ -244,7 +244,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
             color = VBase4(color[0], color[1], color[2], color[3])
             model.setColorScale(color, 1)
             if needsAlpha:
-                model.seTTWansparency(1)
+                model.setTransparency(1)
         return
 
     def loadModel(self):
@@ -287,7 +287,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
             CatalogItem.CatalogItem.requestPurchase(self, phone, callback)
 
     def requestPurchaseCleanup(self):
-        if hasaTTW(self, 'dialog'):
+        if hasattr(self, 'dialog'):
             self.dialog.cleanup()
             del self.dialog
 
@@ -310,7 +310,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
             else:
                 return TTLocalizer.CatalogAcceptShoes
         elif retcode == ToontownGlobals.P_NoRoomForItem:
-            return TTLocalizer.CatalogAccepTTWunkFull
+            return TTLocalizer.CatalogAcceptTrunkFull
         elif retcode == ToontownGlobals.P_NoTrunk:
             return TTLocalizer.CatalogAcceptNoTrunk
         return CatalogItem.CatalogItem.getAcceptItemErrorText(self, retcode)

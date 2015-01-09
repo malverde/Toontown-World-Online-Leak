@@ -43,13 +43,13 @@ class DistributedToonUD(DistributedObjectUD):
     def setMaxCarry(self, todo0):
         pass
 
-    def seTTWackAccess(self, todo0):
+    def setTrackAccess(self, todo0):
         pass
 
-    def seTTWackProgress(self, todo0, todo1):
+    def setTrackProgress(self, todo0, todo1):
         pass
 
-    def seTTWackBonusLevel(self, todo0):
+    def setTrackBonusLevel(self, todo0):
         pass
 
     def setInventory(self, todo0):
@@ -151,7 +151,7 @@ class DistributedToonUD(DistributedObjectUD):
     def setResistanceMessages(self, todo0):
         pass
 
-    def setPeTTWickPhrases(self, todo0):
+    def setPetTrickPhrases(self, todo0):
         pass
 
     def setCatalogSchedule(self, todo0, todo1):
@@ -199,7 +199,7 @@ class DistributedToonUD(DistributedObjectUD):
     def setSpeedChatStyleIndex(self, todo0):
         pass
 
-    def seTTWophyScore(self, todo0):
+    def setTrophyScore(self, todo0):
         pass
 
     def setTeleportAccess(self, todo0):

@@ -6,30 +6,30 @@ class EntityStateVarSet(Entity):
 
     def __init__(self, entType):
         self._entType = entType
-        self._aTTWibNames = []
-        for aTTWib in self._entType.aTTWibs:
-            name, defaultVal, type = aTTWib
-            self._addATTWib(name, defaultVal, type)
+        self._attribNames = []
+        for attrib in self._entType.attribs:
+            name, defaultVal, type = attrib
+            self._addAttrib(name, defaultVal, type)
 
     def initializeEntity(self, level, entId):
         stateVars = {}
-        for aTTWibName in self._aTTWibNames:
-            stateVars[aTTWibName] = getaTTW(self, aTTWibName)
+        for attribName in self._attribNames:
+            stateVars[attribName] = getattr(self, attribName)
 
         Entity.initializeEntity(self, level, entId)
-        for aTTWibName in self._aTTWibNames:
-            stateVars[aTTWibName].set(getaTTW(self, aTTWibName))
+        for attribName in self._attribNames:
+            stateVars[attribName].set(getattr(self, attribName))
 
-        for aTTWibName in self._aTTWibNames:
-            setaTTW(self, aTTWibName, stateVars[aTTWibName])
+        for attribName in self._attribNames:
+            setattr(self, attribName, stateVars[attribName])
 
-    def _getATTWibuteNames(self):
-        return self._aTTWibNames[:]
+    def _getAttributeNames(self):
+        return self._attribNames[:]
 
     def _setter(self, name, value):
-        getaTTW(self, name).set(value)
+        getattr(self, name).set(value)
 
-    def _addATTWib(self, name, defaultVal, type):
-        setaTTW(self, name, StateVar(defaultVal))
-        setaTTW(self, getSetterName(name), Functor(self._setter, name))
-        self._aTTWibNames.append(name)
+    def _addAttrib(self, name, defaultVal, type):
+        setattr(self, name, StateVar(defaultVal))
+        setattr(self, getSetterName(name), Functor(self._setter, name))
+        self._attribNames.append(name)

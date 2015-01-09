@@ -89,7 +89,7 @@ class ToontownRPCHandler:
         """
         Returns a few basic details about a Toon. This includes hp/maxHp, DNA and name.
 
-        On success, returns name, hp, maxHp and dna aTTWibutes.
+        On success, returns name, hp, maxHp and dna attributes.
         On failure, returns null.
         """
 
@@ -128,7 +128,7 @@ class ToontownRPCHandler:
     def rpc_getAvatarDetailsByName(self, request, name):
         """Fetch a list of avatars that match the provided name.
         Each element is a dict containing their hp/maxHp, lastSeen and
-        a few DNA aTTWibutes.
+        a few DNA attributes.
 
         This list can be empty (meaning no avatars matched).
         """

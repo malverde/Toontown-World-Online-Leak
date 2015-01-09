@@ -289,7 +289,7 @@ class PartyCogActivityLocalPlayer(PartyCogActivityPlayer):
         self.gui.setScore(0)
         self.gui.showScore()
         self.gui.setTeam(self.team)
-        self.gui.starTTWackingCogs(self.activity.view.cogManager.cogs)
+        self.gui.startTrackingCogs(self.activity.view.cogManager.cogs)
         self.control.enable()
         self._startUpdateTask()
 

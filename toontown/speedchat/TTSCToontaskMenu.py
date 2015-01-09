@@ -40,7 +40,7 @@ class TTSCToontaskMenu(SCMenu):
                 addTerminal(TTSCToontaskTerminal(msgs[i], taskId, toNpcId, toonProgress, i))
 
         needToontask = 1
-        if hasaTTW(lt, 'questCarryLimit'):
+        if hasattr(lt, 'questCarryLimit'):
             needToontask = len(lt.quests) != lt.questCarryLimit
         if needToontask:
             addTerminal(SCStaticTextTerminal(1299))

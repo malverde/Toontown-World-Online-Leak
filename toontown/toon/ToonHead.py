@@ -100,7 +100,7 @@ class ToonHead(Actor.Actor):
             self.__blinkName = 'blink-' + self.toonName
             self.__stareAtName = 'stareAt-' + self.toonName
             self.__lookName = 'look-' + self.toonName
-            self.lookATTWack = None
+            self.lookAtTrack = None
             self.__eyes = None
             self.__eyelashOpen = None
             self.__eyelashClosed = None
@@ -141,9 +141,9 @@ class ToonHead(Actor.Actor):
             taskMgr.remove(self.__blinkName)
             taskMgr.remove(self.__lookName)
             taskMgr.remove(self.__stareAtName)
-            if self.lookATTWack:
-                self.lookATTWack.finish()
-                self.lookATTWack = None
+            if self.lookAtTrack:
+                self.lookAtTrack.finish()
+                self.lookAtTrack = None
             del self.eyelids
             del self.__stareAtNode
             del self.__stareAtPoint
@@ -403,8 +403,8 @@ class ToonHead(Actor.Actor):
         return headHeight
 
     def loadPumpkin(self, headStyle, lod, copy):
-        if hasaTTW(base, 'launcher') and (not base.launcher or base.launcher and base.launcher.getPhaseComplete(4)):
-            if not hasaTTW(self, 'pumpkins'):
+        if hasattr(base, 'launcher') and (not base.launcher or base.launcher and base.launcher.getPhaseComplete(4)):
+            if not hasattr(self, 'pumpkins'):
                 self.pumpkins = NodePathCollection()
             ppath = 'phase_4/models/estate/pumpkin_'
             if headStyle is 'l':
@@ -438,8 +438,8 @@ class ToonHead(Actor.Actor):
             ToonHead.notify.debug('phase_4 not complete yet. Postponing pumpkin head load.')
 
     def loadSnowMan(self, headStyle, lod, copy):
-        if hasaTTW(base, 'launcher') and (not base.launcher or base.launcher and base.launcher.getPhaseComplete(4)):
-            if not hasaTTW(self, 'snowMen'):
+        if hasattr(base, 'launcher') and (not base.launcher or base.launcher and base.launcher.getPhaseComplete(4)):
+            if not hasattr(self, 'snowMen'):
                 self.snowMen = NodePathCollection()
             snowManPath = 'phase_4/models/props/tt_m_efx_snowmanHead_'
             if headStyle is 'l':
@@ -475,7 +475,7 @@ class ToonHead(Actor.Actor):
         return
 
     def enablePumpkins(self, enable):
-        if not hasaTTW(self, 'pumpkins'):
+        if not hasattr(self, 'pumpkins'):
             if len(self.__lods) == 1:
                 pLoaded = self.loadPumpkin(self.__headStyle[1], None, self.__copy)
                 if pLoaded:
@@ -486,15 +486,15 @@ class ToonHead(Actor.Actor):
                     if pLoaded:
                         self.__fixPumpkin(self.__style, lod, self.__copy)
 
-            if hasaTTW(self, 'pumpkins'):
+            if hasattr(self, 'pumpkins'):
                 for x in ['__lods',
                  '__style',
                  '__headStyle',
                  '__copy']:
-                    if hasaTTW(self, '_ToonHead' + x):
-                        delaTTW(self, '_ToonHead' + x)
+                    if hasattr(self, '_ToonHead' + x):
+                        delattr(self, '_ToonHead' + x)
 
-        if hasaTTW(self, 'pumpkins'):
+        if hasattr(self, 'pumpkins'):
             if enable:
                 if self.__eyelashOpen:
                     self.__eyelashOpen.stash()
@@ -511,14 +511,14 @@ class ToonHead(Actor.Actor):
         return
 
     def enableSnowMen(self, enable):
-        if not hasaTTW(self, 'snowMen'):
+        if not hasattr(self, 'snowMen'):
             if len(self.__lods) == 1:
                 self.loadSnowMan(self.__headStyle[1], None, self.__copy)
             else:
                 for lod in self.__lds:
                     self.loadSnowMan(self.__headStyle[1], lod, self.__copy)
 
-        if hasaTTW(self, 'snowMen'):
+        if hasattr(self, 'snowMen'):
             if enable:
                 if self.__eyelashOpen:
                     self.__eyelashOpen.stash()
@@ -986,9 +986,9 @@ class ToonHead(Actor.Actor):
 
     def startStareAt(self, node, point):
         taskMgr.remove(self.__stareAtName)
-        if self.lookATTWack:
-            self.lookATTWack.finish()
-            self.lookATTWack = None
+        if self.lookAtTrack:
+            self.lookAtTrack.finish()
+            self.lookAtTrack = None
         self.__stareAtNode = node
         if point != None:
             self.__stareAtPoint = point
@@ -1000,9 +1000,9 @@ class ToonHead(Actor.Actor):
 
     def lerpLookAt(self, point, time = 1.0, blink = 0):
         taskMgr.remove(self.__stareAtName)
-        if self.lookATTWack:
-            self.lookATTWack.finish()
-            self.lookATTWack = None
+        if self.lookAtTrack:
+            self.lookAtTrack.finish()
+            self.lookAtTrack = None
         lodNames = self.getLODNames()
         if lodNames:
             lodName = lodNames[0]
@@ -1029,12 +1029,12 @@ class ToonHead(Actor.Actor):
         returnToEyeCenterTime = time - lookToTgtTime - 0.5
         origin = Point3(0, 0, 0)
         blendType = 'easeOut'
-        self.lookATTWack = Parallel(Sequence(LerpPosInterval(self.__lpupil, lookToTgtTime, endLpupil, blendType=blendType), Wait(0.5), LerpPosInterval(self.__lpupil, returnToEyeCenterTime, origin, blendType=blendType)), Sequence(LerpPosInterval(self.__rpupil, lookToTgtTime, endRpupil, blendType=blendType), Wait(0.5), LerpPosInterval(self.__rpupil, returnToEyeCenterTime, origin, blendType=blendType)), name=self.__stareAtName)
+        self.lookAtTrack = Parallel(Sequence(LerpPosInterval(self.__lpupil, lookToTgtTime, endLpupil, blendType=blendType), Wait(0.5), LerpPosInterval(self.__lpupil, returnToEyeCenterTime, origin, blendType=blendType)), Sequence(LerpPosInterval(self.__rpupil, lookToTgtTime, endRpupil, blendType=blendType), Wait(0.5), LerpPosInterval(self.__rpupil, returnToEyeCenterTime, origin, blendType=blendType)), name=self.__stareAtName)
         for lodName in self.getLODNames():
             head = self.getPart('head', lodName)
-            self.lookATTWack.append(LerpHprInterval(head, time, endHpr, blendType='easeInOut'))
+            self.lookAtTrack.append(LerpHprInterval(head, time, endHpr, blendType='easeInOut'))
 
-        self.lookATTWack.start()
+        self.lookAtTrack.start()
         return 1
 
     def stopStareAt(self):
@@ -1042,9 +1042,9 @@ class ToonHead(Actor.Actor):
 
     def stopStareAtNow(self):
         taskMgr.remove(self.__stareAtName)
-        if self.lookATTWack:
-            self.lookATTWack.finish()
-            self.lookATTWack = None
+        if self.lookAtTrack:
+            self.lookAtTrack.finish()
+            self.lookAtTrack = None
         if self.__lpupil and self.__rpupil:
             self.__setPupilDirection(0, 0)
         for lodName in self.getLODNames():
@@ -1326,7 +1326,7 @@ class ToonHead(Actor.Actor):
             self.__muzzles[muzzleNum].show()
 
     def isIgnoreCheesyEffect(self):
-        if hasaTTW(self, 'savedCheesyEffect'):
+        if hasattr(self, 'savedCheesyEffect'):
             if self.savedCheesyEffect == 10 or self.savedCheesyEffect == 11 or self.savedCheesyEffect == 12 or self.savedCheesyEffect == 13 or self.savedCheesyEffect == 14:
                 return True
         return False

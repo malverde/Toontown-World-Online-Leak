@@ -15,13 +15,13 @@ class SpeedChat(SCMenu):
         self.privSetSettingsRef(self.settings)
         if structure is not None:
             self.rebuildFromStructure(structure)
-        self._lasTTWansform = None
+        self._lastTransform = None
         return
 
     def destroy(self):
         if self.isVisible():
             self.exitVisible()
-        self._lasTTWansform = None
+        self._lastTransform = None
         SCMenu.destroy(self)
         return
 
@@ -29,18 +29,18 @@ class SpeedChat(SCMenu):
         return "%s: '%s'" % (self.__class__.__name__, self.name)
 
     def enter(self):
-        self._detecTTWansformChange()
+        self._detectTransformChange()
         self.enterVisible()
 
     def exit(self):
         self.exitVisible()
 
-    def _detecTTWansformChange(self):
-        newTransform = self.geTTWansform(aspect2d)
-        if self._lasTTWansform is not None:
-            if newTransform != self._lasTTWansform:
+    def _detectTransformChange(self):
+        newTransform = self.getTransform(aspect2d)
+        if self._lastTransform is not None:
+            if newTransform != self._lastTransform:
                 self.invalidateAll()
-        self._lasTTWansform = newTransform
+        self._lastTransform = newTransform
         return
 
     def setWhisperMode(self, whisperMode):
@@ -62,5 +62,5 @@ class SpeedChat(SCMenu):
 
     def finalizeAll(self):
         self.notify.debug('finalizing entire SpeedChat tree')
-        self._detecTTWansformChange()
+        self._detectTransformChange()
         SCMenu.finalizeAll(self)

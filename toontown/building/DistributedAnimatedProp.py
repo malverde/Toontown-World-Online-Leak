@@ -8,7 +8,7 @@ class DistributedAnimatedProp(DistributedObject.DistributedObject):
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
-        self.fsm = ClassicFSM.ClassicFSM('DistributedAnimatedProp', [State.State('off', self.enterOff, self.exitOff, ['playing', 'aTTWact']), State.State('aTTWact', self.enterATTWact, self.exitATTWact, ['playing']), State.State('playing', self.enterPlaying, self.exitPlaying, ['aTTWact'])], 'off', 'off')
+        self.fsm = ClassicFSM.ClassicFSM('DistributedAnimatedProp', [State.State('off', self.enterOff, self.exitOff, ['playing', 'attract']), State.State('attract', self.enterAttract, self.exitAttract, ['playing']), State.State('playing', self.enterPlaying, self.exitPlaying, ['attract'])], 'off', 'off')
         self.fsm.enterInitialState()
 
     def generate(self):
@@ -48,8 +48,8 @@ class DistributedAnimatedProp(DistributedObject.DistributedObject):
         messenger.send('DistributedAnimatedProp_enterTrigger')
         self.sendUpdate('requestInteract')
 
-    def exiTTWigger(self, args = None):
-        messenger.send('DistributedAnimatedProp_exiTTWigger')
+    def exitTrigger(self, args = None):
+        messenger.send('DistributedAnimatedProp_exitTrigger')
         self.sendUpdate('requestExit')
 
     def rejectInteract(self):
@@ -64,10 +64,10 @@ class DistributedAnimatedProp(DistributedObject.DistributedObject):
     def exitOff(self):
         pass
 
-    def enterATTWact(self, ts):
+    def enterAttract(self, ts):
         pass
 
-    def exitATTWact(self):
+    def exitAttract(self):
         pass
 
     def enterPlaying(self, ts):

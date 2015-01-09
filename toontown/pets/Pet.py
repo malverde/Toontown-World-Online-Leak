@@ -292,7 +292,7 @@ class Pet(Avatar.Avatar):
         return
 
     def showMood(self, mood):
-        if hasaTTW(base.cr, 'newsManager') and base.cr.newsManager:
+        if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
             holidayIds = base.cr.newsManager.getHolidayIdList()
             if (ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds or ToontownGlobals.SILLYMETER_EXT_HOLIDAY in holidayIds) and not mood == 'confusion':
                 self.speakMood(mood)
@@ -334,7 +334,7 @@ class Pet(Avatar.Avatar):
                 return TTLocalizer.GenderShopGirlButtonText
 
     def getShadowJoint(self):
-        if hasaTTW(self, 'shadowJoint'):
+        if hasattr(self, 'shadowJoint'):
             return self.shadowJoint
         shadowJoint = self.find('**/attachShadow')
         if shadowJoint.isEmpty():
@@ -464,14 +464,14 @@ class Pet(Avatar.Avatar):
     def exitTeleportIn(self):
         self.track.pause()
 
-    def getTeleportOuTTWack(self):
+    def getTeleportOutTrack(self):
         if not self.teleportHole:
             self.teleportHole = Actor.Actor('phase_3.5/models/props/portal-mod', {'hole': 'phase_3.5/models/props/portal-chan'})
         track = Sequence(Wait(1.0), Parallel(self.getTeleportOutSoundInterval(), Sequence(ActorInterval(self, 'toDig'), Parallel(ActorInterval(self, 'dig'), Func(self.showHole), ActorInterval(self.teleportHole, 'hole', startFrame=81, endFrame=71)), ActorInterval(self, 'disappear'), ActorInterval(self.teleportHole, 'hole', startFrame=71, endFrame=81), Func(self.cleanupHole)), Sequence(Wait(1.0), Func(self.dropShadow.hide))))
         return track
 
     def enterTeleportOut(self, timestamp):
-        self.track = self.getTeleportOuTTWack()
+        self.track = self.getTeleportOutTrack()
         self.track.start(globalClockDelta.localElapsedTime(timestamp))
 
     def exitTeleportOut(self):
@@ -551,17 +551,17 @@ class Pet(Avatar.Avatar):
     def isSad(self):
         return 0
 
-    def starTTWackAnimToSpeed(self):
+    def startTrackAnimToSpeed(self):
         self.lastPos = self.getPos(render)
         self.lastH = self.getH(render)
-        taskMgr.add(self._trackAnimTask, self.geTTWackAnimTaskName())
+        taskMgr.add(self._trackAnimTask, self.getTrackAnimTaskName())
 
     def stopTrackAnimToSpeed(self):
-        taskMgr.remove(self.geTTWackAnimTaskName())
+        taskMgr.remove(self.getTrackAnimTaskName())
         del self.lastPos
         del self.lastH
 
-    def geTTWackAnimTaskName(self):
+    def getTrackAnimTaskName(self):
         return 'trackPetAnim-%s' % self.serialNum
 
     def _trackAnimTask(self, task):

@@ -31,7 +31,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
 
     def __init__(self, toon, game, level, guiMgr):
         CogdoFlyingPlayer.__init__(self, toon)
-        self.defaulTTWansitions = {'Inactive': ['FreeFly', 'Running'],
+        self.defaultTransitions = {'Inactive': ['FreeFly', 'Running'],
          'FreeFly': ['Inactive',
                      'OutOfTime',
                      'Death',
@@ -968,7 +968,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         CogdoFlyingLocalPlayer.notify.debug("exit%s: '%s' -> '%s'" % (self.oldState, self.oldState, self.newState))
 
     def _destroyEventIval(self):
-        if hasaTTW(self, 'eventIval'):
+        if hasattr(self, 'eventIval'):
             self.eventIval.clearToInitial()
             del self.eventIval
 
@@ -978,7 +978,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
         self.eventIval.start()
 
     def _destroyEnemyHitIval(self):
-        if hasaTTW(self, 'enemyHitIval'):
+        if hasattr(self, 'enemyHitIval'):
             self.enemyHitIval.clearToInitial()
             del self.enemyHitIval
 

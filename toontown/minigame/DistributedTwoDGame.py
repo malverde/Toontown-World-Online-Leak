@@ -100,7 +100,7 @@ class DistributedTwoDGame(DistributedMinigame):
         lt.setAnimState('Happy', 1.0)
         lt.setSpeed(0, 0)
         base.localAvatar.collisionsOn()
-        base.localAvatar.seTTWansparency(1)
+        base.localAvatar.setTransparency(1)
         self.setupHeadCollision()
         self.cameraMgr.onstage()
         toonSD = self.toonSDs[self.localAvId]
@@ -114,7 +114,7 @@ class DistributedTwoDGame(DistributedMinigame):
         for avId in self.toonSDs.keys():
             self.toonSDs[avId].exit()
 
-        base.localAvatar.seTTWansparency(0)
+        base.localAvatar.setTransparency(0)
         self.ignore('enterheadCollSphere-into-floor1')
         base.localAvatar.controlManager.currentControls.cTrav.removeCollider(self.headCollNP)
         self.headCollNP.removeNode()
@@ -267,7 +267,7 @@ class DistributedTwoDGame(DistributedMinigame):
         pass
 
     def acceptInputs(self):
-        if hasaTTW(self, 'twoDDrive'):
+        if hasattr(self, 'twoDDrive'):
             handlers = [None,
              None,
              None,
@@ -278,7 +278,7 @@ class DistributedTwoDGame(DistributedMinigame):
         return
 
     def ignoreInputs(self):
-        if hasaTTW(self, 'twoDDrive'):
+        if hasattr(self, 'twoDDrive'):
             handlers = [None,
              None,
              None,
@@ -462,7 +462,7 @@ class DistributedTwoDGame(DistributedMinigame):
         self.assetMgr.treasureGrabSound.play()
         self.sendUpdate('claimTreasure', [sectionIndex, treasureIndex])
 
-    def seTTWeasureGrabbed(self, avId, sectionIndex, treasureIndex):
+    def setTreasureGrabbed(self, avId, sectionIndex, treasureIndex):
         if not self.hasLocalToon:
             return
         if self.gameFSM.getCurrentState().getName() == 'play':
@@ -484,7 +484,7 @@ class DistributedTwoDGame(DistributedMinigame):
                 base.localAvatar.sendLogMessage('sectionIndex %s is out of range; numSections = %s' % (sectionIndex, numSections))
 
     def __enemyShot(self, sectionIndex, enemyIndex):
-        self.sectionMgr.sections[sectionIndex].enemyMgr.enemies[enemyIndex].doShoTTWack()
+        self.sectionMgr.sections[sectionIndex].enemyMgr.enemies[enemyIndex].doShotTrack()
         self.sendUpdate('claimEnemyShot', [sectionIndex, enemyIndex])
 
     def setEnemyShot(self, avId, sectionIndex, enemyIndex, enemyHealth):
@@ -494,7 +494,7 @@ class DistributedTwoDGame(DistributedMinigame):
             self.notify.debug('enemy %s is shot by %s. Health left %s' % (enemyIndex, avId, enemyHealth))
             if enemyHealth > 0:
                 if not avId == self.localAvId:
-                    self.sectionMgr.sections[sectionIndex].enemyMgr.enemies[enemyIndex].doShoTTWack()
+                    self.sectionMgr.sections[sectionIndex].enemyMgr.enemies[enemyIndex].doShotTrack()
             else:
                 enemy = self.sectionMgr.sections[sectionIndex].enemyMgr.enemies[enemyIndex]
                 treasureSpawnPoint = Point3(enemy.suit.getX(), enemy.suit.getY(), enemy.suit.getZ() + enemy.suit.height / 2.0)
@@ -511,7 +511,7 @@ class DistributedTwoDGame(DistributedMinigame):
         if self.gameFSM.getCurrentState().getName() == 'play':
             section = self.sectionMgr.sections[sectionIndex]
             treasure = section.treasureMgr.enemyTreasures[enemyIndex]
-            treasure.seTTWeasurePos(pos)
+            treasure.setTreasurePos(pos)
             treasure.popupEnemyTreasure()
 
     def timerExpired(self):

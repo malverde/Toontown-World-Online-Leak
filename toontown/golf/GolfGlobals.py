@@ -420,8 +420,8 @@ def calcCupListFromHistory(history):
     retval = [False] * NumCups
     trophyList = calcTrophyListFromHistory(history)
     numTrophiesWon = 0
-    for goTTWophy in trophyList:
-        if goTTWophy:
+    for gotTrophy in trophyList:
+        if gotTrophy:
             numTrophiesWon += 1
 
     for cupIndex in xrange(len(retval)):

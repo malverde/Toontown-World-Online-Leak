@@ -105,7 +105,7 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
                 shadow.flattenMedium()
                 shadow.reparentTo(self)
                 shadow.setPos(0, 0, 0.025)
-                shadow.seTTWansparency(1)
+                shadow.setTransparency(1)
                 self.shadow = shadow
             floorHeadNp = model.find('**/head_collisions/**/collDownFloor')
             floorHead = floorHeadNp.node()
@@ -348,7 +348,7 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
 
     if __dev__:
 
-        def aTTWibChanged(self, *args):
+        def attribChanged(self, *args):
             self.stopStomper()
             self.unloadModel()
             self.loadModel()

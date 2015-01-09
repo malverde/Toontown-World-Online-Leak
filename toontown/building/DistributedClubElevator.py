@@ -21,7 +21,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
      (1.5, 4, 0),
      (-1.5, 4, 0),
      (-3, 4, 0))
-    defaulTTWansitions = {'Off': ['Opening', 'Closed'],
+    defaultTransitions = {'Off': ['Opening', 'Closed'],
      'Opening': ['WaitEmpty',
                  'WaitCountdown',
                  'Opening',
@@ -98,10 +98,10 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         dist = Vec3(self.endPos - self.enteringPos).length()
         wheelAngle = dist / (4.8 * 1.4 * math.pi) * 360
         self.kartEnterAnimateInterval = Parallel(LerpHprInterval(self.wheels[0], 5.0, Vec3(self.wheels[0].getH(), wheelAngle, self.wheels[0].getR())), LerpHprInterval(self.wheels[1], 5.0, Vec3(self.wheels[1].getH(), wheelAngle, self.wheels[1].getR())), LerpHprInterval(self.wheels[2], 5.0, Vec3(self.wheels[2].getH(), wheelAngle, self.wheels[2].getR())), LerpHprInterval(self.wheels[3], 5.0, Vec3(self.wheels[3].getH(), wheelAngle, self.wheels[3].getR())), name='CogKartAnimate')
-        trolleyExiTTWack1 = Parallel(LerpPosInterval(self.golfKart, 5.0, self.endPos), self.kartEnterAnimateInterval, name='CogKartExiTTWack')
-        self.trolleyExiTTWack = Sequence(trolleyExiTTWack1)
+        trolleyExitTrack1 = Parallel(LerpPosInterval(self.golfKart, 5.0, self.endPos), self.kartEnterAnimateInterval, name='CogKartExitTrack')
+        self.trolleyExitTrack = Sequence(trolleyExitTrack1)
         self.trolleyEnterTrack = Sequence(LerpPosInterval(self.golfKart, 5.0, self.startingPos, startPos=self.enteringPos))
-        self.closeDoors = Sequence(self.trolleyExiTTWack, Func(self.onDoorCloseFinish))
+        self.closeDoors = Sequence(self.trolleyExitTrack, Func(self.onDoorCloseFinish))
         self.openDoors = Sequence(self.trolleyEnterTrack)
         self.setPos(0, 0, 0)
 
@@ -131,7 +131,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
 
     def set2Latch(self, taskMgrFooler = None):
         self.latchRequest = None
-        if hasaTTW(self, 'cr'):
+        if hasattr(self, 'cr'):
             marker = self.cr.doId2do.get(self.latch)
             if marker:
                 self.getElevatorModel().reparentTo(marker)
@@ -141,7 +141,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
         return
 
     def _repart2Marker(self, taskFoolio = 0):
-        if hasaTTW(self, 'cr') and self.cr:
+        if hasattr(self, 'cr') and self.cr:
             marker = self.cr.doId2do.get(self.latch)
             if marker:
                 self.getElevatorModel().reparentTo(marker)
@@ -411,7 +411,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
 
             def getJumpDest(av = av, node = self.golfKart):
                 dest = Point3(0, 0, 0)
-                if hasaTTW(self, 'golfKart') and self.golfKart:
+                if hasattr(self, 'golfKart') and self.golfKart:
                     dest = Vec3(self.golfKart.getPos(av.getParent()))
                     seatNode = self.golfKart.find('**/seat' + str(seatIndex + 1))
                     dest += seatNode.getPos(self.golfKart)
@@ -426,7 +426,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
 
             def getJumpHpr(av = av, node = self.golfKart):
                 hpr = Point3(0, 0, 0)
-                if hasaTTW(self, 'golfKart') and self.golfKart:
+                if hasattr(self, 'golfKart') and self.golfKart:
                     hpr = self.golfKart.getHpr(av.getParent())
                     if seatIndex < 2:
                         hpr.setX(hpr.getX() + 180)
@@ -441,13 +441,13 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
             toonJumpTrack = Parallel(ActorInterval(av, 'jump'), Sequence(Wait(0.43), Parallel(LerpHprInterval(av, hpr=getJumpHpr, duration=0.9), ProjectileInterval(av, endPos=getJumpDest, duration=0.9))))
             return toonJumpTrack
 
-        def getToonSiTTWack(av):
-            toonSiTTWack = Sequence(ActorInterval(av, 'sit-start'), Func(av.loop, 'sit'))
-            return toonSiTTWack
+        def getToonSitTrack(av):
+            toonSitTrack = Sequence(ActorInterval(av, 'sit-start'), Func(av.loop, 'sit'))
+            return toonSitTrack
 
         toonJumpTrack = getToonJumpTrack(av, seatIndex)
-        toonSiTTWack = getToonSiTTWack(av)
-        jumpTrack = Sequence(Parallel(toonJumpTrack, Sequence(Wait(1), toonSiTTWack)), Func(av.wrtReparentTo, self.golfKart))
+        toonSitTrack = getToonSitTrack(av)
+        jumpTrack = Sequence(Parallel(toonJumpTrack, Sequence(Wait(1), toonSitTrack)), Func(av.wrtReparentTo, self.golfKart))
         return jumpTrack
 
     def emptySlot(self, index, avId, bailFlag, timestamp):
@@ -461,7 +461,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
 
             self.deferredSlots = newSlots
         elif self.cr.doId2do.has_key(avId):
-            if bailFlag == 1 and hasaTTW(self, 'clockNode'):
+            if bailFlag == 1 and hasattr(self, 'clockNode'):
                 if timestamp < self.countdownTime and timestamp >= 0:
                     self.countdown(self.countdownTime - timestamp)
                 else:
@@ -469,8 +469,8 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
             toon = self.cr.doId2do[avId]
             toon.stopSmooth()
             sitStartDuration = toon.getDuration('sit-start')
-            jumpOuTTWack = self.generateToonReverseJumpTrack(toon, index)
-            track = Sequence(jumpOuTTWack, Func(self.clearToonTrack, avId), Func(self.notifyToonOffElevator, toon), name=toon.uniqueName('emptyElevator'), autoPause=1)
+            jumpOutTrack = self.generateToonReverseJumpTrack(toon, index)
+            track = Sequence(jumpOutTrack, Func(self.clearToonTrack, avId), Func(self.notifyToonOffElevator, toon), name=toon.uniqueName('emptyElevator'), autoPause=1)
             track.delayDelete = DelayDelete.DelayDelete(toon, 'ClubElevator.emptySlot')
             self.storeToonTrack(avId, track)
             track.start()

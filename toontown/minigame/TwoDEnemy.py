@@ -17,14 +17,14 @@ COLOR_RED = VBase4(1, 0, 0, 0.3)
 class TwoDEnemy(DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('TwoDEnemy')
 
-    def __init__(self, enemyMgr, index, suitATTWibs):
+    def __init__(self, enemyMgr, index, suitAttribs):
         self.enemyMgr = enemyMgr
         self.game = self.enemyMgr.section.sectionMgr.game
         self.index = index
         self.moveIval = None
         self.propTrack = None
         self.animTrack = None
-        self.shoTTWack = None
+        self.shotTrack = None
         self.deathTrack = None
         self.deathSuit = None
         self.suitSound = None
@@ -34,7 +34,7 @@ class TwoDEnemy(DirectObject):
         self.showCollSpheres = False
         self.isDestroyed = False
         self.isGoingUp = False
-        self.setupEnemy(suitATTWibs)
+        self.setupEnemy(suitAttribs)
         BattleParticles.loadParticles()
         return
 
@@ -42,7 +42,7 @@ class TwoDEnemy(DirectObject):
         if self.isDestroyed:
             return
         self.isDestroyed = True
-        if hasaTTW(self.suit, 'prop') and self.suit.prop:
+        if hasattr(self.suit, 'prop') and self.suit.prop:
             self.suit.prop.stash()
         if self.propTrack:
             self.propTrack.finish()
@@ -53,9 +53,9 @@ class TwoDEnemy(DirectObject):
         if self.animTrack:
             self.animTrack.finish()
             self.animTrack = None
-        if self.shoTTWack != None:
-            self.shoTTWack.finish()
-            self.shoTTWack = None
+        if self.shotTrack != None:
+            self.shotTrack.finish()
+            self.shotTrack = None
         if self.deathTrack != None:
             self.deathTrack.finish()
             self.deathTrack = None
@@ -75,8 +75,8 @@ class TwoDEnemy(DirectObject):
         self.enemyMgr = None
         return
 
-    def setupEnemy(self, suitATTWibs):
-        suitType = suitATTWibs[0]
+    def setupEnemy(self, suitAttribs):
+        suitType = suitAttribs[0]
         self.suit = Suit.Suit()
         suitDNA = SuitDNA.SuitDNA()
         suitDNA.newSuit(suitType)
@@ -84,13 +84,13 @@ class TwoDEnemy(DirectObject):
         self.suit.pose('walk', 0)
         self.suitName = 'Enemy-%s' % self.index
         self.suit.setName(self.suitName)
-        suitPosATTWibs = suitATTWibs[1]
-        initX, initY, initZ = suitPosATTWibs[0]
+        suitPosAttribs = suitAttribs[1]
+        initX, initY, initZ = suitPosAttribs[0]
         initPos = Point3(initX, initY, initZ)
-        if len(suitPosATTWibs) == 3:
-            finalX, finalY, finalZ = suitPosATTWibs[1]
+        if len(suitPosAttribs) == 3:
+            finalX, finalY, finalZ = suitPosAttribs[1]
             finalPos = Point3(finalX, finalY, finalZ)
-            posIvalDuration = suitPosATTWibs[2]
+            posIvalDuration = suitPosAttribs[2]
             self.clearMoveIval()
 
             def getForwardIval(blendTypeStr, self = self):
@@ -158,14 +158,14 @@ class TwoDEnemy(DirectObject):
             base.playSfx(self.suitSound, node=self.suit, looping=1)
 
     def enterPause(self):
-        if hasaTTW(self, 'moveIval') and self.moveIval:
+        if hasattr(self, 'moveIval') and self.moveIval:
             self.moveIval.pause()
             self.suit.loop('neutral')
         if self.suitSound:
             self.suitSound.stop()
 
     def exitPause(self):
-        if hasaTTW(self, 'moveIval') and self.moveIval:
+        if hasattr(self, 'moveIval') and self.moveIval:
             self.moveIval.resume()
             if self.isMovingLeftRight:
                 self.suit.loop('walk')
@@ -191,7 +191,7 @@ class TwoDEnemy(DirectObject):
         track = Sequence(Func(blink.loop), Wait(duration), Func(blink.finish))
         return track
 
-    def doShoTTWack(self):
+    def doShotTrack(self):
         blinkRed = self.blinkColor(COLOR_RED, 2)
         point = Point3(self.suit.getX(render), self.suit.getY(render), self.suit.getZ(render) + self.suit.height / 2.0)
         scale = 0.3
@@ -209,8 +209,8 @@ class TwoDEnemy(DirectObject):
         splash = globalPropPool.getProp('splash-from-splat')
         splash.setScale(scale)
         splashTrack = Sequence(Func(prepSplash, splash, point), ActorInterval(splash, 'splash-from-splat'), Wait(splashHold), Func(MovieUtil.removeProp, splash))
-        self.shoTTWack = Parallel(Func(self.game.assetMgr.playSplashSound), blinkRed, splashTrack)
-        self.shoTTWack.start()
+        self.shotTrack = Parallel(Func(self.game.assetMgr.playSplashSound), blinkRed, splashTrack)
+        self.shotTrack.start()
 
     def doDeathTrack(self):
 
@@ -245,7 +245,7 @@ class TwoDEnemy(DirectObject):
         bigGearExplosion.setDepthWrite(False)
         if self.isMovingLeftRight:
             self.enterPause()
-            suiTTWack = Sequence(Func(self.collNodePath.stash), ActorInterval(self.deathSuit, 'lose', startFrame=80, endFrame=140), Func(removeDeathSuit, self.suit, self.deathSuit, name='remove-death-suit'))
+            suitTrack = Sequence(Func(self.collNodePath.stash), ActorInterval(self.deathSuit, 'lose', startFrame=80, endFrame=140), Func(removeDeathSuit, self.suit, self.deathSuit, name='remove-death-suit'))
             explosionTrack = Sequence(Wait(1.5), MovieUtil.createKapowExplosionTrack(self.deathSuit, explosionPoint=gearPoint))
             soundTrack = Sequence(SoundInterval(spinningSound, duration=1.6, startTime=0.6, volume=0.8, node=self.deathSuit), SoundInterval(deathSound, volume=0.32, node=self.deathSuit))
             gears1Track = Sequence(ParticleInterval(smallGears, self.deathSuit, worldRelative=0, duration=4.3, cleanup=True), name='gears1Track')
@@ -261,17 +261,17 @@ class TwoDEnemy(DirectObject):
                 return pos
 
             deathMoveIval = LerpPosInterval(self.deathSuit, 1.5, pos=getFinalPos(), name='%s-deathSuitMove' % self.suitName, blendType='easeInOut', fluid=1)
-            suiTTWack = Sequence(Func(self.collNodePath.stash), Parallel(ActorInterval(self.deathSuit, 'lose', startFrame=80, endFrame=140), deathMoveIval), Func(removeDeathSuit, self.suit, self.deathSuit, name='remove-death-suit'))
+            suitTrack = Sequence(Func(self.collNodePath.stash), Parallel(ActorInterval(self.deathSuit, 'lose', startFrame=80, endFrame=140), deathMoveIval), Func(removeDeathSuit, self.suit, self.deathSuit, name='remove-death-suit'))
             explosionTrack = Sequence(Wait(1.5), MovieUtil.createKapowExplosionTrack(self.deathSuit, explosionPoint=gearPoint))
             soundTrack = Sequence(SoundInterval(spinningSound, duration=1.6, startTime=0.6, volume=0.8, node=self.deathSuit), SoundInterval(deathSound, volume=0.32, node=self.deathSuit))
             gears1Track = Sequence(ParticleInterval(smallGears, self.deathSuit, worldRelative=0, duration=4.3, cleanup=True), name='gears1Track')
             gears2MTrack = Track((0.0, explosionTrack), (0.0, ParticleInterval(singleGear, self.deathSuit, worldRelative=0, duration=5.7, cleanup=True)), (2.7, ParticleInterval(smallGearExplosion, self.deathSuit, worldRelative=0, duration=1.2, cleanup=True)), (2.9, ParticleInterval(bigGearExplosion, self.deathSuit, worldRelative=0, duration=1.0, cleanup=True)), name='gears2MTrack')
 
         def removeParticle(particle):
-            if particle and hasaTTW(particle, 'renderParent'):
+            if particle and hasattr(particle, 'renderParent'):
                 particle.cleanup()
                 del particle
 
         removeParticles = Parallel(Func(removeParticle, smallGears), Func(removeParticle, singleGear), Func(removeParticle, smallGearExplosion), Func(removeParticle, bigGearExplosion))
-        self.deathTrack = Sequence(Parallel(suiTTWack, gears2MTrack, gears1Track, soundTrack), removeParticles, Func(self.destroy))
+        self.deathTrack = Sequence(Parallel(suitTrack, gears2MTrack, gears1Track, soundTrack), removeParticles, Func(self.destroy))
         self.deathTrack.start()

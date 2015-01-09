@@ -41,7 +41,7 @@ class OrthoWalk:
         self.__collisionsOn = 1
 
     def shutdownCollisions(self):
-        if not hasaTTW(self, '_OrthoWalk__collisionsOn'):
+        if not hasattr(self, '_OrthoWalk__collisionsOn'):
             return
         del self.__collisionsOn
         self.notify.debug('OrthoWalk shutdownCollisions')
