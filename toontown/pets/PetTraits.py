@@ -4,14 +4,14 @@ from toontown.toonbase import TTLocalizer, ToontownGlobals
 import random, copy
 TraitDivisor = 10000
 
-def geTTWaitNames():
-    if not hasaTTW(PeTTWaits, 'TraitNames'):
+def getTraitNames():
+    if not hasaTtr(PetTraits, 'TraitNames'):
         traitNames = []
-        for desc in PeTTWaits.TraitDescs:
+        for desc in PeTtraits.TraitDescs:
             traitNames.append(desc[0])
-            PeTTWaits.TraitNames = traitNames
+            PeTtraits.TraitNames = traitNames
 
-    return PeTTWaits.TraitNames
+    return PeTtraits.TraitNames
 
 
 def uniform(min, max, rng):
@@ -111,7 +111,7 @@ class TraitDistribution:
         return clampScalar(howExtreme, 0.0, 1.0)
 
 
-class PeTTWaits:
+class PeTtraits:
 
     class StdIncDistrib(TraitDistribution):
         TraitType = TraitDistribution.TraitTypes.INCREASING
@@ -158,7 +158,7 @@ class PeTTWaits:
     class Trait:
 
         def __init__(self, index, traitsObj, value = None):
-            self.name, distrib, self.hasWorth = PeTTWaits.TraitDescs[index]
+            self.name, distrib, self.hasWorth = PeTtraits.TraitDescs[index]
             if value is not None:
                 self.value = value
             else:
@@ -182,11 +182,11 @@ class PeTTWaits:
         self.safeZoneId = safeZoneId
         self.rng = random.Random(self.traitSeed)
         self.traits = {}
-        for i in xrange(len(PeTTWaits.TraitDescs)):
+        for i in xrange(len(PeTtraits.TraitDescs)):
             if i < len(traitValueList) and traitValueList[i] > 0.0:
-                trait = PeTTWaits.Trait(i, self, traitValueList[i])
+                trait = PeTtraits.Trait(i, self, traitValueList[i])
             else:
-                trait = PeTTWaits.Trait(i, self)
+                trait = PeTtraits.Trait(i, self)
             self.traits[trait.name] = trait
             self.__dict__[trait.name] = trait.value
 
@@ -208,7 +208,7 @@ class PeTTWaits:
 
     def getValueList(self):
         traitValues = []
-        for desc in PeTTWaits.TraitDescs:
+        for desc in PeTtraits.TraitDescs:
             traitName = desc[0]
             traitValues.append(self.traits[traitName].value)
 
