@@ -30,7 +30,7 @@ class SCElement(SCObject, NodePath):
         if self.isActive():
             self.exitActive()
         SCObject.destroy(self)
-        if hasaTTW(self, 'button'):
+        if hasattr(self, 'button'):
             self.button.destroy()
             del self.button
         self.parentMenu = None
@@ -132,7 +132,7 @@ class SCElement(SCObject, NodePath):
         if not self.isDirty():
             return
         SCObject.finalize(self)
-        if hasaTTW(self, 'button'):
+        if hasattr(self, 'button'):
             self.button.destroy()
             del self.button
         halfHeight = self.height / 2.0

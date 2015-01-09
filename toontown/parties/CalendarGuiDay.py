@@ -150,7 +150,7 @@ class CalendarGuiDay(DirectFrame):
         self.notify.debug('desroying %s' % self.myDate)
         try:
             for item in self.scrollList['items']:
-                if hasaTTW(item, 'description') and item.description and hasaTTW(item.description, 'destroy'):
+                if hasattr(item, 'description') and item.description and hasattr(item.description, 'destroy'):
                     self.notify.debug('desroying description of item %s' % item)
                     item.unbind(DGG.ENTER)
                     item.unbind(DGG.EXIT)

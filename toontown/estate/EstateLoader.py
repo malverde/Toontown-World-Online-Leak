@@ -338,7 +338,7 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
 
     def setCloudSwitch(self, on):
         self.cloudSwitch = on
-        if hasaTTW(self, 'cloudOrigin'):
+        if hasattr(self, 'cloudOrigin'):
             if on:
                 self.cloudOrigin.unstash()
             else:

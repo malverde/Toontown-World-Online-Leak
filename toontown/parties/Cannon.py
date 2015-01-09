@@ -190,7 +190,7 @@ class Cannon:
         self.notify.debug('__cleanupToonInside self.toonInside=%s\nstack=%s' % (toonName, StackTrace().compact()))
         if self.toonHead != None:
             self.hideToonHead()
-            if hasaTTW(self.toonInside, 'nametag'):
+            if hasattr(self.toonInside, 'nametag'):
                 self.toonInside.nametag.removeNametag(self.toonHead.tag)
             self.toonHead.delete()
             self.toonHead = None

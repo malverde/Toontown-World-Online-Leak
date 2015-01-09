@@ -17,7 +17,7 @@ class VineHeadFrame(DirectFrame):
         if av:
             self.setAv(av)
         self.setScale(0.1)
-        self.seTTWansparency(0)
+        self.setTransparency(0)
         return
 
     def setAv(self, av):

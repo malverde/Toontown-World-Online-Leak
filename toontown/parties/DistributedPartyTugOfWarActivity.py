@@ -110,10 +110,10 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             DistributedPartyTeamActivity.handleRewardDone(self)
 
     def hopOffFinished(self, toonId):
-        if hasaTTW(self, 'toonIdsToAnimIntervals') and toonId in self.toonIdsToAnimIntervals:
+        if hasattr(self, 'toonIdsToAnimIntervals') and toonId in self.toonIdsToAnimIntervals:
             del self.toonIdsToAnimIntervals[toonId]
         if toonId == base.localAvatar.doId:
-            if hasaTTW(self._hopOffFinishedSV, '_value'):
+            if hasattr(self._hopOffFinishedSV, '_value'):
                 self._hopOffFinishedSV.set(True)
 
     def handleToonShifted(self, toonId):
@@ -195,7 +195,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
                 rope.setTexture(self.ropeTexture)
                 rope.ropeNode.setUvMode(RopeNode.UVDistance)
                 rope.ropeNode.setUvDirection(1)
-                rope.seTTWansparency(1)
+                rope.setTransparency(1)
                 rope.setColor(0.89, 0.89, 0.6, 1.0)
                 rope.reparentTo(self.root)
                 rope.stash()
@@ -233,7 +233,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             idealRate = PartyGlobals.TugOfWarTargetRateList[i][1]
             self.updateIdealRateInterval.append(Func(self.setIdealRate, idealRate))
             if i == len(PartyGlobals.TugOfWarTargetRateList) - 1:
-                self.updateIdealRateInterval.append(Func(setaTTW, self, 'allOutMode', True))
+                self.updateIdealRateInterval.append(Func(setattr, self, 'allOutMode', True))
             else:
                 self.updateIdealRateInterval.append(Wait(duration))
 
@@ -251,7 +251,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
         self.unloadModels()
         self.unloadGuiElements()
         self.unloadSounds()
-        if hasaTTW(self, 'toonIds'):
+        if hasattr(self, 'toonIds'):
             del self.toonIds
         del self.buttons
         del self.arrowKeys
@@ -329,7 +329,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
 
     def __enableCollisions(self):
         for i in range(len(PartyGlobals.TeamActivityTeams)):
-            self.accept('enterTugOfWarJoinCollision%d' % i, getaTTW(self, '_join%s' % PartyGlobals.TeamActivityTeams.getString(i)))
+            self.accept('enterTugOfWarJoinCollision%d' % i, getattr(self, '_join%s' % PartyGlobals.TeamActivityTeams.getString(i)))
 
     def __disableCollisions(self):
         for i in range(len(PartyGlobals.TeamActivityTeams)):
@@ -634,7 +634,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
         if self.isLocalToonPlaying:
             camera.lookAt(self.root, offset, 0.0, PartyGlobals.TugOfWarCameraLookAtHeightOffset)
         for toonId in self.getToonIdsAsList():
-            if hasaTTW(self, 'fallenToons') and toonId not in self.fallenToons:
+            if hasattr(self, 'fallenToons') and toonId not in self.fallenToons:
                 toon = self.getAvatar(toonId)
                 if toon is not None:
                     origPos = self.toonIdsToStartPositions[toonId]
@@ -651,7 +651,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
         return
 
     def checkIfFallen(self, toonId):
-        if hasaTTW(self, 'fallenToons') and toonId not in self.fallenToons:
+        if hasattr(self, 'fallenToons') and toonId not in self.fallenToons:
             toon = self.getAvatar(toonId)
             if toon:
                 curPos = toon.getPos(self.root)

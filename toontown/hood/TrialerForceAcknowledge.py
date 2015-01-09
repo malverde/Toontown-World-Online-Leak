@@ -18,7 +18,7 @@ class TrialerForceAcknowledge:
             doneStatus['mode'] = 'pass'
             messenger.send(self.doneEvent, [doneStatus])
 
-        if not base.restricTTWialers:
+        if not base.restrictTrialers:
             letThrough()
             return
         if base.roamingTrialers:

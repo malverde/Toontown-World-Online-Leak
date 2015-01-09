@@ -57,12 +57,12 @@ class TwoDSectionMgr(DirectObject):
         self.startArrow = self.game.assetMgr.arrow.copyTo(self.startSectionNP)
         self.startArrow.setPos(23, 1.5, 12.76)
         for index in xrange(len(ToonBlitzGlobals.BlockListStart)):
-            blockATTWibs = ToonBlitzGlobals.BlockListStart[index]
-            fileName = ToonBlitzGlobals.BlockTypes[blockATTWibs[0]][0]
+            blockAttribs = ToonBlitzGlobals.BlockListStart[index]
+            fileName = ToonBlitzGlobals.BlockTypes[blockAttribs[0]][0]
             blockIndex = int(fileName[-1])
             blockType = self.game.assetMgr.blockTypes[blockIndex]
             sectionizedId = 'start-' + str(index)
-            newBlock = TwoDBlock.TwoDBlock(blockType, sectionizedId, blockATTWibs)
+            newBlock = TwoDBlock.TwoDBlock(blockType, sectionizedId, blockAttribs)
             newBlock.model.reparentTo(self.startSectionNP)
 
     def setupEndSection(self, index):

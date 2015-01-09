@@ -178,7 +178,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
         self.anvil.setScale(5)
         self.anvil.reparentTo(hidden)
         self.anvil.setColor(1, 1, 1, 1)
-        self.anvil.seTTWansparency(1)
+        self.anvil.setTransparency(1)
         self.reparentTo(render)
 
     def setupPhysics(self):
@@ -223,7 +223,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
         DistributedSmoothNode.DistributedSmoothNode.delete(self)
         if self.localVehicle:
             self.ignoreAll()
-            if hasaTTW(self, 'piePieces'):
+            if hasattr(self, 'piePieces'):
                 for piece in self.piePieces:
                     del piece
 
@@ -504,7 +504,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
             self.__enableControlInterface()
             self.__createPieWindshield()
             self.startPosHprBroadcast()
-            self.engineSfxTrack = self.generateEngineStarTTWack()
+            self.engineSfxTrack = self.generateEngineStartTrack()
             self.engineSfxTrack.start()
         else:
             self.startSmooth()
@@ -607,7 +607,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
             cm = CardMaker('speed')
             cm.setFrame(-0.5, 0.5, -0.5, 0.5)
             self.speedometerImages = base.a2dBottomRight.attachNewNode('SpeedometerImages')
-            self.speedometerImages.seTTWansparency(True)
+            self.speedometerImages.setTransparency(True)
             self.speedometerImages.setPos(-0.1, 0.0, 0.03)
             self.speedometerImages.setScale(0.75)
             m = loader.loadModel('phase_6/models/karting/speedometer')

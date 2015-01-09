@@ -57,7 +57,7 @@ class Walk(StateData.StateData):
 
     def enterWalking(self):
         if base.localAvatar.hp > 0:
-            base.localAvatar.starTTWackAnimToSpeed()
+            base.localAvatar.startTrackAnimToSpeed()
             base.localAvatar.setWalkSpeedNormal()
         else:
             self.fsm.request('slowWalking')
@@ -98,7 +98,7 @@ class Walk(StateData.StateData):
 
     def enterSlowWalking(self):
         self.accept(base.localAvatar.uniqueName('positiveHP'), self.__handlePositiveHP)
-        base.localAvatar.starTTWackAnimToSpeed()
+        base.localAvatar.startTrackAnimToSpeed()
         base.localAvatar.setWalkSpeedSlow()
 
     def __handlePositiveHP(self):

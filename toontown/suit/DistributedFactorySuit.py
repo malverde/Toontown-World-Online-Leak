@@ -59,7 +59,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase, DelayDelet
 
     def doReparent(self):
         self.notify.debug('Suit requesting reparenting')
-        if not hasaTTW(self, 'factory'):
+        if not hasattr(self, 'factory'):
             self.notify.warning('no factory, get Redmond to look at DistributedFactorySuit.announceGenerate()')
         self.factory.requestReparent(self, self.spec['parentEntId'])
         if self.pathEntId:
@@ -153,7 +153,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase, DelayDelet
         if collEntry:
             if collEntry.getFromNodePath().getParent().getKey() != localAvatar.getKey():
                 return
-        if hasaTTW(self, 'factory') and hasaTTW(self.factory, 'lastToonZone'):
+        if hasattr(self, 'factory') and hasattr(self.factory, 'lastToonZone'):
             factoryZone = self.factory.lastToonZone
             unitsBelow = self.getPos(render)[2] - base.localAvatar.getPos(render)[2]
             if factoryZone == 24 and unitsBelow > 10.0:
@@ -380,11 +380,11 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase, DelayDelet
         self.enableRaycast(0)
         if self.cRayNodePath:
             self.cRayNodePath.removeNode()
-        if hasaTTW(self, 'cRayNode'):
+        if hasattr(self, 'cRayNode'):
             del self.cRayNode
-        if hasaTTW(self, 'cRay'):
+        if hasattr(self, 'cRay'):
             del self.cRay
-        if hasaTTW(self, 'lifter'):
+        if hasattr(self, 'lifter'):
             del self.lifter
 
     def removeCollisions(self):
@@ -406,7 +406,7 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase, DelayDelet
                 thing = actorCollection[thingIndex]
                 if thing.getName() not in ('joint_attachMeter', 'joint_nameTag', 'def_nameTag'):
                     thing.setColorScale(1.0, 0.0, 0.0, 1.0)
-                    thing.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd))
+                    thing.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd))
                     thing.setDepthWrite(False)
                     thing.setBin('fixed', 1)
 

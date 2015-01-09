@@ -19,7 +19,7 @@ class DistributedSillyMeterMgr(DistributedPhaseEventMgr.DistributedPhaseEventMgr
         self.notify.debug('deleting SillyMetermgr')
         messenger.send('SillyMeterIsRunning', [False])
         DistributedPhaseEventMgr.DistributedPhaseEventMgr.delete(self)
-        if hasaTTW(self.cr, 'SillyMeterMgr'):
+        if hasattr(self.cr, 'SillyMeterMgr'):
             del self.cr.SillyMeterMgr
 
     def setCurPhase(self, newPhase):

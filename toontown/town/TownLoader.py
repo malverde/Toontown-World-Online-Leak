@@ -251,7 +251,7 @@ class TownLoader(StateData.StateData):
         for i in range(npl.getNumPaths()):
             np = npl.getPath(i)
             np.setTag('transformIndex', `i`)
-            self.holidayPropTransforms[i] = np.getNeTTWansform()
+            self.holidayPropTransforms[i] = np.getNetTransform()
 
         self.notify.info('skipping self.geom.flattenMedium')
         gsg = base.win.getGsg()
@@ -283,7 +283,7 @@ class TownLoader(StateData.StateData):
         for visgroup in base.cr.playGame.dnaData.visgroups:
             groupName = base.cr.hoodMgr.extractGroupName(visgroup.name)
             zoneId = int(groupName)
-            zoneId = ZoneUtil.geTTWueZoneId(zoneId, self.zoneId)
+            zoneId = ZoneUtil.getTrueZoneId(zoneId, self.zoneId)
             groupNode = self.geom.find('**/' + visgroup.name)
             if groupNode.isEmpty():
                 self.notify.error('Could not find visgroup')
@@ -298,16 +298,16 @@ class TownLoader(StateData.StateData):
             self.zoneDict[zoneId] = groupNode
             self.nodeToZone[groupNode] = zoneId
             fadeDuration = 0.5
-            self.fadeOutDict[groupNode] = Sequence(Func(groupNode.seTTWansparency, 1), LerpColorScaleInterval(groupNode, fadeDuration, a0, startColorScale=a1), Func(groupNode.clearColorScale), Func(groupNode.clearTransparency), Func(groupNode.stash), name='fadeZone-' + str(zoneId), autoPause=1)
-            self.fadeInDict[groupNode] = Sequence(Func(groupNode.unstash), Func(groupNode.seTTWansparency, 1), LerpColorScaleInterval(groupNode, fadeDuration, a1, startColorScale=a0), Func(groupNode.clearColorScale), Func(groupNode.clearTransparency), name='fadeZone-' + str(zoneId), autoPause=1)
+            self.fadeOutDict[groupNode] = Sequence(Func(groupNode.setTransparency, 1), LerpColorScaleInterval(groupNode, fadeDuration, a0, startColorScale=a1), Func(groupNode.clearColorScale), Func(groupNode.clearTransparency), Func(groupNode.stash), name='fadeZone-' + str(zoneId), autoPause=1)
+            self.fadeInDict[groupNode] = Sequence(Func(groupNode.unstash), Func(groupNode.setTransparency, 1), LerpColorScaleInterval(groupNode, fadeDuration, a1, startColorScale=a0), Func(groupNode.clearColorScale), Func(groupNode.clearTransparency), name='fadeZone-' + str(zoneId), autoPause=1)
 
         for visgroup in base.cr.playGame.dnaData.visgroups:
             zoneId = int(base.cr.hoodMgr.extractGroupName(visgroup.name))
-            zoneId = ZoneUtil.geTTWueZoneId(zoneId, self.zoneId)
+            zoneId = ZoneUtil.getTrueZoneId(zoneId, self.zoneId)
             for visName in visgroup.vis:
                 groupName = base.cr.hoodMgr.extractGroupName(visName)
                 nextZoneId = int(groupName)
-                nextZoneId = ZoneUtil.geTTWueZoneId(nextZoneId, self.zoneId)
+                nextZoneId = ZoneUtil.getTrueZoneId(nextZoneId, self.zoneId)
                 visNode = self.zoneDict[nextZoneId]
                 self.nodeDict[zoneId].append(visNode)
 
@@ -340,7 +340,7 @@ class TownLoader(StateData.StateData):
                     className = animPropNode.getName()[14:-8]
                 symbols = {}
                 base.cr.importModule(symbols, 'toontown.hood', [className])
-                classObj = getaTTW(symbols[className], className)
+                classObj = getattr(symbols[className], className)
                 animPropObj = classObj(animPropNode)
                 animPropList = self.animPropDict.setdefault(i, [])
                 animPropList.append(animPropObj)
@@ -358,7 +358,7 @@ class TownLoader(StateData.StateData):
                     className = 'MailboxInteractiveProp'
                 symbols = {}
                 base.cr.importModule(symbols, 'toontown.hood', [className])
-                classObj = getaTTW(symbols[className], className)
+                classObj = getattr(symbols[className], className)
                 interactivePropObj = classObj(interactivePropNode)
                 animPropList = self.animPropDict.get(i)
                 if animPropList is None:
@@ -382,7 +382,7 @@ class TownLoader(StateData.StateData):
                 className = 'GenericAnimatedBuilding'
                 symbols = {}
                 base.cr.importModule(symbols, 'toontown.hood', [className])
-                classObj = getaTTW(symbols[className], className)
+                classObj = getattr(symbols[className], className)
                 animatedBuildingObj = classObj(animatedBuildingNode)
                 animPropList = self.animPropDict.get(i)
                 if animPropList is None:

@@ -31,7 +31,7 @@ class CogdoFlyingLegalEagle(DirectObject, FSM):
 
     def __init__(self, nest, index, suitDnaName = 'le'):
         FSM.__init__(self, 'CogdoFlyingLegalEagle')
-        self.defaulTTWansitions = {'Off': ['Roost'],
+        self.defaultTransitions = {'Off': ['Roost'],
          'Roost': ['TakeOff', 'Off'],
          'TakeOff': ['LockOnToon', 'LandOnNest', 'Off'],
          'LockOnToon': ['RetreatToNest', 'ChargeUpAttack', 'Off'],
@@ -354,14 +354,14 @@ class CogdoFlyingLegalEagle(DirectObject, FSM):
         self.request('next')
 
     def setCollSphereToNest(self):
-        if hasaTTW(self, 'collSphere') and self.collSphere is not None:
+        if hasattr(self, 'collSphere') and self.collSphere is not None:
             radius = Globals.LegalEagle.OnNestDamageSphereRadius
             self.collSphere.setCenter(Point3(0.0, -Globals.Level.LaffPowerupNestOffset[1], self.suit.getHeight() / 2.0))
             self.collSphere.setRadius(radius)
         return
 
     def setCollSphereToTargeting(self):
-        if hasaTTW(self, 'collSphere') and self.collSphere is not None:
+        if hasattr(self, 'collSphere') and self.collSphere is not None:
             radius = Globals.LegalEagle.DamageSphereRadius
             self.collSphere.setCenter(Point3(0, 0, radius * 2))
             self.collSphere.setRadius(radius)

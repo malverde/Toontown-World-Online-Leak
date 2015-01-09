@@ -329,7 +329,7 @@ class GardenDropGame(DirectObject.DirectObject):
         self.__acceptExit()
 
     def __acceptExit(self, buttonValue = None):
-        if hasaTTW(self, 'frame'):
+        if hasattr(self, 'frame'):
             self.hide()
             self.unload()
             messenger.send(self.doneEvent)
@@ -410,7 +410,7 @@ class GardenDropGame(DirectObject.DirectObject):
         self.controlSprite = newSprite
 
     def __colTest(self):
-        if not hasaTTW(self, 'tick'):
+        if not hasattr(self, 'tick'):
             self.tick = 0
         self.tick += 1
         if self.tick > 5:

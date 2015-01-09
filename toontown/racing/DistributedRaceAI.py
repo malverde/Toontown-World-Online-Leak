@@ -116,10 +116,10 @@ class DistributedRaceAI(DistributedObjectAI, FSM):
     def getZoneId(self):
         return self.zoneId
 
-    def seTTWackId(self, trackId):
+    def setTrackId(self, trackId):
         self.trackId = trackId
         
-    def geTTWackId(self):
+    def getTrackId(self):
         return self.trackId
 
     def setRaceType(self, raceType):
@@ -330,7 +330,7 @@ class DistributedRaceAI(DistributedObjectAI, FSM):
             if avTrophies[i] != 0:
                 numTrophies += 1
         oldLaffBoost = int(numTrophies/10)
-        genre = RaceGlobals.geTTWackGenre(self.trackId)
+        genre = RaceGlobals.getTrackGenre(self.trackId)
         trophies = []
         if won:
             kartingHistory[genre] += 1

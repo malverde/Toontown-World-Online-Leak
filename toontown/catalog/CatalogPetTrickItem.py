@@ -1,11 +1,11 @@
 import CatalogItem
-from toontown.pets import PeTTWicks
+from toontown.pets import PetTricks
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
 from direct.interval.IntervalGlobal import *
 
-class CatalogPeTTWickItem(CatalogItem.CatalogItem):
+class CatalogPetTrickItem(CatalogItem.CatalogItem):
     sequenceNumber = 0
     petPicture = None
 
@@ -20,7 +20,7 @@ class CatalogPeTTWickItem(CatalogItem.CatalogItem):
         return 1 # until we have pets
         if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
             return 1
-        return self.trickId in avatar.peTTWickPhrases
+        return self.trickId in avatar.petTrickPhrases
 
     def getAcceptItemErrorText(self, retcode):
         if retcode == ToontownGlobals.P_ItemAvailable:
@@ -31,15 +31,15 @@ class CatalogPeTTWickItem(CatalogItem.CatalogItem):
         return 1
 
     def getTypeName(self):
-        return TTLocalizer.PeTTWickTypeName
+        return TTLocalizer.PetTrickTypeName
 
     def getName(self):
-        phraseId = PeTTWicks.TrickId2scIds[self.trickId][0]
+        phraseId = PetTricks.TrickId2scIds[self.trickId][0]
         return OTPLocalizer.SpeedChatStaticText[phraseId]
 
     def recordPurchase(self, avatar, optional):
-        avatar.peTTWickPhrases.append(self.trickId)
-        avatar.d_setPeTTWickPhrases(avatar.peTTWickPhrases)
+        avatar.petTrickPhrases.append(self.trickId)
+        avatar.d_setPetTrickPhrases(avatar.petTrickPhrases)
         return ToontownGlobals.P_ItemAvailable
 
     def getPicture(self, avatar):
@@ -53,9 +53,9 @@ class CatalogPeTTWickItem(CatalogItem.CatalogItem):
         model, ival = self.makeFrameModel(pet, 0)
         pet.setScale(2.0)
         pet.setP(-40)
-        track = PeTTWicks.geTTWickIval(pet, self.trickId)
-        name = 'peTTWick-item-%s' % self.sequenceNumber
-        CatalogPeTTWickItem.sequenceNumber += 1
+        track = PetTricks.getTrickIval(pet, self.trickId)
+        name = 'petTrick-item-%s' % self.sequenceNumber
+        CatalogPetTrickItem.sequenceNumber += 1
         if track != None:
             track = Sequence(Sequence(track), ActorInterval(pet, 'neutral', duration=2), name=name)
         else:
@@ -72,7 +72,7 @@ class CatalogPeTTWickItem(CatalogItem.CatalogItem):
         return
 
     def output(self, store = -1):
-        return 'CatalogPeTTWickItem(%s%s)' % (self.trickId, self.formatOptionalData(store))
+        return 'CatalogPetTrickItem(%s%s)' % (self.trickId, self.formatOptionalData(store))
 
     def compareTo(self, other):
         return self.trickId - other.trickId
@@ -87,7 +87,7 @@ class CatalogPeTTWickItem(CatalogItem.CatalogItem):
         CatalogItem.CatalogItem.decodeDatagram(self, di, versionNumber, store)
         self.trickId = di.getUint8()
         self.dna = None
-        if self.trickId not in PeTTWicks.TrickId2scIds:
+        if self.trickId not in PetTricks.TrickId2scIds:
             raise ValueError
         return
 
@@ -96,9 +96,9 @@ class CatalogPeTTWickItem(CatalogItem.CatalogItem):
         dg.addUint8(self.trickId)
 
 
-def getAllPeTTWicks():
+def getAllPetTricks():
     list = []
-    for trickId in PeTTWicks.TrickId2scIds.keys():
-        list.append(CatalogPeTTWickItem(trickId))
+    for trickId in PetTricks.TrickId2scIds.keys():
+        list.append(CatalogPetTrickItem(trickId))
 
     return list

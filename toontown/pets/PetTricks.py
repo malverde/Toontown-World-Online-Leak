@@ -75,7 +75,7 @@ def getSoundIval(trickId):
     return
 
 
-def geTTWickIval(pet, trickId):
+def getTrickIval(pet, trickId):
     anims = TrickAnims[trickId]
     animRate = random.uniform(0.9, 1.1)
     waitTime = random.uniform(0.0, 1.0)

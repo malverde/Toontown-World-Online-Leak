@@ -27,7 +27,7 @@ class FactoryLevelMgr(LevelMgr.LevelMgr):
             oilRoomFloor.setBin('background', 11)
 
     def destroy(self):
-        if hasaTTW(self, 'toonLifter'):
+        if hasattr(self, 'toonLifter'):
             self.toonLifter.destroy()
             del self.toonLifter
         LevelMgr.LevelMgr.destroy(self)

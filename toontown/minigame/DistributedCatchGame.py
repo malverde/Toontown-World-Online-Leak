@@ -297,7 +297,7 @@ class DistributedCatchGame(DistributedMinigame):
             toon.setPos(x, y, 0)
 
     def hidePosts(self):
-        if hasaTTW(self, 'posts'):
+        if hasattr(self, 'posts'):
             for toon in self.posts:
                 toon.removeNode()
 
@@ -321,7 +321,7 @@ class DistributedCatchGame(DistributedMinigame):
                 rowList.append(toon)
 
     def hideDropGrid(self):
-        if hasaTTW(self, 'dropMarkers'):
+        if hasattr(self, 'dropMarkers'):
             for row in self.dropMarkers:
                 for marker in row:
                     marker.removeNode()
@@ -502,14 +502,14 @@ class DistributedCatchGame(DistributedMinigame):
         self.timer.posInTopRightCorner()
         self.timer.setTime(CatchGameGlobals.GameDuration)
         self.timer.countdown(CatchGameGlobals.GameDuration, self.timerExpired)
-        self.timer.seTTWansparency(1)
+        self.timer.setTransparency(1)
         self.timer.setColorScale(1, 1, 1, 0.75)
         base.playMusic(self.music, looping=0, volume=0.9)
 
     def exitPlay(self):
         self.stopDropTask()
         self.stopSuitWalkTask()
-        if hasaTTW(self, 'perfectIval'):
+        if hasattr(self, 'perfectIval'):
             self.perfectIval.pause()
             del self.perfectIval
         self.timer.stop()
@@ -653,9 +653,9 @@ class DistributedCatchGame(DistributedMinigame):
             def destroyText(text = perfectText):
                 text.removeNode()
 
-            texTTWack = Sequence(Func(perfectText.reparentTo, aspect2d), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=0.3, startScale=0.0), LerpFunctionInterval(fadeFunc, fromData=0.0, toData=1.0, duration=0.5)), Wait(2.0), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=1.0), LerpFunctionInterval(fadeFunc, fromData=1.0, toData=0.0, duration=0.5, blendType='easeIn')), Func(destroyText), WaitInterval(0.5), Func(endGame, None))
+            textTrack = Sequence(Func(perfectText.reparentTo, aspect2d), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=0.3, startScale=0.0), LerpFunctionInterval(fadeFunc, fromData=0.0, toData=1.0, duration=0.5)), Wait(2.0), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=1.0), LerpFunctionInterval(fadeFunc, fromData=1.0, toData=0.0, duration=0.5, blendType='easeIn')), Func(destroyText), WaitInterval(0.5), Func(endGame, None))
             soundTrack = SoundInterval(self.sndPerfect)
-            self.perfectIval = Parallel(texTTWack, soundTrack)
+            self.perfectIval = Parallel(textTrack, soundTrack)
             self.perfectIval.start()
         else:
             taskMgr.doMethodLater(1, endGame, self.EndGameTaskName)

@@ -35,15 +35,15 @@ class PlatformEntity(BasicEntities.NodePathEntity):
         return
 
     def stop(self):
-        if hasaTTW(self, 'moveIval'):
+        if hasattr(self, 'moveIval'):
             self.moveIval.pause()
             del self.moveIval
-        if hasaTTW(self, 'platform'):
+        if hasattr(self, 'platform'):
             self.platform.destroy()
             del self.platform
 
     if __dev__:
 
-        def aTTWibChanged(self, *args):
+        def attribChanged(self, *args):
             self.stop()
             self.start()

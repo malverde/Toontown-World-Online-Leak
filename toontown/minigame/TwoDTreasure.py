@@ -28,8 +28,8 @@ class TwoDTreasure(DirectObject):
         self.glowCard2 = glowParticle.copyTo(self.glowCard)
         self.glowCard.setPos(0, 0.1, 0)
         self.glowCard.setColor(model.getColor())
-        self.glowCard.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd, ColorBlendATTWib.OIncomingAlpha, ColorBlendATTWib.OOne))
-        self.glowCard2.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd, ColorBlendATTWib.OIncomingAlpha, ColorBlendATTWib.OOne))
+        self.glowCard.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd, ColorBlendAttrib.OIncomingAlpha, ColorBlendAttrib.OOne))
+        self.glowCard2.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd, ColorBlendAttrib.OIncomingAlpha, ColorBlendAttrib.OOne))
         self.glowScalIval = Sequence(LerpScaleInterval(self.glowCard, 0.4, scale=4.1, startScale=4.9), LerpScaleInterval(self.glowCard, 0.4, scale=4.9, startScale=4.1))
         self.glowScalIval.loop()
         self.modelScalIval = Sequence(LerpScaleInterval(self.model, 0.4, scale=1.0, startScale=1.03), LerpScaleInterval(self.model, 0.4, scale=1.03, startScale=1.0))
@@ -50,7 +50,7 @@ class TwoDTreasure(DirectObject):
             self.flash.reparentTo(treasureMgr.treasuresNP)
             self.flash.setPos(self.model.getX(), self.model.getY() - 0.2, self.model.getZ())
             self.flash.setScale(6)
-            self.flash.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd, ColorBlendATTWib.OIncomingAlpha, ColorBlendATTWib.OOne))
+            self.flash.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd, ColorBlendAttrib.OIncomingAlpha, ColorBlendAttrib.OOne))
             self.hideTreasure()
         return
 
@@ -103,7 +103,7 @@ class TwoDTreasure(DirectObject):
         if self.isEnemyGenerated:
             self.flash.show()
 
-    def seTTWeasurePos(self, pos):
+    def setTreasurePos(self, pos):
         self.model.setPos(pos)
         if self.isEnemyGenerated:
             self.flash.setPos(self.model.getX(), self.model.getY() - 0.2, self.model.getZ())

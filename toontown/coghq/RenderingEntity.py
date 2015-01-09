@@ -9,11 +9,11 @@ class RenderingEntity(BasicEntities.NodePathEntity):
 
     def __init__(self, level, entId):
         BasicEntities.NodePathEntity.__init__(self, level, entId)
-        if hasaTTW(self, 'colorR'):
+        if hasattr(self, 'colorR'):
             self.setColorScale(self.colorR, self.colorG, self.colorB, self.colorA)
-        if hasaTTW(self, 'blending'):
+        if hasattr(self, 'blending'):
             self.setBlending(self.blending)
-        if hasaTTW(self, 'fogOn'):
+        if hasattr(self, 'fogOn'):
             self.setFogOn(self.fogOn)
 
     def destroy(self):
@@ -41,23 +41,23 @@ class RenderingEntity(BasicEntities.NodePathEntity):
         self.setBlending(self.blending)
 
     def chooseBin(self):
-        if not hasaTTW(self, 'renderBin'):
+        if not hasattr(self, 'renderBin'):
             self.renderBin = 'default'
         self.setBin(self.renderBin, 0)
 
     def setBlending(self, blending):
         self.blending = blending
         if blending == 'Additive':
-            self.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MAdd))
+            self.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MAdd))
             self.setDepthWrite(False)
         elif blending == 'Alpha':
-            self.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MNone))
+            self.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MNone))
             self.setDepthWrite(True)
-            self.seTTWansparency(1)
+            self.setTransparency(1)
         else:
-            self.setATTWib(ColorBlendATTWib.make(ColorBlendATTWib.MNone))
+            self.setAttrib(ColorBlendAttrib.make(ColorBlendAttrib.MNone))
             self.setDepthWrite(True)
-            self.seTTWansparency(0)
+            self.setTransparency(0)
         self.chooseBin()
 
     def setFogOn(self, fog):

@@ -19,7 +19,7 @@ class BattleBlockerAI(DistributedEntityAI.DistributedEntityAI):
         self.accept('plannerCreated-' + str(self.level.doId), self.registerBlocker)
 
     def registerBlocker(self):
-        if hasaTTW(self.level, 'planner'):
+        if hasattr(self.level, 'planner'):
             self.level.planner.battleMgr.addBattleBlocker(self, self.cellId)
 
     def deactivate(self):
@@ -67,7 +67,7 @@ class BattleBlockerAI(DistributedEntityAI.DistributedEntityAI):
 
     if __dev__:
 
-        def aTTWibChanged(self, *args):
+        def attribChanged(self, *args):
             self.suitIds = []
             suits = self.level.planner.battleCellId2suits.get(self.cellId)
             if suits:

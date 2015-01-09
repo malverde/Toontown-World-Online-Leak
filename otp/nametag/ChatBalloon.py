@@ -28,7 +28,7 @@ class ChatBalloon:
 
         balloon.setColor(balloonColor)
         if balloonColor[3] < 1.0:
-            balloon.seTTWansparency(1)
+            balloon.setTransparency(1)
 
         # Render the text into a TextNode, using the font:
         t = root.attachNewNode(TextNode('text'))
@@ -42,7 +42,7 @@ class ChatBalloon:
         # Turn off depth write for the text: The place in the depth buffer is
         # held by the chat bubble anyway, and the text renders after the bubble
         # so there's no risk of the bubble overwriting the text's pixels.
-        t.setATTWib(DepthWriteATTWib.make(0))
+        t.setAttrib(DepthWriteAttrib.make(0))
         t.setPos(self.TEXT_SHIFT)
         t.setX(t, self.TEXT_SHIFT_PROP*width)
         t.setZ(t, height)

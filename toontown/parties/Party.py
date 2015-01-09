@@ -60,8 +60,8 @@ class Party(Place.Place):
          State.State('fishing', self.enterFishing, self.exitFishing, ['walk', 'stopped']),
          State.State('activity', self.enterActivity, self.exitActivity, ['walk', 'stopped']),
          State.State('stopped', self.enterStopped, self.exitStopped, ['walk']),
-         State.State('trialerFA', self.enterTrialerFA, self.exiTTWialerFA, ['trialerFAReject', 'DFA']),
-         State.State('trialerFAReject', self.enterTrialerFAReject, self.exiTTWialerFAReject, ['walk']),
+         State.State('trialerFA', self.enterTrialerFA, self.exitTrialerFA, ['trialerFAReject', 'DFA']),
+         State.State('trialerFAReject', self.enterTrialerFAReject, self.exitTrialerFAReject, ['walk']),
          State.State('DFA', self.enterDFA, self.exitDFA, ['DFAReject', 'teleportOut']),
          State.State('DFAReject', self.enterDFAReject, self.exitDFAReject, ['walk'])], 'init', 'final')
         self.fsm.enterInitialState()
@@ -77,14 +77,14 @@ class Party(Place.Place):
     def load(self):
         self.fog = Fog('PartyFog')
         Place.Place.load(self)
-        if hasaTTW(base.localAvatar, 'aboutToPlanParty') and base.localAvatar.aboutToPlanParty:
-            if not hasaTTW(self, 'partyPlanner') or self.partyPlanner is None:
+        if hasattr(base.localAvatar, 'aboutToPlanParty') and base.localAvatar.aboutToPlanParty:
+            if not hasattr(self, 'partyPlanner') or self.partyPlanner is None:
                 self.partyPlanner = PartyPlanner.PartyPlanner(self.partyPlannerDoneEvent)
         self.parentFSMState.addChild(self.fsm)
         return
 
     def unload(self):
-        if hasaTTW(self, 'partyPlanner'):
+        if hasattr(self, 'partyPlanner'):
             self.ignore(self.partyPlannerDoneEvent)
             self.partyPlanner.close()
             del self.partyPlanner
@@ -113,12 +113,12 @@ class Party(Place.Place):
         self.playMusic()
 
     def playMusic(self):
-        if not hasaTTW(base, 'partyHasJukebox') or not base.partyHasJukebox:
+        if not hasattr(base, 'partyHasJukebox') or not base.partyHasJukebox:
             base.playMusic(self.loader.music, looping=1, volume=1)
 
     def exit(self):
         base.localAvatar.stopChat()
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.requestFinalState()
         self.loader.geom.reparentTo(hidden)
         for i in self.loader.nodeList:
@@ -169,9 +169,9 @@ class Party(Place.Place):
 
     def enterTeleportIn(self, requestStatus):
         self._partyTiToken = None
-        if hasaTTW(base, 'distributedParty'):
+        if hasattr(base, 'distributedParty'):
             self.__updateLocalAvatarTeleportIn(requestStatus)
-        elif hasaTTW(base.localAvatar, 'aboutToPlanParty') and base.localAvatar.aboutToPlanParty:
+        elif hasattr(base.localAvatar, 'aboutToPlanParty') and base.localAvatar.aboutToPlanParty:
             self.__updateLocalAvatarTeleportIn(requestStatus)
         else:
             self.acceptOnce(DistributedParty.generatedEvent, self.__updateLocalAvatarTeleportIn, [requestStatus])
@@ -183,7 +183,7 @@ class Party(Place.Place):
 
     def __updateLocalAvatarTeleportIn(self, requestStatus):
         self.ignore(DistributedParty.generatedEvent)
-        if hasaTTW(base, 'distributedParty'):
+        if hasattr(base, 'distributedParty'):
             x, y, z = base.distributedParty.getClearSquarePos()
             self.accept('generate-' + str(base.distributedParty.partyInfo.hostId), self.__setPartyHat)
             self.__setPartyHat()
@@ -194,19 +194,19 @@ class Party(Place.Place):
         base.localAvatar.lookAt(0.0, 0.0, 0.1)
         base.localAvatar.setScale(1, 1, 1)
         Place.Place.enterTeleportIn(self, requestStatus)
-        if hasaTTW(base, 'distributedParty') and base.distributedParty:
+        if hasattr(base, 'distributedParty') and base.distributedParty:
             self.setPartyState(base.distributedParty.getPartyState())
-        if hasaTTW(base.localAvatar, 'aboutToPlanParty') and base.localAvatar.aboutToPlanParty:
+        if hasattr(base.localAvatar, 'aboutToPlanParty') and base.localAvatar.aboutToPlanParty:
             self._partyTiToken = self.addSetZoneCompleteCallback(Functor(self._partyTeleportInPostZoneComplete, requestStatus), 150)
 
     def _partyTeleportInPostZoneComplete(self, requestStatus):
         self.nextState = 'partyPlanning'
 
     def __setPartyHat(self, doId = None):
-        if hasaTTW(base, 'distributedParty'):
+        if hasattr(base, 'distributedParty'):
             if base.cr.doId2do.has_key(base.distributedParty.partyInfo.hostId):
                 host = base.cr.doId2do[base.distributedParty.partyInfo.hostId]
-                if hasaTTW(host, 'gmIcon') and host.gmIcon:
+                if hasattr(host, 'gmIcon') and host.gmIcon:
                     host.removeGMIcon()
                     host.setGMPartyIcon()
                 else:
@@ -214,10 +214,10 @@ class Party(Place.Place):
                     base.distributedParty.partyHat.reparentTo(np)
 
     def __removePartyHat(self):
-        if hasaTTW(base, 'distributedParty'):
+        if hasattr(base, 'distributedParty'):
             if base.cr.doId2do.has_key(base.distributedParty.partyInfo.hostId):
                 host = base.cr.doId2do[base.distributedParty.partyInfo.hostId]
-                if hasaTTW(host, 'gmIcon') and host.gmIcon:
+                if hasattr(host, 'gmIcon') and host.gmIcon:
                     host.removeGMIcon()
                     host.setGMIcon()
 
@@ -225,7 +225,7 @@ class Party(Place.Place):
         Place.Place.enterTeleportOut(self, requestStatus, self.__teleportOutDone)
 
     def __teleportOutDone(self, requestStatus):
-        if hasaTTW(self, 'fsm'):
+        if hasattr(self, 'fsm'):
             self.fsm.requestFinalState()
         hoodId = requestStatus['hoodId']
         zoneId = requestStatus['zoneId']

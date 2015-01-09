@@ -9,7 +9,7 @@ class DistributedAnimatedPropAI(DistributedObjectAI.DistributedObjectAI):
 
     def __init__(self, air, propId):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
-        self.fsm = ClassicFSM.ClassicFSM('DistributedAnimatedPropAI', [State.State('off', self.enterOff, self.exitOff, ['playing']), State.State('aTTWact', self.enterATTWact, self.exitATTWact, ['playing']), State.State('playing', self.enterPlaying, self.exitPlaying, ['aTTWact'])], 'off', 'off')
+        self.fsm = ClassicFSM.ClassicFSM('DistributedAnimatedPropAI', [State.State('off', self.enterOff, self.exitOff, ['playing']), State.State('attract', self.enterAttract, self.exitAttract, ['playing']), State.State('playing', self.enterPlaying, self.exitPlaying, ['attract'])], 'off', 'off')
         self.fsm.enterInitialState()
         self.propId = propId
         self.avatarId = 0
@@ -47,7 +47,7 @@ class DistributedAnimatedPropAI(DistributedObjectAI.DistributedObjectAI):
             stateName = self.fsm.getCurrentState().getName()
             if stateName == 'playing':
                 self.sendUpdate('avatarExit', [avatarId])
-                self.fsm.request('aTTWact')
+                self.fsm.request('attract')
 
     def getState(self):
         return [self.fsm.getCurrentState().getName(), globalClockDelta.getRealNetworkTime()]
@@ -61,10 +61,10 @@ class DistributedAnimatedPropAI(DistributedObjectAI.DistributedObjectAI):
     def exitOff(self):
         pass
 
-    def enterATTWact(self):
-        self.d_setState('aTTWact')
+    def enterAttract(self):
+        self.d_setState('attract')
 
-    def exitATTWact(self):
+    def exitAttract(self):
         pass
 
     def enterPlaying(self):

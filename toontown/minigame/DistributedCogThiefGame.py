@@ -124,7 +124,7 @@ class DistributedCogThiefGame(DistributedMinigame):
         self.toonSDs[avId] = toonSD
         toonSD.load()
         self.loadCogs()
-        self.toonHiTTWacks = {}
+        self.toonHitTracks = {}
         self.toonPieTracks = {}
         self.sndOof = base.loadSfx('phase_4/audio/sfx/MG_cannon_hit_dirt.ogg')
         self.sndRewardTick = base.loadSfx('phase_3.5/audio/sfx/tick_counter.ogg')
@@ -185,7 +185,7 @@ class DistributedCogThiefGame(DistributedMinigame):
             suit.setPos(pos)
 
         for avId in self.avIdList:
-            self.toonHiTTWacks[avId] = Wait(0.1)
+            self.toonHitTracks[avId] = Wait(0.1)
 
         self.toonRNGs = []
         for i in xrange(self.numPlayers):
@@ -285,15 +285,15 @@ class DistributedCogThiefGame(DistributedMinigame):
 
     def enterCleanup(self):
         self.__killRewardCountdown()
-        if hasaTTW(self, 'jarIval'):
+        if hasattr(self, 'jarIval'):
             self.jarIval.finish()
             del self.jarIval
-        for key in self.toonHiTTWacks:
-            ival = self.toonHiTTWacks[key]
+        for key in self.toonHitTracks:
+            ival = self.toonHitTracks[key]
             if ival.isPlaying():
                 ival.finish()
 
-        self.toonHiTTWacks = {}
+        self.toonHitTracks = {}
         for key in self.toonPieTracks:
             ival = self.toonPieTracks[key]
             if ival.isPlaying():
@@ -416,7 +416,7 @@ class DistributedCogThiefGame(DistributedMinigame):
             return
         rng = self.toonRNGs[self.avIdList.index(avId)]
         curPos = toon.getPos(render)
-        oldTrack = self.toonHiTTWacks[avId]
+        oldTrack = self.toonHitTracks[avId]
         if oldTrack.isPlaying():
             oldTrack.finish()
         toon.setPos(curPos)
@@ -480,7 +480,7 @@ class DistributedCogThiefGame(DistributedMinigame):
         def postFunc(self = self, avId = avId, oldGeomNodeZ = oldGeomNodeZ, dropShadow = dropShadow, parentNode = parentNode):
             if avId == self.localAvId:
                 base.localAvatar.setPos(endPos)
-                if hasaTTW(self, 'gameWalk'):
+                if hasattr(self, 'gameWalk'):
                     toon = base.localAvatar
                     toon.setSpeed(0, 0)
                     self.startGameWalk()
@@ -509,10 +509,10 @@ class DistributedCogThiefGame(DistributedMinigame):
         slipBack = Parallel(Sequence(ActorInterval(toon, 'slip-backward', endFrame=24), ActorInterval(toon, 'slip-backward', startFrame=24)))
         if toon.doId == self.localAvId:
             slipBack.append(SoundInterval(self.sndOof))
-        hiTTWack = Sequence(Parallel(flyTrack, spinHTrack, spinPTrack, soundTrack), slipBack, Func(postFunc), name=toon.uniqueName('hitBySuit'))
-        self.notify.debug('hiTTWack duration = %s' % hiTTWack.getDuration())
-        self.toonHiTTWacks[avId] = hiTTWack
-        hiTTWack.start(globalClockDelta.localElapsedTime(timestamp))
+        hitTrack = Sequence(Parallel(flyTrack, spinHTrack, spinPTrack, soundTrack), slipBack, Func(postFunc), name=toon.uniqueName('hitBySuit'))
+        self.notify.debug('hitTrack duration = %s' % hitTrack.getDuration())
+        self.toonHitTracks[avId] = hitTrack
+        hitTrack.start(globalClockDelta.localElapsedTime(timestamp))
         return
 
     def updateSuitGoal(self, timestamp, inResponseToClientStamp, suitNum, goalType, goalId, x, y, z):
@@ -624,7 +624,7 @@ class DistributedCogThiefGame(DistributedMinigame):
         cog.makeCogDropBarrel(timestamp, inResponseToClientStamp, barrel, barrelIndex, cogPos)
 
     def controlKeyPressed(self):
-        if self.isToonPlayingHiTTWack(self.localAvId):
+        if self.isToonPlayingHitTrack(self.localAvId):
             return
         if self.gameIsEnding:
             return
@@ -798,13 +798,13 @@ class DistributedCogThiefGame(DistributedMinigame):
         if curTime > CTGG.GameTime:
             curTime = CTGG.GameTime
         score = int(self.scoreMult * CTGG.calcScore(curTime) + 0.5)
-        if not hasaTTW(task, 'curScore'):
+        if not hasattr(task, 'curScore'):
             task.curScore = score
         result = Task.cont
-        if hasaTTW(self, 'rewardPanel'):
+        if hasattr(self, 'rewardPanel'):
             self.rewardPanel['text'] = str(score)
             if task.curScore != score:
-                if hasaTTW(self, 'jarIval'):
+                if hasattr(self, 'jarIval'):
                     self.jarIval.finish()
                 s = self.rewardPanel.getScale()
                 self.jarIval = Parallel(Sequence(self.rewardPanel.scaleInterval(0.15, s * 3.0 / 4.0, blendType='easeOut'), self.rewardPanel.scaleInterval(0.15, s, blendType='easeIn')), SoundInterval(self.sndRewardTick), name='cogThiefGameRewardJarThrob')
@@ -830,9 +830,9 @@ class DistributedCogThiefGame(DistributedMinigame):
     def getCogThief(self, cogIndex):
         return self.cogInfo[cogIndex]['suit']
 
-    def isToonPlayingHiTTWack(self, avId):
-        if avId in self.toonHiTTWacks:
-            track = self.toonHiTTWacks[avId]
+    def isToonPlayingHitTrack(self, avId):
+        if avId in self.toonHitTracks:
+            track = self.toonHitTracks[avId]
             if track.isPlaying():
                 return True
         return False
@@ -891,12 +891,12 @@ class DistributedCogThiefGame(DistributedMinigame):
                 if not self.frameworkFSM.isInternalStateInFlux():
                     self.gameOver()
 
-            texTTWack = Sequence(Func(perfectText.reparentTo, aspect2d), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=0.3, startScale=0.0), LerpFunctionInterval(fadeFunc, fromData=0.0, toData=1.0, duration=0.5)), Wait(2.0), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=1.0), LerpFunctionInterval(fadeFunc, fromData=1.0, toData=0.0, duration=0.5, blendType='easeIn')), Func(destroyText), WaitInterval(0.5), Func(safeGameOver))
+            textTrack = Sequence(Func(perfectText.reparentTo, aspect2d), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=0.3, startScale=0.0), LerpFunctionInterval(fadeFunc, fromData=0.0, toData=1.0, duration=0.5)), Wait(2.0), Parallel(LerpScaleInterval(perfectText, duration=0.5, scale=1.0), LerpFunctionInterval(fadeFunc, fromData=1.0, toData=0.0, duration=0.5, blendType='easeIn')), Func(destroyText), WaitInterval(0.5), Func(safeGameOver))
             if numBarrelsSaved == len(self.barrels):
                 soundTrack = SoundInterval(self.sndPerfect)
             else:
                 soundTrack = Sequence()
-            self.resultIval = Parallel(texTTWack, soundTrack)
+            self.resultIval = Parallel(textTrack, soundTrack)
             self.resultIval.start()
             #For the Alpha Blueprint ARG
             if config.GetBool('want-blueprint4-ARG', False):

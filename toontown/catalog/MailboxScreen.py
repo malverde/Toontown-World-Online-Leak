@@ -40,11 +40,11 @@ class MailboxScreen(DirectObject.DirectObject):
 
     def hide(self):
         self.ignore('friendsListChanged')
-        if hasaTTW(self, 'frame'):
+        if hasattr(self, 'frame'):
             self.frame.hide()
         else:
             self.notify.warning('hide called, but frame is deleted, self.frame deleted in:')
-            if hasaTTW(self, 'frameDelStackTrace'):
+            if hasattr(self, 'frameDelStackTrace'):
                 print self.frameDelStackTrace
             self.notify.warning('current stackTrace =')
             print StackTrace()
@@ -136,13 +136,13 @@ class MailboxScreen(DirectObject.DirectObject):
         if self.avatar:
             self.avatar.reconsiderCheesyEffect()
         self.__clearCurrentItem()
-        if hasaTTW(self, 'frame'):
+        if hasattr(self, 'frame'):
             self.frame.destroy()
             del self.frame
             self.frameDelStackTrace = StackTrace()
         else:
             self.notify.warning('unload, no self.frame')
-        if hasaTTW(self, 'mailbox'):
+        if hasattr(self, 'mailbox'):
             del self.mailbox
         else:
             self.notify.warning('unload, no self.mailbox')
@@ -170,7 +170,7 @@ class MailboxScreen(DirectObject.DirectObject):
             self.dialogBox.show()
 
     def __acceptExit(self, buttonValue = None):
-        if hasaTTW(self, 'frame'):
+        if hasattr(self, 'frame'):
             self.hide()
             self.unload()
             messenger.send(self.doneEvent)
@@ -211,7 +211,7 @@ class MailboxScreen(DirectObject.DirectObject):
         return
 
     def __discardItemCallback(self, retcode, item, index):
-        if not hasaTTW(self, 'frame'):
+        if not hasattr(self, 'frame'):
             return
         if self.dialogBox:
             self.dialogBox.cleanup()
@@ -240,7 +240,7 @@ class MailboxScreen(DirectObject.DirectObject):
         needtoUpdate = 0
         if self.acceptingIndex == None:
             needtoUpdate = 1
-        if not hasaTTW(self, 'frame'):
+        if not hasattr(self, 'frame'):
             return
         if retcode == ToontownGlobals.P_UserCancelled:
             print 'mailbox screen user canceled'
@@ -258,7 +258,7 @@ class MailboxScreen(DirectObject.DirectObject):
             else:
                 self.dialogBox = TTDialog.TTDialog(style=TTDialog.TwoChoiceCustom, text=item.getAcceptItemErrorText(retcode), text_wordwrap=15, command=self.__handleDiscard, buttonText=[TTLocalizer.MailboxDiscard, TTLocalizer.MailboxLeave])
             self.dialogBox.show()
-        elif hasaTTW(item, 'storedInAttic') and item.storedInAttic():
+        elif hasattr(item, 'storedInAttic') and item.storedInAttic():
             self.numAtticAccepted += 1
             self.itemIndex += 1
             if needtoUpdate == 1:
@@ -530,13 +530,13 @@ class MailboxScreen(DirectObject.DirectObject):
             sender = self.checkFamily(avId)
             if sender:
                 nameOfSender = sender.name
-            elif hasaTTW(base.cr, 'playerFriendsManager'):
+            elif hasattr(base.cr, 'playerFriendsManager'):
                 sender = base.cr.playerFriendsManager.getAvHandleFromId(avId)
                 if sender:
                     nameOfSender = sender.getName()
         if not sender:
             nameOfSender = TTLocalizer.MailboxGiftTagAnonymous
-            if hasaTTW(base.cr, 'playerFriendsManager'):
+            if hasattr(base.cr, 'playerFriendsManager'):
                 base.cr.playerFriendsManager.requestAvatarInfo(avId)
                 self.accept('friendsListChanged', self.__showCurrentItem)
         return nameOfSender

@@ -243,7 +243,7 @@ class StageInterior(BattlePlace.BattlePlace):
 
     def exitFLA(self):
         StageInterior.notify.debug('exitFLA')
-        if hasaTTW(self, 'flaDialog'):
+        if hasattr(self, 'flaDialog'):
             self.flaDialog.cleanup()
             del self.flaDialog
 
@@ -266,7 +266,7 @@ class StageInterior(BattlePlace.BattlePlace):
         self.notify.debug('handling elevator done event')
         where = doneStatus['where']
         if where == 'reject':
-            if hasaTTW(base.localAvatar, 'elevatorNotifier') and base.localAvatar.elevatorNotifier.isNotifierOpen():
+            if hasattr(base.localAvatar, 'elevatorNotifier') and base.localAvatar.elevatorNotifier.isNotifierOpen():
                 pass
             else:
                 self.fsm.request('walk')

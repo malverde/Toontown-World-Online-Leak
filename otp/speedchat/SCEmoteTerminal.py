@@ -55,7 +55,7 @@ class SCEmoteTerminal(SCTerminal):
         if self.isDirty():
             self.notify.info("skipping __emoteEnableStateChanged; we're marked as dirty")
             return
-        elif not hasaTTW(self, 'button'):
+        elif not hasattr(self, 'button'):
             self.notify.error('SCEmoteTerminal is not marked as dirty, but has no button!')
         btn = self.button
         if self.__emoteEnabled():
@@ -79,7 +79,7 @@ class SCEmoteTerminal(SCTerminal):
     def enterVisible(self):
         SCTerminal.enterVisible(self)
         if self.__ltHasAccess():
-            if hasaTTW(self, 'lastEmoteEnableState'):
+            if hasattr(self, 'lastEmoteEnableState'):
                 if self.lastEmoteEnableState != self.__emoteEnabled():
                     self.invalidate()
             if not self.isWhispering():

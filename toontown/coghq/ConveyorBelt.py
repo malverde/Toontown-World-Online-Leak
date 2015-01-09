@@ -88,7 +88,7 @@ class ConveyorBelt(BasicEntities.NodePathEntity):
                 tread.parentingNode.setClipPlaneOff(self.tailClipPath)
 
     def stop(self):
-        if hasaTTW(self, 'beltIval'):
+        if hasattr(self, 'beltIval'):
             self.beltIval.pause()
             del self.beltIval
         if ConveyorBelt.UseClipPlanes:
@@ -102,6 +102,6 @@ class ConveyorBelt(BasicEntities.NodePathEntity):
 
     if __dev__:
 
-        def aTTWibChanged(self, aTTWib, value):
+        def attribChanged(self, attrib, value):
             self.destroyBelt()
             self.initBelt()

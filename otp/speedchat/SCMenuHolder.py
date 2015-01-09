@@ -83,7 +83,7 @@ class SCMenuHolder(SCElement):
     def enterActive(self):
         SCElement.enterActive(self)
         self.showMenu()
-        if hasaTTW(self, 'button'):
+        if hasattr(self, 'button'):
             r, g, b = self.getColorScheme().getMenuHolderActiveColor()
             a = self.getColorScheme().getAlpha()
             self.button.frameStyle[DGG.BUTTON_READY_STATE].setColor(r, g, b, a)

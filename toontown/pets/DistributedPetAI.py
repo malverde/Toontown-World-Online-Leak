@@ -12,9 +12,9 @@ from direct.task import Task
 from otp.movement import Mover
 from toontown.pets import PetChase, PetFlee, PetWander, PetLeash
 from toontown.pets import PetCollider, PetSphere, PetLookerAI
-from toontown.pets import PetConstants, PetDNA, PeTTWaits
+from toontown.pets import PetConstants, PetDNA, PetTraits
 from toontown.pets import PetObserve, PetBrain, PetMood
-from toontown.pets import PetActionFSM, PetBase, PetGoal, PeTTWicks
+from toontown.pets import PetActionFSM, PetBase, PetGoal, PetTricks
 from direct.fsm import FSM
 from toontown.toon import DistributedToonAI
 from toontown.ai import ServerEventBuffer
@@ -43,7 +43,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.active = 1
         self.activated = 0
         self._outOfBounds = False
-        self.traitList = [0] * PeTTWaits.PeTTWaits.NumTraits
+        self.traitList = [0] * PetTraits.PetTraits.NumTraits
         self.head = -1
         self.ears = -1
         self.nose = -1
@@ -62,7 +62,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.lastSeenTimestamp = self.getCurEpochTimestamp()
         self.requiredMoodComponents = {}
         self.__funcsToDelete = []
-        self.__generateDisTTWaitFuncs()
+        self.__generateDistTraitFuncs()
         self.__generateDistMoodFuncs()
         self.busy = 0
         self.gaitFSM = ClassicFSM.ClassicFSM('petGaitFSM', [State.State('off', self.gaitEnterOff, self.gaitExitOff),
@@ -84,12 +84,12 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         if name is None:
             name = 'pet%s' % self.doId
         self.b_setPetName(name)
-        self.b_seTTWaitSeed(traitSeed)
+        self.b_setTraitSeed(traitSeed)
         self.b_setSafeZone(safeZone)
-        traits = PeTTWaits.PeTTWaits(traitSeed, safeZone)
-        for traitName in PeTTWaits.geTTWaitNames():
+        traits = PetTraits.PetTraits(traitSeed, safeZone)
+        for traitName in PetTraits.getTraitNames():
             setter = self.getSetterName(traitName, 'b_set')
-            self.__dict__[setter](traits.geTTWaitValue(traitName))
+            self.__dict__[setter](traits.getTraitValue(traitName))
 
         self.traits = traits
         for component in PetMood.PetMood.Components:
@@ -103,7 +103,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         for component in PetMood.PetMood.Components:
             self.setMoodComponent(component, 0.0)
 
-        self.b_seTTWickAptitudes([])
+        self.b_setTrickAptitudes([])
         return
 
     def setDNA(self, dna):
@@ -170,17 +170,17 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.petName = petName
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.setName(self, self.petName)
 
-    def geTTWaitSeed(self):
+    def getTraitSeed(self):
         return self.traitSeed
 
-    def b_seTTWaitSeed(self, traitSeed):
-        self.d_seTTWaitSeed(traitSeed)
-        self.seTTWaitSeed(traitSeed)
+    def b_setTraitSeed(self, traitSeed):
+        self.d_setTraitSeed(traitSeed)
+        self.setTraitSeed(traitSeed)
 
-    def d_seTTWaitSeed(self, traitSeed):
-        self.sendUpdate('seTTWaitSeed', [traitSeed])
+    def d_setTraitSeed(self, traitSeed):
+        self.sendUpdate('setTraitSeed', [traitSeed])
 
-    def seTTWaitSeed(self, traitSeed):
+    def setTraitSeed(self, traitSeed):
         self.traitSeed = traitSeed
 
     def getSafeZone(self):
@@ -210,12 +210,12 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.petName = petName
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.setName(self, self.petName)
 
-    def seTTWaits(self, traitList):
+    def setTraits(self, traitList):
         self.traitList = traitList
 
-    def __generateDisTTWaitFuncs(self):
-        for i in xrange(PeTTWaits.PeTTWaits.NumTraits):
-            traitName = PeTTWaits.geTTWaitNames()[i]
+    def __generateDistTraitFuncs(self):
+        for i in xrange(PetTraits.PetTraits.NumTraits):
+            traitName = PetTraits.getTraitNames()[i]
             getterName = self.getSetterName(traitName, 'get')
             b_setterName = self.getSetterName(traitName, 'b_set')
             d_setterName = self.getSetterName(traitName, 'd_set')
@@ -432,37 +432,37 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
             self.__funcsToDelete.append('d_%s' % setterName)
             self.__funcsToDelete.append(setterName)
 
-    def geTTWickAptitudes(self):
+    def getTrickAptitudes(self):
         return self.trickAptitudes
 
-    def b_seTTWickAptitudes(self, aptitudes):
-        self.seTTWickAptitudes(aptitudes, local=1)
-        self.d_seTTWickAptitudes(aptitudes)
+    def b_setTrickAptitudes(self, aptitudes):
+        self.setTrickAptitudes(aptitudes, local=1)
+        self.d_setTrickAptitudes(aptitudes)
 
-    def d_seTTWickAptitudes(self, aptitudes):
+    def d_setTrickAptitudes(self, aptitudes):
         if __dev__:
             for aptitude in aptitudes:
                 pass
 
-        while len(aptitudes) < len(PeTTWicks.Tricks) - 1:
+        while len(aptitudes) < len(PetTricks.Tricks) - 1:
             aptitudes.append(0.0)
 
-        self.sendUpdate('seTTWickAptitudes', [aptitudes])
+        self.sendUpdate('setTrickAptitudes', [aptitudes])
 
-    def seTTWickAptitudes(self, aptitudes, local = 0):
+    def setTrickAptitudes(self, aptitudes, local = 0):
         if not local:
-            DistributedPetAI.notify.debug('seTTWickAptitudes: %s' % aptitudes)
-        while len(self.trickAptitudes) < len(PeTTWicks.Tricks) - 1:
+            DistributedPetAI.notify.debug('setTrickAptitudes: %s' % aptitudes)
+        while len(self.trickAptitudes) < len(PetTricks.Tricks) - 1:
             self.trickAptitudes.append(0.0)
 
         self.trickAptitudes = aptitudes
 
-    def geTTWickAptitude(self, trickId):
+    def getTrickAptitude(self, trickId):
         if trickId > len(self.trickAptitudes) - 1:
             return 0.0
         return self.trickAptitudes[trickId]
 
-    def seTTWickAptitude(self, trickId, aptitude, send = 1):
+    def setTrickAptitude(self, trickId, aptitude, send = 1):
         aptitude = clampScalar(aptitude, 0.0, 1.0)
         aptitudes = self.trickAptitudes
         while len(aptitudes) - 1 < trickId:
@@ -471,9 +471,9 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         if aptitudes[trickId] != aptitude:
             aptitudes[trickId] = aptitude
             if send:
-                self.b_seTTWickAptitudes(aptitudes)
+                self.b_setTrickAptitudes(aptitudes)
             else:
-                self.seTTWickAptitudes(aptitudes, local=1)
+                self.setTrickAptitudes(aptitudes, local=1)
 
     def generate(self):
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.generate(self)
@@ -484,17 +484,17 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.leashMode = 0
         self.leashAvId = None
         self.leashGoal = None
-        self.trickLogger = ServerEventBuffer.ServerEventMultiAccumulator(self.air, 'peTTWicksPerformed', self.doId)
-        self.trickFailLogger = ServerEventBuffer.ServerEventMultiAccumulator(self.air, 'peTTWicksFailed', self.doId)
+        self.trickLogger = ServerEventBuffer.ServerEventMultiAccumulator(self.air, 'petTricksPerformed', self.doId)
+        self.trickFailLogger = ServerEventBuffer.ServerEventMultiAccumulator(self.air, 'petTricksFailed', self.doId)
         self.feedLogger = ServerEventBuffer.ServerEventAccumulator(self.air, 'petFeedings', self.doId)
         self.scratchLogger = ServerEventBuffer.ServerEventAccumulator(self.air, 'petScratchings', self.doId)
-        self.traits = PeTTWaits.PeTTWaits(self.traitSeed, self.safeZone)
-        if not hasaTTW(self, '_beingCreatedInDB'):
+        self.traits = PetTraits.PetTraits(self.traitSeed, self.safeZone)
+        if not hasattr(self, '_beingCreatedInDB'):
             for i in xrange(len(self.traitList)):
                 value = self.traitList[i]
                 if value == 0.0:
-                    traitName = PeTTWaits.geTTWaitNames()[i]
-                    traitValue = self.traits.geTTWaitValue(traitName)
+                    traitName = PetTraits.getTraitNames()[i]
+                    traitValue = self.traits.getTraitValue(traitName)
                     DistributedPetAI.notify.info("%s: initializing new trait '%s' to %s, seed=%s" % (self.doId,
                      traitName,
                      traitValue,
@@ -565,18 +565,18 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         taskMgr.remove(self.uniqueName('PetMovieComplete'))
         taskMgr.remove(self.getLockMoveTaskName())
         taskMgr.remove(self.getMoveTaskName())
-        if hasaTTW(self, 'zoneId'):
+        if hasattr(self, 'zoneId'):
             self.announceZoneChange(ToontownGlobals.QuietZone, self.zoneId)
         else:
             myDoId = 'No doId'
             myTaskName = 'No task name'
             myStackTrace = StackTrace().trace
             myOldStackTrace = 'No Trace'
-            if hasaTTW(self, 'doId'):
+            if hasattr(self, 'doId'):
                 myDoId = self.doId
             if task:
                 myTaskName = task.name
-            if hasaTTW(self, 'destroyDoStackTrace'):
+            if hasattr(self, 'destroyDoStackTrace'):
                 myOldStackTrace = self.destroyDoStackTrace.trace
             #FIXME TODO I don't know what these are doing ~jjkoletar
             #simbase.air.writeServerEvent('Pet RequestDelete duplicate', myDoId, 'from task %s' % myTaskName)
@@ -584,7 +584,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
             #simbase.air.writeServerEvent('Pet RequestDelete duplicate OldStackTrace', myDoId, '%s' % myOldStackTrace)
             DistributedPetAI.notify.warning('double requestDelete from task %s' % myTaskName)
         self.setParent(ToontownGlobals.SPHidden)
-        if hasaTTW(self, 'activated'):
+        if hasattr(self, 'activated'):
             if self.activated:
                 self.activated = 0
                 self.brain.destroy()
@@ -598,10 +598,10 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
                 self.lockMover.destroy()
                 del self.lockMover
                 self.stopPosHprBroadcast()
-        if hasaTTW(self, 'mood'):
+        if hasattr(self, 'mood'):
             self.mood.destroy()
             del self.mood
-        if hasaTTW(self, 'traits'):
+        if hasattr(self, 'traits'):
             del self.traits
         try:
             for funcName in self.__funcsToDelete:
@@ -610,11 +610,11 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         except:
             pass
 
-        if hasaTTW(self, 'gaitFSM'):
+        if hasattr(self, 'gaitFSM'):
             if self.gaitFSM:
                 self.gaitFSM.requestFinalState()
             del self.gaitFSM
-        if hasaTTW(self, 'unstickFSM'):
+        if hasattr(self, 'unstickFSM'):
             if self.unstickFSM:
                 self.unstickFSM.requestFinalState()
             del self.unstickFSM
@@ -673,7 +673,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
 
     def destroySphereImpulse(self):
         self.mover.removeImpulse('sphere')
-        if hasaTTW(self, 'sphereImpulse'):
+        if hasattr(self, 'sphereImpulse'):
             self.sphereImpulse.destroy()
             del self.sphereImpulse
 
@@ -1006,7 +1006,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         return sum / 3.0
 
     def __lockPetMoveTask(self, avId):
-        if not hasaTTW(self, 'air') or not self.air.doId2do.has_key(avId):
+        if not hasattr(self, 'air') or not self.air.doId2do.has_key(avId):
             self.notify.warning('avId: %s gone or self deleted!' % avId)
             return Task.done
         av = self.air.doId2do.get(avId)
@@ -1051,32 +1051,32 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
 
     def _willDoTrick(self, trickId):
         if self.isContented():
-            minApt = PeTTWicks.MinActualTrickAptitude
-            maxApt = PeTTWicks.MaxActualTrickAptitude
+            minApt = PetTricks.MinActualTrickAptitude
+            maxApt = PetTricks.MaxActualTrickAptitude
         else:
-            minApt = PeTTWicks.NonHappyMinActualTrickAptitude
-            maxApt = PeTTWicks.NonHappyMaxActualTrickAptitude
+            minApt = PetTricks.NonHappyMinActualTrickAptitude
+            maxApt = PetTricks.NonHappyMaxActualTrickAptitude
         randVal = random.random()
-        cutoff = lerp(minApt, maxApt, self.geTTWickAptitude(trickId))
+        cutoff = lerp(minApt, maxApt, self.getTrickAptitude(trickId))
         if self.mood.isComponentActive('fatigue'):
             cutoff *= 0.5
-        cutoff *= PeTTWicks.TrickAccuracies[trickId]
+        cutoff *= PetTricks.TrickAccuracies[trickId]
         DistributedPetAI.notify.debug('_willDoTrick: %s / %s' % (randVal, cutoff))
         return randVal < cutoff
 
     def _handleDidTrick(self, trickId):
         DistributedPetAI.notify.debug('_handleDidTrick: %s' % trickId)
-        if trickId == PeTTWicks.Tricks.BALK:
+        if trickId == PetTricks.Tricks.BALK:
             return
-        aptitude = self.geTTWickAptitude(trickId)
-        self.seTTWickAptitude(trickId, aptitude + PeTTWicks.AptitudeIncrementDidTrick)
-        self.addToMood('fatigue', lerp(PeTTWicks.MaxTrickFatigue, PeTTWicks.MinTrickFatigue, aptitude))
+        aptitude = self.getTrickAptitude(trickId)
+        self.setTrickAptitude(trickId, aptitude + PetTricks.AptitudeIncrementDidTrick)
+        self.addToMood('fatigue', lerp(PetTricks.MaxTrickFatigue, PetTricks.MinTrickFatigue, aptitude))
         self.trickLogger.addEvent(trickId)
 
     def _handleGotPositiveTrickFeedback(self, trickId, magnitude):
-        if trickId == PeTTWicks.Tricks.BALK:
+        if trickId == PetTricks.Tricks.BALK:
             return
-        self.seTTWickAptitude(trickId, self.geTTWickAptitude(trickId) + PeTTWicks.MaxAptitudeIncrementGotPraise * magnitude)
+        self.setTrickAptitude(trickId, self.getTrickAptitude(trickId) + PetTricks.MaxAptitudeIncrementGotPraise * magnitude)
 
     def toggleLeash(self, avId):
         if self.leashMode:

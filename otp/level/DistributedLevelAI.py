@@ -89,7 +89,7 @@ class DistributedLevelAI(DistributedObjectAI.DistributedObjectAI, Level.Level):
 
     def allToonsGone(self, toonsThatCleared):
         DistributedLevelAI.notify.info('allToonsGone')
-        if hasaTTW(self, 'allToonsGoneBarrier'):
+        if hasattr(self, 'allToonsGoneBarrier'):
             self.ignoreBarrier(self.allToonsGoneBarrier)
             del self.allToonsGoneBarrier
         for avId in self.avIdList:
@@ -138,29 +138,29 @@ class DistributedLevelAI(DistributedObjectAI.DistributedObjectAI, Level.Level):
 
     if __dev__:
 
-        def setATTWibChange(self, entId, aTTWibName, value, username = 'SYSTEM'):
-            DistributedLevelAI.notify.info('setATTWibChange(%s): %s, %s = %s' % (username,
+        def setAttribChange(self, entId, attribName, value, username = 'SYSTEM'):
+            DistributedLevelAI.notify.info('setAttribChange(%s): %s, %s = %s' % (username,
              entId,
-             aTTWibName,
+             attribName,
              repr(value)))
-            self.sendUpdate('setATTWibChange', [entId,
-             aTTWibName,
+            self.sendUpdate('setAttribChange', [entId,
+             attribName,
              repr(value),
              username])
-            self.levelSpec.setATTWibChange(entId, aTTWibName, value, username)
+            self.levelSpec.setAttribChange(entId, attribName, value, username)
             self.modified = 1
             self.scheduleAutosave()
 
         AutosavePeriod = config.GetFloat('level-autosave-period-minutes', 5)
 
         def scheduleAutosave(self):
-            if hasaTTW(self, 'autosaveTask'):
+            if hasattr(self, 'autosaveTask'):
                 return
             self.autosaveTaskName = self.uniqueName('autosaveSpec')
             self.autosaveTask = taskMgr.doMethodLater(DistributedLevelAI.AutosavePeriod * 60, self.autosaveSpec, self.autosaveTaskName)
 
         def removeAutosaveTask(self):
-            if hasaTTW(self, 'autosaveTask'):
+            if hasattr(self, 'autosaveTask'):
                 taskMgr.remove(self.autosaveTaskName)
                 del self.autosaveTask
 

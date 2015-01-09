@@ -119,8 +119,8 @@ class Avatar(Actor, ShadowCaster):
 
     def setPlayerType(self, playerType):
         self.playerType = playerType
-        if not hasaTTW(self, 'nametag'):
-            self.notify.warning('no nametag aTTWibuted, but would have been used.')
+        if not hasattr(self, 'nametag'):
+            self.notify.warning('no nametag attributed, but would have been used.')
             return
         if self.isUnderstandable():
             self.nametag.setColorCode(self.playerType)
@@ -144,7 +144,7 @@ class Avatar(Actor, ShadowCaster):
         if self.playerType in (NametagGroup.CCNormal, NametagGroup.CCFreeChat, NametagGroup.CCSpeedChat):
             self.setPlayerType(NametagGroup.CCSpeedChat)
             speed = 1
-        if hasaTTW(base, 'localAvatar') and self == base.localAvatar:
+        if hasattr(base, 'localAvatar') and self == base.localAvatar:
             self.understandable = 1
             self.setPlayerType(NametagGroup.CCFreeChat)
         elif self.playerType == NametagGroup.CCSuit:
@@ -153,13 +153,13 @@ class Avatar(Actor, ShadowCaster):
         elif self.playerType not in (NametagGroup.CCNormal, NametagGroup.CCFreeChat, NametagGroup.CCSpeedChat):
             self.understandable = 1
             self.setPlayerType(NametagGroup.CCNoChat)
-        elif hasaTTW(base, 'localAvatar') and self.commonChatFlags & base.localAvatar.commonChatFlags & OTPGlobals.CommonChat:
+        elif hasattr(base, 'localAvatar') and self.commonChatFlags & base.localAvatar.commonChatFlags & OTPGlobals.CommonChat:
             self.understandable = 1
             self.setPlayerType(NametagGroup.CCFreeChat)
         elif self.commonChatFlags & OTPGlobals.SuperChat:
             self.understandable = 1
             self.setPlayerType(NametagGroup.CCFreeChat)
-        elif hasaTTW(base, 'localAvatar') and base.localAvatar.commonChatFlags & OTPGlobals.SuperChat:
+        elif hasattr(base, 'localAvatar') and base.localAvatar.commonChatFlags & OTPGlobals.SuperChat:
             self.understandable = 1
             self.setPlayerType(NametagGroup.CCFreeChat)
         elif base.cr.getFriendFlags(self.doId) & OTPGlobals.FriendChat:
@@ -174,12 +174,12 @@ class Avatar(Actor, ShadowCaster):
                 self.understandable = 1
             else:
                 self.understandable = 0
-        elif hasaTTW(base, 'localAvatar') and self.whitelistChatFlags & base.localAvatar.whitelistChatFlags:
+        elif hasattr(base, 'localAvatar') and self.whitelistChatFlags & base.localAvatar.whitelistChatFlags:
             self.understandable = 1
         else:
             self.understandable = 0
-        if not hasaTTW(self, 'nametag'):
-            self.notify.warning('no nametag aTTWibuted, but would have been used')
+        if not hasattr(self, 'nametag'):
+            self.notify.warning('no nametag attributed, but would have been used')
         else:
             self.nametag.setColorCode(self.playerType)
         return
@@ -235,15 +235,15 @@ class Avatar(Actor, ShadowCaster):
         return self.avatarType
 
     def setName(self, name):
-        if hasaTTW(self, 'isDisguised'):
+        if hasattr(self, 'isDisguised'):
             if self.isDisguised:
                 return
         self.name = name
-        if hasaTTW(self, 'nametag'):
+        if hasattr(self, 'nametag'):
             self.nametag.setName(name)
 
     def setDisplayName(self, str):
-        if hasaTTW(self, 'isDisguised'):
+        if hasattr(self, 'isDisguised'):
             if self.isDisguised:
                 return
         self.nametag.setDisplayName(str)
@@ -486,7 +486,7 @@ class Avatar(Actor, ShadowCaster):
             elapsed = ClockDelta.globalClockDelta.localElapsedTime(timestamp)
         self.__chatPageNumber = [paragraph, pageNumber]
         self.__updatePageChat()
-        if hasaTTW(self, 'uniqueName'):
+        if hasattr(self, 'uniqueName'):
             if pageNumber >= 0:
                 messenger.send(self.uniqueName('nextChatPage'), [pageNumber, elapsed])
             else:
@@ -545,8 +545,8 @@ class Avatar(Actor, ShadowCaster):
         self.nametagNodePath = self.nametag3d.attachNewNode(nametagNode)
         iconNodePath = self.nametag.getNameIcon()
         for cJoint in self.getNametagJoints():
-            cJoint.clearNeTTWansforms()
-            cJoint.addNeTTWansform(nametagNode)
+            cJoint.clearNetTransforms()
+            cJoint.addNetTransform(nametagNode)
 
     def nametagAmbientLightChanged(self, newlight):
         self.nametag3d.setLightOff()
@@ -570,15 +570,15 @@ class Avatar(Actor, ShadowCaster):
             self.collNode.setCollideMask(OTPGlobals.WallBitmask)
 
     def stashBodyCollisions(self):
-        if hasaTTW(self, 'collNodePath'):
+        if hasattr(self, 'collNodePath'):
             self.collNodePath.stash()
 
     def unstashBodyCollisions(self):
-        if hasaTTW(self, 'collNodePath'):
+        if hasattr(self, 'collNodePath'):
             self.collNodePath.unstash()
 
     def disableBodyCollisions(self):
-        if hasaTTW(self, 'collNodePath'):
+        if hasattr(self, 'collNodePath'):
             self.collNodePath.removeNode()
             del self.collNodePath
         self.collTube = None

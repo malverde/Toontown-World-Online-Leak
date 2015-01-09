@@ -35,7 +35,7 @@ class DistributedMoleField(DistributedNodePathEntity, MoleFieldBase.MoleFieldBas
         self.winText = TTLocalizer.MolesFinished
         self.pityWinText = TTLocalizer.MolesPityWin
         self.restartedText = TTLocalizer.MolesRestarted
-        self.toonHiTTWacks = {}
+        self.toonHitTracks = {}
         self.hasRestarted = 0
         self.hasEntered = 0
         self.MolesWhackedTarget = 1000
@@ -44,10 +44,10 @@ class DistributedMoleField(DistributedNodePathEntity, MoleFieldBase.MoleFieldBas
 
     def disable(self):
         self.cleanupTimer()
-        for ival in self.toonHiTTWacks.values():
+        for ival in self.toonHitTracks.values():
             ival.finish()
 
-        self.toonHiTTWacks = {}
+        self.toonHitTracks = {}
         DistributedNodePathEntity.disable(self)
         taskMgr.remove(self.detectName)
         self.ignoreAll()
@@ -197,13 +197,13 @@ class DistributedMoleField(DistributedNodePathEntity, MoleFieldBase.MoleFieldBas
 
     def handleEnterHill(self, colEntry):
         if not self.gameStarted:
-            self.notify.debug('sending clienTTWiggered for %d' % self.doId)
-            self.sendUpdate('setClienTTWiggered', [])
+            self.notify.debug('sending clientTriggered for %d' % self.doId)
+            self.sendUpdate('setClientTriggered', [])
 
     def handleEnterMole(self, colEntry):
         if not self.gameStarted:
-            self.notify.debug('sending clienTTWiggered for %d' % self.doId)
-            self.sendUpdate('setClienTTWiggered', [])
+            self.notify.debug('sending clientTriggered for %d' % self.doId)
+            self.sendUpdate('setClientTriggered', [])
         surfaceNormal = colEntry.getSurfaceNormal(render)
         self.notify.debug('surfaceNormal=%s' % surfaceNormal)
         into = colEntry.getIntoNodePath()
@@ -232,7 +232,7 @@ class DistributedMoleField(DistributedNodePathEntity, MoleFieldBase.MoleFieldBas
 
     def updateGuiScore(self):
         molesLeft = self.MolesWhackedTarget - self.numMolesWhacked
-        if self.frame2D and hasaTTW(self, 'scoreLabel') and molesLeft >= 0:
+        if self.frame2D and hasattr(self, 'scoreLabel') and molesLeft >= 0:
             newText = TTLocalizer.MolesLeft % molesLeft
             self.scoreLabel['text'] = newText
 
@@ -295,8 +295,8 @@ class DistributedMoleField(DistributedNodePathEntity, MoleFieldBase.MoleFieldBas
 
     def doToonInRange(self):
         if not self.gameStarted:
-            self.notify.debug('sending clienTTWiggered for %d' % self.doId)
-            self.sendUpdate('setClienTTWiggered', [])
+            self.notify.debug('sending clientTriggered for %d' % self.doId)
+            self.sendUpdate('setClientTriggered', [])
         self.isToonInRange = 1
         if self.activeField:
             self.setUpCamera()
@@ -333,7 +333,7 @@ class DistributedMoleField(DistributedNodePathEntity, MoleFieldBase.MoleFieldBas
             return
         rng = random.Random(timestamp)
         curPos = toon.getPos(render)
-        oldTrack = self.toonHiTTWacks.get(avId)
+        oldTrack = self.toonHitTracks.get(avId)
         if oldTrack:
             if oldTrack.isPlaying():
                 oldTrack.finish()
@@ -436,7 +436,7 @@ class DistributedMoleField(DistributedNodePathEntity, MoleFieldBase.MoleFieldBas
         def postFunc(self = self, avId = avId, oldGeomNodeZ = oldGeomNodeZ, dropShadow = dropShadow, parentNode = parentNode):
             if avId == localAvatar.doId:
                 base.localAvatar.setPos(endPos)
-                if hasaTTW(self, 'orthoWalk'):
+                if hasattr(self, 'orthoWalk'):
                     self.orthoWalk.start()
             dropShadow.removeNode()
             del dropShadow
@@ -456,15 +456,15 @@ class DistributedMoleField(DistributedNodePathEntity, MoleFieldBase.MoleFieldBas
             if avId == localAvatar.doId:
                 toon.startSmooth()
                 place = base.cr.playGame.getPlace()
-                if place and hasaTTW(place, 'fsm'):
+                if place and hasattr(place, 'fsm'):
                     place.fsm.request('walk')
             else:
                 toon.startSmooth()
 
         preFunc()
-        hiTTWack = Sequence(Func(toon.setPos, Point3(0.0, 0.0, 0.0)), Wait(0.25), Parallel(flyTrack, cameraTrack, self.soundIUpDown, spinHTrack, spinPTrack, soundTrack), Func(postFunc), name=toon.uniqueName('hitBySuit'))
-        self.toonHiTTWacks[avId] = hiTTWack
-        hiTTWack.start()
+        hitTrack = Sequence(Func(toon.setPos, Point3(0.0, 0.0, 0.0)), Wait(0.25), Parallel(flyTrack, cameraTrack, self.soundIUpDown, spinHTrack, spinPTrack, soundTrack), Func(postFunc), name=toon.uniqueName('hitBySuit'))
+        self.toonHitTracks[avId] = hitTrack
+        hitTrack.start()
         posM = moleHill.getPos(render)
         posN = Point3(posM[0], posM[1], posM[2] + 4.0)
         self.soundBomb.play()

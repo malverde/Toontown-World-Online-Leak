@@ -93,7 +93,7 @@ class SafeZoneLoader(StateData.StateData):
         for i in range(npl.getNumPaths()):
             np = npl.getPath(i)
             np.setTag('transformIndex', `i`)
-            self.holidayPropTransforms[i] = np.getNeTTWansform()
+            self.holidayPropTransforms[i] = np.getNetTransform()
 
         self.geom.flattenMedium()
         gsg = base.win.getGsg()
@@ -214,7 +214,7 @@ class SafeZoneLoader(StateData.StateData):
                     className = animPropNode.getName()[14:-8]
                 symbols = {}
                 base.cr.importModule(symbols, 'toontown.hood', [className])
-                classObj = getaTTW(symbols[className], className)
+                classObj = getattr(symbols[className], className)
                 animPropObj = classObj(animPropNode)
                 animPropList = self.animPropDict.setdefault(i, [])
                 animPropList.append(animPropObj)
@@ -226,7 +226,7 @@ class SafeZoneLoader(StateData.StateData):
                 className = 'GenericAnimatedProp'
                 symbols = {}
                 base.cr.importModule(symbols, 'toontown.hood', [className])
-                classObj = getaTTW(symbols[className], className)
+                classObj = getattr(symbols[className], className)
                 interactivePropObj = classObj(interactivePropNode)
                 animPropList = self.animPropDict.get(i)
                 if animPropList is None:

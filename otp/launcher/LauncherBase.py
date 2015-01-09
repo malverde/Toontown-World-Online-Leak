@@ -1083,20 +1083,20 @@ class LauncherBase(DirectObject):
         try:
             self._runTaskManager()
         except SystemExit:
-            if hasaTTW(__builtin__, 'base'):
+            if hasattr(__builtin__, 'base'):
                 base.destroy()
             self.notify.info('Normal exit.')
             raise
         except:
             self.setPandaErrorCode(12)
             self.notify.warning('Handling Python exception.')
-            if hasaTTW(__builtin__, 'base') and getaTTW(base, 'cr', None):
+            if hasattr(__builtin__, 'base') and getattr(base, 'cr', None):
                 if base.cr.timeManager:
                     from otp.otpbase import OTPGlobals
                     base.cr.timeManager.setDisconnectReason(OTPGlobals.DisconnectPythonError)
                     base.cr.timeManager.setExceptionInfo()
                 base.cr.sendDisconnect()
-            if hasaTTW(__builtin__, 'base'):
+            if hasattr(__builtin__, 'base'):
                 base.destroy()
             self.notify.info('Exception exit.\n')
             import traceback

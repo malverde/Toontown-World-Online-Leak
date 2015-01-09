@@ -246,7 +246,7 @@ class DistributedStage(DistributedObject.DistributedObject):
             self.geom.removeNode()
             self.geom = None
         base.localAvatar.setCameraCollisionsCanMove(0)
-        if hasaTTW(self, 'relatedObjectMgrRequest') and self.relatedObjectMgrRequest:
+        if hasattr(self, 'relatedObjectMgrRequest') and self.relatedObjectMgrRequest:
             self.cr.relatedObjectMgr.abortRequest(self.relatedObjectMgrRequest)
             del self.relatedObjectMgrRequest
         DistributedObject.DistributedObject.disable(self)
@@ -267,7 +267,7 @@ class DistributedStage(DistributedObject.DistributedObject):
 
     def handleScreenshot(self):
         base.addScreenshotString('stageId: %s, floor (from 1): %s' % (self.stageId, self.floorNum + 1))
-        if hasaTTW(self, 'currentRoomName'):
+        if hasattr(self, 'currentRoomName'):
             base.addScreenshotString('%s' % self.currentRoomName)
 
     def setStageZone(self, zoneId):

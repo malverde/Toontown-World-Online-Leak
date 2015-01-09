@@ -119,14 +119,14 @@ class DistributedLevelBattle(DistributedBattle.DistributedBattle):
                     leaderIndex = self.suits.index(suit)
 
         delay = FACEOFF_TAUNT_T
-        suiTTWack = Parallel()
+        suitTrack = Parallel()
         suitLeader = None
         for suit in self.suits:
             suit.setState('Battle')
             suitIsLeader = 0
-            oneSuiTTWack = Sequence()
-            oneSuiTTWack.append(Func(suit.loop, 'neutral'))
-            oneSuiTTWack.append(Func(suit.headsUp, toonPos))
+            oneSuitTrack = Sequence()
+            oneSuitTrack.append(Func(suit.loop, 'neutral'))
+            oneSuitTrack.append(Func(suit.headsUp, toonPos))
             if self.suits.index(suit) == leaderIndex:
                 suitLeader = suit
                 suitIsLeader = 1
@@ -138,13 +138,13 @@ class DistributedLevelBattle(DistributedBattle.DistributedBattle):
                         taunt = level.getBossBattleTaunt()
                 else:
                     taunt = SuitBattleGlobals.getFaceoffTaunt(suit.getStyleName(), suit.doId)
-                oneSuiTTWack.append(Func(suit.setChatAbsolute, taunt, CFSpeech | CFTimeout))
+                oneSuitTrack.append(Func(suit.setChatAbsolute, taunt, CFSpeech | CFTimeout))
             destPos, destHpr = self.getActorPosHpr(suit, self.suits)
-            oneSuiTTWack.append(Wait(delay))
+            oneSuitTrack.append(Wait(delay))
             if suitIsLeader == 1:
-                oneSuiTTWack.append(Func(suit.clearChat))
-            oneSuiTTWack.append(self.createAdjustInterval(suit, destPos, destHpr))
-            suiTTWack.append(oneSuiTTWack)
+                oneSuitTrack.append(Func(suit.clearChat))
+            oneSuitTrack.append(self.createAdjustInterval(suit, destPos, destHpr))
+            suitTrack.append(oneSuitTrack)
 
         suitHeight = suitLeader.getHeight()
         suitOffsetPnt = Point3(0, 0, suitHeight)
@@ -174,7 +174,7 @@ class DistributedLevelBattle(DistributedBattle.DistributedBattle):
             camTrack.append(Func(camera.wrtReparentTo, self))
             camTrack.append(Func(camera.setPos, self.camFOPos))
             camTrack.append(Func(camera.lookAt, suit))
-        mtrack = Parallel(suiTTWack, toonTrack)
+        mtrack = Parallel(suitTrack, toonTrack)
         if self.hasLocalToon():
             NametagGlobals.setMasterArrowsOn(0)
             mtrack = Parallel(mtrack, camTrack)

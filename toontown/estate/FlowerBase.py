@@ -8,7 +8,7 @@ class FlowerBase:
     def __init__(self, species, variety):
         self.species = species
         self.variety = variety
-        if self.species not in GardenGlobals.PlantATTWibutes.keys():
+        if self.species not in GardenGlobals.PlantAttributes.keys():
             print 'remove me when everyone is updated'
             self.species = 56
             species = 56
@@ -29,7 +29,7 @@ class FlowerBase:
         return (self.species, self.variety)
 
     def getValue(self):
-        return GardenGlobals.PlantATTWibutes[self.species]['varieties'][self.variety][2]
+        return GardenGlobals.PlantAttributes[self.species]['varieties'][self.variety][2]
 
     def getSpeciesName(self):
         return TTLocalizer.FlowerSpeciesNames[self.species]
@@ -42,7 +42,7 @@ class FlowerBase:
 
     def getFullNameWithRecipe(self):
         name = GardenGlobals.getFlowerVarietyName(self.species, self.variety)
-        recipeKey = GardenGlobals.PlantATTWibutes[self.species]['varieties'][self.variety][0]
+        recipeKey = GardenGlobals.PlantAttributes[self.species]['varieties'][self.variety][0]
         name += ' (%s)' % GardenGlobals.Recipes[recipeKey]['beans']
         return name
 

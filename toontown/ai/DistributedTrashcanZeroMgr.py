@@ -18,7 +18,7 @@ class DistributedTrashcanZeroMgr(DistributedPhaseEventMgr.DistributedPhaseEventM
         self.notify.debug('deleting trashcanzeromgr')
         messenger.send('trashcanZeroIsRunning', [False])
         DistributedPhaseEventMgr.DistributedPhaseEventMgr.delete(self)
-        if hasaTTW(self.cr, 'trashcanZeroMgr'):
+        if hasattr(self.cr, 'trashcanZeroMgr'):
             del self.cr.trashcanZeroMgr
 
     def setCurPhase(self, newPhase):
