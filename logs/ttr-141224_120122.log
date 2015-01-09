@@ -1,0 +1,123 @@
+ToontownStart: Polling for game2 to finish...
+ToontownStart: Game2 is finished.
+ToontownStart: Starting the game.
+ToontownStart: setting default font
+TTLocalizer: Running in language: english
+from toontown.toonbase.TTLocalizerEnglish import *
+OTPLocalizer: Running in language: english
+from otp.otpbase.OTPLocalizerEnglish import *
+ToontownStart: Loading default gui sounds
+ToontownStart: serverVersion:  ttw-alpha-2.0.0
+{401000001: <toontown.distributed.ToontownDistrict.ToontownDistrict instance at 0x12315f830>}
+local
+1
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 14.2 fps|0.042d|4 avs||432|452||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+handleButton
+frame rate: 17.5 fps|0.010d|4 avs||731|752||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+frame rate: 19.8 fps|0.006d|3 avs||1031|1052||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+ignoring InputState-forward
+{401000001: <toontown.distributed.ToontownDistrict.ToontownDistrict instance at 0x12315f830>}
+local
+2
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+ToonAvatarDetailPanel None
+fisherman origin:  hidden/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+ToonAvatarDetailPanel None
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 27.4 fps|0.066d|4 avs||3850|3871||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Battle Event localtoon-battle-event-3
+Battle Event localtoon-battle-event-9
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+Battle Event localtoon-battle-event-15
+frame rate: 12.0 fps|0.037d|7 avs||4150|4171||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+ToonAvatarDetailPanel None
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+fisherman origin:  hidden/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 12.5 fps|0.017d|4 avs||4450|4471||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+ToonAvatarDetailPanel None
+fisherman origin:  hidden/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+fisherman origin:  render/town_top_level/toontownCentral/@@2236/fishing_pond_1/npc_fisherman_origin_0
+Battle Event localtoon-battle-event-21
+frame rate: 12.9 fps|0.127d|5 avs||4750|4771||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+Battle Event localtoon-battle-event-27
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+Battle Event localtoon-battle-event-33
+frame rate: 13.6 fps|0.022d|4 avs||5050|5071||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 15.4 fps|0.093d|3 avs||5350|5371||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+ToonAvatarDetailPanel None
+ToonAvatarDetailPanel None
+Battle Event localtoon-battle-event-39
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+Battle Event localtoon-battle-event-45
+frame rate: 14.6 fps|0.125d|3 avs||5650|5671||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+Battle Event localtoon-battle-event-51
+Battle Event localtoon-battle-event-57
+frame rate: 15.9 fps|0.023d|1 avs||5950|5971||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+ToonAvatarDetailPanel None
+ToonAvatarDetailPanel None
+Battle Event localtoon-battle-event-63
+Battle Event localtoon-battle-event-69
+frame rate: 20.1 fps|0.015d|1 avs||6250|6271||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+Battle Event localtoon-battle-event-75
+Battle Event localtoon-battle-event-81
+frame rate: 18.8 fps|0.025d|5 avs||6550|6571||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+Battle Event localtoon-battle-event-87
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 15.4 fps|0.070d|3 avs||6850|6871||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+Battle Event localtoon-battle-event-93
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 19.6 fps|0.013d|3 avs||7150|7171||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+Battle Event localtoon-battle-event-99
+Battle Event localtoon-battle-event-105
+frame rate: 20.3 fps|0.017d|4 avs||7451|7471||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+Battle Event localtoon-battle-event-111
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+Battle Event localtoon-battle-event-117
+Battle Event localtoon-battle-event-123
+frame rate: 17.7 fps|0.015d|4 avs||7751|7771||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+OnscreenText.configure: mayChange == 0
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+frame rate: 21.6 fps|0.044d|1 avs||8051|8071||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+fisherman origin:  render/town_top_level/toontownCentral/2236/fishing_pond_1/npc_fisherman_origin_0
+Battle Event localtoon-battle-event-129
+Battle Event localtoon-battle-event-135
+frame rate: 16.6 fps|0.042d|4 avs||8351|8371||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+frame rate: 11.8 fps|0.010d|2 avs||8651|8672||0x0000|0x0000|0.0MB|0.0MB|0.0MB|0|darwin.5.10.9|0.000,0.000|0,0 cpus|OpenGL
+ignoring InputState-forward
