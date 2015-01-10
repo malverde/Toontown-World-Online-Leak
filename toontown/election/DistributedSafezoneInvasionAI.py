@@ -8,8 +8,6 @@ from InvasionMasterAI import InvasionMasterAI
 import SafezoneInvasionGlobals
 import DistributedElectionEventAI
 from toontown.suit import SuitTimings
-from toontown.suit.SuitDNA import SuitDNA
-from toontown.suit.SuitDNA import suitType
 from toontown.suit import SuitDNA
 from toontown.toonbase import ToontownBattleGlobals
 
