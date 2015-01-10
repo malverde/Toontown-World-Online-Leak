@@ -142,21 +142,21 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
     def enterBegin(self):
         
 
-    def enterAlecSpeech(self):
+     def enterAlecSpeech(self):
         
 
-    def enterVoteBuildup(self):
+      def enterVoteBuildup(self):
         
 
-    def enterWinnerAnnounce(self):
+       def enterWinnerAnnounce(self):
         
 
-    def enterCogLanding(self):
-        self.landingSequence = Sequence(
+         def enterCogLanding(self):
+          self.landingSequence = Sequence(
             Wait(65),
             Func(self.balloon.b_setState, 'ElectionCrashing')
         )
-        self.landingSequence.start()
+         self.landingSequence.start()
 
     def exitCogLanding(self):
         self.landingSequence.finish()
