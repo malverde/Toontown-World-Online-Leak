@@ -140,23 +140,23 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
         self.showAnnounceInterval.finish()
 
     def enterBegin(self):
-        pass
+        
 
-    def enterAlecSpeech(self):
-        pass
+     def enterAlecSpeech(self):
+        
 
-    def enterVoteBuildup(self):
-        pass
+      def enterVoteBuildup(self):
+        
 
-    def enterWinnerAnnounce(self):
-        pass
+       def enterWinnerAnnounce(self):
+        
 
-    def enterCogLanding(self):
+         def enterCogLanding(self):
           self.landingSequence = Sequence(
             Wait(65),
             Func(self.balloon.b_setState, 'ElectionCrashing')
         )
-    self.landingSequence.start()
+         self.landingSequence.start()
 
     def exitCogLanding(self):
         self.landingSequence.finish()
