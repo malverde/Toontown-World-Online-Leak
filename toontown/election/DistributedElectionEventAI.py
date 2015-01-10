@@ -200,8 +200,9 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
             if not self.cogDead:
                 self.cogDead = True
                 self.suit = DistributedInvasionSuitAI(self.air, self)
+                print(type(suit))
                 self.suit.dna.newSuit('ym')
-                print self.suit.dna.newSuit('ym')
+                
 
                 self.suit.setSpawnPoint(99)
                 self.suit.setLevel(0)
