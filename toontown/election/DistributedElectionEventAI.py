@@ -7,6 +7,7 @@ from otp.ai.MagicWordGlobal import *
 from toontown.election.DistributedHotAirBalloonAI import DistributedHotAirBalloonAI
 from DistributedElectionCameraManagerAI import DistributedElectionCameraManagerAI
 from DistributedSafezoneInvasionAI import DistributedSafezoneInvasionAI
+from DistributedInvasionSuitAI import DistributedInvasionSuitAI
 from InvasionMasterAI import InvasionMasterAI
 from toontown.toonbase import ToontownGlobals
 import SafezoneInvasionGlobals
