@@ -156,7 +156,7 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
             Wait(65),
             Func(self.balloon.b_setState, 'ElectionCrashing')
         )
-    	  self.landingSequence.start()
+    self.landingSequence.start()
 
     def exitCogLanding(self):
         self.landingSequence.finish()
