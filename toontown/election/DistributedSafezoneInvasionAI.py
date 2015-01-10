@@ -8,6 +8,11 @@ from InvasionMasterAI import InvasionMasterAI
 import SafezoneInvasionGlobals
 import DistributedElectionEventAI
 from toontown.suit import SuitTimings
+<<<<<<< HEAD
+=======
+from toontown.suit.SuitDNA import SuitDNA
+from toontown.suit import SuitDNA
+>>>>>>> ee5a2a68a097e23737ed06e0f46dcf38dc67663a
 from toontown.toonbase import ToontownBattleGlobals
 
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
