@@ -24,8 +24,8 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI, InvasionSuitBase, FSM):
         FSM.__init__(self, 'InvasionSuitFSM')
         self.invasion = invasion
         self.dna =  None
-        suit = DistributedInvasionSuitAI(self.air, self)
-        suit.dna = SuitDNA.SuitDNA()
+        
+        dna = SuitDNA.SuitDNA()
         self.stateTime = globalClockDelta.getRealNetworkTime()
         self.spawnPointId = 0
 
