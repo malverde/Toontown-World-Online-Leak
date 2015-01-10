@@ -16,6 +16,7 @@ from toontown.suit import SuitPlannerBase
 from toontown.suit import SuitBase
 
 from toontown.toonbase import ToontownBattleGlobals
+import DistributedElectionEventAI
 import SafezoneInvasionGlobals
 from InvasionMasterAI import InvasionMasterAI
 
