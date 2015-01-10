@@ -202,7 +202,7 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
                 self.suit = DistributedInvasionSuitAI(self.air, self)
                
                 self.suit.dna.newSuit('ym')
-                print newSuit
+                print suitType
                 
 
                 self.suit.setSpawnPoint(99)
