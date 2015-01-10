@@ -4,7 +4,7 @@ export ttrUsername=mgracer
 echo "You wrote: $ttrUsername"
 export ttrPassword=password
 export TTR_PLAYCOOKIE=$ttrUsername$
-export TTR_GAMESERVER=54.84.246.211
+export TTR_GAMESERVER=54.164.69.235
 
 echo ===============================
 echo Starting Toontown  World Online...
