@@ -13,8 +13,6 @@ from toontown.toonbase import ToontownBattleGlobals
 from toontown.suit import SuitDNA
 from toontown.suit import SuitPlannerBase
 from toontown.suit import SuitBase
-from otp.avatar import AvatarDNA
-from toontown.toonbase import TTLocalizer
 
 
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
