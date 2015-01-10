@@ -351,8 +351,9 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
 
         # Define our suit:
         suit = DistributedInvasionSuitAI(self.air, self)
-        print(type(suit))
+        
         suit.dna.newSuit(suitType)
+        print(type(suit))
         suit.setSpawnPoint(pointId)
         suit.setLevel(levelOffset)
         suit.generateWithRequired(self.zoneId)
