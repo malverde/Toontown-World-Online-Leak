@@ -356,7 +356,7 @@ Shirts = [
  'phase_4/maps/tt_t_chr_avt_shirt_saveBuilding05.jpg',
  'phase_4/maps/tt_t_chr_avt_shirt_anniversary.jpg',
  'phase_4/maps/tt_t_chr_avt_shirt_sora.jpg',                               # 150 - Sora, Unused
- 'phase_4/maps/tt_t_chr_avt_shirt_slappy.jpg',                             # 151 - Slappy
+ 'phase_4/maps/tt_t_chr_avt_shirt_buddy.jpg',                             # 151 - Buddy
  'phase_4/maps/tt_t_chr_avt_shirt_electionFlippy.jpg'                      # 152 - Alpha
 ]
 BoyShirts = [
@@ -549,7 +549,7 @@ Sleeves = ['phase_3/maps/desat_sleeve_1.jpg',
  'phase_4/maps/tt_t_chr_avt_shirtSleeve_saveBuilding05.jpg',
  'phase_4/maps/tt_t_chr_avt_shirtSleeve_anniversary.jpg',
  'phase_4/maps/tt_t_chr_avt_shirtSleeve_sora.jpg',                         # 137 - Sora, Unused
- 'phase_4/maps/tt_t_chr_avt_shirtSleeve_slappy.jpg',                       # 138 - Slappy
+ 'phase_4/maps/tt_t_chr_avt_shirtSleeve_buddy.jpg',                       # 138 - Buddy
  'phase_4/maps/tt_t_chr_avt_shirtSleeve_electionFlippy.jpg']               # 139 - Alpha
 BoyShorts = ['phase_3/maps/desat_shorts_1.jpg',
  'phase_3/maps/desat_shorts_2.jpg',
@@ -610,7 +610,7 @@ BoyShorts = ['phase_3/maps/desat_shorts_1.jpg',
  'phase_4/maps/tt_t_chr_avt_shorts_racing04.jpg',
  'phase_4/maps/tt_t_chr_avt_shorts_racing05.jpg',
  'phase_4/maps/tt_t_chr_avt_shorts_sora.jpg',
- 'phase_4/maps/tt_t_chr_avt_shorts_slappy.jpg']
+ 'phase_4/maps/tt_t_chr_avt_shorts_buddy.jpg']
 SHORTS = 0
 SKIRT = 1
 GirlBottoms = [('phase_3/maps/desat_skirt_1.jpg', SKIRT),

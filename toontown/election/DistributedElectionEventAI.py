@@ -43,9 +43,9 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
        These bits are for things used before Election Day, and mostly unrelated to the Election Sequence.
     '''
     def enterIdle(self):
-        # Generate Slappy's Hot Air Balloon!
+        # Generate Buddy's Hot Air Balloon!
         if self.balloon is None:
-            # Pump some self.air into Slappy's Balloon
+            # Pump some self.air into Buddy's Balloon
             self.balloon = DistributedHotAirBalloonAI(self.air)
             self.balloon.generateWithRequired(self.zoneId)
         if config.GetBool('want-doomsday', False):
@@ -83,11 +83,11 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
         # This is more for the invasion than the pre-invasion elections.
         self.pieTypeAmount = [type, num]
 
-    def slappyAvatarEnter(self):
+    def buddyAvatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
         av = self.air.doId2do.get(avId, None)
         if not av:
-            self.air.writeServerEvent('suspicious', avId=avId, issue='Got a request for Slappy\'s Cheesy Effect from a toon that isn\'t on the district!')
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Got a request for Buddy\'s Cheesy Effect from a toon that isn\'t on the district!')
             return
         av.b_setCheesyEffect(15, 0, 0)
 
@@ -105,7 +105,7 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
             event = DistributedElectionEventAI(simbase.air)
             event.generateWithRequired(2000)
         if self.balloon is None:
-            # Pump some self.air into Slappy's Balloon
+            # Pump some self.air into Buddy's Balloon
             self.balloon = DistributedHotAirBalloonAI(self.air)
             self.balloon.generateWithRequired(self.zoneId)
         self.eventSequence = Sequence(
