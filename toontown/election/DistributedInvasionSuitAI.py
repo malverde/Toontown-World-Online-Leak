@@ -11,6 +11,9 @@ from InvasionSuitBase import InvasionSuitBase
 from InvasionSuitBrainAI import InvasionSuitBrainAI
 import SafezoneInvasionGlobals
 from random import random, choice, randint
+from toontown.suit import SuitDNA
+from toontown.suit import SuitPlannerBase
+from toontown.suit import SuitBase
 
 class DistributedInvasionSuitAI(DistributedSuitBaseAI, InvasionSuitBase, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedInvasionSuitAI")
