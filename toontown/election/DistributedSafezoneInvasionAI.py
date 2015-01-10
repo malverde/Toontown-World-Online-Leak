@@ -10,6 +10,10 @@ import DistributedElectionEventAI
 from toontown.suit import SuitTimings
 
 from toontown.toonbase import ToontownBattleGlobals
+import SuitDNA
+import SuitPlannerBase
+import SuitBase
+
 
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedSafezoneInvasionAI")
