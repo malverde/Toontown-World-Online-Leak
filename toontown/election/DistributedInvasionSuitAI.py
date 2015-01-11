@@ -158,6 +158,8 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI,  InvasionSuitBase, FSM):
         self.b_setState('Attack')
 
     def enterAttack(self):
+    	name = None
+ 	dna = SuitDNA.SuitDNA()   
         DistributedInvasionSuitAI.dna = dna    
         if self.brain.suit.dna.body in ['a', 'b']:
             self._delay = taskMgr.doMethodLater(4.6, self.__attackDone,
