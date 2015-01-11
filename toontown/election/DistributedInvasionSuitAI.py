@@ -14,17 +14,26 @@ from random import random, choice, randint
 from toontown.suit import SuitDNA
 from toontown.suit import SuitPlannerBase
 from toontown.suit import SuitBase
+from toontown.suit import Suit
+
+
 
 class DistributedInvasionSuitAI(DistributedSuitBaseAI,  InvasionSuitBase, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedInvasionSuitAI")
 
-    def __init__(self, air, invasion):
+    def __init__(self, air, invasion,):
         DistributedSuitBaseAI.__init__(self, air, None)
         InvasionSuitBase.__init__(self)
         FSM.__init__(self, 'InvasionSuitFSM')
         self.invasion = invasion
+        suit = DistributedInvasionSuitAI(self.air, self)               
+        suit.dna = SuitDNA.SuitDNA()
+        dna = SuitDNA.SuitDNA()
+        DistributedInvasionSuitAI.dna = dna
 
-	DistributedInvasionSuitAI.dna = SuitDNA.SuitDNA()
+
+
+
 
        
         
