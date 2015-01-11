@@ -1,0 +1,11 @@
+id: 100000064
+class: Account
+fields:
+  ACCOUNT_AV_SET: "[0, 0, 0, 0, 0, 0]"
+  ESTATE_ID: 0
+  ACCOUNT_AV_SET_DEL: "[]"
+  CREATED: "\"Sat Dec 20 23:34:04 2014\""
+  LAST_LOGIN: "\"Sat Dec 20 23:35:19 2014\""
+  ACCOUNT_ID: "\"brendna712\""
+  ADMIN_ACCESS: 0
+  BETA_KEY_QUEST: 0
