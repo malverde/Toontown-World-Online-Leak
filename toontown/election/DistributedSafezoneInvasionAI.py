@@ -426,8 +426,8 @@ def szInvasion(cmd, arg=''):
         if invasion is None:
             election = simbase.air.doFind('ElectionEvent')
             if election is None:
-                return 'No election event.'
-            invasion = DistributedSafezoneInvasionAI(simbase.air, election)
+			election = DistributedElectionEventAI
+			invasion = DistributedSafezoneInvasionAI(simbase.air, election)
             invasion.generateWithRequired(2000)
         else:
             return 'An invasion object already exists.'
