@@ -25,7 +25,10 @@ class SuitBase:
         self.legList = None
         self.path = None
         self.suitGraph = None
+        name = None
+        SuitDNA.name = name
         return
+        
 
     def delete(self):
         if self.legList is not None:
