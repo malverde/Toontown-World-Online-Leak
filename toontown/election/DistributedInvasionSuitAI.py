@@ -11,7 +11,7 @@ from InvasionSuitBase import InvasionSuitBase
 from InvasionSuitBrainAI import InvasionSuitBrainAI
 import SafezoneInvasionGlobals
 from random import random, choice, randint
-from toontown.suit import SuitDNA
+from toontown.suit.SuitDNA import SuitDNA
 from toontown.suit import SuitPlannerBase
 from toontown.suit import SuitBase
 from toontown.suit import Suit
@@ -25,7 +25,7 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI,  InvasionSuitBase, FSM):
         DistributedSuitBaseAI.__init__(self, air, None)
         InvasionSuitBase.__init__(self)
         FSM.__init__(self, 'InvasionSuitFSM')
-	DistributedInvasionSuitAI.dna = setDNA
+	DistributedInvasionSuitAI.dna = SuitDNA
         self.invasion = invasion
         self.stateTime = globalClockDelta.getRealNetworkTime()
         self.spawnPointId = 0
