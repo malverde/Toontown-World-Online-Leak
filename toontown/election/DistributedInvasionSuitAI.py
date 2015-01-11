@@ -25,6 +25,7 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI, InvasionSuitBase, FSM):
         self.invasion = invasion
         dna = SuitDNA.SuitDNA()
         self.dna = dna
+	setattr(DistributedInvasionSuitAI, 'dna')
        
         
         self.stateTime = globalClockDelta.getRealNetworkTime()
