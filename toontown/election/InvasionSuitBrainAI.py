@@ -69,7 +69,7 @@ class AttackBehavior(FSM):
             return
 
 
-    def enterAttack(self):
+    def enterAttack(self, None):
         # Attack the Toon.
         self.brain.suit.attack(self.toonId)
 
