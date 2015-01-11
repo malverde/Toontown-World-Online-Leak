@@ -26,8 +26,6 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI,  InvasionSuitBase, FSM):
         InvasionSuitBase.__init__(self)
         FSM.__init__(self, 'InvasionSuitFSM')
         self.invasion = invasion
-        suit = DistributedInvasionSuitAI(self.air, self)               
-        suit.dna = SuitDNA.SuitDNA()
         dna = SuitDNA.SuitDNA()
         DistributedInvasionSuitAI.dna = dna
 
