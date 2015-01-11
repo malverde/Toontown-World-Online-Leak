@@ -1,0 +1,11 @@
+id: 100000102
+class: Account
+fields:
+  ACCOUNT_AV_SET: "[0, 0, 0, 100000104, 0, 0]"
+  ESTATE_ID: 100000105
+  ACCOUNT_AV_SET_DEL: "[{100000103, 1419626388}]"
+  CREATED: "\"Fri Dec 26 20:32:50 2014\""
+  LAST_LOGIN: "\"Fri Dec 26 20:34:04 2014\""
+  ACCOUNT_ID: "\"disneyelsa\""
+  ADMIN_ACCESS: 0
+  BETA_KEY_QUEST: 0

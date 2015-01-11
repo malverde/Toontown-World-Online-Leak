@@ -1,0 +1,20 @@
+id: 100000183
+class: DistributedEstate
+fields:
+  setEstateType: (0)
+  setDecorData: ([])
+  setLastEpochTimeStamp: (0)
+  setRentalTimeStamp: (0)
+  setRentalType: (0)
+  setSlot0ToonId: (0)
+  setSlot0Items: ([])
+  setSlot1ToonId: (0)
+  setSlot1Items: ([])
+  setSlot2ToonId: (0)
+  setSlot2Items: ([])
+  setSlot3ToonId: (0)
+  setSlot3Items: ([])
+  setSlot4ToonId: (0)
+  setSlot4Items: ([])
+  setSlot5ToonId: (0)
+  setSlot5Items: ([])
