@@ -15,7 +15,7 @@ from toontown.suit import SuitDNA
 from toontown.suit import SuitPlannerBase
 from toontown.suit import SuitBase
 
-class DistributedInvasionSuitAI(DistributedSuitBaseAI, InvasionSuitBase, FSM):
+class DistributedInvasionSuitAI(DistributedSuitBaseAI,  InvasionSuitBase, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedInvasionSuitAI")
 
     def __init__(self, air, invasion):
@@ -25,7 +25,7 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI, InvasionSuitBase, FSM):
         self.invasion = invasion
         dna = SuitDNA.SuitDNA()
         self.dna = dna
-	setattr(DistributedInvasionSuitAI, 'dna')
+
        
         
         self.stateTime = globalClockDelta.getRealNetworkTime()
@@ -151,7 +151,7 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI, InvasionSuitBase, FSM):
         self.sendUpdate('setAttackInfo', [who, choice(attacks), damage])
         self.b_setState('Attack')
 
-    def enterAttack(self):
+    def enterAttack(self, dna):
         if self.brain.suit.dna.body in ['a', 'b']:
             self._delay = taskMgr.doMethodLater(4.6, self.__attackDone,
                                                 self.uniqueName('attack'))
