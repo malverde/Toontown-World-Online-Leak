@@ -25,15 +25,10 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI,  InvasionSuitBase, FSM):
         DistributedSuitBaseAI.__init__(self, air, None)
         InvasionSuitBase.__init__(self)
         FSM.__init__(self, 'InvasionSuitFSM')
+        name = None
+ 	dna = None  
+        DistributedInvasionSuitAI.dna = dna    
         self.invasion = invasion
-
-
-
-
-
-
-       
-        
         self.stateTime = globalClockDelta.getRealNetworkTime()
         self.spawnPointId = 0
 
@@ -158,9 +153,7 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI,  InvasionSuitBase, FSM):
         self.b_setState('Attack')
 
     def enterAttack(self):
-    	name = None
- 	dna = SuitDNA.SuitDNA()   
-        DistributedInvasionSuitAI.dna = dna    
+
         if self.brain.suit.dna.body in ['a', 'b']:
             self._delay = taskMgr.doMethodLater(4.6, self.__attackDone,
                                                 self.uniqueName('attack'))
