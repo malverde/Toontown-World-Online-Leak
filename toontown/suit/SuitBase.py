@@ -17,6 +17,7 @@ class SuitBase:
     notify = DirectNotifyGlobal.directNotify.newCategory('SuitBase')
 
     def __init__(self):
+    	name = None
         self.dna = None
         self.level = 0
         self.maxHP = 10
@@ -39,6 +40,7 @@ class SuitBase:
 
     def getStyleName(self):
         if hasattr(self, 'dna') and self.dna:
+  			      
             return self.dna.name
         else:
             self.notify.error('called getStyleName() before dna was set!')
