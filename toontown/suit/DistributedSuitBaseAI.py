@@ -51,7 +51,7 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         if hasattr(self, 'doId'):
             self.d_setLevelDist(self.level)
             if level < level:
-             level = level - 1 
+             level = level + 1 
             else:
              level = level
         hp = attributes['hp'][self.level]
