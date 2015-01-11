@@ -1,0 +1,11 @@
+id: 100000248
+class: Account
+fields:
+  ACCOUNT_AV_SET: "[0, 100000249, 0, 0, 0, 0]"
+  ESTATE_ID: 100000250
+  ACCOUNT_AV_SET_DEL: "[]"
+  CREATED: "\"Mon Jan 05 23:56:33 2015\""
+  LAST_LOGIN: "\"Sun Jan 11 01:34:56 2015\""
+  ACCOUNT_ID: "\"KrisRuleZ\""
+  ADMIN_ACCESS: 0
+  BETA_KEY_QUEST: 0
