@@ -17,7 +17,6 @@ class SuitBase:
     notify = DirectNotifyGlobal.directNotify.newCategory('SuitBase')
 
     def __init__(self):
-    	name = None
         self.dna = None
         self.level = 0
         self.maxHP = 10
