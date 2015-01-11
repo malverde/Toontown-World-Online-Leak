@@ -2,10 +2,7 @@ import random
 from pandac.PandaModules import *
 from direct.fsm.FSM import FSM
 from PathPlannerPoolAI import pool
-from toontown.suit import SuitDNA
-from toontown.suit import SuitPlannerBase
-from toontown.suit import SuitBase
-dna = SuitDNA.SuitDNA()
+
 # Individual suit behaviors...
 
 # Attack a specific Toon.
@@ -72,7 +69,7 @@ class AttackBehavior(FSM):
             return
 
 
-    def enterAttack(self, dna):
+    def enterAttack(self, None):
         # Attack the Toon.
         self.brain.suit.attack(self.toonId)
 
