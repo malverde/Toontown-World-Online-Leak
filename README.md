@@ -7,6 +7,7 @@ This README would normally document whatever steps are necessary to get your app
 * Quick summary
 
  ### Version ###
+
 2.0.0
 
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
@@ -67,5 +68,7 @@ Repo Owner: Reese Jenner
 
 ### Other community or team contact ###
 Game Admins:
+
 Mgracer (Michael) - administrator
+
 Purrty (Julieanne) - in-game admin and Community Manager
