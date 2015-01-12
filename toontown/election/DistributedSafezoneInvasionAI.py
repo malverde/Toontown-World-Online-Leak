@@ -361,7 +361,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         suit.setLevel(levelOffset)
         suit.generateWithRequired(self.zoneId)
 
-	suit = DistributedInvasionSuitAI(self.air, self)
+
 #is this the boss wave? If it is spawn the boss
 	if self.waveNumber in SafezoneInvasionGlobals.SuitFinalWave:
    		enterFinale()
@@ -369,8 +369,8 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
 	elif self.waveNumber in SafezoneInvasionGlobals.SuitSkelecogWaves:
      	 suit.d_makeSkelecog()
         # Now send 'em in!
-    suit.b_setState('FlyDown')
-    self.suits.append(suit)
+    	suit.b_setState('FlyDown')
+    	self.suits.append(suit)
 
     def pieHitSuit(self, doId):
         # One of those annoying toons hit one of our suits.
