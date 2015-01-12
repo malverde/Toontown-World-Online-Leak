@@ -53,12 +53,12 @@ When the code gets in a more stable state it can be moved to the TTW-DEV-Cluster
 ### Other guidelines ###
 Commits **MUST NOT BE MADE** **directly** to the **master Branch**. Features that are new or **VERY** **unstable** will go in a **new** Branch titled "TTW-DEV-Cluster-" followed by the feature name. If the code gets in a more stable state it can be moved to the TTW-DEV-Cluster where the Community Managers can freely test.
 
-Once the Community Managers are happy and it has been tested multiple times it **can** be moved to the **TTW-PROD-Cluster** at a scheduled release.
+Once the Community Managers are happy and it has been tested multiple times it **can** be moved to the **TTW-PROD-Cluster** at a scheduled release. The updated version of TTW-PROD-Cluster can then be merged into the **master** Branch.
 
 The Developer(s) must include notes in each commit to help understand changes and must write a changelog to give to the Community Managers so they can make a news release about it. 
 
 Changes will be bulked together in a TTW-PROD-Cluster maintenance release.
-If there is a **EMERGENCY bug fix** that is breaking or **hindering performance** of the game it may be necessary to speed up the developing and testing process - if that cannot happen (not enough time - issue** too severe**) it will be quickly **released** to **TTW-PROD-Cluster**
+If there is an **EMERGENCY bug fix** that is breaking or **hindering performance** of the game it may be necessary to speed up the developing and testing process - if that cannot happen (not enough time - issue** too severe**) it will be quickly **released** to **TTW-PROD-Cluster**
 
 ### Who do I talk to? ###
 
