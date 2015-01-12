@@ -361,7 +361,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         suit.setLevel(levelOffset)
         suit.generateWithRequired(self.zoneId)
 
-	suit = DistributedInvasionSuitAI(self.air, self)
+
 #is this the boss wave? If it is spawn the boss
 	if self.waveNumber in SafezoneInvasionGlobals.SuitFinalWave:
    		enterFinale()
