@@ -195,8 +195,7 @@ SuitIntermissionWaves = [2, 5, 8, 11, 14, 17, 20, 23, 26]
 
 # These are the last waves that start turning cogs into Skelcogs.
 SuitSkelecogWaves = [24, 25, 26]
-#this the last wave its where the boss cog spawns
-SuitFinalWave = [27]
+
 WaveBeginningTime = 10 # This should be at least 6.5 (the suit fly-down time)
 IntermissionTime = 20 # How long does the intermission last?
 

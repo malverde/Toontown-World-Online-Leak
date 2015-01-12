@@ -190,7 +190,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         elif self.waveNumber == 23:
             self.election.saySurleePhrase('Did... Did we get them? That had to have been the last wave - their field levels don\'t go any higher. Why are the skies growing darker?', 1, True)
         elif self.waveNumber == 26:
-            self.election.saySurleePhrase('Absolutely outstanding! I can\'t believe we made it! Brace yourselves, they are sending in the boss', 1, True)
+            self.election.saySurleePhrase('Absolutely outstanding! I can\'t believe we made it! Brace yourselves, we have one more baddy to go...', 1, True)
 
     def __endIntermission(self, task):
         self.demand('BeginWave', self.waveNumber + 1)
@@ -361,16 +361,13 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         suit.setLevel(levelOffset)
         suit.generateWithRequired(self.zoneId)
 
-
-#is this the boss wave? If it is spawn the boss
-	if self.waveNumber in SafezoneInvasionGlobals.SuitFinalWave:
-   		enterFinale()
         # Is this a skelecog wave?
-	elif self.waveNumber in SafezoneInvasionGlobals.SuitSkelecogWaves:
-     	 suit.d_makeSkelecog()
+        if self.waveNumber in SafezoneInvasionGlobals.SuitSkelecogWaves:
+            suit.d_makeSkelecog()
+
         # Now send 'em in!
-    suit.b_setState('FlyDown')
-    self.suits.append(suit)
+        suit.b_setState('FlyDown')
+        self.suits.append(suit)
 
     def pieHitSuit(self, doId):
         # One of those annoying toons hit one of our suits.
