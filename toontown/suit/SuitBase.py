@@ -62,7 +62,13 @@ class SuitBase:
          'level': self.getActualLevel()}
         self.setDisplayName(nameWLevel)
         attributes = SuitBattleGlobals.SuitAttributes[self.dna.name]
-        self.maxHP = attributes['hp'][self.level]
+        if len(attributes['hp'])<=self.level:
+    	    print "maxHP is less then level, Oops!"
+            raise Exception("invalid list index: len(attributes['hp') = %d, self.level=%d" % (len(attributes['hp']), self.level))	
+# if we made it this far, we are good  
+	    self.maxHP = attributes['hp'][self.level]     	    
+        
+        #self.maxHP = attributes['hp'][self.level]
         self.currHP = self.maxHP
 
     def getSkelecog(self):
