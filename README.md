@@ -1,10 +1,6 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
-### What is this repository for? ###
-
-* Quick summary
+# IMPORTANT PLEASE READ! #
 
 ### Version ###
 
@@ -16,7 +12,7 @@ This README would normally document whatever steps are necessary to get your app
 
 ### Summary of set up ###
 1. Set up a Windows Server 2008 R2
-2. Install vfs_full.exe
+2. Install vns_full.exe
 3. Install both Panda3D versions
 4. Download tcp.reg and the .bat that goes with it and run the .BAT
 5. Download a Branch, either TTW-PROD-Cluster or TTW-DEV-Cluster 
