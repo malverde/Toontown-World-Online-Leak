@@ -6,7 +6,7 @@ This README would normally document whatever steps are necessary to get your app
 
 * Quick summary
 
- ### Version ###
+### Version ###
 
 2.0.0
 
@@ -21,6 +21,7 @@ This README would normally document whatever steps are necessary to get your app
 4. Download tcp.reg and the .bat that goes with it and run the .BAT
 5. Download a Branch, either TTW-PROD-Cluster or TTW-DEV-Cluster 
 6. Extract downloaded ZIP and then open start_astron.bat, start_ubderdog.bat and start_ai.bat
+
 Basic set-up has been completed.
 
 
