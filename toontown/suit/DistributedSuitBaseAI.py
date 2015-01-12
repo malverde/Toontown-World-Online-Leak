@@ -51,6 +51,12 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         if hasattr(self, 'doId'):
             self.d_setLevelDist(self.level)
         hp = attributes['hp'][self.level]
+<<<<<<< HEAD
+=======
+	if len(attributes['hp'])<=self.level:
+   		print "Hp is less then self.level: Oops!"
+
+>>>>>>> b6a8709fd3b09c0cc4e325aa2bceed7eef19117e
         self.maxHP = hp
         self.currHP = hp
 	if len(attributes['hp'])<=self.level:
