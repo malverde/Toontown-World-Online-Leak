@@ -42,13 +42,13 @@ Ensure a client version has been made/modified and download it. Edit the connect
 
 ### Contribution guidelines ###
 
-* Writing tests
+### Writing tests ###
 Commits will be made in the **Branch** - features that are new or **VERY** **unstable** will go in a **new** Branch titled "TTW-DEV-Cluster-" followed by the feature name.
 
-* Code review
+*### Code review ###
 Once changes to the source code have been applied they will go into  a **new** Branch titled "TTW-DEV-Cluster-" followed by the feature name and will be deployed to a test server (see instructions above). When the code gets in a more stable state it can be moved to the TTW-DEV-Cluster where the Community Managers can freely test.
 
-* Other guidelines
+### Other guidelines ###
 Commits **MUST NOT BE MADE** **directly** to the **master Branch**. Features that are new or **VERY** **unstable** will go in a **new** Branch titled "TTW-DEV-Cluster-" followed by the feature name. If the code gets in a more stable state it can be moved to the TTW-DEV-Cluster where the Community Managers can freely test.
 Once the Community Managers are happy and it has been tested multiple times it **can** be moved to the **TTW-PROD-Cluster** at a scheduled release.
 
