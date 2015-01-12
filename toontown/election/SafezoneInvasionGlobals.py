@@ -62,13 +62,21 @@ SuitSpawnPoints = [
     (  46.1,-114.8,   2.5,  60.0),
     (-113.6,  20.0,  0.03,  55.0),
 ]
-
+#what suit levels are there to generate?
 suitLevels = [
     0,
     1,
     2,
     3,
-    4
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
 ]
 sellbotSuits = [
     'cc',
