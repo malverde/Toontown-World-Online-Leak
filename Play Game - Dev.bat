@@ -4,7 +4,7 @@ set /P ttrUsername="Username: " || ^
 set ttrUsername=username
 set ttrPassword=password
 set TTR_PLAYCOOKIE=%ttrUsername%
-set TTR_GAMESERVER=54.165.234.169
+set TTR_GAMESERVER=54.172.56.119
 
 rem Read the contents of PPYTHON_PATH into %PPYTHON_PATH%:
 set /P PPYTHON_PATH=<PPYTHON_PATH
