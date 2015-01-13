@@ -1,5 +1,5 @@
 set +v
-export ttrUsername=mgracer
+export ttrUsername=
 echo "You wrote: $ttrUsername"
 export ttrPassword=password
 export TTR_PLAYCOOKIE=$ttrUsername$
