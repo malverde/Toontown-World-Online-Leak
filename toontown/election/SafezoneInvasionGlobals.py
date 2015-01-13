@@ -184,11 +184,13 @@ SuitWaves = [
     generateSuits(15, [1, 3], [6, 7], True),
     generateSuits(20, [1, 4], [7, 7], True), # Wait Wave
     generateSuits(25, [2, 4], [7, 7], True), # Intermission Wave
+    generateSuits(1, [1, 3], [6, 7], True), # boss wave
+    
 ]
 
 # On these waves, no more waves will spawn until all suits are destroyed.
 # Once the suits are destroyed, the next wave will spawn again instantly with no intermission.
-SuitWaitWaves = [1, 4, 7, 10, 13, 16, 19, 22, 24, 25, 27]
+SuitWaitWaves = [1, 4, 7, 10, 13, 16, 19, 22, 24, 25]
 
 # These waves have a 20 second intermission period after all suits are destroyed.
 SuitIntermissionWaves = [2, 5, 8, 11, 14, 17, 20, 23, 26]
