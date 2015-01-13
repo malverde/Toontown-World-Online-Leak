@@ -5064,8 +5064,6 @@ def givePies(pieType, numPies=0):
     if pieType == -1:
         av.b_setNumPies(0)
         return "Removed %s's pies." % spellbook.getTarget().getName()
-    if pieType == 6:
-        return "Wedding cake 'pie' cause client crashes!"
     if not 0 <= pieType <= 7:
         return "pieType value out of range (0-7)"
     if not 0 <= numPies <= 99:
