@@ -1,0 +1,50 @@
+<CoordinateSystem> { Z-Up }
+
+<Comment> {
+  "bam2egg -o toontown-logo.egg toontown-logo.bam"
+}
+<Texture> toontown-logo {
+  "/Users/mgracer48/Desktop/toontown-world-online/resources/phase_3/maps/toontown-logo.jpg"
+  <Scalar> alpha-file { "/Users/mgracer48/Desktop/toontown-world-online/resources/phase_3/maps/toontown-logo_a.rgb" }
+  <Scalar> format { rgba }
+  <Scalar> wrapu { clamp }
+  <Scalar> wrapv { clamp }
+  <Scalar> minfilter { linear }
+  <Scalar> magfilter { linear }
+  <Scalar> envtype { modulate }
+  <Scalar> alpha { dual }
+}
+<VertexPool> loading-background.egg {
+  <Vertex> 0 {
+    0.915 0 -0.5
+    <UV> { 1 0 }
+    <RGBA> { 1 1 1 1 }
+  }
+  <Vertex> 1 {
+    0.915 0 0.5
+    <UV> { 1 1 }
+    <RGBA> { 1 1 1 1 }
+  }
+  <Vertex> 2 {
+    -0.915 0 -0.5
+    <UV> { 0 0 }
+    <RGBA> { 1 1 1 1 }
+  }
+  <Vertex> 3 {
+    -0.915 0 0.5
+    <UV> { 0 1 }
+    <RGBA> { 1 1 1 1 }
+  }
+}
+<Group> loading-background.egg {
+  <Group> loading-background.egg {
+    <Polygon> {
+      <TRef> { toontown-logo }
+      <VertexRef> { 0 1 2 <Ref> { loading-background.egg } }
+    }
+    <Polygon> {
+      <TRef> { toontown-logo }
+      <VertexRef> { 2 1 3 <Ref> { loading-background.egg } }
+    }
+  }
+}
