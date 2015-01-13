@@ -1041,7 +1041,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
         musicCredits = base.loadMusic(ElectionGlobals.CreditsMusic)
         base.localAvatar.stopUpdateSmartCamera()
         base.camera.wrtReparentTo(render)
-        self.logo = loader.loadModel('phase_3/models/gui/toontown-logo')
+        self.logo = loader.loadModel('phase_3/maps/toontown-logo')
         self.logo.reparentTo(aspect2d)
         self.logo.setTransparency(1)
         self.logo.setScale(0.6)
