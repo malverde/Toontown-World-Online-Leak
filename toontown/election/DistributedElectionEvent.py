@@ -203,12 +203,12 @@ class DistributedElectionEvent(DistributedObject, FSM):
         self.dimm.startBlink()
         self.dimm.loop('scientistWork')
 
-        # The first cog created, as seen in the original intro video - a Yesman
+        # The first cog created,  - a big cheese
         self.suit = DistributedSuitBase.DistributedSuitBase(cr)
         suitDNA = SuitDNA.SuitDNA()
-        suitDNA.newSuit('ym')
+        suitDNA.newSuit('tbc')
         self.suit.setDNA(suitDNA)
-        self.suit.setDisplayName('Yesman\nBossbot\nLevel 3')
+        self.suit.setDisplayName('The Big Cheese\nBossbot\nLevel 8')
         self.suit.setPickable(0)
 
         # Cog speeches, for when we want to manually define it
@@ -731,7 +731,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
             Wait(4),
             Func(self.suit.setChatAbsolute, 'I like your lingo, Toon. You know how to schmooze.', CFSpeech|CFTimeout, dialogue = self.speechMurmurSfx),
             Wait(6),
-            Func(self.suit.setChatAbsolute, 'However, you seem to need a smear of Positive Reinforcement.', CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
+            Func(self.suit.setChatAbsolute, 'However, you seem to need a cheesy ending.', CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
             #Func(self.suit.play, 'speak'),
             Wait(3),
             self.buddy.head.hprInterval(1, (0, 0, 0)),
@@ -776,14 +776,14 @@ class DistributedElectionEvent(DistributedObject, FSM):
             Wait(5),
             Func(self.flippy.setChatAbsolute, "What... What are you?", CFSpeech|CFTimeout),
             Wait(4),
-            # The Yesman has found a new business partner
-            Func(self.suit.setChatAbsolute, 'I don\'t like your tone. Perhaps you need a drop of Positive Reinforcement as well.', CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
+            # The big cheese has found a new business partner
+            Func(self.suit.setChatAbsolute, 'I don\'t like your tone. Perhaps you need a cheesy ending as well.', CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
             Wait(3),
             Parallel(Func(self.flippy.setChatAbsolute, "No.. No, get away. I don't need your help.", CFSpeech|CFTimeout), ActorInterval(self.flippy, 'walk', loop=1, playRate=-1, duration=3), self.flippy.posInterval(3, (-15, -7, 0)), self.alec.head.hprInterval(1, (0, -5, 0), blendType='easeInOut')),
             Func(self.flippy.loop, 'neutral'),
             Wait(1.5),
             Func(self.suit.loop, 'walk'),
-            Parallel(Func(self.suit.setChatAbsolute, 'Let me confirm our meeting to discuss this. I won\'t take no for an answer.', CFSpeech|CFTimeout, dialogue = self.speechMurmurSfx), self.suit.posInterval(2, (65, -1, 4.0))),
+            Parallel(Func(self.suit.setChatAbsolute, 'Let me confirm our meeting to discuss this. Beating you will be a breeze.', CFSpeech|CFTimeout, dialogue = self.speechMurmurSfx), self.suit.posInterval(2, (65, -1, 4.0))),
             Func(self.suit.loop, 'neutral'),
             Parallel(Func(self.flippy.setChatAbsolute, "Stop it, this isn't fun!", CFSpeech|CFTimeout), self.alec.head.hprInterval(1, (10, -5, 0), blendType='easeInOut'), ActorInterval(self.flippy, 'walk', loop=1, playRate=-1, duration=2), self.flippy.posInterval(2, (-15, -12, 0))),
             Func(self.flippy.loop, 'neutral'),
@@ -793,7 +793,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
             # Flippy makes a last minute attempt to try and slow him down. It... kills him?
             Parallel(ActorInterval(self.flippy, 'throw', startFrame=0, endFrame=46), Func(self.flippy.setChatAbsolute, "I'm warning you, stay back. Please.", CFSpeech|CFTimeout), Func(self.pie.reparentTo, self.flippy.rightHand)),
             Wait(1),
-            Func(self.suit.setChatAbsolute, 'Don\'t worry, I haven\'t been wrong yet.', CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
+            Func(self.suit.setChatAbsolute, 'I am going to make mozzarella outta ya.', CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
             #Func(self.suit.play, 'speak'),
             Wait(1.5),
             Parallel(
