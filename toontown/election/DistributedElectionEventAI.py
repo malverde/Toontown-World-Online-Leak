@@ -208,7 +208,7 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
                 suit.dna = SuitDNA.SuitDNA()
                 self.suit.dna = suit.dna
 
-                self.suit.dna.newSuit('ym')                
+                self.suit.dna.newSuit('tbc')                
 
                 self.suit.setSpawnPoint(99)
                 self.suit.setLevel(0)
