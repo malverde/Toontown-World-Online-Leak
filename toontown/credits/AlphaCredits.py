@@ -28,7 +28,7 @@ class Shockley:
         self.description = OnscreenText(text='Project Manager', pos=(0.25, ), scale=(0.06), fg=(1, 1, 1, 1), font=ToontownGlobals.getMinnieFont(), align=TextNode.ALeft)
         self.image = OnscreenImage(image='phase_4/maps/news/sir_kippy.jpg', pos=(-0.5, 0.0, 0.0), scale=(0.5, 0.30, 0.30))
 
-        self.elements = [self.title, self.description, self.image]
+
         for node in self.elements:
             node.setTransparency(1)
             if self.preload:
@@ -158,7 +158,7 @@ CreditsScenes = [
 #need to give roles and send pictures to me
                 # Developers
                 Shockley(),
-                Credits('Mgracer', 'Programmar\nDeveloper\nMac Support', '.jpg', 'left'),
+                Credits('Mgracer', 'Programmar\nDeveloper\nMac Support', 'mgracer.jpg', 'left'),
                 Credits("Purrty", "Lead Community Manager", '.jpg' ),
                 Credits("Aura", "Community Manager", '.jpg', 'right', 2), 
                 Credits("Zander", "Community Manager\nTheme Song Composer", 'zander.jpg'),
@@ -183,3 +183,4 @@ CreditsScenes = [
 
                 Credits('Jaymo', 'For his continued efforts\nto bring Toontown back.', '14-1-22_ohmanohmanOHMAN.jpg', 'left') 
 ]
+      
