@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from pandac.PandaModules import *
 from direct.showbase import PythonUtil
 import __builtin__
@@ -57,6 +60,7 @@ except Exception:
         # w+ empties log and writes fresh (meaning 1 exception at a time)
         file.write(info + "\n")
     raise
+<<<<<<< HEAD
 =======
 from pandac.PandaModules import *
 from direct.showbase import PythonUtil
@@ -117,3 +121,5 @@ except Exception:
         file.write(info + "\n")
     raise
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

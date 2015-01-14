@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from otp.ai.AIBase import *
 from direct.task import Task
 from direct.showbase import DirectObject
@@ -82,6 +85,7 @@ class ToonBarrier(DirectObject.DirectObject):
         self.avIdList.remove(avId)
         if avId in self.pendingToons:
             self.clear(avId)
+<<<<<<< HEAD
 =======
 from otp.ai.AIBase import *
 from direct.task import Task
@@ -167,3 +171,5 @@ class ToonBarrier(DirectObject.DirectObject):
         if avId in self.pendingToons:
             self.clear(avId)
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

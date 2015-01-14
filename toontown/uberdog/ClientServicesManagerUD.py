@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.fsm.FSM import FSM
@@ -970,6 +973,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         # TODO: RPC call to web to say this person was reported.
         # This will require a database query to fetch the webId associated with the reported player.
         # Either that, or the web can make an RPC call to the server to get webId from avId.
+<<<<<<< HEAD
 =======
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.directnotify.DirectNotifyGlobal import directNotify
@@ -1943,3 +1947,5 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         # This will require a database query to fetch the webId associated with the reported player.
         # Either that, or the web can make an RPC call to the server to get webId from avId.
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

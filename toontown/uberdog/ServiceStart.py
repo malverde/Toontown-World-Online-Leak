@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from pandac.PandaModules import *
 from direct.showbase import PythonUtil
 import __builtin__
@@ -50,6 +53,7 @@ except Exception:
     info = PythonUtil.describeException()
     simbase.air.writeServerEvent('uberdog-exception', avId=simbase.air.getAvatarIdFromSender(), accId=simbase.air.getAccountIdFromSender(), info=info)
     raise
+<<<<<<< HEAD
 =======
 from pandac.PandaModules import *
 from direct.showbase import PythonUtil
@@ -103,3 +107,5 @@ except Exception:
     simbase.air.writeServerEvent('uberdog-exception', avId=simbase.air.getAvatarIdFromSender(), accId=simbase.air.getAccountIdFromSender(), info=info)
     raise
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

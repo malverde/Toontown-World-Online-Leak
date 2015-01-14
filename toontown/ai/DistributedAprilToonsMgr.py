@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from direct.distributed.DistributedObject import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase.AprilToonsGlobals import *
@@ -42,6 +45,7 @@ class DistributedAprilToonsMgr(DistributedObject):
     def checkActiveEvents(self):
         if self.isEventActive(EventGlobalGravity):
             base.localAvatar.controlManager.currentControls.setGravity(ToontownGlobals.GravityValue * 0.75)
+<<<<<<< HEAD
 =======
 from direct.distributed.DistributedObject import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
@@ -87,3 +91,5 @@ class DistributedAprilToonsMgr(DistributedObject):
         if self.isEventActive(EventGlobalGravity):
             base.localAvatar.controlManager.currentControls.setGravity(ToontownGlobals.GravityValue * 0.75)
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

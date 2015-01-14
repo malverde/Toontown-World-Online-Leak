@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 import toontown.minigame.MinigameCreatorAI
 from toontown.distributed.ToontownDistrictAI import ToontownDistrictAI
 from toontown.distributed.ToontownDistrictStatsAI import ToontownDistrictStatsAI
@@ -299,6 +302,7 @@ def mem():
         return "Current memory usage for %s: %s%%" % (simbase.air.distributedDistrict.getName(), str(virtual_memory().percent))
     except ImportError:
         return "psutil is not installed on %s! Unable to fetch memory usage." % simbase.air.distributedDistrict.getName()
+<<<<<<< HEAD
 =======
 import toontown.minigame.MinigameCreatorAI
 from toontown.distributed.ToontownDistrictAI import ToontownDistrictAI
@@ -601,3 +605,5 @@ def mem():
     except ImportError:
         return "psutil is not installed on %s! Unable to fetch memory usage." % simbase.air.distributedDistrict.getName()
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

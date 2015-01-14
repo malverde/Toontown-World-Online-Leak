@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.ClockDelta import *
 from direct.task import Task
@@ -66,6 +69,7 @@ class HolidayManagerAI:
     def isHolidayRunning(self, *args):
         return True
         #TODO: this function needs to actually check holidays
+<<<<<<< HEAD
 =======
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.ClockDelta import *
@@ -135,3 +139,5 @@ class HolidayManagerAI:
         return True
         #TODO: this function needs to actually check holidays
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

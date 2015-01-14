@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from otp.distributed.PotentialAvatar import PotentialAvatar
@@ -123,6 +126,7 @@ class ClientServicesManager(DistributedObjectGlobal):
             return
         self.avIdsReportedThisSession.append(avId)
         self.sendUpdate('reportPlayer', [avId, category])
+<<<<<<< HEAD
 =======
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 from direct.directnotify.DirectNotifyGlobal import directNotify
@@ -249,3 +253,5 @@ class ClientServicesManager(DistributedObjectGlobal):
         self.avIdsReportedThisSession.append(avId)
         self.sendUpdate('reportPlayer', [avId, category])
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

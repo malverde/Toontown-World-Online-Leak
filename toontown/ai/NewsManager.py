@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from pandac.PandaModules import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
@@ -684,6 +687,7 @@ class NewsManager(DistributedObject.DistributedObject):
     def isHolidayRunning(self, holidayId):
         result = holidayId in self.holidayIdList
         return result
+<<<<<<< HEAD
 =======
 from pandac.PandaModules import *
 from direct.distributed import DistributedObject
@@ -1371,3 +1375,5 @@ class NewsManager(DistributedObject.DistributedObject):
         result = holidayId in self.holidayIdList
         return result
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

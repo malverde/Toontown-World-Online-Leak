@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from toontown.toonbase import ToontownGlobals
 from direct.interval.IntervalGlobal import Parallel, Sequence, Func, Wait
 from pandac.PandaModules import Vec4, TransformState, NodePath, TransparencyAttrib
@@ -69,6 +72,7 @@ class HolidayDecorator:
             p.append(s)
 
         return p
+<<<<<<< HEAD
 =======
 from toontown.toonbase import ToontownGlobals
 from direct.interval.IntervalGlobal import Parallel, Sequence, Func, Wait
@@ -141,3 +145,5 @@ class HolidayDecorator:
 
         return p
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

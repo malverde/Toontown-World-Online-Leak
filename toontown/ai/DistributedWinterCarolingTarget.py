@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from toontown.speedchat.TTSCIndexedTerminal import TTSCIndexedMsgEvent
@@ -28,6 +31,7 @@ class DistributedWinterCarolingTarget(DistributedScavengerHuntTarget.Distributed
             self.triggered = True
             self.attemptScavengerHunt()
             taskMgr.doMethodLater(self.triggerDelay, reset, 'ScavengerHunt-phrase-reset', extraArgs=[])
+<<<<<<< HEAD
 =======
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
@@ -59,3 +63,5 @@ class DistributedWinterCarolingTarget(DistributedScavengerHuntTarget.Distributed
             self.attemptScavengerHunt()
             taskMgr.doMethodLater(self.triggerDelay, reset, 'ScavengerHunt-phrase-reset', extraArgs=[])
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

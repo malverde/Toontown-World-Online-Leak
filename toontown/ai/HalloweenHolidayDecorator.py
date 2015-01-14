@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
@@ -109,6 +112,7 @@ class HalloweenHolidayDecorator(HolidayDecorator.HolidayDecorator):
         self.swapIval = self.getSwapVisibleIval()
         if self.swapIval:
             self.swapIval.start()
+<<<<<<< HEAD
 =======
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
@@ -221,3 +225,5 @@ class HalloweenHolidayDecorator(HolidayDecorator.HolidayDecorator):
         if self.swapIval:
             self.swapIval.start()
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

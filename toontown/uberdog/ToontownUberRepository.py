@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 import toontown.minigame.MinigameCreatorAI
 from toontown.distributed.ToontownInternalRepository import ToontownInternalRepository
 from direct.distributed.PyDatagram import *
@@ -41,6 +44,7 @@ class ToontownUberRepository(ToontownInternalRepository):
             return self.generateGlobalObject(doId, name)
         else:
             return None
+<<<<<<< HEAD
 =======
 import toontown.minigame.MinigameCreatorAI
 from toontown.distributed.ToontownInternalRepository import ToontownInternalRepository
@@ -85,3 +89,5 @@ class ToontownUberRepository(ToontownInternalRepository):
         else:
             return None
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

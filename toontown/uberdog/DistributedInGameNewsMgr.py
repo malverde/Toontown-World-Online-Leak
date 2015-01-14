@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 import socket
 import datetime
 import os
@@ -39,6 +42,7 @@ class DistributedInGameNewsMgr(DistributedObject):
 
     def getLatestIssue(self):
         return self.latestIssue
+<<<<<<< HEAD
 =======
 import socket
 import datetime
@@ -81,3 +85,5 @@ class DistributedInGameNewsMgr(DistributedObject):
     def getLatestIssue(self):
         return self.latestIssue
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.toonbase import ToontownGlobals
@@ -103,6 +106,7 @@ def invasionstatus():
         ToontownGlobals.SuitInvasionUpdate, simbase.air.suitInvasionManager.suitName,
         simbase.air.suitInvasionManager.numSuits, simbase.air.suitInvasionManager.specialSuit
     ])
+<<<<<<< HEAD
 =======
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
@@ -209,3 +213,5 @@ def invasionstatus():
         simbase.air.suitInvasionManager.numSuits, simbase.air.suitInvasionManager.specialSuit
     ])
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

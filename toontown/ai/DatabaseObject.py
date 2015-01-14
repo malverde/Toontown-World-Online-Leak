@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from pandac.PandaModules import *
 from ToontownAIMsgTypes import *
 from direct.directnotify.DirectNotifyGlobal import *
@@ -212,6 +215,7 @@ class DatabaseObject:
         dg.addUint32(self.doId)
         dg.addUint32(3735928559L)
         self.air.send(dg)
+<<<<<<< HEAD
 =======
 from pandac.PandaModules import *
 from ToontownAIMsgTypes import *
@@ -427,3 +431,5 @@ class DatabaseObject:
         dg.addUint32(3735928559L)
         self.air.send(dg)
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
