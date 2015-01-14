@@ -1,6 +1,7 @@
 .pyc
 astron/
 backups/
+backups/blockinfo/
 logs/
 *.pyc
 # Mac directory info:
