@@ -161,7 +161,7 @@ CreditsScenes = [
                 Credits('Mgracer', 'Programmar\nDeveloper\nMac Support', '.jpg', 'left'),
                 Credits("Purrty", "Lead Community Manager", '.jpg' ),
                 Credits("Aura", "Community Manager", '.jpg', 'right', 2), 
-                Credits("Zander" "Community Manager\nTheme Song Composer" 'zander.jpg'),
+                Credits("Zander", "Community Manager\nTheme Song Composer", 'zander.jpg'),
                 
                 # Artists
                 Credits('', 'Concept Artist', '.jpg', 'left', 2), 
