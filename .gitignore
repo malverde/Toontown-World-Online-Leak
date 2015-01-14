@@ -2,3 +2,4 @@
 astron
 backups
 logs
+*.pyc
