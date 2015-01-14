@@ -165,10 +165,10 @@ CreditsScenes = [
                 
                 # Artists
                 Credits('', 'Concept Artist', '.jpg', 'left', 2), 
-                        '', '', '.jpg'),
+                Credits('', '', '.jpg'),
 
                 Credits('', 'Texture Artist', '.jpg', 'right', 2), 
-                        '', 'Texture Artist', '.jpg'),
+                Credits('', 'Texture Artist', '.jpg'),
 
 
                 
@@ -179,6 +179,7 @@ CreditsScenes = [
                 Credits('Sindre', 'Theme Song Composer, Lead Composer', '.jpg', 'right', 2), 
                 # Special Thanks to:
                 Credits('Disney Online', 'The owners and creators\nof Toontown.', '11-20-13_donald.jpg', 'left', 2), 
-                        'VR Studio', 'For developing Toontown Online.', '11-15-13_grey.jpg'),
+                 Credits('VR Studio', 'For developing Toontown Online.', '11-15-13_grey.jpg'),
 
                 Credits('Jaymo', 'For his continued efforts\nto bring Toontown back.', '14-1-22_ohmanohmanOHMAN.jpg', 'left') 
+]
