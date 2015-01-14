@@ -1,5 +1,7 @@
 .pyc
-astron
-backups
-logs
+astron/
+backups/
+logs/
 *.pyc
+# Mac directory info:
+.DS_Store
