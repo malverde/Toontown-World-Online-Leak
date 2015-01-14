@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 
 
 class ServerEventBuffer:
@@ -74,6 +77,7 @@ class ServerEventMultiAccumulator(ServerEventBuffer):
         self.events.setdefault(eventName, 0)
         self.events[eventName] += 1
         self.considerFlush()
+<<<<<<< HEAD
 =======
 
 
@@ -151,3 +155,5 @@ class ServerEventMultiAccumulator(ServerEventBuffer):
         self.events[eventName] += 1
         self.considerFlush()
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

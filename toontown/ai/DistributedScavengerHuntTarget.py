@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from otp.speedchat import SpeedChatGlobals
@@ -39,6 +42,7 @@ class DistributedScavengerHuntTarget(DistributedObject.DistributedObject):
     def attemptScavengerHunt(self):
         DistributedScavengerHuntTarget.notify.debug('attempScavengerHunt')
         self.sendUpdate('attemptScavengerHunt', [])
+<<<<<<< HEAD
 =======
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
@@ -81,3 +85,5 @@ class DistributedScavengerHuntTarget(DistributedObject.DistributedObject):
         DistributedScavengerHuntTarget.notify.debug('attempScavengerHunt')
         self.sendUpdate('attemptScavengerHunt', [])
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

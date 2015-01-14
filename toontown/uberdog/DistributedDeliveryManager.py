@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from pandac.PandaModules import *
 from direct.distributed.DistributedObject import DistributedObject
 from toontown.catalog import CatalogItemList
@@ -24,6 +27,7 @@ class DistributedDeliveryManager(DistributedObject):
 
     def test(self):
         print 'Distributed Delviery Manager Stub Test'
+<<<<<<< HEAD
 =======
 from pandac.PandaModules import *
 from direct.distributed.DistributedObject import DistributedObject
@@ -51,3 +55,5 @@ class DistributedDeliveryManager(DistributedObject):
     def test(self):
         print 'Distributed Delviery Manager Stub Test'
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

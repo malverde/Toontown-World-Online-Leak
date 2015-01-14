@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 import pymongo
 # For listShards:
 from toontown.distributed.ShardStatus import ShardStatusReceiver
@@ -443,6 +446,7 @@ class ToontownRPCHandler:
 
         channel = 10 # The Astron "all clients" channel.
         return self.rpc_messageChannel(request, channel, code, params)
+<<<<<<< HEAD
 =======
 import pymongo
 # For listShards:
@@ -889,3 +893,5 @@ class ToontownRPCHandler:
         channel = 10 # The Astron "all clients" channel.
         return self.rpc_messageChannel(request, channel, code, params)
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

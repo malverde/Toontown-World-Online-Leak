@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from toontown.fishing import FishGlobals
 from toontown.fishing.FishBase import FishBase
 import random
@@ -95,6 +98,7 @@ def nogibfish():
         del simbase.air.fishManager.requestedFish[spellbook.getTarget().doId]
         return "Deleted %s's request for any fishes." % spellbook.getTarget().getName()
     return "%s has not requested any fish!" % spellbook.getTarget().getName()
+<<<<<<< HEAD
 =======
 from toontown.fishing import FishGlobals
 from toontown.fishing.FishBase import FishBase
@@ -193,3 +197,5 @@ def nogibfish():
         return "Deleted %s's request for any fishes." % spellbook.getTarget().getName()
     return "%s has not requested any fish!" % spellbook.getTarget().getName()
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

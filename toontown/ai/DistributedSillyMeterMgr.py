@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from toontown.ai import DistributedPhaseEventMgr
@@ -54,6 +57,7 @@ class DistributedSillyMeterMgr(DistributedPhaseEventMgr.DistributedPhaseEventMgr
     def getCurPhaseStartDate(self):
         if len(self.holidayDates) > 0:
             return self.holidayDates[self.curPhase]
+<<<<<<< HEAD
 =======
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
@@ -111,3 +115,5 @@ class DistributedSillyMeterMgr(DistributedPhaseEventMgr.DistributedPhaseEventMgr
         if len(self.holidayDates) > 0:
             return self.holidayDates[self.curPhase]
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took

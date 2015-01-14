@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from otp.ai.MagicWordGlobal import *
 from direct.task import Task
@@ -61,6 +64,7 @@ def randomce():
     else:
         av.b_setCheesyEffect(0, 0, 0)
     return "random-toon-effects %s for %s." % (enabledOrDisabled, av.getName())
+<<<<<<< HEAD
 =======
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from otp.ai.MagicWordGlobal import *
@@ -125,4 +129,6 @@ def randomce():
         av.b_setCheesyEffect(0, 0, 0)
     return "random-toon-effects %s for %s." % (enabledOrDisabled, av.getName())
 >>>>>>> 30847815294dd00139dc93e7849d6bffd935eca9
+=======
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
     
