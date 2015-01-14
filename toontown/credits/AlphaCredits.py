@@ -155,34 +155,30 @@ class Credits:
 CreditsScenes = [
 #TODO
 #need to change of all these to toon names
-#also need to take pictures of our team members
+#need to give roles and send pictures to me
                 # Developers
                 Shockley(),
-                Credits('Mgracer', 'Programmar\nDeveloper', 'mgracer.jpg', 'left'),
+                Credits('Mgracer', 'Programmar\nDeveloper\nMac Support', '.jpg', 'left'),
+                Credits("Purrty", "Lead Community Manager", '.jpg' ),
+                Credits("Aura", "Community Manager", '.jpg', 'right', 2), 
+                Credits("Zander" "Community Manager\nTheme Song Composer" 'zander.jpg'),
                 
                 # Artists
-                Credits('Anee', 'Concept Artist', 'anee.jpg', 'left', 2, 
-                        'KING KIRB', '', 'king_kirb.jpg'),
+                Credits('', 'Concept Artist', '.jpg', 'left', 2), 
+                        '', '', '.jpg'),
 
-                Credits('', 'Texture Artist', '12-6-13_slate.jpg', 'right', 2, 
+                Credits('', 'Texture Artist', '.jpg', 'right', 2), 
                         '', 'Texture Artist', '.jpg'),
 
-                # Mods
-                Credits('', 'Moderator', '.jpg', 'left'),
+
                 
-                #Community Managers
-                Credits("Purrty", "Lead Community Manager", 'purrty.jpg', 'right' , 2,
-                Credits("Aura", "Community Manager", 'aura.jpg', 'right', 2, 
-                Credits("ANARKI", "Community Manager" '11-15-13_grey.jpg'
+ 
                 
                 
                 # Composers
-                Credits('Sindre', 'Theme Song Composer, Lead Composer', '11-15-13_grey.jpg', 'right', 2, 
-                        'ANARKI', 'Theme Song Composer', '11-15-13_grey.jpg'),
-
+                Credits('Sindre', 'Theme Song Composer, Lead Composer', '.jpg', 'right', 2), 
                 # Special Thanks to:
-                Credits('Disney Online', 'The owners and creators\nof Toontown.', '11-20-13_donald.jpg', 'left', 2, 
+                Credits('Disney Online', 'The owners and creators\nof Toontown.', '11-20-13_donald.jpg', 'left', 2), 
                         'VR Studio', 'For developing Toontown Online.', '11-15-13_grey.jpg'),
 
-                # Credits('Sir Kippy', 'Project Manager', '14-1-22_ohmanohmanOHMAN.jpg', 'left')
-]
+                Credits('Jaymo', 'For his continued efforts\nto bring Toontown back.', '14-1-22_ohmanohmanOHMAN.jpg', 'left') 
