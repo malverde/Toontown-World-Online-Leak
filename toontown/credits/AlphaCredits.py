@@ -24,9 +24,15 @@ class Shockley:
         self.sceneRoot = NodePath('Shockley')
         base.setBackgroundColor(0, 0, 0, 1)
 
+<<<<<<< HEAD
         self.title = OnscreenText(text='Sir Kippy', pos=(0.6, 0.15, 0.0), scale=(0.15), fg=(1, 1, 1, 1), font=ToontownGlobals.getSignFont(), align=TextNode.ACenter)
         self.description = OnscreenText(text='Project Manager', pos=(0.25, ), scale=(0.06), fg=(1, 1, 1, 1), font=ToontownGlobals.getMinnieFont(), align=TextNode.ALeft)
         self.image = OnscreenImage(image='phase_4/maps/news/sir_kippy.jpg', pos=(-0.5, 0.0, 0.0), scale=(0.5, 0.30, 0.30))
+=======
+        self.title = OnscreenText(text='Shockley ', pos=(0.6, 0.15, 0.0), scale=(0.15), fg=(1, 1, 1, 1), font=ToontownGlobals.getSignFont(), align=TextNode.ACenter)
+        self.description = OnscreenText(text='Lead Developer\nNetwork Technician\nGame Systems Engineer', pos=(0.25, 0.05, 0.0), scale=(0.06), fg=(1, 1, 1, 1), font=ToontownGlobals.getMinnieFont(), align=TextNode.ALeft)
+        self.image = OnscreenImage(image='phase_4/maps/news/11-17-13_garden.jpg', pos=(-0.5, 0.0, 0.0), scale=(0.5, 0.30, 0.30))
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
 
         self.elements = [self.title, self.description, self.image]
         for node in self.elements:
@@ -153,6 +159,7 @@ class Credits:
         self.side = None
 
 CreditsScenes = [
+<<<<<<< HEAD
 #TODO
 #need to change of all these to toon names
 #need to give roles and send pictures to me
@@ -183,3 +190,45 @@ CreditsScenes = [
 
                 Credits('Jaymo', 'For his continued efforts\nto bring Toontown back.', '14-1-22_ohmanohmanOHMAN.jpg', 'left') 
 ]
+=======
+                # Developers
+                Shockley(),
+                Credits('Sir Max', 'Team Lead\nCommunity Manager\nDeveloper', '10-29-13_cannon.jpg', 'left'),
+                Credits('McQuack', 'Expert of Explosives\nDeveloper', '14-3-17_dontworryhesurvived.jpg', 'right', 2, 
+                        'Hawkheart', 'Fish Bingo Controller\nDeveloper', '11-11-13_bingo.jpg'),
+
+                Credits('Fat McStink', 'Ultimate Party King\nServer Administraitor\nDeveloper', '11-8-13_pieornot.jpg', 'right'),
+
+                Credits('Hamlet', 'Server Technology Engineer\nDeveloper', 'hamlet.jpg', 'left', 2, 
+                        'Muddy Paws', 'Expert Cake Baker\nMac Support\nDeveloper', 'muddy-paws.jpg'),
+
+                Credits('Goshi', 'Self-proclaimed Police\nSupport Manager\nModerator', '14-4-1_itsabirthdefect-nothingsilly.jpg', 'right', 2,   'J.C.', 'Champion Chatterbox\nMoral Support\nModerator', '11-2-13_whatdoesjcsay.jpg'),
+
+                # Artists
+                Credits('Capt. Sandy', 'Lead Art Director\nGraphic Designer\nConcept Artist', 'capt_sandy.jpg', 'left', 2, 
+                        'Boo Boo', 'Novice Painter\nTexture Artist', '03-4-19_kickedthebucket.jpg'),
+
+                Credits('Slate', 'Fashion Expert\nTexture Artist', '12-6-13_slate.jpg', 'right', 2, 
+                        'Joyful Roxy', 'Hyperactive Jellybean\nTexture Artist', 'joyful_roxy.jpg'),
+
+                # Too Many Secrets
+                Credits('Too Many\nSecrets', '\n\nMany Secret Things\nDeveloper', 'toomanysecrets.jpg', 'left'),
+
+                # Modelers
+                Credits('Roger Dog', 'Roger Dog\n3D Modeler\nAnimator', '11-21-13_hiimrogerdog.jpg', 'left', 2, 
+                        'Flippy Cheezer', 'The Speedway Master\n3D Modeler\nCharacter Rigger', '03-4-19_themoldermaker.jpg'),
+
+                Credits('Skinny Scooter\nWackytoon', '\n\nPuzzle Piecer\nARG Organizer', '11-16-13_whatisthis.jpg', 'left', 2, 
+                        'Joshsora', 'Infinite Patience\nFormer 3D Modeler', '12-21-13_theworldendedtodaylastyear.jpg'),
+
+                # Composers
+                Credits('Cool Peaches', 'Lead Composer\nElection Orchestrator', 'cool_peaches.jpg', 'right', 2, 
+                        'Jethred', 'Theme Song Composer', 'jethred.jpg'),
+
+                # Special Thanks to:
+                Credits('Disney Online', 'The owners and creators\nof Toontown.', '11-20-13_donald.jpg', 'left', 2, 
+                        'VR Studio', 'For developing Toontown Online.', '11-15-13_grey.jpg'),
+
+                Credits('Jaymo', 'For his continued efforts\nto bring Toontown back.', '14-1-22_ohmanohmanOHMAN.jpg', 'left')
+]
+>>>>>>> parent of 4ac8727... fixed credits and added zander and zander's picture he took
