@@ -184,5 +184,5 @@ CreditsScenes = [
                 Credits('Disney Online', 'The owners and creators\nof Toontown.', '11-20-13_donald.jpg', 'left', 2, 
                         'VR Studio', 'For developing Toontown Online.', '11-15-13_grey.jpg'),
 
-                Credits('Sir Kippy', 'Project Manager', '14-1-22_ohmanohmanOHMAN.jpg', 'left')
+                # Credits('Sir Kippy', 'Project Manager', '14-1-22_ohmanohmanOHMAN.jpg', 'left')
 ]
