@@ -192,7 +192,11 @@ CreditsScenes = [
                         'VR Studio', 'For developing Toontown Online.', '11-15-13_grey.jpg'),
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                 # Credits('Sir Kippy', 'Project Manager', '14-1-22_ohmanohmanOHMAN.jpg', 'left')
+=======
+                Credits('Jaymo', 'For his continued efforts\nto bring Toontown back.', '14-1-22_ohmanohmanOHMAN.jpg', 'left')
+>>>>>>> parent of 0dab698... Made some changes (Alpha Credits) - added us back
 =======
                 Credits('Jaymo', 'For his continued efforts\nto bring Toontown back.', '14-1-22_ohmanohmanOHMAN.jpg', 'left')
 >>>>>>> parent of 0dab698... Made some changes (Alpha Credits) - added us back
