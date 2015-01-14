@@ -1,1 +1,0 @@
-DURATION = 60
