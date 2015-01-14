@@ -5,3 +5,6 @@ logs/
 *.pyc
 # Mac directory info:
 .DS_Store
+
+backups/blockinfo/
+backups/
