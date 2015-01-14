@@ -24,9 +24,16 @@ class Shockley:
         self.sceneRoot = NodePath('Shockley')
         base.setBackgroundColor(0, 0, 0, 1)
 
+<<<<<<< HEAD
        self.title = OnscreenText(text='Sir Kippy', pos=(0.6, 0.15, 0.0), scale=(0.15), fg=(1, 1, 1, 1), font=ToontownGlobals.getSignFont(), align=TextNode.ACenter)
         self.description = OnscreenText(text='Project Manager', pos=(0.25, ), scale=(0.06), fg=(1, 1, 1, 1), font=ToontownGlobals.getMinnieFont(), align=TextNode.ALeft)
         self.image = OnscreenImage(image='phase_4/maps/news/sir_kippy.jpg', pos=(-0.5, 0.0, 0.0), scale=(0.5, 0.30, 0.30))
+=======
+        self.title = OnscreenText(text='Sir Kippy', pos=(0.6, 0.15, 0.0), scale=(0.15), fg=(1, 1, 1, 1), font=ToontownGlobals.getSignFont(), align=TextNode.ACenter)
+        self.description = OnscreenText(text='Project Manager', pos=(0.25, ), scale=(0.06), fg=(1, 1, 1, 1), font=ToontownGlobals.getMinnieFont(), align=TextNode.ALeft)
+        self.image = OnscreenImage(image='phase_4/maps/news/sir_kippy.jpg', pos=(-0.5, 0.0, 0.0), scale=(0.5, 0.30, 0.30))
+
+>>>>>>> parent of a553f32... Revert "fixed credits and added zander and zander's picture he took"
         self.elements = [self.title, self.description, self.image]
         for node in self.elements:
             node.setTransparency(1)
