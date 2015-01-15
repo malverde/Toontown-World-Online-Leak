@@ -150,3 +150,29 @@ def system(message):
         if isinstance(do, DistributedPlayerAI):
             if str(doId)[0] != str(simbase.air.districtId)[0]:
                 do.d_setSystemMessage(0, message)
+
+
+@magicWord(category=CATEGORY_SYSTEM_ADMINISTRATOR, types=[int])
+def maintenance(minutes):
+    """
+    initiate the maintenance message sequence. It will last for the specified
+    amount of <minutes>.
+    """
+    def countdown(minutes):
+        if minutes > 0:
+            system(OTPLocalizer.CRMaintenanceCountdownMessage % minutes)
+        else:
+            system(OTPLocalizer.CRMaintenanceMessage)
+
+        if maintenance <= 5:
+            next = 60
+            minutes -= 1
+        elif minutes % 5:
+            next = 60 * (minutes%5)
+            minutes -= minutes % 5
+        else:
+            next = 300
+            minutes -= 5
+        if minutes >= 0:
+            taskMgr.doMethodLater(next, countdown, 'maintenance-task',
+                                  extraArgs=[minutes])
