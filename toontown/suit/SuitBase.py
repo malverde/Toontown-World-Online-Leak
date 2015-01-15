@@ -18,8 +18,11 @@ class SuitBase:
 
     def __init__(self):
         self.dna = None
-        self.level = 0
-        self.maxHP = None
+        attributes = SuitBattleGlobals.SuitAttributes[self.dna.name]
+        self.level = SuitBattleGlobals.pickFromFreqList(attributes['freq'])
+
+        self.maxHP = attributes['hp'][self.level] 
+
         self.currHP = self.maxHP
         self.isSkelecog = 0
         self.legList = None
