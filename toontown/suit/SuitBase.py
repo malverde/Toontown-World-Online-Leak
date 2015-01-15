@@ -19,7 +19,7 @@ class SuitBase:
     def __init__(self):
         self.dna = None
         name = None
-		self.level = 0
+	self.level = 0
         self.maxHP = 10
 
         self.currHP = self.maxHP
