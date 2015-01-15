@@ -13,6 +13,7 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         DistributedAvatarAI.DistributedAvatarAI.__init__(self, air)
         SuitBase.SuitBase.__init__(self)
         self.sp = suitPlanner
+        name = None 
         attributes = SuitBattleGlobals.SuitAttributes[self.dna.name]
         self.level = SuitBattleGlobals.pickFromFreqList(attributes['freq'])
 
