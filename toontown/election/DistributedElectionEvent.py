@@ -69,8 +69,6 @@ class DistributedElectionEvent(DistributedObject, FSM):
         wheelbarrow.setPosHprScale(-2.39, 0.00, 1.77, 0.00, 0.00, 6.00, 1.14, 1.54, 0.93)
 
 
-        self.buddyStand.reparentTo(self.showFloor)
-        self.buddyStand.setPosHprScale(-62.45, 14.39, 0.01, 325, 0, 0, 0.55, 0.55, 0.55)
 
         # Let's give FlippyStand a bunch of pies.
         # Pies on/around the stand.
