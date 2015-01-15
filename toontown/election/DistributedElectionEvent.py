@@ -68,7 +68,17 @@ class DistributedElectionEvent(DistributedObject, FSM):
         wheelbarrow = self.flippyStand.find('**/Box')
         wheelbarrow.setPosHprScale(-2.39, 0.00, 1.77, 0.00, 0.00, 6.00, 1.14, 1.54, 0.93)
 
+<<<<<<< HEAD
 
+=======
+        self.buddyStand = Actor.Actor('phase_4/models/events/election_buddyStand-mod', {
+          'idle': 'phase_4/models/events/election_buddyStand-idle',
+          'watch-idle': 'phase_4/models/events/election_buddyStand-watch-idle',
+          'sad': 'phase_4/models/events/election_buddyStand-reaction',
+        })
+        self.buddyStand.reparentTo(self.showFloor)
+        self.buddyStand.setPosHprScale(-62.45, 14.39, 0.01, 325, 0, 0, 0.55, 0.55, 0.55)
+>>>>>>> parent of 81f1cdc... removed slappy's stand to make room for buddy's new stand
 
         # Let's give FlippyStand a bunch of pies.
         # Pies on/around the stand.
