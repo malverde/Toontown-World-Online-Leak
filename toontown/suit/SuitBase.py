@@ -19,7 +19,7 @@ class SuitBase:
     def __init__(self):
         self.dna = None
         name = None
-        self.dna.name = None
+        self.dna.name = name
         attributes = SuitBattleGlobals.SuitAttributes[self.dna.name]
         self.level = SuitBattleGlobals.pickFromFreqList(attributes['freq'])
 		
