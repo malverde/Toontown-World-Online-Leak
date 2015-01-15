@@ -13,8 +13,8 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         DistributedAvatarAI.DistributedAvatarAI.__init__(self, air)
         SuitBase.SuitBase.__init__(self)
         self.sp = suitPlanner
-        self.maxHP = 10
-        self.currHP = 10
+        self.maxHP = None
+        self.currHP = None
         self.zoneId = 0
         self.dna = None
         self.virtual = 0
@@ -44,7 +44,7 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
     def setLevel(self, lvl = None):
         attributes = SuitBattleGlobals.SuitAttributes[self.dna.name]
         if lvl is not None:
-            self.level = lvl - attributes['level'] - 1
+            self.level = None
         else:
             self.level = SuitBattleGlobals.pickFromFreqList(attributes['freq'])
         self.notify.debug('Assigning level ' + str(lvl))

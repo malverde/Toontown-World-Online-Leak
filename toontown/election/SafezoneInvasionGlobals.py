@@ -139,52 +139,52 @@ SuitWaves = [
     # Suits in a wave can't exceed the number of spawn points.
     # While each index is actually separate wave, they will keep
     # spawning until the intermission wave, which is defined below.
-
+#last 2 numbers , 0 to 0 = cold callers 0 to 1 = cold callers and telemarketers, 2 = name droppers , 3 = glad handers 4 = mover and shakers 5 = two face 6 = mingle
     # WAVE 1:
     generateSuits(10, [1, 5], [0, 0]),
     generateSuits(13, [1, 5], [0, 0]), # Wait Wave
     generateSuits(17, [1, 5], [0, 0]), # Intermission Wave
 
     # WAVE 2:
-    generateSuits(11, [2, 6], [0, 1]),
-    generateSuits(14, [2, 6], [0, 1]), # Wait Wave
-    generateSuits(17, [2, 6], [0, 1]), # Intermission Wave
+    generateSuits(11, [1, 6], [0, 1]),
+    generateSuits(14, [1, 6], [0, 1]), # Wait Wave
+    generateSuits(17, [1, 6], [0, 1]), # Intermission Wave
 
     # WAVE 3:
-    generateSuits(8,  [3, 7], [1, 2]),
+    generateSuits(8,  [2, 7], [1, 2]),
     generateSuits(11, [3, 7], [2, 2]), # Wait Wave
     generateSuits(17, [3, 7], [2, 2]), # Intermission Wave
 
     # WAVE 4:
-    generateSuits(8,  [4, 8], [2, 3]),
+    generateSuits(8,  [3, 8], [2, 3]),
     generateSuits(11, [4, 8], [3, 3]), # Wait Wave
     generateSuits(17, [4, 8], [3, 3]), # Intermission Wave
 
     # WAVE 5:
-    generateSuits(8,  [5, 9], [3, 4]),
+    generateSuits(8,  [4, 9], [3, 4]),
     generateSuits(11, [5, 9], [4, 4]), # Wait Wave
     generateSuits(17, [5, 9], [4, 4]), # Intermission Wave
 
     # WAVE 6:
-    generateSuits(8,  [6, 10], [4, 5]),
+    generateSuits(8,  [5, 10], [4, 5]),
     generateSuits(11, [6, 10], [5, 5], True), # Wait Wave
     generateSuits(16, [6, 10], [5, 5], True), # Intermission Wave
 
     # WAVE 7:          #cog level range  
-    generateSuits(8,  [7, 11], [5, 6], True),
+    generateSuits(8,  [6, 11], [5, 6], True),
     generateSuits(11, [7, 11], [6, 6], True), # Wait Wave
     generateSuits(16, [7, 11], [6, 6], True), # Intermission Wave
 
     # WAVE 8:
-    generateSuits(10, [8, 12], [6, 7], True),
+    generateSuits(10, [7, 12], [6, 7], True),
     generateSuits(15, [8, 12], [7, 7], True), # Wait Wave
     generateSuits(16, [8, 12], [7, 7], True), # Intermission Wave
 
     # WAVE 9: THE FINAL WAVE
-    generateSuits(15, [8, 12], [6, 7], True),
+    generateSuits(15, [7, 12], [6, 7], True),
     generateSuits(20, [8, 12], [7, 7], True), # Wait Wave
     generateSuits(25, [8, 12], [7, 7], True), # Intermission Wave
-    generateSuits(1, [8, 12], [6, 7], True), # boss wave after this
+    generateSuits(1, [8, 12], [7, 7], True), # boss wave after this
     
 ]
 

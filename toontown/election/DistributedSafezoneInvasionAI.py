@@ -210,7 +210,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
 
         suit.dna.newSuit('ls')
         suit.setSpawnPoint(100) # Point 100 just tells announceGenerate that this is our boss
-        suit.setLevel(4) # Give it the highest level we can. Requires 200 damage for a level 12, 156 for a level 11
+        suit.setLevel(12) # Give it the highest level we can. Requires 200 damage for a level 12, 156 for a level 11
         suit.generateWithRequired(self.zoneId)
         suit.d_makeSkelecog()
         suit.b_setState('FlyDown')
