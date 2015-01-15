@@ -18,8 +18,8 @@ class SuitBase:
 
     def __init__(self):
         self.dna = None
-        self.level = level
-        self.maxHP = self.level +1 * self.level +2
+        self.level = 0
+        self.maxHP = None
         self.currHP = self.maxHP
         self.isSkelecog = 0
         self.legList = None
