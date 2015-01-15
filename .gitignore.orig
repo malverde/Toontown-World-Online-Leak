@@ -1,0 +1,12 @@
+.pyc
+astron/
+<<<<<<< HEAD
+**/backups/
+=======
+backups/
+backups/blockinfo/
+>>>>>>> e672fd5a33f370f56283bfb2431e6192e92352c8
+logs/
+*.pyc
+# Mac directory info:
+.DS_Store
