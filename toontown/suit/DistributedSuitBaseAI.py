@@ -13,7 +13,7 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         DistributedAvatarAI.DistributedAvatarAI.__init__(self, air)
         SuitBase.SuitBase.__init__(self)
         self.sp = suitPlanner
-        self.level = 0
+        self.level = level
 
         self.maxHP = self.level +1 * self.level +2
         self.currHP = self.maxHP
