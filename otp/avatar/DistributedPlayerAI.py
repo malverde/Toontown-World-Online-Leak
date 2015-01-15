@@ -152,7 +152,7 @@ def system(message):
                 do.d_setSystemMessage(0, message)
 
 
-@magicWord(category=CATEGORY_SYSTEM_ADMINISTRATOR, types=[int])
+@magicWord(category=CATEGORY_ADMIN, types=[int])
 def maintenance(minutes):
     """
     initiate the maintenance message sequence. It will last for the specified
