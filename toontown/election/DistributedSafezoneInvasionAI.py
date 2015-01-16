@@ -12,8 +12,8 @@ from toontown.suit import SuitTimings
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.suit import SuitDNA
 from toontown.suit import SuitPlannerBase
-from toontown.suit import DistributedSuitBaseAI
-#from toontown.suit import SuitBase
+from toontown.suit import SuitBase
+from SuitBase-election import setLevel
 
 
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
@@ -33,7 +33,6 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         self.lastWave = (self.waveNumber == len(SafezoneInvasionGlobals.SuitWaves) - 1)
         self.invasionOn = False
         self.numberOfSuits = 0
-
     def announceGenerate(self):
         self.b_setInvasionStarted(True)
         self.demand('BeginWave', 0)
@@ -362,7 +361,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
  
         suit.dna.newSuit(suitType)
         suit.setSpawnPoint(pointId)
-        suit.setLevel(levelOffset)
+        setLevel(levelOffset)
         suit.generateWithRequired(self.zoneId)
 
         # Is this a skelecog wave?
