@@ -349,21 +349,21 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
        We don't have much to do for our Suits here, as most of it takes place in DistributedInvasionSuit.
        This just handles the spawning and damage taking.
     '''
-    def spawnOne(self, suitType, levelOffset=0):
+    def spawnOne(self, suitType, level=0):
         # Pick a spawnpoint:
         if not self.spawnPoints:
             return
 
         pointId = random.choice(self.spawnPoints)
         self.spawnPoints.remove(pointId)
-
         # Define our suit:
-        suit = DistributedInvasionSuitAI(self.air, self)
+        suit = DistributedInvasionSuitAI(self.air, self)       
         suit.dna = SuitDNA.SuitDNA
-
+ 
         suit.dna.newSuit(suitType)
         suit.setSpawnPoint(pointId)
-        suit.setLevel(levelOffset)
+        suit.setLevel(level)
+		
         suit.generateWithRequired(self.zoneId)
 
         # Is this a skelecog wave?
