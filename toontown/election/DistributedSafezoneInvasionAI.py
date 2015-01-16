@@ -358,10 +358,11 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         # Define our suit:
         suit = DistributedInvasionSuitAI(self.air, self)       
         suit.dna = SuitDNA.SuitDNA()
+        setLevel = SuitBaseElection.setLevel()
  
         suit.dna.newSuit(suitType)
         suit.setSpawnPoint(pointId)
-        election.setLevel(levelOffset)
+        setLevel(levelOffset)
         suit.generateWithRequired(self.zoneId)
 
         # Is this a skelecog wave?
