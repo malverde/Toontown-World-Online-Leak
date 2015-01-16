@@ -14,7 +14,7 @@ from toontown.suit import SuitPlannerBase
 #from toontown.suit import SuitBase
 from toontown.suit import DistributedSuitBaseAI
 from toontown.battle import SuitBattleGlobals
-from toontown.suit.SuitDNA import SuitDNA
+from toontown.suit import SuitDNA
 
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedSafezoneInvasionAI")
@@ -358,7 +358,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         self.spawnPoints.remove(pointId)
         # Define our suit:
         suit = DistributedInvasionSuitAI(self.air, self)       
-        suit.dna = SuitDNA
+        suit.dna = SuitDNA.SuitDNA
  
         suit.dna.newSuit(suitType)
         suit.setSpawnPoint(pointId)

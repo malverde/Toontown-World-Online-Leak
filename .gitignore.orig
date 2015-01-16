@@ -1,6 +1,5 @@
 .pyc
 astron/
-<<<<<<< HEAD
 **/backups/
 logs/
 *.pyc
@@ -9,7 +8,3 @@ logs/
 
 backups/blockinfo/
 backups/
-=======
-backups/
-logs/
->>>>>>> remotes/origin/TTW-DEV-Cluster-maintenacefeature
