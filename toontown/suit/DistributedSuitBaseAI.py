@@ -50,12 +50,7 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         self.notify.debug('Assigning level ' + str(lvl))
         if hasattr(self, 'doId'):
             self.d_setLevelDist(self.level)
-            #calling this here defeats purpose of check so comment this out 
-       # hp = attributes['hp'][self.level]
-        if len(attributes['hp'])<=self.level:
-    	    print "Hp is less then level, Oops!"
-            raise Exception("invalid list index: len(attributes['hp']) = %d, self.level=%d" % (len(attributes['hp']), self.level))	
-# if we made it this far, we are good  
+
 	    hp = attributes['hp'][self.level] 
 	    self.maxHP = hp
 	    self.currHP = hp
