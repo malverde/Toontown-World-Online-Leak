@@ -14,7 +14,7 @@ from toontown.suit import SuitDNA
 from toontown.suit import SuitPlannerBase
 from toontown.suit import SuitBase
 from toontown.battle import SuitBattleGlobals
-from toontown.suit.SuitDNA import SuitDNA
+
 
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedSafezoneInvasionAI")
@@ -24,7 +24,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         FSM.__init__(self, 'InvasionFSM')
 
         self.master = InvasionMasterAI(self)
-        dna = SuitDNA
+        dna = None
         self.election = election
         self.waveNumber = 0
         self.spawnPoints = []
