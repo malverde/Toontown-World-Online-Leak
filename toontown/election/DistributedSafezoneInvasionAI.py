@@ -12,7 +12,7 @@ from toontown.suit import SuitTimings
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.suit import SuitDNA
 from toontown.suit import SuitPlannerBase
-from cogfunctions import cogfunctions
+import cogfunctions
 
 
 
@@ -361,7 +361,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
  
         suit.dna.newSuit(suitType)
         suit.setSpawnPoint(pointId)
-        setLevel = cogfunctions.setLevel()
+        setLevel = cogfunctions.cogfunctions.setLevel()
 
         setLevel(levelOffset)
         suit.generateWithRequired(self.zoneId)
