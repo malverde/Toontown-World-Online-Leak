@@ -12,7 +12,7 @@ from toontown.suit import SuitTimings
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.suit import SuitDNA
 from toontown.suit import SuitPlannerBase
-import cogfunctions
+
 
 
 
@@ -361,9 +361,8 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
  
         suit.dna.newSuit(suitType)
         suit.setSpawnPoint(pointId)
-        setLevel = cogfunctions.cogfunctions.setLevel()
-
-        setLevel(levelOffset)
+	from cogfunctions import cogfunctions
+        cogfunctions(setLevel(levelOffset))
         suit.generateWithRequired(self.zoneId)
 
         # Is this a skelecog wave?
