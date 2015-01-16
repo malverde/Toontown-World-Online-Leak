@@ -8,7 +8,7 @@ from toontown.battle import SuitBattleGlobals
 from toontown.suit import SuitTimings
 from toontown.suit import SuitDNA
 from toontown.toonbase import TTLocalizer
-from SuitLegList import *
+from toontown.suit.SuitLegList import *
 TIME_BUFFER_PER_WPT = 0.25
 TIME_DIVISOR = 100
 DISTRIBUTE_TASK_CREATION = 0
