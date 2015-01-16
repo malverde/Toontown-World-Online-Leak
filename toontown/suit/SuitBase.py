@@ -26,6 +26,7 @@ class SuitBase:
         self.path = None
         self.suitGraph = None
         return
+
     def delete(self):
         if self.legList is not None:
             del self.legList
@@ -38,7 +39,6 @@ class SuitBase:
 
     def getStyleName(self):
         if hasattr(self, 'dna') and self.dna:
-  			      
             return self.dna.name
         else:
             self.notify.error('called getStyleName() before dna was set!')
@@ -63,6 +63,7 @@ class SuitBase:
         attributes = SuitBattleGlobals.SuitAttributes[self.dna.name]
         self.maxHP = attributes['hp'][self.level]
         self.currHP = self.maxHP
+
     def getSkelecog(self):
         return self.isSkelecog
 
