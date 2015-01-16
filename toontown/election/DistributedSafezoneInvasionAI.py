@@ -19,7 +19,7 @@ from cogfunctions import cogfunctions
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedSafezoneInvasionAI")
 
-    def __init__(self, air, election):
+    def __init__(setLevel, self , air, election):
         DistributedObjectAI.__init__(self, air)
         FSM.__init__(self, 'InvasionFSM')
 
@@ -363,7 +363,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         suit.setSpawnPoint(pointId)
         setLevel = cogfunctions.setLevel()
 
-        setLevel(self, levelOffset)
+        setLevel(levelOffset)
         suit.generateWithRequired(self.zoneId)
 
         # Is this a skelecog wave?
