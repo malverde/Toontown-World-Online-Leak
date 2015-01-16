@@ -13,7 +13,7 @@ from toontown.toonbase import ToontownBattleGlobals
 from toontown.suit import SuitDNA
 from toontown.suit import SuitPlannerBase
 from toontown.suit import SuitBase
-from SuitBase-election import setLevel
+from SuitBaseElection import setLevel
 
 
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
