@@ -18,20 +18,14 @@ class SuitBase:
 
     def __init__(self):
         self.dna = None
-        name = None
-        self.dna.name = name
-        attributes = SuitBattleGlobals.SuitAttributes[self.dna.name]
-        self.level = SuitBattleGlobals.pickFromFreqList(attributes['freq'])
-		
-        self.maxHP = attributes['hp'][self.level] 
-
-        self.currHP = self.maxHP
+        self.level = 0
+        self.maxHP = 10
+        self.currHP = 10
         self.isSkelecog = 0
         self.legList = None
         self.path = None
         self.suitGraph = None
         return
-
     def delete(self):
         if self.legList is not None:
             del self.legList

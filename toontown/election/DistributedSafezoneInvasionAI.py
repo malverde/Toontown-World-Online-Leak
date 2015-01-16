@@ -12,7 +12,8 @@ from toontown.suit import SuitTimings
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.suit import SuitDNA
 from toontown.suit import SuitPlannerBase
-from toontown.suit import SuitBase
+from toontown.suit import DistributedSuitBaseAI
+#from toontown.suit import SuitBase
 
 
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
