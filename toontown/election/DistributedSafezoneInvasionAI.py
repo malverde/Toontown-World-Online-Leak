@@ -12,8 +12,7 @@ from toontown.suit import SuitTimings
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.suit import SuitDNA
 from toontown.suit import SuitPlannerBase
-from toontown.suit import SuitBase
-import SuitBaseElection
+from SuitBaseElection import SuitBase
 
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedSafezoneInvasionAI")
