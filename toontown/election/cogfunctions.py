@@ -14,7 +14,7 @@ TIME_DIVISOR = 100
 DISTRIBUTE_TASK_CREATION = 0
 
 class cogfunctions:
-    notify = DirectNotifyGlobal.directNotify.newCategory('SuitBase')
+    notify = DirectNotifyGlobal.directNotify.newCategory('cogfunctions')
 
     def __init__(self):
         self.dna = None
