@@ -5,8 +5,8 @@ import random
 from pandac.PandaModules import Point3
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import SuitBattleGlobals
-import SuitTimings
-import SuitDNA
+from toontown.suit import SuitTimings
+from toontown.suit import SuitDNA
 from toontown.toonbase import TTLocalizer
 from SuitLegList import *
 TIME_BUFFER_PER_WPT = 0.25
