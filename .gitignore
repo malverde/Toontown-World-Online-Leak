@@ -1,1 +1,14 @@
+<<<<<<< HEAD
 *.pyc
+=======
+.pyc
+astron/
+**/backups/
+logs/
+*.pyc
+# Mac directory info:
+.DS_Store
+
+backups/blockinfo/
+backups/
+>>>>>>> parent of 27ec1fe... Merge remote-tracking branch 'origin/TTW-DEV-Cluster-maintenacefeature' into TTW-DEV-Cluster-Election
