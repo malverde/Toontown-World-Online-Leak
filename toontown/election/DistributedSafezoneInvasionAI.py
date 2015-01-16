@@ -33,7 +33,6 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         self.lastWave = (self.waveNumber == len(SafezoneInvasionGlobals.SuitWaves) - 1)
         self.invasionOn = False
         self.numberOfSuits = 0
-        setLevel = cogfunctions.setLevel
     def announceGenerate(self):
         self.b_setInvasionStarted(True)
         self.demand('BeginWave', 0)
@@ -362,7 +361,8 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
  
         suit.dna.newSuit(suitType)
         suit.setSpawnPoint(pointId)
-        
+        setLevel = cogfunctions.setLevel
+
         setLevel(levelOffset)
         suit.generateWithRequired(self.zoneId)
 
