@@ -13,13 +13,8 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         DistributedAvatarAI.DistributedAvatarAI.__init__(self, air)
         SuitBase.SuitBase.__init__(self)
         self.sp = suitPlanner
-        name = None 
-        self.dna.name = name
-        attributes = SuitBattleGlobals.SuitAttributes[self.dna.name]
-        self.level = SuitBattleGlobals.pickFromFreqList(attributes['freq'])
-
-        self.maxHP = attributes['hp'][self.level] 
-        self.currHP = self.maxHP
+        self.maxHP = 10
+        self.currHP = 10
         self.zoneId = 0
         self.dna = None
         self.virtual = 0
