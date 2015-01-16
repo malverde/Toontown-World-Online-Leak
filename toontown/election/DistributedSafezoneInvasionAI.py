@@ -19,7 +19,7 @@ from cogfunctions import cogfunctions
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedSafezoneInvasionAI")
 
-    def __init__(setLevel, self , air, election):
+    def __init__( self , air, election):
         DistributedObjectAI.__init__(self, air)
         FSM.__init__(self, 'InvasionFSM')
 
@@ -361,6 +361,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
  
         suit.dna.newSuit(suitType)
         suit.setSpawnPoint(pointId)
+        cogfunctions = cogfunctions()
         setLevel = cogfunctions.setLevel()
 
         setLevel(levelOffset)
