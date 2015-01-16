@@ -361,14 +361,8 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
  
         suit.dna.newSuit(suitType)
         suit.setSpawnPoint(pointId)
-        suit.setLevel(level)
-		attributes = SuitBattleGlobals.SuitAttributes[self.dna.name]
-		self.level = SuitBattleGlobals.pickFromFreqList(attributes['freq'])
-
-
-        hp = attributes['hp'][self.level] 
-        self.maxHP = hp
-	    self.currHP = hp
+        suit.setLevel(level, hp)
+        suit.getHP(self, currHP)
         suit.setHP(self, hp)
         
         suit.generateWithRequired(self.zoneId)
