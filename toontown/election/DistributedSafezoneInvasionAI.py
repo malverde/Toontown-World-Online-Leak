@@ -14,6 +14,7 @@ from toontown.suit import SuitDNA
 from toontown.suit import SuitPlannerBase
 from toontown.suit import SuitBase
 import SuitBaseElection
+from SuitBaseElection import SuitBase
 
 
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
@@ -361,7 +362,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
  
         suit.dna.newSuit(suitType)
         suit.setSpawnPoint(pointId)
-	print SuitBaseElection.setLevel(levelOffset)
+        setLevel(levelOffset)
         suit.generateWithRequired(self.zoneId)
 
         # Is this a skelecog wave?
