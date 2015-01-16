@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-*.pyc
-=======
 .pyc
 astron/
 **/backups/
@@ -11,4 +8,3 @@ logs/
 
 backups/blockinfo/
 backups/
->>>>>>> parent of 27ec1fe... Merge remote-tracking branch 'origin/TTW-DEV-Cluster-maintenacefeature' into TTW-DEV-Cluster-Election
