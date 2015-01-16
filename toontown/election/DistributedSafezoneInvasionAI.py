@@ -13,7 +13,7 @@ from toontown.toonbase import ToontownBattleGlobals
 from toontown.suit import SuitDNA
 from toontown.suit import SuitPlannerBase
 import SuitBaseElection
-from SuitBaseElection.SuitBase import setLevel
+from SuitBaseElection.SuitBaseElection import setLevel
 
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedSafezoneInvasionAI")
