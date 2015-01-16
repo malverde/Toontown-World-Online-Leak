@@ -13,7 +13,7 @@ TIME_BUFFER_PER_WPT = 0.25
 TIME_DIVISOR = 100
 DISTRIBUTE_TASK_CREATION = 0
 
-class SuitBase:
+class cogfunctions:
     notify = DirectNotifyGlobal.directNotify.newCategory('SuitBase')
 
     def __init__(self):
