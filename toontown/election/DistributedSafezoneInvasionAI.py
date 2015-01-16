@@ -11,7 +11,8 @@ from toontown.suit import SuitTimings
 
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.suit import SuitPlannerBase
-from toontown.suit import SuitBase
+#from toontown.suit import SuitBase
+from toontown.suit import DistributedSuitBaseAI
 from toontown.battle import SuitBattleGlobals
 from toontown.suit.SuitDNA import SuitDNA
 
