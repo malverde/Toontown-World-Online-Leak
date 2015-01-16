@@ -363,7 +363,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         suit.setSpawnPoint(pointId)
         setLevel = cogfunctions.setLevel()
 
-        setLevel(levelOffset)
+        setLevel(self, levelOffset)
         suit.generateWithRequired(self.zoneId)
 
         # Is this a skelecog wave?
