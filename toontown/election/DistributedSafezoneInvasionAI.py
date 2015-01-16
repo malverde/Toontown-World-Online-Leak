@@ -24,7 +24,6 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         FSM.__init__(self, 'InvasionFSM')
 
         self.master = InvasionMasterAI(self)
-        dna = None
         self.election = election
         self.waveNumber = 0
         self.spawnPoints = []
