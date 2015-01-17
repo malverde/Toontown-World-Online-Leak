@@ -100,7 +100,7 @@ FlippyPhraseIds = [[100, 101, 102, 103, 104, 105],                       # Hello
                    [1526],                                               # Piece of cake
                    [1702, 1554, 1556, 1557],                             # Cogs
                    [1558],                                               # Save powerful gags
-                   [5400],                                               # Toontown Rewritten
+                   [5400],                                               # Toontown World
                    [5401, 5407, 5408, 5409],                             # Found any bugs
                    [5402],                                               # Crashed
                    [5404],                                               # Toonbook
