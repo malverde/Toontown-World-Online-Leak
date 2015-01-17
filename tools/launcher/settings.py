@@ -1,11 +1,11 @@
 # Launcher-specific settings.
 Version = '1.1.3' # Set to None if you don't want checks.
-JSONLauncherInfo = "https://download.toontownrewritten.com/launcher/windows/ttr_launcher.json"
+JSONLauncherInfo = "download.toontownworldonline.com/launcher/windows/ttw_launcher.json"
 
 # Website information
-DefaultDownloadLocation = "https://www.toontownrewritten.com/"
+DefaultDownloadLocation = "www.toontownworldonline.com/"
 
 # Authentication information
 # I warn you, if you try to steal passwords, I will have your head on my lovely pitchfork.
-SSLConnection = ("www.toontownrewritten.com", 443)
+SSLConnection = ("www.toontownworldonline.com/", 443)
 LoginPostLocation = "/api/login?format=json"
