@@ -20,13 +20,13 @@ class LogAndOutput:
         self.log.flush()
         self.orig.flush()
 
-class TTRLauncher(LauncherBase):
+class TTWLauncher(LauncherBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToontownDummyLauncher')
 
     def __init__(self):
         self.http = HTTPClient()
 
-        self.logPrefix = 'ttr-'
+        self.logPrefix = 'ttw-'
 
         ltime = 1 and time.localtime()
         logSuffix = '%02d%02d%02d_%02d%02d%02d' % (ltime[0] - 2000,  ltime[1], ltime[2],

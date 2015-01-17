@@ -62,7 +62,7 @@ class FriendManager(DistributedObject.DistributedObject):
 
     def up_inviteeFriendResponse(self, yesNoMaybe, context):
         if yesNoMaybe == 1:
-            base.cr.ttrFriendsManager.friendOnline(self.otherToon, 0, 0)
+            base.cr.ttwFriendsManager.friendOnline(self.otherToon, 0, 0)
         self.sendUpdate('inviteeFriendResponse', [yesNoMaybe, context])
         self.notify.debug('Client: inviteeFriendResponse(%d, %d)' % (yesNoMaybe, context))
 
@@ -76,7 +76,7 @@ class FriendManager(DistributedObject.DistributedObject):
 
     def friendResponse(self, yesNoMaybe, context):
         if yesNoMaybe == 1:
-            base.cr.ttrFriendsManager.friendOnline(self.otherToon, 0, 0)
+            base.cr.ttwFriendsManager.friendOnline(self.otherToon, 0, 0)
         self.notify.debug('Client: friendResponse(%d, %d)' % (yesNoMaybe, context))
         messenger.send('friendResponse', [yesNoMaybe, context])
 
