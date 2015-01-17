@@ -1,0 +1,977 @@
+WINE REGISTRY Version 2
+;; All keys relative to \\User\\S-1-5-21-0-0-0-1000
+
+#arch=win32
+
+[AppEvents\\Schemes\\Apps\\Explorer\\Navigating\\.Current] 1421506800
+@=""
+
+[Control Panel\\Accessibility\\Blind Access] 1421506766
+"On"="0"
+
+[Control Panel\\Accessibility\\Keyboard Preference] 1421506766
+"On"="1"
+
+[Control Panel\\Accessibility\\ShowSounds] 1421506766
+"On"="0"
+
+[Control Panel\\Colors] 1421506766
+
+[Control Panel\\Desktop] 1421506801
+"ActiveWndTrackTimeout"=dword:00000000
+"BlockSendInputResets"="0"
+"CaretWidth"=dword:00000001
+"ClickLockTime"=dword:000004b0
+"DoubleClickHeight"="4"
+"DoubleClickWidth"="4"
+"DragFullWindows"="0"
+"DragHeight"="4"
+"DragWidth"="4"
+"FocusBorderHeight"=dword:00000001
+"FocusBorderWidth"=dword:00000001
+"FontSmoothing"="2\0"
+"FontSmoothingGamma"=dword:00000578
+"FontSmoothingOrientation"=dword:00000001
+"FontSmoothingType"=dword:00000002
+"ForegroundFlashCount"=dword:00000003
+"ForegroundLockTimeout"=dword:00000000
+"IconTitleWrap"="1"
+"LowPowerActive"="0"
+"MenuShowDelay"="400"
+"UserPreferencesMask"=hex:30,00,00,80,10,00,00,00
+"Wallpaper"=""
+"WheelScrollChars"="3"
+"WheelScrollLines"="3"
+
+[Control Panel\\Desktop\\WindowMetrics] 1421506766
+"BorderWidth"="-15"
+"CaptionHeight"="-270"
+"CaptionWidth"="-270"
+"IconSpacing"="-1125"
+"IconTitleWrap"="1"
+"IconVerticalSpacing"="-1125"
+"MenuHeight"="-270"
+"MenuWidth"="-270"
+"PaddedBorderWidth"="0"
+"ScrollHeight"="-240"
+"ScrollWidth"="-240"
+"Shell Icon Size"="32"
+"SmCaptionHeight"="-225"
+"SmCaptionWidth"="-225"
+
+[Control Panel\\International] 1421506757
+"iCalendarType"="1"
+"iCountry"="1"
+"iCurrDigits"="2"
+"iCurrency"="0"
+"iDate"="0"
+"iDigits"="2"
+"iFirstDayOfWeek"="6"
+"iFirstWeekOfYear"="0"
+"iLDate"="0"
+"iLZero"="1"
+"iMeasure"="1"
+"iNegCurr"="0"
+"iNegNumber"="1"
+"iPaperSize"="1"
+"iTime"="0"
+"iTimePrefix"="0"
+"iTLZero"="0"
+"LC_CTYPE"="00000409"
+"LC_MEASUREMENT"="00000000"
+"LC_MONETARY"="00000409"
+"LC_NUMERIC"="00000409"
+"LC_PAPER"="00000000"
+"LC_TELEPHONE"="00000000"
+"LC_TIME"="00000409"
+"Locale"="00000409"
+"Numshape"="1"
+"s1159"="AM"
+"s2359"="PM"
+"sCountry"="United States"
+"sCurrency"="$"
+"sDate"="/"
+"sDecimal"="."
+"sGrouping"="3;0"
+"sLanguage"="ENU"
+"sList"=","
+"sLongDate"="dddd, MMMM dd, yyyy"
+"sMonDecimalSep"="."
+"sMonGrouping"="3;0"
+"sMonThousandSep"=","
+"sNativeDigits"="0123456789"
+"sNegativeSign"="-"
+"sPositiveSign"=""
+"sShortDate"="M/d/yyyy"
+"sThousand"=","
+"sTime"=":"
+"sTimeFormat"="h:mm:ss tt"
+"sYearMonth"="MMMM, yyyy"
+
+[Control Panel\\Keyboard] 1421506766
+"KeyboardDelay"="1"
+"KeyboardSpeed"="31"
+
+[Control Panel\\Mouse] 1421506766
+"ActiveWindowTracking"=dword:00000000
+"DoubleClickHeight"="4"
+"DoubleClickSpeed"="500"
+"DoubleClickWidth"="4"
+"MouseHoverHeight"="4"
+"MouseHoverTime"="400"
+"MouseHoverWidth"="4"
+"MouseSensitivity"="10"
+"MouseSpeed"="1"
+"MouseThreshold1"="6"
+"MouseThreshold2"="10"
+"SnapToDefaultButton"="0"
+"SwapMouseButtons"="0"
+
+[Control Panel\\Sound] 1421506766
+"Beep"="Yes"
+
+[Environment] 1421506781
+"TEMP"="C:\\users\\mgracer48\\Temp"
+"TMP"="C:\\users\\mgracer48\\Temp"
+
+[Software\\Microsoft\\Installer\\Features\\0298D54E857A88046B6C13BD2B6799E2] 1421506796
+"wine_mono"=""
+
+[Software\\Microsoft\\Installer\\Features\\82DEFE379797D5E429755AA57F6C3E7E] 1421506799
+"wine_gecko"=""
+
+[Software\\Microsoft\\Installer\\Products\\0298D54E857A88046B6C13BD2B6799E2] 1421506796
+"AdvertiseFlags"=dword:00000184
+"Assignment"=dword:00000000
+"AuthorizedLUAApp"=dword:00000000
+"Clients"=":"
+"InstanceType"=dword:00000000
+"Language"=dword:00000000
+"PackageCode"="79EBA8F8E5747094A9B2E40A5A9F0FCB"
+"ProductName"="Wine Mono"
+"Version"=dword:04050004
+
+[Software\\Microsoft\\Installer\\Products\\0298D54E857A88046B6C13BD2B6799E2\\SourceList] 1421506796
+"LastUsedSource"="n;1;Z:\\Applications\\Wine.app\\Contents\\Resources\\share\\wine\\mono\\"
+"PackageName"="wine-mono-4.5.4.msi"
+
+[Software\\Microsoft\\Installer\\Products\\0298D54E857A88046B6C13BD2B6799E2\\SourceList\\Media] 1421506796
+"1"=";"
+"DiskPrompt"=""
+"MediaPackage"=""
+
+[Software\\Microsoft\\Installer\\Products\\0298D54E857A88046B6C13BD2B6799E2\\SourceList\\Net] 1421506796
+"1"=str(2):"Z:\\Applications\\Wine.app\\Contents\\Resources\\share\\wine\\mono\\"
+
+[Software\\Microsoft\\Installer\\Products\\82DEFE379797D5E429755AA57F6C3E7E] 1421506799
+"AdvertiseFlags"=dword:00000184
+"Assignment"=dword:00000000
+"AuthorizedLUAApp"=dword:00000000
+"Clients"=":"
+"InstanceType"=dword:00000000
+"Language"=dword:00000000
+"PackageCode"="97B82D3EB3EB6B94791820F1DA58F645"
+"ProductName"="Wine Gecko (32-bit)"
+"Version"=dword:02220000
+
+[Software\\Microsoft\\Installer\\Products\\82DEFE379797D5E429755AA57F6C3E7E\\SourceList] 1421506799
+"LastUsedSource"="n;1;Z:\\Applications\\Wine.app\\Contents\\Resources\\share\\wine\\gecko\\"
+"PackageName"="wine_gecko-2.34-x86.msi"
+
+[Software\\Microsoft\\Installer\\Products\\82DEFE379797D5E429755AA57F6C3E7E\\SourceList\\Media] 1421506799
+"1"=";"
+"DiskPrompt"=""
+"MediaPackage"=""
+
+[Software\\Microsoft\\Installer\\Products\\82DEFE379797D5E429755AA57F6C3E7E\\SourceList\\Net] 1421506799
+"1"=str(2):"Z:\\Applications\\Wine.app\\Contents\\Resources\\share\\wine\\gecko\\"
+
+[Software\\Microsoft\\Installer\\UpgradeCodes\\906426ED5B6CA6842947FEB058F4B65C] 1421506796
+"0298D54E857A88046B6C13BD2B6799E2"=""
+
+[Software\\Microsoft\\Installer\\UpgradeCodes\\ADF909AA16ED9784E920D37B806499E7] 1421506799
+"82DEFE379797D5E429755AA57F6C3E7E"=""
+
+[Software\\Microsoft\\Internet Explorer\\Main] 1421506800
+"Search Page"="http://www.google.com"
+"Start Page"="http://www.winehq.org"
+
+[Software\\Microsoft\\Internet Explorer\\Main\\FeatureControl] 1421506779
+
+[Software\\Microsoft\\Internet Explorer\\Settings] 1421506800
+"Text Color"="0,0,0"
+
+[Software\\Microsoft\\Protected Storage System Provider] 1421506800
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders] 1421506781
+"Administrative Tools"="C:\\users\\mgracer48\\Start Menu\\Programs\\Administrative Tools"
+"AppData"="C:\\users\\mgracer48\\Application Data"
+"Cache"="C:\\users\\mgracer48\\Local Settings\\Temporary Internet Files"
+"Cookies"="C:\\users\\mgracer48\\Cookies"
+"Desktop"="C:\\users\\mgracer48\\Desktop"
+"Favorites"="C:\\users\\mgracer48\\Favorites"
+"Fonts"="C:\\windows\\Fonts"
+"History"="C:\\users\\mgracer48\\Local Settings\\History"
+"Local AppData"="C:\\users\\mgracer48\\Local Settings\\Application Data"
+"My Music"="C:\\users\\mgracer48\\My Music"
+"My Pictures"="C:\\users\\mgracer48\\My Pictures"
+"My Videos"="C:\\users\\mgracer48\\My Videos"
+"NetHood"="C:\\users\\mgracer48\\NetHood"
+"Personal"="C:\\users\\mgracer48\\My Documents"
+"PrintHood"="C:\\users\\mgracer48\\PrintHood"
+"Programs"="C:\\users\\mgracer48\\Start Menu\\Programs"
+"Recent"="C:\\users\\mgracer48\\Recent"
+"SendTo"="C:\\users\\mgracer48\\SendTo"
+"Start Menu"="C:\\users\\mgracer48\\Start Menu"
+"StartUp"="C:\\users\\mgracer48\\Start Menu\\Programs\\StartUp"
+"Templates"="C:\\users\\mgracer48\\Templates"
+"{374DE290-123F-4565-9164-39C4925E467B}"="C:\\users\\mgracer48\\Downloads"
+"{4C5C32FF-BB9D-43B0-B5B4-2D72E54EAAA4}"="C:\\users\\mgracer48\\Saved Games"
+"{56784854-C6CB-462B-8169-88E350ACB882}"="C:\\users\\mgracer48\\Contacts"
+"{7D1D3A04-DEBB-4115-95CF-2F29DA2920DA}"="C:\\users\\mgracer48\\Searches"
+"{A520A1A4-1780-4FF6-BD18-167343C5AF16}"="C:\\users\\mgracer48\\AppData\\LocalLow"
+"{BFB9D5E0-C6A9-404C-B2B2-AE6DB6AF4968}"="C:\\users\\mgracer48\\Links"
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders] 1421506781
+"Administrative Tools"=str(2):"%USERPROFILE%\\Start Menu\\Programs\\Administrative Tools"
+"AppData"=str(2):"%USERPROFILE%\\Application Data"
+"Cache"=str(2):"%USERPROFILE%\\Local Settings\\Temporary Internet Files"
+"Cookies"=str(2):"%USERPROFILE%\\Cookies"
+"Desktop"=str(2):"%USERPROFILE%\\Desktop"
+"Favorites"=str(2):"%USERPROFILE%\\Favorites"
+"Fonts"=str(2):"C:\\windows\\Fonts"
+"History"=str(2):"%USERPROFILE%\\Local Settings\\History"
+"Local AppData"=str(2):"%USERPROFILE%\\Local Settings\\Application Data"
+"My Music"=str(2):"%USERPROFILE%\\My Music"
+"My Pictures"=str(2):"%USERPROFILE%\\My Pictures"
+"My Videos"=str(2):"%USERPROFILE%\\My Videos"
+"NetHood"=str(2):"%USERPROFILE%\\NetHood"
+"Personal"=str(2):"%USERPROFILE%\\My Documents"
+"PrintHood"=str(2):"%USERPROFILE%\\PrintHood"
+"Programs"=str(2):"%USERPROFILE%\\Start Menu\\Programs"
+"Recent"=str(2):"%USERPROFILE%\\Recent"
+"SendTo"=str(2):"%USERPROFILE%\\SendTo"
+"Start Menu"=str(2):"%USERPROFILE%\\Start Menu"
+"StartUp"=str(2):"%USERPROFILE%\\Start Menu\\Programs\\StartUp"
+"Templates"=str(2):"%USERPROFILE%\\Templates"
+"{374DE290-123F-4565-9164-39C4925E467B}"=str(2):"%USERPROFILE%\\Downloads"
+"{4C5C32FF-BB9D-43B0-B5B4-2D72E54EAAA4}"=str(2):"%USERPROFILE%\\Saved Games"
+"{56784854-C6CB-462B-8169-88E350ACB882}"=str(2):"%USERPROFILE%\\Contacts"
+"{7D1D3A04-DEBB-4115-95CF-2F29DA2920DA}"=str(2):"%USERPROFILE%\\Searches"
+"{A520A1A4-1780-4FF6-BD18-167343C5AF16}"=str(2):"%USERPROFILE%\\AppData\\LocalLow"
+"{BFB9D5E0-C6A9-404C-B2B2-AE6DB6AF4968}"=str(2):"%USERPROFILE%\\Links"
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings] 1421506779
+"User Agent"="Mozilla/4.0 (compatible; MSIE 8.0; Win32)"
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap] 1421506800
+@=""
+"IntranetName"=dword:00000001
+"ProxyByPass"=dword:00000001
+"UNCAsIntranet"=dword:00000001
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\Domains] 1421506800
+@=""
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults] 1421506800
+@=""
+"@ivt"=dword:00000001
+"file"=dword:00000003
+"ftp"=dword:00000003
+"http"=dword:00000003
+"https"=dword:00000003
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\Ranges] 1421506800
+@=""
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\Zones] 1421506800
+@=""
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\Zones\\0] 1421506800
+@=""
+"1001"=dword:00000000
+"1004"=dword:00000000
+"1200"=dword:00000000
+"1201"=dword:00000001
+"1400"=dword:00000000
+"1402"=dword:00000000
+"1405"=dword:00000000
+"1406"=dword:00000000
+"1407"=dword:00000000
+"1601"=dword:00000000
+"1604"=dword:00000000
+"1605"=dword:00000000
+"1606"=dword:00000000
+"1607"=dword:00000000
+"1608"=dword:00000000
+"1609"=dword:00000001
+"1800"=dword:00000000
+"1802"=dword:00000000
+"1803"=dword:00000000
+"1804"=dword:00000000
+"1805"=dword:00000000
+"1A00"=dword:00000000
+"1A02"=dword:00000000
+"1A03"=dword:00000000
+"1A04"=dword:00000000
+"1A05"=dword:00000000
+"1A06"=dword:00000000
+"1A10"=dword:00000000
+"1C00"=dword:00020000
+"1E05"=dword:00030000
+"CurrentLevel"=dword:00000000
+"Description"="Your computer"
+"DisplayName"="My Computer"
+"Flags"=dword:00000021
+"Icon"="explorer.exe#0100"
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\Zones\\1] 1421506800
+@=""
+"1001"=dword:00000001
+"1004"=dword:00000003
+"1200"=dword:00000000
+"1201"=dword:00000003
+"1400"=dword:00000000
+"1402"=dword:00000000
+"1405"=dword:00000000
+"1406"=dword:00000001
+"1407"=dword:00000000
+"1601"=dword:00000000
+"1604"=dword:00000000
+"1605"=dword:00000000
+"1606"=dword:00000000
+"1607"=dword:00000000
+"1608"=dword:00000000
+"1609"=dword:00000001
+"1800"=dword:00000001
+"1802"=dword:00000000
+"1803"=dword:00000000
+"1804"=dword:00000001
+"1805"=dword:00000000
+"1A00"=dword:00020000
+"1A02"=dword:00000000
+"1A03"=dword:00000000
+"1A04"=dword:00000000
+"1A05"=dword:00000000
+"1A06"=dword:00000000
+"1A10"=dword:00000000
+"1C00"=dword:00020000
+"1E05"=dword:00020000
+"CurrentLevel"=dword:00010500
+"Description"="This zone contains all Web sites that are on your organization's intranet."
+"DisplayName"="Local intranet"
+"Flags"=dword:000000db
+"Icon"="shell32.dll#0018"
+"MinLevel"=dword:00010000
+"RecommendedLevel"=dword:00010500
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\Zones\\2] 1421506800
+@=""
+"1001"=dword:00000000
+"1004"=dword:00000001
+"1200"=dword:00000000
+"1201"=dword:00000001
+"1400"=dword:00000000
+"1402"=dword:00000000
+"1405"=dword:00000000
+"1406"=dword:00000000
+"1407"=dword:00000000
+"1601"=dword:00000000
+"1604"=dword:00000000
+"1605"=dword:00000000
+"1606"=dword:00000000
+"1607"=dword:00000000
+"1608"=dword:00000000
+"1609"=dword:00000001
+"1800"=dword:00000000
+"1802"=dword:00000000
+"1803"=dword:00000000
+"1804"=dword:00000000
+"1805"=dword:00000000
+"1A00"=dword:00000000
+"1A02"=dword:00000000
+"1A03"=dword:00000000
+"1A04"=dword:00000000
+"1A05"=dword:00000000
+"1A06"=dword:00000000
+"1A10"=dword:00000000
+"1C00"=dword:00030000
+"1E05"=dword:00030000
+"CurrentLevel"=dword:00010000
+"Description"="This zone contains Web sites that you trust not to damage your computer or data."
+"DisplayName"="Trusted sites"
+"Flags"=dword:00000047
+"Icon"="inetcpl.cpl#00004480"
+"MinLevel"=dword:00010000
+"RecommendedLevel"=dword:00010000
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\Zones\\3] 1421506800
+@=""
+"1001"=dword:00000001
+"1004"=dword:00000003
+"1200"=dword:00000000
+"1201"=dword:00000003
+"1400"=dword:00000000
+"1402"=dword:00000000
+"1405"=dword:00000000
+"1406"=dword:00000003
+"1407"=dword:00000000
+"1601"=dword:00000001
+"1604"=dword:00000000
+"1605"=dword:00000000
+"1606"=dword:00000000
+"1607"=dword:00000000
+"1608"=dword:00000000
+"1609"=dword:00000001
+"1800"=dword:00000001
+"1802"=dword:00000000
+"1803"=dword:00000000
+"1804"=dword:00000001
+"1805"=dword:00000001
+"1A00"=dword:00020000
+"1A02"=dword:00000000
+"1A03"=dword:00000000
+"1A04"=dword:00000003
+"1A05"=dword:00000001
+"1A06"=dword:00000000
+"1A10"=dword:00000001
+"1C00"=dword:00010000
+"1E05"=dword:00020000
+"CurrentLevel"=dword:00011000
+"Description"="This zone contains all Web sites you haven't placed in other zones"
+"DisplayName"="Internet"
+"Flags"=dword:00000001
+"Icon"="inetcpl.cpl#001313"
+"MinLevel"=dword:00011000
+"RecommendedLevel"=dword:00011000
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\Zones\\4] 1421506800
+@=""
+"1001"=dword:00000003
+"1004"=dword:00000003
+"1200"=dword:00000003
+"1201"=dword:00000003
+"1400"=dword:00000003
+"1402"=dword:00000003
+"1405"=dword:00000003
+"1406"=dword:00000003
+"1407"=dword:00000003
+"1601"=dword:00000001
+"1604"=dword:00000001
+"1605"=dword:00000000
+"1606"=dword:00000003
+"1607"=dword:00000003
+"1608"=dword:00000003
+"1609"=dword:00000001
+"1800"=dword:00000003
+"1802"=dword:00000001
+"1803"=dword:00000003
+"1804"=dword:00000003
+"1805"=dword:00000001
+"1A00"=dword:00010000
+"1A02"=dword:00000003
+"1A03"=dword:00000003
+"1A04"=dword:00000003
+"1A05"=dword:00000003
+"1A06"=dword:00000003
+"1A10"=dword:00000003
+"1C00"=dword:00000000
+"1E05"=dword:00010000
+"CurrentLevel"=dword:00012000
+"Description"="This zone contains Web sites that could potentially damage your computer or data."
+"DisplayName"="Restricted sites"
+"Flags"=dword:00000003
+"Icon"="inetcpl.cpl#00004481"
+"MinLevel"=dword:00012000
+"RecommendedLevel"=dword:00012000
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Run] 1421506800
+
+[Software\\Microsoft\\Windows NT\\CurrentVersion\\Devices] 1421506783
+"Bluetooth_DUN"="wineps.drv,CUPS:Bluetooth_DUN"
+"Photosmart_6520_series__376C98_"="wineps.drv,CUPS:Photosmart_6520_series__376C98_"
+
+[Software\\Microsoft\\Windows NT\\CurrentVersion\\PrinterPorts] 1421506783
+"Bluetooth_DUN"="wineps.drv,CUPS:Bluetooth_DUN,15,45"
+"Photosmart_6520_series__376C98_"="wineps.drv,CUPS:Photosmart_6520_series__376C98_,15,45"
+
+[Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows] 1421506783
+"device"="Photosmart_6520_series__376C98_,wineps.drv,CUPS:Photosmart_6520_series__376C98_"
+
+[Software\\Wine\\Debug] 1421506800
+"RelayExclude"="ntdll.RtlEnterCriticalSection;ntdll.RtlLeaveCriticalSection;kernel32.48;kernel32.49;kernel32.94;kernel32.95;kernel32.96;kernel32.97;kernel32.98;kernel32.TlsGetValue;kernel32.TlsSetValue;kernel32.FlsGetValue;kernel32.FlsSetValue;kernel32.SetLastError"
+"RelayFromExclude"="winex11.drv;winemac.drv;user32;gdi32;advapi32;kernel32"
+
+[Software\\Wine\\DllOverrides] 1421506801
+"winemenubuilder.exe"="native\0"
+
+[Software\\Wine\\Drivers] 1421506801
+"Audio"="coreaudio\0"
+
+[Software\\Wine\\Fonts] 1421506803
+"Codepages"="1252,437"
+"LogPixels"=dword:00000060
+
+[Software\\Wine\\Fonts\\External Fonts] 1421506803
+"@Apple SD Gothic Neo Bold"="Z:\\System\\Library\\Fonts\\AppleSDGothicNeo-Bold.otf"
+"@Apple SD Gothic Neo Heavy"="Z:\\Library\\Fonts\\AppleSDGothicNeo-Heavy.otf"
+"@Apple SD Gothic Neo Light"="Z:\\Library\\Fonts\\AppleSDGothicNeo-Light.otf"
+"@Apple SD Gothic Neo Medium"="Z:\\Library\\Fonts\\AppleSDGothicNeo-Medium.otf"
+"@Apple SD Gothic Neo Regular"="Z:\\System\\Library\\Fonts\\AppleSDGothicNeo-Regular.otf"
+"@Apple SD Gothic Neo SemiBold"="Z:\\Library\\Fonts\\AppleSDGothicNeo-SemiBold.otf"
+"@Apple SD Gothic Neo Thin"="Z:\\Library\\Fonts\\AppleSDGothicNeo-Thin.otf"
+"@Apple SD Gothic Neo UltraLight"="Z:\\Library\\Fonts\\AppleSDGothicNeo-UltraLight.otf"
+"@Apple SD GothicNeo ExtraBold"="Z:\\Library\\Fonts\\AppleSDGothicNeo-ExtraBold.otf"
+"@Baoli SC Regular"="Z:\\Library\\Fonts\\Baoli.ttc"
+"@Hannotate SC Bold"="Z:\\Library\\Fonts\\Hannotate.ttc"
+"@Hannotate SC Regular"="Z:\\Library\\Fonts\\Hannotate.ttc"
+"@Hannotate TC Bold"="Z:\\Library\\Fonts\\Hannotate.ttc"
+"@Hannotate TC Regular"="Z:\\Library\\Fonts\\Hannotate.ttc"
+"@HanziPen SC Regular"="Z:\\Library\\Fonts\\Hanzipen.ttc"
+"@HanziPen TC Bold"="Z:\\Library\\Fonts\\Hanzipen.ttc"
+"@HanziPen TC Regular"="Z:\\Library\\Fonts\\Hanzipen.ttc"
+"@Hiragino Kaku Gothic Pro W3"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x89d2\x30b4 Pro W3.otf"
+"@Hiragino Kaku Gothic Pro W6"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x89d2\x30b4 Pro W6.otf"
+"@Hiragino Kaku Gothic ProN W3"="Z:\\System\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x89d2\x30b4 ProN W3.otf"
+"@Hiragino Kaku Gothic ProN W6"="Z:\\System\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x89d2\x30b4 ProN W6.otf"
+"@Hiragino Kaku Gothic Std W8"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x89d2\x30b4 Std W8.otf"
+"@Hiragino Kaku Gothic StdN W8"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x89d2\x30b4 StdN W8.otf"
+"@Hiragino Maru Gothic Pro W4"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x4e38\x30b4 Pro W4.otf"
+"@Hiragino Maru Gothic ProN W4"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x4e38\x30b4 ProN W4.otf"
+"@Hiragino Mincho Pro W3"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x660e\x671d Pro W3.otf"
+"@Hiragino Mincho Pro W6"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x660e\x671d Pro W6.otf"
+"@Hiragino Mincho ProN W3"="Z:\\System\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x660e\x671d ProN W3.otf"
+"@Hiragino Mincho ProN W6"="Z:\\System\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x660e\x671d ProN W6.otf"
+"@Hiragino Sans GB W3"="Z:\\Library\\Fonts\\Hiragino Sans GB W3.otf"
+"@Hiragino Sans GB W6"="Z:\\Library\\Fonts\\Hiragino Sans GB W6.otf"
+"@Kaiti SC Black"="Z:\\Library\\Fonts\\Kaiti.ttc"
+"@Kaiti SC Bold"="Z:\\Library\\Fonts\\Kaiti.ttc"
+"@Kaiti SC Regular"="Z:\\Library\\Fonts\\Kaiti.ttc"
+"@Kaiti TC Bold"="Z:\\Library\\Fonts\\Kaiti.ttc"
+"@Kaiti TC Regular"="Z:\\Library\\Fonts\\Kaiti.ttc"
+"@Lantinghei SC Demibold"="Z:\\Library\\Fonts\\Lantinghei.ttc"
+"@Lantinghei SC Extralight"="Z:\\Library\\Fonts\\Lantinghei.ttc"
+"@Lantinghei SC Heavy"="Z:\\Library\\Fonts\\Lantinghei.ttc"
+"@Lantinghei TC Demibold"="Z:\\Library\\Fonts\\Lantinghei.ttc"
+"@Lantinghei TC Extralight"="Z:\\Library\\Fonts\\Lantinghei.ttc"
+"@Lantinghei TC Heavy"="Z:\\Library\\Fonts\\Lantinghei.ttc"
+"@Libian SC Regular"="Z:\\Library\\Fonts\\Libian.ttc"
+"@Nanum Brush Script"="Z:\\Library\\Fonts\\NanumScript.ttc"
+"@Nanum Pen Script"="Z:\\Library\\Fonts\\NanumScript.ttc"
+"@NanumGothic"="Z:\\Library\\Fonts\\NanumGothic.ttc"
+"@NanumGothic Bold"="Z:\\Library\\Fonts\\NanumGothic.ttc"
+"@NanumGothic ExtraBold"="Z:\\Library\\Fonts\\NanumGothic.ttc"
+"@NanumMyeongjo"="Z:\\Library\\Fonts\\NanumMyeongjo.ttc"
+"@NanumMyeongjoBold"="Z:\\Library\\Fonts\\NanumMyeongjo.ttc"
+"@NanumMyeongjoExtraBold"="Z:\\Library\\Fonts\\NanumMyeongjo.ttc"
+"@Optima ExtraBlack"="Z:\\System\\Library\\Fonts\\Optima.ttc"
+"@Songti SC Black"="Z:\\Library\\Fonts\\Songti.ttc"
+"@Songti SC Bold"="Z:\\Library\\Fonts\\Songti.ttc"
+"@Songti SC Light"="Z:\\Library\\Fonts\\Songti.ttc"
+"@Songti SC Regular"="Z:\\Library\\Fonts\\Songti.ttc"
+"@Songti TC Bold"="Z:\\Library\\Fonts\\Songti.ttc"
+"@Songti TC Regular"="Z:\\Library\\Fonts\\Songti.ttc"
+"@STKaiti"="Z:\\Library\\Fonts\\Kaiti.ttc"
+"@STSong"="Z:\\Library\\Fonts\\Songti.ttc"
+"@Wawati SC Regular"="Z:\\Library\\Fonts\\WawaSC-Regular.otf"
+"@Wawati TC Regular"="Z:\\Library\\Fonts\\WawaTC-Regular.otf"
+"@Weibei SC Bold"="Z:\\Library\\Fonts\\WeibeiSC-Bold.otf"
+"@Weibei TC Bold"="Z:\\Library\\Fonts\\WeibeiTC-Bold.otf"
+"@Xingkai SC Bold"="Z:\\Library\\Fonts\\Xingkai.ttc"
+"@Xingkai SC Light"="Z:\\Library\\Fonts\\Xingkai.ttc"
+"@Yuanti SC Bold"="Z:\\Library\\Fonts\\Yuanti.ttc"
+"@Yuanti SC Light"="Z:\\Library\\Fonts\\Yuanti.ttc"
+"@Yuanti SC Regular"="Z:\\Library\\Fonts\\Yuanti.ttc"
+"@YuGothic Bold"="Z:\\Library\\Fonts\\Yu Gothic Bold.otf"
+"@YuGothic Medium"="Z:\\Library\\Fonts\\Yu Gothic Medium.otf"
+"@YuMincho Demibold"="Z:\\Library\\Fonts\\Yu Mincho Demibold.otf"
+"@YuMincho Medium"="Z:\\Library\\Fonts\\Yu Mincho Medium.otf"
+"@Yuppy SC Regular"="Z:\\Library\\Fonts\\YuppySC-Regular.otf"
+"@Yuppy TC Regular"="Z:\\Library\\Fonts\\YuppyTC-Regular.otf"
+"Al Nile"="Z:\\Library\\Fonts\\Al Nile.ttc"
+"Al Nile Bold"="Z:\\Library\\Fonts\\Al Nile.ttc"
+"Al Tarikh"="Z:\\Library\\Fonts\\Al Tarikh.ttc"
+"American Typewriter"="Z:\\Library\\Fonts\\AmericanTypewriter.ttc"
+"American Typewriter Bold"="Z:\\Library\\Fonts\\AmericanTypewriter.ttc"
+"American Typewriter Condensed"="Z:\\Library\\Fonts\\AmericanTypewriter.ttc"
+"American Typewriter Condensed Bold"="Z:\\Library\\Fonts\\AmericanTypewriter.ttc"
+"American Typewriter Condensed Light"="Z:\\Library\\Fonts\\AmericanTypewriter.ttc"
+"American Typewriter Light"="Z:\\Library\\Fonts\\AmericanTypewriter.ttc"
+"Apple Braille"="Z:\\System\\Library\\Fonts\\Apple Braille.ttf"
+"Apple Braille Outline 6 Dot"="Z:\\System\\Library\\Fonts\\Apple Braille Outline 6 Dot.ttf"
+"Apple Braille Outline 8 Dot"="Z:\\System\\Library\\Fonts\\Apple Braille Outline 8 Dot.ttf"
+"Apple Braille Pinpoint 6 Dot"="Z:\\System\\Library\\Fonts\\Apple Braille Pinpoint 6 Dot.ttf"
+"Apple Braille Pinpoint 8 Dot"="Z:\\System\\Library\\Fonts\\Apple Braille Pinpoint 8 Dot.ttf"
+"Apple Color Emoji"="Z:\\System\\Library\\Fonts\\Apple Color Emoji.ttf"
+"Apple SD Gothic Neo Bold"="Z:\\System\\Library\\Fonts\\AppleSDGothicNeo-Bold.otf"
+"Apple SD Gothic Neo Heavy"="Z:\\Library\\Fonts\\AppleSDGothicNeo-Heavy.otf"
+"Apple SD Gothic Neo Light"="Z:\\Library\\Fonts\\AppleSDGothicNeo-Light.otf"
+"Apple SD Gothic Neo Medium"="Z:\\Library\\Fonts\\AppleSDGothicNeo-Medium.otf"
+"Apple SD Gothic Neo Regular"="Z:\\System\\Library\\Fonts\\AppleSDGothicNeo-Regular.otf"
+"Apple SD Gothic Neo SemiBold"="Z:\\Library\\Fonts\\AppleSDGothicNeo-SemiBold.otf"
+"Apple SD Gothic Neo Thin"="Z:\\Library\\Fonts\\AppleSDGothicNeo-Thin.otf"
+"Apple SD Gothic Neo UltraLight"="Z:\\Library\\Fonts\\AppleSDGothicNeo-UltraLight.otf"
+"Apple SD GothicNeo ExtraBold"="Z:\\Library\\Fonts\\AppleSDGothicNeo-ExtraBold.otf"
+"Apple Symbols"="Z:\\System\\Library\\Fonts\\Apple Symbols.ttf"
+"Arial Hebrew"="Z:\\Library\\Fonts\\ArialHB.ttc"
+"Arial Hebrew Bold"="Z:\\Library\\Fonts\\ArialHB.ttc"
+"Arial Hebrew Light"="Z:\\Library\\Fonts\\ArialHB.ttc"
+"Athelas Bold"="Z:\\Library\\Fonts\\Athelas.ttc"
+"Athelas Bold Italic"="Z:\\Library\\Fonts\\Athelas.ttc"
+"Athelas Italic"="Z:\\Library\\Fonts\\Athelas.ttc"
+"Athelas Regular"="Z:\\Library\\Fonts\\Athelas.ttc"
+"Avenir Black"="Z:\\System\\Library\\Fonts\\Avenir.ttc"
+"Avenir Black Oblique"="Z:\\System\\Library\\Fonts\\Avenir.ttc"
+"Avenir Book"="Z:\\System\\Library\\Fonts\\Avenir.ttc"
+"Avenir Book Oblique"="Z:\\System\\Library\\Fonts\\Avenir.ttc"
+"Avenir Heavy"="Z:\\System\\Library\\Fonts\\Avenir.ttc"
+"Avenir Heavy Oblique"="Z:\\System\\Library\\Fonts\\Avenir.ttc"
+"Avenir Light"="Z:\\System\\Library\\Fonts\\Avenir.ttc"
+"Avenir Light Oblique"="Z:\\System\\Library\\Fonts\\Avenir.ttc"
+"Avenir Medium"="Z:\\System\\Library\\Fonts\\Avenir.ttc"
+"Avenir Medium Oblique"="Z:\\System\\Library\\Fonts\\Avenir.ttc"
+"Avenir Next Bold"="Z:\\System\\Library\\Fonts\\Avenir Next.ttc"
+"Avenir Next Bold Italic"="Z:\\System\\Library\\Fonts\\Avenir Next.ttc"
+"Avenir Next Condensed Bold"="Z:\\System\\Library\\Fonts\\Avenir Next Condensed.ttc"
+"Avenir Next Condensed Bold Italic"="Z:\\System\\Library\\Fonts\\Avenir Next Condensed.ttc"
+"Avenir Next Condensed Demi Bold"="Z:\\System\\Library\\Fonts\\Avenir Next Condensed.ttc"
+"Avenir Next Condensed Demi Bold Italic"="Z:\\System\\Library\\Fonts\\Avenir Next Condensed.ttc"
+"Avenir Next Condensed Heavy"="Z:\\System\\Library\\Fonts\\Avenir Next Condensed.ttc"
+"Avenir Next Condensed Heavy Italic"="Z:\\System\\Library\\Fonts\\Avenir Next Condensed.ttc"
+"Avenir Next Condensed Italic"="Z:\\System\\Library\\Fonts\\Avenir Next Condensed.ttc"
+"Avenir Next Condensed Medium"="Z:\\System\\Library\\Fonts\\Avenir Next Condensed.ttc"
+"Avenir Next Condensed Regular"="Z:\\System\\Library\\Fonts\\Avenir Next Condensed.ttc"
+"Avenir Next Condensed Ultra Light"="Z:\\System\\Library\\Fonts\\Avenir Next Condensed.ttc"
+"Avenir Next Condensed Ultra Light Italic"="Z:\\System\\Library\\Fonts\\Avenir Next Condensed.ttc"
+"Avenir Next Demi Bold"="Z:\\System\\Library\\Fonts\\Avenir Next.ttc"
+"Avenir Next Demi Bold Italic"="Z:\\System\\Library\\Fonts\\Avenir Next.ttc"
+"Avenir Next Heavy"="Z:\\System\\Library\\Fonts\\Avenir Next.ttc"
+"Avenir Next Heavy Italic"="Z:\\System\\Library\\Fonts\\Avenir Next.ttc"
+"Avenir Next Italic"="Z:\\System\\Library\\Fonts\\Avenir Next.ttc"
+"Avenir Next Medium"="Z:\\System\\Library\\Fonts\\Avenir Next.ttc"
+"Avenir Next Medium Condensed Italic"="Z:\\System\\Library\\Fonts\\Avenir Next Condensed.ttc"
+"Avenir Next Medium Italic"="Z:\\System\\Library\\Fonts\\Avenir Next.ttc"
+"Avenir Next Regular"="Z:\\System\\Library\\Fonts\\Avenir Next.ttc"
+"Avenir Next Ultra Light Italic"="Z:\\System\\Library\\Fonts\\Avenir Next.ttc"
+"Avenir Oblique"="Z:\\System\\Library\\Fonts\\Avenir.ttc"
+"Avenir Roman"="Z:\\System\\Library\\Fonts\\Avenir.ttc"
+"AvenirNext-UltraLight"="Z:\\System\\Library\\Fonts\\Avenir Next.ttc"
+"Bangla MN"="Z:\\Library\\Fonts\\Bangla MN.ttc"
+"Bangla MN Bold"="Z:\\Library\\Fonts\\Bangla MN.ttc"
+"Bangla Sangam MN"="Z:\\Library\\Fonts\\Bangla Sangam MN.ttc"
+"Bangla Sangam MN Bold"="Z:\\Library\\Fonts\\Bangla Sangam MN.ttc"
+"Baoli SC Regular"="Z:\\Library\\Fonts\\Baoli.ttc"
+"Baskerville"="Z:\\Library\\Fonts\\Baskerville.ttc"
+"Baskerville Bold"="Z:\\Library\\Fonts\\Baskerville.ttc"
+"Baskerville Bold Italic"="Z:\\Library\\Fonts\\Baskerville.ttc"
+"Baskerville Italic"="Z:\\Library\\Fonts\\Baskerville.ttc"
+"Baskerville SemiBold"="Z:\\Library\\Fonts\\Baskerville.ttc"
+"Baskerville SemiBold Italic"="Z:\\Library\\Fonts\\Baskerville.ttc"
+"Beirut"="Z:\\Library\\Fonts\\Beirut.ttc"
+"Chalkboard"="Z:\\Library\\Fonts\\Chalkboard.ttc"
+"Chalkboard Bold"="Z:\\Library\\Fonts\\Chalkboard.ttc"
+"Chalkboard SE Bold"="Z:\\Library\\Fonts\\ChalkboardSE.ttc"
+"Chalkboard SE Light"="Z:\\Library\\Fonts\\ChalkboardSE.ttc"
+"Chalkboard SE Regular"="Z:\\Library\\Fonts\\ChalkboardSE.ttc"
+"Charcoal CY"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\CharcoalCY.dfont_4c05.ttf"
+"Charter Black"="Z:\\Library\\Fonts\\Charter.ttc"
+"Charter Black Italic"="Z:\\Library\\Fonts\\Charter.ttc"
+"Charter Bold"="Z:\\Library\\Fonts\\Charter.ttc"
+"Charter BT Bold Italic"="Z:\\Library\\Fonts\\Charter.ttc"
+"Charter Italic"="Z:\\Library\\Fonts\\Charter.ttc"
+"Charter Roman"="Z:\\Library\\Fonts\\Charter.ttc"
+"Cochin"="Z:\\Library\\Fonts\\Cochin.ttc"
+"Cochin Bold"="Z:\\Library\\Fonts\\Cochin.ttc"
+"Cochin Bold Italic"="Z:\\Library\\Fonts\\Cochin.ttc"
+"Cochin Italic"="Z:\\Library\\Fonts\\Cochin.ttc"
+"Copperplate"="Z:\\Library\\Fonts\\Copperplate.ttc"
+"Copperplate Bold"="Z:\\Library\\Fonts\\Copperplate.ttc"
+"Copperplate Light"="Z:\\Library\\Fonts\\Copperplate.ttc"
+"Corsiva Hebrew"="Z:\\Library\\Fonts\\Corsiva.ttc"
+"Corsiva Hebrew Bold"="Z:\\Library\\Fonts\\Corsiva.ttc"
+"Damascus"="Z:\\Library\\Fonts\\Damascus.ttc"
+"Damascus Bold"="Z:\\Library\\Fonts\\Damascus.ttc"
+"Damascus Medium"="Z:\\Library\\Fonts\\Damascus.ttc"
+"Damascus Semi Bold"="Z:\\Library\\Fonts\\Damascus.ttc"
+"Devanagari Sangam MN"="Z:\\Library\\Fonts\\Devanagari Sangam MN.ttc"
+"Devanagari Sangam MN Bold"="Z:\\Library\\Fonts\\Devanagari Sangam MN.ttc"
+"Didot"="Z:\\Library\\Fonts\\Didot.ttc"
+"Didot Bold"="Z:\\Library\\Fonts\\Didot.ttc"
+"Didot Italic"="Z:\\Library\\Fonts\\Didot.ttc"
+"Diwan Kufi"="Z:\\Library\\Fonts\\Diwan Kufi.ttc"
+"Diwan Mishafi"="Z:\\Library\\Fonts\\Mishafi.ttc"
+"Diwan Thuluth"="Z:\\Library\\Fonts\\Diwan Thuluth.ttc"
+"Euphemia UCAS"="Z:\\Library\\Fonts\\EuphemiaCAS.ttc"
+"Euphemia UCAS Bold"="Z:\\Library\\Fonts\\EuphemiaCAS.ttc"
+"Euphemia UCAS Italic"="Z:\\Library\\Fonts\\EuphemiaCAS.ttc"
+"Farah"="Z:\\Library\\Fonts\\Farah.ttc"
+"Farisi"="Z:\\Library\\Fonts\\Farisi.ttc"
+"Futura Condensed ExtraBold"="Z:\\Library\\Fonts\\Futura.ttc"
+"Futura Condensed Medium"="Z:\\Library\\Fonts\\Futura.ttc"
+"Futura Medium"="Z:\\Library\\Fonts\\Futura.ttc"
+"Futura Medium Italic"="Z:\\Library\\Fonts\\Futura.ttc"
+"Geeza Pro"="Z:\\System\\Library\\Fonts\\Geeza Pro.ttf"
+"Geeza Pro Bold"="Z:\\System\\Library\\Fonts\\Geeza Pro Bold.ttf"
+"Geneva"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\Geneva.dfont_4c24.ttf"
+"Geneva CY"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\GenevaCY.dfont_4c03.ttf"
+"Gill Sans"="Z:\\Library\\Fonts\\GillSans.ttc"
+"Gill Sans Bold"="Z:\\Library\\Fonts\\GillSans.ttc"
+"Gill Sans Bold Italic"="Z:\\Library\\Fonts\\GillSans.ttc"
+"Gill Sans Italic"="Z:\\Library\\Fonts\\GillSans.ttc"
+"Gill Sans Light"="Z:\\Library\\Fonts\\GillSans.ttc"
+"Gill Sans Light Italic"="Z:\\Library\\Fonts\\GillSans.ttc"
+"Gill Sans SemiBold"="Z:\\Library\\Fonts\\GillSans.ttc"
+"Gill Sans SemiBold Italic"="Z:\\Library\\Fonts\\GillSans.ttc"
+"Gill Sans UltraBold"="Z:\\Library\\Fonts\\GillSans.ttc"
+"Gujarati Sangam MN"="Z:\\Library\\Fonts\\Gujarati Sangam MN.ttc"
+"Gujarati Sangam MN Bold"="Z:\\Library\\Fonts\\Gujarati Sangam MN.ttc"
+"Gurmukhi MN"="Z:\\Library\\Fonts\\Gurmukhi MN.ttc"
+"Gurmukhi MN Bold"="Z:\\Library\\Fonts\\Gurmukhi MN.ttc"
+"Gurmukhi Sangam MN"="Z:\\Library\\Fonts\\Gurmukhi Sangam MN.ttc"
+"Gurmukhi Sangam MN Bold"="Z:\\Library\\Fonts\\Gurmukhi Sangam MN.ttc"
+"Hannotate SC Bold"="Z:\\Library\\Fonts\\Hannotate.ttc"
+"Hannotate SC Regular"="Z:\\Library\\Fonts\\Hannotate.ttc"
+"Hannotate TC Bold"="Z:\\Library\\Fonts\\Hannotate.ttc"
+"Hannotate TC Regular"="Z:\\Library\\Fonts\\Hannotate.ttc"
+"HanziPen SC Regular"="Z:\\Library\\Fonts\\Hanzipen.ttc"
+"HanziPen TC Bold"="Z:\\Library\\Fonts\\Hanzipen.ttc"
+"HanziPen TC Regular"="Z:\\Library\\Fonts\\Hanzipen.ttc"
+"Heiti SC Light"="Z:\\System\\Library\\Fonts\\STHeiti Light.ttc"
+"Heiti SC Medium"="Z:\\System\\Library\\Fonts\\STHeiti Medium.ttc"
+"Heiti TC Light"="Z:\\System\\Library\\Fonts\\STHeiti Light.ttc"
+"Heiti TC Medium"="Z:\\System\\Library\\Fonts\\STHeiti Medium.ttc"
+"Helvetica"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\Helvetica.dfont_63fb.ttf"
+"Helvetica Bold"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\Helvetica.dfont_6f65.ttf"
+"Helvetica Bold Oblique"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\Helvetica.dfont_190d.ttf"
+"Helvetica CY Bold"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaCY.dfont_4c26.ttf"
+"Helvetica CY BoldOblique"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaCY.dfont_4c27.ttf"
+"Helvetica CY Oblique"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaCY.dfont_4c25.ttf"
+"Helvetica CY Plain"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaCY.dfont_4c24.ttf"
+"Helvetica Light"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\Helvetica.dfont_5767.ttf"
+"Helvetica Light Oblique"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\Helvetica.dfont_1971.ttf"
+"Helvetica Neue"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaNeue.dfont_3c55.ttf"
+"Helvetica Neue Bold"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaNeue.dfont_3747.ttf"
+"Helvetica Neue Bold Italic"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaNeue.dfont_3258.ttf"
+"Helvetica Neue Condensed Black"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaNeue.dfont_6de6.ttf"
+"Helvetica Neue Condensed Bold"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaNeue.dfont_778e.ttf"
+"Helvetica Neue Italic"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaNeue.dfont_4954.ttf"
+"Helvetica Neue Light"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaNeue.dfont_5081.ttf"
+"Helvetica Neue Light Italic"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaNeue.dfont_34ca.ttf"
+"Helvetica Neue Medium"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaNeue.dfont_37a2.ttf"
+"Helvetica Neue Medium Italic"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaNeue.dfont_37a5.ttf"
+"Helvetica Neue Thin"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaNeue.dfont_37a3.ttf"
+"Helvetica Neue Thin Italic"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaNeue.dfont_37a4.ttf"
+"Helvetica Neue UltraLight"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaNeue.dfont_1fae.ttf"
+"Helvetica Neue UltraLight Italic"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\HelveticaNeue.dfont_606d.ttf"
+"Helvetica Oblique"="Z:\\Users\\mgracer48\\Library\\Caches\\Wine\\Fonts\\Helvetica.dfont_575d.ttf"
+"Hiragino Kaku Gothic Pro W3"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x89d2\x30b4 Pro W3.otf"
+"Hiragino Kaku Gothic Pro W6"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x89d2\x30b4 Pro W6.otf"
+"Hiragino Kaku Gothic ProN W3"="Z:\\System\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x89d2\x30b4 ProN W3.otf"
+"Hiragino Kaku Gothic ProN W6"="Z:\\System\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x89d2\x30b4 ProN W6.otf"
+"Hiragino Kaku Gothic Std W8"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x89d2\x30b4 Std W8.otf"
+"Hiragino Kaku Gothic StdN W8"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x89d2\x30b4 StdN W8.otf"
+"Hiragino Maru Gothic Pro W4"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x4e38\x30b4 Pro W4.otf"
+"Hiragino Maru Gothic ProN W4"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x4e38\x30b4 ProN W4.otf"
+"Hiragino Mincho Pro W3"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x660e\x671d Pro W3.otf"
+"Hiragino Mincho Pro W6"="Z:\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x660e\x671d Pro W6.otf"
+"Hiragino Mincho ProN W3"="Z:\\System\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x660e\x671d ProN W3.otf"
+"Hiragino Mincho ProN W6"="Z:\\System\\Library\\Fonts\\\x30d2\x30e9\x30ae\x30ce\x660e\x671d ProN W6.otf"
+"Hiragino Sans GB W3"="Z:\\Library\\Fonts\\Hiragino Sans GB W3.otf"
+"Hiragino Sans GB W6"="Z:\\Library\\Fonts\\Hiragino Sans GB W6.otf"
+"Hoefler Text"="Z:\\Library\\Fonts\\Hoefler Text.ttc"
+"Hoefler Text Black"="Z:\\Library\\Fonts\\Hoefler Text.ttc"
+"Hoefler Text Black Italic"="Z:\\Library\\Fonts\\Hoefler Text.ttc"
+"Hoefler Text Italic"="Z:\\Library\\Fonts\\Hoefler Text.ttc"
+"Iowan Old Style Black"="Z:\\Library\\Fonts\\Iowan Old Style.ttc"
+"Iowan Old Style Black Italic"="Z:\\Library\\Fonts\\Iowan Old Style.ttc"
+"Iowan Old Style Bold"="Z:\\Library\\Fonts\\Iowan Old Style.ttc"
+"Iowan Old Style Bold Italic"="Z:\\Library\\Fonts\\Iowan Old Style.ttc"
+"Iowan Old Style Italic"="Z:\\Library\\Fonts\\Iowan Old Style.ttc"
+"Iowan Old Style Roman"="Z:\\Library\\Fonts\\Iowan Old Style.ttc"
+"Iowan Old Style Titling"="Z:\\Library\\Fonts\\Iowan Old Style.ttc"
+"Kaiti SC Black"="Z:\\Library\\Fonts\\Kaiti.ttc"
+"Kaiti SC Bold"="Z:\\Library\\Fonts\\Kaiti.ttc"
+"Kaiti SC Regular"="Z:\\Library\\Fonts\\Kaiti.ttc"
+"Kaiti TC Bold"="Z:\\Library\\Fonts\\Kaiti.ttc"
+"Kaiti TC Regular"="Z:\\Library\\Fonts\\Kaiti.ttc"
+"Kannada MN"="Z:\\Library\\Fonts\\Kannada MN.ttc"
+"Kannada MN Bold"="Z:\\Library\\Fonts\\Kannada MN.ttc"
+"Kannada Sangam MN"="Z:\\Library\\Fonts\\Kannada Sangam MN.ttc"
+"Kannada Sangam MN Bold"="Z:\\Library\\Fonts\\Kannada Sangam MN.ttc"
+"Kefa Bold"="Z:\\Library\\Fonts\\Kefa.ttc"
+"Kefa Regular"="Z:\\Library\\Fonts\\Kefa.ttc"
+"Khmer MN"="Z:\\Library\\Fonts\\Khmer MN.ttc"
+"Khmer MN Bold"="Z:\\Library\\Fonts\\Khmer MN.ttc"
+"Lantinghei SC Demibold"="Z:\\Library\\Fonts\\Lantinghei.ttc"
+"Lantinghei SC Extralight"="Z:\\Library\\Fonts\\Lantinghei.ttc"
+"Lantinghei SC Heavy"="Z:\\Library\\Fonts\\Lantinghei.ttc"
+"Lantinghei TC Demibold"="Z:\\Library\\Fonts\\Lantinghei.ttc"
+"Lantinghei TC Extralight"="Z:\\Library\\Fonts\\Lantinghei.ttc"
+"Lantinghei TC Heavy"="Z:\\Library\\Fonts\\Lantinghei.ttc"
+"Lao MN"="Z:\\Library\\Fonts\\Lao MN.ttc"
+"Lao MN Bold"="Z:\\Library\\Fonts\\Lao MN.ttc"
+"Libian SC Regular"="Z:\\Library\\Fonts\\Libian.ttc"
+"Lucida Grande"="Z:\\System\\Library\\Fonts\\LucidaGrande.ttc"
+"Lucida Grande Bold"="Z:\\System\\Library\\Fonts\\LucidaGrande.ttc"
+"Malayalam MN"="Z:\\Library\\Fonts\\Malayalam MN.ttc"
+"Malayalam MN Bold"="Z:\\Library\\Fonts\\Malayalam MN.ttc"
+"Malayalam Sangam MN"="Z:\\Library\\Fonts\\Malayalam Sangam MN.ttc"
+"Malayalam Sangam MN Bold"="Z:\\Library\\Fonts\\Malayalam Sangam MN.ttc"
+"Marion Bold"="Z:\\Library\\Fonts\\Marion.ttc"
+"Marion Italic"="Z:\\Library\\Fonts\\Marion.ttc"
+"Marion Regular"="Z:\\Library\\Fonts\\Marion.ttc"
+"Marker Felt Thin"="Z:\\System\\Library\\Fonts\\MarkerFelt.ttc"
+"Marker Felt Wide"="Z:\\System\\Library\\Fonts\\MarkerFelt.ttc"
+"Marlett"="Z:\\Applications\\Wine.app\\Contents\\Resources\\lib\\..\\bin\\..\\share\\wine\\fonts\\\\marlett.ttf"
+"Menlo Bold"="Z:\\System\\Library\\Fonts\\Menlo.ttc"
+"Menlo Bold Italic"="Z:\\System\\Library\\Fonts\\Menlo.ttc"
+"Menlo Italic"="Z:\\System\\Library\\Fonts\\Menlo.ttc"
+"Menlo Regular"="Z:\\System\\Library\\Fonts\\Menlo.ttc"
+"Muna"="Z:\\Library\\Fonts\\Muna.ttc"
+"Muna Black"="Z:\\Library\\Fonts\\Muna.ttc"
+"Muna Bold"="Z:\\Library\\Fonts\\Muna.ttc"
+"Myanmar MN"="Z:\\Library\\Fonts\\Myanmar MN.ttc"
+"Myanmar MN Bold"="Z:\\Library\\Fonts\\Myanmar MN.ttc"
+"Nanum Brush Script"="Z:\\Library\\Fonts\\NanumScript.ttc"
+"Nanum Pen Script"="Z:\\Library\\Fonts\\NanumScript.ttc"
+"NanumGothic"="Z:\\Library\\Fonts\\NanumGothic.ttc"
+"NanumGothic Bold"="Z:\\Library\\Fonts\\NanumGothic.ttc"
+"NanumGothic ExtraBold"="Z:\\Library\\Fonts\\NanumGothic.ttc"
+"NanumMyeongjo"="Z:\\Library\\Fonts\\NanumMyeongjo.ttc"
+"NanumMyeongjoBold"="Z:\\Library\\Fonts\\NanumMyeongjo.ttc"
+"NanumMyeongjoExtraBold"="Z:\\Library\\Fonts\\NanumMyeongjo.ttc"
+"New Peninim MT"="Z:\\Library\\Fonts\\NewPeninimMT.ttc"
+"New Peninim MT Bold"="Z:\\Library\\Fonts\\NewPeninimMT.ttc"
+"New Peninim MT Bold Inclined"="Z:\\Library\\Fonts\\NewPeninimMT.ttc"
+"New Peninim MT Inclined"="Z:\\Library\\Fonts\\NewPeninimMT.ttc"
+"Noteworthy Bold"="Z:\\System\\Library\\Fonts\\Noteworthy.ttc"
+"Noteworthy Light"="Z:\\System\\Library\\Fonts\\Noteworthy.ttc"
+"Optima Bold"="Z:\\System\\Library\\Fonts\\Optima.ttc"
+"Optima Bold Italic"="Z:\\System\\Library\\Fonts\\Optima.ttc"
+"Optima ExtraBlack"="Z:\\System\\Library\\Fonts\\Optima.ttc"
+"Optima Italic"="Z:\\System\\Library\\Fonts\\Optima.ttc"
+"Optima Regular"="Z:\\System\\Library\\Fonts\\Optima.ttc"
+"Oriya MN"="Z:\\Library\\Fonts\\Oriya MN.ttc"
+"Oriya MN Bold"="Z:\\Library\\Fonts\\Oriya MN.ttc"
+"Oriya Sangam MN"="Z:\\Library\\Fonts\\Oriya Sangam MN.ttc"
+"Oriya Sangam MN Bold"="Z:\\Library\\Fonts\\Oriya Sangam MN.ttc"
+"Palatino"="Z:\\System\\Library\\Fonts\\Palatino.ttc"
+"Palatino Bold"="Z:\\System\\Library\\Fonts\\Palatino.ttc"
+"Palatino Bold Italic"="Z:\\System\\Library\\Fonts\\Palatino.ttc"
+"Palatino Italic"="Z:\\System\\Library\\Fonts\\Palatino.ttc"
+"Papyrus"="Z:\\Library\\Fonts\\Papyrus.ttc"
+"Papyrus Condensed"="Z:\\Library\\Fonts\\Papyrus.ttc"
+"PT Mono"="Z:\\Library\\Fonts\\PTMono.ttc"
+"PT Mono Bold"="Z:\\Library\\Fonts\\PTMono.ttc"
+"PT Sans"="Z:\\Library\\Fonts\\PTSans.ttc"
+"PT Sans Bold"="Z:\\Library\\Fonts\\PTSans.ttc"
+"PT Sans Bold Italic"="Z:\\Library\\Fonts\\PTSans.ttc"
+"PT Sans Caption"="Z:\\Library\\Fonts\\PTSans.ttc"
+"PT Sans Caption Bold"="Z:\\Library\\Fonts\\PTSans.ttc"
+"PT Sans Italic"="Z:\\Library\\Fonts\\PTSans.ttc"
+"PT Sans Narrow"="Z:\\Library\\Fonts\\PTSans.ttc"
+"PT Sans Narrow Bold"="Z:\\Library\\Fonts\\PTSans.ttc"
+"PT Serif"="Z:\\Library\\Fonts\\PTSerif.ttc"
+"PT Serif Bold"="Z:\\Library\\Fonts\\PTSerif.ttc"
+"PT Serif Bold Italic"="Z:\\Library\\Fonts\\PTSerif.ttc"
+"PT Serif Caption"="Z:\\Library\\Fonts\\PTSerifCaption.ttc"
+"PT Serif Caption Italic"="Z:\\Library\\Fonts\\PTSerifCaption.ttc"
+"PT Serif Italic"="Z:\\Library\\Fonts\\PTSerif.ttc"
+"Raanana"="Z:\\Library\\Fonts\\Raanana.ttc"
+"Raanana Bold"="Z:\\Library\\Fonts\\Raanana.ttc"
+"Sana"="Z:\\Library\\Fonts\\Sana.ttc"
+"Savoye LET Plain:1.0"="Z:\\Library\\Fonts\\Savoye LET.ttc"
+"Seravek"="Z:\\Library\\Fonts\\Seravek.ttc"
+"Seravek Bold"="Z:\\Library\\Fonts\\Seravek.ttc"
+"Seravek Bold Italic"="Z:\\Library\\Fonts\\Seravek.ttc"
+"Seravek ExtraLight"="Z:\\Library\\Fonts\\Seravek.ttc"
+"Seravek ExtraLight Italic"="Z:\\Library\\Fonts\\Seravek.ttc"
+"Seravek Italic"="Z:\\Library\\Fonts\\Seravek.ttc"
+"Seravek Light"="Z:\\Library\\Fonts\\Seravek.ttc"
+"Seravek Light Italic"="Z:\\Library\\Fonts\\Seravek.ttc"
+"Seravek Medium"="Z:\\Library\\Fonts\\Seravek.ttc"
+"Seravek Medium Italic"="Z:\\Library\\Fonts\\Seravek.ttc"
+"Sinhala MN"="Z:\\Library\\Fonts\\Sinhala MN.ttc"
+"Sinhala MN Bold"="Z:\\Library\\Fonts\\Sinhala MN.ttc"
+"Sinhala Sangam MN"="Z:\\Library\\Fonts\\Sinhala Sangam MN.ttc"
+"Sinhala Sangam MN Bold"="Z:\\Library\\Fonts\\Sinhala Sangam MN.ttc"
+"Snell Roundhand"="Z:\\Library\\Fonts\\SnellRoundhand.ttc"
+"Snell Roundhand Black"="Z:\\Library\\Fonts\\SnellRoundhand.ttc"
+"Snell Roundhand Bold"="Z:\\Library\\Fonts\\SnellRoundhand.ttc"
+"Songti SC Black"="Z:\\Library\\Fonts\\Songti.ttc"
+"Songti SC Bold"="Z:\\Library\\Fonts\\Songti.ttc"
+"Songti SC Light"="Z:\\Library\\Fonts\\Songti.ttc"
+"Songti SC Regular"="Z:\\Library\\Fonts\\Songti.ttc"
+"Songti TC Bold"="Z:\\Library\\Fonts\\Songti.ttc"
+"Songti TC Regular"="Z:\\Library\\Fonts\\Songti.ttc"
+"STIXGeneral-Bold"="Z:\\Library\\Fonts\\STIXGeneralBol.otf"
+"STIXGeneral-BoldItalic"="Z:\\Library\\Fonts\\STIXGeneralBolIta.otf"
+"STIXGeneral-Italic"="Z:\\Library\\Fonts\\STIXGeneralItalic.otf"
+"STIXGeneral-Regular"="Z:\\Library\\Fonts\\STIXGeneral.otf"
+"STIXIntegralsD-Bold"="Z:\\Library\\Fonts\\STIXIntDBol.otf"
+"STIXIntegralsD-Regular"="Z:\\Library\\Fonts\\STIXIntDReg.otf"
+"STIXIntegralsSm-Bold"="Z:\\Library\\Fonts\\STIXIntSmBol.otf"
+"STIXIntegralsSm-Regular"="Z:\\Library\\Fonts\\STIXIntSmReg.otf"
+"STIXIntegralsUp-Bold"="Z:\\Library\\Fonts\\STIXIntUpBol.otf"
+"STIXIntegralsUp-Regular"="Z:\\Library\\Fonts\\STIXIntUpReg.otf"
+"STIXIntegralsUpD-Bold"="Z:\\Library\\Fonts\\STIXIntUpDBol.otf"
+"STIXIntegralsUpD-Regular"="Z:\\Library\\Fonts\\STIXIntUpDReg.otf"
+"STIXIntegralsUpSm-Bold"="Z:\\Library\\Fonts\\STIXIntUpSmBol.otf"
+"STIXIntegralsUpSm-Regular"="Z:\\Library\\Fonts\\STIXIntUpSmReg.otf"
+"STIXNonUnicode-Bold"="Z:\\Library\\Fonts\\STIXNonUniBol.otf"
+"STIXNonUnicode-BoldItalic"="Z:\\Library\\Fonts\\STIXNonUniBolIta.otf"
+"STIXNonUnicode-Italic"="Z:\\Library\\Fonts\\STIXNonUniIta.otf"
+"STIXNonUnicode-Regular"="Z:\\Library\\Fonts\\STIXNonUni.otf"
+"STIXSizeFiveSym-Regular"="Z:\\Library\\Fonts\\STIXSizFiveSymReg.otf"
+"STIXSizeFourSym-Bold"="Z:\\Library\\Fonts\\STIXSizFourSymBol.otf"
+"STIXSizeFourSym-Regular"="Z:\\Library\\Fonts\\STIXSizFourSymReg.otf"
+"STIXSizeOneSym-Bold"="Z:\\Library\\Fonts\\STIXSizOneSymBol.otf"
+"STIXSizeOneSym-Regular"="Z:\\Library\\Fonts\\STIXSizOneSymReg.otf"
+"STIXSizeThreeSym-Bold"="Z:\\Library\\Fonts\\STIXSizThreeSymBol.otf"
+"STIXSizeThreeSym-Regular"="Z:\\Library\\Fonts\\STIXSizThreeSymReg.otf"
+"STIXSizeTwoSym-Bold"="Z:\\Library\\Fonts\\STIXSizTwoSymBol.otf"
+"STIXSizeTwoSym-Regular"="Z:\\Library\\Fonts\\STIXSizTwoSymReg.otf"
+"STIXVariants-Bold"="Z:\\Library\\Fonts\\STIXVarBol.otf"
+"STIXVariants-Regular"="Z:\\Library\\Fonts\\STIXVar.otf"
+"STKaiti"="Z:\\Library\\Fonts\\Kaiti.ttc"
+"STSong"="Z:\\Library\\Fonts\\Songti.ttc"
+"Superclarendon Black"="Z:\\Library\\Fonts\\SuperClarendon.ttc"
+"Superclarendon Black Italic"="Z:\\Library\\Fonts\\SuperClarendon.ttc"
+"Superclarendon Bold"="Z:\\Library\\Fonts\\SuperClarendon.ttc"
+"Superclarendon Bold Italic"="Z:\\Library\\Fonts\\SuperClarendon.ttc"
+"Superclarendon Italic"="Z:\\Library\\Fonts\\SuperClarendon.ttc"
+"Superclarendon Light"="Z:\\Library\\Fonts\\SuperClarendon.ttc"
+"Superclarendon Light Italic"="Z:\\Library\\Fonts\\SuperClarendon.ttc"
+"Superclarendon Regular"="Z:\\Library\\Fonts\\SuperClarendon.ttc"
+"Symbol"="Z:\\System\\Library\\Fonts\\Symbol.ttf"
+"System Font Bold"="Z:\\System\\Library\\Fonts\\LucidaGrande.ttc"
+"System Font Regular"="Z:\\System\\Library\\Fonts\\LucidaGrande.ttc"
+"Tamil MN"="Z:\\Library\\Fonts\\Tamil MN.ttc"
+"Tamil MN Bold"="Z:\\Library\\Fonts\\Tamil MN.ttc"
+"Tamil Sangam MN"="Z:\\Library\\Fonts\\Tamil Sangam MN.ttc"
+"Tamil Sangam MN Bold"="Z:\\Library\\Fonts\\Tamil Sangam MN.ttc"
+"Telugu MN"="Z:\\Library\\Fonts\\Telugu MN.ttc"
+"Telugu MN Bold"="Z:\\Library\\Fonts\\Telugu MN.ttc"
+"Telugu Sangam MN"="Z:\\Library\\Fonts\\Telugu Sangam MN.ttc"
+"Telugu Sangam MN Bold"="Z:\\Library\\Fonts\\Telugu Sangam MN.ttc"
+"Thonburi"="Z:\\System\\Library\\Fonts\\Thonburi.ttc"
+"Thonburi Bold"="Z:\\System\\Library\\Fonts\\Thonburi.ttc"
+"Thonburi Light"="Z:\\System\\Library\\Fonts\\Thonburi.ttc"
+"Waseem"="Z:\\Library\\Fonts\\Waseem.ttc"
+"Waseem Light"="Z:\\Library\\Fonts\\Waseem.ttc"
+"Wawati SC Regular"="Z:\\Library\\Fonts\\WawaSC-Regular.otf"
+"Wawati TC Regular"="Z:\\Library\\Fonts\\WawaTC-Regular.otf"
+"Weibei SC Bold"="Z:\\Library\\Fonts\\WeibeiSC-Bold.otf"
+"Weibei TC Bold"="Z:\\Library\\Fonts\\WeibeiTC-Bold.otf"
+"Xingkai SC Bold"="Z:\\Library\\Fonts\\Xingkai.ttc"
+"Xingkai SC Light"="Z:\\Library\\Fonts\\Xingkai.ttc"
+"Yuanti SC Bold"="Z:\\Library\\Fonts\\Yuanti.ttc"
+"Yuanti SC Light"="Z:\\Library\\Fonts\\Yuanti.ttc"
+"Yuanti SC Regular"="Z:\\Library\\Fonts\\Yuanti.ttc"
+"YuGothic Bold"="Z:\\Library\\Fonts\\Yu Gothic Bold.otf"
+"YuGothic Medium"="Z:\\Library\\Fonts\\Yu Gothic Medium.otf"
+"YuMincho Demibold"="Z:\\Library\\Fonts\\Yu Mincho Demibold.otf"
+"YuMincho Medium"="Z:\\Library\\Fonts\\Yu Mincho Medium.otf"
+"Yuppy SC Regular"="Z:\\Library\\Fonts\\YuppySC-Regular.otf"
+"Yuppy TC Regular"="Z:\\Library\\Fonts\\YuppyTC-Regular.otf"
+"Zapf Dingbats"="Z:\\System\\Library\\Fonts\\ZapfDingbats.ttf"

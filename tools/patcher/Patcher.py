@@ -29,7 +29,7 @@ if not MIRRORS:
         pass
 if not MIRRORS:
     # We can't obtain any remote mirror lists, so just use the single hardcoded mirror we know of
-    MIRRORS = ['http://s3.amazonaws.com/cdn.toontownrewritten.com/content/']
+    MIRRORS = ['http://s3.amazonaws.com/cdn.toontownworldonline.com/content/']
     print 'Unable to obtain remote mirror list! Using local backup instead.'
  
 # de-unicodify the mirrors, just to keep with convention of all patcher strings are ascii
