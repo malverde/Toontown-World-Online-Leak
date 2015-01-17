@@ -1,9 +1,9 @@
 # Launcher-specific settings.
-Version = None # Set to None if you don't want checks.
-JSONLauncherInfo = "download.toontownworldonline.com/launcher/windows/ttw_launcher.json"
+Version = '1.0' # Set to None if you don't want checks.
+JSONLauncherInfo = "http://download.toontownworldonline.com/launcher/windows/ttw_launcher.json"
 
 # Website information
-DefaultDownloadLocation = "www.toontownworldonline.com/"
+DefaultDownloadLocation = "http://www.toontownworldonline.com/"
 
 # Authentication information
 # I warn you, if you try to steal passwords, I will have your head on my lovely pitchfork.
