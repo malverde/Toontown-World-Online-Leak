@@ -11,7 +11,7 @@ import json
 import webbrowser
 import urllib2
 
-# First pass at a wxPython Toontown Rewritten launcher... basically converted from C++ to Python and ruined horribly in the process.
+# First pass at a wxPython toontown world launcher... basically converted from C++ to Python and ruined horribly in the process.
 
 class ImageButton(wx.StaticBitmap):
     def __init__(self, parent, bitmap, id=wx.ID_ANY, pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.NO_BORDER, name=""):
@@ -120,7 +120,7 @@ class GoButton(ImageButton):
 
     def __init__(self, parent, bitmap, pos=wx.DefaultPosition, id=wx.ID_ANY):
         ImageButton.__init__(self, parent, bitmap, pos=pos, id=id)
-        self.connection = httplib.HTTPSConnection('www.toontownrewritten.com', 443)
+        self.connection = httplib.HTTPSConnection('www.toontownworldonline.com', 443)
         self.delayTimer = None
 
     def Clicked(self):
@@ -251,7 +251,7 @@ class GoButton(ImageButton):
         os.environ['TTR_PLAYCOOKIE'] = cookie
         os.environ['TTR_GAMESERVER'] = gameserver
         # Start the game...
-        subprocess.Popen('TTREngine', creationflags=0x08000000)
+        subprocess.Popen('TTWEngine', creationflags=0x08000000)
         app.Exit()
 
     def Patch(self, callback):
@@ -339,7 +339,7 @@ class LauncherPanel(wx.Panel):
         self.currentVersion = '1.0.2'
         self.versionLabel = TransparentText(self, wx.ID_ANY, pos=(100, 130), size=(187, 23))
         self.versionLabel.SetForegroundColour((255, 255, 255)) # TODO - better color
-        self.versionLabel.SetLabel('TTR Launcher v%s' % self.currentVersion)
+        self.versionLabel.SetLabel('TTW Launcher v%s' % self.currentVersion)
         self.Show()
 
         # Give this build a version
@@ -348,10 +348,11 @@ class LauncherPanel(wx.Panel):
     def checkForUpdates(self):
         jsonData = [{}]
         try:
-            response = urllib2.urlopen('https://download.toontownrewritten.com/launcher/windows/ttr_launcher.json')
+#change this to the download for toontown world online , task for reese 
+            response = urllib2.urlopen('download.toontownworldonline.com/launcher/windows/ttw_launcher.json')
             jsonData = json.load(response)
         except Exception, e:
-            self.versionLabel.SetLabel('TTR Launcher v%s - Couldn\'t check for launcher updates!' % self.currentVersion)
+            self.versionLabel.SetLabel('TTW Launcher v%s - Couldn\'t check for launcher updates!' % self.currentVersion)
             return
 
         version = jsonData[0].get('version', '')
@@ -359,7 +360,7 @@ class LauncherPanel(wx.Panel):
         rnotes = jsonData[0].get('rnotes', '')
         if not version == self.currentVersion:
             releaseNotes = "An update for the launcher is available!\n\n%s" % rnotes
-            update = wx.MessageBox(releaseNotes, "Toontown Rewritten Launcher Update", wx.OK | wx.ICON_EXCLAMATION)
+            update = wx.MessageBox(releaseNotes, "Toontown World Launcher Update", wx.OK | wx.ICON_EXCLAMATION)
             webbrowser.open(download)
 
     def OnEraseBackground(self, event):
@@ -407,5 +408,5 @@ class LauncherFrame(wx.Frame):
         self.Show()
 
 app = wx.App()
-frame = LauncherFrame(None, 'Toontown Rewritten Launcher')
+frame = LauncherFrame(None, 'toontown world Launcher')
 app.MainLoop()
