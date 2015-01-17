@@ -1,6 +1,6 @@
 # -*- mode: ppython -*-
 a = Analysis(['start.py'],
-             pathex=['C:\\Users\\Harvir\\Desktop\\PrivateToon\\new_launcher'],
+             pathex=['C:\\Users\\michael\\Desktop\\tools'],
              hiddenimports=[],
              hookspath=None,
              runtime_hooks=None)
