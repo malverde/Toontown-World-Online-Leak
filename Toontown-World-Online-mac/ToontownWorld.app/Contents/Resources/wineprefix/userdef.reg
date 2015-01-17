@@ -3,7 +3,7 @@ WINE REGISTRY Version 2
 
 #arch=win32
 
-[Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders] 1421506781
+[Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders] 1421519537
 "Administrative Tools"="C:\\users\\mgracer48\\Start Menu\\Programs\\Administrative Tools"
 "AppData"="C:\\users\\mgracer48\\Application Data"
 "Cache"="C:\\users\\mgracer48\\Local Settings\\Temporary Internet Files"
@@ -32,7 +32,7 @@ WINE REGISTRY Version 2
 "{A520A1A4-1780-4FF6-BD18-167343C5AF16}"="C:\\users\\mgracer48\\AppData\\LocalLow"
 "{BFB9D5E0-C6A9-404C-B2B2-AE6DB6AF4968}"="C:\\users\\mgracer48\\Links"
 
-[Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders] 1421506781
+[Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders] 1421519537
 "Administrative Tools"=str(2):"%USERPROFILE%\\Start Menu\\Programs\\Administrative Tools"
 "AppData"=str(2):"%USERPROFILE%\\Application Data"
 "Cache"=str(2):"%USERPROFILE%\\Local Settings\\Temporary Internet Files"
