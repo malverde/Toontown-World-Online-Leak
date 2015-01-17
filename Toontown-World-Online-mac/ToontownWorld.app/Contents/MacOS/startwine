@@ -23,7 +23,7 @@ fi
 
 
 # create working copy
-export WINEPREFIX="$HOME/Library/Application Support/com.toontownworldonlinecompany.ToontownWorld_14215067562460"
+export WINEPREFIX="$HOME/Library/Application Support/com.toontownworldonline_142151952222353"
 if [ ! -d "$WINEPREFIX" ]; then
     "$BUNDLERESOURCEPATH/Winetricks.app/Contents/MacOS/./Winetricks" "$BUNDLERESOURCEPATH/wineprefix" "$WINEPREFIX" "$(defaults read "$BUNDLERESOURCEPATH/../Info" CFBundleName)"
 fi

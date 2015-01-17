@@ -11,9 +11,9 @@
     <key>CFBundleExecutable</key>
     <string>startwine</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>© Toontown World Online Company</string>
+	<string>© toontown world</string>
     <key>CFBundleIdentifier</key>
-    <string>com.toontownworldonlinecompany.ToontownWorld_14215067562460</string>
+    <string>com.toontownworldonline_142151952222353</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
