@@ -1,9 +1,0 @@
-('C:\\Users\\michael\\Desktop\\tools\\dist\\setup.exe',
- True,
- False,
- None,
- None,
- [],
- None,
- False,
- 1421494232L)
