@@ -10,7 +10,7 @@ import cPickle
 class GetToonDataFSM(FSM):
     """
     A quick implementation to fetch a toon's fields from the
-    database and return it back to the TTRFMUD via a callback.
+    database and return it back to the TTWFMUD via a callback.
     """
 
     def __init__(self, mgr, requesterId, avId, callback):
@@ -49,7 +49,7 @@ class GetToonDataFSM(FSM):
 class UpdateToonFieldFSM(FSM):
     """
     A quick implementation to update a toon's fields in the
-    database and return a callback to the TTRFMUD.
+    database and return a callback to the TTWFMUD.
     """
 
     def __init__(self, mgr, requesterId, avId, callback):
@@ -100,11 +100,11 @@ class GetFriendsListFSM(FSM):
     """
     This is an FSM class to fetch all the friends on a toons list
     and return their name, dna and petId to the requester. Currently,
-    this may have a huge performance impact on the TTRFMUD as it may
+    this may have a huge performance impact on the TTWFMUD as it may
     have to search up to 200 friends fields from the database.
 
     This also checks the cache to check for any existing, non-expired
-    data the TTRFMUD has about a toon.
+    data the TTWFMUD has about a toon.
     """
 
     def __init__(self, mgr, requesterId, callback):
@@ -195,15 +195,15 @@ class GetFriendsListFSM(FSM):
         self.mgr.notify.warning(reason)
         self.callback(success=False, requesterId=self.requesterId, friendsDetails=None)
 
-class TTRFriendsManagerUD(DistributedObjectGlobalUD):
+class TTWFriendsManagerUD(DistributedObjectGlobalUD):
     """
-    The Toontown Rewritten Friends Manager UberDOG, or TTRFMUD for short.
+    The Toontown World Friends Manager UberDOG, or TTWFMUD for short.
 
     This object is responsible for all requests related to global friends, such as
     friends coming online, friends going offline, fetching a friends data etc.
     """
 
-    notify = directNotify.newCategory('TTRFriendsManagerUD')
+    notify = directNotify.newCategory('TTWFriendsManagerUD')
 
     def __init__(self, air):
         DistributedObjectGlobalUD.__init__(self, air)
@@ -374,7 +374,7 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
         if fields['ID'] not in [requesterId, avId]:
             # Wtf? We got a db response for a toon that we didn't want
             # to edit! DEFCON 5!
-            self.notify.warning('TTRFMUD.__rfGotToonFields received wrong toon fields from db, requesterId=%d' % requesterId)
+            self.notify.warning('TTWFMUD.__rfGotToonFields received wrong toon fields from db, requesterId=%d' % requesterId)
             return
         friendsList = fields['setFriendsList'][0]
         searchId = requesterId if final else avId
@@ -419,7 +419,7 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
             # The list is empty. This is suspicious as the client shouldn't send
             # a blank list.
             self.notify.warning('Received blank list of avIds for requestAvatarInfo from avId %d' % requesterId)
-            self.air.writeServerEvent('suspicious', avId=requesterId, issue='Sent a blank list of avIds for requestAvatarInfo in TTRFMUD')
+            self.air.writeServerEvent('suspicious', avId=requesterId, issue='Sent a blank list of avIds for requestAvatarInfo in TTWFMUD')
             return
         fsm = GetToonDataFSM(self, requesterId, avIds[0], functools.partial(self.__avInfoCallback, avIds=avIds[1:]))
         fsm.start()
