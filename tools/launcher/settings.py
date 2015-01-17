@@ -1,5 +1,5 @@
 # Launcher-specific settings.
-Version = '1.1.3' # Set to None if you don't want checks.
+Version = '1.0' # Set to None if you don't want checks.
 JSONLauncherInfo = "download.toontownworldonline.com/launcher/windows/ttw_launcher.json"
 
 # Website information

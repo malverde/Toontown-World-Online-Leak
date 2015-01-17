@@ -22,20 +22,20 @@ except:
 if not MIRRORS:
     try:
         # We need to try our backup mirror location at toontownworldonline custom api change it to right one
-        remoteMirrors = urllib2.urlopen('s3.amazonaws.com/cdn.toontownworldonline.com/mirrors.txt', timeout=10)
+        remoteMirrors = urllib2.urlopen('download.toontownworldonline.com/mirrors.txt', timeout=10)
         MIRRORS = json.loads(remoteMirrors.read())
         print 'Obtained %s mirrors from backup remote server.' % len(MIRRORS)
     except:
         pass
 if not MIRRORS:
     # We can't obtain any remote mirror lists, so just use the single hardcoded mirror we know of
-    MIRRORS = ['http://s3.amazonaws.com/cdn.toontownworldonline.com/content/']
+    MIRRORS = ['download.toontownworldonline.com/content/']
     print 'Unable to obtain remote mirror list! Using local backup instead.'
  
 # de-unicodify the mirrors, just to keep with convention of all patcher strings are ascii
 MIRRORS = [mirror.encode('ascii') for mirror in MIRRORS]
  
-MANIFEST_URL = 's3.amazonaws.com/cdn.toontownworldonline.com/content/patchmanifest.txt'
+MANIFEST_URL = 'download.toontownworldonline.com/content/patchmanifest.txt'
  
 # Begin by obtaining the manifest
 MANIFEST = urllib2.urlopen(MANIFEST_URL).read()
