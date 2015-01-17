@@ -349,7 +349,7 @@ class LauncherPanel(wx.Panel):
         jsonData = [{}]
         try:
 #change this to the download for toontown world online , task for reese 
-            response = urllib2.urlopen('http://download.toontownworldonline.com/launcher/windows/ttw_launcher.json')
+            response = urllib2.urlopen('download.toontownworldonline.com/launcher/windows/ttw_launcher.json')
             jsonData = json.load(response)
         except Exception, e:
             self.versionLabel.SetLabel('TTW Launcher v%s - Couldn\'t check for launcher updates!' % self.currentVersion)

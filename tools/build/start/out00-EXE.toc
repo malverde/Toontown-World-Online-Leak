@@ -1,0 +1,9 @@
+('C:\\Users\\michael\\Desktop\\tools\\dist\\Launcher.exe',
+ False,
+ False,
+ None,
+ None,
+ [],
+ None,
+ False,
+ 1421517392L)
