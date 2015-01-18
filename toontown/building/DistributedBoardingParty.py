@@ -202,8 +202,6 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
                 rejectText = TTLocalizer.BoardingInviteePendingIvite % avatarNameText
             if reason == BoardingPartyBase.BOARDCODE_IN_ELEVATOR:
                 rejectText = TTLocalizer.BoardingInviteeInElevator % avatarNameText
-            if reason == BoardingPartyBase.BOARDCODE_GROUPS_TO_LARGE: # merge group
-                rejectText = TTLocalizer.BoardingGroupsToLarge % avatarNameText                
         if self.inviterPanels.isInvitingPanelIdCorrect(avId) or avId == localAvatar.doId:
             self.inviterPanels.destroyInvitingPanel()
         self.showMe(rejectText)
