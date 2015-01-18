@@ -98,12 +98,11 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
 
         if self.hasActiveGroup(inviteeId):
             # We could make the assumption both are in the avIdDict but I'd prefer not to blow up the district
-            if base.config.GetBool('boarding-group-merges', 0) and self.hasActiveGroup(inviterId):
+            if simbase.config.GetBool('boarding-group-merges', 0) and self.hasActiveGroup(inviterId):
                  inviteeLeaderId = self.avIdDict[inviteeId]
                  leaderId = self.avIdDict[inviterId]
  
-                 if (len(self.getGroupMemberList(leaderId) + len(self.getGroupMemberList(inviteeLeaderId))) < self.maxSize):
-                     # Lets send the invitation to the leader instead of the person clicked on...
+                 if ((len(self.getGroupMemberList(leaderId)) + len(self.getGroupMemberList(inviteeLeaderId))) <= self.maxSize):                     # Lets send the invitation to the leader instead of the person clicked on...
                      invitee = simbase.air.doId2do.get(inviteeLeaderId)
                      inviteeId = inviteeLeaderId
                      merger = True
@@ -167,8 +166,8 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
                     # We cannot muck with the avIdDict because they are pointing to their original groups. 
                     # We shall stash away the info into a different dictionary
                     self.mergeDict[inviteeId] = leaderId
-                    self.sendUpdateToAvatarId(inviteeId, 'postInvite', [leaderId, inviterId, false])
-                    # notify everybody of the invitation..
+                    self.sendUpdateToAvatarId(inviteeId, 'postInvite', [leaderId, inviterId, True])
+                                        # notify everybody of the invitation..
                     for memberId in groupList[0]:
                         if not memberId == inviterId:
                             self.sendUpdateToAvatarId(memberId, 'postMessageInvited', [inviteeId, inviterId])                    
@@ -182,7 +181,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
                         self.air.writeServerEvent('suspicious', avId=inviterId, issue='tried to invite %s who already exists in the avIdDict.' % inviteeId)
 
                     self.avIdDict[inviteeId] = leaderId
-                    self.sendUpdateToAvatarId(inviteeId, 'postInvite', [leaderId, inviterId, merger])
+                    self.sendUpdateToAvatarId(inviteeId, 'postInvite', [leaderId, inviterId, False])
                     for memberId in groupList[0]:
                         if not memberId == inviterId:
                             self.sendUpdateToAvatarId(memberId, 'postMessageInvited', [inviteeId, inviterId])
@@ -200,7 +199,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
             self.avIdDict[inviteeId] = inviterId
             self.groupListDict[leaderId] = [[leaderId], [inviteeId], []]
             self.addWacthAvStatus(leaderId)
-            self.sendUpdateToAvatarId(inviteeId, 'postInvite', [leaderId, inviterId, false])
+            self.sendUpdateToAvatarId(inviteeId, 'postInvite', [leaderId, inviterId, False])
     def requestCancelInvite(self, inviteeId):
         inviterId = self.air.getAvatarIdFromSender()
         if self.avIdDict.has_key(inviterId):
