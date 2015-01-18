@@ -2055,7 +2055,7 @@ dclass DistributedBoardingParty : DistributedObject {
   postGroupInfo(uint32 leaderId, uint32 memberList[], uint32 inviteeList[], uint32 kickedList[]) broadcast;
   informDestinationInfo(uint8 offset) clsend airecv;
   postDestinationInfo(uint8 offset) broadcast;
-  postInvite(uint32, uint32, bool) broadcast;
+  postInvite(uint32 leaderId, uint32 inviterId) broadcast;
   postInviteCanceled() broadcast;
   postKick(uint32 leaderId) broadcast;
   postKickReject(uint32 leaderId, uint32 inviterId, uint32 inviteeId) broadcast;
