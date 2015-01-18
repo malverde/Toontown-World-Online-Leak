@@ -1,19 +1,18 @@
-from otp.ai.AIBaseGlobal import *
-from direct.distributed.ClockDelta import *
-import DistributedBossCogAI
-from direct.directnotify import DirectNotifyGlobal
-from otp.avatar import DistributedAvatarAI
-import DistributedSuitAI
-from toontown.battle import BattleExperienceAI
-from direct.fsm import FSM
-from toontown.toonbase import ToontownGlobals
-from toontown.toon import InventoryBase
-from toontown.toonbase import TTLocalizer
-from toontown.battle import BattleBase
-from toontown.toon import NPCToons
-from otp.ai.MagicWordGlobal import *
-import SuitDNA
 import random
+
+import DistributedBossCogAI
+import DistributedSuitAI
+import SuitDNA
+from direct.directnotify import DirectNotifyGlobal
+from direct.distributed.ClockDelta import *
+from direct.fsm import FSM
+from otp.ai.AIBaseGlobal import *
+from toontown.battle import BattleExperienceAI
+from toontown.toon import NPCToons
+from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownGlobals
+from otp.ai.MagicWordGlobal import *
+
 
 class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedSellbotBossAI')
@@ -48,15 +47,15 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         avId = self.air.getAvatarIdFromSender()
         if not self.validate(avId, avId in self.involvedToons, 'hitBoss from unknown avatar'):
             return
-        self.validate(avId, bossDamage == 1, 'invalid bossDamage %s' % bossDamage) 
+        self.validate(avId, bossDamage == 1, 'invalid bossDamage %s' % bossDamage)
         if bossDamage > 1:
-            simbase.air.writeServerEvent('suspicious', avId, 'Toon sent an attack over 1 damage!') #those hackers!!!!!!!
+            simbase.air.writeServerEvent('suspicious', avId, 'Toon sent an attack over 1 damage!')
             simbase.air.banManager.ban(avId, 0, 'hacking')
             return
-   	    if bossDamage < 1:
-             simbase.air.writeServerEvent('suspicious', avId, 'Toon sent an attack less than 1 damage!') # how can u attack negatively impossible!
-             return
-        extState()
+        if bossDamage < 1:
+            simbase.air.writeServerEvent('suspicious', avId, 'Toon sent an attack less than 1 damage!')
+            return
+        currState = self.getCurrentOrNextState()
         if currState != 'BattleThree':
             return
         if self.attackCode != ToontownGlobals.BossCogDizzyNow:
@@ -81,8 +80,8 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     def hitToon(self, toonId):
         avId = self.air.getAvatarIdFromSender()
         if avId == toonId:
-            simbase.air.writeServerEvent('suspicious', avId, 'Toon tried to heal their self!') #wtf how did they do that probably hacking
-            simbase.air.banManager.ban(avId, 0, 'hacking')        
+            simbase.air.writeServerEvent('suspicious', avId, 'Toon tried to heal their self!')
+            simbase.air.banManager.ban(avId, 0, 'hacking')
         if not self.validate(avId, avId != toonId, 'hitToon on self'):
             return
         if avId not in self.involvedToons or toonId not in self.involvedToons:
@@ -206,7 +205,6 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         toon = simbase.air.doId2do.get(avId)
         if toon:
             toon.b_setNumPies(0)
-            toon.b_setHealthDisplay(0)
         DistributedBossCogAI.DistributedBossCogAI.removeToon(self, avId)
 
     def enterOff(self):
@@ -221,6 +219,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         DistributedBossCogAI.DistributedBossCogAI.enterIntroduction(self)
         self.__makeDoobers()
         self.b_setBossDamage(0, 0, 0)
+        self.air.achievementsManager.toonsStartedVP(self.involvedToons)
 
     def exitIntroduction(self):
         DistributedBossCogAI.DistributedBossCogAI.exitIntroduction(self)
@@ -277,7 +276,6 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             toon = simbase.air.doId2do.get(toonId)
             if toon:
                 toon.__touchedCage = 0
-                toon.b_setHealthDisplay(2)
 
         self.waitForNextAttack(5)
         self.waitForNextStrafe(9)
@@ -322,11 +320,6 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.stopStrafes()
         taskName = self.uniqueName('CagedToonSaySomething')
         taskMgr.remove(taskName)
-        for toonId in self.involvedToons + self.looseToons:
-            toon = self.air.doId2do.get(toonId)
-            if not toon:
-                continue
-            toon.b_setHealthDisplay(0)
 
     def enterNearVictory(self):
         self.resetBattles()
@@ -375,7 +368,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
     def __makeDoobers(self):
         self.__resetDoobers()
-        for i in range(8):
+        for i in xrange(8):
             suit = DistributedSuitAI.DistributedSuitAI(self.air, None)
             level = random.randrange(len(SuitDNA.suitsPerLevel))
             suit.dna = SuitDNA.SuitDNA()
@@ -406,7 +399,11 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             return
         self.b_setAttackCode(ToontownGlobals.BossCogRecoverDizzyAttack)
 
-@magicWord(category=CATEGORY_SYSADMIN)
+    def enterReward(self):
+        self.air.achievementsManager.toonsFinishedVP(self.involvedToons)
+        DistributedBossCogAI.DistributedBossCogAI.enterReward(self)
+
+@magicWord(category=CATEGORY_ADMINISTRATOR)
 def skipVP():
     """
     Skips to the final round of the VP.
@@ -426,19 +423,19 @@ def skipVP():
     boss.b_setState('PrepareBattleThree')
     return 'Skipping the first round...'
 
-@magicWord(category=CATEGORY_ADMIN, types=[])
-def endvp():
-    toon = spellbook.getTarget()
-    if toon:
-        z = toon.zoneId
-        for obj in simbase.air.doId2do.values():
-            zone = getattr(obj, "zoneId", -1)
-            if zone == z:
-                if obj.__class__.__name__ == "DistributedSellbotBossAI":
-                    obj.b_setState('Victory')
-                    return "VP defeated!"
-    
-        return "VP not found!"
-        
-    return "Error!"
-
+@magicWord(category=CATEGORY_ADMINISTRATOR)
+def killVP():
+    """
+    Kills the VP.
+    """
+    invoker = spellbook.getInvoker()
+    boss = None
+    for do in simbase.air.doId2do.values():
+        if isinstance(do, DistributedSellbotBossAI):
+            if invoker.doId in do.involvedToons:
+                boss = do
+                break
+    if not boss:
+        return "You aren't in a VP!"
+    boss.b_setState('Victory')
+    return 'Killed VP.'
