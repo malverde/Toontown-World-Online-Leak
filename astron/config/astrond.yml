@@ -32,7 +32,7 @@ uberdogs:
       id: 4687
       anonymous: false
 
-    - class: TTWFriendsManager
+    - class: TTRFriendsManager
       id: 4666
       anonymous: false
 
