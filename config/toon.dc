@@ -253,7 +253,7 @@ from toontown.parties import DistributedPartyJukebox40Activity/AI
 from toontown.parties import DistributedPartyValentineJukeboxActivity/AI
 from toontown.parties import DistributedPartyValentineJukebox40Activity/AI
 from toontown.friends import TTPlayerFriendsManager/UD
-from toontown.friends import TTWFriendsManager/UD
+from toontown.friends import TTRFriendsManager/UD
 from toontown.uberdog import TTSpeedchatRelay/UD
 from toontown.safezone import DistributedGolfKart/AI
 from toontown.safezone import DistributedPicnicBasket/AI
@@ -3358,7 +3358,7 @@ blob dna;
 uint32 petId;
 };
 
-dclass TTWFriendsManager : DistributedObjectGlobal {
+dclass TTRFriendsManager : DistributedObjectGlobal {
   clearList(uint32 avId);
   removeFriend(uint32 avId) clsend;
   requestAvatarInfo(uint32 avIds[]) clsend;

@@ -1,4 +1,4 @@
-# This is the PRC configuration file for a published TTW client. Note that only
+# This is the PRC configuration file for a published TTR client. Note that only
 # this file and Panda3D's Confauto.prc are included. Any relevant directives in
 # Config.prc should be reproduced here.
 

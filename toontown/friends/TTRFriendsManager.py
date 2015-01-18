@@ -3,7 +3,7 @@ from otp.otpbase import OTPLocalizer
 from toontown.hood import ZoneUtil
 import cPickle
 
-class TTWFriendsManager(DistributedObjectGlobal):
+class TTRFriendsManager(DistributedObjectGlobal):
     
     def d_removeFriend(self, friendId):
         self.sendUpdate('removeFriend', [friendId])
