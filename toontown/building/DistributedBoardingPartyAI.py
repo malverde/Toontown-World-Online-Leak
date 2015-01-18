@@ -208,8 +208,6 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
             self.sendUpdateToAvatarId(inviteeId, 'postInvite', [leaderId, inviterId, False])
     def requestCancelInvite(self, inviteeId):
         inviterId = self.air.getAvatarIdFromSender()
-        if inviteeId in self.mergeDict:
-            self.mergeDict.pop(inviteeId)        
         if self.avIdDict.has_key(inviterId):
             leaderId = self.avIdDict[inviterId]
             groupList = self.groupListDict.get(leaderId)
@@ -292,9 +290,8 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
     def requestRejectInvite(self, leaderId, inviterId):
         inviteeId = self.air.getAvatarIdFromSender()
         if inviteeId in self.mergeDict:
-           self.mergeDict.pop(inviteeId)
-        else:
-            self.removeFromGroup(leaderId, inviteeId)
+            self.mergeDict.pop(inviteeId)  # Do I still want to call removeFromGroup()?  we shall let testing decide        
+        self.removeFromGroup(leaderId, inviteeId)
         self.sendUpdateToAvatarId(inviterId, 'postInviteDelcined', [inviteeId])
 
     def requestKick(self, kickId):
