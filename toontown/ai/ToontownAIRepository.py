@@ -19,7 +19,7 @@ from toontown.dna.DNASpawnerAI import DNASpawnerAI
 from direct.stdpy.file import open
 import time
 import random
-
+from otp.ai import BanManagerAI
 # Friends!
 from otp.friends.FriendManagerAI import FriendManagerAI
 
@@ -91,6 +91,7 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         self.fishManager = FishManagerAI()
         self.questManager = QuestManagerAI(self)
+        self.banManager = BanManagerAI.BanManagerAI(self)        
         self.cogPageManager = CogPageManagerAI()
         self.factoryMgr = FactoryManagerAI(self)
         self.mintMgr = MintManagerAI(self)
