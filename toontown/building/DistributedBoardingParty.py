@@ -70,29 +70,6 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
 
     def load(self):
         pass
-     # this is a pretty brute force group check that will see if a toon
-     # (in the same zone) is already in a group.   This might introduce
-     # lag in a very crowded district with hundreds of active groups
-     # (if we should be so lucky)
-        def isInGroup(self, avId):
-         if avId in self.groupListDict:
-             return True
-         for leader in self.groupListDict:
-             group = self.groupListDict.get(leader)
-             for member in group[0]:
-                 if member == avId:
-                     return True
-         return False
-        def countInGroup(self, avId):
-         if avId in self.groupListDict:
-            group = self.groupListDict.get(avId)
-            return len(group[0])
-        for leader in self.groupListDict:
-            group = self.groupListDict.get(leader)
-            for member in group[0]:
-                if member == avId:
-                    return len(group[0])
-        return 0
 
     def postGroupInfo(self, leaderId, memberList, inviteeList, kickedList):
         self.notify.debug('postgroupInfo')

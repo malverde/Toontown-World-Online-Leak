@@ -524,10 +524,8 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                             self.groupButton['image_color'] = Vec4(1, 1, 1, 0.4)
                             self.groupButton['state'] = DGG.NORMAL
                     else:
-                        g1 = localAvatar.boardingParty.countInGroup(self.avId)
-                        g2 = localAvatar.boardingParty.countInGroup(localAvatar.doId)
-                        if g1 > 0 and g2 > 0:
-                            self.groupButton['text'] = ('', TTLocalizer.AvatarPanelGroupInvite, "%s %d"%(TTLocalizer.AvatarPanelGroupMerge, (g1+g2)))                                                  
+                        if localAvatar.boardingParty.isInGroup(self.avId) and localAvatar.boardingParty.isInGroup(localAvatar.doId):
+                            self.groupButton['text'] = ('', TTLocalizer.AvatarPanelGroupInvite, TTLocalizer.AvatarPanelGroupMerge)
                         else:
                             self.groupButton['text'] = ('', TTLocalizer.AvatarPanelGroupInvite, TTLocalizer.AvatarPanelGroupInvite)
                         self.groupButton['command'] = self.handleInvite
