@@ -53,8 +53,8 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             simbase.air.writeServerEvent('suspicious', avId, 'Toon sent an attack over 1 damage!') #those hackers!!!!!!!
             simbase.air.banManager.ban(avId, 0, 'hacking')
             return
-         if bossDamage < 1:
-            simbase.air.writeServerEvent('suspicious', avId, 'Toon sent an attack less than 1 damage!') # how can u attack negatively impossible!
+            if bossDamage < 1:
+             simbase.air.writeServerEvent('suspicious', avId, 'Toon sent an attack less than 1 damage!') # how can u attack negatively impossible!
              return
         extState()
         if currState != 'BattleThree':
