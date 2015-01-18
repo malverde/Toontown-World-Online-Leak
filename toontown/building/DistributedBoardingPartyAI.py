@@ -82,7 +82,8 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
                 leaderId = self.avIdDict[inviterId]
 
                 if (len(self.getGroupMemberList(leaderId) + len(self.getGroupMemberList(inviteeLeaderId))) < self.maxSize):
-                    invitee = simbase.air.doId2do.get(inviteeLeaderId)    # JBS
+                    invitee = simbase.air.doId2do.get(inviteeLeaderId)    # boarding  group merge
+			        merger = True                    
                 else:
                     reason = BoardingPartyBase.BOARDCODE_GROUPS_TO_LARGE
                     self.sendUpdateToAvatarId(inviterId, 'postInviteNotQualify', [inviteeId, reason, 0])
@@ -157,8 +158,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
                         self.air.writeServerEvent('suspicious', avId=inviterId, issue='tried to invite %s who already exists in the avIdDict.' % inviteeId)
 
                     self.avIdDict[inviteeId] = leaderId
-                    self.sendUpdateToAvatarId(inviteeId, 'postInvite', [leaderId, inviterId])
-
+                    self.sendUpdateToAvatarId(inviteeId, 'postInvite', [leaderId, inviterId, merger])
                     for memberId in groupList[0]:
                         if not memberId == inviterId:
                             self.sendUpdateToAvatarId(memberId, 'postMessageInvited', [inviteeId, inviterId])
@@ -176,8 +176,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
             self.avIdDict[inviteeId] = inviterId
             self.groupListDict[leaderId] = [[leaderId], [inviteeId], []]
             self.addWacthAvStatus(leaderId)
-            self.sendUpdateToAvatarId(inviteeId, 'postInvite', [leaderId, inviterId])
-
+            self.sendUpdateToAvatarId(inviteeId, 'postInvite', [leaderId, inviterId, false])
     def requestCancelInvite(self, inviteeId):
         inviterId = self.air.getAvatarIdFromSender()
         if self.avIdDict.has_key(inviterId):
