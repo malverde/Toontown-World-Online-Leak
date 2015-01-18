@@ -127,19 +127,19 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
             self.notify.debug('new info posted on some other group')
         return
 
-    def postInvite(self, leaderId, inviterId, merger):
+    def postInvite(self, leaderId, inviterId):
         self.notify.debug('post Invite')
         if not base.cr.avatarFriendsManager.checkIgnored(inviterId):
             inviter = base.cr.doId2do.get(inviterId)
             if inviter:
                 if self.inviterPanels.isInvitingPanelUp() or self.inviterPanels.isInvitationRejectedPanelUp():
-                 	self.inviterPanels.forceCleanup()
+                    self.inviterPanels.forceCleanup()
                 self.groupInviteePanel = GroupInvitee.GroupInvitee()
-                self.groupInviteePanel.make(self, inviter, leaderId, merger)
+                self.groupInviteePanel.make(self, inviter, leaderId)
                 if config.GetBool('reject-boarding-group-invites', 0):
                     self.groupInviteePanel.forceCleanup()
                     self.groupInviteePanel = None
-         	return
+        return
 
     def postKick(self, leaderId):
         self.notify.debug('%s was kicked out of the Boarding Group by %s' % (localAvatar.doId, leaderId))
