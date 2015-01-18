@@ -76,9 +76,25 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
             return
 
         if self.hasActiveGroup(inviteeId):
-            reason = BoardingPartyBase.BOARDCODE_DIFF_GROUP
-            self.sendUpdateToAvatarId(inviterId, 'postInviteNotQualify', [inviteeId, reason, 0])
-            self.sendUpdateToAvatarId(inviteeId, 'postMessageInvitationFailed', [inviterId])
+            # We could make the assumption both are in the avIdDict but I'd prefer not to blow up the district
+            if base.config.GetBool('boarding-group-merges', 0) && (inviteeId in self.avIdDict) && (inviterId in self.avIdDict):  # JBS
+                inviteeLeaderId = self.avIdDict[inviteeId]
+                leaderId = self.avIdDict[inviterId]
+
+                if (len(self.getGroupMemberList(leaderId) + len(self.getGroupMemberList(inviteeLeaderId))) < self.maxSize):
+                    invitee = simbase.air.doId2do.get(inviteeLeaderId)    # JBS
+                else:
+                    reason = BoardingPartyBase.BOARDCODE_GROUPS_TO_LARGE
+                    self.sendUpdateToAvatarId(inviterId, 'postInviteNotQualify', [inviteeId, reason, 0])
+                    self.sendUpdateToAvatarId(inviteeId, 'postMessageInvitationFailed', [inviterId])
+            else:
+                reason = BoardingPartyBase.BOARDCODE_DIFF_GROUP
+                self.sendUpdateToAvatarId(inviterId, 'postInviteNotQualify', [inviteeId, reason, 0])
+                self.sendUpdateToAvatarId(inviteeId, 'postMessageInvitationFailed', [inviterId])
+             return
+         if self.hasPendingInvite(inviteeId):
+             reason = BoardingPartyBase.BOARDCODE_PENDING_INVITE
+        
             return
 
         if self.hasPendingInvite(inviteeId):
