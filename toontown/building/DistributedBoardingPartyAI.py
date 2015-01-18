@@ -393,15 +393,11 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
 
                             self.air.writeServerEvent('boarding_elevator', zoneId=self.zoneId, elevatorId=elevatorId, group=group[0])
                         else:
-                             self.sendUpdateToAvatarId(leaderId, 'postRejectBoard', [elevatorId,
-                              boardOkay,
-                              avatarsFailingRequirements,
-                              avatarsInBattle])
-                             return
+                            self.sendUpdateToAvatarId(leaderId, 'postRejectBoard', [elevatorId, boardOkay, avatarsFailingRequirements,  avatarsInBattle])
+                            return
         if not wantDisableGoButton:
-             self.sendUpdateToAvatarId(leaderId, 'postRejectBoard', [elevatorId,        
              BoardingPartyBase.BOARDCODE_MISSING, [], []])
-             return
+         return
     def testGoButtonRequirements(self, leaderId, elevatorId):
         if self.avIdDict.has_key(leaderId):
             if leaderId == self.avIdDict[leaderId]:
@@ -492,8 +488,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
             self.groupListDict[leaderId] = group
             if post:
                 self.notify.debug('Calling postGroupInfo from addToGroup')
-            	self.sendUpdate('postGroupDissolve', [leaderId, leaderId, [], 0])
-
+            	self.sendUpdate('postGroupDissolve', [leaderId, leaderId, [], 0])            self.addWacthAvStatus(inviteeId)
         else:
             self.sendUpdate('postGroupDissolve', [leaderId, leaderId, [], 0])
     def removeFromGroup(self, leaderId, memberId, kick = 0, post = 1):
