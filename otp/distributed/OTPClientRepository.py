@@ -1,43 +1,45 @@
-import sys
-import time
-import string
-import types
-import random
 import gc
 import os
-from pandac.PandaModules import *
-from pandac.PandaModules import *
-from direct.gui.DirectGui import *
-from otp.distributed.OtpDoGlobals import *
-from direct.interval.IntervalGlobal import ivalMgr
+import random
+import string
+import sys
+import time
+import types
+
 from direct.directnotify.DirectNotifyGlobal import directNotify
-from direct.distributed.ClientRepositoryBase import ClientRepositoryBase
-from direct.fsm.ClassicFSM import ClassicFSM
-from direct.fsm.State import State
-from direct.task import Task
 from direct.distributed import DistributedSmoothNode
-from direct.showbase import PythonUtil, GarbageReport, BulletinBoardWatcher
-from direct.showbase.ContainerLeakDetector import ContainerLeakDetector
-from direct.showbase import MessengerLeakDetector
-from direct.showbase.GarbageReportScheduler import GarbageReportScheduler
-from direct.showbase import LeakDetectors
+from direct.distributed.ClientRepositoryBase import ClientRepositoryBase
+from direct.distributed.MsgTypes import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
+from direct.fsm.ClassicFSM import ClassicFSM
+from direct.fsm.State import State
+from direct.gui.DirectGui import *
+from direct.interval.IntervalGlobal import ivalMgr
+from direct.showbase import LeakDetectors
+from direct.showbase import MessengerLeakDetector
+from direct.showbase import PythonUtil, GarbageReport, BulletinBoardWatcher
+from direct.showbase.ContainerLeakDetector import ContainerLeakDetector
+from direct.showbase.GarbageReportScheduler import GarbageReportScheduler
+from direct.task import Task
+from otp.ai.GarbageLeakServerEventAggregator import GarbageLeakServerEventAggregator
 from otp.avatar import Avatar
-from otp.avatar.DistributedPlayer import DistributedPlayer
-from otp.login.CreateAccountScreen import CreateAccountScreen
-from otp.otpgui import OTPDialog
 from otp.avatar import DistributedAvatar
-from otp.otpbase import OTPLocalizer
-from otp.login import LoginTTRAccount
+from otp.avatar.DistributedPlayer import DistributedPlayer
+from otp.distributed import DCClassImports
+from otp.distributed import OtpDoGlobals
+from otp.distributed.OtpDoGlobals import *
+from otp.distributed.TelemetryLimiter import TelemetryLimiter
 from otp.login import HTTPUtil
+from otp.login import LoginTTRAccount
+from otp.login.CreateAccountScreen import CreateAccountScreen
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLauncherGlobals
+from otp.otpbase import OTPLocalizer
+from otp.otpgui import OTPDialog
 from otp.uberdog import OtpAvatarManager
-from otp.distributed import OtpDoGlobals
-from otp.distributed.TelemetryLimiter import TelemetryLimiter
-from otp.ai.GarbageLeakServerEventAggregator import GarbageLeakServerEventAggregator
-from direct.distributed.MsgTypes import *
+from pandac.PandaModules import *
+
 
 class OTPClientRepository(ClientRepositoryBase):
     notify = directNotify.newCategory('OTPClientRepository')
@@ -50,29 +52,13 @@ class OTPClientRepository(ClientRepositoryBase):
 
     def __init__(self, serverVersion, launcher = None, playGame = None):
         ClientRepositoryBase.__init__(self)
-
-
-
         self.handler = None
-
         self.launcher = launcher
-
         base.launcher = launcher
-
-
-
         self.__currentAvId = 0
-
-
         self.productName = config.GetString('product-name', 'DisneyOnline-US')
-
-
         self.createAvatarClass = None
-
-
         self.systemMessageSfx = None
-
-
         reg_deployment = ''
         if self.productName == 'DisneyOnline-US':
             if self.launcher:
@@ -139,7 +125,7 @@ class OTPClientRepository(ClientRepositoryBase):
                               '&CHAT_CODE_CREATION_RULE=%s' % config.GetString('fake-DISL-ChatCodeCreation', 'YES') +
                               '&FAMILY_MEMBERS=%s' % config.GetString('fake-DISL-FamilyMembers') + '&PIRATES_SUB_COUNT=%s' % subCount)
 
-            for i in range(subCount):
+            for i in xrange(subCount):
                 self.DISLToken += ('&PIRATES_SUB_%s_ACCESS=%s' % (i, config.GetString('fake-DISL-Sub-%s-Access' % i, 'FULL')) +
                                    '&PIRATES_SUB_%s_ACTIVE=%s' % (i, config.GetString('fake-DISL-Sub-%s-Active' % i, 'YES')) +
                                    '&PIRATES_SUB_%s_ID=%s' % (i, config.GetInt('fake-DISL-Sub-%s-Id' % i, playerAccountId) +  config.GetInt('fake-DISL-Sub-Id-Offset', 0)) +
@@ -446,6 +432,59 @@ class OTPClientRepository(ClientRepositoryBase):
         self.chatAgent = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_CHAT_MANAGER, 'ChatAgent')
         self.csm = None # To be set by subclass.
 
+    def readDCFile(self, dcFileNames=None):
+        dcFile = self.getDcFile()
+        dcFile.clear()
+        self.dclassesByName = {}
+        self.dclassesByNumber = {}
+        self.hashVal = 0
+
+        try:
+            dcStream
+
+        except:
+            pass
+
+        else:
+            self.notify.info('Detected DC file stream, reading it...')
+            dcFileNames = [dcStream]
+
+        if isinstance(dcFileNames, str):
+            dcFileNames = [dcFileNames]
+
+        if dcFileNames is not None:
+            for dcFileName in dcFileNames:
+                if isinstance(dcFileName, StringStream):
+                    readResult = dcFile.read(dcFileName, 'DC stream')
+                else:
+                    readResult = dcFile.read(dcFileName)
+                if not readResult:
+                    self.notify.error('Could not read DC file.')
+        else:
+            dcFile.readAll()
+
+        self.hashVal = DCClassImports.hashVal
+        for i in xrange(dcFile.getNumClasses()):
+            dclass = dcFile.getClass(i)
+            number = dclass.getNumber()
+            className = dclass.getName()
+            classDef = DCClassImports.dcImports.get(className)
+            if classDef is None:
+                self.notify.debug('No class definition for {0}.'.format(className))
+            else:
+                if type(classDef) == types.ModuleType:
+                    if not hasattr(classDef, className):
+                        self.notify.warning('Module %s does not define class %s.' % (className, className))
+                        continue
+                    classDef = getattr(classDef, className)
+                if (type(classDef) != types.ClassType) and (type(classDef) != types.TypeType):
+                    self.notify.error('Symbol %s is not a class name.' % className)
+                else:
+                    dclass.setClassDef(classDef)
+            self.dclassesByName[className] = dclass
+            if number >= 0:
+                self.dclassesByNumber[number] = dclass
+
     def startLeakDetector(self):
         if hasattr(self, 'leakDetector'):
             return False
@@ -545,6 +584,10 @@ class OTPClientRepository(ClientRepositoryBase):
         mode = doneStatus['mode']
         if mode == 'success':
             self.setIsNotNewInstallation()
+            if hasattr(self, 'toontownTimeManager'):
+                timestamp = time.gmtime(doneStatus['timestamp'])
+                dateString = time.strftime(self.toontownTimeManager.formatStr, timestamp)
+                self.lastLoggedIn = self.toontownTimeManager.convertStrToToontownTime(dateString)
             self.loginFSM.request('waitForGameList')
         elif mode == 'getChatPassword':
             self.loginFSM.request('parentPassword')
@@ -775,9 +818,11 @@ class OTPClientRepository(ClientRepositoryBase):
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def _shardsAreReady(self):
+        maxPop = config.GetInt('shard-mid-pop', 300)
         for shard in self.activeDistrictMap.values():
             if shard.available:
-                return True
+                if shard.avatarCount < maxPop:
+                    return True
         else:
             return False
 
@@ -860,15 +905,17 @@ class OTPClientRepository(ClientRepositoryBase):
         self.__currentAvId = 0
         self.stopHeartbeat()
         self.stopReaderPollTask()
-        if self.bootedIndex != None and OTPLocalizer.CRBootedReasons.has_key(self.bootedIndex):
-            message = OTPLocalizer.CRBootedReasons[self.bootedIndex] % {'name': '???'}
-        elif self.bootedText != None:
+        if (self.bootedIndex is not None) and (self.bootedIndex in OTPLocalizer.CRBootedReasons):
+            message = OTPLocalizer.CRBootedReasons[self.bootedIndex]
+        elif self.bootedText is not None:
             message = OTPLocalizer.CRBootedReasonUnknownCode % self.bootedIndex
         else:
             message = OTPLocalizer.CRLostConnection
         reconnect = 1
         if self.bootedIndex in (152, 127):
             reconnect = 0
+        if self.bootedIndex == 152:
+            message = message % {'name': self.bootedText}
         self.launcher.setDisconnectDetails(self.bootedIndex, message)
         style = OTPDialog.Acknowledge
         if reconnect and self.loginInterface.supportsRelogin():
@@ -1223,7 +1270,7 @@ class OTPClientRepository(ClientRepositoryBase):
         numIvals = ivalMgr.getNumIntervals()
         if numIvals > 0:
             print "You can't leave until you clean up your intervals: {"
-            for i in range(ivalMgr.getMaxIndex()):
+            for i in xrange(ivalMgr.getMaxIndex()):
                 ival = None
                 if i < len(ivalMgr.ivals):
                     ival = ivalMgr.ivals[i]
@@ -1467,16 +1514,23 @@ class OTPClientRepository(ClientRepositoryBase):
         hoodId = self.handlerArgs['hoodId']
         zoneId = self.handlerArgs['zoneId']
         avId = self.handlerArgs['avId']
+
         if not self.SupportTutorial or base.localAvatar.tutorialAck:
             self.gameFSM.request('playGame', [hoodId, zoneId, avId])
-        elif base.config.GetBool('force-tutorial', 1):
+            return
+        if base.config.GetBool('force-tutorial', 0):
+            self.gameFSM.request('tutorialQuestion', [hoodId, zoneId, avId])
+            return
+        else:
             if hasattr(self, 'skipTutorialRequest') and self.skipTutorialRequest:
-                self.gameFSM.request('playGame', [hoodId, zoneId, avId])
+                self.skipTutorialRequest = None
                 self.gameFSM.request('skipTutorialRequest', [hoodId, zoneId, avId])
+                return
             else:
                 self.gameFSM.request('tutorialQuestion', [hoodId, zoneId, avId])
-        else:
-            self.gameFSM.request('playGame', [hoodId, zoneId, avId])
+                return
+
+        self.gameFSM.request('playGame', [hoodId, zoneId, avId])
 
     def handlePlayGame(self, msgType, di):
         if self.notify.getDebug():
@@ -1606,24 +1660,19 @@ class OTPClientRepository(ClientRepositoryBase):
         if len(self.activeDistrictMap.keys()) == 0:
             self.notify.info('no shards')
             return
-        if base.fillShardsToIdealPop:
-            lowPop, midPop, highPop = base.getShardPopLimits()
-            self.notify.debug('low: %s mid: %s high: %s' % (lowPop, midPop, highPop))
-            for s in self.activeDistrictMap.values():
-                if s.available and s.avatarCount < lowPop:
-                    self.notify.debug('%s: pop %s' % (s.name, s.avatarCount))
-                    if district is None:
-                        district = s
-                    elif s.avatarCount > district.avatarCount or s.avatarCount == district.avatarCount and s.name > district.name:
-                        district = s
 
-        if district is None:
-            self.notify.debug('all shards over cutoff, picking lowest-population shard')
-            for s in self.activeDistrictMap.values():
-                if s.available:
-                    self.notify.debug('%s: pop %s' % (s.name, s.avatarCount))
-                    if district is None or s.avatarCount < district.avatarCount:
-                        district = s
+        maxPop = config.GetInt('shard-mid-pop', 300)
+
+        # Join the least populated district.
+        for shard in self.activeDistrictMap.values():
+            if district:
+                if shard.avatarCount < district.avatarCount and shard.available:
+                    if shard.avatarCount < maxPop:
+                        district = shard
+            else:
+                if shard.available:
+                    if shard.avatarCount < maxPop:
+                        district = shard
 
         if district is not None:
             self.notify.debug('chose %s: pop %s' % (district.name, district.avatarCount))
@@ -2076,7 +2125,7 @@ class OTPClientRepository(ClientRepositoryBase):
     def disableDoId(self, doId, ownerView=False):
         table, cache = self.getTables(ownerView)
         # Make sure the object exists
-        if table.has_key(doId):
+        if doId in table:
             # Look up the object
             distObj = table[doId]
             # remove the object from the dictionary
@@ -2095,7 +2144,7 @@ class OTPClientRepository(ClientRepositoryBase):
                     # make sure we're not leaking
                     distObj.detectLeaks()
 
-        elif self.deferredDoIds.has_key(doId):
+        elif doId in self.deferredDoIds:
             # The object had been deferred.  Great; we don't even have
             # to generate it now.
             del self.deferredDoIds[doId]
@@ -2105,7 +2154,7 @@ class OTPClientRepository(ClientRepositoryBase):
                     del self.deferredGenerates[cycle][i]
                 except:
                     pass
-            
+
         else:
             self._logFailedDisable(doId, ownerView)
 
@@ -2164,7 +2213,6 @@ class OTPClientRepository(ClientRepositoryBase):
         message is received; it decodes the update, unpacks the
         arguments, and calls the corresponding method on the indicated
         DistributedObject.
-
         In fact, this method is exactly duplicated by the C++ method
         cConnectionRepository::handle_update_field(), which was
         written to optimize the message loop by handling all of the
@@ -2180,7 +2228,7 @@ class OTPClientRepository(ClientRepositoryBase):
         doId = di.getUint32()
 
         ovUpdated = self.__doUpdateOwner(doId, di)
-        
+
         if doId in self.deferredDoIds:
             # This object hasn't really been generated yet.  Sit on
             # the update.
@@ -2203,9 +2251,9 @@ class OTPClientRepository(ClientRepositoryBase):
             # Let the dclass finish the job
             do.dclass.receiveUpdate(do, di)
         elif not ovUpdated:
-            # this next bit is looking for avatar handles so that if you get an update 
-            # for an avatar that isn't in your doId2do table but there is a 
-            # avatar handle for that object then it's messages will be forwarded to that 
+            # this next bit is looking for avatar handles so that if you get an update
+            # for an avatar that isn't in your doId2do table but there is a
+            # avatar handle for that object then it's messages will be forwarded to that
             # object. We are currently using that for whisper echoing
             # if you need a more general perpose system consider registering proxy objects on
             # a dict and adding the avatar handles to that dict when they are created
@@ -2216,7 +2264,7 @@ class OTPClientRepository(ClientRepositoryBase):
                 if handle:
                     dclass = self.dclassesByName[handle.dclassName]
                     dclass.receiveUpdate(handle, di)
-                    
+
                 else:
                     self.notify.warning(
                         "Asked to update non-existent DistObj " + str(doId))
