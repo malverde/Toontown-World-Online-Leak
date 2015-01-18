@@ -48,10 +48,15 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         avId = self.air.getAvatarIdFromSender()
         if not self.validate(avId, avId in self.involvedToons, 'hitBoss from unknown avatar'):
             return
-        self.validate(avId, bossDamage == 1, 'invalid bossDamage %s' % bossDamage)
-        if bossDamage < 1:
+        self.validate(avId, bossDamage == 1, 'invalid bossDamage %s' % bossDamage) 
+        if bossDamage > 1:
+            simbase.air.writeServerEvent('suspicious', avId, 'Toon sent an attack over 1 damage!') #those hackers!!!!!!!
+            simbase.air.banManager.ban(avId, 0, 'hacking')
             return
-        currState = self.getCurrentOrNextState()
+         if bossDamage < 1:
+            simbase.air.writeServerEvent('suspicious', avId, 'Toon sent an attack less than 1 damage!') # how can u attack negatively impossible!
+             return
+        extState()
         if currState != 'BattleThree':
             return
         if self.attackCode != ToontownGlobals.BossCogDizzyNow:
@@ -75,6 +80,9 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
     def hitToon(self, toonId):
         avId = self.air.getAvatarIdFromSender()
+        if avId == toonId:
+            simbase.air.writeServerEvent('suspicious', avId, 'Toon tried to heal their self!') #wtf how did they do that probably hacking
+            simbase.air.banManager.ban(avId, 0, 'hacking')        
         if not self.validate(avId, avId != toonId, 'hitToon on self'):
             return
         if avId not in self.involvedToons or toonId not in self.involvedToons:
