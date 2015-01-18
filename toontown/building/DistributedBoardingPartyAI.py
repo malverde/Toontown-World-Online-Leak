@@ -397,8 +397,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
                             return
         if not wantDisableGoButton:
              BoardingPartyBase.BOARDCODE_MISSING, [], []])
-        return
-
+         return
     def testGoButtonRequirements(self, leaderId, elevatorId):
         if self.avIdDict.has_key(leaderId):
             if leaderId == self.avIdDict[leaderId]:
