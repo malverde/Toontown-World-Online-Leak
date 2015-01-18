@@ -101,13 +101,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
             if simbase.config.GetBool('boarding-group-merges', 0) and self.hasActiveGroup(inviterId):
                  inviteeLeaderId = self.avIdDict[inviteeId]
                  leaderId = self.avIdDict[inviterId]
-                 # group merge already requested?
-                 if self.hasPendingInvite(inviteeLeaderId):
-                    reason = BoardingPartyBase.BOARDCODE_PENDING_INVITE
-                    self.sendUpdateToAvatarId(inviterId, 'postInviteNotQualify', [inviteeId, reason, 0])
-                    self.sendUpdateToAvatarId(inviteeId, 'postMessageInvitationFailed', [inviterId])
-                    return
-
+ 
                  if ((len(self.getGroupMemberList(leaderId)) + len(self.getGroupMemberList(inviteeLeaderId))) <= self.maxSize):                     # Lets send the invitation to the leader instead of the person clicked on...
                      invitee = simbase.air.doId2do.get(inviteeLeaderId)
                      inviteeId = inviteeLeaderId
@@ -220,41 +214,14 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
         self.notify.debug('requestAcceptInvite leader%s inviter%s invitee%s' % (leaderId, inviterId, inviteeId))
         if self.avIdDict.has_key(inviteeId):
             if inviteeId in self.mergeDict:
-                # Clean things up in case we back this operation out
-                savedId = self.mergeDict.pop(inviteeId)
-                # Check the state of things to deal with odd race conditions
-                if savedId != leaderId:
-                    self.notify.warning('requestAcceptInvite merge fail savedId != leaderId');
+                # Clean things up in case we are confused
+                self.mergeDict.pop(inviteeId)
+                if leaderId not in self.avIdDict or not self.isInGroup(inviteeId, leaderId):
                     self.sendUpdateToAvatarId(inviteeId, 'postSomethingMissing', [])
                     return
-                # both should still be in the avIdDict
-                if leaderId not in self.avIdDict or inviteeId not in self.avIdDict:
-                    self.notify.warning('leaderId not in self.avIdDict or inviteeId not in self.avIdDict');
-
+                if not self.hasActiveGroup(inviteeId):
                     self.sendUpdateToAvatarId(inviteeId, 'postSomethingMissing', [])
                     return
-                # They should STILL be the leaders.. right?
-                if leaderId != self.avIdDict[leaderId]:
-                    self.notify.warning('leaderId != self.avIdDict[leaderId]');
-                    self.sendUpdateToAvatarId(inviteeId, 'postSomethingMissing', [])
-                    return
-                # They should STILL be the leaders.. right?
-                if inviteeId != self.avIdDict[inviteeId]:
-                    self.notify.warning('inviteeId != self.avIdDict[inviteeId]');
-                    self.sendUpdateToAvatarId(inviteeId, 'postSomethingMissing', [])
-                    return
-                # both should still have active groups
-                if not self.hasActiveGroup(inviteeId) or not self.hasActiveGroup(leaderId):
-                    self.notify.warning('not self.hasActiveGroup(inviteeId) or not self.hasActiveGroup(leaderId)');
-                    self.sendUpdateToAvatarId(inviteeId, 'postSomethingMissing', [])
-                    return
-                # Lets make sure we still CAN merge them in
-                if ((len(self.getGroupMemberList(leaderId)) + len(self.getGroupMemberList(inviteeId))) > self.maxSize):
-                    reason = BoardingPartyBase.BOARDCODE_GROUPS_TO_LARGE
-                    self.sendUpdateToAvatarId(inviterId, 'postInviteNotQualify', [inviteeId, reason, 0])
-                    self.sendUpdateToAvatarId(inviteeId, 'postMessageInvitationFailed', [inviterId])
-                    return
-                # get the memberList of the invitee and add it into the leaders group                    
                 memberList = self.getGroupMemberList(inviteeId)
                 for memberId in memberList:
                     self.addToGroup(leaderId, memberId, 0)
