@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from otp.otpbase import OTPGlobals
 from toontown.toonbase import ToontownGlobals
 import copy
