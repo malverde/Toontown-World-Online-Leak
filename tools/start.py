@@ -1,12 +1,12 @@
-from launcher.launcher import TTWLauncher
+from launcher.launcher import TTRLauncher
 import threading
 import Queue # python stdlib
 
 guiToLauncher = Queue.Queue()
 launcherToGui = Queue.Queue()
 
-launcher = TTWLauncher(input=guiToLauncher, output=launcherToGui)
-launcherThread = threading.Thread(target=TTWLauncher.start, name="Launcher-Thread", args=(launcher,))
+launcher = TTRLauncher(input=guiToLauncher, output=launcherToGui)
+launcherThread = threading.Thread(target=TTRLauncher.start, name="Launcher-Thread", args=(launcher,))
 launcherThread.daemon = True
 launcherThread.start()
 

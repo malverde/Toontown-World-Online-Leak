@@ -1,4 +1,4 @@
-# -*- mode: python -*-
+# -*- mode: ppython -*-
 a = Analysis(['start.py'],
              pathex=['C:\\Users\\michael\\Desktop\\tools'],
              hiddenimports=[],
@@ -14,4 +14,5 @@ exe = EXE(pyz,
           debug=False,
           strip=None,
           upx=True,
-          console=False )
+          console=False,
+          icon='icon.ico' )

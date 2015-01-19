@@ -1,14 +1,8 @@
-
 import random
 from pandac.PandaModules import *
 from direct.fsm.FSM import FSM
 from PathPlannerPoolAI import pool
-#import stuff to define toonId
-from toontown.toon import Toon
-from toontown.toon import ToonDNA
-from toontown.toonbase import ToontownBattleGlobals
-from toontown.suit import Suit
-from toontown.suit import SuitDNA
+
 # Individual suit behaviors...
 
 # Attack a specific Toon.

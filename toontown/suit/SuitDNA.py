@@ -152,9 +152,8 @@ def getRandomSuitByDept(dept):
 
 
 class SuitDNA(AvatarDNA.AvatarDNA):
- 
-    def __init__(self, str = None, type = None, dna = None, r = None, b = None, g = None):
 
+    def __init__(self, str = None, type = None, dna = None, r = None, b = None, g = None):
         if str != None:
             self.makeFromNetString(str)
         elif type != None:
