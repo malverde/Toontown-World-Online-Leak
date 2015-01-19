@@ -66,6 +66,6 @@ Repo Owner: Reese Jenner
 ### Other community or team contact ###
 Game Admins:
 
-Mgracer (Michael) - administrator
+Mgracer (Michael) - administrator, coder
 
 Purrty (Julieanne) - in-game admin and Community Manager
