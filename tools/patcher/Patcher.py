@@ -13,29 +13,29 @@ PATCHER_BASE = os.environ.get('PATCHER_BASE', './')
 # Try to find our list of mirrors
 print 'Obtaining available mirrors...'
 MIRRORS = []
-try: #reese  needs to change this to our api stuff 
-    remoteMirrors = urllib2.urlopen('http://www.toontownworldonline.com/api/mirrors', timeout=20) # Don't wait too long for the dynamic mirrors list
+try:
+    remoteMirrors = urllib2.urlopen('https://www.toontownrewritten.com/api/mirrors', timeout=20) # Don't wait too long for the dynamic mirrors list
     MIRRORS = json.loads(remoteMirrors.read())
     print 'Obtained %s mirrors from remote server.' % len(MIRRORS)
 except:
     pass # Whatever
 if not MIRRORS:
     try:
-        # We need to try our backup mirror location at toontownworldonline custom api change it to right one
-        remoteMirrors = urllib2.urlopen('http://download.toontownworldonline.com/mirrors.txt', timeout=10)
+        # We need to try our backup mirror location
+        remoteMirrors = urllib2.urlopen('http://s3.amazonaws.com/cdn.toontownrewritten.com/mirrors.txt', timeout=10)
         MIRRORS = json.loads(remoteMirrors.read())
         print 'Obtained %s mirrors from backup remote server.' % len(MIRRORS)
     except:
         pass
 if not MIRRORS:
     # We can't obtain any remote mirror lists, so just use the single hardcoded mirror we know of
-    MIRRORS = ['http://download.toontownworldonline.com/content/']
+    MIRRORS = ['http://s3.amazonaws.com/cdn.toontownrewritten.com/content/']
     print 'Unable to obtain remote mirror list! Using local backup instead.'
  
 # de-unicodify the mirrors, just to keep with convention of all patcher strings are ascii
 MIRRORS = [mirror.encode('ascii') for mirror in MIRRORS]
  
-MANIFEST_URL = 'http://download.toontownworldonline.com/content/patchmanifest.txt'
+MANIFEST_URL = 'http://s3.amazonaws.com/cdn.toontownrewritten.com/content/patchmanifest.txt'
  
 # Begin by obtaining the manifest
 MANIFEST = urllib2.urlopen(MANIFEST_URL).read()

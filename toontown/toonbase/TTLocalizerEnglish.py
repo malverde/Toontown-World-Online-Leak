@@ -5648,7 +5648,7 @@ LeaderboardTitle = 'Toon Platoon'
 QuestScriptTutorialMickey_1 = 'Toontown has a new citizen! Do you have some extra gags?'
 QuestScriptTutorialMickey_2 = 'Sure, %s!'
 QuestScriptTutorialMickey_3 = 'Tutorial Tom will tell you all about the Cogs.\x07Gotta go!'
-QuestScriptTutorialMickey_4 = "Hello, new citizen! Welcome to Toontown! Come over here so I can tell you what's been going on in town recently. Use the arrow keys to move."
+QuestScriptTutorialMickey_4 = 'Come here! Use the arrow keys to move.'
 QuestScriptTutorialMinnie_1 = 'Toontown has a new citizen! Do you have some extra gags?'
 QuestScriptTutorialMinnie_2 = 'Sure, %s!'
 QuestScriptTutorialMinnie_3 = 'Tutorial Tom will tell you all about the Cogs.\x07Gotta go!'
@@ -7063,6 +7063,7 @@ NPCToonNames = {20000: 'Tutorial Tom',
  2018: 'Doctor Surlee',
  2019: 'Doctor Dimm',
  2020: 'Professor Prepostera',
+ 2021: 'Slappy',
  2022: 'Alec Tinn',
  2101: 'Dentist Daniel',
  2102: 'Sheriff Sherry',
@@ -7693,8 +7694,7 @@ NPCToonNames = {20000: 'Tutorial Tom',
  7009: 'Jimmy Thelock',
 91913: 'Sir Kippy', # 9/19/13 = Closing of Toontown, just a random number to start with so we don't take up other IDs
 91914: 'Mgracer',  # Feel free to add other TTW members in as needed.
-91915: 'Buddy', #elections
-}
+91915: 'Buddy'}
 zone2TitleDict = {2513: ('Toon Hall', ''),
  2514: ('Toontown Bank', ''),
  2516: ('Toontown School House', ''),
@@ -8338,7 +8338,7 @@ PetTrait2descriptions = {'hungerThreshold': ('Always Hungry',
                         'Always Affectionate')}
 
 # Election stuff
-# FireworksInstructions = 'Flippy: Look up using the "Page Up" key to see, or hop in Buddy\'s Balloon for a ride over the sky!'
+# FireworksInstructions = 'Flippy: Look up using the "Page Up" key to see, or hop in Slappy\'s Balloon for a ride over the sky!'
 # startFireworksResponse = "Usage: startFireworksShow ['num']\n 'num' = %s - New Years\n %s - Party Summer \n %s - 4th of July"
 # FireworksJuly4Beginning = 'Flippy: Hiya, Toons! Get ready to see some fireworks to celebrate this last week of the election!'
 # FireworksJuly4Ending = 'Flippy: Hope you enjoyed the show. Don\'t forget to stop by Toontown Central for some pies!'
