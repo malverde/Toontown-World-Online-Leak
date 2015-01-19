@@ -1,8 +1,8 @@
-.pyc
+*.pyc
 astron/
 **/backups/
 logs/
-*.pyc
+
 # Mac directory info:
 .DS_Store
 
