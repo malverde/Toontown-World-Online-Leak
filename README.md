@@ -69,3 +69,6 @@ Game Admins:
 Mgracer (Michael) - administrator, coder
 
 Purrty (Julieanne) - in-game admin and Community Manager
+## How to edit from other branches:
+Just clickt he branch master and you can select different branches like election dev cluster, 
+Dont push anything to the branch if not approved, u have to fork this repo to make changes.
