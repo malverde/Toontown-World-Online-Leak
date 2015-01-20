@@ -76,9 +76,8 @@ class DistributedStage(DistributedObject.DistributedObject):
 
     def gotAllRooms(self):
         self.notify.debug('stage %s: got all rooms' % self.doId)
-        if self.roomWatcher:        
-            self.roomWatcher.destroy()
-            self.roomWatcher = None
+        self.roomWatcher.destroy()
+        self.roomWatcher = None
         self.geom = render.attachNewNode('stage%s' % self.doId)
         for doId in self.roomDoIds:
             self.rooms.append(base.cr.doId2do[doId])
