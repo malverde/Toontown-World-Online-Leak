@@ -1,0 +1,75 @@
+ToontownStart: Polling for game2 to finish...
+ToontownStart: Game2 is finished.
+ToontownStart: Starting the game.
+ToontownStart: setting default font
+TTLocalizer: Running in language: english
+from toontown.toonbase.TTLocalizerEnglish import *
+OTPLocalizer: Running in language: english
+from otp.otpbase.OTPLocalizerEnglish import *
+ToontownStart: Loading default gui sounds
+ToontownStart: serverVersion:  ttw-alpha-dev-build-2.0.0
+{401000001: <toontown.distributed.ToontownDistrict.ToontownDistrict instance at 0x11dcc8098>}
+local
+3
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+Warning: NodePath.remove() is deprecated.  Use remove_node() instead.
+fisherman origin:  render/scene/toontownCentral/2000:safe_zone/fishing_pond_1/npc_fisherman_origin_0
+Traceback (most recent call last):
+  File "/Developer/Panda3D/direct/distributed/ConnectionRepository.py", line 613, in readerPollUntilEmpty
+    while self.readerPollOnce():
+  File "/Developer/Panda3D/direct/distributed/ConnectionRepository.py", line 620, in readerPollOnce
+    self.handleDatagram(self.private__di)
+  File "otp/distributed/OTPClientRepository.py", line 1878, in handleDatagram
+    self.handler(msgType, di)
+  File "otp/distributed/OTPClientRepository.py", line 1489, in handlePlayGame
+    self.handleUpdateField(di)
+  File "otp/distributed/OTPClientRepository.py", line 2196, in handleUpdateField
+    self.__doUpdate(doId, di, ovUpdated)
+  File "otp/distributed/OTPClientRepository.py", line 2204, in __doUpdate
+    do.dclass.receiveUpdate(do, di)
+  File "toontown/election/DistributedElectionEvent.py", line 1135, in setState
+    self.request(state, globalClockDelta.localElapsedTime(timestamp))
+  File "/Developer/Panda3D/direct/fsm/FSM.py", line 321, in request
+    self.__setState(*result)
+  File "/Developer/Panda3D/direct/fsm/FSM.py", line 455, in __setState
+    self.__callExitFunc(self.oldState)
+  File "/Developer/Panda3D/direct/fsm/FSM.py", line 515, in __callExitFunc
+    func()
+  File "toontown/election/DistributedElectionEvent.py", line 528, in exitBegin
+    self.surleeLeaveInterval.finish()
+AttributeError: DistributedElectionEvent instance has no attribute 'surleeLeaveInterval'
+Traceback (most recent call last):
+  File "otp/otpbase/OTPBase.py", line 238, in run
+    taskMgr.run()
+  File "/Developer/Panda3D/direct/task/Task.py", line 503, in run
+    self.step()
+  File "/Developer/Panda3D/direct/task/Task.py", line 461, in step
+    self.mgr.poll()
+  File "/Developer/Panda3D/direct/distributed/ConnectionRepository.py", line 613, in readerPollUntilEmpty
+    while self.readerPollOnce():
+  File "/Developer/Panda3D/direct/distributed/ConnectionRepository.py", line 620, in readerPollOnce
+    self.handleDatagram(self.private__di)
+  File "otp/distributed/OTPClientRepository.py", line 1878, in handleDatagram
+    self.handler(msgType, di)
+  File "otp/distributed/OTPClientRepository.py", line 1489, in handlePlayGame
+    self.handleUpdateField(di)
+  File "otp/distributed/OTPClientRepository.py", line 2196, in handleUpdateField
+    self.__doUpdate(doId, di, ovUpdated)
+  File "otp/distributed/OTPClientRepository.py", line 2204, in __doUpdate
+    do.dclass.receiveUpdate(do, di)
+  File "toontown/election/DistributedElectionEvent.py", line 1135, in setState
+    self.request(state, globalClockDelta.localElapsedTime(timestamp))
+  File "/Developer/Panda3D/direct/fsm/FSM.py", line 321, in request
+    self.__setState(*result)
+  File "/Developer/Panda3D/direct/fsm/FSM.py", line 455, in __setState
+    self.__callExitFunc(self.oldState)
+  File "/Developer/Panda3D/direct/fsm/FSM.py", line 515, in __callExitFunc
+    func()
+  File "toontown/election/DistributedElectionEvent.py", line 528, in exitBegin
+    self.surleeLeaveInterval.finish()
+AttributeError: DistributedElectionEvent instance has no attribute 'surleeLeaveInterval'
+/usr/bin/ppython: No module named toontown.toonbase.ToontownStart.py

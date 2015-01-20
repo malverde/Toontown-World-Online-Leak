@@ -1,4 +1,4 @@
-# Toontown Rewritten Launcher (Windows/Linux python version)
+# Toontown World Launcher (Windows/Linux python version)
 
 """
 TODO LIST:
@@ -24,9 +24,9 @@ import time
 # Temporary Modules
 import getpass
 
-class TTRLauncher(FSM):
+class TTWLauncher(FSM):
     """
-    This is the "main" class that powers the Toontown Rewritten launcher. It manages
+    This is the "main" class that powers the toontown world launcher. It manages
     everything the launcher needs to do, including manage all the "sub-threads" that
     carry out tasks such as patching.
 
@@ -145,7 +145,7 @@ class TTRLauncher(FSM):
         if self.version is not None:
             # Download the JSON file containing the Launcher versions.
             # An example of this launcher JSON file can be found here:
-            # https://download.toontownrewritten.com/launcher/windows/ttr_launcher.json
+            # download.toontownworldonline.com/launcher/windows/ttw_launcher.json
             # N.B.: This is blocking and will block the main thread until it downloads
             # the file in to memory!
             try:
@@ -383,9 +383,9 @@ class TTRLauncher(FSM):
         os.environ['TTR_PLAYCOOKIE'] = self.cookie
         os.environ['TTR_GAMESERVER'] = self.gameserver
         if sys.platform == 'win32': # creationflags is only supported on Windows
-            game = subprocess.Popen('TTREngine', creationflags=0x08000000)
+            game = subprocess.Popen('TTWEngine', creationflags=0x08000000)
         else:
-            game = subprocess.Popen('TTREngine')
+            game = subprocess.Popen('TTWEngine')
         self.sendOutput((messagetypes.LAUNCHER_STATUS, localizer.GUI_PlayGameFarewell))
         time.sleep(1) # Sleep so the "Have Fun!" can be read
         self.sendOutput((messagetypes.LAUNCHER_HIDE))
