@@ -5648,7 +5648,7 @@ LeaderboardTitle = 'Toon Platoon'
 QuestScriptTutorialMickey_1 = 'Toontown has a new citizen! Do you have some extra gags?'
 QuestScriptTutorialMickey_2 = 'Sure, %s!'
 QuestScriptTutorialMickey_3 = 'Tutorial Tom will tell you all about the Cogs.\x07Gotta go!'
-QuestScriptTutorialMickey_4 = 'Come here! Use the arrow keys to move.'
+QuestScriptTutorialMickey_4 = "Hello, new citizen! Welcome to Toontown! Come over here so I can tell you what's been going on in town recently. Use the arrow keys to move."
 QuestScriptTutorialMinnie_1 = 'Toontown has a new citizen! Do you have some extra gags?'
 QuestScriptTutorialMinnie_2 = 'Sure, %s!'
 QuestScriptTutorialMinnie_3 = 'Tutorial Tom will tell you all about the Cogs.\x07Gotta go!'
@@ -9868,4 +9868,6 @@ InteractivePropTrackBonusTerms = {0: 'Super Toon-Up!',
  4: 'Super Throw!',
  5: 'Super Squirt!',
  6: ''}
+ 6: ''}
+
 PlayingCardUnknown = 'Card Name is unknown'
