@@ -34,7 +34,7 @@ default-model-extension .bam
 
 
 # Server settings
-want-rpc-server #t
+want-rpc-server #f
 rpc-server-endpoint http://localhost:8080/
 eventlog-host 127.0.0.1
 want-cheesy-expirations #t
@@ -54,7 +54,7 @@ want-news-page #f
 want-accessories #t
 want-parties #f
 want-gardening #f
-want-gifting #t
+want-gifting #f
 want-picnic-games #f
 want-chinese-table #f
 want-checkers-table #f
@@ -71,16 +71,18 @@ want-instant-parties #f
 show-total-population #t
 want-toontorial #f
 want-doomsday #t
+shard-low-pop 1
+shard-mid-pop 7
 
 # Chat stuff
-want-whitelist #f
-want-blacklist-sequence #f
-force-avatar-understandable #t
-force-player-understandable #t
+want-whitelist #t
+want-blacklist-sequence #t
+force-avatar-understandable #f
+force-player-understandable #f
 
 
 # Holidays and Events
-force-holiday-decorations 4
+#force-holiday-decorations 4
 want-arg-manager #t
 want-mega-invasions #f
 
