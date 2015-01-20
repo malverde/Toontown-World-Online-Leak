@@ -302,6 +302,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         serviceLoc = self.serviceLocs[chairIndex]
 
         def foodAttach(self = self, diner = diner):
+            if self.serviceLocs[chairIndex].getNumChildren() < 1:
+                return        
             foodModel = self.serviceLocs[chairIndex].getChild(0)
             (foodModel.reparentTo(diner.getRightHand()),)
             (foodModel.setHpr(Point3(0, -94, 0)),)
