@@ -2094,7 +2094,7 @@
 2087*2*Skunky
 2088*2*Sky
 2089*2*Skyrocket
-2090*2*Slappy
+2090*2*Buddy
 2091*2*Slate
 2092*2*Slick
 2093*2*Slicker
