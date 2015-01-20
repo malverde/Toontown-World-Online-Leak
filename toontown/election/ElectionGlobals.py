@@ -28,10 +28,10 @@ FlippyWheelbarrowPies = [
 ########################
 
 # Election Music
-IntroMusic = 'phase_4/audio/bgm/EE_Intro.ogg' # Played when Alec, Flippy, and Buddy enter
-AnnouncementMusic = 'phase_4/audio/bgm/EE_Announcement.ogg' # Played when Alec, Flippy, and Buddy enter
-VictoryMusic = 'phase_4/audio/bgm/EE_Celebration.ogg' # Played during Buddy's victory, right before the cog lands
-SadMusic = 'phase_4/audio/bgm/EE_DiesandPies.ogg' # Played when Buddy dies and the first pie thrown
+IntroMusic = 'phase_4/audio/bgm/EE_Intro.ogg' # Played when Alec, Flippy, and Slappy enter
+AnnouncementMusic = 'phase_4/audio/bgm/EE_Announcement.ogg' # Played when Alec, Flippy, and Slappy enter
+VictoryMusic = 'phase_4/audio/bgm/EE_Celebration.ogg' # Played during Slappy's victory, right before the cog lands
+SadMusic = 'phase_4/audio/bgm/EE_DiesandPies.ogg' # Played when Slappy dies and the first pie thrown
 CreditsMusic = 'phase_4/audio/bgm/EE_Theme.ogg' # The Election Credits
 
 SurleeTips = [
@@ -44,12 +44,12 @@ SurleeTips = [
     'The Cog\'s business is too boring to bear. Don\'t let them talk to you.',
     'That\'s what I\'m talking about. Keep at it!',
     'Flippy, we need more pies over here. They\'re flying out quick.',
-    'Doctor Dimm, have you had any luck on Buddy\'s stand?',
+    'Doctor Dimm, have you had any luck on Slappy\'s stand?',
     'Keep a close eye on your pie count, it can run out fast.'
 ]
 
 ########################
-#   Buddy's Balloon   #
+#   Slappy's Balloon   #
 ########################
 
 BalloonBasePosition = [-15, 33, 1.1]
@@ -116,7 +116,7 @@ FlippyPhraseIds = [[100, 101, 102, 103, 104, 105],                       # Hello
                    [5600, 5601],                                         # what's up?
                    [10100],                                              # Who are you voting for?
                    [10101, 10102],                                       # Flippy
-                   [10103, 10104],                                       # Buddy
+                   [10103, 10104],                                       # Slappy
                    [10105],                                              # Decorations
                    [5700]]                                               # Toontastic
 
@@ -165,14 +165,14 @@ FlippyPhrases = ['Hey there, __NAME__! How are you doing?',
                  'I\'m doing pretty great! And you?',
                  'I\'m not allowed to vote, silly!',
                  'That\'s the spirit!',
-                 'Buddy is pretty fun, too. Great balloon. Though... See that plane stuck up there...?',
+                 'Slappy is pretty fun, too. Great balloon. Though... See that plane stuck up there...?',
                  'Me too. Alec did a great job, and I hear there are more coming.',
                  'Ooooh, I just love that word! Good to see it catching on.']
 
-# Let's define all of Buddy's speeches.
+# Let's define all of Slappy's speeches.
 # There should be exactly 12 phrases for each to fit with the sequence.
-# If you add another, make sure to add it to BuddySpeechChoices.
-BuddySpeech1 = [
+# If you add another, make sure to add it to SlappySpeechChoices.
+SlappySpeech1 = [
     'Hiya! Up for a ride?',
     'Off we goooo!',
     "In case you didn't get it back there, that was a pun.",
@@ -186,7 +186,7 @@ BuddySpeech1 = [
     "Err- no. Wrong pun. That one didn't make sense.",
     "I'll CATCHA later! Get it, because of the whale pun? It makes sense now. I planned that."
 ]
-BuddySpeech2 = [
+SlappySpeech2 = [
     'Hello! Want a ride, I assume?',
     "Good! It would be kind of weird if you didn't.",
     "I take it you're a balloon fanatic like myself, eh?",
@@ -200,7 +200,7 @@ BuddySpeech2 = [
     "I've always wondered what kind of mysteries lie out there. The balloons know.",
     "D'awh, here already. I was just about to get into the history of balloons. Come back any time!"
 ]
-BuddySpeech3 = [
+SlappySpeech3 = [
     'Hey there! Yep, just hop on in!',
     "You know, some may consider it rude to jump into someone else's balloon without permission.",
     "In fact, I'm going to have to ask you to step out now.",
@@ -215,7 +215,7 @@ BuddySpeech3 = [
     "Nonono, don't tell me. I want to be surprised. Remember this free balloon ride at the polls, though!"
 ]
 # This one was being chosen too often. It got old. Renable it if more phrases are added so there is a larger pool to choose from.
-'''BuddySpeech4 = [
+'''SlappySpeech4 = [
     'Quackity quack quack!',
     "Quack!",
     "Quack quackity, quackity quacky quack.",
@@ -229,7 +229,7 @@ BuddySpeech3 = [
     "Ohohoh man, I'm just messing with you! I was pretending to use SpeedChat that whole time.",
     "Did I have you fooled or what? Hahahaha, that's rich. Come back again and we might have a real conversation!"
 ]'''
-BuddySpeech5 = [
+SlappySpeech5 = [
     'Oooh, look who it is!',
     "I was wondering when you would come by for a ride.",
     "How are things going? Having fun with this election excitement?",
@@ -245,8 +245,8 @@ BuddySpeech5 = [
 ]
 
 # Now we need to take those phrases and pick one to use
-BuddySpeechChoices = [BuddySpeech1, BuddySpeech2, BuddySpeech3, BuddySpeech5]
-BuddySpeeches = choice(BuddySpeechChoices)
+SlappySpeechChoices = [SlappySpeech1, SlappySpeech2, SlappySpeech3, SlappySpeech5]
+SlappySpeeches = choice(SlappySpeechChoices)
 
 # Number of balloon flight paths. Change if you add more below.
 NumBalloonPaths = 1
@@ -255,7 +255,7 @@ def generateFlightPaths(balloon):
     # This is quite messy imo... but I didn't have much time to think about it.
     # For each sequence, you basically copy and paste this whole section and edit
     # the sequence. When you add a new sequence here, you MUST edit the 
-    # Buddy_BALLOON_NUM_PATHS constant.
+    # SLAPPY_BALLOON_NUM_PATHS constant.
     flightPaths = []
     flightPaths.append(
         Sequence(
@@ -315,32 +315,32 @@ def generateToonFlightPaths(balloon):
     return toonFlightPaths
 
 def generateSpeechSequence(balloon):
-    # This is the interval for Buddy's phrases to say throughout the flight.
-    # It shouldn't really be edited. Instead, add more phrases above with BuddySpeechX and BuddySpeechChoices.
+    # This is the interval for Slappy's phrases to say throughout the flight.
+    # It shouldn't really be edited. Instead, add more phrases above with SlappySpeechX and SlappySpeechChoices.
     speechSequence = Sequence(
-        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[0], CFSpeech | CFTimeout),
+        Func(balloon.slappy.setChatAbsolute, SlappySpeeches[0], CFSpeech | CFTimeout),
         Wait(4),
-        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[1], CFSpeech | CFTimeout),
+        Func(balloon.slappy.setChatAbsolute, SlappySpeeches[1], CFSpeech | CFTimeout),
         Wait(6),
-        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[2], CFSpeech | CFTimeout),
+        Func(balloon.slappy.setChatAbsolute, SlappySpeeches[2], CFSpeech | CFTimeout),
         Wait(4),
-        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[3], CFSpeech | CFTimeout),
+        Func(balloon.slappy.setChatAbsolute, SlappySpeeches[3], CFSpeech | CFTimeout),
         Wait(6),
-        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[4], CFSpeech | CFTimeout),
+        Func(balloon.slappy.setChatAbsolute, SlappySpeeches[4], CFSpeech | CFTimeout),
         Wait(10),
-        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[5], CFSpeech | CFTimeout),
+        Func(balloon.slappy.setChatAbsolute, SlappySpeeches[5], CFSpeech | CFTimeout),
         Wait(6),
-        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[6], CFSpeech | CFTimeout),
+        Func(balloon.slappy.setChatAbsolute, SlappySpeeches[6], CFSpeech | CFTimeout),
         Wait(10),
-        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[7], CFSpeech | CFTimeout),
+        Func(balloon.slappy.setChatAbsolute, SlappySpeeches[7], CFSpeech | CFTimeout),
         Wait(6),
-        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[8], CFSpeech | CFTimeout),
+        Func(balloon.slappy.setChatAbsolute, SlappySpeeches[8], CFSpeech | CFTimeout),
         Wait(7),
-        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[9], CFSpeech | CFTimeout),
+        Func(balloon.slappy.setChatAbsolute, SlappySpeeches[9], CFSpeech | CFTimeout),
         Wait(5),
-        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[10], CFSpeech | CFTimeout),
+        Func(balloon.slappy.setChatAbsolute, SlappySpeeches[10], CFSpeech | CFTimeout),
         Wait(6),
-        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[11], CFSpeech | CFTimeout)
+        Func(balloon.slappy.setChatAbsolute, SlappySpeeches[11], CFSpeech | CFTimeout)
     )
 
     # Return the sequence back to the balloon to run
