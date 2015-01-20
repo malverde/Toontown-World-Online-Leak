@@ -75,8 +75,8 @@ shard-low-pop 1
 shard-mid-pop 7
 
 # Chat stuff
-want-whitelist #t
-want-blacklist-sequence #t
+want-whitelist #f
+want-blacklist-sequence #f
 force-avatar-understandable #f
 force-player-understandable #f
 
