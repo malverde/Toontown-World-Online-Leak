@@ -1,5 +1,5 @@
 # Basic FSM module, based on Panda3D's direct.fsm.FSM module.
-# This was intented for use by Toontown Rewritten's launcher.
+# This was intented for use by toontown world's launcher.
 # Created by Harv on 6/6/2014 @ 4:12am UTC
 
 import string
