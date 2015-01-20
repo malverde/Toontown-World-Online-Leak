@@ -1,0 +1,31 @@
+ToontownStart: Polling for game2 to finish...
+ToontownStart: Game2 is finished.
+ToontownStart: Starting the game.
+ToontownStart: setting default font
+TTLocalizer: Running in language: english
+from toontown.toonbase.TTLocalizerEnglish import *
+OTPLocalizer: Running in language: english
+from otp.otpbase.OTPLocalizerEnglish import *
+ToontownStart: Loading default gui sounds
+ToontownStart: serverVersion:  ttw-alpha-dev-build-2.0.0
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/runpy.py", line 151, in _run_module_as_main
+    mod_name, loader, code, fname = _get_module_details(mod_name)
+  File "/usr/lib/python2.7/runpy.py", line 101, in _get_module_details
+    loader = get_loader(mod_name)
+  File "/usr/lib/python2.7/pkgutil.py", line 464, in get_loader
+    return find_loader(fullname)
+  File "/usr/lib/python2.7/pkgutil.py", line 474, in find_loader
+    for importer in iter_importers(fullname):
+  File "/usr/lib/python2.7/pkgutil.py", line 430, in iter_importers
+    __import__(pkg)
+  File "toontown/toonbase/ToontownStart.py", line 106, in <module>
+    from toontown.distributed import ToontownClientRepository
+  File "toontown/distributed/ToontownClientRepository.py", line 42, in <module>
+    from toontown.pets import DistributedPet, PetDetail, PetHandle
+  File "toontown/pets/DistributedPet.py", line 11, in <module>
+    from toontown.pets import Pet, PetBase, PetTraits, PetConstants, PetManager, PetAvatarPanel
+  File "toontown/pets/PetTraits.py", line 7
+    <<<<<<< HEAD
+     ^
+SyntaxError: invalid syntax

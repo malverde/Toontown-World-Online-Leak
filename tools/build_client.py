@@ -52,7 +52,7 @@ def determineVersion(cwd):
                            stdout=subprocess.PIPE,
                            cwd=cwd).stdout.read()
     git = git.strip()[:7]
-    return 'ttr-alpha-g%s' % (git,)
+    return 'ttw-alpha-g%s' % (git,)
 
 class ClientBuilder(object):
     MAINMODULE = 'toontown.toonbase.MiraiStart'

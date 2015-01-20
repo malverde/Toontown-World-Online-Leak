@@ -9868,4 +9868,6 @@ InteractivePropTrackBonusTerms = {0: 'Super Toon-Up!',
  4: 'Super Throw!',
  5: 'Super Squirt!',
  6: ''}
+ 6: ''}
+
 PlayingCardUnknown = 'Card Name is unknown'
