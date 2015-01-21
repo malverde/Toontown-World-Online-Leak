@@ -9,3 +9,4 @@ logs/
 backups/blockinfo/
 backups/
 *.ini
+*.bu
