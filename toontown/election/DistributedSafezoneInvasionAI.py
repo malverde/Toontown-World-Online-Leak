@@ -26,7 +26,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         FSM.__init__(self, 'InvasionFSM')
 
         self.master = InvasionMasterAI(self)
-        self.election = election
+        self.election = election       
         self.waveNumber = 0
         self.spawnPoints = []
         self.suits = []
@@ -35,6 +35,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         self.lastWave = (self.waveNumber == len(SafezoneInvasionGlobals.SuitWaves) - 1)
         self.invasionOn = False
         self.numberOfSuits = 0
+      
     def announceGenerate(self):
         self.b_setInvasionStarted(True)
         self.demand('BeginWave', 0)
@@ -363,8 +364,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
  
         suit.dna.newSuit(suitType)
         suit.setSpawnPoint(pointId)
-	setLevel = cogfunctions.setLevel()
-        cogfunctions(setLevel(levelOffset))
+        suit.setLevel(levelOffset)
         suit.generateWithRequired(self.zoneId)
 
         # Is this a skelecog wave?
