@@ -16,7 +16,7 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         self.maxHP = 0
         self.currHP = 0
         self.zoneId = 0
-        self.dna = None
+        self.dna = SuitDNA.SuitDNA()
         self.virtual = 0
         self.skeleRevives = 0
         self.maxSkeleRevives = 0
@@ -50,10 +50,10 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         self.notify.debug('Assigning level ' + str(lvl))
         if hasattr(self, 'doId'):
             self.d_setLevelDist(self.level)
-        hp = attributes['hp'][self.level]
         if len(attributes['hp'])<=self.level:
-    	    print "maxHP is less then level, Oops!"
-            raise Exception("invalid list index: len(attributes['hp') = %d, self.level=%d" % (len(attributes['hp']), self.level))	        
+    	    print "HP is less then level, Oops!"
+            raise Exception("invalid list index: len(attributes['hp') = %d, self.level=%d" % (len(attributes['hp']), self.level))
+        hp = attributes['hp'][self.level]            	        
         self.maxHP = hp
         self.currHP = hp
 
