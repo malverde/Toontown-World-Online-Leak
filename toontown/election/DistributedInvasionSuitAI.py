@@ -3,7 +3,7 @@ from direct.distributed.ClockDelta import *
 from direct.fsm.FSM import FSM
 from direct.task.Task import Task
 from toontown.toonbase import ToontownGlobals
-from toontown.suit.DistributedSuitBaseAI import DistributedSuitBaseAI
+from DistributedSuitBaseAI import DistributedSuitBaseAI
 from toontown.suit import SuitTimings
 from toontown.battle import SuitBattleGlobals
 import SafezoneInvasionGlobals
@@ -25,14 +25,11 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI,  InvasionSuitBase, FSM):
         DistributedSuitBaseAI.__init__(self, air, None)
         InvasionSuitBase.__init__(self)
         FSM.__init__(self, 'InvasionSuitFSM')
-        SuitDNA.name = None
-        dna = SuitDNA
-        DistributedInvasionSuitAI.dna = dna
-    	
+	self.dna = None
         self.invasion = invasion
         self.stateTime = globalClockDelta.getRealNetworkTime()
         self.spawnPointId = 0
-
+		
         self.brain = InvasionSuitBrainAI(self)
 
         self.lastMarchTime = 0.0
@@ -154,7 +151,9 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI,  InvasionSuitBase, FSM):
         self.b_setState('Attack')
 
     def enterAttack(self):
-
+        self.dna = SuitDNA.SuitDNA
+        dna = self.dna 
+        suit.dna = dna 
         if self.brain.suit.dna.body in ['a', 'b']:
             self._delay = taskMgr.doMethodLater(4.6, self.__attackDone,
                                                 self.uniqueName('attack'))
