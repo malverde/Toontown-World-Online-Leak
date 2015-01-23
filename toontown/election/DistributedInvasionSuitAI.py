@@ -29,7 +29,7 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI,  InvasionSuitBase, FSM):
         self.invasion = invasion
         self.stateTime = globalClockDelta.getRealNetworkTime()
         self.spawnPointId = 0
-	SuitDNA.name = None		
+	SuitDNA.name = 'f'		
         self.brain = InvasionSuitBrainAI(self)
 
         self.lastMarchTime = 0.0
