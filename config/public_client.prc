@@ -1,9 +1,9 @@
-# This is the PRC configuration file for a published TTR client. Note that only
+# This is the PRC configuration file for a published TTW client. Note that only
 # this file and Panda3D's Confauto.prc are included. Any relevant directives in
 # Config.prc should be reproduced here.
 
 # Client settings
-window-title Toontown World[Pre-Alpha]
+window-title Toontown World [Pre-Alpha]
 server-version ttw-alpha-2.0.0
 audio-library-name p3openal_audio
 sync-video #f
@@ -34,8 +34,8 @@ vfs-mount phase_13.mf /
 default-model-extension .bam
 
 
-# Now that we've loaded the phase files, tell panda to trust the TTRCA
-ssl-certificates /phase_3/etc/TTRCA.crt
+# Now that we've loaded the phase files, tell panda to trust the TTWCA
+ssl-certificates /phase_3/etc/TTWCA.crt
 #<dev>
 ssl-certificates /phase_3/etc/TTRDev.crt
 want-dev-certificate-trust #t
