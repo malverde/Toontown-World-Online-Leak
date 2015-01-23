@@ -183,7 +183,7 @@ SuitWaves = [
     # WAVE 9: THE FINAL WAVE
     generateSuits(15, [7, 12], [6, 7], True),
     generateSuits(20, [8, 12], [7, 7], True), # Wait Wave
-    generateSuits(25, [8, 12], [7, 7], True), # Intermission Wave
+    generateSuits(25, [11, 12], [7, 7], True), # Intermission Wave
     generateSuits(1, [11, 12], [7, 7], True), # boss wave after this
     
 
@@ -197,7 +197,7 @@ SuitWaitWaves = [1, 4, 7, 10, 13, 16, 19, 22, 24, 25, 27]
 SuitIntermissionWaves = [2, 5, 8, 11, 14, 17, 20, 23, 26]
 
 # These are the last waves that start turning cogs into Skelcogs.
-SuitSkelecogWaves = [24, 25, 26, 27, 28] #added 27 as skelecog wave
+SuitSkelecogWaves = [24, 25, 26, 27] #added 27 as skelecog wave
 
 WaveBeginningTime = 10 # This should be at least 6.5 (the suit fly-down time)
 IntermissionTime = 20 # How long does the intermission last?
