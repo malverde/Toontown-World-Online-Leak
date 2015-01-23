@@ -9,3 +9,5 @@ logs/
 backups/blockinfo/
 backups/
 *.ini
+.ini 
+.pyc
