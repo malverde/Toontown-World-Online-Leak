@@ -184,19 +184,17 @@ SuitWaves = [
     generateSuits(15, [7, 12], [6, 7], True),
     generateSuits(20, [8, 12], [7, 7], True), # Wait Wave
     generateSuits(25, [8, 12], [7, 7], True), # Intermission Wave
-    generateSuits(25, [8, 12], [7, 7], True), # boss wave after this
+    generateSuits(1, [11, 12], [7, 7], True), # boss wave after this
     
-    #wave 10: The boss wave after this the hardest wave before the boss
-    generateSuits(25, [11, 12], [7, 7], True),    
-    
+
 ]
 
 # On these waves, no more waves will spawn until all suits are destroyed.
 # Once the suits are destroyed, the next wave will spawn again instantly with no intermission.
-SuitWaitWaves = [1, 4, 7, 10, 13, 16, 19, 22, 24, 25, ]
+SuitWaitWaves = [1, 4, 7, 10, 13, 16, 19, 22, 24, 25]
 
 # These waves have a 20 second intermission period after all suits are destroyed.
-SuitIntermissionWaves = [2, 5, 8, 11, 14, 17, 20, 23, 26, 27]
+SuitIntermissionWaves = [2, 5, 8, 11, 14, 17, 20, 23, 26]
 
 # These are the last waves that start turning cogs into Skelcogs.
 SuitSkelecogWaves = [24, 25, 26, 27, 28] #added 27 as skelecog wave
