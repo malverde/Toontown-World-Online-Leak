@@ -15,7 +15,7 @@ from toontown.suit.SuitDNA import SuitDNA
 from toontown.suit import SuitPlannerBase
 from toontown.suit import SuitBase
 from toontown.suit import Suit
-
+from toontown.suit.SuitDNA import  getSuitBodyType
 
 
 class DistributedInvasionSuitAI(DistributedSuitBaseAI,  InvasionSuitBase, FSM):
@@ -153,6 +153,7 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI,  InvasionSuitBase, FSM):
     def enterAttack(self):
         self.dna = SuitDNA
         dna = self.dna 
+SuitDNA.body =  getSuitBodyType(self.name)        
         if self.brain.suit.dna.body in ['a', 'b']:
             self._delay = taskMgr.doMethodLater(4.6, self.__attackDone,
                                                 self.uniqueName('attack'))
