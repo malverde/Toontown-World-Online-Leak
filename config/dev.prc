@@ -80,7 +80,7 @@ force-player-understandable #t
 
 
 # Holidays and Events
-#force-holiday-decorations 4
+force-holiday-decorations 4
 want-arg-manager #t
 want-mega-invasions #f
 
