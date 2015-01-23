@@ -197,7 +197,7 @@ SuitWaitWaves = [1, 4, 7, 10, 13, 16, 19, 22, 24, 25]
 SuitIntermissionWaves = [2, 5, 8, 11, 14, 17, 20, 23, 26]
 
 # These are the last waves that start turning cogs into Skelcogs.
-SuitSkelecogWaves = [24, 25, 26, 27, 28] #added 27 as skelecog wave
+SuitSkelecogWaves = [24, 25, 26, 27] #added 27 as skelecog wave
 
 WaveBeginningTime = 10 # This should be at least 6.5 (the suit fly-down time)
 IntermissionTime = 20 # How long does the intermission last?
