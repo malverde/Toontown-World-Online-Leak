@@ -169,11 +169,8 @@ def system(message):
 def maintenance(minutes):
 
     """
-
     Initiate the maintenance message sequence. It will last for the specified
-
     amount of <minutes>.
-
     """
 
     def disconnect(task):
@@ -193,7 +190,7 @@ def maintenance(minutes):
     def countdown(minutes):
 
         if minutes > 0:
-OTPLocalizer = OTPLocalizer.OTPLocalizer
+            OTPLocalizer = OTPLocalizer.OTPLocalizer
             system(OTPLocalizer.CRMaintenanceCountdownMessage % minutes)
 
         else:
