@@ -193,7 +193,7 @@ def maintenance(minutes):
     def countdown(minutes):
 
         if minutes > 0:
-
+OTPLocalizer = OTPLocalizer.OTPLocalizer
             system(OTPLocalizer.CRMaintenanceCountdownMessage % minutes)
 
         else:
