@@ -15,7 +15,7 @@ from otp.distributed.ClsendTracker import ClsendTracker
 from otp.otpbase import OTPGlobals
 
 from otp.ai.MagicWordGlobal import *
-
+from otp.otpbase import OTPLocalizer
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.MsgTypes import CLIENTAGENT_EJECT
 class DistributedPlayerAI(DistributedAvatarAI.DistributedAvatarAI, PlayerBase.PlayerBase, ClsendTracker):
