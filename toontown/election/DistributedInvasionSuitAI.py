@@ -151,7 +151,7 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI,  InvasionSuitBase, FSM):
         self.b_setState('Attack')
 
     def enterAttack(self):
-        self.dna = SuitDNA.SuitDNA
+        self.dna = SuitDNA
         dna = self.dna 
         suit.dna = dna 
         if self.brain.suit.dna.body in ['a', 'b']:
