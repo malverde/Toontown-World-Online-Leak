@@ -73,7 +73,7 @@ want-toontorial #f
 want-doomsday #f
 
 # Chat stuff
-want-whitelist #t
+want-whitelist #f
 want-blacklist-sequence #f
 force-avatar-understandable #t
 force-player-understandable #t
