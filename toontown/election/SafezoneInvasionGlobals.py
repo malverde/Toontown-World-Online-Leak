@@ -184,7 +184,7 @@ SuitWaves = [
     generateSuits(15, [7, 12], [6, 7], True),
     generateSuits(20, [8, 12], [7, 7], True), # Wait Wave
     generateSuits(25, [8, 12], [7, 7], True), # Intermission Wave
-    generateSuits(1, [8, 12], [7, 7], True), # boss wave after this
+    generateSuits(25, [8, 12], [7, 7], True), # boss wave after this
     
 ]
 
