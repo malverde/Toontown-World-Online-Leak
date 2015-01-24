@@ -76,10 +76,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
             door2 = doors.find('**/door_2')
             door3 = doors.find('**/door_3')
             index = 0
-            for door in [door0,
-             door1,
-             door2,
-             door3]:
+            for door in [door0, door1, door2, door3]:
                 doorFrame = door.find('**/doorDoubleFlat/+GeomNode')
                 door.find('**/doorFrameHoleLeft').wrtReparentTo(doorFrame)
                 door.find('**/doorFrameHoleRight').wrtReparentTo(doorFrame)
