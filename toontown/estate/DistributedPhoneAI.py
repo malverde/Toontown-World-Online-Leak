@@ -21,7 +21,6 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
         self.ownerId = ownerId
         self.busy = 0
         self.avId = None
- 	self.d_setMovie = None       
     def setInitialScale(self, sx, sy, sz):
         self.initialScale = (sx, sy, sz)
         self.sendUpdate('setInitialScale', args=[sx, sy, sz])
@@ -92,6 +91,9 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
     def setMovie(self, mode, avId):
         timestamp = ClockDelta.globalClockDelta.getRealNetworkTime(bits=32)
         self.sendUpdate('setMovie', args=[mode, avId, timestamp])
+
+    def d_setMovie(self, mode, avId, time):
+        self.sendUpdate('setMovie', [mode, avId, time])
 
     def sendEnterMovie(self, avId):
         self.setMovie(PHONE_MOVIE_PICKUP, avId)
