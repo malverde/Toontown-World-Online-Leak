@@ -112,9 +112,9 @@ class SuitLegList:
         return self.legs[legNum].getBlockNumber()
 
     def isPointInRange(self, point, startTime, endTime):
-        leg = self.getLegIndexAtTime(startTime, 0)  
+        legIndex = self.getLegIndexAtTime(startTime, 0)  
         time = startTime                  
-        while leg < self.getNumLegs():
+        while legIndex < self.getNumLegs():
             leg = self.legs[legIndex]
             if leg.getEndTime() > highTime:
                 break            
@@ -122,9 +122,8 @@ class SuitLegList:
                 return True
             
             leg += 1
-        else:
-            return True            
-        return False
+
+            return False          
 
     def __getitem__(self, key):
         return self.legs[key]
