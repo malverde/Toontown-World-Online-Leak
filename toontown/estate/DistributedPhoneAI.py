@@ -88,9 +88,8 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
     def setLimits(self, todo0):
         pass
 
-    def setMovie(self, mode, avId):
-        timestamp = ClockDelta.globalClockDelta.getRealNetworkTime(bits=32)
-        self.sendUpdate('setMovie', args=[mode, avId, timestamp])
+    def setMovie(self, todo0, todo1, todo2):
+        pass
 
     def d_setMovie(self, mode, avId, time):
         self.sendUpdate('setMovie', [mode, avId, time])
