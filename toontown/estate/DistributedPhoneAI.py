@@ -2,6 +2,13 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.estate.DistributedFurnitureItemAI import DistributedFurnitureItemAI
 from direct.distributed import ClockDelta
 from PhoneGlobals import *
+from toontown.toonbase import ToontownGlobals
+from toontown.catalog import CatalogItem
+from toontown.catalog.CatalogInvalidItem import CatalogInvalidItem
+from toontown.catalog.CatalogItemList import CatalogItemList
+from direct.distributed.ClockDelta import *
+import time
+import PhoneGlobals
 
 class DistributedPhoneAI(DistributedFurnitureItemAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPhoneAI")
@@ -14,6 +21,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
         self.ownerId = ownerId
         self.busy = 0
         self.avId = None
+        
     def setInitialScale(self, sx, sy, sz):
         self.initialScale = (sx, sy, sz)
         self.sendUpdate('setInitialScale', args=[sx, sy, sz])
