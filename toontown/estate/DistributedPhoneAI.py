@@ -98,7 +98,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
         self.setMovie(PHONE_MOVIE_PICKUP, avId)
 
     def sendExitMovie(self):
-        self.setMovie(PHONE_MOVIE_HANGUP, self.busy)
+        self.setMovie(PHONE_MOVIE_HANGUP, self.busy, None)
 
     def sendClearMovie(self):
         self.setMovie(PHONE_MOVIE_CLEAR, self.busy)
