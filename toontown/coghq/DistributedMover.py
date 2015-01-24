@@ -79,6 +79,7 @@ class DistributedMover(BasicEntities.DistributedNodePathEntity):
         self.entity2Move = entId
         if entId:
             ent = self.level.getEntity(entId)
+        if ent:            
             if self.attachedEnt and not self.attachedEnt.isEmpty():
                 self.attachedEnt.reparentTo(self.oldParent)
             self.oldParent = ent.getParent()
