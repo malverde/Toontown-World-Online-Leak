@@ -10,3 +10,4 @@ backups/blockinfo/
 backups/
 *.ini
 *.bu
+**/astron/
