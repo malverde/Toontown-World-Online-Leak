@@ -5,20 +5,27 @@ from otp.distributed.ClsendTracker import ClsendTracker
 from otp.otpbase import OTPGlobals
 from otp.ai.MagicWordGlobal import *
 from direct.showbase import GarbageReport
-
 from otp.avatar import DistributedAvatarAI
-
 from otp.avatar import PlayerBase
-
 from otp.distributed.ClsendTracker import ClsendTracker
-
 from otp.otpbase import OTPGlobals
-
 from otp.ai.MagicWordGlobal import *
 from otp.otpbase import OTPLocalizer
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.MsgTypes import CLIENTAGENT_EJECT
 class DistributedPlayerAI(DistributedAvatarAI.DistributedAvatarAI, PlayerBase.PlayerBase, ClsendTracker):
+ #added imports tti had 
+from direct.showbase import GarbageReport
+from direct.distributed.PyDatagram import PyDatagram
+from direct.distributed.MsgTypes import CLIENTAGENT_EJECT
+from otp.ai.AIBaseGlobal import *
+from otp.ai.MagicWordGlobal import *
+from otp.avatar import DistributedAvatarAI
+from otp.avatar import PlayerBase
+from otp.distributed import OtpDoGlobals
+from otp.distributed.ClsendTracker import ClsendTracker
+from otp.otpbase import OTPLocalizer
+
 
     def __init__(self, air):
         DistributedAvatarAI.DistributedAvatarAI.__init__(self, air)
@@ -165,66 +172,37 @@ def system(message):
                 do.d_setSystemMessage(0, message)
 
 @magicWord(category=CATEGORY_ADMIN, types=[int])
-
 def maintenance(minutes):
-
     """
     Initiate the maintenance message sequence. It will last for the specified
     amount of <minutes>.
     """
-
     def disconnect(task):
-
         dg = PyDatagram()
-
         dg.addServerHeader(10, simbase.air.ourChannel, CLIENTAGENT_EJECT)
-
         dg.addUint16(154)
-
-        dg.addString('Toontown is now closed for maintenance.')
-
+        dg.addString('Toontown World is now closed for maintenance.')
         simbase.air.send(dg)
-
         return Task.done
 
     def countdown(minutes):
-
         if minutes > 0:
-            OTPLocalizer = OTPLocalizer.OTPLocalizer
             system(OTPLocalizer.CRMaintenanceCountdownMessage % minutes)
-
         else:
-
             system(OTPLocalizer.CRMaintenanceMessage)
-
             taskMgr.doMethodLater(10, disconnect, 'maintenance-disconnection')
-
         if minutes <= 5:
-
             next = 60
-
             minutes -= 1
-
         elif minutes % 5:
-
             next = 60 * (minutes%5)
-
             minutes -= minutes % 5
-
         else:
-
             next = 300
-
             minutes -= 5
-
         if minutes >= 0:
-
             taskMgr.doMethodLater(next, countdown, 'maintenance-task',
-
                                   extraArgs=[minutes])
-
-
-
 
 
     countdown(minutes)
