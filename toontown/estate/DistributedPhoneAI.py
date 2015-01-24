@@ -10,6 +10,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
         DistributedFurnitureItemAI.__init__(self, air, furnitureMgr, item)
         self.initialScale = (0.8, 0.8, 0.8)
         self.newScale = (0, 0, 0)
+        ownerId = 0
         self.ownerId = ownerId
         self.busy = 0
 
