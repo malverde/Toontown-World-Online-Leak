@@ -7,7 +7,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPhoneAI")
 
     def __init__(self, air, furnitureMgr, item):
-        DistributedFurnitureItemAI.__init__(self, air, furnitureMgr, catalogItem)
+        DistributedFurnitureItemAI.__init__(self, air, furnitureMgr, item)
         self.initialScale = (0.8, 0.8, 0.8)
         self.newScale = (0, 0, 0)
         self.ownerId = ownerId
