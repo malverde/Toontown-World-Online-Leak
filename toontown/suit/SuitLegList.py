@@ -86,14 +86,19 @@ class SuitLegList:
             time += self.legs[i].getLegTime()
             i += 1
         return time
-    
     def getLegIndexAtTime(self, time, startLeg):
-         endTime = 0   
-         for i, leg in enumerate(self.legs):
-            endTime += self.legs[i].getLegTime()        
+        endTime = 0
+        i = 0
+        while i < startLeg:
+            endTime += self.legs[i].getLegTime()
+            i += 1
+        while i < self.getNumLegs():
+            endTime += self.legs[i].getLegTime()
             if endTime > time:
-              break
-         return i         
+			  break
+            return i         
+            i += 1    
+       
 
     def getNumLegs(self):
         return len(self.legs)
