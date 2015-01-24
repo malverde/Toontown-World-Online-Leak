@@ -56,7 +56,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
             factoryLinkTunnel = self.geom.find('**/Tunnel2')
             factoryLinkTunnel.setName('linktunnel_sellhq_11200_DNARoot')
             cogSignModel = loader.loadModel('phase_4/models/props/sign_sellBotHeadHQ')
-            cogSign = cogSignModel.find('**/sign_sellBotHeadHQ').copyTo(NodePath())
+            cogSign = cogSignModel.find('**/sign_sellBotHeadHQ')
             cogSign.flattenStrong()
             cogSignModel.removeNode()
             cogSignSF = 23
@@ -97,7 +97,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
             factoryLinkTunnel.setName('linktunnel_sellhq_11000_DNARoot')
             factoryLinkTunnel.find('**/tunnel_sphere').setName('tunnel_trigger')
             cogSignModel = loader.loadModel('phase_4/models/props/sign_sellBotHeadHQ')
-            cogSign = cogSignModel.find('**/sign_sellBotHeadHQ').copyTo(NodePath())
+            cogSign = cogSignModel.find('**/sign_sellBotHeadHQ')
             cogSign.flattenStrong()
             cogSignModel.removeNode()
             cogSignSF = 23
