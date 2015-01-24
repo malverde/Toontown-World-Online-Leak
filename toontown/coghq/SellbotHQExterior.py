@@ -11,7 +11,7 @@ class SellbotHQExterior(CogHQExterior.CogHQExterior):
 #added unfished code         
 # Load the CogHQ DNA file:
         dnaStore = DNAStorage()
-        dnaFileName = self.genDNAFileName(self.zoneId)
+        dnaFileName = 'phase_9/dna/cog_hq_sellbot_sz.xml'
         loadDNAFileAI(dnaStore, dnaFileName)
 
         # Collect all of the vis group zone IDs:
