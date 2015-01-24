@@ -115,6 +115,8 @@ class SuitLegList:
                 return True
             
             legIndex += 1
+        else:
+            return True            
         return False
 
     def __getitem__(self, key):
