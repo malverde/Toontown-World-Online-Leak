@@ -330,8 +330,8 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         numLegs = self.legList.getNumLegs()
         if self.currentLeg != nextLeg:
             self.currentLeg = nextLeg
-            self.doPathLeg(self.legList.getLeg(nextLeg), elapsed - self.legList.getStartTime(nextLeg))
-	    nextLeg += 1
+            self.doPathLeg(self.legList[nextLeg], elapsed - self.legList.getStartTime(nextLeg))
+        nextLeg += 1
         if nextLeg < numLegs:
             nextTime = self.legList.getStartTime(nextLeg)
             delay = nextTime - elapsed
@@ -341,8 +341,8 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         return Task.done
 
     def doPathLeg(self, leg, time):
-		self.fsm.request(leg.getTypeName(), [leg, time])
-		return 0
+        self.fsm.request(SuitLeg.getTypeName(leg.getType()), [leg, time])
+        return 0
 
     def stopPathNow(self):
         name = self.taskName('move')
