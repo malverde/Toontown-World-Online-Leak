@@ -91,6 +91,7 @@ class SuitLegList:
         for i, leg in enumerate(self.legs):
             if leg.getEndTime() > time:
                 return i
+        return self.getNumLegs() - 1                
 
     def getNumLegs(self):
         return len(self.legs)
