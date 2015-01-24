@@ -95,7 +95,7 @@ class SuitLegList:
         while i < self.getNumLegs():
             endTime += self.legs[i].getLegTime()
             if endTime > time:
-            return i         
+             return i         
             i += 1    
        
 
