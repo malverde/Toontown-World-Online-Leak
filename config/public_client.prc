@@ -11,7 +11,7 @@ want-dev #f
 preload-avatars #t
 want-keep-alive #f
 texture-anisotropic-degree 16
-language LANGUAGE_HERE
+
 
 
 # Resources settings
