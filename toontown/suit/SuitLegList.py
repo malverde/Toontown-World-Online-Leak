@@ -116,7 +116,7 @@ class SuitLegList:
         time = startTime                  
         while legIndex < self.getNumLegs():
             leg = self.legs[legIndex]
-            if leg.getendTime() > highTime:
+            if leg >= len(self.legs):
                 break            
             if (leg.pointA == point) or (leg.pointB == point):
                 return True
