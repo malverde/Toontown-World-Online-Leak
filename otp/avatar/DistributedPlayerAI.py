@@ -13,11 +13,7 @@ from otp.ai.MagicWordGlobal import *
 from otp.otpbase import OTPLocalizer
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.MsgTypes import CLIENTAGENT_EJECT
-class DistributedPlayerAI(DistributedAvatarAI.DistributedAvatarAI, PlayerBase.PlayerBase, ClsendTracker):
- #added imports tti had 
 from direct.showbase import GarbageReport
-from direct.distributed.PyDatagram import PyDatagram
-from direct.distributed.MsgTypes import CLIENTAGENT_EJECT
 from otp.ai.AIBaseGlobal import *
 from otp.ai.MagicWordGlobal import *
 from otp.avatar import DistributedAvatarAI
@@ -26,6 +22,8 @@ from otp.distributed import OtpDoGlobals
 from otp.distributed.ClsendTracker import ClsendTracker
 from otp.otpbase import OTPLocalizer
 
+class DistributedPlayerAI(DistributedAvatarAI.DistributedAvatarAI, PlayerBase.PlayerBase, ClsendTracker):
+ #added imports tti had 
 
     def __init__(self, air):
         DistributedAvatarAI.DistributedAvatarAI.__init__(self, air)
