@@ -77,7 +77,7 @@ show-total-population #t
 # Server:
 server-timezone BST/EDT/-5
 server-port 7199
-account-server-endpoint https://toontownworldonline.com/api/
+account-server-endpoint http://toontownworldonline.com/api/
 account-bridge-filename astron/databases/account-bridge.db
 
 # Cog battles:
