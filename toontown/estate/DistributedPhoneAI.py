@@ -77,13 +77,17 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
 
 
     def avatarExit(self):
-        self.sendExitMovie()
-        self.sendClearMovie()
+        avId = self.air.getAvatarIdFromSender()
+        if avId != self.avId:
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to exit a phone they weren\'t using!')
+            return
 
-        self.busy = 0
+        self.avId = None
+        self.d_setMovie(PhoneGlobals.PHONE_MOVIE_HANGUP, avId, globalClockDelta.getRealNetworkTime())
+        taskMgr.doMethodLater(1, self.__resetMovie, 'resetMovie-%d' % self.getDoId(), extraArgs=[])
 
-    def freeAvatar(self, avId):
-        self.sendUpdateToAvatarId(avId, 'freeAvatar', [])
+    def freeAvatar(self):
+        pass
 
     def setLimits(self, todo0):
         pass
@@ -94,23 +98,63 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
     def d_setMovie(self, mode, avId, time):
         self.sendUpdate('setMovie', [mode, avId, time])
 
-    def sendEnterMovie(self, avId):
-        self.setMovie(PHONE_MOVIE_PICKUP, avId)
+    def __resetMovie(self):
+        self.d_setMovie(PhoneGlobals.PHONE_MOVIE_CLEAR, 0, globalClockDelta.getRealNetworkTime())
 
-    def sendExitMovie(self):
-        self.setMovie(PHONE_MOVIE_HANGUP, self.busy, None)
+    def requestPurchaseMessage(self, context, item, optional):
+        avId = self.air.getAvatarIdFromSender()
+        if avId != self.avId:
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to purchase while not using the phone!')
+            return
+        av = self.air.doId2do.get(avId)
 
-    def sendClearMovie(self):
-        self.setMovie(PHONE_MOVIE_CLEAR, self.busy)
+        if not av:
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Used phone from other shard!')
+            return
 
-    def requestPurchaseMessage(self, context, blob, optional):
+        item = CatalogItem.getItem(item)
+        if isinstance(item, CatalogInvalidItem): # u wot m8
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to purchase invalid catalog item.')
+            return
+        if item.loyaltyRequirement(): # These items aren't purchasable! Hacker alert!
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to purchase an unimplemented loyalty item!')
+            return
+        if item in av.backCatalog:
+            price = item.getPrice(CatalogItem.CatalogTypeBackorder)
+        elif item in av.weeklyCatalog or item in av.monthlyCatalog:
+            price = item.getPrice(0)
+        else:
+            return
+
+        if item.getDeliveryTime():
+            if len(av.onOrder) > 3: #TODO correct number
+                self.sendUpdateToAvatarId(avId, 'requestPurchaseResponse', [context, ToontownGlobals.P_OnOrderListFull])
+                return
+            if len(av.mailboxContents) + len(av.onOrder) >= ToontownGlobals.MaxMailboxContents:
+                self.sendUpdateToAvatarId(avId, 'requestPurchaseResponse', [context, ToontownGlobals.P_MailboxFull])
+            if not av.takeMoney(price):
+                return
+            item.deliveryDate = int(time.time()/60) + item.getDeliveryTime()
+            av.onOrder.append(item)
+            av.b_setDeliverySchedule(av.onOrder)
+            self.sendUpdateToAvatarId(avId, 'requestPurchaseResponse', [context, ToontownGlobals.P_ItemOnOrder])
+        else:
+            if not av.takeMoney(price):
+                #u wot m8
+                return
+
+            resp = item.recordPurchase(av, optional)
+            if resp < 0: # refund if purchase unsuccessful
+                    av.addMoney(price)
+
+            self.sendUpdateToAvatarId(avId, 'requestPurchaseResponse', [context, resp])
+
+
+    def requestPurchaseResponse(self, todo0, todo1):
         pass
 
-    def requestPurchaseResponse(self, context, retcode):
-        self.sendUpdate('requestPurchaseResponse', args=[context, retcode])
-
-    def requestGiftPurchaseMessage(self, context, target, blob, optional):
+    def requestGiftPurchaseMessage(self, todo0, todo1, todo2, todo3):
         pass
 
-    def requestGiftPurchaseResponse(self, context, retcode):
-        self.sendUpdate('requestGiftPurchaseResponse', args=[context, retcode])
+    def requestGiftPurchaseResponse(self, todo0, todo1):
+        pass
