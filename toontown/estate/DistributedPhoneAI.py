@@ -6,7 +6,7 @@ from PhoneGlobals import *
 class DistributedPhoneAI(DistributedFurnitureItemAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPhoneAI")
 
-    def __init__(self, air, furnitureMgr, catalogItem, ownerId):
+    def __init__(self, air, furnitureMgr, item):
         DistributedFurnitureItemAI.__init__(self, air, furnitureMgr, catalogItem)
         self.initialScale = (0.8, 0.8, 0.8)
         self.newScale = (0, 0, 0)
