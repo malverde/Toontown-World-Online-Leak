@@ -30,13 +30,44 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
 
     def avatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
+        if self.avId:
+            if self.avId == avId:
+                self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to use a phone twice!')
+                return
 
-        if not self.busy:
-            self.sendEnterMovie(avId)
-            self.air.questManager.toonUsedPhone(avId)
-            self.busy = avId
+            self.sendUpdateToAvatarId(avId, 'freeAvatar', [])
+            return
+
+        av = self.air.doId2do.get(avId)
+        if not av:
+            return
+
+        if not av.houseId:
+            # Let's not deal with toons that have no houses, pls.
+            self.sendUpdateToAvatarId(avId, 'freeAvatar', [])
+            return
+
+        if len(av.monthlyCatalog) == 0 and len(av.weeklyCatalog) == 0 and len(av.backCatalog) == 0:
+            self.d_setMovie(PhoneGlobals.PHONE_MOVIE_EMPTY, avId, globalClockDelta.getRealNetworkTime())
+            taskMgr.doMethodLater(1, self.__resetMovie, 'resetMovie-%d' % self.getDoId(), extraArgs=[])
+            self.notify.debug("No Catalogs")
+            return
+
+        self.air.questManager.toonCalledClarabelle(av)
+
+        self.notify.debug("Loading the catalog")
+        self.avId = avId
+        self.d_setMovie(PhoneGlobals.PHONE_MOVIE_PICKUP, avId, globalClockDelta.getRealNetworkTime())
+
+        house = self.air.doId2do.get(av.houseId)
+        if house:
+            numItems = len(house.interiorItems) + len(house.atticItems) + len(house.atticWallpaper) + len(house.atticWindows) + len (house.interiorWallpaper) + len(house.interiorWindows)
+            self.sendUpdateToAvatarId(avId, 'setLimits', [numItems])
         else:
-            self.freeAvatar(avId)
+            self.air.dbInterface.queryObject(self.air.dbId, av.houseId, self.__gotHouse)
+
+        av.b_setCatalogNotify(ToontownGlobals.NoItems, av.mailboxNotify)
+
 
     def avatarExit(self):
         self.sendExitMovie()
