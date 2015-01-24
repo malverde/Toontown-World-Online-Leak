@@ -13,7 +13,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
         ownerId = 0
         self.ownerId = ownerId
         self.busy = 0
-
+        self.avId = None
     def setInitialScale(self, sx, sy, sz):
         self.initialScale = (sx, sy, sz)
         self.sendUpdate('setInitialScale', args=[sx, sy, sz])
