@@ -4725,7 +4725,7 @@ def maxToon(hasConfirmed='UNCONFIRMED'):
     toon.b_setMoney(toon.getMaxMoney())
     toon.b_setBankMoney(ToontownGlobals.DefaultMaxBankMoney)
 
-    return 'By the power invested in me, I, SIr Kippy, max your toon.'
+    return 'By the power invested in me, I, McQuack, max your toon.'
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int])
 def setMaxMoney(moneyVal):

@@ -16,5 +16,5 @@ fields:
   setSlot3Items: ([])
   setSlot4ToonId: (0)
   setSlot4Items: ([])
-  setSlot5ToonId: (0)
+  setSlot5ToonId: (100000220)
   setSlot5Items: ([])
