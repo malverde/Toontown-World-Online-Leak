@@ -10,7 +10,7 @@ FinaleSuitDestinations = [
     (-36.5, -56.0),
     (  7.1,  -1.4),
     ( 27.3,  -0.4),
-    ( 36.5,  -1.9),
+    ( 36.5,  -1.9)
 ]
 
 # Lets give the Finale suit a special name
@@ -60,7 +60,7 @@ SuitSpawnPoints = [
     ( 135.0, -98.0,   2.5,-130.0),
     ( 121.6, -52.8,   2.5,  80.0),
     (  46.1,-114.8,   2.5,  60.0),
-    (-113.6,  20.0,  0.03,  55.0),
+    (-113.6,  20.0,  0.03,  55.0)
 ]
 
 suitLevels = [
@@ -142,7 +142,7 @@ SuitWaves = [
 
     # WAVE 1:
     generateSuits(10, [1, 5], [0, 0]),
-    generateSuits(13, [2, 5], [0, 0]), # Wait Wave
+    generateSuits(13, [1, 5], [0, 0]), # Wait Wave
     generateSuits(17, [1, 5], [0, 0]), # Intermission Wave
 
     # WAVE 2:
@@ -161,24 +161,24 @@ SuitWaves = [
     generateSuits(17, [4, 8], [3, 3]), # Intermission Wave
 
     # WAVE 5:
-    generateSuits(8,  [0, 2], [3, 4]),
-    generateSuits(11, [2, 4], [4, 4]), # Wait Wave
-    generateSuits(17, [2, 3], [4, 4]), # Intermission Wave
+    generateSuits(8,  [4, 9], [3, 4]),
+    generateSuits(11, [5, 9], [4, 4]), # Wait Wave
+    generateSuits(17, [5, 9], [4, 4]), # Intermission Wave
 
     # WAVE 6:
-    generateSuits(8,  [1, 2], [4, 5]),
-    generateSuits(11, [1, 4], [5, 5], True), # Wait Wave
-    generateSuits(16, [2, 3], [5, 5], True), # Intermission Wave
+    generateSuits(8,  [5, 10], [4, 5]),
+    generateSuits(11, [6, 10], [5, 5], True), # Wait Wave
+    generateSuits(16, [6, 10], [5, 5], True), # Intermission Wave
 
     # WAVE 7:
-    generateSuits(8,  [0, 2], [5, 6], True),
-    generateSuits(11, [1, 2], [6, 6], True), # Wait Wave
-    generateSuits(16, [2, 3], [6, 6], True), # Intermission Wave
+    generateSuits(8,  [6, 11], [5, 6], True),
+    generateSuits(11, [7, 11], [6, 6], True), # Wait Wave
+    generateSuits(16, [7, 11], [6, 6], True), # Intermission Wave
 
     # WAVE 8:
-    generateSuits(10, [1, 3], [6, 7], True),
-    generateSuits(15, [1, 4], [7, 7], True), # Wait Wave
-    generateSuits(16, [2, 4], [7, 7], True), # Intermission Wave
+    generateSuits(10, [7, 12], [6, 7], True),
+    generateSuits(15, [8, 12], [7, 7], True), # Wait Wave
+    generateSuits(16, [8, 12], [7, 7], True), # Intermission Wave
 
     # WAVE 9: THE FINAL WAVE
     generateSuits(15, [7, 12], [6, 7], True),
@@ -195,7 +195,7 @@ SuitWaitWaves = [1, 4, 7, 10, 13, 16, 19, 22, 24, 25]
 SuitIntermissionWaves = [2, 5, 8, 11, 14, 17, 20, 23, 26]
 
 # These are the last waves that start turning cogs into Skelcogs.
-SuitSkelecogWaves = [24, 25, 26, 27]
+SuitSkelecogWaves = [24, 25, 26]
 
 WaveBeginningTime = 10 # This should be at least 6.5 (the suit fly-down time)
 IntermissionTime = 20 # How long does the intermission last?
