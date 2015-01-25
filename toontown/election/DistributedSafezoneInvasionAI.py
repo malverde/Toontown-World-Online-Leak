@@ -80,7 +80,6 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
        - Wait Waives will wait until all cogs in the current wave are destroyed before moving to the next.
        - Intermission Waves wait a certain amount of time defined in InvasionGlobals before spawning the next wave. These are used to separate the Levels of cogs.
        - The Finale Wave is only used once as soon as all other waves are done. It spawns our boss, which ends the invasion upon death.
-
        Although each set of cogs is called a "wave", this is only to prevent too many cogs from spawning.
        To the players, each wave visually ends as soon as an Intermission is called.
     '''
