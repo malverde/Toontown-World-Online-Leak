@@ -4,7 +4,7 @@
 
 ### Version ###
 
-2.0.1
+2.0.0
 
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
@@ -27,7 +27,7 @@ Disable the FIREWALL (incoming and outbound traffic)
 
 ### Dependencies ###
 1. Panda3D 
-2. vns_full.exe
+2. vfs_full.exe
 
 ### Database configuration ###
 Database is currently in the /astron/databases/astrondb/ folder located within the server/client BRANCH.
