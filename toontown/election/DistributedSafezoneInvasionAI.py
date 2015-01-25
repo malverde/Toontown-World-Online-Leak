@@ -7,18 +7,26 @@ from DistributedInvasionSuitAI import DistributedInvasionSuitAI
 from InvasionMasterAI import InvasionMasterAI
 import SafezoneInvasionGlobals
 import DistributedElectionEventAI
+from toontown.suit import Suit
 from toontown.suit import SuitTimings
+from toontown.suit import SuitBase
+from cogfunctions import cogfunctions
 from toontown.toonbase import ToontownBattleGlobals
+from toontown.suit import SuitDNA
+from toontown.suit import SuitPlannerBase
+
+
+
 
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedSafezoneInvasionAI")
 
-    def __init__(self, air, election):
+    def __init__( self , air, election):
         DistributedObjectAI.__init__(self, air)
         FSM.__init__(self, 'InvasionFSM')
 
         self.master = InvasionMasterAI(self)
-        self.election = election
+        self.election = election       
         self.waveNumber = 0
         self.spawnPoints = []
         self.suits = []
@@ -27,7 +35,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         self.lastWave = (self.waveNumber == len(SafezoneInvasionGlobals.SuitWaves) - 1)
         self.invasionOn = False
         self.numberOfSuits = 0
-
+      
     def announceGenerate(self):
         self.b_setInvasionStarted(True)
         self.demand('BeginWave', 0)
@@ -200,9 +208,12 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
     def spawnFinaleSuit(self, task):
         self.election.saySurleePhrase('This is it, toons. They\'re sending in the boss! Brace yourselves, this will be the toughest one yet!', 1, True)
         suit = DistributedInvasionSuitAI(self.air, self)
+        #define suit.dna so nonetype has an attribute newsuit
+        suit.dna = SuitDNA.SuitDNA()
+
         suit.dna.newSuit('ls')
         suit.setSpawnPoint(100) # Point 100 just tells announceGenerate that this is our boss
-        suit.setLevel(4) # Give it the highest level we can. Requires 200 damage for a level 12, 156 for a level 11
+        suit.setLevel(12) # Give it the highest level we can. Requires 200 damage for a level 12, 156 for a level 11
         suit.generateWithRequired(self.zoneId)
         suit.d_makeSkelecog()
         suit.b_setState('FlyDown')
@@ -284,8 +295,8 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         avId = self.air.getAvatarIdFromSender()
         toon = self.air.doId2do.get(avId)
         if not toon:
-            self.air.writeServerEvent'suspicious', avId=avId, issue='Nonexistent Toon tried to get hit!')
-            return (
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Nonexistent Toon tried to get hit!')
+            return
         # If the cog's attack is higher than the amount of laff they have, we'll only take away what they have.
         # If the attack is 5 and the toon has 3 laff, we'll only take away 3 laff. This mostly prevents toons going under 0 Laff.
         toonHp = toon.getHp()
@@ -347,12 +358,13 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
 
         pointId = random.choice(self.spawnPoints)
         self.spawnPoints.remove(pointId)
-
         # Define our suit:
-        suit = DistributedInvasionSuitAI(self.air, self)
+        suit = DistributedInvasionSuitAI(self.air, self)       
+        suit.dna = SuitDNA.SuitDNA()
+ 
         suit.dna.newSuit(suitType)
         suit.setSpawnPoint(pointId)
-        suit.setLevel(levelOffset)
+        suit.setLevel(levelOffset)        
         suit.generateWithRequired(self.zoneId)
 
         # Is this a skelecog wave?
@@ -420,8 +432,8 @@ def szInvasion(cmd, arg=''):
         if invasion is None:
             election = simbase.air.doFind('ElectionEvent')
             if election is None:
-                return 'No election event.'
-            invasion = DistributedSafezoneInvasionAI(simbase.air, election)
+			election = DistributedElectionEventAI
+			invasion = DistributedSafezoneInvasionAI(simbase.air, election)
             invasion.generateWithRequired(2000)
         else:
             return 'An invasion object already exists.'
