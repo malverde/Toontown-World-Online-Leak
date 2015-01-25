@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scene zone="7000">
+	<group name="toonfest">
+		<visgroup zone="7000:safe_zone" vis="7000:safe_zone">
+
+			<group name="props">
+				<!-- Geom -->
+        <prop name="toonfest_DNARoot" code="tf_grounds_1">
+					<pos x="0" y="0" z="0" />
+					<nhpr h="0" p="0" r="0" />
+				</prop>
+        <!-- ToonFest Tower -->
+				<prop name="toonfest_tower_DNARoot" code="tf_tower">
+					<pos x="221" y="-61" z="4.5" />
+					<nhpr h="-30" p="0" r="0" />
+				</prop>
+        <!--  chineseCheckers1 -->
+				<node name="game_table_1">
+					<prop name="prop_game_table_DNARoot" code="prop_game_table">
+						<pos x="58" y="-143" z="14.4" />
+						<nhpr h="260" p="-4" r="2" />
+					</prop>
+				</node>
+				<!-- chineseCheckers2 -->
+				<node name="game_table_2">
+					<prop name="prop_game_table_DNARoot" code="prop_game_table">
+						<pos x="94" y="14" z="7.6" />
+						<nhpr h="-121" p="-7" r="0" />
+					</prop>
+				</node>
+				<!-- chineseCheckers3 -->
+				<node name="game_table_3">
+					<prop name="prop_game_table_DNARoot" code="prop_game_table">
+						<pos x="362" y="37" z="9.65" />
+						<nhpr h="-212" p="0" r="0" />
+					</prop>
+				</node>
+				<!-- chineseCheckers4 -->
+				<node name="game_table_4">
+					<prop name="prop_game_table_DNARoot" code="prop_game_table">
+						<pos x="354" y="-118" z="9.63" />
+						<nhpr h="105" p="0" r="0" />
+					</prop>
+				</node>
+				<!-- chineseCheckers5 -->
+				<node name="game_table_5">
+					<prop name="prop_game_table_DNARoot" code="prop_game_table">
+						<pos x="326" y="-514" z="0.93" />
+						<nhpr h="-260" p="0" r="0" />
+					</prop>
+				</node>
+				<!-- chineseCheckers6 -->
+				<node name="game_table_6">
+					<prop name="prop_game_table_DNARoot" code="prop_game_table">
+						<pos x="195" y="-278" z="12.2" />
+						<nhpr h="90" p="-3" r="1" />
+					</prop>
+				</node>
+				<!-- Entrance picnic -->
+				<node name="picnic_table_1">
+					<prop name="prop_picnic_table_DNARoot" code="prop_picnic_table">
+						<pos x="150" y="-320" z="11.6" />
+						<nhpr h="10" p="0" r="0" />
+					</prop>
+				</node>
+				<!-- Fishing picnic -->
+				<node name="picnic_table_2">
+					<prop name="prop_picnic_table_DNARoot" code="prop_picnic_table">
+						<pos x="319" y="-535" z="1.0" />
+						<nhpr h="20" p="0" r="0" />
+					</prop>
+				</node>
+				<!-- Tower-left picnic -->
+				<node name="picnic_table_3">
+					<prop name="prop_picnic_table_DNARoot" code="prop_picnic_table">
+						<pos x="66" y="-180" z="12" />
+						<nhpr h="-75" p="-1" r="-1" />
+					</prop>
+				</node>
+			</group>
+
+			<group name="fishing_pond_1">
+				<prop name="npc_fisherman_origin_0" code="DCS">
+					<pos x="311" y="-509" z="0.9" />
+					<nhpr h="100" p="0" r="0" />
+				</prop>
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="239" y="-551" z="0.9" />
+					<nhpr h="0" p="0" r="0" />
+				</prop>
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="262" y="-543" z="0.9" />
+					<nhpr h="40" p="0" r="0" />
+				</prop>
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="275" y="-524" z="0.9" />
+					<nhpr h="75" p="0" r="0" />
+				</prop>
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="273" y="-503" z="0.9" />
+					<nhpr h="120" p="0" r="0" />
+				</prop>
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="260" y="-494" z="0.9" />
+					<nhpr h="170" p="0" r="0" />
+				</prop>
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="245" y="-493" z="0.9" />
+					<nhpr h="170" p="0" r="0" />
+				</prop>
+			</group>
+
+      <node name="buildings">
+        <prop name="linktunnel_oz_6000_DNARoot" code="prop_outdoor_zone_entrance">
+					<pos x=" -83.9" y="-303.4" z="18.3" />
+					<nhpr h="82.5" p="0" r="0" />
+					<sign code="DD_sign2">
+						<pos x="0" y="0" z="0" />
+						<nhpr h="0" p="0" r="-3.0" />
+						<scale x="1.85" y="1" z="1.35" />
+						<baseline code="TT_Comedy" wiggle="7" stumble="0.1">
+							<color r="0.439216" g="0.247059" b="0.184314" a="1" />
+							<pos x="0" y="0" z="-0.2" />
+							<scale x="1.6" y="1" z="1.7" />
+							<text>Chip n' Dale's</text>
+						</baseline>
+						<baseline code="TT_Comedy" wiggle="3" stomp="0.0367716">
+							<color r="0.439216" g="0.247059" b="0.184314" a="1" />
+							<pos x="0" y="0" z="-1.4" />
+							<scale x="1.2" y="1" z="1.2" />
+							<text>Acorn Acres</text>
+						</baseline>
+					</sign>
+				</prop>
+			</node>
+
+		</visgroup>
+	</group>
+</scene>
