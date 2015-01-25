@@ -20,7 +20,7 @@ fields:
   setMaxMoney: (250)
   setMoney: (233)
   setMaxHp: (137)
-  setHp: (47)
+  setHp: (69)
   setExperience: (<0e0030283028de28042904290429ea27>)
   setMaxCarry: (255)
   setTrackAccess: ([1, 1, 1, 1, 1, 1, 1])
