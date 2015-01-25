@@ -134,7 +134,6 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
 
         # If the wave isn't an Intermission or Wait Wave, send another set of suits out.
         # Otherwise, wait until all suits are dead and let waveWon() decide what to do.
-	self.lastWave = 28        
         if self.lastWave:
             return
         else:
