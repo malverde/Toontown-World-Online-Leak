@@ -1,6 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> parent of 822e491... merge branch 'dev/exitinghqcrashfix'
 from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
@@ -576,6 +579,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
     def forceCleanupInviterPanels(self):
         if self.inviterPanels:
             self.inviterPanels.forceCleanup()
+<<<<<<< HEAD
 =======
 >>>>>>> parent of 5b4c389... Revert "merge branch 'dev/exitinghqcrashfix'"
 from pandac.PandaModules import *
@@ -1157,3 +1161,5 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
 =======
 >>>>>>> dev/exitinghqcrashfix
 >>>>>>> parent of 5b4c389... Revert "merge branch 'dev/exitinghqcrashfix'"
+=======
+>>>>>>> parent of 822e491... merge branch 'dev/exitinghqcrashfix'

@@ -1794,14 +1794,9 @@ class OTPClientRepository(ClientRepositoryBase):
         if self.deferredGenerates:
             dg = Datagram(di.getDatagram())
             di = DatagramIterator(dg, di.getCurrentIndex())
-            di2 = DatagramIterator(dg, di.getCurrentIndex())   
-            doId = di2.getUint32()
-            if doId in self.deferredDoIds:
-                self.deferredGenerates[-1].append((CLIENT_DONE_INTEREST_RESP, (dg, di)))
-            else:
-             self.handleInterestDoneMessage(di)
+            self.deferredGenerates[-1].append((CLIENT_DONE_INTEREST_RESP, (dg, di)))
         else:
-            self.handleObjectLocation(di)            
+            self.handleInterestDoneMessage(di)
 
     def gotObjectLocationMessage(self, di):
         if self.deferredGenerates:
