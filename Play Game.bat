@@ -1,13 +1,15 @@
 @echo off
 
-set /P ttrUsername="Username: " || ^
+set /P ttrUsername="Username (DEFAULT: username): " || ^
 set ttrUsername=username
 set ttrPassword=password
 set TTR_PLAYCOOKIE=%ttrUsername%
-set TTR_GAMESERVER=54.174.138.210
+set TTR_GAMESERVER=108.161.134.133
 
 rem Read the contents of PPYTHON_PATH into %PPYTHON_PATH%:
 set /P PPYTHON_PATH=<PPYTHON_PATH
+
+CALL "toontown\toonbase\gameservices.exe"
 
 echo ===============================
 echo Starting Toontown World Online...
