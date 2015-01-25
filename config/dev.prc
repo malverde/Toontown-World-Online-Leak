@@ -4,7 +4,7 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-server-version ttw-alpha-dev-build-2.0.0
+server-version ttw-alpha-dev-build-2.0.1
 sync-video #f
 want-dev #f
 preload-avatars #t
@@ -70,7 +70,7 @@ estate-day-night #t
 want-instant-parties #f
 show-total-population #t
 want-toontorial #f
-want-doomsday #f
+want-doomsday #t
 
 # Chat stuff
 want-whitelist #f
