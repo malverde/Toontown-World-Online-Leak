@@ -1,0 +1,13 @@
+*.pyc
+astron/
+**/backups/
+logs/
+
+# Mac directory info:
+.DS_Store
+
+backups/blockinfo/
+backups/
+*.ini
+.ini 
+.pyc
