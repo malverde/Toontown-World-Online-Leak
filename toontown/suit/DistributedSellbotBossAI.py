@@ -219,7 +219,6 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         DistributedBossCogAI.DistributedBossCogAI.enterIntroduction(self)
         self.__makeDoobers()
         self.b_setBossDamage(0, 0, 0)
-        self.air.achievementsManager.toonsStartedVP(self.involvedToons)
 
     def exitIntroduction(self):
         DistributedBossCogAI.DistributedBossCogAI.exitIntroduction(self)
@@ -399,10 +398,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             return
         self.b_setAttackCode(ToontownGlobals.BossCogRecoverDizzyAttack)
 
-    def enterReward(self):
-        self.air.achievementsManager.toonsFinishedVP(self.involvedToons)
-        DistributedBossCogAI.DistributedBossCogAI.enterReward(self)
-
+  
 @magicWord(category=CATEGORY_ADMIN)
 def skipVP():
     """

@@ -4,7 +4,7 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-server-version ttw-alpha-dev-build-2.0.0
+server-version ttw-pre-alpha-dev-build-2.0.1
 sync-video #f
 want-dev #f
 preload-avatars #t
@@ -54,7 +54,7 @@ want-news-page #f
 want-accessories #t
 want-parties #f
 want-gardening #f
-want-gifting #f
+want-gifting #t
 want-picnic-games #f
 want-chinese-table #f
 want-checkers-table #f
@@ -70,19 +70,16 @@ estate-day-night #t
 want-instant-parties #f
 show-total-population #t
 want-toontorial #f
-want-doomsday #t
-shard-low-pop 1
-shard-mid-pop 7
+want-doomsday #f
 
 # Chat stuff
 want-whitelist #f
 want-blacklist-sequence #f
-force-avatar-understandable #f
-force-player-understandable #f
+force-avatar-understandable #t
+force-player-understandable #t
 
 
 # Holidays and Events
-#force-holiday-decorations 4
 want-arg-manager #t
 want-mega-invasions #f
 

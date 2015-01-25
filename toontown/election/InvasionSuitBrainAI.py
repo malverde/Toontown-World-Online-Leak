@@ -1,18 +1,11 @@
-
 import random
 from pandac.PandaModules import *
 from direct.fsm.FSM import FSM
 from PathPlannerPoolAI import pool
-#import stuff to define toonId
-from toontown.toon import Toon
-from toontown.toon import ToonDNA
-from toontown.toonbase import ToontownBattleGlobals
-from toontown.suit import Suit
-from toontown.suit import SuitDNA
 
-from toontown.toonbase import ToontownGlobals
-# Attack a specific Toon.
 # Individual suit behaviors...
+
+# Attack a specific Toon.
 class AttackBehavior(FSM):
     REASSESS_INTERVAL = 1.0
 
@@ -20,7 +13,7 @@ class AttackBehavior(FSM):
         FSM.__init__(self, 'AttackFSM')
         self.brain = brain
         self.toonId = toonId
-        self.suitWalkSpeed = ToontownGlobals.SuitWalkSpeed
+
         self._walkTask = None
 
     def getToon(self):
