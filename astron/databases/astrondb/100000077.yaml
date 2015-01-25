@@ -1,17 +1,6 @@
 id: 100000077
 class: DistributedToon
 fields:
-  setName: ("Toon Trooper Mgracer")
-  setAccountName: ("")
-  setFriendsList: ([{100000025, 0}, {100000081, 0}, {100000090, 0}])
-  WishName: "\"\""
-  WishNameState: 1
-  WishNameTimestamp: 1419288547
-  setPreviousAccess: (0)
-  setPinkSlips: (97)
-  setNametagStyle: (0)
-  setDISLid: (100000076)
-  setLastSeen: (1422195957)
   setWantBetaKeyQuest: (0)
   setDNAString: (<0f00740102010103030303131b1a001a1a>)
   setGM: (2)
@@ -118,3 +107,14 @@ fields:
   setGolfHistory: ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
   setPackedGolfHoleBest: ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
   setGolfCourseBest: ([0, 0, 0])
+  setName: ("Toon Trooper Mgracer")
+  setAccountName: ("")
+  setFriendsList: ([{100000025, 0}, {100000081, 0}, {100000090, 0}])
+  WishName: "\"\""
+  WishNameState: 1
+  WishNameTimestamp: 1419288547
+  setPreviousAccess: (0)
+  setPinkSlips: (97)
+  setNametagStyle: (0)
+  setDISLid: (100000076)
+  setLastSeen: (1422195957)

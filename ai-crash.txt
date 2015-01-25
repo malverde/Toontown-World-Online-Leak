@@ -1,1 +1,1 @@
-toontown.suit.DistributedSuitBaseAI:57, toontown.election.DistributedSafezoneInvasionAI:361, direct.task.Task:460, direct.task.Task:527, IndexError: tuple index out of range
+toontown.election.DistributedSafezoneInvasionAI:100, direct.fsm.FSM:492, direct.fsm.FSM:467, direct.fsm.FSM:325, IndexError: list index out of range
