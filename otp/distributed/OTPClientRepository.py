@@ -1810,7 +1810,6 @@ class OTPClientRepository(ClientRepositoryBase):
                 self.handleObjectLocation(di)
         else:
             self.handleObjectLocation(di)
-
     def sendWishName(self, avId, name):
         datagram = PyDatagram()
         datagram.addUint16(CLIENT_SET_WISHNAME)

@@ -1,9 +1,9 @@
-# This is the PRC configuration file for a published TTR client. Note that only
+# This is the PRC configuration file for a published TTW client. Note that only
 # this file and Panda3D's Confauto.prc are included. Any relevant directives in
 # Config.prc should be reproduced here.
 
 # Client settings
-window-title Toontown World[Pre-Alpha]
+window-title Toontown World [Pre-Alpha]
 server-version ttw-alpha-2.0.0
 audio-library-name p3openal_audio
 sync-video #f
@@ -11,7 +11,7 @@ want-dev #f
 preload-avatars #t
 want-keep-alive #f
 texture-anisotropic-degree 16
-language LANGUAGE_HERE
+
 
 
 # Resources settings
@@ -34,8 +34,8 @@ vfs-mount phase_13.mf /
 default-model-extension .bam
 
 
-# Now that we've loaded the phase files, tell panda to trust the TTRCA
-ssl-certificates /phase_3/etc/TTRCA.crt
+# Now that we've loaded the phase files, tell panda to trust the TTWCA
+ssl-certificates /phase_3/etc/TTWCA.crt
 #<dev>
 ssl-certificates /phase_3/etc/TTRDev.crt
 want-dev-certificate-trust #t
@@ -77,7 +77,7 @@ show-total-population #t
 # Server:
 server-timezone BST/EDT/-5
 server-port 7199
-account-server-endpoint https://toontownworldonline.com/api/
+account-server-endpoint http://toontownworldonline.com/api/
 account-bridge-filename astron/databases/account-bridge.db
 
 # Cog battles:
