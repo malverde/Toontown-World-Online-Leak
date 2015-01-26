@@ -11,3 +11,4 @@ backups/
 *.ini
 .ini 
 .pyc
+**/astron/
