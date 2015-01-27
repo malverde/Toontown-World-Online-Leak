@@ -6,6 +6,7 @@ from toontown.coghq.DistributedCogHQDoorAI import DistributedCogHQDoorAI
 from toontown.coghq.DistributedCogKartAI import DistributedCogKartAI
 from toontown.building import DoorTypes
 from toontown.building import FADoorCodes
+from toontown.suit import DistributedSuitPlannerAI
 
 class BossbotHQAI(CogHoodAI):
     HOOD = ToontownGlobals.BossbotHQ
@@ -35,7 +36,11 @@ class BossbotHQAI(CogHoodAI):
         kart.generateWithRequired(self.HOOD)
         self.karts.append(kart)
         return kart
-    
+        self.suitPlanners = []
+        
+    if simbase.config.GetBool('want-suit-planners', True):
+       self.createSuitPlanners()
+
     def createZone(self):
         CogHoodAI.createZone(self)
         
@@ -65,3 +70,11 @@ class BossbotHQAI(CogHoodAI):
         # Cog Golf Boarding Group's
         kartIds = [kart.getDoId() for kart in self.karts]
         self.createBoardingGroup(self.air, kartIds, ToontownGlobals.BossbotHQ)
+
+    def createSuitPlanners(self):
+        suitPlanner = DistributedSuitPlannerAI.DistributedSuitPlannerAI(self.air, self.zoneId)
+        suitPlanner.generateWithRequired(self.zoneId)
+        suitPlanner.d_setZoneId(self.zoneId)
+        suitPlanner.initTasks()
+        self.suitPlanners.append(suitPlanner)
+        self.air.suitPlanners[self.zoneId] = suitPlanner
