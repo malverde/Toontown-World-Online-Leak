@@ -1,6 +1,9 @@
 id: 100000225
 class: DistributedToon
 fields:
+  setName: ("ToonReal")
+  setAccountName: ("")
+  setFriendsList: ([])
   WishName: "\"\""
   WishNameState: 0
   setPreviousAccess: (0)
@@ -66,7 +69,7 @@ fields:
   setCogTypes: ([7, 7, 7, 7])
   setCogParts: ([131071, 130175, 56447, 56411])
   setCogMerits: ([0, 0, 0, 0])
-  setHouseId: (0)
+  setHouseId: (100000287)
   setQuests: ([])
   setQuestHistory: ([])
   setRewardHistory: (49, [])
@@ -110,9 +113,6 @@ fields:
   setGolfHistory: ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
   setPackedGolfHoleBest: ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
   setGolfCourseBest: ([0, 0, 0])
-  setName: ("ToonReal")
-  setAccountName: ("")
-  setFriendsList: ([])
   setPinkSlips: (0)
   setNametagStyle: (100)
   setDISLid: (100000085)

@@ -7,5 +7,5 @@ fields:
   CREATED: "\"Mon Dec 15 21:11:35 2014\""
   LAST_LOGIN: "\"Thu Dec 18 21:40:17 2014\""
   ACCOUNT_ID: "\"flying\""
-  ADMIN_ACCESS: 300
+  ADMIN_ACCESS: 0
   BETA_KEY_QUEST: 0
