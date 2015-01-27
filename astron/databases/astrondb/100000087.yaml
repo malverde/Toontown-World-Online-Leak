@@ -6,7 +6,7 @@ fields:
   setLastEpochTimeStamp: (0)
   setRentalTimeStamp: (0)
   setRentalType: (0)
-  setSlot0ToonId: (0)
+  setSlot0ToonId: (100000225)
   setSlot0Items: ([])
   setSlot1ToonId: (100000086)
   setSlot1Items: ([])
