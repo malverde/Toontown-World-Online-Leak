@@ -44,7 +44,7 @@ SurleeTips = [
     'The Cog\'s business is too boring to bear. Don\'t let them talk to you.',
     'That\'s what I\'m talking about. Keep at it!',
     'Flippy, we need more pies over here. They\'re flying out quick.',
-    'Doctor Dimm, have you had any luck on Buddy\'s stand?',
+    #'Doctor Dimm, have you had any luck on Buddy\'s stand?',
     'Keep a close eye on your pie count, it can run out fast.'
 ]
 
