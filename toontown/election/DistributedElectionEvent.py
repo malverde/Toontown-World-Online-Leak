@@ -71,13 +71,13 @@ class DistributedElectionEvent(DistributedObject, FSM):
 
 
 
-        self.buddyStand = Actor.Actor('phase_4/models/events/election_buddyStand-mod', {
-          'idle': 'phase_4/models/events/election_buddyStand-idle',
-          'watch-idle': 'phase_4/models/events/election_buddyStand-watch-idle',
-          'sad': 'phase_4/models/events/election_buddyStand-reaction',
-        })
-        self.buddyStand.reparentTo(self.showFloor)
-        self.buddyStand.setPosHprScale(-62.45, 14.39, 0.01, 325, 0, 0, 0.55, 0.55, 0.55)
+        #self.buddyStand = Actor.Actor('phase_4/models/events/election_buddyStand-mod', {
+          #'idle': 'phase_4/models/events/election_buddyStand-idle',
+          #'watch-idle': 'phase_4/models/events/election_buddyStand-watch-idle',
+          #'sad': 'phase_4/models/events/election_buddyStand-reaction',
+        #})
+        #self.buddyStand.reparentTo(self.showFloor)
+       # self.buddyStand.setPosHprScale(-62.45, 14.39, 0.01, 325, 0, 0, 0.55, 0.55, 0.55)
         # Let's give FlippyStand a bunch of pies.
         # Pies on/around the stand.
         pie = loader.loadModel('phase_3.5/models/props/tart')
@@ -100,7 +100,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
         self.accept('enter' + self.pieCollision.node().getName(), self.handleWheelbarrowCollisionSphereEnter)
 
         csBuddy = CollisionBox(Point3(-4.2, 0, 0), 9.5, 5.5, 18)
-        self.goopCollision = self.buddyStand.attachNewNode(CollisionNode('goop_collision'))
+        #self.goopCollision = self.buddyStand.attachNewNode(CollisionNode('goop_collision'))
         self.goopCollision.node().addSolid(csBuddy)
 
         # Hi NPCs!
@@ -111,7 +111,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
         self.characters = [self.alec, self.buddy, self.flippy]
 
         self.flippyStand.loop('idle')
-        self.buddyStand.loop('idle')
+        #self.buddyStand.loop('idle')
 
         self.alecNode = None
 
@@ -401,14 +401,14 @@ class DistributedElectionEvent(DistributedObject, FSM):
                 character.initializeBodyCollisions('toon')
                 character.head = character.find('**/__Actor_head')
                 character.setH(90)
-            self.buddyStand.loop('watch-idle')
+           # self.buddyStand.loop('watch-idle')
             self.ignore('enter' + self.pieCollision.node().getName())
             self.alec.setPos(-4.5, -0.14, 3.13)
             self.buddy.setPos(1, 9, 3.03)
             self.flippy.setPos(2, -10, 3.23)
 
         if self.finishedCogLanding:
-            self.buddyStand.pose('sad', 249)
+           # self.buddyStand.pose('sad', 249)
             self.flippy.setPosHpr(-15, -12, 0, 0, 0, 0)
             self.alec.setPos(-1.5, -0.14, 3.13)
             self.buddy.hide()
@@ -488,7 +488,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
             character.startBlink()
             character.head = character.find('**/__Actor_head')
         musicIntro = base.loadMusic(ElectionGlobals.IntroMusic)
-        self.buddyStand.loop('watch-idle')
+       #self.buddyStand.loop('watch-idle')
         self.ignore('enter' + self.pieCollision.node().getName())
         self.alecHallInterval = Sequence(
             Parallel(Func(self.alec.loop, 'walk'), Func(base.playMusic, musicIntro, looping=0, volume=0.8)),
@@ -638,7 +638,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
             self.alec.head.hprInterval(1, (-70, 0, 0), blendType='easeInOut'),
             Wait(1),
             # Buddy's victory!
-            Func(self.alec.setChatAbsolute, 'BuddyYYY~ BACON!', CFSpeech|CFTimeout),
+            Func(self.alec.setChatAbsolute, 'Buddy BACON!', CFSpeech|CFTimeout),
             Wait(2),
             self.flippy.head.hprInterval(1, (-60, 0, 0), blendType='easeInOut'),
             Func(self.buddy.showLaughMuzzle),
@@ -683,8 +683,8 @@ class DistributedElectionEvent(DistributedObject, FSM):
         musicSad = base.loadMusic(ElectionGlobals.SadMusic)
         sfxSad = loader.loadSfx('phase_5/audio/sfx/ENC_Lose.ogg')
         mtrack = self.suit.beginSupaFlyMove(Point3(65, 3.6, 4.0), 1, 'fromSky', walkAfterLanding=False)
-        self.buddyStandDie = Sequence(
-            ActorInterval(self.buddyStand, 'sad')
+       # self.buddyStandDie = Sequence(
+         #   ActorInterval(self.buddyStand, 'sad')
         )
         self.pie = BattleProps.globalPropPool.getProp('creampie')
         self.cogSequence = Sequence(
@@ -747,7 +747,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
             Wait(1.8),
             Func(base.playMusic, musicSad, looping=0),
             Wait(0.5),
-            Parallel(Func(self.buddyStandDie.start), Func(self.buddyStandDie.setT, offset)),
+          #  Parallel(Func(self.buddyStandDie.start), Func(self.buddyStandDie.setT, offset)),
             Func(self.flippy.setChatAbsolute, "Buddy, NO!", CFSpeech|CFTimeout),
             Wait(0.5),
             Func(self.alec.setChatAbsolute, "Oh my goodness- he...", CFSpeech|CFTimeout),
