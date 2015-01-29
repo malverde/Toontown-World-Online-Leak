@@ -1,4 +1,4 @@
-id: 100000029
+id: 100000087
 class: DistributedEstate
 fields:
   setEstateType: (0)
@@ -6,15 +6,15 @@ fields:
   setLastEpochTimeStamp: (0)
   setRentalTimeStamp: (0)
   setRentalType: (0)
-  setSlot0ToonId: (100000028)
+  setSlot0ToonId: (100000225)
   setSlot0Items: ([])
-  setSlot1ToonId: (100000069)
+  setSlot1ToonId: (100000086)
   setSlot1Items: ([])
-  setSlot2ToonId: (0)
+  setSlot2ToonId: (100000173)
   setSlot2Items: ([])
-  setSlot3ToonId: (100000288)
+  setSlot3ToonId: (100000167)
   setSlot3Items: ([])
-  setSlot4ToonId: (0)
+  setSlot4ToonId: (100000135)
   setSlot4Items: ([])
-  setSlot5ToonId: (0)
+  setSlot5ToonId: (100000172)
   setSlot5Items: ([])
