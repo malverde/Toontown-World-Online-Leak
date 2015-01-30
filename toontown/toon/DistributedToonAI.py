@@ -5407,7 +5407,7 @@ def nametag(styleName):
     return "Set %s's nametag style successfully." % spellbook.getTarget().getName()
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[str])
-def animations():
+def emotes():
     """
     Unlock all of the animations on the target toon.
     This exclutes the "Toons of the world unite!" phrase. (because it sucks)

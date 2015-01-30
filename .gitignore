@@ -2,7 +2,7 @@
 astron/
 **/backups/
 logs/
-
+astron/database
 # Mac directory info:
 .DS_Store
 
@@ -11,3 +11,4 @@ backups/
 *.ini
 .ini 
 .pyc
+**/astron/
