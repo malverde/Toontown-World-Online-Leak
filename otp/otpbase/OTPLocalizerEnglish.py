@@ -179,7 +179,7 @@ CRLoggingIn = 'Authenticating...'
 CRMissingGameRootObject = 'Missing some root game objects.  (May be a failed network connection).\n\nTry again?'
 CRNoDistrictsTryAgain = 'No Districts are available. Try again?'
 CRRejectRemoveAvatar = 'The avatar was not able to be deleted, try again another time.'
-CRLostConnection = 'Your internet connection to the servers has been unexpectedly broken.'
+CRLostConnection = 'Your internet connection was lost.'
 CRBootedReasons = {1: 'Yikes - An unexpected problem occured.  Your connection has been lost, but you should be able to connect again and go right back into Toontown.',
  100: 'You have been disconnected because someone else just logged in using your account on another computer.',
  120: 'You have been disconnected because of a problem with your authorization to use keyboard chat.',
@@ -230,7 +230,7 @@ CRSystemMessages = {
     102: '%s just became the first Toon in Toon History to reach 137 Laff Points!'
 }
 CRTryConnectAgain = '\n\nTry to connect again?'
-CRToontownUnavailable = 'The server appears to be temporarily unavailable, still trying...'
+CRToontownUnavailable = 'The server is temporarily unavailable, still trying...'
 CRToontownUnavailableCancel = lCancel
 CRNameCongratulations = 'CONGRATULATIONS!!'
 CRNameAccepted = 'Your name has been\napproved by the Toon Council.\n\nFrom this day forth\nyou will be named\n"%s"'
