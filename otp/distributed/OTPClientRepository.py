@@ -1960,7 +1960,7 @@ class OTPClientRepository(ClientRepositoryBase):
               zoneId,
               classId,
               doId,
-              di);
+              di),
              dg,
              [])
 
