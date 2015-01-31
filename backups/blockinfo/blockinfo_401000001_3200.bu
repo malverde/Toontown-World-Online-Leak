@@ -1,17 +1,14 @@
 (dp1
-<<<<<<< HEAD
 I19
 (dp2
 S'becameSuitTime'
 p3
 F1421253009.599
-=======
 I32
 (dp2
 S'becameSuitTime'
 p3
 F1422310089.006
->>>>>>> 9db53cd558e5433c5351cea2e5376535f0a9ee70
 sS'savedBy'
 p4
 NsS'track'
@@ -19,11 +16,8 @@ p5
 S's'
 sS'numFloors'
 p6
-<<<<<<< HEAD
 I3
-=======
 I5
->>>>>>> 9db53cd558e5433c5351cea2e5376535f0a9ee70
 sS'difficulty'
 p7
 I6
