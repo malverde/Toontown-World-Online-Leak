@@ -1,17 +1,14 @@
 (dp1
-<<<<<<< HEAD
 I37
 (dp2
 S'becameSuitTime'
 p3
 F1421252998.9909999
-=======
 I33
 (dp2
 S'becameSuitTime'
 p3
 F1422309990.928
->>>>>>> 9db53cd558e5433c5351cea2e5376535f0a9ee70
 sS'savedBy'
 p4
 NsS'track'
@@ -29,9 +26,7 @@ S'suit'
 p9
 sS'block'
 p10
-<<<<<<< HEAD
 I37
-=======
 I33
 ssI2
 (dp11
@@ -168,5 +163,4 @@ sg8
 g9
 sg10
 I31
->>>>>>> 9db53cd558e5433c5351cea2e5376535f0a9ee70
 ss.
