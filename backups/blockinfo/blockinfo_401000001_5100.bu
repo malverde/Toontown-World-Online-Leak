@@ -1,26 +1,20 @@
 (dp1
-<<<<<<< HEAD
 I26
 (dp2
 S'becameSuitTime'
 p3
 F1421005773.3929999
-=======
 I2
 (dp2
 S'becameSuitTime'
 p3
 F1422356021.349
->>>>>>> 9db53cd558e5433c5351cea2e5376535f0a9ee70
 sS'savedBy'
 p4
 NsS'track'
 p5
-<<<<<<< HEAD
 S'l'
-=======
 S's'
->>>>>>> 9db53cd558e5433c5351cea2e5376535f0a9ee70
 sS'numFloors'
 p6
 I2
@@ -33,9 +27,7 @@ S'suit'
 p9
 sS'block'
 p10
-<<<<<<< HEAD
 I26
-=======
 I2
 ssI3
 (dp11
@@ -157,5 +149,4 @@ sg8
 g9
 sg10
 I25
->>>>>>> 9db53cd558e5433c5351cea2e5376535f0a9ee70
 ss.
