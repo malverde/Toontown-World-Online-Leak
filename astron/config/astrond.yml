@@ -56,7 +56,7 @@ roles:
     - type: clientagent
       bind: 0.0.0.0:7198
 
-      version: "ttw-alpha-dev-build-2.0.1"
+      version: "ttw-pre-alpha-dev-build-2.0.1"
 
       client:
        relocate: true
