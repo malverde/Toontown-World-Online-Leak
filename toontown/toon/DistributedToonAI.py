@@ -4941,18 +4941,18 @@ def dna(part, value):
     # This is where the fun begins, woo!
     """Set a specific part of DNA for the target toon. Be careful, you don't want to break anyone!"""
 
-   
-
+    av = spellbook.getTarget()
+    target = spellbook.getTarget()
     dna = ToonDNA.ToonDNA()
-    dna.makeFromNetString(avatar.getDNAString())
+    dna.makeFromNetString(av.getDNAString())
 
     def isValidColor(colorIndex):
         if not 0 <= colorIndex <= 26: # This could actually be selected from ToonDNA, but I prefer this :D
             return False
         if colorIndex == 0 and dna.getAnimal() != 'bear':
-            return False
+            return True
         if colorIndex == 26 and dna.getAnimal() != 'cat':
-            return False
+            return True
         return True
 
     # Body Part Colors
@@ -5512,3 +5512,21 @@ def trackBonus(track):
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
 
+@magicWord(category=CATEGORY_CHARACTERSTATS, types=[str, str])
+def gloves(c1, c2=None):
+    target = spellbook.getTarget()
+    dna = ToonDNA.ToonDNA()
+    dna.makeFromNetString(target.getDNAString())
+
+    try:
+        if c2:
+            color = c1.capitalize() + ' ' + c2.capitalize()
+        else:
+            color = c1.capitalize()
+        value = TTLocalizer.NumToColor.index(color)
+    except:
+        return 'Invalid color!'
+
+    dna.gloveColor = value
+    target.b_setDNAString(dna.makeNetString())
+    return 'Glove color set to: {0}'.format(TTLocalizer.NumToColor[value])
