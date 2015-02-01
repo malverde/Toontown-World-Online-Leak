@@ -226,7 +226,7 @@ class DistributedBuildingMgrAI:
 
 
     def save(self):
-        buildings = {}
+        backups = {}
         for blockNumber in self.getSuitBlocks():
             building = self.getBuilding(blockNumber)
             backup = {
@@ -238,5 +238,5 @@ class DistributedBuildingMgrAI:
                 'savedBy': building.savedBy,
                 'becameSuitTime': building.becameSuitTime
             }
-            buildings[blockNumber] = backup
-        simbase.backups.save('blockinfo', (self.air.districtId, self.branchID), buildings)
+            backups[blockNumber] = backup
+        simbase.backups.save('blockinfo', (self.air.districtId, self.branchID),  backups)
