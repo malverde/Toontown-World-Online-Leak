@@ -160,7 +160,7 @@ CreditsScenes = [
                 Shockley(),
                 Credits('Mgracer', 'Programmar\nDeveloper\nMac Support', 'mgracer.jpg', 'left'),
                 Credits("Purrty", "Lead Community Manager", '.jpg' ),
-                Credits("Aura", "Community Manager", '.jpg', 'right', 2), 
+                Credits("", "Community Manager", '.jpg', 'right', 2), 
                 Credits("Zander", "Community Manager\nTheme Song Composer", 'zander.jpg'),
                 
                 # Artists
@@ -170,7 +170,8 @@ CreditsScenes = [
                 Credits('', 'Texture Artist', '.jpg', 'right', 2), 
                 Credits('', 'Texture Artist', '.jpg'),
 
-
+				#Mods
+				Credits('Catastrophe', 'Moderator', 'catastrophe.jpg', 'left'),
                 
  
                 
