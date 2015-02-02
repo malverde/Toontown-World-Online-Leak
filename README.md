@@ -4,9 +4,14 @@
 
 ### Version ###
 
+<<<<<<< HEAD
 2.0.0
 
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+=======
+2.0.1
+
+>>>>>>> 7bf129a8b3f8bd886974df9e0d3afe7697e4920a
 
 ### How do I get set up? ###
 
