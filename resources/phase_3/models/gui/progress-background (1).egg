@@ -1,0 +1,144 @@
+<CoordinateSystem> { Z-Up }
+
+<Comment> {
+  "bam2egg progress-background.bam progress-background.egg"
+}
+<Texture> background {
+  "../../maps/background.jpg"
+  <Scalar> format { rgb }
+  <Scalar> wrapu { repeat }
+  <Scalar> wrapv { repeat }
+  <Scalar> minfilter { linear_mipmap_linear }
+  <Scalar> magfilter { linear }
+  <Scalar> envtype { modulate }
+}
+<VertexPool> vpool {
+  <Vertex> 0 {
+    1 0 -0.9
+    <UV> { 0.75 0 }
+    <RGBA> { 1 1 1 0.247 }
+  }
+  <Vertex> 1 {
+    1 0 -0.8
+    <UV> { 0.75 1 }
+    <RGBA> { 1 1 1 0.247 }
+  }
+  <Vertex> 2 {
+    -1 0 -0.9
+    <UV> { 0.25 0 }
+    <RGBA> { 1 1 1 0.247 }
+  }
+  <Vertex> 3 {
+    -1 0 -0.8
+    <UV> { 0.25 1 }
+    <RGBA> { 1 1 1 0.247 }
+  }
+  <Vertex> 4 {
+    -1 0 -0.9
+    <UV> { 0.5 0 }
+    <RGBA> { 1 1 1 0.247 }
+  }
+  <Vertex> 5 {
+    -1 0 -0.8
+    <UV> { 0.5 1 }
+    <RGBA> { 1 1 1 0.247 }
+  }
+  <Vertex> 6 {
+    -1.1 0 -0.9
+    <UV> { 0 0 }
+    <RGBA> { 1 1 1 0.247 }
+  }
+  <Vertex> 7 {
+    -1.1 0 -0.8
+    <UV> { 0 1 }
+    <RGBA> { 1 1 1 0.247 }
+  }
+  <Vertex> 8 {
+    1.1 0 -0.9
+    <UV> { 1 0 }
+    <RGBA> { 1 1 1 0.247 }
+  }
+  <Vertex> 9 {
+    1.1 0 -0.8
+    <UV> { 1 1 }
+    <RGBA> { 1 1 1 0.247 }
+  }
+  <Vertex> 10 {
+    1 0 -0.9
+    <UV> { 0.5 0 }
+    <RGBA> { 1 1 1 0.247 }
+  }
+  <Vertex> 11 {
+    1 0 -0.8
+    <UV> { 0.5 1 }
+    <RGBA> { 1 1 1 0.247 }
+  }
+  <Vertex> 12 {
+    2.33333 0 -1
+    <UV> { 1 0 }
+    <RGBA> { 1 1 1 1 }
+  }
+  <Vertex> 13 {
+    2.33333 0 1
+    <UV> { 1 1 }
+    <RGBA> { 1 1 1 1 }
+  }
+  <Vertex> 14 {
+    -2.33333 0 -1
+    <UV> { 0 0 }
+    <RGBA> { 1 1 1 1 }
+  }
+  <Vertex> 15 {
+    -2.33333 0 1
+    <UV> { 0 1 }
+    <RGBA> { 1 1 1 1 }
+  }
+  <Vertex> 16 {
+    0.854 0 0.35
+    <UV> { 1 0 }
+    <RGBA> { 1 1 1 1 }
+  }
+  <Vertex> 17 {
+    0.854 0 0.95
+    <UV> { 1 1 }
+    <RGBA> { 1 1 1 1 }
+  }
+  <Vertex> 18 {
+    -0.854 0 0.35
+    <UV> { 0 0 }
+    <RGBA> { 1 1 1 1 }
+  }
+  <Vertex> 19 {
+    -0.854 0 0.95
+    <UV> { 0 1 }
+    <RGBA> { 1 1 1 1 }
+  }
+}
+<Group> progress-background.egg {
+  <Polygon> {
+    <VertexRef> { 0 1 2 <Ref> { vpool } }
+  }
+  <Polygon> {
+    <VertexRef> { 2 1 3 <Ref> { vpool } }
+  }
+  <Polygon> {
+    <VertexRef> { 4 5 6 <Ref> { vpool } }
+  }
+  <Polygon> {
+    <VertexRef> { 6 5 7 <Ref> { vpool } }
+  }
+  <Polygon> {
+    <VertexRef> { 8 9 10 <Ref> { vpool } }
+  }
+  <Polygon> {
+    <VertexRef> { 10 9 11 <Ref> { vpool } }
+  }
+  <Polygon> {
+    <TRef> { background }
+    <VertexRef> { 12 13 14 <Ref> { vpool } }
+  }
+  <Polygon> {
+    <TRef> { background }
+    <VertexRef> { 14 13 15 <Ref> { vpool } }
+  }
+}
