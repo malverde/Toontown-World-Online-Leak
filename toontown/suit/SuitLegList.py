@@ -36,9 +36,6 @@ class SuitLeg:
         self.posA = pointA.getPos()
         self.posB = pointB.getPos()
         self.type = type
-        distance = (self.posB - self.posA).length()
-        self.legTime = distance / ToontownGlobals.SuitWalkSpeed        
-        self.endTime = self.startTime + self.getLegTime()        
 
     def getLegTime(self):
         if self.type in (SuitLeg.TWalk, SuitLeg.TWalkFromStreet,
@@ -56,8 +53,6 @@ class SuitLeg:
             return SuitTimings.toToonBuilding
         else:
             return SuitTimings.toToonBuilding
-    def getEndTime(self):
-        return self.endTime
 
     def getPosA(self):
         return self.posA
