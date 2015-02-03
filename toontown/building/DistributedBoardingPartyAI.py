@@ -100,7 +100,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
 
         if self.hasActiveGroup(inviteeId):
             # We could make the assumption both are in the avIdDict but I'd prefer not to blow up the district
-            if base.config.GetBool('boarding-group-merges', 0) && self.hasActiveGroup(inviterId):
+            if base.config.GetBool('boarding-group-merges', 0) and self.hasActiveGroup(inviterId):
                 inviteeLeaderId = self.avIdDict[inviteeId]
                 leaderId = self.avIdDict[inviterId]
 
@@ -111,7 +111,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
                     self.sendUpdateToAvatarId(inviterId, 'postInviteNotQualify', [inviteeId, reason, 0])
                     self.sendUpdateToAvatarId(inviteeId, 'postMessageInvitationFailed', [inviterId])
                     return
-                else:
+            else:
                 reason = BoardingPartyBase.BOARDCODE_DIFF_GROUP
                 self.sendUpdateToAvatarId(inviterId, 'postInviteNotQualify', [inviteeId, reason, 0])
                 self.sendUpdateToAvatarId(inviteeId, 'postMessageInvitationFailed', [inviterId])
