@@ -120,8 +120,8 @@ class SuitLegList:
                 return False
             if self[leg].pointA == point or self[leg].pointB == point:
                 return True
-            
-            legIndex += 1
+            time += self[leg].getLegTime()
+            leg += 1
         return False
 
     def __getitem__(self, key):
