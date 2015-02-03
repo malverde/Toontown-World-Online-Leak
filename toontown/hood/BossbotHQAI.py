@@ -22,6 +22,7 @@ class BossbotHQAI(CogHoodAI):
         CogHoodAI.__init__(self, air)
         self.karts = []
         self.createZone()
+        self.suitPlanners = []
         
     def createDoor(self):
         interiorDoor = DistributedCogHQDoorAI(self.air, 0, DoorTypes.INT_COGHQ, self.HOOD, doorIndex=0)
