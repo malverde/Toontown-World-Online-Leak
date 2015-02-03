@@ -15,7 +15,7 @@ class GroupInvitee(ToonHeadDialog.ToonHeadDialog):
     def __init__(self):
         pass
 
-    def make(self, party, toon, leaderId, **kw):
+    def make(self, party, toon, leaderId, merger, **kw):
         self.leaderId = leaderId
         self.avName = toon.getName()
         self.av = toon
