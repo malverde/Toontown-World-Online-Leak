@@ -84,6 +84,16 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
                     return True
         return False
 
+    def countInGroup(self, avId):
+        if avId in self.groupListDict:
+            group = self.groupListDict.get(avId)
+            return len(group[0])
+        for leader in self.groupListDict:
+            group = self.groupListDict.get(leader)
+            for member in group[0]:
+                if member == avId:
+                    return len(group[0])
+        return 0
 
     def postGroupInfo(self, leaderId, memberList, inviteeList, kickedList):
         self.notify.debug('postgroupInfo')
