@@ -192,7 +192,7 @@ CRBootedReasons = {1: 'Yikes - An unexpected problem occured.  Your connection h
  151: 'You were kicked out by one of the developers working on the servers.',
  152: "You have been banned from the game for a reported violation of our Terms of Use connected to '%(name)s'. For more details, please check the Toontown World website.",
  153: 'The district you were playing on has been reset.  Everyone who was playing on that district has also been disconnected, however, you should be able to connect again and go right back into Toontown.',
- 154: 'Toontown World is going down for an update!  Stay Tooned on our website for details, or try logging in again later.',
+ 154: 'Toontown World is now temporarily closed for maintenance. Everyone who was playing has been disconnected from the game.\n\nFor more information, please visit the Toontown World website.',
  155: 'You\'ve been warned for %(dc_reason)s. Try to behave next time!',
  200: 'Logins are currently disabled. Please try again later.',
  288: 'Sorry, you have used up all of your available minutes this month.',
@@ -238,9 +238,11 @@ CRServerConstantsProxyNoPort = 'Unable to contact %s.\n\nYou are communicating t
 CRServerConstantsProxyNoCONNECT = 'Unable to contact %s.\n\nYou are communicating to the internet via a proxy, but your proxy does not support the CONNECT method.\n\nYou must enable this capability, or disable your proxy, in order to play.  If your proxy has been provided by your ISP, you must contact your ISP to request them to enable this capability.'
 CRServerConstantsTryAgain = 'Unable to contact %s.\n\nThe account server might be temporarily down, or there might be some problem with your internet connection.\n\nTry again?'
 CRServerDateTryAgain = 'Could not get server date from %s. Try again?'
+CRMaintenanceCountdownMessage = 'Attention Toons! Toontown World will be going down for maintenance in %d minutes.'
+CRMaintenanceMessage = 'Attention Toons! Toontown World is now going down for maintenance.'
 AfkForceAcknowledgeMessage = 'Your toon got sleepy and went to bed.'
 PeriodTimerWarning = 'Your available time is almost over!'
-PeriodForceAcknowledgeMessage = 'Sorry, you have used up all of your available time. Please exit to purchase more.'
+PeriodForceAcknowledgeMessage = 'Sorry, you have used up all of your available time. Please exit to purchase more stupid time.'
 CREnteringToontown = 'Toontown World'
 DownloadWatcherUpdate = 'Downloading %s'
 DownloadWatcherInitializing = 'Download Initializing...'
