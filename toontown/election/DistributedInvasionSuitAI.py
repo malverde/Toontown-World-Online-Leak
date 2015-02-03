@@ -3,7 +3,7 @@ from direct.distributed.ClockDelta import *
 from direct.fsm.FSM import FSM
 from direct.task.Task import Task
 from toontown.toonbase import ToontownGlobals
-from toontown.suit.DistributedSuitBaseAI import DistributedSuitBaseAI
+from DistributedSuitBaseAI import DistributedSuitBaseAI
 from toontown.suit import SuitTimings
 from toontown.battle import SuitBattleGlobals
 import SafezoneInvasionGlobals
@@ -11,19 +11,25 @@ from InvasionSuitBase import InvasionSuitBase
 from InvasionSuitBrainAI import InvasionSuitBrainAI
 import SafezoneInvasionGlobals
 from random import random, choice, randint
+from toontown.suit.SuitDNA import SuitDNA
+from toontown.suit import SuitPlannerBase
+from toontown.suit import SuitBase
+from toontown.suit import Suit
+from toontown.suit.SuitDNA import  getSuitBodyType
 
-class DistributedInvasionSuitAI(DistributedSuitBaseAI, InvasionSuitBase, FSM):
+
+class DistributedInvasionSuitAI(DistributedSuitBaseAI,  InvasionSuitBase, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedInvasionSuitAI")
 
-    def __init__(self, air, invasion):
-        DistributedSuitBaseAI.__init__(self, air, invasion)
+    def __init__(self, air, invasion,):
+        DistributedSuitBaseAI.__init__(self, air, None)
         InvasionSuitBase.__init__(self)
         FSM.__init__(self, 'InvasionSuitFSM')
+	self.dna = None
         self.invasion = invasion
-
         self.stateTime = globalClockDelta.getRealNetworkTime()
         self.spawnPointId = 0
-
+	SuitDNA.name = 'f'		
         self.brain = InvasionSuitBrainAI(self)
 
         self.lastMarchTime = 0.0
@@ -145,6 +151,9 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI, InvasionSuitBase, FSM):
         self.b_setState('Attack')
 
     def enterAttack(self):
+        self.dna = SuitDNA
+        dna = self.dna 
+	SuitDNA.body =  getSuitBodyType(self.name)     
         if self.brain.suit.dna.body in ['a', 'b']:
             self._delay = taskMgr.doMethodLater(4.6, self.__attackDone,
                                                 self.uniqueName('attack'))

@@ -1,6 +1,7 @@
 import PlayingCardDeck
-EasiestGameDuration = 120
-HardestGameDuration = 90
+#damn whos idea was for easiest game to be longer and hardest to be shorter?
+EasiestGameDuration = 90
+HardestGameDuration = 120
 EndlessGame = config.GetBool('endless-pairing-game', 0)
 MaxRankIndexUsed = [7,
  7,

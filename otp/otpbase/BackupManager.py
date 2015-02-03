@@ -1,35 +1,29 @@
-import cPickle
+import json
 import os
 
 
 class BackupManager:
-    def __init__(self, filepath='backups', extension='.bu'):
+    def __init__(self, filepath='backups/', extension='.json'):
         self.filepath = filepath
         self.extension = extension
-        if not os.path.exists(self.filepath):
-            os.mkdir(self.filepath)
 
     def getFileName(self, category, info):
-        filename = '{0}/{1}/{1}'.format(self.filepath, category)
+        filename = os.path.join(self.filepath, category) + '/'
         for i in info:
-            filename += '_{0}'.format(i)
-        filename += self.extension
-        return filename
+            filename += str(i) + '_'
+        return filename[:-1] + self.extension
 
     def load(self, category, info, default=None):
         filename = self.getFileName(category, info)
         if not os.path.exists(filename):
             return default
-        f = open(filename, 'r')
-        data = cPickle.load(f)
-        f.close()
-        return data
+        with open(filename, 'r') as f:
+            return json.load(f)
 
     def save(self, category, info, data):
-        filepath = '{0}/{1}'.format(self.filepath, category)
+        filepath = os.path.join(self.filepath, category)
         if not os.path.exists(filepath):
-            os.mkdir(filepath)
+            os.makedirs(filepath)
         filename = self.getFileName(category, info)
-        f = open(filename, 'w')
-        cPickle.dump(data, f)
-        f.close()
+        with open(filename, 'w') as f:
+            json.dump(data, f)

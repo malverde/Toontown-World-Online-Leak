@@ -4725,7 +4725,7 @@ def maxToon(hasConfirmed='UNCONFIRMED'):
     toon.b_setMoney(toon.getMaxMoney())
     toon.b_setBankMoney(ToontownGlobals.DefaultMaxBankMoney)
 
-    return 'By the power invested in me, I, SIr Kippy, max your toon.'
+    return 'By the power invested in me, I, Sir Kippy, max your toon.'
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int])
 def setMaxMoney(moneyVal):
@@ -5407,7 +5407,7 @@ def nametag(styleName):
     return "Set %s's nametag style successfully." % spellbook.getTarget().getName()
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[str])
-def animations():
+def emotes():
     """
     Unlock all of the animations on the target toon.
     This exclutes the "Toons of the world unite!" phrase. (because it sucks)

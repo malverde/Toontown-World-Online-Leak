@@ -1,13 +1,14 @@
-.pyc
+*.pyc
 astron/
 **/backups/
 logs/
-*.pyc
+astron/database
 # Mac directory info:
 .DS_Store
 
 backups/blockinfo/
 backups/
 *.ini
-*.bu
+.ini 
+.pyc
 **/astron/

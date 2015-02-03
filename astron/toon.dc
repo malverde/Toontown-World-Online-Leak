@@ -992,7 +992,7 @@ dclass DistributedDGFlower : DistributedObject {
 dclass DistributedElectionEvent : DistributedObject {
   setState(string state, int32 timestamp) required broadcast ram;
   wheelbarrowAvatarEnter() clsend airecv;
-  slappyAvatarEnter() clsend airecv;
+  buddyAvatarEnter() clsend airecv;
   requestSuit() clsend airecv;
   setSuitPhrase(string phrase) clsend airecv;
   setSuitState(string state) clsend airecv;
