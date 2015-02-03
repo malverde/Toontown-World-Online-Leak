@@ -22,7 +22,10 @@ class GroupInvitee(ToonHeadDialog.ToonHeadDialog):
         self.avId = toon.doId
         self.avDNA = toon.getStyle()
         self.party = party
-        text = TTLocalizer.BoardingInviteeMessage % self.avName
+        if merger:
+          text = TTLocalizer.BoardingInviteeMergeMessage % self.avName
+        else:
+          text = TTLocalizer.BoardingInviteeMessage % self.avName
         style = TTDialog.TwoChoice
         buttonTextList = [OTPLocalizer.FriendInviteeOK, OTPLocalizer.FriendInviteeNo]
         command = self.__handleButton

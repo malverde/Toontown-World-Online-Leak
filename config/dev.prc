@@ -87,3 +87,6 @@ want-mega-invasions #f
 
 # Cog battles :
 #gag-bonus 2
+
+#group merges
+boarding-group-merges #t
