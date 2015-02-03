@@ -11731,7 +11731,7 @@ FOnpcFriends = {
 9301: (ToontownBattleGlobals.HEAL_TRACK, 3, 10, 0),
 9302: (ToontownBattleGlobals.HEAL_TRACK, 3, 20, 1),
 9303: (ToontownBattleGlobals.HEAL_TRACK, 3, 30, 2),
-91915: (ToontownBattleGlobals.THROW_TRACK,0, 9999, 5) }
+91915: (ToontownBattleGlobals.DROP_TRACK,0, 999, 5) }
 
 npcFriends = dict(HQnpcFriends)
 npcFriends.update(FOnpcFriends)
