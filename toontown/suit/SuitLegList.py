@@ -30,6 +30,7 @@ class SuitLeg:
       10 : 'Off'
     }
     def __init__(self, suitGraph, pointA, pointB, type):
+        self.startTime = startTime    
         self.suitGraph = suitGraph
         self.pointA = pointA
         self.pointB = pointB
