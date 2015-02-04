@@ -194,9 +194,9 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
                 elif inviterId in groupList[2]:
                     self.sendUpdate('postKickReject', [leaderId, inviterId, inviteeId])
         else:
-            if self.avIdDict.has_key(inviteeId):
-                self.notify.warning('inviter %s tried to invite %s who already exists in avIdDict.' % (inviterId, inviteeId))
-                self.air.writeServerEvent('suspicious', avId=inviterId, issue='tried to invite %s who already exists in the avIdDict.' % inviteeId)
+            if inviteeId in self.avIdDict:
+			self.notify.warning('inviter %s tried to invite %s who already exists in avIdDict.' % (inviterId, inviteeId))
+            self.air.writeServerEvent('suspicious', avId=inviterId, issue='tried to invite %s who already exists in the avIdDict.' % inviteeId)
 
             self.notify.debug('new group')
             leaderId = inviterId
