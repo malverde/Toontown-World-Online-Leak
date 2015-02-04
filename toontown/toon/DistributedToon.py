@@ -191,7 +191,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.gmNameTagColor = 'whiteGM'
         self.gmNameTagString = ''
         self._lastZombieContext = None
-        self.promotionStatus = [0, 0, 0, 0]        
         self.lastSeen = 0
         return
 
@@ -961,8 +960,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.cogTypes = types
         if self.disguisePage:
             self.disguisePage.updatePage()
-    def getCogTypes(self):
-        return self.cogTypes
+
     def setCogLevels(self, levels):
         self.cogLevels = levels
         if self.disguisePage:
@@ -983,7 +981,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.cogMerits = merits
         if self.disguisePage:
             self.disguisePage.updatePage()
-   
 
     def readyForPromotion(self, dept):
         merits = base.localAvatar.cogMerits[dept]
@@ -1006,9 +1003,6 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                 self.putOnSuit(cog)
             else:
                 self.putOnSuit(index, rental=True)
-
-    def setPromotionStatus(self, status):
-        self.promotionStatus = status
 
     def isCog(self):
         if self.cogIndex == -1:
@@ -2738,13 +2732,3 @@ def gardenGame():
 @magicWord(category=CATEGORY_MODERATION)
 def toonfest():
     spellbook.getInvoker().magicTeleportInitiate(7000, 7000)
-    
-@magicWord(category=CATEGORY_ADMIN, types=[int])
-def promote(deptIndex):
-    """
-    sends a request to promote the invoker's [deptIndex] Cog disguise.
-        """
-    invoker = spellbook.getInvoker()
-    invoker.sendUpdate('requestPromotion', [deptIndex])
-    return 'Your promotion request has been sent.'    
-    

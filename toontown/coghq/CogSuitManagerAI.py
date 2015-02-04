@@ -20,8 +20,3 @@ class CogSuitManagerAI:
             partsRecovered[CogDisguiseGlobals.dept2deptIndex(suitTrack)] = part
             self.air.questManager.toonRecoveredCogSuitPart(av, zoneId, avList)
         return partsRecovered
-
-    def removeParts(self, toon, suitDept):
-        parts = toon.getCogParts()
-        if CogDisguiseGlobals.isSuitComplete(parts, suitDept):
-            toon.loseCogParts(suitDept)      

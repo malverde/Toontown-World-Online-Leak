@@ -25,7 +25,6 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         self.resetBattleCounters()
         self.looseToons = []
         self.involvedToons = []
-        self.punishedToons = []        
         self.toonsA = []
         self.toonsB = []
         self.nearToons = []
@@ -88,29 +87,37 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             self.acceptOnce(event, self.__handleUnexpectedExit, extraArgs=[avId])
 
     def removeToon(self, avId):
-       av = self.air.doId2do.get(avId)
-    if av.getHp() <= 0:
-            if avId not in self.punishedToons:
-                self.air.cogSuitMgr.removeParts(av, self.deptIndex)
-                self.punishedToons.append(avId)
+        resendIds = 0
+        try:
+            self.looseToons.remove(avId)
+        except:
+            pass
 
-            if avId in self.looseToons:
-             self.looseToons.remove(avId)
-            if avId in self.involvedToons:
-             self.involvedToons.remove(avId)
-            if avId in self.toonsA:
-             self.toonsA.remove(avId)
+        try:
+            self.involvedToons.remove(avId)
+            resendIds = 1
+        except:
+            pass
 
-            if avId in self.toonsB:
-             self.toonsB.remove(avId)
-            if avId in self.nearToons:
-             self.nearToons.remove(avId)
+        try:
+            self.toonsA.remove(avId)
+        except:
+            pass
 
+        try:
+            self.toonsB.remove(avId)
+        except:
+            pass
 
-            event = self.air.getAvatarExitEvent(avId)
-            self.ignore(event)
-            if not self.hasToons():
-             taskMgr.doMethodLater(10, self.__bossDone, self.uniqueName('BossDone'))
+        try:
+            self.nearToons.remove(avId)
+        except:
+            pass
+
+        event = self.air.getAvatarExitEvent(avId)
+        self.ignore(event)
+        if not self.hasToons():
+            taskMgr.doMethodLater(10, self.__bossDone, self.uniqueName('BossDone'))
 
     def __bossDone(self, task):
         self.b_setState('Off')

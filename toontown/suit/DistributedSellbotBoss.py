@@ -448,20 +448,15 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         return bossTrack
 
     def __talkAboutPromotion(self, speech):
-        if self.prevCogSuitLevel < ToontownGlobals.MaxCogSuitLevel:
-            deptIndex = CogDisguiseGlobals.dept2deptIndex(self.style.dept)
-            cogLevels = base.localAvatar.getCogLevels()
-            newCogSuitLevel = cogLevels[deptIndex]
-            cogTypes = base.localAvatar.getCogTypes()
-            maxCogSuitLevel = (SuitDNA.levelsPerSuit-1) + cogTypes[deptIndex]
-            if self.prevCogSuitLevel != maxCogSuitLevel:
-                speech += TTLocalizer.CagedToonLevelPromotion
-            if newCogSuitLevel == maxCogSuitLevel:
-                if newCogSuitLevel != ToontownGlobals.MaxCogSuitLevel:
-                    suitIndex = ((cogTypes[deptIndex]+1) * (deptIndex+1)) - 1
-                    cogTypeStr = SuitDNA.suitHeadTypes[suitIndex]
-                    cogName = SuitBattleGlobals.SuitAttributes[cogTypeStr]['name']
-                    speech += TTLocalizer.CagedToonSuitPromotion % cogName
+        if not self.localToonPromoted:
+            pass
+        elif self.prevCogSuitLevel < ToontownGlobals.MaxCogSuitLevel:
+            speech += TTLocalizer.CagedToonPromotion
+            newCogSuitLevel = localAvatar.getCogLevels()[CogDisguiseGlobals.dept2deptIndex(self.style.dept)]
+            if newCogSuitLevel == ToontownGlobals.MaxCogSuitLevel:
+                speech += TTLocalizer.CagedToonLastPromotion % (ToontownGlobals.MaxCogSuitLevel + 1)
+            if newCogSuitLevel in ToontownGlobals.CogSuitHPLevels:
+                speech += TTLocalizer.CagedToonHPBoost
         else:
             speech += TTLocalizer.CagedToonMaxed % (ToontownGlobals.MaxCogSuitLevel + 1)
         return speech

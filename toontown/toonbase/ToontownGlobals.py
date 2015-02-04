@@ -13,9 +13,6 @@ DatabaseIdFromClassName = {'Account': AccountDatabaseChannelId}
 CogHQCameraFov = 60.0
 BossBattleCameraFov = 72.0
 MakeAToonCameraFov = 52.0
-WantPromotion = 0
-PendingPromotion = 1
-
 CeilingBitmask = BitMask32(256)
 FloorEventBitmask = BitMask32(16)
 PieBitmask = BitMask32(256)
@@ -100,13 +97,16 @@ SPDonaldsBoat = 3
 SPMinniesPiano = 4
 SPBuddysBalloon = 5
 CEVirtual = 14
-MaxHpLimit = 150
+MaxHpLimit = 137
 MaxCarryLimit = 80
 MaxQuestCarryLimit = 4
 GravityValue = 32.174
-MaxCogSuitLevel = 12 - 1
-
-
+MaxCogSuitLevel = 50 - 1
+CogSuitHPLevels = (15 - 1,
+ 20 - 1,
+ 30 - 1,
+ 40 - 1,
+ 50 - 1)
 setInterfaceFont(TTLocalizer.InterfaceFont)
 setSignFont(TTLocalizer.SignFont)
 from toontown.toontowngui import TTDialog
