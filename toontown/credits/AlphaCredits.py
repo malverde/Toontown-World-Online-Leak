@@ -158,7 +158,8 @@ CreditsScenes = [
 #need to give roles and send pictures to me
                 # Developers
                 Shockley(),
-                Credits('Mgracer', 'Programmar\nDeveloper\nMac Support', 'mgracer.jpg', 'left'),
+                Credits('Mgracer', 'Programmer\nDeveloper\nMac Support', 'mgracer.jpg', 'left'),
+                Credits('Resistance Ranger Fireball', 'Programmer\nDeveloper', '.jpg', 'left')
                 Credits("Purrty", "Lead Community Manager", '.jpg' ),
                 Credits("Aura", "Community Manager", '.jpg', 'right', 2), 
                 Credits("Zander", "Community Manager\nTheme Song Composer", 'zander.jpg'),
