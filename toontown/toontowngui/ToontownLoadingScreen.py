@@ -10,15 +10,15 @@ class ToontownLoadingScreen:
         self.__expectedCount = 0
         self.__count = 0
         self.gui = loader.loadModel('phase_3/models/gui/progress-background')
-        #Todo: find a place for tips
-        #self.banner = loader.loadModel('phase_3/models/gui/toon_council').find('**/scroll')
-        #self.banner.reparentTo(self.gui)
-        #self.banner.setScale(0.4, 0.4, 0.4)
-        #self.tip = DirectLabel(guiId='ToontownLoadingScreenTip', parent=self.banner, relief=None, text='', text_scale=TTLocalizer.TLStip, textMayChange=1, pos=(-1.2, 0.0, 0.1), text_fg=(0.4, 0.3, 0.2, 1), text_wordwrap=13, text_align=TextNode.ALeft)
+        
+        self.banner = loader.loadModel('phase_3/models/gui/toon_council').find('**/scroll')
+        self.banner.reparentTo(self.gui)
+        self.banner.setScale(0.4, 0.4, 0.4)
+        self.tip = DirectLabel(guiId='ToontownLoadingScreenTip', parent=self.banner, relief=None, text='', text_scale=TTLocalizer.TLStip, textMayChange=1, pos=(-1.2, 0.0, 0.1), text_fg=(0.4, 0.3, 0.2, 1), text_wordwrap=13, text_align=TextNode.ALeft)
         self.toon = DirectLabel(parent=self.gui, relief=None, pos=(0, 0, 0.80), text='', textMayChange=1, text_scale=0.17, text_fg=(0.952, 0.631, 0.007, 1), text_align=TextNode.ACenter, text_font=ToontownGlobals.getSignFont())
         self.starring = DirectLabel(parent=self.gui, relief=None, pos=(0, 0, 0.70), text='', textMayChange=1, text_scale=0.10, text_fg=(0.968, 0.917, 0.131, 1), text_align=TextNode.ACenter, text_font=ToontownGlobals.getSignFont())
         self.title = DirectLabel(guiId='ToontownLoadingScreenTitle', parent=self.gui, relief=None, pos=(0, 0, -0.77), text='', textMayChange=1, text_scale=0.15, text_fg=(0.9, 0.631, 0.007, 1), text_align=TextNode.ACenter, text_font=ToontownGlobals.getSignFont())
-        #self.title = DirectLabel(guiId='ToontownLoadingScreenTitle', parent=self.gui, relief=None, pos=(0, 0, -0.77), text='', textMayChange=1, text_scale=0.15, text_fg=(0, 0, 0.5, 1), text_align=TextNode.ACenter, text_font=ToontownGlobals.getSignFont())
+        self.title = DirectLabel(guiId='ToontownLoadingScreenTitle', parent=self.gui, relief=None, pos=(0, 0, -0.77), text='', textMayChange=1, text_scale=0.15, text_fg=(0, 0, 0.5, 1), text_align=TextNode.ACenter, text_font=ToontownGlobals.getSignFont())
         self.waitBar = DirectWaitBar(guiId='ToontownLoadingScreenWaitBar', parent=self.gui, frameSize=(-1.06,
          1.06,
          -0.03,
@@ -50,20 +50,14 @@ class ToontownLoadingScreen:
 
     def begin(self, range, label, gui, tipCategory):
         self.waitBar['range'] = range
-        #self.tip['text'] = self.getTip(tipCategory)
+        self.tip['text'] = self.getTip(tipCategory)
         self.title['text'] = label
         self.__count = 0
         self.__expectedCount = range
         if gui:
             base.setBackgroundColor(Vec4(0.952, 0.796, 0.317, 1))
             if base.localAvatarStyle:
-                from toontown.toon import ToonHead
-                self.toon['text'] = base.localAvatarName
-                self.starring['text'] = TTLocalizer.StarringIn                
-                self.head = ToonHead.ToonHead()
-                self.head.setupHead(base.localAvatarStyle, forGui=1)
-                self.head.reparentTo(self.gui)
-                self.head.fitAndCenterHead(1, forGui=1)
+
             self.gui.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
         else:
             self.waitBar.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
