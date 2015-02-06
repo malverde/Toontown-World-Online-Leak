@@ -161,7 +161,7 @@ def system(message):
     for doId, do in simbase.air.doId2do.items():
         if isinstance(do, DistributedPlayerAI):
             if str(doId)[0] != str(simbase.air.districtId)[0]:
-                do.d_setSystemMessage(0, message)
+                do.d_setSystemMessage(0, "System Message: %s"% message)
 
 @magicWord(category=CATEGORY_ADMIN, types=[int])
 
