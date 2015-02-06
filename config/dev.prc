@@ -78,7 +78,7 @@ want-blacklist-sequence #f
 force-avatar-understandable #t
 force-player-understandable #t
 
-
+want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
 want-mega-invasions #f
