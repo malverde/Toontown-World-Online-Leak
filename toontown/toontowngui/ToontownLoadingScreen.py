@@ -58,7 +58,8 @@ class ToontownLoadingScreen:
             base.setBackgroundColor(Vec4(0.952, 0.796, 0.317, 1))
             if base.localAvatarStyle:
 
-            self.gui.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
+        self.gui.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
+        
         else:
             self.waitBar.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
             self.title.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
