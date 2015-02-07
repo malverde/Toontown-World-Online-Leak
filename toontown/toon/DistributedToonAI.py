@@ -1530,7 +1530,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getCogLevels(self):
         return self.cogLevels
 
-   def incCogLevel(self, deptIndex):
+    def incCogLevel(self, deptIndex):
         cogLevel = self.cogLevels[deptIndex]
         maxSuitType = SuitDNA.suitsPerDept - 1
         maxSuitLevel = (SuitDNA.levelsPerSuit-1) + maxSuitType
