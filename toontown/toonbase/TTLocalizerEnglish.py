@@ -2295,12 +2295,12 @@ RewardPanelCongratsStrings = ['Yeah!',
 RewardPanelNewGag = 'New %(gagName)s gag for %(avName)s!'
 RewardPanelUberGag = '%(avName)s earned the %(gagName)s gag with %(exp)s experience points!'
 RewardPanelEndTrack = 'Yay! %(avName)s has reached the end of the %(gagName)s Gag Track!'
+RewardPanelPromotionPending = 'Pending promotion...'
 RewardPanelMeritsMaxed = 'Maxed'
 RewardPanelMeritBarLabels = ['Stock Options',
  'Jury Notices',
  'Cogbucks',
  'Merits']
-RewardPanelMeritAlert = 'Ready for promotion!'
 RewardPanelCogPart = 'You gained a Cog disguise part!'
 RewardPanelPromotion = 'Ready for promotion in %s  track!'
 RewardPanelSkip = 'Skip'
@@ -5731,8 +5731,9 @@ BossBattleHowToGetPies = 'Jump up to touch the cage to get pies.'
 BossBattleHowToThrowPies = 'Press the Delete key to throw pies!'
 CagedToonYippee = 'Yippee!'
 CagedToonThankYou = "It's great to be free!\x07Thanks for all your help!\x07I am in your debt.\x07Here's my card. If you ever need a hand in battle, give a shout!\x07Just click on your SOS button."
-CagedToonPromotion = "\x07Say--that V.P. Cog left behind your promotion papers.\x07I'll file them for you on the way out, so you'll get your promotion!"
-CagedToonLastPromotion = "\x07Wow, you've reached level %s on your Cog suit!\x07Cogs don't get promoted higher than that.\x07You can't upgrade your Cog suit anymore, but you can certainly keep rescuing Toons!"
+CagedToonLevelPromotion = "\x07Say--that V.P. Cog left behind your promotion papers.\x07I'll file them for you on the way out, so you'll get your promotion!"
+CagedToonSuitPromotion = "\x07It seems like you've reached the highest level you can for a %s.\x07You can continue upgrading your Cog suit through the disguise page in your Shticker Book.\x07Along with getting a new Cog suit, you will also get a 1 point Laff boost!"
+CagedToonLastPromotion = "\x07Wow, you've reached level %s on your Cog suit!\x07I'm pretty sure Cogs don't get promoted higher than that.\x07You can't upgrade your Cog suit anymore, but you can certainly keep rescuing Toons!"
 CagedToonHPBoost = "\x07You've rescued a lot of Toons from this HQ.\x07The Toon Council has decided to give you another Laff point. Congratulations!"
 CagedToonMaxed = '\x07I see that you have a level %s Cog suit. Very impressive!\x07On behalf of the Toon Council, thank you for coming back to rescue more Toons!'
 CagedToonGoodbye = 'See ya!'
@@ -5761,7 +5762,9 @@ ResistanceToonMoneyInstructions = 'all the Toons near you will gain %s jellybean
 ResistanceToonMoneyAllInstructions = 'all the Toons near you will fill their jellybean jars'
 ResistanceToonRestockInstructions = 'all the Toons near you will restock their "%s" gags'
 ResistanceToonRestockAllInstructions = 'all the Toons near you will restock all their gags'
-ResistanceToonLastPromotion = "\x07Wow, you've reached level %s on your Cog suit!\x07Cogs don't get promoted higher than that.\x07You can't upgrade your Cog suit anymore, but you can certainly keep working for the Resistance!"
+ResistanceToonLevelPromotion = "\x07Say--that C.F.O. Cog left behind your promotion papers.\x07I'll file them for you on the way out, so you'll get your promotion!"
+ResistanceToonSuitPromotion = "\x07It seems like you've reached the highest level you can for a %s.\x07You can continue upgrading your Cog suit through the disguise page in your Shticker Book.\x07Along with getting a new Cog suit, you will also get a 1 point Laff boost!"
+ResistanceToonLastPromotion = "\x07Wow, you've reached level %s on your Cog suit!\x07I'm pretty sure Cogs don't get promoted higher than that.\x07You can't upgrade your Cog suit anymore, but you can certainly keep working for the Resistance!!"
 ResistanceToonHPBoost = "\x07You've done a lot of work for the Resistance.\x07The Toon Council has decided to give you another Laff point. Congratulations!"
 ResistanceToonMaxed = '\x07I see that you have a level %s Cog suit. Very impressive!\x07On behalf of the Toon Council, thank you for coming back to rescue more Toons!'
 CashbotBossCogAttack = 'Get them!!!'
@@ -9042,9 +9045,12 @@ WitnessToonSomeJurors = 'Cool! There are %d Toons in the jury!'
 WitnessToonAllJurors = 'Awesome! All the jurors are Toons!'
 WitnessToonPrepareBattleThree = 'Hurry, touch the witness stand to get evidence.\x07Press the Delete key to throw the evidence at the lawyers, or at the defense pan.'
 WitnessToonCongratulations = "You did it!  Thank you for a spectacular defense!\x07Here, take these papers the Chief Justice left behind.\x07With it you'll be able to summon Cogs from your Cog Gallery page."
-WitnessToonLastPromotion = "\x07Wow, you've reached level %s on your Cog Suit!\x07Cogs don't get promoted higher than that.\x07You can't upgrade your Cog Suit anymore, but you can certainly keep working for the Resistance!"
+
 WitnessToonHPBoost = "\x07You've done a lot of work for the Resistance.\x07The Toon Council has decided to give you another Laff point. Congratulations!"
-WitnessToonMaxed = '\x07I see that you have a level %s Cog Suit. Very impressive!\x07On behalf of the Toon Council, thank you for coming back to defend more Toons!'
+WitnessToonLevelPromotion = "\x07Say--that C.J. Cog left behind your promotion papers.\x07I'll file them for you on the way out, so you'll get your promotion!"
+WitnessToonSuitPromotion = "\x07It seems like you've reached the highest level you can for a %s.\x07You can continue upgrading your Cog suit through the disguise page in your Shticker Book.\x07Along with getting a new Cog suit, you will also get a 1 point Laff boost!"
+WitnessToonLastPromotion = "\x07Wow, you've reached level %s on your Cog suit!\x07I'm pretty sure Cogs don't get promoted higher than that.\x07You can't upgrade your Cog suit anymore, but you can certainly keep working for the Resistance!!"
+WitnessToonMaxed = '\x07I see that you have a level %s Cog suit. Very impressive!\x07On behalf of the Toon Council, thank you for coming back to rescue more Toons!'
 WitnessToonBonus = 'Wonderful! All the lawyers are stunned. Your evidence weight is %s times heavier for %s seconds'
 WitnessToonJuryWeightBonusSingular = {6: 'This is a tough case. You seated %d Toon juror, so your evidence has a bonus weight of %d.',
  7: 'This is a very tough case. You seated %d Toon juror, so your evidence has a bonus weight of %d.',
@@ -9619,9 +9625,12 @@ BossbotGolfSpotAdvice = 'Use the left and right keys to rotate.\nCtrl to fire.'
 BossbotRewardSpeech1 = "No! The Chairman won't like this."
 BossbotRewardSpeech2 = 'Arrrggghhh!!!!'
 BossbotRTCongratulations = "You did it!  You've demoted the C.E.O.!\x07Here, take these pink slips the C.E.O. left behind.\x07With it you'll be able to fire Cogs in a battle."
-BossbotRTLastPromotion = "\x07Wow, you've reached level %s on your Cog Suit!\x07Cogs don't get promoted higher than that.\x07You can't upgrade your Cog Suit anymore, but you can certainly keep working for the Resistance!"
+
 BossbotRTHPBoost = "\x07You've done a lot of work for the Resistance.\x07The Toon Council has decided to give you another Laff point. Congratulations!"
-BossbotRTMaxed = '\x07I see that you have a level %s Cog Suit. Very impressive!\x07On behalf of the Toon Council, thank you for coming back to defend more Toons!'
+BossbotRTLevelPromotion = "\x07Say--that C.E.O. Cog left behind your promotion papers.\x07I'll file them for you on the way out, so you'll get your promotion!"
+BossbotRTSuitPromotion = "\x07It seems like you've reached the highest level you can for a %s.\x07You can continue upgrading your Cog suit through the disguise page in your Shticker Book.\x07Along with getting a new Cog suit, you will also get a 1 point Laff boost!"
+BossbotRTLastPromotion = "\x07Wow, you've reached level %s on your Cog suit!\x07I'm pretty sure Cogs don't get promoted higher than that.\x07You can't upgrade your Cog suit anymore, but you can certainly keep working for the Resistance!!"
+BossbotRTMaxed = '\x07I see that you have a level %s Cog suit. Very impressive!\x07On behalf of the Toon Council, thank you for coming back to rescue more Toons!'
 GolfAreaAttackTaunt = 'Fore!'
 OvertimeAttackTaunts = ["It's time to reorganize.", "Now let's downsize."]
 ElevatorBossBotBoss = 'C.E.O Battle'
