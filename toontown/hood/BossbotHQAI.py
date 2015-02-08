@@ -52,15 +52,15 @@ class BossbotHQAI(CogHoodAI):
         return kart
         self.suitPlanners = []
         
-    if simbase.config.GetBool('want-suit-planners', True):
-       self.createSuitPlanners()
-
+ 
     def createZone(self):
         CogHoodAI.createZone(self)
         
         # Create lobby manager...
         self.createLobbyManager(DistributedBossbotBossAI, ToontownGlobals.BossbotLobby)
-        
+    if simbase.config.GetBool('want-suit-planners', True):
+        self.createSuitPlanners()
+
         # Create CEO elevator.
         self.ceoElevator = self.createElevator(DistributedBBElevatorAI, self.lobbyMgr, ToontownGlobals.BossbotLobby, ToontownGlobals.BossbotLobby, boss=True)
         
