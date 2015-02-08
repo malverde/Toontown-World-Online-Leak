@@ -31,6 +31,7 @@ class BossbotHQAI(CogHoodAI):
         self.createZone()
         self.suitPlanners = []
         self.zoneId = zoneId
+        zoneId = None 
     def createDoor(self):
         interiorDoor = DistributedCogHQDoorAI(self.air, 0, DoorTypes.INT_COGHQ, self.HOOD, doorIndex=0)
         exteriorDoor = DistributedCogHQDoorAI(self.air, 0, DoorTypes.EXT_COGHQ, ToontownGlobals.BossbotLobby, doorIndex=0, lockValue=FADoorCodes.CB_DISGUISE_INCOMPLETE)
