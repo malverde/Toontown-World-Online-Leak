@@ -4707,8 +4707,8 @@ def setHp(hpVal):
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int])
 def setMaxHp(hpVal):
     """Set target's laff"""
-    if not 15 <= hpVal <= 137:
-        return 'Laff must be between 15 and 137!'
+    if not 15 <= hpVal <= 156:
+        return 'Laff must be between 15 and 156!'
     spellbook.getTarget().b_setMaxHp(hpVal)
     spellbook.getTarget().toonUp(hpVal)
 
