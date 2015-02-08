@@ -10,6 +10,7 @@ class GSHoodAI(HoodAI.HoodAI):
         self.createZone()
         self.spawnObjects()
         self.classicChar = None
+        self.zoneId = None
         
     def createZone(self):
         HoodAI.HoodAI.createZone(self)
