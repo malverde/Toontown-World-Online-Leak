@@ -17734,6 +17734,20 @@ def findFinalRewardId(questId):
 
 for questId in QuestDict.keys():
     findFinalRewardId(questId)
+
+def getStartingQuests(tier = None):
+    startingQuests = []
+    for questId in QuestDict.keys():
+        if isStartingQuest(questId):
+            if tier is None:
+                startingQuests.append(questId)
+            elif questId in Tier2QuestsDict[tier]:
+                startingQuests.append(questId)
+
+    startingQuests.sort()
+    return startingQuests
+
+
 def getFinalRewardId(questId, fAll = 0):
     if fAll or isStartingQuest(questId):
         return Quest2RewardDict.get(questId)
