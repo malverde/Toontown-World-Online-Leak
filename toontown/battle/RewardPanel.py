@@ -228,10 +228,11 @@ class RewardPanel(DirectFrame):
                 maxSuitType = SuitDNA.suitsPerDept - 1
                 maxSuitLevel = (SuitDNA.levelsPerSuit-1) + maxSuitType
                 if toon.cogLevels[i] == maxSuitLevel:             
-                    meritBar['range'] = 1
-                    meritBar['value'] = 1
-                    meritBar['text'] = TTLocalizer.RewardPanelMeritsMaxed
-                if promoStatus == ToontownGlobals.PendingPromotion:
+                    if promoStatus == ToontownGlobals.PendingPromotion:
+                        meritBar['range'] = 1
+                        meritBar['value'] = 1
+                        meritBar['text'] = TTLocalizer.RewardPanelMeritsMaxed
+                elif promoStatus == ToontownGlobals.PendingPromotion:                 
                     meritBar['range'] = 1
                     meritBar['value'] = 1
                     meritBar['text'] = TTLocalizer.RewardPanelPromotionPending
