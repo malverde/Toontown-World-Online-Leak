@@ -6,7 +6,6 @@ from toontown.toon import NPCToons
 #from toontown.election.DistributedElectionEventAI import DistributedElectionEventAI
 from direct.task import Task
 import time
-from toontown.classicchars import DistributedMickeyAI
 
 class TTHoodAI(SZHoodAI):
     HOOD = ToontownGlobals.ToontownCentral
@@ -16,13 +15,9 @@ class TTHoodAI(SZHoodAI):
         self.spawnObjects()
         self.butterflies = []
         self.createButterflies()
-        self.classicChar = None
 
         if self.air.config.GetBool('want-doomsday', False):
             self.spawnElection()
-        if simbase.config.GetBool('want-classic-chars', True):
-         if simbase.config.GetBool('want-mickey', True):
-                self.createClassicChar()    
     
     def spawnElection(self):
         election = self.air.doFind('ElectionEvent')
@@ -73,7 +68,3 @@ class TTHoodAI(SZHoodAI):
                 butterfly.setState(0, 0, 0, 1, 1)
                 butterfly.generateWithRequired(self.HOOD)
                 self.butterflies.append(butterfly)
-    def createClassicChar(self):
-        self.classicChar = DistributedMickeyAI.DistributedMickeyAI(self.air)
-        self.classicChar.generateWithRequired(self.zoneId)
-        self.classicChar.start()                

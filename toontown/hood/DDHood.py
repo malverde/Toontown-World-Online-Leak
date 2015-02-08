@@ -3,7 +3,6 @@ import ToonHood
 from toontown.town import DDTownLoader
 from toontown.safezone import DDSafeZoneLoader
 from toontown.toonbase.ToontownGlobals import *
-from toontown.classicchars import DistributedDonaldDockAI
 
 class DDHood(ToonHood.ToonHood):
 
@@ -22,15 +21,11 @@ class DDHood(ToonHood.ToonHood):
         self.whiteFogColor = Vec4(0.8, 0.8, 0.8, 1)
         self.underwaterFogColor = Vec4(0.0, 0.0, 0.6, 1.0)
         self.spookySkyFile = 'phase_3.5/models/props/BR_sky'
-        self.classicChar = None
 
     def load(self):
         ToonHood.ToonHood.load(self)
         self.parentFSM.getStateNamed('DDHood').addChild(self.fsm)
         self.fog = Fog('DDFog')
-        if simbase.config.GetBool('want-classic-chars', True):
-            if simbase.config.GetBool('want-donald-dock', True):
-                self.createClassicChar()
 
     def unload(self):
         self.parentFSM.getStateNamed('DDHood').removeChild(self.fsm)
@@ -64,8 +59,3 @@ class DDHood(ToonHood.ToonHood):
         if base.wantFog:
             render.clearFog()
             self.sky.clearFog()
-    def createClassicChar(self):
-        self.classicChar = DistributedDonaldDockAI.DistributedDonaldDockAI(self.air)
-        self.classicChar.generateWithRequired(self.zoneId)
-        self.classicChar.start()
-            
