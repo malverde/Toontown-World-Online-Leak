@@ -48,7 +48,7 @@ class ToontownLoadingScreen:
     def resetBackground(self):
         base.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
 
-    def begin(self, range, label, gui, tipCategory, zoneId):
+    def begin(self, range, label, gui, tipCategory):
         self.waitBar['range'] = range
         self.tip['text'] = self.getTip(tipCategory)
         self.title['text'] = label
