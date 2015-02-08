@@ -9,7 +9,7 @@ class LobbyManagerAI(DistributedObjectAI.DistributedObjectAI):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         self.air = air
         self.bossConstructor = bossConstructor
-        self.brutalBossCtor = brutalBossCtor
+        #self.brutalBossCtor = brutalBossCtor
 
     def delete(self):
         self.ignoreAll()
@@ -19,10 +19,9 @@ class LobbyManagerAI(DistributedObjectAI.DistributedObjectAI):
     def createBossOffice(self, avIdList, isBrutal=False):
         bossZone = self.air.allocateZone()
         self.notify.info('createBossOffice: %s' % bossZone)
-        if isBrutal:
-            bossCog = self.brutalBossCtor(self.air)
-        else:
-            bossCog = self.bossConstructor(self.air)
+        #if isBrutal:
+         #   bossCog = self.brutalBossCtor(self.air)
+        bossCog = self.bossConstructor(self.air)
         bossCog.generateWithRequired(bossZone)
         self.acceptOnce(bossCog.uniqueName('BossDone'), self.destroyBossOffice, extraArgs=[bossCog])
         for avId in avIdList:
