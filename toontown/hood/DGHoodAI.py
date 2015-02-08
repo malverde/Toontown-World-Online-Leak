@@ -8,8 +8,7 @@ from toontown.classicchars import DistributedDaisyAI
 
 class DGHoodAI(SZHoodAI):
     HOOD = ToontownGlobals.DaisyGardens
-    def __init__(self, air):    
-     self.classicChar = None
+    self.classicChar = None
     def createZone(self):
         SZHoodAI.createZone(self)
         self.butterflies = []
