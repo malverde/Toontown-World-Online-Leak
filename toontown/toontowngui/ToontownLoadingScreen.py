@@ -9,7 +9,7 @@ class ToontownLoadingScreen:
     def __init__(self):
         self.__expectedCount = 0
         self.__count = 0
-        self.gui = loader.loadModel('phase_3/models/gui/progress-background')
+        self.gui = loader.loadModel('phase_3/models/gui/progress-background_nost')
         
         self.banner = loader.loadModel('phase_3/models/gui/toon_council').find('**/scroll')
         self.banner.reparentTo(self.gui)
