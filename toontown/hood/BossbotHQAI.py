@@ -58,7 +58,6 @@ class BossbotHQAI(CogHoodAI):
         
         # Create lobby manager...
         self.createLobbyManager(DistributedBossbotBossAI, ToontownGlobals.BossbotLobby)
-    if simbase.config.GetBool('want-suit-planners', True):
         self.createSuitPlanners()
 
         # Create CEO elevator.
