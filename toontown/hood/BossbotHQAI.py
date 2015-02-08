@@ -25,13 +25,12 @@ from toontown.hood import ZoneUtil
 class BossbotHQAI(CogHoodAI):
     HOOD = ToontownGlobals.BossbotHQ
 
-    def __init__(self, air):
-        CogHoodAI.__init__(self, zoneId,  air)
+    def __init__(self, air, zoneId):
+        CogHoodAI.__init__(self, air)
         self.karts = []
         self.createZone()
         self.suitPlanners = []
         self.zoneId = zoneId
-        zoneId = None 
     def createDoor(self):
         interiorDoor = DistributedCogHQDoorAI(self.air, 0, DoorTypes.INT_COGHQ, self.HOOD, doorIndex=0)
         exteriorDoor = DistributedCogHQDoorAI(self.air, 0, DoorTypes.EXT_COGHQ, ToontownGlobals.BossbotLobby, doorIndex=0, lockValue=FADoorCodes.CB_DISGUISE_INCOMPLETE)
