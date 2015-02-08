@@ -245,7 +245,7 @@ class ToontownAIRepository(ToontownInternalRepository):
             clearQueue()
 
         if config.GetBool('want-bbhq', True):
-            self.hoods.append(BossbotHQAI.BossbotHQAI(self, zoneId))
+            self.hoods.append(BossbotHQAI.BossbotHQAI(self))
             clearQueue()
 
         for sp in self.suitPlanners.values():
