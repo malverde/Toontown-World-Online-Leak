@@ -5,7 +5,8 @@ from toontown.classicchars import DistributedPlutoAI
 
 class BRHoodAI(SZHoodAI):
     HOOD = ToontownGlobals.TheBrrrgh
-    self.classicChar = None
+    def __init__(self, air):    
+     self.classicChar = None
 	
     def createZone(self):
         SZHoodAI.createZone(self)
