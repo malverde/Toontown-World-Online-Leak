@@ -5,7 +5,7 @@ from toontown.toonbase import ToontownGlobals
 class LobbyManagerAI(DistributedObjectAI.DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('LobbyManagerAI')
 
-    def __init__(self, air, bossConstructor):
+    def __init__(self, air, bossConstructor, brutalBossCtor):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         self.air = air
         self.bossConstructor = bossConstructor
