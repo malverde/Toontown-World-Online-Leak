@@ -46,7 +46,7 @@ class CogHQAI:
             self.createBoardingParty()
 
     def createLobbyManager(self):
-        self.lobbyMgr = LobbyManagerAI.LobbyManagerAI(self.air, self.bossCtor,)
+        self.lobbyMgr = LobbyManagerAI.LobbyManagerAI(self.air, self.bossCtor, self.brutalBossCtor)
         self.lobbyMgr.generateWithRequired(self.lobbyZoneId)
 
     def createLobbyElevator(self):
