@@ -8405,7 +8405,9 @@ TIP_KARTING = 6
 TIP_GOLF = 7
 TipTitle = 'TOON TIP:'
 TipDict = {TIP_NONE: ('',),
- TIP_GENERAL: ('Quickly check your ToonTask progress by holding down the "End" key.',
+ TIP_GENERAL: ('Toon Troopers are here to help. If you are being troubled find one and ask for help.',
+               'You can report or ignore a Toon if they are troubling you or others.',
+               'Quickly check your ToonTask progress by holding down the "End" key.',
                'Quickly check your Gag page by holding down the "Home" key.',
                'Open your Friends List by pressing the "F7" key.',
                'Open or close your Shticker Book by pressing the "F8" key.',
