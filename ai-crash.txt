@@ -1,1 +1,0 @@
-direct.directnotify.Notifier:136, direct.distributed.AstronInternalRepository:495, direct.showbase.Messenger:484, direct.showbase.Messenger:426, StandardError: Lost connection to gameserver!
