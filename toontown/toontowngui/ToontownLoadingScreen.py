@@ -33,12 +33,12 @@ class ToontownLoadingScreen:
         return
 
     def destroy(self):
-        #self.tip.destroy()
+        self.tip.destroy()
         self.toon.destroy()
         self.starring.destroy()
         self.title.destroy()
         self.waitBar.destroy()
-        #self.banner.removeNode()
+        self.banner.removeNode()
         self.gui.removeNode()
         self.resetBackground()
 
@@ -48,22 +48,24 @@ class ToontownLoadingScreen:
     def resetBackground(self):
         base.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
 
-    def begin(self, range, label, gui, tipCategory):
+    def begin(self, range, label, gui, tipCategory, zoneId):
         self.waitBar['range'] = range
         self.tip['text'] = self.getTip(tipCategory)
         self.title['text'] = label
         self.__count = 0
         self.__expectedCount = range
         if gui:
-         base.setBackgroundColor(Vec4(0.952, 0.796, 0.317, 1))
-        if base.localAvatarStyle:
-
-         self.gui.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
-        
+            base.setBackgroundColor(Vec4(0.952, 0.796, 0.317, 1))
+            if base.localAvatarStyle:
+                
+                
+                               
+               
+            self.gui.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
         else:
-         self.waitBar.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
-        self.title.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
-        self.gui.reparentTo(hidden)
+            self.waitBar.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
+            self.title.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
+            self.gui.reparentTo(hidden)
         self.waitBar.update(self.__count)
 
     def end(self):
