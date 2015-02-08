@@ -61,7 +61,7 @@ class ToontownLoadingScreen:
                 
                                
                
-            self.gui.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
+             self.gui.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
         else:
             self.waitBar.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
             self.title.reparentTo(aspect2dp, NO_FADE_SORT_INDEX)
