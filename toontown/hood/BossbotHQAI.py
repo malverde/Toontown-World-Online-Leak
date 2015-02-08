@@ -91,9 +91,9 @@ class BossbotHQAI(CogHoodAI):
         self.createBoardingGroup(self.air, kartIds, ToontownGlobals.BossbotHQ)
 
     def createSuitPlanners(self):
-        suitPlanner = DistributedSuitPlannerAI.DistributedSuitPlannerAI(self.air, self.zoneId = ToontownGlobals.BossbotHQ )
-        suitPlanner.generateWithRequired(self.zoneId = ToontownGlobals.BossbotHQ)
-        suitPlanner.d_setZoneId(self.zoneId = ToontownGlobals.BossbotHQ)
+        suitPlanner = DistributedSuitPlannerAI.DistributedSuitPlannerAI(self.air, ToontownGlobals.BossbotHQ )
+        suitPlanner.generateWithRequired( ToontownGlobals.BossbotHQ)
+        suitPlanner.d_setZoneId( ToontownGlobals.BossbotHQ)
         suitPlanner.initTasks()
         self.suitPlanners.append(suitPlanner)
-        self.air.suitPlanners[self.zoneId = ToontownGlobals.BossbotHQ] = suitPlanner
+        self.air.suitPlanners[ToontownGlobals.BossbotHQ] = suitPlanner
