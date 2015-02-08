@@ -10,15 +10,13 @@ from toontown.classicchars import DistributedMickeyAI
 
 class TTHoodAI(SZHoodAI):
     HOOD = ToontownGlobals.ToontownCentral
-    def __init__(self, air):    
-    
-	 self.classicChar = None    
     
     def createZone(self):
         SZHoodAI.createZone(self)
         self.spawnObjects()
         self.butterflies = []
         self.createButterflies()
+        self.classicChar = None
 
         if self.air.config.GetBool('want-doomsday', False):
             self.spawnElection()
