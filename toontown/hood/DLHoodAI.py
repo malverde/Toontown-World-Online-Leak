@@ -4,8 +4,7 @@ from toontown.toon import NPCToons
 from toontown.classicchars import DistributedDonaldAI
 class DLHoodAI(SZHoodAI):
     HOOD = ToontownGlobals.DonaldsDreamland
-    def __init__(self, air):    
-     self.classicChar = None
+    self.classicChar = None
     
     def createZone(self):
         SZHoodAI.createZone(self)

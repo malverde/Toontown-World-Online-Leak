@@ -4,8 +4,7 @@ from toontown.toon import NPCToons
 from toontown.classicchars import DistributedMinnieAI
 class MMHoodAI(SZHoodAI):
     HOOD = ToontownGlobals.MinniesMelodyland
-    def __init__(self, air):    
-     self.classicChar = None
+    self.classicChar = None
     def createZone(self):
         SZHoodAI.createZone(self)        
         self.spawnObjects()
