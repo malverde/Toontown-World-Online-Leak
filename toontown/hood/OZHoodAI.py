@@ -9,9 +9,8 @@ from toontown.safezone.DistributedPicnicTableAI import DistributedPicnicTableAI
 
 class OZHoodAI(SZHoodAI):
     HOOD = ToontownGlobals.OutdoorZone
-    def __init__(self, air):    
-     self.classicCharChip = None
-     self.classicCharDale = None
+    self.classicCharChip = None
+    self.classicCharDale = None
 
     
     def createZone(self):
