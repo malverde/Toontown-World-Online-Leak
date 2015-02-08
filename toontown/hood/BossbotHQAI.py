@@ -31,6 +31,8 @@ class BossbotHQAI(CogHoodAI):
         self.createZone()
         self.suitPlanners = []
         self.zoneId = zoneId
+        self.zoneId = ToontownGlobals.BossbotHQ
+        zoneId = ToontownGlobals.BossbotHQ
         
         
     def createDoor(self):
