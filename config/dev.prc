@@ -90,3 +90,13 @@ want-mega-invasions #f
 
 #group merges
 boarding-group-merges #t
+
+want-classic-chars #t
+want-mickey #t
+want-donald-dock #t
+want-daisy #t
+want-minnie #t
+want-pluto #t
+want-donald-dreamland #t
+want-chip-and-dale #t
+want-goofy #t
