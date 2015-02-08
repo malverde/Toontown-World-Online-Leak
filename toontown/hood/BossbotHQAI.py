@@ -35,6 +35,7 @@ class BossbotHQAI(CogHoodAI):
         zoneId = ToontownGlobals.BossbotHQ
         
         
+        
     def createDoor(self):
         interiorDoor = DistributedCogHQDoorAI(self.air, 0, DoorTypes.INT_COGHQ, self.HOOD, doorIndex=0)
         exteriorDoor = DistributedCogHQDoorAI(self.air, 0, DoorTypes.EXT_COGHQ, ToontownGlobals.BossbotLobby, doorIndex=0, lockValue=FADoorCodes.CB_DISGUISE_INCOMPLETE)
@@ -90,9 +91,9 @@ class BossbotHQAI(CogHoodAI):
         self.createBoardingGroup(self.air, kartIds, ToontownGlobals.BossbotHQ)
 
     def createSuitPlanners(self):
-        suitPlanner = DistributedSuitPlannerAI.DistributedSuitPlannerAI(self.air, self.zoneId)
-        suitPlanner.generateWithRequired(self.zoneId)
-        suitPlanner.d_setZoneId(self.zoneId)
+        suitPlanner = DistributedSuitPlannerAI.DistributedSuitPlannerAI(self.air, self.zoneId = ToontownGlobals.BossbotHQ )
+        suitPlanner.generateWithRequired(self.zoneId = ToontownGlobals.BossbotHQ)
+        suitPlanner.d_setZoneId(self.zoneId = ToontownGlobals.BossbotHQ)
         suitPlanner.initTasks()
         self.suitPlanners.append(suitPlanner)
-        self.air.suitPlanners[self.zoneId] = suitPlanner
+        self.air.suitPlanners[self.zoneId = ToontownGlobals.BossbotHQ] = suitPlanner
