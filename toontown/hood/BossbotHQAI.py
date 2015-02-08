@@ -6,35 +6,14 @@ from toontown.coghq.DistributedCogHQDoorAI import DistributedCogHQDoorAI
 from toontown.coghq.DistributedCogKartAI import DistributedCogKartAI
 from toontown.building import DoorTypes
 from toontown.building import FADoorCodes
-from toontown.suit import DistributedSuitPlannerAI
-from toontown.building import DistributedBBElevatorAI
-from toontown.building import FADoorCodes
-from toontown.building.DistributedBoardingPartyAI import DistributedBoardingPartyAI
-from toontown.coghq import DistributedCogKartAI
-from toontown.suit import DistributedBossbotBossAI
-from toontown.suit import DistributedSuitPlannerAI
-from toontown.toonbase import ToontownGlobals
-from toontown.building import DistributedBBElevatorAI
-from toontown.building import FADoorCodes
-from toontown.building.DistributedBoardingPartyAI import DistributedBoardingPartyAI
-from toontown.coghq import DistributedCogKartAI
-from toontown.suit import DistributedBossbotBossAI
-from toontown.suit import DistributedSuitPlannerAI
-from toontown.toonbase import ToontownGlobals
-from toontown.hood import ZoneUtil
+
 class BossbotHQAI(CogHoodAI):
     HOOD = ToontownGlobals.BossbotHQ
 
-    def __init__(self, air, zoneId):
+    def __init__(self, air):
         CogHoodAI.__init__(self, air)
         self.karts = []
         self.createZone()
-        self.suitPlanners = []
-        self.zoneId = zoneId
-        self.zoneId = ToontownGlobals.BossbotHQ
-        zoneId = ToontownGlobals.BossbotHQ
-        
-        
         
     def createDoor(self):
         interiorDoor = DistributedCogHQDoorAI(self.air, 0, DoorTypes.INT_COGHQ, self.HOOD, doorIndex=0)
@@ -56,16 +35,13 @@ class BossbotHQAI(CogHoodAI):
         kart.generateWithRequired(self.HOOD)
         self.karts.append(kart)
         return kart
-        self.suitPlanners = []
-        
- 
+    
     def createZone(self):
         CogHoodAI.createZone(self)
         
         # Create lobby manager...
         self.createLobbyManager(DistributedBossbotBossAI, ToontownGlobals.BossbotLobby)
-        self.createSuitPlanners()
-
+        
         # Create CEO elevator.
         self.ceoElevator = self.createElevator(DistributedBBElevatorAI, self.lobbyMgr, ToontownGlobals.BossbotLobby, ToontownGlobals.BossbotLobby, boss=True)
         
@@ -89,11 +65,3 @@ class BossbotHQAI(CogHoodAI):
         # Cog Golf Boarding Group's
         kartIds = [kart.getDoId() for kart in self.karts]
         self.createBoardingGroup(self.air, kartIds, ToontownGlobals.BossbotHQ)
-
-    def createSuitPlanners(self):
-        suitPlanner = DistributedSuitPlannerAI.DistributedSuitPlannerAI(self.air, ToontownGlobals.BossbotHQ )
-        suitPlanner.generateWithRequired( ToontownGlobals.BossbotHQ)
-        suitPlanner.d_setZoneId( ToontownGlobals.BossbotHQ)
-        suitPlanner.initTasks()
-        self.suitPlanners.append(suitPlanner)
-        self.air.suitPlanners[ToontownGlobals.BossbotHQ] = suitPlanner
