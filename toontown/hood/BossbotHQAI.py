@@ -11,7 +11,13 @@ from toontown.building import DistributedBBElevatorAI
 from toontown.building import FADoorCodes
 from toontown.building.DistributedBoardingPartyAI import DistributedBoardingPartyAI
 from toontown.coghq import DistributedCogKartAI
-from toontown.hood import CogHQAI
+from toontown.suit import DistributedBossbotBossAI
+from toontown.suit import DistributedSuitPlannerAI
+from toontown.toonbase import ToontownGlobals
+from toontown.building import DistributedBBElevatorAI
+from toontown.building import FADoorCodes
+from toontown.building.DistributedBoardingPartyAI import DistributedBoardingPartyAI
+from toontown.coghq import DistributedCogKartAI
 from toontown.suit import DistributedBossbotBossAI
 from toontown.suit import DistributedSuitPlannerAI
 from toontown.toonbase import ToontownGlobals
