@@ -4686,6 +4686,22 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def d_setLastSeen(self, timestamp):
         self.sendUpdate('setLastSeen', [int(timestamp)])
+    def getHouseType(self):
+        return self.houseType
+
+    def setHouseType(self, houseType):
+        self.houseType = houseType
+
+    def d_setHouseType(self, houseType):
+        self.sendUpdate('setHouseType', [houseType])
+
+    def b_setHouseType(self, houseType):
+        self.setHouseType(houseType)
+        self.d_setHouseType(houseType)
+        
+    def b_setHouseType(self, houseType):
+        self.setHouseType(houseType)
+        self.d_setHouseType(houseType)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int])
 def setCE(CEValue, CEHood=0, CEExpire=0):
