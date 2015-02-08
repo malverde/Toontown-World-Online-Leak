@@ -1,67 +1,64 @@
-from CogHoodAI import CogHoodAI
-from toontown.toonbase import ToontownGlobals
-from toontown.suit.DistributedBossbotBossAI import DistributedBossbotBossAI
-from toontown.building.DistributedBBElevatorAI import DistributedBBElevatorAI
-from toontown.coghq.DistributedCogHQDoorAI import DistributedCogHQDoorAI
-from toontown.coghq.DistributedCogKartAI import DistributedCogKartAI
-from toontown.building import DoorTypes
+from toontown.building import DistributedBBElevatorAI
 from toontown.building import FADoorCodes
+from toontown.building.DistributedBoardingPartyAI import DistributedBoardingPartyAI
+from toontown.coghq import DistributedCogKartAI
+from toontown.hood import CogHQAI
+from toontown.suit import DistributedBossbotBossAI
+from toontown.suit import DistributedSuitPlannerAI
+from toontown.toonbase import ToontownGlobals
 
-class BossbotHQAI(CogHoodAI):
-    HOOD = ToontownGlobals.BossbotHQ
 
+class BossbotHQAI(CogHQAI.CogHQAI):
     def __init__(self, air):
-        CogHoodAI.__init__(self, air)
-        self.karts = []
-        self.createZone()
-        
-    def createDoor(self):
-        interiorDoor = DistributedCogHQDoorAI(self.air, 0, DoorTypes.INT_COGHQ, self.HOOD, doorIndex=0)
-        exteriorDoor = DistributedCogHQDoorAI(self.air, 0, DoorTypes.EXT_COGHQ, ToontownGlobals.BossbotLobby, doorIndex=0, lockValue=FADoorCodes.CB_DISGUISE_INCOMPLETE)
-        exteriorDoor.setOtherDoor(interiorDoor)
-        exteriorDoor.zoneId = self.HOOD
-        exteriorDoor.generateWithRequired(self.HOOD)
-        exteriorDoor.sendUpdate('setDoorIndex', [0])
-        self.doors.append(exteriorDoor)
+        CogHQAI.CogHQAI.__init__(
+            self, air, ToontownGlobals.BossbotHQ, ToontownGlobals.BossbotLobby,
+            FADoorCodes.BB_DISGUISE_INCOMPLETE,
+            DistributedBBElevatorAI.DistributedBBElevatorAI,
+            DistributedBossbotBossAI.DistributedBossbotBossAI)
 
-        interiorDoor.setOtherDoor(exteriorDoor)
-        interiorDoor.zoneId = ToontownGlobals.BossbotLobby
-        interiorDoor.generateWithRequired(ToontownGlobals.BossbotLobby)
-        interiorDoor.sendUpdate('setDoorIndex', [0])
-        self.doors.append(interiorDoor)
-    
-    def createKart(self, index, x, y, z, h, p, r, min):
-        kart = DistributedCogKartAI(self.air, index, x, y, z, h, p, r, self.air.countryClubMgr, min)
-        kart.generateWithRequired(self.HOOD)
-        self.karts.append(kart)
-        return kart
-    
-    def createZone(self):
-        CogHoodAI.createZone(self)
-        
-        # Create lobby manager...
-        self.createLobbyManager(DistributedBossbotBossAI, ToontownGlobals.BossbotLobby)
-        
-        # Create CEO elevator.
-        self.ceoElevator = self.createElevator(DistributedBBElevatorAI, self.lobbyMgr, ToontownGlobals.BossbotLobby, ToontownGlobals.BossbotLobby, boss=True)
-        
-        # Make our doors.
-        self.createDoor()
-        
-        # Create Cog Golf Courses.
-        kartPos = ((154.762, 37.169, 0), (141.403, -81.887, 0), (-48.44, 15.308, 0))
+        self.cogKarts = []
+        self.courseBoardingParty = None
+        self.suitPlanners = []
+
+        self.startup()
+
+    def startup(self):
+        CogHQAI.CogHQAI.startup(self)
+
+        self.createCogKarts()
+        if simbase.config.GetBool('want-boarding-groups', True):
+            self.createCourseBoardingParty()
+        if simbase.config.GetBool('want-suit-planners', True):
+            self.createSuitPlanners()
+
+    def createCogKarts(self):
+        posList = (
+            (154.762, 37.169, 0), (141.403, -81.887, 0),
+            (-48.44, 15.308, 0)
+        )
         hprList = ((110.815, 0, 0), (61.231, 0, 0), (-105.481, 0, 0))
-
         mins = ToontownGlobals.FactoryLaffMinimums[3]
-        for i in range(3):
-            x, y, z = kartPos[i]
-            h, p, r = hprList[i]
-            self.createKart(i, x, y, z, h, p, r, mins[i])
+        for cogCourse in xrange(len(posList)):
+            pos = posList[cogCourse]
+            hpr = hprList[cogCourse]
+            cogKart = DistributedCogKartAI.DistributedCogKartAI(
+                self.air, cogCourse,
+                pos[0], pos[1], pos[2], hpr[0], hpr[1], hpr[2],
+                self.air.countryClubMgr, minLaff=mins[cogCourse])
+            cogKart.generateWithRequired(self.zoneId)
+            self.cogKarts.append(cogKart)
 
-        # Create boarding groups
-        # CEO Boarding Group
-        self.createBoardingGroup(self.air, [self.ceoElevator.doId], ToontownGlobals.BossbotLobby, 8)
+    def createCourseBoardingParty(self):
+        cogKartIdList = []
+        for cogKart in self.cogKarts:
+            cogKartIdList.append(cogKart.doId)
+        self.courseBoardingParty = DistributedBoardingPartyAI(self.air, cogKartIdList, 4)
+        self.courseBoardingParty.generateWithRequired(self.zoneId)
 
-        # Cog Golf Boarding Group's
-        kartIds = [kart.getDoId() for kart in self.karts]
-        self.createBoardingGroup(self.air, kartIds, ToontownGlobals.BossbotHQ)
+    def createSuitPlanners(self):
+        suitPlanner = DistributedSuitPlannerAI.DistributedSuitPlannerAI(self.air, self.zoneId)
+        suitPlanner.generateWithRequired(self.zoneId)
+        suitPlanner.d_setZoneId(self.zoneId)
+        suitPlanner.initTasks()
+        self.suitPlanners.append(suitPlanner)
+        self.air.suitPlanners[self.zoneId] = suitPlanner

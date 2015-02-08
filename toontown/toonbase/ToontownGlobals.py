@@ -13,6 +13,9 @@ DatabaseIdFromClassName = {'Account': AccountDatabaseChannelId}
 CogHQCameraFov = 60.0
 BossBattleCameraFov = 72.0
 MakeAToonCameraFov = 52.0
+WantPromotion = 0
+PendingPromotion = 1
+
 CeilingBitmask = BitMask32(256)
 FloorEventBitmask = BitMask32(16)
 PieBitmask = BitMask32(256)
@@ -97,16 +100,13 @@ SPDonaldsBoat = 3
 SPMinniesPiano = 4
 SPBuddysBalloon = 5
 CEVirtual = 14
-MaxHpLimit = 137
+MaxHpLimit = 150
 MaxCarryLimit = 80
 MaxQuestCarryLimit = 4
 GravityValue = 32.174
-MaxCogSuitLevel = 50 - 1
-CogSuitHPLevels = (15 - 1,
- 20 - 1,
- 30 - 1,
- 40 - 1,
- 50 - 1)
+MaxCogSuitLevel = 12 - 1
+
+
 setInterfaceFont(TTLocalizer.InterfaceFont)
 setSignFont(TTLocalizer.SignFont)
 from toontown.toontowngui import TTDialog
@@ -1624,6 +1624,78 @@ AV_TOUCH_CHECK_DIST_Z = 5.0
 AV_TOUCH_CHECK_TIMELIMIT_CL = 0.002
 AV_TOUCH_COUNT_LIMIT = 5
 AV_TOUCH_COUNT_TIME = 300
+
+#teleportation codenames and location IDs for ~tp MW
+hood2Id = {
+ 'TTC': (ToontownCentral,),
+ 'DD': (DonaldsDock,),
+ 'MML': (MinniesMelodyland,),
+ 'DG': (DaisyGardens,),
+ 'TB': (TheBrrrgh,),
+ 'DDL': (DonaldsDreamland,),
+ 'GZ': (GolfZone,),
+ 'GSW': (GoofySpeedway,),
+ 'OZ': (OutdoorZone,),
+ 'CEO': (BossbotHQ,),
+ 'CJ': (LawbotHQ,),
+ 'CFO': (CashbotHQ,),
+ 'VP': (SellbotHQ,),
+ 'FACTORY': (SellbotHQ, SellbotFactoryExt),
+ 'BULLION': (CashbotHQ,),
+ 'DOLLAR': (CashbotHQ,),
+ 'COIN': (CashbotHQ,),
+ 'OFFICE': (LawbotHQ,),
+ 'BACK': (BossbotHQ,),
+ 'MIDDLE': (BossbotHQ,),
+ 'FRONT': (BossbotHQ,)}
+hood2Coords = {
+ 'CEO': [
+    (61.044, 119.014, 0.025),
+    (-4.680, 0, 0)
+ ],
+ 'CJ': [
+    (333.700, -179.869, -42.932),
+    (-807.174, 0, 0)
+ ],
+ 'CFO': [
+    (125.155, 546.084, 32.246),
+    (360.056, 0, 0)
+ ],
+ 'VP': [
+    (25.512, -51.193, 10.095),
+    (40.868, 0, 0)
+ ],
+ 'FACTORY': [
+    (62.204, -89.739, 0.025),
+    (-7.144, 0, 0)
+ ],
+ 'BULLION': [
+    (-118.641, 64.131, -23.434),
+    (449.182, 0, 0)
+ ],
+ 'DOLLAR': [
+    (178.612, -175.786, -63.244),
+    (274.225, 0, 0)
+ ],
+ 'COIN': [
+    (-122.43, -428.856, -23.439),
+    (450.141, 0, 0)
+ ],
+ 'OFFICE': [
+    (-170.371, -191.902, -16.280),
+    (-633.031, 0, 0)
+ ],
+ 'BACK': [
+    (-36.121, 11.683, 0.025),
+    (75.934, 0, 0)
+ ],
+ 'MIDDLE': [
+    (129.358, -75.831, 0.025),
+    (240.828, 0, 0)
+ ],
+ 'FRONT': [
+    (146.1, 33.228, 0.025),
+    (296.844, 0, 0)]}
 
 hood2Id = {
  'TTC': (ToontownCentral,),

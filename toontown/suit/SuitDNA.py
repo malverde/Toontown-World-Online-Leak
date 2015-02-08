@@ -96,6 +96,7 @@ suitsPerLevel = [1,
  1,
  1]
 suitsPerDept = 8
+levelsPerSuit = 5
 goonTypes = ['pg', 'sg']
 
 def getSuitBodyType(name):
