@@ -5574,3 +5574,21 @@ def trackBonus(track):
         return 'Invalid track!'
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
+@magicWord(category=CATEGORY_CHARACTERSTATS, types=[str, str])
+def gloves(c1, c2=None):
+    target = spellbook.getTarget()
+    dna = ToonDNA.ToonDNA()
+    dna.makeFromNetString(target.getDNAString())
+
+    try:
+        if c2:
+            color = c1.capitalize() + ' ' + c2.capitalize()
+        else:
+            color = c1.capitalize()
+        value = TTLocalizer.NumToColor.index(color)
+    except:
+        return 'Invalid color!'
+
+    dna.gloveColor = value
+    target.b_setDNAString(dna.makeNetString())
+    return 'Glove color set to: {0}'.format(TTLocalizer.NumToColor[value])    
