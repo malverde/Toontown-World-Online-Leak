@@ -4,7 +4,7 @@ WHITELIST = [
 	'mgracer'
 	'Mgracer'
 	'Phone'
-	'phone
+	'phone'
 	'TTW'
 	'Toontown World'
 	'Kippy'
