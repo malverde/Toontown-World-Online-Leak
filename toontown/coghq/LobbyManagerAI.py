@@ -5,24 +5,24 @@ from toontown.toonbase import ToontownGlobals
 class LobbyManagerAI(DistributedObjectAI.DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('LobbyManagerAI')
 
-    def __init__(self, air, bossConstructor, brutalBossCtor):
+    def __init__(self, air, bossConstructor):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         self.air = air
         self.bossConstructor = bossConstructor
-        self.brutalBossCtor = brutalBossCtor
+
+    def generate(self):
+        DistributedObjectAI.DistributedObjectAI.generate(self)
+        self.notify.debug('generate')
 
     def delete(self):
+        self.notify.debug('delete')
         self.ignoreAll()
-
         DistributedObjectAI.DistributedObjectAI.delete(self)
 
-    def createBossOffice(self, avIdList, isBrutal=False):
+    def createBossOffice(self, avIdList):
         bossZone = self.air.allocateZone()
         self.notify.info('createBossOffice: %s' % bossZone)
-        if isBrutal:
-            bossCog = self.brutalBossCtor(self.air)
-        else:
-            bossCog = self.bossConstructor(self.air)
+        bossCog = self.bossConstructor(self.air)
         bossCog.generateWithRequired(bossZone)
         self.acceptOnce(bossCog.uniqueName('BossDone'), self.destroyBossOffice, extraArgs=[bossCog])
         for avId in avIdList:

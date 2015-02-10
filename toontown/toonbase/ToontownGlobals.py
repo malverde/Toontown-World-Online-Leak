@@ -100,7 +100,7 @@ SPDonaldsBoat = 3
 SPMinniesPiano = 4
 SPBuddysBalloon = 5
 CEVirtual = 14
-MaxHpLimit = 150
+MaxHpLimit = 156
 MaxCarryLimit = 80
 MaxQuestCarryLimit = 4
 GravityValue = 32.174
@@ -1569,7 +1569,7 @@ AnimPropTypes = Enum(('Unknown',
  'Trashcan'), start=-1)
 EmblemTypes = Enum(('Silver', 'Gold'))
 NumEmblemTypes = 2
-DefaultMaxBankMoney = 15000
+DefaultMaxBankMoney = 50000
 DefaultBankItemId = 1350
 ToonAnimStates = set(['off',
  'neutral',

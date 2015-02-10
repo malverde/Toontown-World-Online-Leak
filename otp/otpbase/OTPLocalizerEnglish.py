@@ -179,7 +179,7 @@ CRLoggingIn = 'Authenticating...'
 CRMissingGameRootObject = 'Missing some root game objects.  (May be a failed network connection).\n\nTry again?'
 CRNoDistrictsTryAgain = 'No Districts are available. Try again?'
 CRRejectRemoveAvatar = 'The avatar was not able to be deleted, try again another time.'
-CRLostConnection = 'Your internet connection was lost.'
+CRLostConnection = 'Your connection to the gameserver was lost.'
 CRBootedReasons = {1: 'Yikes - An unexpected problem occured.  Your connection has been lost, but you should be able to connect again and go right back into Toontown.',
  100: 'You have been disconnected because someone else just logged in using your account on another computer.',
  120: 'You have been disconnected because of a problem with your authorization to use keyboard chat.',
@@ -629,6 +629,7 @@ SuitFaceoffTaunts = {'b': ['Would you like to make a donation?',
          'Finishing this will be a brieeze.',
          "I hope I'm not too sharp for you.",
          'A toon, you say? Teleme more.',
+         "Say cheese!",
          "Grate timing, I was just about to send my Flunkies."],
  'cr': ["You don't fit in my corporation.",
         "I'll have to speak to the Downsizers about you.",

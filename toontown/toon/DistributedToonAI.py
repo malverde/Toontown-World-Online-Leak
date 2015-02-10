@@ -4686,6 +4686,22 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def d_setLastSeen(self, timestamp):
         self.sendUpdate('setLastSeen', [int(timestamp)])
+    def getHouseType(self):
+        return self.houseType
+
+    def setHouseType(self, houseType):
+        self.houseType = houseType
+
+    def d_setHouseType(self, houseType):
+        self.sendUpdate('setHouseType', [houseType])
+
+    def b_setHouseType(self, houseType):
+        self.setHouseType(houseType)
+        self.d_setHouseType(houseType)
+        
+    def b_setHouseType(self, houseType):
+        self.setHouseType(houseType)
+        self.d_setHouseType(houseType)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int])
 def setCE(CEValue, CEHood=0, CEExpire=0):
@@ -4707,8 +4723,8 @@ def setHp(hpVal):
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int])
 def setMaxHp(hpVal):
     """Set target's laff"""
-    if not 15 <= hpVal <= 137:
-        return 'Laff must be between 15 and 137!'
+    if not 15 <= hpVal <= 156:
+        return 'Laff must be between 15 and 156!'
     spellbook.getTarget().b_setMaxHp(hpVal)
     spellbook.getTarget().toonUp(hpVal)
 
@@ -5558,3 +5574,21 @@ def trackBonus(track):
         return 'Invalid track!'
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
+@magicWord(category=CATEGORY_CHARACTERSTATS, types=[str, str])
+def gloves(c1, c2=None):
+    target = spellbook.getTarget()
+    dna = ToonDNA.ToonDNA()
+    dna.makeFromNetString(target.getDNAString())
+
+    try:
+        if c2:
+            color = c1.capitalize() + ' ' + c2.capitalize()
+        else:
+            color = c1.capitalize()
+        value = TTLocalizer.NumToColor.index(color)
+    except:
+        return 'Invalid color!'
+
+    dna.gloveColor = value
+    target.b_setDNAString(dna.makeNetString())
+    return 'Glove color set to: {0}'.format(TTLocalizer.NumToColor[value])    
