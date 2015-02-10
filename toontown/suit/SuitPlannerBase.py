@@ -377,7 +377,7 @@ class SuitPlannerBase:
        0,
        0),
       (7, 8, 9, 10),
-      []],      
+      []],            
      [11000,
       3,
       15,
@@ -515,9 +515,17 @@ class SuitPlannerBase:
     def setupDNA(self):
         if self.dnaStore:
             return None
-        self.dnaStore =  loader.loadDNA(dnaFileName)
+        dnaFileName = self.genDNAFileName()
+        if __debug__:
+            try:
+                self.dnaStore = simbase.air.loadDNA(dnaFileName)
+            except:
+                self.dnaStore = loader.loadDNA(dnaFileName)
+        else:
+            self.dnaStore = loader.loadDNA(dnaFileName)
         self.dnaData = self.dnaStore.generateData()
         self.initDNAInfo()
+        return None
 
     def genDNAFileName(self):
         try:
