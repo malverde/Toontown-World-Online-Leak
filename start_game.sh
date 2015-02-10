@@ -1,8 +1,8 @@
 set +v
 export -P ttrUsername="Username: " || ^ 
 echo "You wrote: ttrUsername"
-export ttrPassword=password
-export TTR_PLAYCOOKIE=$ttrUsername$
+export -P  ttrPassword="Password: " || ^ 
+export TTR_PLAYCOOKIE=ttrUsername
 export TTR_GAMESERVER=54.174.138.210
 
 echo ===============================
