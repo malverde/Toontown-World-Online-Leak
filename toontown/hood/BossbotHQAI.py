@@ -6,7 +6,6 @@ from toontown.coghq.DistributedCogHQDoorAI import DistributedCogHQDoorAI
 from toontown.coghq.DistributedCogKartAI import DistributedCogKartAI
 from toontown.building import DoorTypes
 from toontown.building import FADoorCodes
-from toontown.suit import DistributedSuitPlannerAI
 
 class BossbotHQAI(CogHoodAI):
     HOOD = ToontownGlobals.BossbotHQ
