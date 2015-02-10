@@ -1,8 +1,8 @@
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 import ToonHood
-from toontown.town import TTTownLoader
-from toontown.safezone import TTSafeZoneLoader
+from toontown.town.TTTownLoader import TTTownLoader
+from toontown.safezone.TTSafeZoneLoader import TTSafeZoneLoader
 from toontown.toonbase.ToontownGlobals import *
 import SkyUtil
 from direct.directnotify import DirectNotifyGlobal
@@ -13,8 +13,8 @@ class TTHood(ToonHood.ToonHood):
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
         ToonHood.ToonHood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
         self.id = ToontownCentral
-        self.townLoaderClass = TTTownLoader.TTTownLoader
-        self.safeZoneLoaderClass = TTSafeZoneLoader.TTSafeZoneLoader
+        self.townLoaderClass = TTTownLoader
+        self.safeZoneLoaderClass =  TTSafeZoneLoader
         self.storageDNAFile = 'phase_4/dna/storage_TT.xml'
         self.holidayStorageDNADict = {WINTER_DECORATIONS: ['phase_4/dna/winter_storage_TT.xml', 'phase_4/dna/winter_storage_TT_sz.xml'],
          WACKY_WINTER_DECORATIONS: ['phase_4/dna/winter_storage_TT.xml', 'phase_4/dna/winter_storage_TT_sz.xml'],
