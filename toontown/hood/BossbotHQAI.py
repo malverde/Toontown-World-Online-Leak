@@ -6,6 +6,7 @@ from toontown.coghq.DistributedCogHQDoorAI import DistributedCogHQDoorAI
 from toontown.coghq.DistributedCogKartAI import DistributedCogKartAI
 from toontown.building import DoorTypes
 from toontown.building import FADoorCodes
+from toontown.suit import DistributedSuitPlannerAI
 
 class BossbotHQAI(CogHoodAI):
     HOOD = ToontownGlobals.BossbotHQ
@@ -47,6 +48,10 @@ class BossbotHQAI(CogHoodAI):
         
         # Make our doors.
         self.createDoor()
+        # Create Suit Planners in the cog playground 
+        self.createSuitPlanner(self.HOOD)
+        
+
         
         # Create Cog Golf Courses.
         kartPos = ((154.762, 37.169, 0), (141.403, -81.887, 0), (-48.44, 15.308, 0))
