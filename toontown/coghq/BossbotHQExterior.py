@@ -21,8 +21,15 @@ class BossbotHQExterior(CogHQExterior.CogHQExterior):
         state.addTransition('elevator')
         state = self.fsm.getStateNamed('stickerBook')
         state.addTransition('elevator')
+       
         return
+    def enter(self, requestStatus):
+        CogHQExterior.CogHQExterior.enter(self, requestStatus)
+        self.loader.hood.startSky()
 
+    def exit(self):
+        self.loader.hood.stopSky()
+        CogHQExterior.CogHQExterior.exit(self)		
     def enterElevator(self, distElevator, skipDFABoard = 0):
         self.accept(self.elevatorDoneEvent, self.handleElevatorDone)
         self.elevator = Elevator.Elevator(self.fsm.getStateNamed('elevator'), self.elevatorDoneEvent, distElevator)
@@ -56,3 +63,6 @@ class BossbotHQExterior(CogHQExterior.CogHQExterior):
             messenger.send(self.doneEvent)
         else:
             self.notify.error('Unknown mode: ' + where + ' in handleElevatorDone')
+
+            
+       
