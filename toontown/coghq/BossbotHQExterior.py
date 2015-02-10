@@ -9,7 +9,7 @@ from toontown.coghq import CogHQExterior
 
 class BossbotHQExterior(CogHQExterior.CogHQExterior):
     notify = DirectNotifyGlobal.directNotify.newCategory('BossbotHQExterior')
-    dnaFileName = 'phase_12/dna/cog_hq_bossbot_sz.dna' 
+    dnaFile = 'phase_12/dna/cog_hq_bossbot_sz.xml' 
     def __init__(self, loader, parentFSM, doneEvent):
         CogHQExterior.CogHQExterior.__init__(self, loader, parentFSM, doneEvent)
         self.elevatorDoneEvent = 'elevatorDone'
