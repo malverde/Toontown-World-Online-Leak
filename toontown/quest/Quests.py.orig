@@ -10,7 +10,7 @@ from toontown.hood import ZoneUtil
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
 from direct.showbase import PythonUtil
-from toontown.toon import ToonDNA
+from toontown.toon.ToonDNA import ToonDNA
 import time, types, random
 notify = DirectNotifyGlobal.directNotify.newCategory('Quests')
 ItemDict = TTLocalizer.QuestsItemDict
@@ -18554,38 +18554,36 @@ class BetaKeyReward(Reward):
     def getPosterString(self):
         return TTLocalizer.QuestsBetaKeyRewardPoster
 
+<<<<<<< HEAD
 class ToonColorReward(Reward):
     def sendRewardAI(self, av):
-        dna = ToonDNA.ToonDNA(av.getDNAString())
+        dna = ToonDNA(av.getDNAString())
         dna.headColor = self.getColorId()
         dna.armColor = self.getColorId()
         dna.legColor = self.getColorId()
-        av.b_setDNAString(dna.makeNetString())
-    def getColorId(self):
-        return self.reward[0]
-
-    def getString(self):
-        return TTLocalizer.getColorRewardString(self.getColorId())
-
-    def getPosterString(self):
-        return TTLocalizer.getColorPosterString(self.getColorId())
-
-
-        
+=======
 class GloveColorReward(Reward):
     def sendRewardAI(self, av):
         dna = ToonDNA.ToonDNA(av.getDNAString())
         dna.gloveColor = self.getColorId()
+>>>>>>> feature/glove-color-task
         av.b_setDNAString(dna.makeNetString())
 
     def getColorId(self):
         return self.reward[0]
 
     def getString(self):
+<<<<<<< HEAD
+        return TTLocalizer.getColorRewardString(self.getColorId())
+
+    def getPosterString(self):
+        return TTLocalizer.getColorPosterString(self.getColorId())
+=======
         return TTLocalizer.getGloveColorRewardString(self.getColorId())
 
     def getPosterString(self):
         return TTLocalizer.getGloveColorPosterString(self.getColorId())
+>>>>>>> feature/glove-color-task
 
 
 def getRewardClass(id):
@@ -19226,7 +19224,6 @@ RewardDict = {100: (MaxHpReward, 1),
  4216: (CogSuitPartReward, 'c', CogDisguiseGlobals.rightArmHand),
  5000: (BetaKeyReward, None)}
 for i, _ in enumerate(ToonDNA.allColorsList):
-    RewardDict[4000+i] = (ToonColorReward, i)
     RewardDict[4100+i] = (GloveColorReward, i) 
 def getNumTiers():
     return len(RequiredRewardTrackDict) - 1
@@ -19716,7 +19713,6 @@ for tier in OptionalRewardTrackDict:
  
      tierRewards = list(tierRewards)
      for i, _ in enumerate(ToonDNA.allColorsList):
-        tierRewards.append(4000+i)     
         tierRewards.append(4100+i)
      OptionalRewardTrackDict[tier] = tuple(tierRewards)
  
