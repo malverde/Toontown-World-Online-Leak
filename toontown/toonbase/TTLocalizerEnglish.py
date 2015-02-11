@@ -5589,7 +5589,17 @@ NumToColor = ['White',
  'Lavender',
  'Pink',
  'Plum',
- 'Black']
+ 'Black',
+ 'Mountain Green',
+ 'Icy Blue',
+ 'Desert Sand',
+ 'Mint',
+ 'Charcoal',
+ 'Hot Pink',
+ 'Honey Mustard',
+ 'Gray',
+ 'Neon Orange',
+ 'Sapphire']
 AnimalToSpecies = {'dog': 'Dog',
  'cat': 'Cat',
  'mouse': 'Mouse',
@@ -8898,6 +8908,7 @@ KartDNA_AccNames = {1000: 'Air Cleaner',
  7024: 'Pink',
  7025: 'Plum',
  7026: 'Black'}
+ 
 RaceHoodSpeedway = 'Speedway'
 RaceHoodRural = 'Rural'
 RaceHoodUrban = 'Urban'
