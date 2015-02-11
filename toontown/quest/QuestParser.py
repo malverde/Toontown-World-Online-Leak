@@ -21,6 +21,7 @@ from toontown.ai import DistributedBlackCatMgr
 from direct.showbase import PythonUtil
 from direct.interval.IntervalGlobal import *
 from otp.nametag.NametagConstants import *
+import QuestScripts
 
 notify = DirectNotifyGlobal.directNotify.newCategory('QuestParser')
 lineDict = {}
@@ -54,24 +55,29 @@ def clear():
     globalVarDict.clear()
 
 
-def readFile(filename):
+def readFile():
     global curId
-    scriptFile = StreamReader(vfs.openReadFile(filename, 1), 1)
-    gen = tokenize.generate_tokens(scriptFile.readline)
-    line = getLineOfTokens(gen)
-    while line is not None:
-        if line == []:
+    contents = QuestScripts.script
+    lines = contents.split('\n')
+    for line in lines:
+        def readline():
+            return line
+        gen = tokenize.generate_tokens(readline)
+        line = getLineOfTokens(gen) 
+        while line is not None:
+            if line == []:
+                line = getLineOfTokens(gen)
+                continue
+            if line[0] == 'ID':
+                parseId(line)
+            elif curId is None:
+                notify.error('Every script must begin with an ID')
+            else:
+                lineDict[curId].append(line)
             line = getLineOfTokens(gen)
-            continue
-        if line[0] == 'ID':
-            parseId(line)
-        elif curId is None:
-            notify.error('Every script must begin with an ID')
-        else:
-            lineDict[curId].append(line)
-        line = getLineOfTokens(gen)
+ 
 
-    return
+        return         
 
 
 def getLineOfTokens(gen):
@@ -1103,10 +1109,5 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         return cleanedString
 
 
-searchPath = DSearchPath()
-searchPath.appendDirectory(Filename('resources/phase_3/etc'))
-scriptFile = Filename('QuestScripts.txt')
-found = vfs.resolveFilename(scriptFile, searchPath)
-if not found:
-    notify.error('Could not find QuestScripts.txt file')
-readFile(scriptFile)
+
+readFile()
