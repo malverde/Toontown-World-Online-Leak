@@ -9885,3 +9885,15 @@ InteractivePropTrackBonusTerms = {0: 'Super Toon-Up!',
  5: 'Super Squirt!',
  6: ''}
 PlayingCardUnknown = 'Card Name is unknown'
+ 
+ def getColorPosterString(colorId):
+     return 'Reward: %s Toon Color' % NumToColor[colorId]
+
+
+
+def getGloveColorRewardString(colorId):
+    return 'You now have %s gloves!' % NumToColor[colorId]
+
+
+def getGloveColorPosterString(colorId):
+    return 'Reward: %s Gloves' % NumToColor[colorId]

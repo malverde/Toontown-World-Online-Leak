@@ -574,54 +574,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.air.writeServerEvent('suspicious', avId=self.doId, issue=logStr)
 
     def verifyDNA(self):
-        changed = False
-        if self.isPlayerControlled():
-            allowedColors = []
-            if self.dna.gender == 'm':
-                allowedColors = ToonDNA.defaultBoyColorList
-            else:
-                allowedColors = ToonDNA.defaultGirlColorList
-
-            # No idea why this wasn't done by disney, but add sanity checks for black (and now white) toons.
-            if self.dna.getAnimal() == 'bear':
-                allowedColors = allowedColors + [0]
-            if self.dna.getAnimal() == 'cat':
-                allowedColors = allowedColors + [26]
-
-            if 26 in [self.dna.legColor, self.dna.armColor, self.dna.headColor]: # Disney ALSO didn't do this. Verify that a toon is fully black/white.
-                if self.dna.legColor != 26:
-                    self.dna.legColor = 26
-                    changed = True
-                if self.dna.armColor != 26:
-                    self.dna.armColor = 26
-                    changed = True
-                if self.dna.headColor != 26:
-                    self.dna.headColor = 26
-                    changed = True
-
-            elif 0 in [self.dna.legColor, self.dna.armColor, self.dna.headColor]:
-                if self.dna.legColor != 0:
-                    self.dna.legColor = 0
-                    changed = True
-                if self.dna.armColor != 0:
-                    self.dna.armColor = 0
-                    changed = True
-                if self.dna.headColor != 0:
-                    self.dna.headColor = 0
-                    changed = True
-
-            if self.dna.legColor not in allowedColors:
-                self.dna.legColor = allowedColors[0]
-                changed = True
-            if self.dna.armColor not in allowedColors:
-                self.dna.armColor = allowedColors[0]
-                changed = True
-            if self.dna.headColor not in allowedColors:
-                self.dna.headColor = allowedColors[0]
-                changed = True
-            if changed:
-                self.d_setDNAString(self.dna.makeNetString())
-        return not changed
+        return True
 
     def getDNAString(self):
         return self.dna.makeNetString()
