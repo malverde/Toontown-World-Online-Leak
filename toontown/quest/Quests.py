@@ -18553,6 +18553,21 @@ class BetaKeyReward(Reward):
     def getPosterString(self):
         return TTLocalizer.QuestsBetaKeyRewardPoster
 
+class GloveColorReward(Reward):
+    def sendRewardAI(self, av):
+        dna = ToonDNA.ToonDNA(av.getDNAString())
+        dna.gloveColor = self.getColorId()
+        av.b_setDNAString(dna.makeNetString())
+
+    def getColorId(self):
+        return self.reward[0]
+
+    def getString(self):
+        return TTLocalizer.getGloveColorRewardString(self.getColorId())
+
+    def getPosterString(self):
+        return TTLocalizer.getGloveColorPosterString(self.getColorId())
+
 
 def getRewardClass(id):
     reward = RewardDict.get(id)
@@ -19191,7 +19206,8 @@ RewardDict = {100: (MaxHpReward, 1),
  4215: (CogSuitPartReward, 'c', CogDisguiseGlobals.rightArmLower),
  4216: (CogSuitPartReward, 'c', CogDisguiseGlobals.rightArmHand),
  5000: (BetaKeyReward, None)}
-
+for i, _ in enumerate(ToonDNA.allColorsList):
+    RewardDict[4100+i] = (GloveColorReward, i) 
 def getNumTiers():
     return len(RequiredRewardTrackDict) - 1
 
@@ -19672,6 +19688,18 @@ OptionalRewardTrackDict = {TT_TIER: (),
               2969,
               2970,
               2971)}
+for tier in OptionalRewardTrackDict:
+     tierRewards = OptionalRewardTrackDict[tier]
+ 
+     if not tierRewards:
+         continue
+ 
+     tierRewards = list(tierRewards)
+     for i, _ in enumerate(ToonDNA.allColorsList):
+        tierRewards.append(4100+i)
+     OptionalRewardTrackDict[tier] = tuple(tierRewards)
+ 
+ 
 
 def isRewardOptional(tier, rewardId):
     return OptionalRewardTrackDict.has_key(tier) and rewardId in OptionalRewardTrackDict[tier]
