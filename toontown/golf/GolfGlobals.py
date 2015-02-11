@@ -366,16 +366,16 @@ MaxHistoryIndex = 9
 NumHistory = MaxHistoryIndex + 1
 CalcOtherHoleBest = False
 CalcOtherCourseBest = False
-TrophyRequirements = {CoursesCompleted: (4, 40, 400),
+TrophyRequirements = {CoursesCompleted: (2, 20, 200),
  CoursesUnderPar: (1, 10, 100),
  HoleInOneShots: (1, 10, 100),
  EagleOrBetterShots: (2, 20, 200),
  BirdieOrBetterShots: (3, 30, 300),
  ParOrBetterShots: (4, 40, 400),
- MultiPlayerCoursesCompleted: (6, 60, 600),
- CourseZeroWins: (1, 10, 100),
- CourseOneWins: (1, 10, 100),
- CourseTwoWins: (1, 10, 100)}
+ MultiPlayerCoursesCompleted: (3, 30, 300),
+ CourseZeroWins: (1, 5, 50),
+ CourseOneWins: (1, 5, 50),
+ CourseTwoWins: (1, 5, 50)}
 PlayerColors = [(0.925,
   0.168,
   0.168,
