@@ -23,14 +23,7 @@ class BossbotHQExterior(CogHQExterior.CogHQExterior):
         state.addTransition('elevator')
        
         return
-    def enter(self, requestStatus):
-        CogHQExterior.CogHQExterior.enter(self, requestStatus)
-        self.loader.hood.startSky()
-
-    def exit(self):
-        self.loader.hood.stopSky()
-        CogHQExterior.CogHQExterior.exit(self)		
-    def enterElevator(self, distElevator, skipDFABoard = 0):
+  def enterElevator(self, distElevator, skipDFABoard = 0):
         self.accept(self.elevatorDoneEvent, self.handleElevatorDone)
         self.elevator = Elevator.Elevator(self.fsm.getStateNamed('elevator'), self.elevatorDoneEvent, distElevator)
         if skipDFABoard:
@@ -63,6 +56,12 @@ class BossbotHQExterior(CogHQExterior.CogHQExterior):
             messenger.send(self.doneEvent)
         else:
             self.notify.error('Unknown mode: ' + where + ' in handleElevatorDone')
+    def enter(self, requestStatus):
+        CogHQExterior.CogHQExterior.enter(self, requestStatus)
 
-            
-       
+        # Load the CogHQ DNA file:
+        dnaStore = loader.loadDNA(self.dnaFile)
+        dnaFileName = self.genDNAFileName(self.zoneId)
+        loadDNAFileAI(dnaStore, dnaFileName)
+
+        
