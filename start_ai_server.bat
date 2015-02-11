@@ -11,7 +11,7 @@ rem Read the contents of PPYTHON_PATH into %PPYTHON_PATH%:
 set /P PPYTHON_PATH=<PPYTHON_PATH
 
 echo ===============================
-echo Starting Toontown Infinite Retro AI server...
+echo Starting Toontown World AI server...
 echo ppython: %PPYTHON_PATH%
 echo District Name: %DISTRICT_NAME%
 echo Base Channel: %BASE_CHANNEL%
