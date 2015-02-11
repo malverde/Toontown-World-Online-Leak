@@ -223,4 +223,12 @@ def asNumber(bitstring):
 def dept2deptIndex(dept):
     if type(dept) == types.StringType:
         dept = SuitDNA.suitDepts.index(dept)
+        
+def getPartCountAsString(cogParts, deptIndex):
+    totalParts = getTotalParts(cogParts[deptIndex])
+    return '%s/%s' % (totalParts, PartsPerSuit[deptIndex])
+
+
+def getPartCount(cogParts, deptIndex):
+    return getTotalParts(cogParts[deptIndex])        
     return dept

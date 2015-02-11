@@ -12,7 +12,11 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         self.currentTrackInfo = None
         self.onscreen = 0
         self.lastInventoryTime = globalClock.getRealTime()
-        return
+        self.cogMenu = CogMenu()
+        self.cogMenu.reparentTo(self)
+        self.cogMenu.setX(-0.165)
+        self.cogMenu.setZ(0.63)
+        self.cogMenu.setScale(0.82)
 
     def load(self):
         ShtikerPage.ShtikerPage.load(self)
@@ -31,6 +35,8 @@ class InventoryPage(ShtikerPage.ShtikerPage):
 
     def unload(self):
         del self.title
+        self.cogMenu.cleanup()
+        del self.cogMenu        
         ShtikerPage.ShtikerPage.unload(self)
 
     def __moneyChange(self, money):
@@ -141,9 +147,11 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         self.accept('enterTrackFrame', self.updateTrackInfo)
         self.accept('exitTrackFrame', self.clearTrackInfo)
         self.accept(localAvatar.uniqueName('moneyChange'), self.__moneyChange)
+        self.cogMenu.update()        
         self.reparentTo(aspect2d)
         self.title.hide()
         self.show()
+        self.cogMenu.show()
 
     def hideInventoryOnscreen(self):
         if not self.onscreen:
@@ -157,3 +165,4 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         self.reparentTo(self.book)
         self.title.show()
         self.hide()
+        self.cogMenu.hide()        
