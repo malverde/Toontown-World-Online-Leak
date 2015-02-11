@@ -10,6 +10,7 @@ from toontown.hood import ZoneUtil
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
 from direct.showbase import PythonUtil
+from toontown.toon.ToonDNA import ToonDNA
 import time, types, random
 notify = DirectNotifyGlobal.directNotify.newCategory('Quests')
 ItemDict = TTLocalizer.QuestsItemDict
@@ -18552,6 +18553,23 @@ class BetaKeyReward(Reward):
 
     def getPosterString(self):
         return TTLocalizer.QuestsBetaKeyRewardPoster
+
+class ToonColorReward(Reward):
+    def sendRewardAI(self, av):
+        dna = ToonDNA(av.getDNAString())
+        dna.headColor = self.getColorId()
+        dna.armColor = self.getColorId()
+        dna.legColor = self.getColorId()
+        av.b_setDNAString(dna.makeNetString())
+
+    def getColorId(self):
+        return self.reward[0]
+
+    def getString(self):
+        return TTLocalizer.getColorRewardString(self.getColorId())
+
+    def getPosterString(self):
+        return TTLocalizer.getColorPosterString(self.getColorId())
 
 
 def getRewardClass(id):
