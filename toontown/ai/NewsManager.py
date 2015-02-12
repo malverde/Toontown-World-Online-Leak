@@ -11,7 +11,9 @@ import CrashedLeaderBoardDecorator
 from direct.interval.IntervalGlobal import *
 import calendar
 from copy import deepcopy
-from toontown.speedchat import TTSCJellybeanJamMenu
+from toontown.suit import SuitDNA
+
+
 decorationHolidays = [ToontownGlobals.WINTER_DECORATIONS,
  ToontownGlobals.WACKY_WINTER_DECORATIONS,
  ToontownGlobals.HALLOWEEN_PROPS,
@@ -19,7 +21,8 @@ decorationHolidays = [ToontownGlobals.WINTER_DECORATIONS,
  ToontownGlobals.HALLOWEEN_COSTUMES,
  ToontownGlobals.SPOOKY_COSTUMES,
  ToontownGlobals.CRASHED_LEADERBOARD]
-promotionalSpeedChatHolidays = [ToontownGlobals.ELECTION_PROMOTION]
+promotionalSpeedChatHolidays = []
+
 
 class NewsManager(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('NewsManager')
@@ -34,7 +37,7 @@ class NewsManager(DistributedObject.DistributedObject):
         self.population = 0
         self.invading = 0
 
-        forcedHolidayDecorations = config.GetString('force-holiday-decorations', '')
+        forcedHolidayDecorations = base.config.GetString('force-holiday-decorations', '')
         self.decorationHolidayIds = []
 
         if forcedHolidayDecorations != '':
@@ -48,8 +51,7 @@ class NewsManager(DistributedObject.DistributedObject):
         self.holidayDecorator = None
         self.holidayIdList = []
         base.cr.newsManager = self
-        if hasattr(base, 'localAvatar') and base.localAvatar is not None:
-            base.localAvatar.inventory.setInvasionCreditMultiplier(1)
+        base.localAvatar.inventory.setInvasionCreditMultiplier(1)
         self.weeklyCalendarHolidays = []
         return
 
@@ -65,53 +67,95 @@ class NewsManager(DistributedObject.DistributedObject):
         messenger.send('newPopulation', [population])
 
     def getPopulation(self):
-        return population
+        return self.population
 
     def sendSystemMessage(self, message, style):
         base.localAvatar.setSystemMessage(style, message)
 
-    def setInvasionStatus(self, msgType, cogType, numRemaining, specialSuit):
-        self.notify.info('setInvasionStatus: msgType: %s cogType: %s, numRemaining: %s, specialSuit: %s' % (msgType,
-         cogType,
-         numRemaining,
-         specialSuit))
-        # Determine if we are spawning a special type of suit. 1 is Skelecog, 2 is v2.0.
-        # If they are a Skelecog or v2.0 cog, we need to change the Cog name.
-        if specialSuit == 1:
-            cogName = TTLocalizer.Skeleton
-            cogNameP = TTLocalizer.SkeletonP
-        elif specialSuit == 2:
-            cogName = TTLocalizer.SkeleReviveCogName % {'cog_name':SuitBattleGlobals.SuitAttributes[cogType]['name']}
-            cogNameP = TTLocalizer.SkeleReviveCogName % {'cog_name':SuitBattleGlobals.SuitAttributes[cogType]['pluralname']}
-        else:
-            cogName = SuitBattleGlobals.SuitAttributes[cogType]['name']
-            cogNameP = SuitBattleGlobals.SuitAttributes[cogType]['pluralname']
-        # Figure out the message type to send
+    def setInvasionStatus(self, msgType, suitType, remaining, flags):
+        if suitType in SuitDNA.suitHeadTypes:
+            suitName = SuitBattleGlobals.SuitAttributes[suitType]['name']
+            suitNamePlural = SuitBattleGlobals.SuitAttributes[suitType]['pluralname']
+        elif suitType in SuitDNA.suitDepts:
+            suitName = SuitDNA.getDeptFullname(suitType)
+            suitNamePlural = SuitDNA.getDeptFullnameP(suitType)
+
+        messages = []
+
         if msgType == ToontownGlobals.SuitInvasionBegin:
-            msg1 = TTLocalizer.SuitInvasionBegin1
-            msg2 = TTLocalizer.SuitInvasionBegin2 % cogNameP
-            self.invading = 1
-        elif msgType == ToontownGlobals.SuitInvasionUpdate:
-            msg1 = TTLocalizer.SuitInvasionUpdate1 % numRemaining
-            msg2 = TTLocalizer.SuitInvasionUpdate2 % cogNameP
+            messages.append(TTLocalizer.SuitInvasionBegin1)
+            messages.append(TTLocalizer.SuitInvasionBegin2 % suitNamePlural)
             self.invading = 1
         elif msgType == ToontownGlobals.SuitInvasionEnd:
-            msg1 = TTLocalizer.SuitInvasionEnd1 % cogName
-            msg2 = TTLocalizer.SuitInvasionEnd2
+            messages.append(TTLocalizer.SuitInvasionEnd1 % suitName)
+            messages.append(TTLocalizer.SuitInvasionEnd2)
             self.invading = 0
+        elif msgType == ToontownGlobals.SuitInvasionUpdate:
+            messages.append(TTLocalizer.SuitInvasionUpdate1)
+            messages.append(TTLocalizer.SuitInvasionUpdate2)
+            self.invading = 1
         elif msgType == ToontownGlobals.SuitInvasionBulletin:
-            msg1 = TTLocalizer.SuitInvasionBulletin1
-            msg2 = TTLocalizer.SuitInvasionBulletin2 % cogNameP
+            messages.append(TTLocalizer.SuitInvasionBulletin1)
+            messages.append(TTLocalizer.SuitInvasionBulletin2 % suitNamePlural)
+            self.invading = 1
+        elif msgType == ToontownGlobals.SkelecogInvasionBegin:
+            messages.append(TTLocalizer.SkelecogInvasionBegin1)
+            messages.append(TTLocalizer.SkelecogInvasionBegin2)
+            messages.append(TTLocalizer.SkelecogInvasionBegin3)
+            self.invading = 1
+        elif msgType == ToontownGlobals.SkelecogInvasionEnd:
+            messages.append(TTLocalizer.SkelecogInvasionEnd1)
+            messages.append(TTLocalizer.SkelecogInvasionEnd2)
+            self.invading = 0
+        elif msgType == ToontownGlobals.SkelecogInvasionBulletin:
+            messages.append(TTLocalizer.SkelecogInvasionBulletin1)
+            messages.append(TTLocalizer.SkelecogInvasionBulletin2)
+            messages.append(TTLocalizer.SkelecogInvasionBulletin3)
+            self.invading = 1
+        elif msgType == ToontownGlobals.WaiterInvasionBegin:
+            messages.append(TTLocalizer.WaiterInvasionBegin1)
+            messages.append(TTLocalizer.WaiterInvasionBegin2)
+            self.invading = 1
+        elif msgType == ToontownGlobals.WaiterInvasionEnd:
+            messages.append(TTLocalizer.WaiterInvasionEnd1)
+            messages.append(TTLocalizer.WaiterInvasionEnd2)
+            self.invading = 0
+        elif msgType == ToontownGlobals.WaiterInvasionBulletin:
+            messages.append(TTLocalizer.WaiterInvasionBulletin1)
+            messages.append(TTLocalizer.WaiterInvasionBulletin2)
+            messages.append(TTLocalizer.WaiterInvasionBulletin3)
+            self.invading = 1
+        elif msgType == ToontownGlobals.V2InvasionBegin:
+            messages.append(TTLocalizer.V2InvasionBegin1)
+            messages.append(TTLocalizer.V2InvasionBegin2)
+            messages.append(TTLocalizer.V2InvasionBegin3)
+            self.invading = 1
+        elif msgType == ToontownGlobals.V2InvasionEnd:
+            messages.append(TTLocalizer.V2InvasionEnd1)
+            messages.append(TTLocalizer.V2InvasionEnd2)
+            self.invading = 0
+        elif msgType == ToontownGlobals.V2InvasionBulletin:
+            messages.append(TTLocalizer.V2InvasionBulletin1)
+            messages.append(TTLocalizer.V2InvasionBulletin2)
+            messages.append(TTLocalizer.V2InvasionBulletin3)
             self.invading = 1
         else:
             self.notify.warning('setInvasionStatus: invalid msgType: %s' % msgType)
             return
+
+        multiplier = 1
         if self.invading:
-            mult = ToontownBattleGlobals.getInvasionMultiplier()
-        else:
-            mult = 1
-        base.localAvatar.inventory.setInvasionCreditMultiplier(mult)
-        Sequence(Wait(1.0), Func(base.localAvatar.setSystemMessage, 0, msg1), Wait(5.0), Func(base.localAvatar.setSystemMessage, 0, msg2), name='newsManagerWait', autoPause=1).start()
+            multiplier = ToontownBattleGlobals.getInvasionMultiplier()
+        base.localAvatar.inventory.setInvasionCreditMultiplier(multiplier)
+
+        track = Sequence(name='newsManagerWait', autoPause=1)
+        for i, message in enumerate(messages):
+            if i == 0:
+                track.append(Wait(1))
+            else:
+                track.append(Wait(5))
+            track.append(Func(base.localAvatar.setSystemMessage, 0, message))
+        track.start()
 
     def getInvading(self):
         return self.invading
@@ -599,7 +643,7 @@ class NewsManager(DistributedObject.DistributedObject):
         self.weekDaysInMonth = []
         self.numDaysCorMatrix = [(28, 0), (29, 1), (30, 2), (31, 3)]
 
-        for i in range(7):
+        for i in xrange(7):
             self.weekDaysInMonth.append((i, 4))
 
         for holidayItem in self.relativelyCalendarHolidays:
@@ -665,18 +709,18 @@ class NewsManager(DistributedObject.DistributedObject):
         return monthDays[repNum - 1][weekday]
 
     def initRepMatrix(self, year, month):
-        for i in range(7):
+        for i in xrange(7):
             self.weekDaysInMonth[i] = (i, 4)
 
         startingWeekDay, numDays = calendar.monthrange(year, month)
         if startingWeekDay > 6:
             import pdb
             pdb.set_trace()
-        for i in range(4):
+        for i in xrange(4):
             if numDays == self.numDaysCorMatrix[i][0]:
                 break
 
-        for j in range(self.numDaysCorMatrix[i][1]):
+        for j in xrange(self.numDaysCorMatrix[i][1]):
             self.weekDaysInMonth[startingWeekDay] = (self.weekDaysInMonth[startingWeekDay][0], self.weekDaysInMonth[startingWeekDay][1] + 1)
             startingWeekDay = (startingWeekDay + 1) % 7
 
