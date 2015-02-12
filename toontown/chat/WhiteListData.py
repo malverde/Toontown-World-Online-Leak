@@ -1,18 +1,17 @@
 WHITELIST = [
-	'sir kippy'
-	'Sir Kippy' 
-	'mgracer'
-	'Mgracer'
-	'Phone'
-	'phone'
-	'TTW'
-	'Toontown World'
-	'Kippy'
-	'kippy'
-	'dancie'
-	'yolo'
-	'yodo'
-	'lure left, kill right' 
+	'sir kippy',
+	'Sir Kippy' ,
+	'mgracer',
+	'Mgracer',
+	'Phone',
+	'phone',
+	'TTW',
+	'Toontown World',
+	'Kippy',
+	'kippy',
+	'dancie',
+	'yolo',
+	'yodo', 
     '',
     '!',
     '"',
@@ -9225,6 +9224,7 @@ WHITELIST = [
     'danaphant',
     'danapix',
     'danawa',
+    'dancie',
     'dance',
     "dance's",
     'dance-along',
@@ -20458,6 +20458,7 @@ WHITELIST = [
     'kirby',
     'kirk',
     'kirke',
+    'kippy',
     'kit',
     'kitchen',
     "kitchen's",
@@ -25355,6 +25356,7 @@ WHITELIST = [
     'phoebe',
     "phoenix's",
     'phoenixs',
+    'phone',
     'phony',
     'photo',
     'photos',
