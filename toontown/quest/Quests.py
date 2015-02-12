@@ -19224,7 +19224,24 @@ RewardDict = {100: (MaxHpReward, 1),
  4214: (CogSuitPartReward, 'c', CogDisguiseGlobals.rightArmUpper),
  4215: (CogSuitPartReward, 'c', CogDisguiseGlobals.rightArmLower),
  4216: (CogSuitPartReward, 'c', CogDisguiseGlobals.rightArmHand),
- 5000: (BetaKeyReward, None)}
+ 5000: (BetaKeyReward, None),
+     # Buff rewards (BuffID, Time):
+    # Movement Speed Increase
+    3001: (BuffReward, ToontownGlobals.BMovementSpeed, 30),
+    3002: (BuffReward, ToontownGlobals.BMovementSpeed, 60),
+    3003: (BuffReward, ToontownGlobals.BMovementSpeed, 180),
+    3004: (BuffReward, ToontownGlobals.BMovementSpeed, 360),
+    # Gag Accuracy Increase
+    3005: (BuffReward, ToontownGlobals.BGagAccuracy, 30),
+    3006: (BuffReward, ToontownGlobals.BGagAccuracy, 60),
+    3007: (BuffReward, ToontownGlobals.BGagAccuracy, 180),
+    3008: (BuffReward, ToontownGlobals.BGagAccuracy, 360),
+    # Gag Experience Increase
+    3009: (BuffReward, ToontownGlobals.BGagExperience, 30),
+    3010: (BuffReward, ToontownGlobals.BGagExperience, 60),
+    3011: (BuffReward, ToontownGlobals.BGagExperience, 180),
+    3012: (BuffReward, ToontownGlobals.BGagExperience, 360)}
+
 for i, _ in enumerate(ToonDNA.allColorsList):
     RewardDict[4000+i] = (ToonColorReward, i)
     RewardDict[4100+i] = (GloveColorReward, i) 
@@ -19723,7 +19740,7 @@ for tier in OptionalRewardTrackDict:
  
 
 def isRewardOptional(tier, rewardId):
-    return OptionalRewardTrackDict.has_key(tier) and rewardId in OptionalRewardTrackDict[tier]
+     return tier in OptionalRewardTrackDict and rewardId in OptionalRewardTrackDict[tier]
 
 
 def getItemName(itemId):
