@@ -26,9 +26,18 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
 
     def avatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
-        self.notify.debug('avatar enter ' + str(avId))
+        if self.isBusy():
+            self.freeAvatar(avId)
+            return
+        self.busy = avId
         self.air.questManager.requestInteract(avId, self)
+        self.acceptOnce(self.air.getAvatarExitEvent(avId), self.__handleUnexpectedExit, extraArgs=[avId])
+
+        self.clearTasks()
+        self.task = self.uniqueName('clearMovie')
+        taskMgr.doMethodLater(20, self.sendTimeoutMovie, self.task)
         DistributedNPCToonBaseAI.avatarEnter(self)
+
 
     def chooseQuest(self, questId):
         avId = self.air.getAvatarIdFromSender()
