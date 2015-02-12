@@ -4702,8 +4702,8 @@ def setCE(CEValue, CEHood=0, CEExpire=0):
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int], targetClasses=[DistributedToonAI], aliases=['hp', 'toonHp', 'currHp'])
 def setHp(hpVal):
     """Set target's current laff"""
-    if not -1 <= hpVal <= 137:
-        return 'Laff must be between -1 and 137!'
+    if not -1 <= hpVal <= 156:
+        return 'Laff must be between -1 and 156!'
     spellbook.getTarget().b_setHp(hpVal)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int])
