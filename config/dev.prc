@@ -87,6 +87,6 @@ want-mega-invasions #f
 
 # Cog battles :
 #gag-bonus 2
-base-xp-multiplier 1.0
+base-xp-multiplier 2.0
 #group merges
 boarding-group-merges #t
