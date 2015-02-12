@@ -11,7 +11,7 @@ class ChatAgentUD(DistributedObjectGlobalUD):
 
         self.whiteList = TTWhiteList()
 
-    def chatMessage(self, message):
+    def chatMessage(self, message, chatMode):
         sender = self.air.getAvatarIdFromSender()
         if sender == 0:
             self.air.writeServerEvent('suspicious', self.air.getAccountIdFromSender(),
