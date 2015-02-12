@@ -21,6 +21,12 @@ class ChatAgent(DistributedObjectGlobal):
 
     def sendChatMessage(self, message):
         self.sendUpdate('chatMessage', [message, self.chatMode])
+    def sendMuteAccount(self, account, howLong):
+        self.sendUpdate('muteAccount', [account, howLong])
+
+    def sendUnmuteAccount(self, account):
+        self.sendUpdate('unmuteAccount', [account])
+        
 
     def sendWhisperMessage(self, receiverAvId, message):
         self.sendUpdate('whisperMessage', [receiverAvId, message])
