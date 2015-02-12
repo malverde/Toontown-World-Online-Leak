@@ -1,397 +1,617 @@
-import Quests
-from direct.directnotify.DirectNotifyGlobal import directNotify
-from toontown.toonbase import ToontownBattleGlobals
-import random
+from toontown.toon.DistributedNPCSpecialQuestGiverAI import DistributedNPCSpecialQuestGiverAI
+from toontown.building import FADoorCodes
+from otp.ai.MagicWordGlobal import *
+from toontown.hood import ZoneUtil
+from toontown.quest import Quests
+
+
+QuestIdIndex = 0
+QuestFromNpcIdIndex = 1
+QuestToNpcIdIndex = 2
+QuestRewardIdIndex = 3
+QuestProgressIndex = 4
+
 
 class QuestManagerAI:
     notify = directNotify.newCategory('QuestManagerAI')
+
     def __init__(self, air):
         self.air = air
 
-    def __testPercentage(self, percentage):
-        """
-        Generate a random number and test it against the percentage chance specified.
-
-        Returns TRUE or FALSE, depending on if the generated number is within the
-        percentage specified.
-        """
-        return random.randint(1, 100) <= percentage
-
-    def __incrementQuestProgress(self, quest):
-        """
-        Increment the supplied quest's progress by 1.
-        """
-        quest[4] += 1
-
-    def __toonQuestsList2Quests(self, quests):
-        return [Quests.getQuest(x[0]) for x in quests]
-
-    def removeBetaQuest(self, toon, rpcmethod):
-        toon.b_setWantBetaKeyQuest(0)
-        dg = self.air.dclassesByName['AccountAI'].aiFormatUpdate(
-            'BETA_KEY_QUEST', toon.DISLid, toon.DISLid,
-            self.air.ourChannel, 0
-        )
-        self.air.send(dg)
-        self.air.rpc.call(rpcmethod, webAccId=toon.getWebAccountId())
-
-    def toonKilledCogs(self, toon, suitsKilled, zoneId, activeToons):
-        """
-        Called in battleExperience to alert the quest system that a toon has
-        killed some cogs.
-        """
-        for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
-            if isinstance(quest, Quests.CogQuest):
-                # It's a cog quest!
-                for suit in suitsKilled:
-                    # N.B.: This will iterate once if True, none if False.
-                    # If it's a newbie quest, it will return an integer rather than a
-                    # boolean, and will iterate x times.
-                    for x in xrange(quest.doesCogCount(toon.getDoId(), suit, zoneId, activeToons)):
-                        # Give us credit for this cog. If this a newbie quest, it will
-                        # give us multiple credit(s), depending on how many newbies were
-                        # in the battle.
-                       self.__incrementQuestProgress(toon.quests[index])
-        toon.updateQuests()
-
-    def recoverItems(self, toon, suitsKilled, zoneId):
-        """
-        Called in battleExperience to alert the quest system that a toon should
-        test for recovered items.
-
-        Returns a tuple of two lists:
-            Index 0: a list of recovered items.
-            Index 1: a list of unrecovered items.
-        """
-        recovered, notRecovered = ([] for i in xrange(2))
-        for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
-            if isinstance(quest, Quests.RecoverItemQuest):
-                isComplete = quest.getCompletionStatus(toon, toon.quests[index])
-                if isComplete == Quests.COMPLETE:
-                    # This quest is complete, skip.
-                    continue
-                # It's a quest where we need to recover an item!
-                if quest.isLocationMatch(zoneId):
-                    # We're in the correct area to recover the item, woo!
-                    if quest.getHolder() == Quests.Any or quest.getHolderType() in ['type', 'track', 'level']:
-                        for suit in suitsKilled:
-                            if quest.getCompletionStatus(toon, toon.quests[index]) == Quests.COMPLETE:
-                                # Test if the task has already been completed.
-                                # If it has, we don't need to iterate through the cogs anymore.
-                                break
-                            # Here comes the long IF statement...
-                            if (quest.getHolder() == Quests.Any) \
-                            or (quest.getHolderType() == 'type' and quest.getHolder() == suit['type']) \
-                            or (quest.getHolderType() == 'track' and quest.getHolder() == suit['track']) \
-                            or (quest.getHolderType() == 'level' and quest.getHolder() <= suit['level']):
-                                progress = toon.quests[index][4] & pow(2, 16) - 1 # This seems to be the Disne
-                                completion = quest.testRecover(progress)
-                                if completion[0]:
-                                    # We win! We got the item from the cogs. :)
-                                    recovered.append(quest.getItem())
-                                    self.__incrementQuestProgress(toon.quests[index])
-                                else:
-                                    # Tough luck, maybe next time.
-                                    notRecovered.append(quest.getItem())
-        toon.updateQuests()
-        return (recovered, notRecovered)
-
-    def toonKilledBuilding(self, toon, track, difficulty, floors, zoneId, activeToons):
-        """
-        This method is called whenever a toon defeats a cog building.
-        N.B: This is called once for each toon that defeated the building.
-        """
-        for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
-            if isinstance(quest, Quests.BuildingQuest):
-                # This quest is a building quest, time to see if it counts towards
-                # our progress!
-                if quest.isLocationMatch(zoneId):
-                    # We defeated the building in the correct zone, and the building counts!
-                    if quest.getBuildingTrack() == Quests.Any or quest.getBuildingTrack() == track:
-                        if floors >= quest.getNumFloors():
-                            # This building has more (or equal to) the number of floors we need.
-                            for x in xrange(quest.doesBuildingCount(toon.getDoId(), activeToons)):
-                                # Works the same as Cog Quests. Increment by one if it's a
-                                # normal quest, or by the amount of newbies if it's a
-                                # newbie quest.
-                                self.__incrementQuestProgress(toon.quests[index])
-        toon.updateQuests()
-
-    def toonKilledCogdo(self, toon, difficulty, floors, zoneId, activeToons):
-        pass
-
-    def toonRecoveredCogSuitPart(self, toon, zoneId, toonList):
-        pass
-
-    def toonDefeatedFactory(self, toon, factoryId, activeToonVictors):
-        """
-        This method is called whenever a toon defeats a Sellbot HQ factory.
-        N.B: This is called once for each toon that defeated the factory.
-        """
-        for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
-            if isinstance(quest, Quests.FactoryQuest):
-                # Cool, it's a factory quest! Does it count?
-                for x in xrange(quest.doesFactoryCount(toon.getDoId(), factoryId, activeToonVictors)):
-                    # Woo, this counts towards our quest progress!
-                    # Increment by the amount of credit we deserve.
-                    self.__incrementQuestProgress(toon.quests[index])
-        toon.updateQuests()
-
-    def toonDefeatedMint(self, toon, mintId, activeToonVictors):
-        """
-        This method is called whenever a toon defeats a Cashbot HQ mint.
-        N.B: This is called once for each toon that defeated the mint.
-        """
-        for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
-            if isinstance(quest, Quests.MintQuest):
-                # Oh lookie here, a mint quest! I love me some Polos.
-                for x in xrange(quest.doesMintCount(toon.getDoId(), mintId, activeToonVictors)):
-                    # Nom nom nom nom, progress!
-                    self.__incrementQuestProgress(toon.quests[index])
-        toon.updateQuests()
-
-    def toonDefeatedStage(self, toon, stageId, activeToonVictors):
-        pass
-
-    def toonRodeTrolleyFirstTime(self, toon):
-        for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
-            if isinstance(quest, Quests.TrolleyQuest):
-                self.__incrementQuestProgress(toon.quests[index])
-
-        toon.updateQuests()
-        
-    def toonCalledClarabelle(self, toon):
-        for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
-            if isinstance(quest, Quests.PhoneQuest):
-                self.__incrementQuestProgress(toon.quests[index])
-        toon.updateQuests()
-
-    def completeQuest(self, toon, questId):
-        """
-        This is called whenever a toon completes a single quest in a toontask.
-
-        So far, this currently toons them up and removes the quest from their
-        quest list, although it may be needed for more in the future.
-        """
-        toon.toonUp(toon.getMaxHp())
-        toon.removeQuest(questId)
-
-    def giveReward(self, toon, rewardId):
-        """
-        This is called when a toon completes a whole toontask.
-
-        This grabs the reward from Quests via rewardId and issues the reward
-        to the toon.
-        """
-        reward = Quests.getReward(rewardId)
-        if reward:
-            reward.sendRewardAI(toon)
-
-    def npcGiveQuest(self, npc, toon, questId, rewardId, toNpcId, storeReward=False):
-        """
-        This is called when an NPC wants to assign a quest to the toon.
-        """
-        rewardId = Quests.transformReward(rewardId, toon)
-        # If non-zero, this indicates this is the first quest in the whole ToonTask.
-        # This means we want to store the reward in the toons setRewardHistory.
-        finalReward = rewardId if storeReward else 0
-        progress = 0
-        toon.addQuest((questId, npc.getDoId(), toNpcId, rewardId, progress), finalReward)
-        # Tell the NPC that we assigned this quest to the given toon.
-        npc.assignQuest(toon.getDoId(), questId, rewardId, toNpcId)
-
-    def requestInteract(self, toonId, npc):
-        toon = self.air.doId2do.get(toonId)
-        if not toon:
-            # TODO: Flag suspicious. They shouldn't have got this far.
+    def requestInteract(self, avId, npc):
+        # Get the avatar.
+        av = self.air.doId2do.get(avId)
+        if not av:
             return
 
-        # Check if the toon has any quests to turn in.
-        for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
-            questId, fromNpcId, toNpcId, rewardId, toonProgress = toon.quests[index]
-            isComplete = quest.getCompletionStatus(toon, toon.quests[index], npc)
-            if isComplete != Quests.COMPLETE:
-                # This quest isn't complete, skip.
+        avQuestPocketSize = av.getQuestCarryLimit()
+        avQuests = av.getQuests()
+
+        needTrackTask = False
+        fakeTier = 0
+
+        avTrackProgress = av.getTrackProgress()
+        if avTrackProgress[0] == -1:
+            avQuestTier = av.getRewardTier()
+            if avQuestTier < Quests.DG_TIER and avQuestTier > Quests.DD_TIER:
+                fakeTier = Quests.DD_TIER
+                needTrackTask = True
+            elif avQuestTier < Quests.BR_TIER and avQuestTier > Quests.MM_TIER:
+                fakeTier = Quests.MM_TIER
+                needTrackTask = True
+            elif avQuestTier < Quests.DL_TIER and avQuestTier > Quests.BR_TIER:
+                fakeTier = Quests.BR_TIER
+                needTrackTask = True
+
+        # Iterate through their quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i:i + 5]
+            questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
+            questClass = Quests.getQuest(questId)
+            if questClass:
+                completeStatus = questClass.getCompletionStatus(av, questDesc, npc)
+            else:
                 continue
-            # If we're in the Toontorial, move to the next step.
-            if toonId in self.air.tutorialManager.avId2fsm.keys():
-                self.air.tutorialManager.avId2fsm[toonId].demand('Tunnel')
-            # Take away gags if it's a DeliverGagQuest.
-            if isinstance(quest, Quests.DeliverGagQuest):
-                track, level = quest.getGagType()
-                toon.inventory.setItem(track, level, toon.inventory.numItem(track, level) - quest.getNumGags())
-                toon.b_setInventory(toon.inventory.makeNetString())
-            # Check if the ToonTask has more quests to complete.
-            nextQuest = Quests.getNextQuest(questId, npc, toon)
-            if nextQuest == (Quests.NA, Quests.NA):
-                # No more quests in the current ToonTask!
-                if isinstance(quest, Quests.TrackChoiceQuest):
-                    # TrackTrainingRewards are a little different, as we now
-                    # have to display the gag track selection menu.
-                    npc.presentTrackChoice(toonId, questId, quest.getChoices())
-                    return
-                # This function is pretty weird... not sure why it's even here...
-                # But I'll include it just in case... (TMS says: "idk about this
-                # one, maybe a single quest can have different rewards?")
-                rewardId = Quests.getAvatarRewardId(toon, questId)
-                npc.completeQuest(toonId, questId, rewardId)
-                self.completeQuest(toon, questId)
-                self.giveReward(toon, rewardId)
+
+            # If the quest is a DeliverGagQuest, add the gags.
+            if isinstance(questClass, Quests.DeliverGagQuest):
+                # Check if it's the required NPC.
+                if npc.npcId == toNpcId:
+                    # Add progress.
+                    questList = []
+                    progress = questClass.removeGags(av)
+
+                    for i in xrange(0, len(avQuests), 5):
+                        questDesc = avQuests[i:i + 5]
+                        if questDesc[QuestIdIndex] == questId:
+                            questDesc[QuestProgressIndex] += progress
+                            if questDesc[QuestProgressIndex] >= questClass.getNumGags():
+                                completeStatus = Quests.COMPLETE
+                        questList.append(questDesc)
+                    av.b_setQuests(questList)
+
+                    if completeStatus != Quests.COMPLETE:
+                        continue
+
+            # If they've completed a quest.
+            if completeStatus == Quests.COMPLETE:
+                # ToonUp the toon to max health.
+                av.toonUp(av.maxHp)
+
+                # If it's a TrackChoiceQuest then present their track choices.
+                if isinstance(questClass, Quests.TrackChoiceQuest):
+                    npc.presentTrackChoice(avId, questId, questClass.getChoices())
+                    break
+                # If there is another part to this quest then give them that.
+                if Quests.getNextQuest(questId, npc, av)[0] != Quests.NA:
+                    self.nextQuest(av, npc, questId)
+                    if avId in self.air.tutorialManager.avId2fsm:
+                        self.air.tutorialManager.avId2fsm[avId].demand('Tunnel')
+                    break
+                else:
+                    # The toon has completed this quest. Give them a reward!
+                    npc.completeQuest(avId, questId, rewardId)
+                    self.completeQuest(av, questId)
+                break
+        else:
+            # They haven't completed any quests so we have to give them choices.
+            # If they've got a full pouch then reject them.
+            if (len(avQuests) == avQuestPocketSize*5):
+                npc.rejectAvatar(avId)
+                return
+            elif isinstance(npc, DistributedNPCSpecialQuestGiverAI):
+                # Don't display choices. Force a choice.
+                self.tutorialQuestChoice(avId, npc)
                 return
             else:
-                # We have another quest to go, sigh.
-                self.completeQuest(toon, questId)
-                nextQuestId = nextQuest[0]
-                nextRewardId = Quests.getFinalRewardId(questId, 1)
-                nextToNpcId = nextQuest[1]
-                self.npcGiveQuest(npc, toon, nextQuestId, nextRewardId, nextToNpcId)
-                return
+                #Present quest choices.
+                if needTrackTask:
+                    choices = self.npcGiveTrackChoice(av, fakeTier)
+                else:
+                    choices = self.avatarQuestChoice(av, npc)
+                if choices != []:
+                    npc.presentQuestChoice(avId, choices)
+                else:
+                    npc.rejectAvatar(avId)
 
-        # We had no quests to hand in, maybe they want to take out a new ToonTask?
-        if len(self.__toonQuestsList2Quests(toon.quests)) >= toon.getQuestCarryLimit():
-            # Nope, they already have the maximum amount of concurring quests they
-            # can carry. Reject them.
-            self.notify.debug("Rejecting toonId %d because their quest inventory is full." % toonId)
-            npc.rejectAvatar(toonId)
+    def npcGiveTrackChoice(self, av, tier):
+        trackQuest = Quests.chooseTrackChoiceQuest(tier, av)
+        return [(trackQuest, 400, Quests.ToonHQ)]
+
+    def avatarQuestChoice(self, av, npc):
+        # Get the best quests for an avatar/npc.
+        return Quests.chooseBestQuests(av.getRewardTier(), npc, av)
+
+    def avatarChoseQuest(self, avId, npc, questId, rewardId, toNpcId):
+        # Get the avatar.
+        av = self.air.doId2do.get(avId)
+        if not av:
             return
 
-        # Are we in the Toontorial?
-        if toonId in self.air.tutorialManager.avId2fsm.keys():
-            # Are we speaking to Tom?
-            if toon.getRewardHistory()[0] == 0:
-                self.npcGiveQuest(npc, toon, 101, Quests.findFinalRewardId(101)[0], Quests.getQuestToNpcId(101), storeReward=True) # FIXME please, i have no idea if this is correct
-                self.air.tutorialManager.avId2fsm[toonId].demand('Battle')
-                return
+        # Get the npcIds
+        fromNpcId = npc.npcId
+        if toNpcId == 0:
+            toNpcId = Quests.getQuestToNpcId(questId)
 
-        # Are they eligible for a tier upgrade?
-        tier = toon.getRewardHistory()[0]
-        if Quests.avatarHasAllRequiredRewards(toon, tier):
-            # They have all the rewards needed for the next tier.
-            if not Quests.avatarWorkingOnRequiredRewards(toon):
-                # Check to make sure they are not on the LOOPING_FINAL_TIER
-                if tier != Quests.LOOPING_FINAL_TIER:
-                    tier += 1
+        # Add the quest to the avatars list.
+        transformedRewardId = Quests.transformReward(rewardId, av)
+        av.addQuest([questId, fromNpcId, toNpcId, rewardId, 0], transformedRewardId)
 
-                # Set the tier
-                toon.b_setRewardHistory(tier, [])
-            else:
-                # They're eligible for a tier upgrade, but haven't finished all
-                # of their required ToonTasks yet.
-                self.notify.debug("Rejecting toonId %d because they are still working on their current tier." % toonId)
-                npc.rejectAvatarTierNotDone(toonId)
-                return
+        # Remove the tasks for timeout.
+        taskMgr.remove(npc.uniqueName('clearMovie'))
 
-        # Time to give them a list of "suitable" tasks!
-        suitableQuests = Quests.chooseBestQuests(tier, npc, toon)
-        if not suitableQuests:
-            # Uh oh! There's no suitable quests for them at the moment... reject.
-            self.notify.debug("Rejecting toonId %d because there are no quests available!" % toonId)
-            npc.rejectAvatar(toonId)
+        # Assign the quest.
+        npc.assignQuest(avId, questId, rewardId, toNpcId)
+
+    def avatarChoseTrack(self, avId, npc, pendingTrackQuest, trackId):
+        # Get the avatar.
+        av = self.air.doId2do.get(avId)
+        if not av:
             return
 
-        # Tell the NPC to select some quests from the generated list.
-        npc.presentQuestChoice(toonId, suitableQuests)
-        return
+        # Remove the tasks for timeout.
+        taskMgr.remove(npc.uniqueName('clearMovie'))
 
-    def avatarCancelled(self, toonId):
-        """
-        This method is called by an NPCToon to tell the quest system that
-        a toon decided to cancel the interaction.
-        """
-        # SECURITY TODO: Implement this!
-        pass
+        # Show the completion movie and remove the task.
+        npc.completeQuest(avId, pendingTrackQuest, Quests.getRewardIdFromTrackId(trackId))
+        self.completeQuest(av, pendingTrackQuest)
 
-    def avatarChoseQuest(self, toonId, npc, questId, rewardId, toNpcId):
-        """
-        This method is called by an NPCToon to tell the quest system that
-        a toon has chosen a quest from the list supplied.
-        """
-        toon = self.air.doId2do.get(toonId)
-        if not toon:
-            # TODO: Flag suspicious. They shouldn't have got this far.
+        # Set their track their working on.
+        av.b_setTrackProgress(trackId, 0)
+
+    def avatarCancelled(self, npcId):
+        # Get the NPC.
+        npc = self.air.doId2do.get(npcId)
+        if not npc:
             return
-        self.notify.debug("toonId %d chose quest %d with rewardId %d to hand to npcId %d." % (toonId, questId, rewardId, toNpcId))
-        if rewardId == 5000:
-            # If they take out the quest, we need to tell the web server that they took it
-            # out and also tell the CSMUD not to issue any other toons with the quest for
-            # the current session (via the Account object's BETA_KEY_QUEST field).
-            self.removeBetaQuest(toon, 'lockBetaKey')
-        self.npcGiveQuest(npc, toon, questId, rewardId, toNpcId, storeReward=True)
 
-    def avatarChoseTrack(self, toonId, npc, questId, trackId):
-        """
-        This method is called by an NPCToon to tell the quest system that
-        a toon has decided on the new track that they want to train for.
+        # Remove the task for timeout.
+        taskMgr.remove(npc.uniqueName('clearMovie'))
 
-        This is a special moment for any toon, as it determines how they
-        will play the game for the rest of their time at TTR. :D
-        """
-        toon = self.air.doId2do.get(toonId)
-        if not toon:
-            # TODO: Flag suspicious. They shouldn't have got this far.
+    def nextQuest(self, av, npc, questId):
+        # Get the next QuestId and toNpcId.
+        nextQuestId, toNpcId = Quests.getNextQuest(questId, npc, av)
+
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
+
+        # Iterate through their current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i:i + 5]
+
+            if questDesc[QuestIdIndex] == questId:
+                questDesc[QuestIdIndex] = nextQuestId
+                questDesc[QuestToNpcIdIndex] = toNpcId
+                questDesc[QuestProgressIndex] = 0
+            questList.append(questDesc)
+
+        # Show the quest movie and set their quests.
+        npc.incompleteQuest(av.doId, nextQuestId, Quests.QUEST, toNpcId)
+        av.b_setQuests(questList)
+
+    def completeQuest(self, av, completeQuestId):
+        #Get the avatars current quests.
+        avQuests = av.getQuests()
+
+        # Iterate through their current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i:i + 5]
+            questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
+            questClass = Quests.getQuest(questId)
+
+            if questId == completeQuestId:
+                av.removeQuest(questId)
+                self.giveReward(av, questId, rewardId)
+                self.avatarConsiderProgressTier(av)
+                break
+
+    def giveReward(self, av, questId, rewardId):
+        # Give the reward.
+        rewardClass = Quests.getReward(rewardId)
+        if rewardClass is None:
+            self.notify.warning('rewardClass was None for rewardId: %s.' % rewardId)
+        else:
+            rewardClass.sendRewardAI(av)
+
+        # Add the rewardId to the avatars rewardHistory.
+        rewardTier, rewardHistory = av.getRewardHistory()
+        transformedRewardId = Quests.transformReward(rewardId, av)
+        if transformedRewardId != rewardId:
+            rewardHistory.append(rewardId)
+
+        av.b_setRewardHistory(rewardTier, rewardHistory)
+
+    def avatarConsiderProgressTier(self, av):
+        # Get the avatars current tier.
+        currentTier = av.getRewardTier()
+
+        # Check if they have all required rewards.
+        if Quests.avatarHasAllRequiredRewards(av, currentTier):
+            if currentTier != Quests.ELDER_TIER:
+                currentTier += 1
+            av.b_setRewardHistory(currentTier, [])
+
+    def tutorialQuestChoice(self, avId, npc):
+        # Get the avatar.
+        av = self.air.doId2do.get(avId)
+        if not av:
             return
-        self.notify.debug("toonId %d chose trackId %d to train." % (toonId, trackId))
-        if trackId in [ToontownBattleGlobals.THROW_TRACK, ToontownBattleGlobals.SQUIRT_TRACK]:
-            # Better stop hackers, or our own stupidity.
-            self.notify.warning("toonId %s attempted to select trackId %d, which is a default track!" % (toonId, trackId))
-            # Yes this is suspicious, because it should be impossible.
-            self.air.writeServerEvent('suspicious', avId=toonId, issue='QMAI.avatarChoseTrack Attempted to train trackId %d, which is a default track!' % trackId)
+
+        # Get the possible quest choices and force the player to choose it.
+        choices = self.avatarQuestChoice(av, npc)
+        quest = choices[0]
+
+        self.avatarChoseQuest(avId, npc, quest[0], quest[1], 0)
+
+        # Are we in the tutorial speaking to Tutorial Tom?
+        if avId in self.air.tutorialManager.avId2fsm:
+            if av.getRewardHistory()[0] == 0:
+                self.air.tutorialManager.avId2fsm[avId].demand('Battle')
+
+    def toonRodeTrolleyFirstTime(self, av):
+        # Toon played a minigame.
+        self.toonPlayedMinigame(av, [])
+
+    def toonPlayedMinigame(self, av, toons):
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
+
+        # Iterate through their current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if isinstance(questClass, Quests.TrolleyQuest):
+                questDesc[QuestProgressIndex] = 1
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)
+
+    def toonMadeFriend(self, avId):
+        # Get the avatar.
+        av = self.air.doId2do.get(avId)
+        if not av:
             return
-        rewardId = 401 + trackId
-        npc.completeQuest(toonId, questId, rewardId)
-        self.completeQuest(toon, questId)
-        self.giveReward(toon, rewardId)
 
-    def toonMadeFriend(self, toon, otherToon):
-        for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
-            if isinstance(quest, Quests.FriendQuest):
-                self.__incrementQuestProgress(toon.quests[index])
-        toon.updateQuests()
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
 
-    def toonFished(self, toon, zoneId):
-        """
-        This method is called by the FishManagerAI whenever a toon catches
-        a fish. This checks for any "fishing" quests that are in progress,
-        and determines if they caught any items.
-        """
-        for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
-            if isinstance(quest, Quests.RecoverItemQuest):
-                # Well, this is a quest where we have to recover an item...
-                if quest.getCompletionStatus(toon, toon.quests[index]) == Quests.COMPLETE:
-                    # Task is already complete. Check if we have any other
-                    # quests that we need to fish for.
+        # Iterate through their current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if isinstance(questClass, Quests.FriendQuest):
+                questDesc[QuestProgressIndex] = 1
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)
+
+    def toonUsedPhone(self, avId):
+        # Get the avatar.
+        av = self.air.doId2do.get(avId)
+        if not av:
+            return
+
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
+
+        # Iterate through their current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if isinstance(questClass, Quests.PhoneQuest):
+                questDesc[QuestProgressIndex] += 1
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)
+
+    def toonCaughtFishingItem(self, av):
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        fishingItem = -1
+        questList = []
+
+        # Iterate through their current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if fishingItem != -1:
+                questList.append(questDesc)
+                continue
+            if isinstance(questClass, Quests.RecoverItemQuest):
+                if not hasattr(questClass, 'getItem'):
+                    questList.append(questDesc)
                     continue
-                if quest.isLocationMatch(zoneId):
-                    # Well we're in the right zone!
-                    if quest.getHolder() == Quests.AnyFish:
-                        # Bazinga! This is a fishing quest!
-                        progress = toon.quests[index][4] & pow(2, 16) - 1 # This seems to be the Disney way
-                        completion = quest.testRecover(progress)
-                        if completion[0]:
-                            # We got lucky, dave! We caught the item!
-                            self.__incrementQuestProgress(toon.quests[index])
-                            toon.updateQuests()
-                            # Since we caught an item already, there's no
-                            # point in checking the other quests as we can
-                            # only catch one item at a time via fishing.
-                            return quest.getItem()
-        # Nope, no fishing quests, or we're out of luck. Too bad.
+                if questClass.getHolder() == Quests.AnyFish:
+                    if not questClass.getCompletionStatus(av, questDesc) == Quests.COMPLETE:
+                        baseChance = questClass.getPercentChance()
+                        amountRemaining = questClass.getNumItems() - questDesc[QuestProgressIndex]
+                        chance = Quests.calcRecoverChance(amountRemaining, baseChance)
+                        if chance >= baseChance:
+                            questDesc[QuestProgressIndex] += 1
+                            fishingItem = questClass.getItem()
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)
+        return fishingItem
+
+    def hasTailorClothingTicket(self, av, npc):
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+
+        # Iterate through their current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if isinstance(questClass, Quests.DeliverItemQuest):
+                if questClass.getCompletionStatus(av, questDesc, npc) == Quests.COMPLETE:
+                    # They have a clothing ticket.
+                    return 1
         return 0
 
-    def hasTailorClothingTicket(self, toon, npc):
-        for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
-            isComplete = quest.getCompletionStatus(toon, toon.quests[index], npc)
-            if isComplete == Quests.COMPLETE:
-                return True
+    def removeClothingTicket(self, av, npc):
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
 
-        return False
+        # Iterate through their current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if isinstance(questClass, Quests.DeliverItemQuest):
+                if questClass.getCompletionStatus(av, questDesc, npc) == Quests.COMPLETE:
+                    av.removeQuest(questDesc[QuestIdIndex])
+                    break
 
-    def removeClothingTicket(self, toon, npc):
-        for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
-            questId, fromNpcId, toNpcId, rewardId, toonProgress = toon.quests[index]
-            isComplete = quest.getCompletionStatus(toon, toon.quests[index], npc)
-            if isComplete == Quests.COMPLETE:
-                toon.removeQuest(questId)
-                return True
+    def recoverItems(self, av, suitsKilled, taskZoneId):
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
+        recoveredItems = []
+        unrecoveredItems = []
+        taskZoneId = ZoneUtil.getBranchZone(taskZoneId)
 
-        return False
+        # Iterate through the avatars current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+
+            # Check if the Quest isnt already complete
+            if questClass.getCompletionStatus(av, questDesc) == Quests.INCOMPLETE:
+
+                # Check if we are dealing with a RecoverItemQuest
+                if isinstance(questClass, Quests.RecoverItemQuest):
+
+                    # Iterate through all the Cogs that were killed in the battle
+                    for suit in suitsKilled:
+
+                        # Because the RecoveItemQuest class doesn't have a
+                        # function to see if a Cog counts. We need to manually
+                        # check if the Cog is valid for the Quest
+                        if (questClass.getHolder() == Quests.Any) or \
+                            (questClass.getHolderType() == 'type' and \
+                            questClass.getHolder() == suit['type']) or \
+                            (questClass.getHolderType() == 'track' and \
+                            questClass.getHolder() == suit['track']) or \
+                            (questClass.getHolderType() == 'level' and \
+                            questClass.getHolder() <= suit['level']):
+
+                            # It looks like the Cog was valid. Lets see if they
+                            # found what they were looking for.
+                            baseChance = questClass.getPercentChance()
+                            amountRemaining = questClass.getNumItems() - questDesc[QuestProgressIndex]
+                            chance = Quests.calcRecoverChance(amountRemaining, baseChance)
+
+                            # They found it! Give them their reward!
+                            if chance >= baseChance:
+                                questDesc[QuestProgressIndex] += 1
+                                recoveredItems.append(questClass.getItem())
+
+                            # Better luck next time :(
+                            else:
+                                unrecoveredItems.append(questClass.getItem())
+
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)
+
+        return (recoveredItems, unrecoveredItems)
+
+    def toonKilledBuilding(self, av, type, difficulty, floors, zoneId, activeToons):
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
+        zoneId = ZoneUtil.getBranchZone(zoneId)
+
+        # Iterate through the avatars current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if questClass.getCompletionStatus(av, questDesc) == Quests.INCOMPLETE:
+                if isinstance(questClass, Quests.BuildingQuest):
+                    if questClass.isLocationMatch(zoneId):
+                        if questClass.doesBuildingTypeCount(type):
+                            if questClass.doesBuildingCount(av, activeToons):
+                                if floors >= questClass.getNumFloors():
+                                    questDesc[QuestProgressIndex] += 1
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)
+
+    def toonDefeatedFactory(self, av, factoryId, activeVictors):
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
+
+        # Iterate through the avatars current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if isinstance(questClass, Quests.FactoryQuest):
+                if questClass.doesFactoryCount(av, factoryId, activeVictors):
+                    questDesc[QuestProgressIndex] += 1
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)
+
+    def toonDefeatedMint(self, av, mintId, activeVictors):
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        questList = []
+
+        # Iterate through the avatars current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if isinstance(questClass, Quests.MintQuest):
+                if questClass.doesMintCount(av, mintId, activeVictors):
+                    questDesc[QuestProgressIndex] += 1
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)
+
+    def toonDefeatedStage(self, av, stageId, activeVictors):
+        pass
+
+    def toonKilledCogs(self, av, suitsKilled, zoneId, activeToonList):
+        # Get the avatar's current quests.
+        avQuests = av.getQuests()
+        questList = []
+
+        # Make a list of the activeToonDoIds
+        activeToonDoIds = [toon.doId for toon in activeToonList if not None]
+
+        # Iterate through the avatar's current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+
+            # Check if they are doing a cog quest
+            if isinstance(questClass, Quests.CogQuest):
+
+                # Check if the cog counts...
+                for suit in suitsKilled:
+                    if questClass.doesCogCount(av.doId, suit, zoneId, activeToonDoIds):
+
+                        # Looks like the cog counts!
+                        if questClass.getCompletionStatus(av, questDesc) != Quests.COMPLETE:
+                            questDesc[QuestProgressIndex] += 1
+
+            # Add the quest to the questList
+            questList.append(questDesc)
+
+        # Update the avatar's quests
+        av.b_setQuests(questList)
+
+
+@magicWord(category=CATEGORY_MODERATION, types=[str, int, int])
+def quests(command, arg0=0, arg1=0):
+    invoker = spellbook.getInvoker()
+    currQuests = invoker.getQuests()
+    currentQuestIds = []
+
+    for i in xrange(0, len(currQuests), 5):
+        currentQuestIds.append(currQuests[i])
+
+    pocketSize = invoker.getQuestCarryLimit()
+    carrying = len(currQuests) / 5
+    canCarry = False
+
+    if (carrying < pocketSize):
+        canCarry = True
+
+    if command == 'clear':
+        invoker.b_setQuests([])
+        return 'Cleared quests'
+    elif command == 'clearHistory':
+        invoker.d_setQuestHistory([])
+        return 'Cleared quests history'
+    elif command == 'add':
+        if arg0:
+            if canCarry:
+                if arg0 in Quests.QuestDict.keys():
+                    return 'Added QuestID %s'%(arg0)
+                else:
+                    return 'Invalid QuestID %s'%(arg0)
+            else:
+                return 'Cannot take anymore quests'
+        else:
+            return 'add needs 1 argument.'
+    elif command == 'remove':
+        if arg0:
+            if arg0 in currentQuestIds:
+                invoker.removeQuest(arg0)
+                return 'Removed QuestID %s'%(arg0)
+            elif arg0 < pocketSize and arg0 > 0:
+                if len(currentQuestIds) <= arg0:
+                    questIdToRemove = currentQuestIds[arg0 - 1]
+                    invoker.removeQuest(questIdToRemove)
+                    return 'Removed quest from slot %s'%(arg0)
+                else:
+                    return 'Invalid quest slot'
+            else:
+                return 'Cannot remove quest %s'%(arg0)
+        else:
+            return 'remove needs 1 argument.'
+    elif command == 'list':
+        if arg0:
+            if arg0 > 0 and arg0 <= pocketSize:
+                start = (arg0 -1) * 5
+                questDesc = currQuests[start : start + 5]
+                return 'QuestDesc in slot %s: %s.'%(arg0, questDesc)
+            else:
+                return 'Invalid quest slot %s.'%(arg0)
+        else:
+            return 'CurrentQuests: %s'%(currentQuestIds)
+    elif command == 'bagSize':
+        if arg0 > 0 and arg0 < 5:
+            invoker.b_setQuestCarryLimit(arg0)
+            return 'Set carry limit to %s'%(arg0)
+        else:
+            return 'Argument 0 must be between 1 and 4.'
+    elif command == 'progress':
+        if arg0 and arg1:
+            if arg0 > 0 and arg0 <= pocketSize:
+                questList = []
+                wantedQuestId = currentQuestIds[arg0 - 1]
+
+                for i in xrange(0, len(currQuests), 5):
+                    questDesc = currQuests[i : i + 5]
+
+                    if questDesc[0] == wantedQuestId:
+                        questDesc[4] = arg1
+
+                    questList.append(questDesc)
+
+                invoker.b_setQuests(questList)
+                return 'Set quest slot %s progress to %s'%(arg0, arg1)
+            elif arg0 in Quests.QuestDict.keys():
+                if arg0 in currentQuestIds:
+                    questList = []
+
+                    for i in xrange(0, len(currQuests), 5):
+                        questDesc = currQuests[i : i + 5]
+
+                        if questDesc[0] == arg0:
+                            questDesc[4] = arg1
+
+                        questList.append(questDesc)
+
+                    invoker.b_setQuests(questList)
+                    return 'Set QuestID %s progress to %s'%(arg0, arg1)
+                else:
+                    return 'Cannot progress QuestID: %s.'%(arg0)
+            else:
+                return 'Invalid quest or slot id'
+        else:
+            return 'progress needs 2 arguments.'
+    elif command == 'tier':
+        if arg0:
+            invoker.b_setRewardHistory(arg0, invoker.getRewardHistory()[1])
+            return 'Set tier to %s'%(arg0)
+        else:
+            return 'tier needs 1 argument.'
+    else:
+        return 'Invalid first argument.'
