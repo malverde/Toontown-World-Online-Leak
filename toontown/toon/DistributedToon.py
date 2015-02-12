@@ -40,6 +40,7 @@ from toontown.estate import FlowerCollection
 from toontown.estate import FlowerBasket
 from toontown.estate import GardenGlobals
 from toontown.estate import DistributedGagTree
+from otp.ai import MagicWordManager
 from toontown.estate import GardenDropGame
 from toontown.parties.PartyGlobals import InviteStatus, PartyStatus
 from toontown.parties.PartyInfo import PartyInfo
@@ -2761,3 +2762,29 @@ def promote(deptIndex):
     invoker.sendUpdate('requestPromotion', [deptIndex])
     return 'Your promotion request has been sent.'    
     
+@magicWord(category=CATEGORY_MODERATION, types=[int])
+def mute(minutes):
+    """
+    Mute the target
+    """
+    if not MagicWordManager.lastClickedNametag:
+        return "nobody selected"
+    target = MagicWordManager.lastClickedNametag
+    if spellbook.getInvokerAccess() <= target.getAdminAccess():
+        return "Must be of a higher access level then target"
+    base.cr.chatAgent.sendMuteAccount(target.doId, minutes)
+    return 'Mute request sent'
+
+@magicWord(category=CATEGORY_MODERATION, types=[])
+def unmute():
+    """
+    Unmute the target
+    """
+    if not MagicWordManager.lastClickedNametag:
+        return "nobody selected"
+    target = MagicWordManager.lastClickedNametag
+    if spellbook.getInvokerAccess() <= target.getAdminAccess():
+        return "Must be of a higher access level then target"
+    print ['unmute', target.doId]
+    base.cr.chatAgent.sendUnmuteAccount(target.doId)
+    return 'Unmute request sent'
