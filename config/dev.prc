@@ -82,7 +82,7 @@ want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
 want-mega-invasions #f
-
+force-holiday-decorations 25
 
 
 

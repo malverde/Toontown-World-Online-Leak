@@ -676,20 +676,24 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return None
 
     def setFriendsList(self, friendsList):
+        self.notify.debug('setting friends list to %s' % self.friendsList)
         self.friendsList = friendsList
+        if friendsList:
+            friendId = friendsList[-1]
+            otherAv = self.air.doId2do.get(friendId)
+            self.air.questManager.toonMadeFriend(self, otherAv)
 
     def getFriendsList(self):
         return self.friendsList
 
     def extendFriendsList(self, friendId, friendCode):
-        for i in xrange(len(self.friendsList)):
+        for i in range(len(self.friendsList)):
             friendPair = self.friendsList[i]
             if friendPair[0] == friendId:
                 self.friendsList[i] = (friendId, friendCode)
                 return
 
         self.friendsList.append((friendId, friendCode))
-        self.air.questManager.toonMadeFriend(self)
 
     def d_setMaxNPCFriends(self, max):
         self.sendUpdate('setMaxNPCFriends', [max])
