@@ -1,41 +1,31 @@
 from bisect import bisect_left
-import string
-import sys
-import os
+
 
 class WhiteList:
-
-    def __init__(self, wordlist):
-        self.words = []
-        for line in wordlist:
-            self.words.append(line.strip('\n\r').lower())
-
-        self.words.sort()
+    def __init__(self, words):
+        self.words = words
         self.numWords = len(self.words)
 
     def cleanText(self, text):
         text = text.strip('.,?!')
-        text = text.lower()
-        return text
+        return text.lower()
 
     def isWord(self, text):
-        text = self.cleanText(text)
-        i = bisect_left(self.words, text)
-        if i == self.numWords:
-            return False
-        return self.words[i] == text
+        return self.cleanText(text) in self.words
 
     def isPrefix(self, text):
         text = self.cleanText(text)
         i = bisect_left(self.words, text)
+
         if i == self.numWords:
             return False
+
         return self.words[i].startswith(text)
 
     def prefixCount(self, text):
         text = self.cleanText(text)
-        i = bisect_left(self.words, text)
-        j = i
+        i, j = bisect_left(self.words, text)
+
         while j < self.numWords and self.words[j].startswith(text):
             j += 1
 
@@ -43,8 +33,8 @@ class WhiteList:
 
     def prefixList(self, text):
         text = self.cleanText(text)
-        i = bisect_left(self.words, text)
-        j = i
+        i, j = bisect_left(self.words, text)
+
         while j < self.numWords and self.words[j].startswith(text):
             j += 1
 
