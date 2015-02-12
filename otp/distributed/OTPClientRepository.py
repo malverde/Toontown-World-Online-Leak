@@ -538,10 +538,6 @@ class OTPClientRepository(ClientRepositoryBase):
         mode = doneStatus['mode']
         if mode == 'success':
             self.setIsNotNewInstallation()
-            if hasattr(self, 'toontownTimeManager'):
-                timestamp = time.gmtime(doneStatus['timestamp'])
-                dateString = time.strftime(self.toontownTimeManager.formatStr, timestamp)
-                self.lastLoggedIn = self.toontownTimeManager.convertStrToToontownTime(dateString)
             self.loginFSM.request('waitForGameList')
         elif mode == 'getChatPassword':
             self.loginFSM.request('parentPassword')
