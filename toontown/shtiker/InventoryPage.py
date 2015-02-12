@@ -4,6 +4,7 @@ from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
+from toontown.shtiker.CogMenu import CogMenu
 
 class InventoryPage(ShtikerPage.ShtikerPage):
 
