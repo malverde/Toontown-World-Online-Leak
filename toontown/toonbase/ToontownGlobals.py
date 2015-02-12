@@ -102,7 +102,7 @@ SPBuddysBalloon = 5
 CEVirtual = 14
 MaxHpLimit = 156
 MaxCarryLimit = 90
-MaxQuestCarryLimit = 5
+MaxQuestCarryLimit = 4
 GravityValue = 32.174
 MaxCogSuitLevel = 12 - 1
 
