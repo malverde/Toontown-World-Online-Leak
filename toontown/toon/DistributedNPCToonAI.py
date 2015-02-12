@@ -31,7 +31,7 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
             return
         self.busy = avId
         self.air.questManager.requestInteract(avId, self)
-        self.acceptOnce(self.air.getAvatarExitEvent(avId), self.__handleUnexpectedExit, extraArgs=[avId])
+        
 
         self.clearTasks()
         self.task = self.uniqueName('clearMovie')
