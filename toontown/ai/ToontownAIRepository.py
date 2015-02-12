@@ -86,7 +86,7 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         self.useAllMinigames = self.config.GetBool('want-all-minigames', False)
         self.doLiveUpdates = self.config.GetBool('want-live-updates', True)
-
+        self.baseXpMultiplier = self.config.GetFloat('base-xp-multiplier', 1.0)
         self.holidayManager = HolidayManagerAI(self)
 
         self.fishManager = FishManagerAI()
