@@ -9910,3 +9910,19 @@ def getGloveColorRewardString(colorId):
 
 def getGloveColorPosterString(colorId):
     return 'Reward: %s Gloves' % NumToColor[colorId]
+# Buffs
+
+
+def getBuffString(buffId, buffTime):
+    if buffTime < 60:
+        return 'Your movement speed will be slightly increased for the next %d minutes.' % buffTime
+    else:
+        return 'Your movement speed will be slightly increased for the next %d hours.' % (buffTime / 60)
+
+
+def getBuffPosterString(buffId):
+    return 'Reward: Increased movement speed'    
+  1: ('Your gag accuracy will be slight increased for the next %d %s.',
+      'Reward: Increased gag accuracy')    
+  2: ('Your gag experience will be slightly increased for the next %d %s.',
+      'Reward: Increased gag experience')

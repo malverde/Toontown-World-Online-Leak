@@ -1,4 +1,5 @@
 from otp.ai.AIBaseGlobal import *
+import time
 from pandac.PandaModules import *
 from otp.otpbase import OTPGlobals
 from direct.directnotify import DirectNotifyGlobal
@@ -225,7 +226,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.modulelist = ModuleListAI.ModuleList()
         self._dbCheckDoLater = None
         self.teleportOverride = 0
-        self.promotionStatus = [0, 0, 0, 0]        
+        self.promotionStatus = [0, 0, 0, 0]  
+        self.buffs = []      
         self.wantBetaKeyQuest = 0
         self.magicWordTeleportRequests = []
         self.webAccountId = 0
@@ -4655,6 +4657,41 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def b_setHouseType(self, houseType):
         self.setHouseType(houseType)
         self.d_setHouseType(houseType)
+    def addBuff(self, id, duration):
+        buffCount = len(self.buffs)
+        if buffCount <= id:
+            self.buffs.extend([0] * ((id+1) - buffCount))
+        timestamp = int(time.time()) + (duration*60)
+        self.buffs[id] = timestamp
+        self.b_setBuffs(self.buffs)
+
+    def removeBuff(self, id):
+        if len(self.buffs) <= id:
+            self.notify.warning('tried to remove non-existent buff %d on avatar %d.' % (id, self.doId))
+            return
+        self.buffs[id] = 0
+        self.d_setBuffs(self.buffs)
+    def hasBuff(self, id):
+        if len(self.buffs) <= id:
+            return False
+        return self.buffs[id] != 0
+
+    def setBuffs(self, buffs):
+        self.buffs = buffs
+        for id, timestamp in enumerate(self.buffs):
+            if timestamp:
+                taskName = self.uniqueName('removeBuff-%s' % id)
+                taskMgr.remove(taskName)
+                delayTime = max(timestamp - int(time.time()), 0)
+                taskMgr.doMethodLater(delayTime, self.removeBuff, taskName, extraArgs=[id])
+
+    def d_setBuffs(self, buffs):
+        self.sendUpdate('setBuffs', [buffs])
+
+    def b_setBuffs(self, buffs):
+        self.setBuffs(buffs)
+        self.d_setBuffs(buffs)
+        
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int])
 def setCE(CEValue, CEHood=0, CEExpire=0):

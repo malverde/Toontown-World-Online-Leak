@@ -8,6 +8,7 @@ from toontown.toon import NPCToons
 from toontown.pets import PetTricks, DistributedPetProxyAI
 from direct.showbase.PythonUtil import lerp
 from otp.ai.MagicWordGlobal import *
+from toontown.hood import ZoneUtil
 
 battleSkip = 0
 
@@ -82,6 +83,15 @@ class BattleCalculatorAI:
         debug = self.notify.getDebug()
         attack = self.battle.toonAttacks[attackIndex]
         atkTrack, atkLevel = self.__getActualTrackLevel(attack)
+        
+        hasAccuracyBuff = False
+        toon = simbase.air.doId2do.get(attack[TOON_ID_COL])
+        if toon:
+            if toon.hasBuff(BGagAccuracy):
+                if not ZoneUtil.isDynamicZone(toon.zoneId):
+                    if ZoneUtil.getWhereName(toon.zoneId, True) in ('street', 'factoryExterior', 'cogHQExterior'):
+                        hasAccuracyBuff = True
+                    
         if atkTrack == NPCSOS:
             return (1, 95)
         if atkTrack == FIRE:
@@ -146,6 +156,8 @@ class BattleCalculatorAI:
         else:
             randChoice = random.randint(0, 99)
         propAcc = AvPropAccuracy[atkTrack][atkLevel]
+        if hasAccuracyBuff:
+            propAcc *= BGagAccuracyMultiplier        
         if atkTrack == LURE:
             treebonus = self.__toonCheckGagBonus(attack[TOON_ID_COL], atkTrack, atkLevel)
             propBonus = self.__checkPropBonus(atkTrack)
