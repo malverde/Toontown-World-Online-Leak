@@ -82,12 +82,11 @@ want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
 want-mega-invasions #f
-active-holidays 25
 
 
 
 # Cog battles :
 #gag-bonus 2
-
+base-xp-multiplier 2.0
 #group merges
 boarding-group-merges #t
