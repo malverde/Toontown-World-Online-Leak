@@ -27,8 +27,8 @@ class DLHood(ToonHood.ToonHood):
         self.parentFSM.getStateNamed('DLHood').removeChild(self.fsm)
         ToonHood.ToonHood.unload(self)
 
-    def enter(self, *args):
-        ToonHood.ToonHood.enter(self, *args)
+    def enter(self, requestStatus):
+        ToonHood.ToonHood.enter(self,  requestStatus)
 
     def exit(self):
         ToonHood.ToonHood.exit(self)
