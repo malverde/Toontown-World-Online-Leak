@@ -437,58 +437,7 @@ class OTPClientRepository(ClientRepositoryBase):
         self.chatAgent = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_CHAT_MANAGER, 'ChatAgent')
         self.csm = None # To be set by subclass.
 
-    def readDCFile(self, dcFileNames=None):
-        dcFile = self.getDcFile()
-        dcFile.clear()
-        self.dclassesByName = {}
-        self.dclassesByNumber = {}
-        self.hashVal = 0
-
-        try:
-            dcStream
-
-        except:
-            pass
-
-        else:
-            self.notify.info('Detected DC file stream, reading it...')
-            dcFileNames = [dcStream]
-
-        if isinstance(dcFileNames, str):
-            dcFileNames = [dcFileNames]
-
-        if dcFileNames is not None:
-            for dcFileName in dcFileNames:
-                if isinstance(dcFileName, StringStream):
-                    readResult = dcFile.read(dcFileName, 'DC stream')
-                else:
-                    readResult = dcFile.read(dcFileName)
-                if not readResult:
-                    self.notify.error('Could not read DC file.')
-        else:
-            dcFile.readAll()
-
-        #self.hashVal = DCClassImports.hashVal
-        for i in xrange(dcFile.getNumClasses()):
-            dclass = dcFile.getClass(i)
-            number = dclass.getNumber()
-            className = dclass.getName()
-           # classDef = DCClassImports.dcImports.get(className)
-            if classDef is None:
-                self.notify.debug('No class definition for %s.' % className)
-            else:
-                if type(classDef) == types.ModuleType:
-                    if not hasattr(classDef, className):
-                        self.notify.warning('Module %s does not define class %s.' % (className, className))
-                        continue
-                    classDef = getattr(classDef, className)
-                if (type(classDef) != types.ClassType) and (type(classDef) != types.TypeType):
-                    self.notify.error('Symbol %s is not a class name.' % className)
-                else:
-                    dclass.setClassDef(classDef)
-            self.dclassesByName[className] = dclass
-            if number >= 0:
-                self.dclassesByNumber[number] = dclass
+  
 
     def startLeakDetector(self):
         if hasattr(self, 'leakDetector'):
