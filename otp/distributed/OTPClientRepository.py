@@ -473,7 +473,7 @@ class OTPClientRepository(ClientRepositoryBase):
             dclass = dcFile.getClass(i)
             number = dclass.getNumber()
             className = dclass.getName()
-            classDef = DCClassImports.dcImports.get(className)
+           # classDef = DCClassImports.dcImports.get(className)
             if classDef is None:
                 self.notify.debug('No class definition for %s.' % className)
             else:
