@@ -177,7 +177,7 @@ class OTPClientRepository(ClientRepositoryBase):
 
         self.accountOldAuth = config.GetBool('account-old-auth', 0)
 
-        self.accountOldAuth = config.GetBool('%s-account-old-auth' % process,
+        self.accountOldAuth = config.GetBool('%s-account-old-auth' % game.name,
                                              self.accountOldAuth)
 
         self.loginInterface = LoginTTRAccount.LoginTTRAccount(self)
