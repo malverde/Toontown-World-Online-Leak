@@ -1648,7 +1648,8 @@ hood2Id = {
  'OFFICE': (LawbotHQ,),
  'BACK': (BossbotHQ,),
  'MIDDLE': (BossbotHQ,),
- 'FRONT': (BossbotHQ,)}
+ 'FRONT': (BossbotHQ,),
+ 'FF' : (FunnyFarmm)}
 hood2Coords = {
  'CEO': [
     (61.044, 119.014, 0.025),
