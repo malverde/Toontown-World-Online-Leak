@@ -159,6 +159,8 @@ CreditsScenes = [
                 # Developers
                 Shockley(),
                 Credits('Mgracer', 'Programmar\nDeveloper\nMac Support', 'mgracer.jpg', 'left'),
+                #this is for john
+                Credits('', 'Programmar\nDeveloper', '.jpg', 'right'),
                 Credits("Purrty", "Lead Community Manager", '.jpg' ),
                 Credits("", "Community Manager", '.jpg', 'right', 2), 
                 Credits("Zander", "Community Manager\nTheme Song Composer", 'zander.jpg'),
@@ -179,9 +181,9 @@ CreditsScenes = [
                 # Composers
                 Credits('Sindre', 'Theme Song Composer, Lead Composer', '.jpg', 'right', 2), 
                 # Special Thanks to:
-                Credits('Disney Online', 'The owners and creators\nof Toontown.', '11-20-13_donald.jpg', 'left', 2), 
+                Credits('Disney', 'The owners and creators\nof Toontown.', '11-20-13_donald.jpg', 'left', 2), 
                  Credits('VR Studio', 'For developing Toontown Online.', '11-15-13_grey.jpg'),
-
-                Credits('Jaymo', 'For his continued efforts\nto bring Toontown back.', '14-1-22_ohmanohmanOHMAN.jpg', 'left') 
+#damn i cant spell his name lol
+                Credits('Jeese schelle ', 'For his continued efforts\nto bring Toontown back.', '14-1-22_ohmanohmanOHMAN.jpg', 'left') 
 ]
       
