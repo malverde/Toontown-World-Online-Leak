@@ -175,6 +175,10 @@ CreditsScenes = [
 
 				#Mods
 				Credits('Catastrophe', 'Moderator', 'catastrophe.jpg', 'left'),
+				Credits('Midnight', 'Moderator', 'midnight.jpg', 'right'), 
+				
+				#Pre alpha Testers
+				Credits('Ghost', 'Pre Alpha Tester', 'ghost.jpg', 'left'),
                 
  
                 
