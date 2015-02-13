@@ -179,6 +179,7 @@ CreditsScenes = [
 				
 				#Pre alpha Testers
 				Credits('Ghost', 'Pre Alpha Tester', 'ghost.jpg', 'left'),
+				Credits('Pony Cat', 'Pre Alpha Tester', 'pony_cat.jpg', 'right'),
                 
  
                 
