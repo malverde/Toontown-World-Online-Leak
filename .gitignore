@@ -1,6 +1,8 @@
 # Files/filetypes that don't need to be pushed.
 *.pyc
 *.ini
+*.orig
+.orig
 .ini 
 .pyc
 settings.json

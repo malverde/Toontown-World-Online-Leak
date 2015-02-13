@@ -4,11 +4,7 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-<<<<<<< HEAD
-server-version ttw-pre-alpha-dev-build-2.0.1
-=======
 server-version ttw-pre-alpha-dev-build-2.0.4
->>>>>>> master
 sync-video #f
 want-dev #f
 preload-avatars #t
@@ -74,7 +70,7 @@ estate-day-night #t
 want-instant-parties #f
 show-total-population #t
 want-toontorial #f
-want-doomsday #t
+want-doomsday #f
 
 # Chat stuff
 want-whitelist #t
@@ -85,8 +81,13 @@ force-player-understandable #t
 want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
+<<<<<<< HEAD
 want-mega-invasions #f
 
+=======
+want-mega-invasions #f
+force-holiday-decorations 25
+>>>>>>> parent of 36a6269... updated version of astron
 
 
 
