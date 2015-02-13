@@ -10,7 +10,7 @@ rem Read the contents of PPYTHON_PATH into %PPYTHON_PATH%:
 set /P PPYTHON_PATH=<PPYTHON_PATH
 
 echo ===============================
-echo Starting Toontown Infinite Retro UberDOG server...
+echo Starting Toontown World UberDOG server...
 echo ppython: %PPYTHON_PATH%
 echo Base Channel: %BASE_CHANNEL%
 echo Max Channels: %MAX_CHANNELS%

@@ -39,26 +39,19 @@ class DistributedStageBattleAI(DistributedLevelBattleAI.DistributedLevelBattleAI
         index = ToontownGlobals.cogHQZoneId2deptIndex(self.level.stageId)
         extraMerits[index] = amount
         for toon in toons:
-            mult = 1.0
-            meritArray = self.air.promotionMgr.recoverMerits(toon, [], self.getTaskZoneId(), mult, extraMerits=extraMerits)
+            recovered, notRecovered = self.air.questManager.recoverItems(toon, self.suitsKilled, self.getTaskZoneId())
+            self.toonItems[toon.doId][0].extend(recovered)
+            self.toonItems[toon.doId][1].extend(notRecovered)
+            meritArray = self.air.promotionMgr.recoverMerits(toon, self.suitsKilled, self.getTaskZoneId(), getStageCreditMultiplier(self.level.getFloorNum()), extraMerits=extraMerits)
             if toon.doId in self.helpfulToons:
                 self.toonMerits[toon.doId] = addListsByValue(self.toonMerits[toon.doId], meritArray)
             else:
                 self.notify.debug('toon %d not helpful list, skipping merits' % toon.doId)
-
-        for floorNum, cogsThisFloor in enumerate(self.suitsKilledPerFloor):
-            self.notify.info('merits for floor %s' % floorNum)
-            for toon in toons:
-                recovered, notRecovered = self.air.questManager.recoverItems(toon, cogsThisFloor, self.getTaskZoneId())
-                self.toonItems[toon.doId][0].extend(recovered)
-                self.toonItems[toon.doId][1].extend(notRecovered)
-                meritArray = self.air.promotionMgr.recoverMerits(toon, cogsThisFloor, self.getTaskZoneId(), getStageCreditMultiplier(floorNum))
-                self.notify.info('toon %s: %s' % (toon.doId, meritArray))
-                if toon.doId in self.helpfulToons:
-                    self.toonMerits[toon.doId] = addListsByValue(self.toonMerits[toon.doId], meritArray)
-                else:
-                    self.notify.debug('toon %d not helpful list, skipping merits' % toon.doId)
-
+            if self.bossBattle:
+                self.toonParts[toon.doId] = self.air.cogSuitMgr.recoverPart(
+                                            toon, 'fullSuit', self.suitTrack,
+                                            self.getTaskZoneId(), toons)
+                self.notify.debug('toonParts = %s' % self.toonParts)
     def enterStageReward(self):
         self.joinableFsm.request('Unjoinable')
         self.runableFsm.request('Unrunable')

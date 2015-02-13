@@ -32,7 +32,17 @@ colorToInt = {'White': 0,
 'Lavender': 23,
 'Pink': 24,
 'Grey': 25,
-'Black': 26
+'Black': 26,
+'Mountain Green': 27,
+'Icy Blue' : 28,
+'Desert Sand': 29,
+'Mint' : 30,
+'Charcoal': 31,
+'Hot Pink': 32,
+'Honey Mustard': 33,
+'Gray': 34,
+'Neon Orange': 35,
+'Sapphire': 36   
 }
 toonSpeciesTypes = ['d',
  'c',
@@ -1988,7 +1998,28 @@ allColorsList = [VBase4(1.0, 1.0, 1.0, 1.0),
  VBase4(0.726562, 0.472656, 0.859375, 1.0),
  VBase4(0.898438, 0.617188, 0.90625, 1.0),
  VBase4(0.7, 0.7, 0.8, 1.0),
- VBase4(0.3, 0.3, 0.35, 1.0)]
+ VBase4(0.3, 0.3, 0.35, 1.0),
+ # Mountain Green - 27
+ VBase4(0.0, 0.635294, 0.258823, 1.0),
+# Icy Blue - 28
+ VBase4(0.674509, 0.925490, 1.0, 1.0),
+ # Desert Sand - 29
+ VBase4(0.988235, 0.894117, 0.745098, 1.0),
+ # Mint - 30
+ VBase4(0.749019, 1.0, 0.847058, 1.0),
+ # Charcoal - 31
+ VBase4(0.470588, 0.443137, 0.447058, 1.0),
+ # Hot Pink - 32
+ VBase4(0.996078, 0.254901, 0.392156, 1.0),
+ # Honey Mustard - 33
+ VBase4(0.811764, 0.709803, 0.231372, 1.0),
+ # Gray - 34
+ VBase4(0.749019, 0.756862, 0.760784, 1.0),
+ # Neon Orange - 35
+ VBase4(1.0, 0.639215, 0.262745, 1.0),
+ # Sapphire - 36
+ VBase4(0.0, 0.403921, 0.647058, 1.0)
+ ]
 defaultBoyColorList = [0,
 1,
 2,
@@ -2015,7 +2046,17 @@ defaultBoyColorList = [0,
 23,
 24,
 25,
-26]
+26,
+27,
+28,
+29,
+30,
+31,
+32,
+33,
+34,
+35,
+36]
 defaultGirlColorList = [0,
 1,
 2,
@@ -2042,7 +2083,17 @@ defaultGirlColorList = [0,
 23,
 24,
 25,
-26]
+26,
+27,
+28,
+29,
+30,
+31,
+32,
+33,
+34,
+35,
+36]
 allColorsListApproximations = map(lambda x: VBase4(round(x[0], 3), round(x[1], 3), round(x[2], 3), round(x[3], 3)), allColorsList)
 allowedColors = set(map(lambda x: allColorsListApproximations[x], set([0] + defaultBoyColorList + defaultGirlColorList + [26])))
 HatModels = [None,

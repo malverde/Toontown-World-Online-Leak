@@ -1,13 +1,20 @@
+# Files/filetypes that don't need to be pushed.
 *.pyc
+*.ini
+.ini 
+.pyc
+settings.json
+Thumbs.db
+.DS_Store
+
+# Directories that don't need to be pushed.
 astron/
 **/backups/
 logs/
-
-# Mac directory info:
-.DS_Store
-
+astron/database
 backups/blockinfo/
 backups/
+**/astron/
 *.ini
 .ini 
 .pyc

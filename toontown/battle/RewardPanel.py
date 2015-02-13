@@ -1,24 +1,30 @@
+import copy
+from direct.gui.DirectGui import *
+import math
+from pandac.PandaModules import *
+import random
+import Fanfare
+from otp.otpbase import OTPGlobals
+from toontown.coghq import CogDisguiseGlobals
+from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownBattleGlobals
+from toontown.toonbase import ToontownGlobals
 from pandac.PandaModules import *
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
-from toontown.toonbase import ToontownBattleGlobals
 import BattleBase
 from direct.directnotify import DirectNotifyGlobal
 import random
 import string
 from toontown.quest import Quests
-import copy
 from toontown.suit import SuitDNA
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toon import NPCToons
 import math
-from toontown.coghq import CogDisguiseGlobals
 from toontown.shtiker import DisguisePage
-import Fanfare
-from otp.otpbase import OTPGlobals
-
+from direct.directnotify import DirectNotifyGlobal
 class RewardPanel(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('RewardPanel')
     SkipBattleMovieEvent = 'skip-battle-movie-event'
@@ -206,6 +212,7 @@ class RewardPanel(DirectFrame):
             totalMerits = CogDisguiseGlobals.getTotalMerits(toon, i)
             merits = meritList[i]
             self.meritIncLabels[i].hide()
+            promoStatus = toon.promotionStatus[i]            
             if CogDisguiseGlobals.isSuitComplete(toon.cogParts, i):
                 if not self.trackBarsOffset:
                     trackBarOffset = 0.47
@@ -216,14 +223,20 @@ class RewardPanel(DirectFrame):
                 if totalMerits:
                     meritBar['range'] = totalMerits
                     meritBar['value'] = merits
-                    if merits == totalMerits:
-                        meritBar['text'] = TTLocalizer.RewardPanelMeritAlert
-                    else:
+                    if promoStatus != ToontownGlobals.PendingPromotion:
                         meritBar['text'] = '%s/%s %s' % (merits, totalMerits, TTLocalizer.RewardPanelMeritBarLabels[i])
-                else:
+                maxSuitType = SuitDNA.suitsPerDept - 1
+                maxSuitLevel = (SuitDNA.levelsPerSuit-1) + maxSuitType
+                if toon.cogLevels[i] == maxSuitLevel:             
+                    if promoStatus == ToontownGlobals.PendingPromotion:
+                        meritBar['range'] = 1
+                        meritBar['value'] = 1
+                        meritBar['text'] = TTLocalizer.RewardPanelMeritsMaxed
+                elif promoStatus == ToontownGlobals.PendingPromotion:                 
                     meritBar['range'] = 1
                     meritBar['value'] = 1
-                    meritBar['text'] = TTLocalizer.RewardPanelMeritsMaxed
+                    meritBar['text'] = TTLocalizer.RewardPanelPromotionPending
+                    
                 self.resetMeritBarColor(i)
             else:
                 meritBar.hide()
@@ -289,18 +302,13 @@ class RewardPanel(DirectFrame):
 
     def incrementMerits(self, toon, dept, newValue, totalMerits):
         meritBar = self.meritBars[dept]
-        oldValue = meritBar['value']
+       
+        promoStatus = toon.promotionStatus[dept]        
         if totalMerits:
             newValue = min(totalMerits, newValue)
             meritBar['range'] = totalMerits
             meritBar['value'] = newValue
-            if newValue == totalMerits:
-                meritBar['text'] = TTLocalizer.RewardPanelMeritAlert
-                meritBar['barColor'] = (DisguisePage.DeptColors[dept][0],
-                 DisguisePage.DeptColors[dept][1],
-                 DisguisePage.DeptColors[dept][2],
-                 1)
-            else:
+            if promoStatus != ToontownGlobals.PendingPromotion:
                 meritBar['text'] = '%s/%s %s' % (newValue, totalMerits, TTLocalizer.RewardPanelMeritBarLabels[dept])
 
     def resetMeritBarColor(self, dept):
@@ -506,6 +514,11 @@ class RewardPanel(DirectFrame):
 
             intervalList.append(Wait(0.1))
         return intervalList
+        
+        # Check if they have the buff...
+        if toon.hasBuff(ToontownGlobals.BGagExperience):
+            earnedSkill *= ToontownGlobals.BGagExperienceMultiplier
+            earnedSkill = int(math.ceil(earnedSkill))
 
     def getMeritIntervalList(self, toon, dept, origMerits, earnedMerits):
         tickDelay = 1.0 / 60

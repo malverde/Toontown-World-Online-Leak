@@ -1,4 +1,5 @@
 from otp.ai.AIBaseGlobal import *
+import time
 from pandac.PandaModules import *
 from otp.otpbase import OTPGlobals
 from direct.directnotify import DirectNotifyGlobal
@@ -225,6 +226,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.modulelist = ModuleListAI.ModuleList()
         self._dbCheckDoLater = None
         self.teleportOverride = 0
+        self.promotionStatus = [0, 0, 0, 0]  
+        self.buffs = []      
         self.wantBetaKeyQuest = 0
         self.magicWordTeleportRequests = []
         self.webAccountId = 0
@@ -573,54 +576,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.air.writeServerEvent('suspicious', avId=self.doId, issue=logStr)
 
     def verifyDNA(self):
-        changed = False
-        if self.isPlayerControlled():
-            allowedColors = []
-            if self.dna.gender == 'm':
-                allowedColors = ToonDNA.defaultBoyColorList
-            else:
-                allowedColors = ToonDNA.defaultGirlColorList
-
-            # No idea why this wasn't done by disney, but add sanity checks for black (and now white) toons.
-            if self.dna.getAnimal() == 'bear':
-                allowedColors = allowedColors + [0]
-            if self.dna.getAnimal() == 'cat':
-                allowedColors = allowedColors + [26]
-
-            if 26 in [self.dna.legColor, self.dna.armColor, self.dna.headColor]: # Disney ALSO didn't do this. Verify that a toon is fully black/white.
-                if self.dna.legColor != 26:
-                    self.dna.legColor = 26
-                    changed = True
-                if self.dna.armColor != 26:
-                    self.dna.armColor = 26
-                    changed = True
-                if self.dna.headColor != 26:
-                    self.dna.headColor = 26
-                    changed = True
-
-            elif 0 in [self.dna.legColor, self.dna.armColor, self.dna.headColor]:
-                if self.dna.legColor != 0:
-                    self.dna.legColor = 0
-                    changed = True
-                if self.dna.armColor != 0:
-                    self.dna.armColor = 0
-                    changed = True
-                if self.dna.headColor != 0:
-                    self.dna.headColor = 0
-                    changed = True
-
-            if self.dna.legColor not in allowedColors:
-                self.dna.legColor = allowedColors[0]
-                changed = True
-            if self.dna.armColor not in allowedColors:
-                self.dna.armColor = allowedColors[0]
-                changed = True
-            if self.dna.headColor not in allowedColors:
-                self.dna.headColor = allowedColors[0]
-                changed = True
-            if changed:
-                self.d_setDNAString(self.dna.makeNetString())
-        return not changed
+        return True
 
     def getDNAString(self):
         return self.dna.makeNetString()
@@ -1229,6 +1185,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.hp = min(self.hp, self.maxHp)
             if sendTotal:
                 self.d_setHp(self.hp)
+    def b_setMaxHp(self, maxHp):
+        if (maxHp > ToontownGlobals.MaxHpLimit):
+            self.air.writeServerEvent('suspicious', self.doId, 'Toon tried to go over the HP limit.')
+            self.d_setMaxHp(ToontownGlobals.MaxHpLimit)
+            self.setMaxHp(ToontownGlobals.MaxHpLimit)
+        else:
+            self.d_setMaxHp(maxHp)
+            self.setMaxHp(maxHp)
+
+    def d_setMaxHp(self, maxHp):
+        if (maxHp > ToontownGlobals.MaxHpLimit):
+            self.air.writeServerEvent('suspicious', self.doId, 'Toon tried to go over the HP limit.')
+        else:
+            self.sendUpdate('setMaxHp', [maxHp])
 
     @staticmethod
     def getGoneSadMessageForAvId(avId):
@@ -1515,31 +1485,44 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getCogLevels(self):
         return self.cogLevels
 
-    def incCogLevel(self, dept):
-        newLevel = self.cogLevels[dept] + 1
-        cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
-        lastCog = self.cogTypes[dept] >= SuitDNA.suitsPerDept - 1
-        if not lastCog:
-            maxLevel = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level'] + 4
+    def incCogLevel(self, deptIndex):
+        cogLevel = self.cogLevels[deptIndex]
+        maxSuitType = SuitDNA.suitsPerDept - 1
+        maxSuitLevel = (SuitDNA.levelsPerSuit-1) + maxSuitType
+        if cogLevel == maxSuitLevel:
+            self.notify.warning('Attempted to increment Cog level when at max Cog level.')
+            self.air.writeServerEvent(
+                'suspicious', self.doId,
+                'Attempted to increment Cog level when at max Cog level.')
+            return
+        maxCogLevel = (SuitDNA.levelsPerSuit-1) + self.cogTypes[deptIndex]
+        if cogLevel == maxCogLevel:
+            self.promotionStatus[deptIndex] = ToontownGlobals.PendingPromotion
+            self.d_setPromotionStatus(self.promotionStatus)
         else:
-            maxLevel = ToontownGlobals.MaxCogSuitLevel
-        if newLevel > maxLevel:
-            if not lastCog:
-                self.cogTypes[dept] += 1
-                self.d_setCogTypes(self.cogTypes)
-                cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
-                self.cogLevels[dept] = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
-                self.d_setCogLevels(self.cogLevels)
-        else:
-            self.cogLevels[dept] += 1
+            self.cogLevels[deptIndex] += 1
             self.d_setCogLevels(self.cogLevels)
-            if lastCog:
-                if self.cogLevels[dept] in ToontownGlobals.CogSuitHPLevels:
-                    maxHp = self.getMaxHp()
-                    maxHp = min(ToontownGlobals.MaxHpLimit, maxHp + 1)
-                    self.b_setMaxHp(maxHp)
-                    self.toonUp(maxHp)
-        self.air.writeServerEvent('cogSuit', avId=self.doId, dept=dept, suitType=self.cogTypes[dept], level=self.cogLevels[dept])
+            self.cogMerits[deptIndex] = 0
+            self.d_setCogMerits(self.cogMerits)
+        self.air.writeServerEvent(
+            'cogSuit', self.doId,
+            '%s|%s|%s' % (deptIndex, self.cogTypes[deptIndex], self.cogLevels[deptIndex]))
+
+    def requestPromotion(self, dept):
+        if self.promotionStatus[dept] == ToontownGlobals.PendingPromotion:
+            self.cogTypes[dept] += 1
+            self.d_setCogTypes(self.cogTypes)
+            cogTypeStr = SuitDNA.suitHeadTypes[self.cogTypes[dept]]
+            self.cogLevels[dept] = SuitBattleGlobals.SuitAttributes[cogTypeStr]['level']
+            self.d_setCogLevels(self.cogLevels)
+            self.cogMerits[dept] = 0
+            self.d_setCogMerits(self.cogMerits)
+            maxHp = self.getMaxHp()
+            maxHp = min(ToontownGlobals.MaxHpLimit, maxHp + 1)
+            self.b_setMaxHp(maxHp)
+            self.toonUp(maxHp)
+            self.promotionStatus[dept] = ToontownGlobals.WantPromotion
+            self.d_setPromotionStatus(self.promotionStatus)
 
     def getNumPromotions(self, dept):
         if dept not in SuitDNA.suitDepts:
@@ -1643,19 +1626,17 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getCogMerits(self):
         return self.cogMerits
 
-    def b_promote(self, dept):
-        self.promote(dept)
-        self.d_promote(dept)
+    def b_promote(self, deptIndex):
+        self.promote(deptIndex)
+        self.d_promote(deptIndex)
 
-    def promote(self, dept):
-        if self.cogLevels[dept] < ToontownGlobals.MaxCogSuitLevel:
-            self.cogMerits[dept] = 0
-        self.incCogLevel(dept)
+    def promote(self, deptIndex):
+ 
+        self.incCogLevel(deptIndex)
 
-    def d_promote(self, dept):
+    def d_promote(self, deptIndex):
         merits = self.getCogMerits()
-        if self.cogLevels[dept] < ToontownGlobals.MaxCogSuitLevel:
-            merits[dept] = 0
+ 
         self.d_setCogMerits(merits)
 
     def readyForPromotion(self, dept):
@@ -1681,6 +1662,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getCogIndex(self):
         return self.cogIndex
+
+    def setPromotionStatus(self, status):
+        self.promotionStatus = status
+
+    def d_setPromotionStatus(self, status):
+        self.sendUpdate('setPromotionStatus', [status])
+
+    def b_setPromotionStatus(self, status):
+        self.setPromotionStatus(status)
+        self.d_setPromotionStatus(status)
+
+    def getPromotionStatus(self):
+        return self.promotionStatus
 
     def b_setDisguisePageFlag(self, flag):
         self.setDisguisePageFlag(flag)
@@ -4647,6 +4641,57 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def d_setLastSeen(self, timestamp):
         self.sendUpdate('setLastSeen', [int(timestamp)])
+    def getHouseType(self):
+        return self.houseType
+
+    def setHouseType(self, houseType):
+        self.houseType = houseType
+
+    def d_setHouseType(self, houseType):
+        self.sendUpdate('setHouseType', [houseType])
+
+    def b_setHouseType(self, houseType):
+        self.setHouseType(houseType)
+        self.d_setHouseType(houseType)
+        
+    def b_setHouseType(self, houseType):
+        self.setHouseType(houseType)
+        self.d_setHouseType(houseType)
+    def addBuff(self, id, duration):
+        buffCount = len(self.buffs)
+        if buffCount <= id:
+            self.buffs.extend([0] * ((id+1) - buffCount))
+        timestamp = int(time.time()) + (duration*60)
+        self.buffs[id] = timestamp
+        self.b_setBuffs(self.buffs)
+
+    def removeBuff(self, id):
+        if len(self.buffs) <= id:
+            self.notify.warning('tried to remove non-existent buff %d on avatar %d.' % (id, self.doId))
+            return
+        self.buffs[id] = 0
+        self.d_setBuffs(self.buffs)
+    def hasBuff(self, id):
+        if len(self.buffs) <= id:
+            return False
+        return self.buffs[id] != 0
+
+    def setBuffs(self, buffs):
+        self.buffs = buffs
+        for id, timestamp in enumerate(self.buffs):
+            if timestamp:
+                taskName = self.uniqueName('removeBuff-%s' % id)
+                taskMgr.remove(taskName)
+                delayTime = max(timestamp - int(time.time()), 0)
+                taskMgr.doMethodLater(delayTime, self.removeBuff, taskName, extraArgs=[id])
+
+    def d_setBuffs(self, buffs):
+        self.sendUpdate('setBuffs', [buffs])
+
+    def b_setBuffs(self, buffs):
+        self.setBuffs(buffs)
+        self.d_setBuffs(buffs)
+        
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int])
 def setCE(CEValue, CEHood=0, CEExpire=0):
@@ -4661,15 +4706,15 @@ def setCE(CEValue, CEHood=0, CEExpire=0):
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int], targetClasses=[DistributedToonAI], aliases=['hp', 'toonHp', 'currHp'])
 def setHp(hpVal):
     """Set target's current laff"""
-    if not -1 <= hpVal <= 137:
-        return 'Laff must be between -1 and 137!'
+    if not -1 <= hpVal <= 156:
+        return 'Laff must be between -1 and 156!'
     spellbook.getTarget().b_setHp(hpVal)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int])
 def setMaxHp(hpVal):
     """Set target's laff"""
-    if not 15 <= hpVal <= 137:
-        return 'Laff must be between 15 and 137!'
+    if not 15 <= hpVal <= 156:
+        return 'Laff must be between 15 and 156!'
     spellbook.getTarget().b_setMaxHp(hpVal)
     spellbook.getTarget().toonUp(hpVal)
 
@@ -4702,14 +4747,22 @@ def maxToon(hasConfirmed='UNCONFIRMED'):
     toon.toonUp(toon.getMaxHp() - toon.getHp())
 
     # Max out cog suits (ORDER: Bossbot, Lawbot, Cashbot, Sellbot)
-    toon.b_setCogParts([
-        CogDisguiseGlobals.PartsPerSuitBitmasks[0], # Bossbot
-        CogDisguiseGlobals.PartsPerSuitBitmasks[1], # Lawbot
-        CogDisguiseGlobals.PartsPerSuitBitmasks[2], # Cashbot
-        CogDisguiseGlobals.PartsPerSuitBitmasks[3]  # Sellbot
-    ])
-    toon.b_setCogLevels([ToontownGlobals.MaxCogSuitLevel] * 4)
-    toon.b_setCogTypes([SuitDNA.suitsPerDept-1] * 4)
+    suitDeptCount = len(SuitDNA.suitDepts)
+    cogParts = []
+    for i in range(suitDeptCount):
+        cogParts.append(CogDisguiseGlobals.PartsPerSuitBitmasks[i])
+    toon.b_setCogParts(cogParts)
+    maxSuitType = SuitDNA.suitsPerDept - 1
+    toon.b_setCogTypes([maxSuitType] * suitDeptCount)
+    maxSuitLevel = (SuitDNA.levelsPerSuit-1) + maxSuitType
+    toon.b_setCogLevels([maxSuitLevel] * suitDeptCount)
+    cogMerits = []
+    for i in range(suitDeptCount):
+        suitIndex = (SuitDNA.suitsPerDept * (i+1)) - 1
+        suitMerits = CogDisguiseGlobals.MeritsPerLevel[suitIndex]
+        cogMerits.append(suitMerits[SuitDNA.levelsPerSuit - 1])
+    toon.b_setCogMerits(cogMerits)
+    toon.b_setPromotionStatus([1] * suitDeptCount)
 
     # High racing tickets
     toon.b_setTickets(99999)
@@ -4725,7 +4778,7 @@ def maxToon(hasConfirmed='UNCONFIRMED'):
     toon.b_setMoney(toon.getMaxMoney())
     toon.b_setBankMoney(ToontownGlobals.DefaultMaxBankMoney)
 
-    return 'By the power invested in me, I, McQuack, max your toon.'
+    return 'By the power invested in me, I, Sir Kippy, max your toon.'
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int])
 def setMaxMoney(moneyVal):
@@ -5407,7 +5460,7 @@ def nametag(styleName):
     return "Set %s's nametag style successfully." % spellbook.getTarget().getName()
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[str])
-def animations():
+def emotes():
     """
     Unlock all of the animations on the target toon.
     This exclutes the "Toons of the world unite!" phrase. (because it sucks)
@@ -5511,4 +5564,21 @@ def trackBonus(track):
         return 'Invalid track!'
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
+@magicWord(category=CATEGORY_CHARACTERSTATS, types=[str, str])
+def gloves(c1, c2=None):
+    target = spellbook.getTarget()
+    dna = ToonDNA.ToonDNA()
+    dna.makeFromNetString(target.getDNAString())
 
+    try:
+        if c2:
+            color = c1.capitalize() + ' ' + c2.capitalize()
+        else:
+            color = c1.capitalize()
+        value = TTLocalizer.NumToColor.index(color)
+    except:
+        return 'Invalid color!'
+
+    dna.gloveColor = value
+    target.b_setDNAString(dna.makeNetString())
+    return 'Glove color set to: {0}'.format(TTLocalizer.NumToColor[value])    

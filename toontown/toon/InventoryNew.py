@@ -39,8 +39,8 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
         self.initialiseoptions(InventoryNew)
         self.battleCreditLevel = None
         self.detailCredit = None
-        self.__battleCreditMultiplier = 1
-        self.__invasionCreditMultiplier = 1
+        self.__battleCreditMultiplier = base.baseXpMultiplier
+        self.__invasionCreditMultiplier = base.baseXpMultiplier
         self.__respectInvasions = 1
         self._interactivePropTrackBonus = -1
         self.tutorialFlag = 0

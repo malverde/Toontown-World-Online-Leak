@@ -2,11 +2,9 @@
 
 # IMPORTANT PLEASE READ! #
 
-### Version ###
+# Version
 
-2.0.0
-
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+2.0.3
 
 ### How do I get set up? ###
 
