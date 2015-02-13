@@ -160,10 +160,10 @@ CreditsScenes = [
                 Shockley(),
                 Credits('Mgracer', 'Programmar\nDeveloper\nMac Support', 'mgracer.jpg', 'left'),
                 #this is for john
-                Credits('', 'Programmar\nDeveloper', '.jpg', 'right'),
+                Credits('', 'Programmar\nDeveloper', '.jpg', 'right', 2),
                 Credits('Toon Trooper Fireball', 'Programmer\nDeveloper', '.jpg', 'left'),
                 Credits("Purrty", "Lead Community Manager", '.jpg' ),
-                Credits("", "Community Manager", '.jpg', 'right', 2), 
+                Credits("Aura", "Leader of the cogs\nCommunity Manager", 'aura.jpg', 'right', 2), 
                 Credits("Zander", "Community Manager\nTheme Song Composer", 'zander.jpg'),
                 
                 # Artists
