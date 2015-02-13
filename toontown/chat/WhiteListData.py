@@ -1,5 +1,6 @@
 WHITELIST = [
 	'sir kippy',
+	'thiswaswrittenbysirkippy',
 	'mgracer',
 	'phone',
 	'ttw',
