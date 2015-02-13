@@ -1,8 +1,6 @@
 # Files/filetypes that don't need to be pushed.
 *.pyc
 *.ini
-*.orig
-.orig
 .ini 
 .pyc
 settings.json
@@ -10,10 +8,16 @@ Thumbs.db
 .DS_Store
 
 # Directories that don't need to be pushed.
-
+astron/
 **/backups/
 logs/
 astron/database
 backups/blockinfo/
 backups/
-
+<<<<<<< HEAD
+*.ini
+.ini 
+.pyc
+=======
+>>>>>>> master
+**/astron/

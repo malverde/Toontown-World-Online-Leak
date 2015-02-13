@@ -81,7 +81,13 @@ force-player-understandable #t
 want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
+<<<<<<< HEAD
 want-mega-invasions #f
+
+=======
+want-mega-invasions #f
+force-holiday-decorations 25
+>>>>>>> parent of 36a6269... updated version of astron
 
 
 

@@ -55,7 +55,13 @@ uberdogs:
 roles:
     - type: clientagent
       bind: 0.0.0.0:7198
+<<<<<<< HEAD
+
+      version: "ttw-pre-alpha-dev-build-2.0.1"
+
+=======
       version: "ttw-pre-alpha-dev-build-2.0.4"
+>>>>>>> master
       client:
        relocate: true
        add_interest: enabled
