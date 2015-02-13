@@ -514,6 +514,11 @@ class RewardPanel(DirectFrame):
 
             intervalList.append(Wait(0.1))
         return intervalList
+        
+        # Check if they have the buff...
+        if toon.hasBuff(ToontownGlobals.BGagExperience):
+            earnedSkill *= ToontownGlobals.BGagExperienceMultiplier
+            earnedSkill = int(math.ceil(earnedSkill))
 
     def getMeritIntervalList(self, toon, dept, origMerits, earnedMerits):
         tickDelay = 1.0 / 60
