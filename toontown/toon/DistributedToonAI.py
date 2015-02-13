@@ -4762,7 +4762,6 @@ def maxToon(hasConfirmed='UNCONFIRMED'):
         suitMerits = CogDisguiseGlobals.MeritsPerLevel[suitIndex]
         cogMerits.append(suitMerits[SuitDNA.levelsPerSuit - 1])
     toon.b_setCogMerits(cogMerits)
-    toon.b_setPromotionStatus([1] * suitDeptCount)
 
     # High racing tickets
     toon.b_setTickets(99999)
