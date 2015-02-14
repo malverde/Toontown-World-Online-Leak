@@ -130,10 +130,13 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
 
         if isMyGroup:
             self.notify.debug('new info posted on my group')
+            # update the leaderId in case it has changed (group merge)
+            if self.groupPanel and self.groupPanel.leaderId == localAvatar.doId and leaderId != localAvatar.doId:
+                self.groupPanel.cleanup()
+                self.groupPanel = None            
             if not self.groupPanel:
                 self.groupPanel = GroupPanel.GroupPanel(self)
-            # update the leaderId in case it has changed (group merge)
-            self.groupPanel.leaderId = leaderId                
+                         
             messenger.send('updateGroupStatus')
             for removedMemberId in removedMemberIdList:
                 removedMember = base.cr.doId2do.get(removedMemberId)

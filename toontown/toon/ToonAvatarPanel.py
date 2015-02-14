@@ -526,7 +526,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                     else:
                         g1 = localAvatar.boardingParty.countInGroup(self.avId)
                         g2 = localAvatar.boardingParty.countInGroup(localAvatar.doId)
-                        if (g1 + g2) >= localAvatar.boardingParty.maxSize:
+                        if (g1 + g2) > localAvatar.boardingParty.maxSize:
                             self.groupButton['text'] = ('', TTLocalizer.AvatarPanelGroupMember, TTLocalizer.AvatarPanelGroupMember)
                             self.groupButton['command'] = None
                             self.groupButton['image'] = self.inviteImageDisabled
