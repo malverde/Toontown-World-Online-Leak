@@ -267,8 +267,7 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
                 if leaderId not in self.groupListDict:
                     self.notify.warning('the leader does not have a group?');
                     self.sendUpdateToAvatarId(inviteeId, 'postSomethingMissing', [])
-                    return
-                # They should STILL be the leaders.. right?
+                    return                # They should STILL be the leaders.. right?
                 if leaderId != self.avIdDict[leaderId]:
                     self.notify.warning('leaderId != self.avIdDict[leaderId]');
                     self.sendUpdateToAvatarId(inviteeId, 'postSomethingMissing', [])
@@ -291,11 +290,11 @@ class DistributedBoardingPartyAI(DistributedObjectAI.DistributedObjectAI, Boardi
                     return
                 group = self.groupListDict.get(leaderId)
                 # Something is wonky
-                if group == None or (len(group) < 3):
+                if group == Null or (len(group) < 3):
                     self.notify.warning('the leader has a group but it is null or too short')
                     self.sendUpdateToAvatarId(inviteeId, 'postSomethingMissing', [])
                     return
-                # get the memberList of the invitee and add it into the leaders group
+             # get the memberList of the invitee and add it into the leaders group
                 memberList = self.getGroupMemberList(inviteeId)
                 for memberId in memberList:
                     self.addToGroup(leaderId, memberId, 0)
