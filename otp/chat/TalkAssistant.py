@@ -591,22 +591,14 @@ class TalkAssistant(DirectObject.DirectObject):
         return error
 
     def sendWhisperTalk(self, message, receiverAvId):
-        modifications = []
-        words = message.split(' ')
-        offset = 0
-        WantWhitelist = config.GetBool('want-whitelist', 1)
-        for word in words:
-            if word and not self.whiteList.isWord(word) and WantWhitelist:
-                modifications.append((offset, offset+len(word)-1))
-            offset += len(word) + 1
+        # Check if we are a true friend
+        if (receiverAvId, True) in base.localAvatar.friendsList:
+            base.cr.chatAgent.sendSFWhisperMessage(receiverAvId, message)
+            return None
 
-        cleanMessage = message
-        for modStart, modStop in modifications:
-            cleanMessage = cleanMessage[:modStart] + '*'*(modStop-modStart+1) + cleanMessage[modStop+1:]
+        base.cr.chatAgent.sendWhisperMessage(receiverAvId, message)
+        return None
 
-        message, scrubbed = base.localAvatar.scrubTalk(cleanMessage, modifications)
-
-        base.cr.ttrFriendsManager.sendUpdate('sendTalkWhisper', [receiverAvId, message])
 
     def sendAccountTalk(self, message, receiverAccount):
         error = None
