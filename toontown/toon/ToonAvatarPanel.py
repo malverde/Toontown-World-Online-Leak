@@ -532,7 +532,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                         base.setCellsAvailable([base.rightCells[0]], 0)
                         self.groupFrame.show()
         return
-
     def handleReadInfo(self, task = None):
         self.boardingInfoButton['state'] = DGG.DISABLED
         if self.boardingInfoText:
