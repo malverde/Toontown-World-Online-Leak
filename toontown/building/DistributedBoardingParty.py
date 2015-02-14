@@ -70,30 +70,6 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
 
     def load(self):
         pass
-   # this is a pretty brute force group check that will see if a toon
-    # (in the same zone) is already in a group.   This might introduce
-    # lag in a very crowded district with hundreds of active groups
-    # (if we should be so lucky)
-    def isInGroup(self, avId):
-        if avId in self.groupListDict:
-            return True
-        for leader in self.groupListDict:
-            group = self.groupListDict.get(leader)
-            for member in group[0]:
-                if member == avId:
-                    return True
-        return False
-
-    def countInGroup(self, avId):
-        if avId in self.groupListDict:
-            group = self.groupListDict.get(avId)
-            return len(group[0])
-        for leader in self.groupListDict:
-            group = self.groupListDict.get(leader)
-            for member in group[0]:
-                if member == avId:
-                    return len(group[0])
-        return 0
 
     def postGroupInfo(self, leaderId, memberList, inviteeList, kickedList):
         self.notify.debug('postgroupInfo')
@@ -132,8 +108,6 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
             self.notify.debug('new info posted on my group')
             if not self.groupPanel:
                 self.groupPanel = GroupPanel.GroupPanel(self)
-            # update the leaderId in case it has changed (group merge)
-            self.groupPanel.leaderId = leaderId                
             messenger.send('updateGroupStatus')
             for removedMemberId in removedMemberIdList:
                 removedMember = base.cr.doId2do.get(removedMemberId)
@@ -153,7 +127,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
             self.notify.debug('new info posted on some other group')
         return
 
-    def postInvite(self, leaderId, inviterId, merger):
+    def postInvite(self, leaderId, inviterId):
         self.notify.debug('post Invite')
         if not base.cr.avatarFriendsManager.checkIgnored(inviterId):
             inviter = base.cr.doId2do.get(inviterId)
@@ -161,7 +135,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
                 if self.inviterPanels.isInvitingPanelUp() or self.inviterPanels.isInvitationRejectedPanelUp():
                     self.inviterPanels.forceCleanup()
                 self.groupInviteePanel = GroupInvitee.GroupInvitee()
-                self.groupInviteePanel.make(self, inviter, leaderId, merger)
+                self.groupInviteePanel.make(self, inviter, leaderId)
                 if config.GetBool('reject-boarding-group-invites', 0):
                     self.groupInviteePanel.forceCleanup()
                     self.groupInviteePanel = None
@@ -228,8 +202,6 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
                 rejectText = TTLocalizer.BoardingInviteePendingIvite % avatarNameText
             if reason == BoardingPartyBase.BOARDCODE_IN_ELEVATOR:
                 rejectText = TTLocalizer.BoardingInviteeInElevator % avatarNameText
-            if reason == BoardingPartyBase.BOARDCODE_GROUPS_TO_LARGE: 
-                rejectText = TTLocalizer.BoardingGroupsToLarge % avatarNameText                
         if self.inviterPanels.isInvitingPanelIdCorrect(avId) or avId == localAvatar.doId:
             self.inviterPanels.destroyInvitingPanel()
         self.showMe(rejectText)
