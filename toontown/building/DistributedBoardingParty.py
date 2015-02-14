@@ -70,10 +70,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
 
     def load(self):
         pass
-   # this is a pretty brute force group check that will see if a toon
-    # (in the same zone) is already in a group.   This might introduce
-    # lag in a very crowded district with hundreds of active groups
-    # (if we should be so lucky)
+
     def isInGroup(self, avId):
         if avId in self.groupListDict:
             return True
@@ -132,7 +129,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
             self.notify.debug('new info posted on my group')
             if not self.groupPanel:
                 self.groupPanel = GroupPanel.GroupPanel(self)
-            # update the leaderId in case it has changed (group merge)
+
             self.groupPanel.leaderId = leaderId                
             messenger.send('updateGroupStatus')
             for removedMemberId in removedMemberIdList:
