@@ -214,15 +214,15 @@ CRSystemMessages = {
     52: 'Toontown World will be closing for an update in %s seconds.',
     53: 'Toontown World will be closing for an update in just a moment. Hang tight!',
 
-    55: 'Toontown World will be closing for maintenance soon. Start wrapping things up!',
-    56: 'Toontown World will be closing for maintenance in %s minutes.',
-    57: 'Toontown World will be closing for maintenance in %s seconds.',
-    58: 'Toontown World will be closing for maintanance in just a moment.',
+    55: 'Toontown World will be closing for an update soon. Start wrapping things up!',
+    56: 'Toontown World will be closing for an update in %s minutes.',
+    57: 'Toontown World will be closing for an update in %s seconds.',
+    58: 'Toontown World will be closing for an update in just a moment.',
 
 
-    60: 'The district that you\'re playing in will be closed off for maintenance soon. Try to move if you can.',
-    61: 'The district that you\'re on will be closed for maintenance in %s minutes.',
-    62: 'The district that you\'re on will be closed for maintenance in %s seconds.',
+    60: 'The district that you\'re playing in will be closed off for an update soon. Try to move if you can.',
+    61: 'The district that you\'re on will be closed for an update in %s minutes.',
+    62: 'The district that you\'re on will be closed for an update in %s seconds.',
 
     # Announcements.
     100: 'Toon Council: Congrats, Your Toon name has been approved! You\'ll need to log out to receive your name certificate.',
@@ -238,9 +238,9 @@ CRServerConstantsProxyNoPort = 'Unable to contact %s.\n\nYou are communicating t
 CRServerConstantsProxyNoCONNECT = 'Unable to contact %s.\n\nYou are communicating to the internet via a proxy, but your proxy does not support the CONNECT method.\n\nYou must enable this capability, or disable your proxy, in order to play.  If your proxy has been provided by your ISP, you must contact your ISP to request them to enable this capability.'
 CRServerConstantsTryAgain = 'Unable to contact %s.\n\nThe account server might be temporarily down, or there might be some problem with your internet connection.\n\nTry again?'
 CRServerDateTryAgain = 'Could not get server date from %s. Try again?'
-CRMaintenanceCountdownMessage = 'Attention Toons! Toontown World will be going down for maintenance in %d minutes.'
-CRMaintenanceMessage = 'Attention Toons! Toontown World is now going down for maintenance.'
-AfkForceAcknowledgeMessage = 'Your toon got sleepy and went to bed.'
+CRMaintenanceCountdownMessage = 'Attention Toons! Toontown World will be going down for an update in %d minutes.'
+CRMaintenanceMessage = 'Attention Toons! Toontown World is now going down for an update.'
+AfkForceAcknowledgeMessage = 'Your toon got bored and went to bed.'
 PeriodTimerWarning = 'Your available time is almost over!'
 PeriodForceAcknowledgeMessage = 'Sorry, you have used up all of your available time. Please exit to purchase more stupid time.'
 CREnteringToontown = 'Toontown World'
@@ -2651,7 +2651,7 @@ CustomSCStrings = {10: 'Oh, well.',
  3530: "You're too much!",
  4000: 'Toons rule!',
  4010: 'Cogs drool!',
- 4020: 'Toons of the world unite!',
+ 4020: 'Toons of the world, unite!',
  4030: 'Howdy, partner!',
  4040: 'Much obliged.',
  4050: 'Get along, little doggie.',
