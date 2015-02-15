@@ -1,0 +1,25 @@
+hood_model "phase_3.5/models/modules/hqTT" [
+ store_node [ "toon_landmark" "toon_landmark_hqFF" "" ]
+]
+
+hood_model "phase_3.5/models/props/HQ_periscope-mod" [
+ store_node [ "prop" "animated_prop_HQPeriscopeAnimatedProp" "periscope" ]
+]
+hood_model "phase_3.5/models/props/HQ_telescope-mod" [
+ store_node [ "prop" "animated_prop_HQTelescopeAnimatedProp" "telescope" ]
+]
+
+hood_model "phase_4/models/props/signs_TTC" [
+ store_node [ "sign" "TTC_sign1" ]
+ store_node [ "sign" "TTC_sign2" ]
+ store_node [ "sign" "TTC_sign3" ]
+]
+
+hood_model "phase_6/models/props/signs_DD" [
+ store_node [ "sign" "DD_sign1" ]
+ store_node [ "sign" "DD_sign2" ]
+ store_node [ "sign" "DD_sign3" ]
+]
+
+store_font [ "font" "TT_Comedy"
+             "phase_3/models/fonts/Comedy" ]

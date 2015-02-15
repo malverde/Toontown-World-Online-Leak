@@ -1,0 +1,67 @@
+place_model "phase_5/models/modules/street_low_fence" [
+ store_node [ "prop" "post_sandstone" "p_sandstone" ]
+ store_node [ "prop" "post_sandstone2" "p_sandstone2" ]
+ store_node [ "prop" "post_stuccobrick" "p_stuccobrick" ]
+ store_node [ "prop" "post_brick" "p_brick" ]
+ store_node [ "prop" "post_brick2" "p_brick2" ]
+ store_node [ "prop" "post_brick3" "p_brick3" ]
+ store_node [ "prop" "fence_woodflower_sandstone" "f_woodflower_sandstone" ]
+ store_node [ "prop" "fence_woodflower_brickstucco" "f_woodflower_brickstucco" ]
+ store_node [ "prop" "fence_ironbar_stuccobrick" "f_ironbar_stuccobrick" ]
+ store_node [ "prop" "fence_ironbar_brick" "f_ironbar_brick" ]
+ store_node [ "prop" "fence_woodbrush_sandstone" "f_woodbrush_sandstone" ]
+ store_node [ "prop" "fence_woodbrush_brick" "f_woodbrush_brick" ]
+]
+
+store_texture [ "texture" "street_street_FF_tex"	
+                "TL_Cookies/toonland/playground/funnyfarm/maps/sidewalkyellow.jpg" ]
+
+store_texture [ "texture" "street_sidewalk_FF_tex"
+                "TL_Cookies/toonland/playground/funnyfarm/maps/sidewalk_4cont_yellow.jpg" ]
+
+store_texture [ "texture" "street_curb_FF_tex"
+                "TL_Cookies/toonland/playground/funnyfarm/maps/curb_yellow_even.jpg" ]
+
+place_model "phase_5/models/modules/TT_A2" [
+ store_node [ "toon_landmark" "toon_landmark_TT_A2" "TT_A2"  ]
+]
+
+place_model "phase_5/models/modules/TT_A3" [
+ store_node [ "toon_landmark" "toon_landmark_TT_A3" "TT_A3"  ]
+]
+
+place_model "phase_5/models/modules/TT_B1" [
+ store_node [ "toon_landmark" "toon_landmark_TT_B1" "TT_B1"  ]
+]
+
+place_model "phase_5/models/modules/TT_B2" [
+ store_node [ "toon_landmark" "toon_landmark_TT_B2" "TT_B2"  ]
+]
+
+place_model "phase_5/models/modules/TT_C1" [
+ store_node [ "toon_landmark" "toon_landmark_TT_C1" "TT_C1"  ]
+]
+
+place_model "phase_5/models/modules/TT_A1_raised" [
+ store_node [ "toon_landmark" "toon_landmark_TT_A1_raised" "TT_A1"  ]
+]
+
+place_model "phase_5/models/modules/TT_A2_raised" [
+ store_node [ "toon_landmark" "toon_landmark_TT_A2_raised" "TT_A2"  ]
+]
+
+place_model "phase_5/models/modules/TT_B1_raised" [
+ store_node [ "toon_landmark" "toon_landmark_TT_B1_raised" "TT_B1"  ]
+]
+
+place_model "phase_5/models/modules/TT_B2_raised" [
+ store_node [ "toon_landmark" "toon_landmark_TT_B2_raised" "TT_B2"  ]
+]
+
+place_model "phase_5/models/modules/TT_C1_raised" [
+ store_node [ "toon_landmark" "toon_landmark_TT_C1_raised" "TT_C1"  ]
+]
+
+place_model "phase_5/models/modules/neighborhood_tunnel_TT" [
+ store_node [ "prop" "prop_safe_zone_tunnel" "" ]
+]

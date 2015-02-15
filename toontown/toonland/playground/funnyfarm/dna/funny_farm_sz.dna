@@ -1,0 +1,928 @@
+group "funnyFarm" [
+ visgroup "19000:safe_zone" [
+  vis [ "19000:safe_zone" ]
+  prop "funny_farm_DNARoot" [
+   code [ "funny_farm" ]
+   pos [ 0 0 10 ]
+   nhpr [ 0 0 0 ]
+  ]
+  landmark_building "sz20:toon_landmark_hqFF_DNARoot" [
+   code [ "toon_landmark_hqFF" ]
+   building_type [ "hq" ]
+   title [ "Toon HQ" ]
+   pos [ 2.674 72.187 10.026 ]
+   nhpr [ 897.006 0 0 ]
+   prop "animated_prop_HQPeriscopeAnimatedProp_DNARoot" [
+    code [ "animated_prop_HQPeriscopeAnimatedProp" ]
+    pos [ 7.17 -7.67 19.07 ]
+    nhpr [ 110 0 0 ]
+    scale [ 4 4 4 ]
+   ]
+   prop "animated_prop_HQTelescopeAnimatedProp_DNARoot" [
+    code [ "animated_prop_HQTelescopeAnimatedProp" ]
+    pos [ 7.003 0 13.191 ]
+    nhpr [ 168 81 0 ]
+    scale [ 4 4 4 ]
+   ]
+  ]
+  group "buildings" [
+   landmark_building "sz21:toon_landmark_FF_clothes_shop_DNARoot" [
+    code [ "toon_landmark_FF_clothes_shop" ]
+    building_type [ "clotheshop" ]
+    title [ "Clothing Shop" ]
+    pos [ 146 35 10 ]
+    nhpr [ -1540.49 0 0 ]
+    door [
+     code [ "door_double_clothesshop_ur" ]
+     color [ 0.88 0.45 0.38 1 ]
+    ]
+    sign [
+     baseline [
+      code [ "mickey" ]
+      color [ 1 0.611765 0.423529 1 ]
+      pos [ 0 0 -0.5 ]
+      scale [ 1.7 1 1.7 ]
+      text [
+       letters [ "C" ]
+      ]
+      text [
+       letters [ "l" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "t" ]
+      ]
+      text [
+       letters [ "h" ]
+      ]
+      text [
+       letters [ "i" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "g" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+      text [
+       letters [ "h" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "p" ]
+      ]
+     ]
+    ]
+   ]
+   landmark_building "sz18:toon_landmark_FF_library_DNARoot" [
+    code [ "toon_landmark_FF_library" ]
+    title [ "Toon Land Library" ]
+    pos [ 63.378 115.735 10.026 ]
+    nhpr [ -1484 0 0 ]
+    door [
+     code [ "door_double_round_ur" ]
+     color [ 0.88 0.45 0.38 1 ]
+    ]
+    sign [
+     code [ "TTC_sign3" ]
+     pos [ 1.52 0 3.88 ]
+     scale [ 1 1 0.8 ]
+     baseline [
+      code [ "mickey" ]
+      color [ 1 0.611765 0.129412 1 ]
+      pos [ 0 0 -0.53 ]
+      scale [ 2 1 2 ]
+      kern [ -0.074144 ]
+      width [ 32.3782 ]
+      height [ 32.3782 ]
+      text [
+       letters [ "T" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "L" ]
+      ]
+      text [
+       letters [ "a" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "d" ]
+      ]
+     ]
+     baseline [
+      code [ "mickey" ]
+      color [ 1 1 0.501961 1 ]
+      pos [ -0.18 0 1.24 ]
+      scale [ 1.1 1 1.4 ]
+      width [ 29.3574 ]
+      height [ 29.3574 ]
+      text [
+       letters [ "L" ]
+      ]
+      text [
+       letters [ "i" ]
+      ]
+      text [
+       letters [ "b" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "a" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "y" ]
+      ]
+     ]
+    ]
+   ]
+   landmark_building "sz19:toon_landmark_TT_gag_shop_DNARoot" [
+    code [ "toon_landmark_FF_gag_shop" ]
+    building_type [ "gagshop" ]
+    title [ "Gag Shop" ]
+    pos [ -123  19  10.026 ]
+    nhpr [ -95 0 0 ]
+    door [
+     code [ "door_double_square_ur" ]
+     color [ 1 0.63 0.38 1 ]
+    ]
+   ]
+   landmark_building "sz14:toon_landmark_FF_bank_DNARoot" [
+    code [ "toon_landmark_FF_bank" ]
+    title [ "Toon Land Bank" ]
+    pos [ -113 -79 10 ]
+    nhpr [ -608 0 0 ]
+    door [
+     code [ "door_double_round_ur" ]
+     color [ 0.88 0.45 0.38 1 ]
+    ]
+    sign [
+     color [ 1 1 0.776471 1 ]
+     pos [ 0 0 -0.78 ]
+     scale [ 0.6 1 0.6 ]
+     baseline [
+      code [ "mickey" ]
+      color [ 1 0.662745 0.32549 1 ]
+      pos [ 0 0 0.5 ]
+      scale [ 2.9 1 3.2 ]
+      kern [ 0.012795 ]
+      width [ 30 ]
+      height [ 30 ]
+      flags [ "c" ]
+      text [
+       letters [ "T" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "L" ]
+      ]
+      text [
+       letters [ "a" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "d" ]
+      ]
+     ]
+     baseline [
+      code [ "mickey" ]
+      color [ 1 0.662745 0.32549 1 ]
+      pos [ 0 0 -2 ]
+      scale [ 2.9 1 3 ]
+      kern [ 0.012795 ]
+      width [ 30 ]
+      height [ 30 ]
+      flags [ "c" ]
+      text [
+       letters [ "B" ]
+      ]
+      text [
+       letters [ "a" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "k" ]
+      ]
+     ]
+    ]
+   ]
+  ]
+  group "props" [
+   prop "prop_construction_sign_FF_DNARoot" [
+    code [ "prop_construction_sign_FF" ]
+    pos [ 136 6 10.026 ]
+    nhpr [ -456.980 0 0 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_B1" ]
+    pos [ 139 -14 10.026 ]
+    nhpr [ -2255 0 0 ]
+   ]
+   prop "prop_quest_landmark_1_DNARoot" [
+    code [ "toon_landmark_B1" ]
+    pos [ -30 137 10 ]
+    nhpr [ 5 0 0 ]
+    scale [ 1.2 1.2 1.2 ]
+    sign [
+     code [ "TTC_sign3" ]
+     color [ 1 0.88 0.56 1 ]
+     pos [ 0.25 0 0.58 ]
+     scale [ 0.7 1 0.7 ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0 0.501961 0 1 ]
+      pos [ -0.18 0 1.08 ]
+      scale [ 0.8 1 1 ]
+      kern [ 0.047797 ]
+      wiggle [ 1.75521 ]
+      width [ 25.3421 ]
+      height [ 25.3421 ]
+      flags [ "d" ]
+      text [
+       letters [ "L" ]
+      ]
+      text [
+       letters [ "I" ]
+      ]
+      text [
+       letters [ "F" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "L" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+      text [
+       letters [ "'" ]
+      ]
+     ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.701961 0 0 1 ]
+      pos [ -0.05 0 -0.26 ]
+      scale [ 1.15 1 1.2 ]
+      kern [ 0.12794 ]
+      wiggle [ 6.45834 ]
+      stumble [ 0.077553 ]
+      width [ 27.5406 ]
+      height [ 27.5406 ]
+      flags [ "d" ]
+      text [
+       letters [ "N" ]
+      ]
+      text [
+       letters [ "O" ]
+      ]
+      text [
+       letters [ "O" ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "&" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "K" ]
+      ]
+      text [
+       letters [ "N" ]
+      ]
+      text [
+       letters [ "I" ]
+      ]
+      text [
+       letters [ "V" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+     ]
+    ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_A3" ]
+    pos [ 141 -31 10.026 ]
+    nhpr [ -2251 0 0 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_A3" ]
+    pos [ -105 -108 10 ]
+    nhpr [ 124 0 0 ]
+    scale [ 1.1 1.1 1.1 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_B2" ]
+    pos [ 140 -56 10.026 ]
+    nhpr [ -2251 0 0 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_B2" ]
+    pos [ -48 136 10 ]
+    nhpr [ 10 0 0 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_B2" ]
+    pos [ -123 106 10 ]
+    nhpr [ 40 0 0 ]
+    scale [ 1.6 1.6 1.6 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_B2" ]
+    pos [ 27 -141 10 ]
+    nhpr [ -185 0 0 ]
+    scale [ 1.2 1.2 1.2 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_B2" ]
+    pos [ -141 29 10 ]
+    nhpr [ 105 0 0 ]
+    scale [ 0.7 0.7 0.7 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_A1_raised" ]
+    pos [ -101 120 10 ]
+    nhpr [ 24 0 0 ]
+    scale [ 1.1 1.1 1.1 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_A1_raised" ]
+    pos [ -140.513 39.493 10.025 ]
+    nhpr [ 90 0 0 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_A1_raised" ]
+    pos [ 139 -75 10 ]
+    nhpr [ 233 0 0 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_A1_raised" ]
+    pos [ -83 -125 10 ]
+    nhpr [ 144 0 0 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_A1" ]
+    pos [ 53 141 10 ]
+    nhpr [ -17 0 0 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_A2" ]
+    pos [ 55 -140 10.026 ]
+    nhpr [ -894 0 0 ]
+   ]
+   prop "prop_quest_landmark_2_DNARoot" [
+    code [ "toon_landmark_A2" ]
+    pos [ -8 139 10 ]
+    nhpr [ 0 0 0 ]
+    scale [ 1.2 1.2 1.2 ]
+    sign [
+     code [ "sign_general1" ]
+     color [ 1 0.88 0.56 1 ]
+     pos [ 0 0 -2.44 ]
+     nhpr [ -0 0 -3 ]
+     scale [ 1.2 1 1.2 ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.733333 0 0.368627 1 ]
+      pos [ 0 0 0.75 ]
+      nhpr [ -0 0 3 ]
+      scale [ 1.2 1 1.3 ]
+      kern [ 0.079331 ]
+      wiggle [ 4 ]
+      stumble [ 0.08 ]
+      stomp [ 0.05 ]
+      width [ 36.8297 ]
+      height [ 36.8297 ]
+      flags [ "cd" ]
+      text [
+       letters [ "F" ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "'" ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+     ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.25098 0.501961 0.501961 1 ]
+      pos [ 0 0 -0.62 ]
+      nhpr [ -0 0 4 ]
+      scale [ 1.1 1 1.4 ]
+      kern [ 0.11259 ]
+      wiggle [ 4.51671 ]
+      stomp [ 0.037045 ]
+      width [ 32.4349 ]
+      height [ 32.4349 ]
+      text [
+       letters [ "F" ]
+      ]
+      text [
+       letters [ "L" ]
+      ]
+      text [
+       letters [ "U" ]
+      ]
+      text [
+       letters [ "F" ]
+      ]
+      text [
+       letters [ "F" ]
+      ]
+      text [
+       letters [ "Y" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "B" ]
+      ]
+      text [
+       letters [ "U" ]
+      ]
+      text [
+       letters [ "N" ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+     ]
+    ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_A2" ]
+    pos [ -56 -136 10 ]
+    nhpr [ 160 0 0 ]
+    scale [ 1.1 1.1 1.1 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_C1" ]
+    pos [ 77 -135 10.026 ]
+    nhpr [ -170 0 0 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_A3" ]
+    pos [ -75 133 10 ]
+    nhpr [ 10 0 0 ]
+    scale [ 1.1 1.1 1.1 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_A3" ]
+    pos [ 25 140 10 ]
+    nhpr [ 0 0 0 ]
+   ]
+   prop "prop_landmark_FF_DNARoot" [
+    code [ "toon_landmark_A2" ]
+    pos [ -140 68.5 10 ]
+    nhpr [ 70 0 0 ]
+    scale [ 1.5 1.5 1.5 ]
+   ]
+   prop "prop_facade_e_FF_DNARoot" [
+    code [ "prop_facade_e_FF" ]
+    pos [ 131 63 10 ]
+    nhpr [ -39 0 0 ]
+    scale [ 1.1 1.1 1.1 ]
+   ]
+   prop "prop_facade_a_FF_DNARoot" [
+    code [ "prop_facade_a_FF" ]
+    pos [ 120 73 10 ]
+    nhpr [ -62 0 0 ]
+    scale [ 1.1 1.1 1.1 ]
+   ]
+   prop "prop_wedding_cake_FF_DNARoot" [
+    code [ "prop_wedding_cake_FF" ]
+    pos [ 130 62 13.1 ]
+    nhpr [ 0 0 0 ]
+    scale [ 1.1 1.1 1.1 ]
+   ]
+   prop "prop_birthday_cake_FF_DNARoot" [
+    code [ "prop_birthday_cake_FF" ]
+    pos [ 128 64 13.1 ]
+    nhpr [ 0 0 0 ]
+    scale [ 1.1 1.1 1.1 ]
+   ]
+   prop "prop_tnt_FF_DNARoot" [
+    code [ "prop_tnt_FF" ]
+    pos [ 132 60 13.7 ]
+    nhpr [ 240 -600 0 ]
+    scale [ 1.1 1.1 1.1 ]
+   ]
+   prop "prop_tunnel_ahead_FF_DNARoot" [
+    code [ "prop_tunnel_ahead_FF" ]
+    pos [ -5 -102 9.95 ]
+    nhpr [ -164 0 0 ]
+    scale [ 1 1 1 ]
+   ]
+   prop "prop_tunnel_ahead_FF_shadow_DNARoot" [
+    code [ "prop_tunnel_ahead_FF" ]
+    pos [ -5 -102 10 ]
+    nhpr [ -164 0 0 ]
+    scale [ 0.99 0.99 1 ]
+   ]
+   prop "prop_garden_mickey_flute_FF_DNARoot" [
+    code [ "prop_garden_mickey_flute_FF" ]
+    pos [ 157 96 10 ]
+    nhpr [ -164 0 0 ]
+    scale [ 0.6 0.6 0.6 ]
+   ]
+   prop "linktunnel_ff_19105_DNARoot" [
+    code [ "prop_outdoor_zone_entrance" ]
+    pos [ -23 -113.909 10.026 ]
+    nhpr [ 894.006 0 0 ]
+    scale [ 1.2 1.2 1.2 ]
+    sign [
+     code [ "DD_sign2" ]
+     pos [ 0 0 0 ]
+     nhpr [ 0 0 -3.0 ]
+     scale [ 1.85 1 1.35 ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -0.2 ]
+      scale [ 1.1 1 1.7 ]
+      wiggle [ 7 ]
+      stumble [ 0.1 ]
+      text [
+       letters [ "B" ]
+      ]
+      text [
+       letters [ "a" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "k" ]
+      ]
+      text [
+       letters [ "i" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "g" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "B" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "u" ]
+      ]
+      text [
+       letters [ "l" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+      text [
+       letters [ "v" ]
+      ]
+      text [
+       letters [ "a" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "d" ]
+      ]
+     ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -1.4 ]
+      scale [ 1.2 1 1.2 ]
+      wiggle [ 3 ]
+      stomp [ 0.0367716 ]
+      text [
+       letters [ "F" ]
+      ]
+      text [
+       letters [ "u" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "y" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "F" ]
+      ]
+      text [
+       letters [ "a" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "m" ]
+      ]
+     ]
+    ]
+   ]
+   prop "linktunnel_ff_19201_DNARoot" [
+    code [ "prop_chip_dale_entrance" ]
+    pos [ 99 -109 10.026 ]
+    nhpr [ -2667 0 0 ]
+    scale [ 1.2 1 1.2 ]
+   ]
+   prop "linktunnel_ff_19301_DNARoot" [
+    code [ "prop_safe_zone_tunnel" ]
+    pos [ 139 26 10.026 ]
+    nhpr [ -1540.49 0 0 ]
+    sign [
+     code [ "tunnel_sign_orange" ]
+     scale [ 1.5 1 1.5 ]
+     baseline [
+      code [ "mickey" ]
+      color [ 0 0.501961 0 1 ]
+      pos [ 0 0 -0.76 ]
+      scale [ 1.5 1 1.5 ]
+      width [ 33.3333 ]
+      height [ 33.3333 ]
+      text [
+       letters [ "B" ]
+      ]
+      text [
+       letters [ "L" ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "N" ]
+      ]
+      text [
+       letters [ "K" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "S" ]
+      ]
+      text [
+       letters [ "T" ]
+      ]
+      text [
+       letters [ "R" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "T" ]
+      ]
+     ]
+     baseline [
+      code [ "mickey" ]
+      color [ 0 0.501961 0 1 ]
+      pos [ -0.08 0 -1.98 ]
+      scale [ 0.8 1 0.8 ]
+      width [ 44.0567 ]
+      height [ 44.0567 ]
+      text [
+       letters [ "F" ]
+      ]
+      text [
+       letters [ "U" ]
+      ]
+      text [
+       letters [ "N" ]
+      ]
+      text [
+       letters [ "N" ]
+      ]
+      text [
+       letters [ "Y" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "F" ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "R" ]
+      ]
+      text [
+       letters [ "M" ]
+      ]
+     ]
+     baseline [
+      pos [ 0 0 1.75 ]
+      scale [ 2.5 1 2.5 ]
+      graphic [
+       code [ "mickeySZ" ]
+      ]
+     ]
+    ]
+   ]
+   prop "prop_party_gate_DNARoot" [
+    code [ "prop_party_gate" ]
+    pos [ -118 -18 10.026 ]
+    nhpr [ -3145 0 0 ]
+   ]
+   prop "prop_funny_farm_fountain_DNARoot" [
+    code [ "prop_funny_farm_fountain" ]
+    pos [ -33 12 10.026 ]
+    nhpr [ 0 0 0 ]
+    scale [ 1.2 1.2 1.2 ]
+   ]
+   prop "prop_funny_farm_safe_DNARoot" [
+    code [ "prop_funny_farm_safe" ]
+    pos [ -75 -19 10 ]
+    nhpr [ 485.169 0 0 ]
+    scale [ 2 2 2 ]
+   ]
+   node "picnic_table_1" [
+    prop "prop_picnic_table_FF_DNARoot" [
+     code [ "prop_picnic_table_FF" ]
+     pos [ 81 7 10.025 ]
+     nhpr [ 0 0 0 ]
+    ]
+   ]
+   node "picnic_table_2" [
+    prop "prop_picnic_table_FF_DNARoot" [
+     code [ "prop_picnic_table_FF" ]
+     pos [ 52 46 10.025 ]
+     nhpr [ 40 0 0 ]
+    ]
+   ]
+   node "picnic_table_3" [
+    prop "prop_picnic_table_FF_DNARoot" [
+     code [ "prop_picnic_table_FF" ]
+     pos [ 45 -8 10.026 ]
+     nhpr [ 60 0 0 ]
+    ]
+   ]
+   prop "prop_terrain_fence_FF_DNARoot" [
+    code [ "prop_terrain_fence_FF" ]
+    pos [ -128 1 10.025 ]
+    nhpr [ 1349 0 0 ]
+    scale [ 0.5 0.4 0.4 ]
+   ]
+   prop "prop_terrain_fence_FF_DNARoot" [
+    code [ "prop_terrain_fence_FF" ]
+    pos [ -128 -5.2 10.025 ]
+    nhpr [ 1348 0 0 ]
+    scale [ 0.5 0.4 0.4 ]
+   ]
+   prop "prop_terrain_fence_FF_DNARoot" [
+    code [ "prop_terrain_fence_FF" ]
+    pos [ -128 7.2 10.025 ]
+    nhpr [ 1349 0 0 ]
+    scale [ 0.5 0.4 0.4 ]
+   ]
+   prop "prop_terrain_fence_FF_DNARoot" [
+    code [ "prop_terrain_fence_FF" ]
+    pos [ -128 13.2 10.025 ]
+    nhpr [ 1349 0 0 ]
+    scale [ 0.5 0.4 0.4 ]
+   ]
+   prop "prop_terrain_fence_FF_DNARoot" [
+    code [ "prop_terrain_fence_FF" ]
+    pos [ -128 -25 10.025 ]
+    nhpr [ 1346 0 0 ]
+    scale [ 0.5 0.4 0.4 ]
+   ]
+   prop "prop_terrain_fence_FF_DNARoot" [
+    code [ "prop_terrain_fence_FF" ]
+    pos [ -128.4 -31.3 10.025 ]
+    nhpr [ 1355 0 0 ]
+    scale [ 0.5 0.4 0.4 ]
+   ]
+   prop "prop_ladder_FF_DNARoot" [
+    code [ "prop_ladder_FF" ]
+    pos [ -94.3371 58.5693 7.8 ]
+    nhpr [ 120 30.5 0 ]
+   ]
+   prop "prop_sack_FF_DNARoot" [
+    code [ "prop_sack_FF" ]
+    pos [ -29 78 12.38584 ]
+    nhpr [ 0 0 0 ]
+    scale [ 1.3 1.3 1.3 ]
+   ]
+   prop "prop_wheel_barrel_FF_DNARoot" [
+    code [ "prop_wheel_barrel_FF" ]
+    pos [ -31 59 10 ]
+    nhpr [ -110 0 0 ]
+    scale [ 1.3 1.3 1.3 ]
+   ]
+   prop "prop_garden_mickey_shovel_FF_DNARoot" [
+    code [ "prop_garden_mickey_shovel_FF" ]
+    pos [ -47 -54 10 ]
+    nhpr [ 0 0 0 ]
+    scale [ 0.1 0.1 0.1 ]
+   ]
+   prop "prop_sand_mound_FF_DNARoot" [
+    code [ "prop_sand_mound_FF" ]
+    pos [ -47 66 10 ]
+    nhpr [ 0 0 0 ]
+    scale [ 10 10 10 ]
+   ]
+   prop "prop_kart_final_FF_DNARoot" [
+    code [ "prop_kart_final_FF" ]
+    pos [ -72 76 25 ]
+    nhpr [ 300 25 0 ]
+    scale [ 3 3 3 ]
+   ]
+  ]
+ ]
+]
