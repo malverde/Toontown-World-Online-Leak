@@ -388,8 +388,9 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             self.setChatAbsolute(chatString, CFSpeech | CFTimeout)
         ResistanceChat.doEffect(msgIndex, self, nearbyToons)
 
-    def d_battleSOS(self, sendToId):
-     self.cr.ttrFriendsManager.d_battleSOS(sendToId)        
+    def d_battleSOS(self, requesterId, sendToId = None):
+        self.sendUpdate('battleSOS', [requesterId], sendToId)
+
     def battleSOS(self, requesterId):
         avatar = base.cr.identifyAvatar(requesterId)
         if isinstance(avatar, DistributedToon) or isinstance(avatar, FriendHandle.FriendHandle):
