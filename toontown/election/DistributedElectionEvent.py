@@ -795,7 +795,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
             # Flippy makes a last minute attempt to try and slow him down. It... kills him?
             Parallel(ActorInterval(self.flippy, 'throw', startFrame=0, endFrame=46), Func(self.flippy.setChatAbsolute, "I'm warning you, stay back. Please.", CFSpeech|CFTimeout), Func(self.pie.reparentTo, self.flippy.rightHand)),
             Wait(1),
-            Func(self.suit.setChatAbsolute, 'Don't make me end this meeting...', CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
+            Func(self.suit.setChatAbsolute, "Don't make me end this meeting...", CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
             #Func(self.suit.play, 'speak'),
             Wait(1.5),
             Parallel(
