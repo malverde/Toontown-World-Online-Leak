@@ -9,7 +9,6 @@ from toontown.hood import HoodUtil
 from toontown.building import SuitBuildingGlobals
 from toontown.dna import *
 from direct.stdpy.file import open
-from toontown.dna.DNAStorage import DNAStorage
 
 class SuitPlannerBase:
     notify = DirectNotifyGlobal.directNotify.newCategory('SuitPlannerBase')
@@ -360,25 +359,6 @@ class SuitPlannerBase:
        8,
        9),
       []],
-     [10000,
-      3,
-      15,
-      0,
-      5,
-      15,
-      3,
-      (1,
-       5,
-       10,
-       40,
-       60,
-       80),
-      (100,
-       0,
-       0,
-       0),
-      (7, 8, 9, 10),
-      []],            
      [11000,
       3,
       15,
@@ -517,14 +497,11 @@ class SuitPlannerBase:
         if self.dnaStore:
             return None
         dnaFileName = self.genDNAFileName()
-        if __debug__:
-            try:
-                self.dnaStore = simbase.air.loadDNA(dnaFileName)
-            except:
-                self.dnaStore = loader.loadDNA(dnaFileName)
-        else:
+        try:
+            self.dnaStore = simbase.air.loadDNA(dnaFileName)
+        except:
             self.dnaStore = loader.loadDNA(dnaFileName)
-        self.dnaData = self.dnaStore.generateData()        
+        self.dnaData = self.dnaStore.generateData()
         self.initDNAInfo()
         return None
 
