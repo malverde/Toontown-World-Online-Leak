@@ -1,5 +1,5 @@
 @echo off
-cd ..
+
 set /P ttrUsername="Username: " || ^
 set ttrUsername=username
 set ttrPassword=password
