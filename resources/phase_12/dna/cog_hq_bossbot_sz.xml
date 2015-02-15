@@ -32,7 +32,7 @@
 			<suit_edge a="9" b="10" />
 			<suit_edge a="10" b="11" />		
 			
-			<battle_cell width="20" height="20" x="49.5" y="17" z="0" />
+		    <battle_cell width="20" height="20" x="49.5" y="17" z="0" />
 		</visgroup>
         
 		<visgroup zone="10003" vis="10001 10002 10003 10004 10005">
@@ -46,5 +46,8 @@
 		</visgroup>
         
 
+	</group>
+
+</scene>
 
 
