@@ -9,6 +9,7 @@ from toontown.hood import HoodUtil
 from toontown.building import SuitBuildingGlobals
 from toontown.dna import *
 from direct.stdpy.file import open
+from toontown.dna.DNAStorage import DNAStorage
 
 class SuitPlannerBase:
     notify = DirectNotifyGlobal.directNotify.newCategory('SuitPlannerBase')
@@ -518,7 +519,7 @@ class SuitPlannerBase:
         dnaFileName = self.genDNAFileName()
         if __debug__:
             try:
-                self.dnaStore = simbase.air.loadDNA(dnaFileName)
+                self.dnaStore = DNAStorage()
             except:
                 self.dnaStore = loader.loadDNA(dnaFileName)
         else:
