@@ -1,4 +1,5 @@
 from otp.ai.AIBaseGlobal import *
+import time
 from pandac.PandaModules import *
 from otp.otpbase import OTPGlobals
 from direct.directnotify import DirectNotifyGlobal
@@ -225,7 +226,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.modulelist = ModuleListAI.ModuleList()
         self._dbCheckDoLater = None
         self.teleportOverride = 0
-        self.promotionStatus = [0, 0, 0, 0]        
+        self.promotionStatus = [0, 0, 0, 0]  
+        self.buffs = []      
         self.wantBetaKeyQuest = 0
         self.magicWordTeleportRequests = []
         self.webAccountId = 0
@@ -574,54 +576,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.air.writeServerEvent('suspicious', avId=self.doId, issue=logStr)
 
     def verifyDNA(self):
-        changed = False
-        if self.isPlayerControlled():
-            allowedColors = []
-            if self.dna.gender == 'm':
-                allowedColors = ToonDNA.defaultBoyColorList
-            else:
-                allowedColors = ToonDNA.defaultGirlColorList
-
-            # No idea why this wasn't done by disney, but add sanity checks for black (and now white) toons.
-            if self.dna.getAnimal() == 'bear':
-                allowedColors = allowedColors + [0]
-            if self.dna.getAnimal() == 'cat':
-                allowedColors = allowedColors + [26]
-
-            if 26 in [self.dna.legColor, self.dna.armColor, self.dna.headColor]: # Disney ALSO didn't do this. Verify that a toon is fully black/white.
-                if self.dna.legColor != 26:
-                    self.dna.legColor = 26
-                    changed = True
-                if self.dna.armColor != 26:
-                    self.dna.armColor = 26
-                    changed = True
-                if self.dna.headColor != 26:
-                    self.dna.headColor = 26
-                    changed = True
-
-            elif 0 in [self.dna.legColor, self.dna.armColor, self.dna.headColor]:
-                if self.dna.legColor != 0:
-                    self.dna.legColor = 0
-                    changed = True
-                if self.dna.armColor != 0:
-                    self.dna.armColor = 0
-                    changed = True
-                if self.dna.headColor != 0:
-                    self.dna.headColor = 0
-                    changed = True
-
-            if self.dna.legColor not in allowedColors:
-                self.dna.legColor = allowedColors[0]
-                changed = True
-            if self.dna.armColor not in allowedColors:
-                self.dna.armColor = allowedColors[0]
-                changed = True
-            if self.dna.headColor not in allowedColors:
-                self.dna.headColor = allowedColors[0]
-                changed = True
-            if changed:
-                self.d_setDNAString(self.dna.makeNetString())
-        return not changed
+        return True
 
     def getDNAString(self):
         return self.dna.makeNetString()
@@ -4702,6 +4657,41 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def b_setHouseType(self, houseType):
         self.setHouseType(houseType)
         self.d_setHouseType(houseType)
+    def addBuff(self, id, duration):
+        buffCount = len(self.buffs)
+        if buffCount <= id:
+            self.buffs.extend([0] * ((id+1) - buffCount))
+        timestamp = int(time.time()) + (duration*60)
+        self.buffs[id] = timestamp
+        self.b_setBuffs(self.buffs)
+
+    def removeBuff(self, id):
+        if len(self.buffs) <= id:
+            self.notify.warning('tried to remove non-existent buff %d on avatar %d.' % (id, self.doId))
+            return
+        self.buffs[id] = 0
+        self.d_setBuffs(self.buffs)
+    def hasBuff(self, id):
+        if len(self.buffs) <= id:
+            return False
+        return self.buffs[id] != 0
+
+    def setBuffs(self, buffs):
+        self.buffs = buffs
+        for id, timestamp in enumerate(self.buffs):
+            if timestamp:
+                taskName = self.uniqueName('removeBuff-%s' % id)
+                taskMgr.remove(taskName)
+                delayTime = max(timestamp - int(time.time()), 0)
+                taskMgr.doMethodLater(delayTime, self.removeBuff, taskName, extraArgs=[id])
+
+    def d_setBuffs(self, buffs):
+        self.sendUpdate('setBuffs', [buffs])
+
+    def b_setBuffs(self, buffs):
+        self.setBuffs(buffs)
+        self.d_setBuffs(buffs)
+        
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int])
 def setCE(CEValue, CEHood=0, CEExpire=0):
@@ -4716,8 +4706,8 @@ def setCE(CEValue, CEHood=0, CEExpire=0):
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int], targetClasses=[DistributedToonAI], aliases=['hp', 'toonHp', 'currHp'])
 def setHp(hpVal):
     """Set target's current laff"""
-    if not -1 <= hpVal <= 137:
-        return 'Laff must be between -1 and 137!'
+    if not -1 <= hpVal <= 156:
+        return 'Laff must be between -1 and 156!'
     spellbook.getTarget().b_setHp(hpVal)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int])

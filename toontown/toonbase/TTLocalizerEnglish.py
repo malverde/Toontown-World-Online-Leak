@@ -168,6 +168,7 @@ lHQOfficerF = 'HQ Officer'
 lHQOfficerM = 'HQ Officer'
 MickeyMouse = 'Mickey Mouse'
 AIStartDefaultDistrict = 'Sillyville'
+DisguiseParts = 'Disguise Parts'
 Cog = 'Cog'
 Cogs = 'Cogs'
 ACog = 'a Cog'
@@ -5589,7 +5590,17 @@ NumToColor = ['White',
  'Lavender',
  'Pink',
  'Plum',
- 'Black']
+ 'Black',
+ 'Mountain Green',
+ 'Icy Blue',
+ 'Desert Sand',
+ 'Mint',
+ 'Charcoal',
+ 'Hot Pink',
+ 'Honey Mustard',
+ 'Gray',
+ 'Neon Orange',
+ 'Sapphire']
 AnimalToSpecies = {'dog': 'Dog',
  'cat': 'Cat',
  'mouse': 'Mouse',
@@ -8898,6 +8909,7 @@ KartDNA_AccNames = {1000: 'Air Cleaner',
  7024: 'Pink',
  7025: 'Plum',
  7026: 'Black'}
+ 
 RaceHoodSpeedway = 'Speedway'
 RaceHoodRural = 'Rural'
 RaceHoodUrban = 'Urban'
@@ -9885,3 +9897,39 @@ InteractivePropTrackBonusTerms = {0: 'Super Toon-Up!',
  5: 'Super Squirt!',
  6: ''}
 PlayingCardUnknown = 'Card Name is unknown'
+ 
+def getColorRewardString(colorId):
+    return 'You are now a %s Toon!' % NumToColor[colorId]
+
+
+def getColorPosterString(colorId):
+    return 'Reward: %s Toon Color' % NumToColor[colorId]
+
+def getGloveColorRewardString(colorId):
+    return 'You now have %s gloves!' % NumToColor[colorId]
+
+
+def getGloveColorPosterString(colorId):
+    return 'Reward: %s Gloves' % NumToColor[colorId]
+# Buffs
+
+buffIdStrings = {
+  0: ('Your movement speed will be slightly increased for the next %d %s.',
+      'Reward: Increased movement speed'),
+  1: ('Your gag accuracy will be slightly increased for the next %d %s.',
+      'Reward: Increased gag accuracy'),
+  2: ('Your gag experience will be slightly increased for the next %d %s.',
+      'Reward: Increased gag experience')
+}
+
+
+def getBuffString(buffId, buffTime):
+    if buffTime < 60:
+        return buffIdStrings[buffId][0] % (buffTime, 'minutes')
+    else:
+        return buffIdStrings[buffId][0] % (buffTime / 60, 'hours')
+
+
+def getBuffPosterString(buffId):
+    return buffIdStrings[buffId][1]
+

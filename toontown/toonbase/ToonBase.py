@@ -40,6 +40,7 @@ class ToonBase(OTPBase.OTPBase):
         self.disableShowbaseMouse()
         self.addCullBins()
         base.debugRunningMultiplier /= OTPGlobals.ToonSpeedFactor
+        self.baseXpMultiplier = self.config.GetFloat('base-xp-multiplier', 1.0)
         self.toonChatSounds = self.config.GetBool('toon-chat-sounds', 1)
         self.placeBeforeObjects = config.GetBool('place-before-objects', 1)
         self.endlessQuietZone = False

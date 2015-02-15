@@ -101,7 +101,7 @@ SPMinniesPiano = 4
 SPBuddysBalloon = 5
 CEVirtual = 14
 MaxHpLimit = 156
-MaxCarryLimit = 80
+MaxCarryLimit = 90
 MaxQuestCarryLimit = 4
 GravityValue = 32.174
 MaxCogSuitLevel = 12 - 1
@@ -201,6 +201,7 @@ LawbotStageIntA = 13300
 LawbotStageIntB = 13400
 LawbotStageIntC = 13500
 LawbotStageIntD = 13600
+CogNation = 14000
 Tutorial = 15000
 MyEstate = 16000
 GolfZone = 17000
@@ -1647,7 +1648,8 @@ hood2Id = {
  'OFFICE': (LawbotHQ,),
  'BACK': (BossbotHQ,),
  'MIDDLE': (BossbotHQ,),
- 'FRONT': (BossbotHQ,)}
+ 'FRONT': (BossbotHQ,),
+ 'FF' : (FunnyFarm,)}
 hood2Coords = {
  'CEO': [
     (61.044, 119.014, 0.025),
@@ -1767,3 +1769,11 @@ hood2Coords = {
  'FRONT': [
     (146.1, 33.228, 0.025),
     (296.844, 0, 0)]}
+# Buffs...
+
+BMovementSpeed = 0
+BMovementSpeedMultiplier = 1.3
+BGagAccuracy = 1
+BGagAccuracyMultiplier = 1.3
+BGagExperience = 2
+BGagExperienceMultiplier = 1.5

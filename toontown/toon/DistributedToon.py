@@ -40,6 +40,7 @@ from toontown.estate import FlowerCollection
 from toontown.estate import FlowerBasket
 from toontown.estate import GardenGlobals
 from toontown.estate import DistributedGagTree
+from otp.ai import MagicWordManager
 from toontown.estate import GardenDropGame
 from toontown.parties.PartyGlobals import InviteStatus, PartyStatus
 from toontown.parties.PartyInfo import PartyInfo
@@ -98,22 +99,10 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.disguisePage = None
         self.sosPage = None
         self.gardenPage = None
-        self.cogTypes = [0,
-         0,
-         0,
-         0]
-        self.cogLevels = [0,
-         0,
-         0,
-         0]
-        self.cogParts = [0,
-         0,
-         0,
-         0]
-        self.cogMerits = [0,
-         0,
-         0,
-         0]
+        self.cogTypes = [0, 0, 0, 0]
+        self.cogLevels = [0, 0, 0, 0]
+        self.cogParts = [0, 0, 0, 0]
+        self.cogMerits = [0, 0, 0, 0]
         self.savedCheesyEffect = ToontownGlobals.CENormal
         self.savedCheesyHoodId = 0
         self.savedCheesyExpireTime = 0
@@ -193,6 +182,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self._lastZombieContext = None
         self.promotionStatus = [0, 0, 0, 0]        
         self.lastSeen = 0
+        self.buffs = []
         return
 
     def disable(self):
@@ -2678,7 +2668,31 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def setAnimalSound(self, index):
         self.animalSound = index
+    def hasBuff(self, id):
+        if len(self.buffs) <= id:
+            return False
+        return self.buffs[id] != 0
+        
+    def setBuffs(self, buffs):
+        self.buffs = buffs
+        self.applyBuffs()
 
+    def applyBuffs(self):
+        for id, timestamp in enumerate(self.buffs):
+            if id == ToontownGlobals.BMovementSpeed:
+                if not timestamp:
+                    return
+                if self.zoneId is None:
+                    return
+                if ZoneUtil.isDynamicZone(self.zoneId):
+                    return
+                if ZoneUtil.getWhereName(self.zoneId, True) not in ('playground', 'street', 'toonInterior', 'cogHQExterior', 'factoryExterior'):
+                    return
+                self.controlManager.setSpeeds(
+                    ToontownGlobals.ToonForwardSpeed * ToontownGlobals.BMovementSpeedMultiplier,
+                    ToontownGlobals.ToonJumpForce,
+                    ToontownGlobals.ToonReverseSpeed * ToontownGlobals.BMovementSpeedMultiplier,
+                    ToontownGlobals.ToonRotateSpeed * ToontownGlobals.BMovementSpeedMultiplier)
     def magicFanfare(self):
         from toontown.battle import Fanfare
         fanfare = Sequence(Fanfare.makeFanfare(0, self)[0])
@@ -2748,3 +2762,29 @@ def promote(deptIndex):
     invoker.sendUpdate('requestPromotion', [deptIndex])
     return 'Your promotion request has been sent.'    
     
+@magicWord(category=CATEGORY_MODERATION, types=[int])
+def mute(minutes):
+    """
+    Mute the target
+    """
+    if not MagicWordManager.lastClickedNametag:
+        return "nobody selected"
+    target = MagicWordManager.lastClickedNametag
+    if spellbook.getInvokerAccess() <= target.getAdminAccess():
+        return "Must be of a higher access level then target"
+    base.cr.chatAgent.sendMuteAccount(target.doId, minutes)
+    return 'Mute request sent'
+
+@magicWord(category=CATEGORY_MODERATION, types=[])
+def unmute():
+    """
+    Unmute the target
+    """
+    if not MagicWordManager.lastClickedNametag:
+        return "nobody selected"
+    target = MagicWordManager.lastClickedNametag
+    if spellbook.getInvokerAccess() <= target.getAdminAccess():
+        return "Must be of a higher access level then target"
+    print ['unmute', target.doId]
+    base.cr.chatAgent.sendUnmuteAccount(target.doId)
+    return 'Unmute request sent'
