@@ -21,22 +21,16 @@ class ToontownUberRepository(ToontownInternalRepository):
         """
         Create "global" objects.
         """
-        self.csm = self.generateGlobalIfWanted(OTP_DO_ID_CLIENT_SERVICES_MANAGER, 'ClientServicesManager')
-        self.chatAgent = self.generateGlobalIfWanted(OTP_DO_ID_CHAT_MANAGER, 'ChatAgent')
-        self.friendsManager = self.generateGlobalIfWanted(OTP_DO_ID_TTR_FRIENDS_MANAGER, 'TTRFriendsManager')
-        if config.GetBool('want-parties', True):
-            # want-parties overrides config for want-GlobalPartyManagerUD
-            self.globalPartyMgr = self.generateGlobalIfWanted(OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
-        else:
-            self.globalPartyMgr = None
 
-    def generateGlobalIfWanted(self, doId, name):
-        """
-        We only create the "global" objects if we explicitly want them, or if
-        the config file doesn't define it, we resort to the value of self.wantUD.
-        If we don't want the object, we return None.
-        """
-        if config.GetBool('want-%sUD' % name, self.wantUD):
-            return self.generateGlobalObject(doId, name)
-        else:
-            return None
+        self.csm = simbase.air.generateGlobalObject(OTP_DO_ID_CLIENT_SERVICES_MANAGER,
+                                                    'ClientServicesManager')
+
+        self.chatAgent = simbase.air.generateGlobalObject(OTP_DO_ID_CHAT_MANAGER,
+                                                          'ChatAgent')
+
+        self.friendsManager = simbase.air.generateGlobalObject(OTP_DO_ID_TTI_FRIENDS_MANAGER,
+                                                               'TTRFriendsManager')
+
+        self.globalPartyMgr = simbase.air.generateGlobalObject(OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
+
+        self.deliveryManager = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER, 'DistributedDeliveryManager')
