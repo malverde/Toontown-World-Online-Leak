@@ -524,7 +524,7 @@ class SuitPlannerBase:
                 self.dnaStore = loader.loadDNA(dnaFileName)
         else:
             self.dnaStore = loader.loadDNA(dnaFileName)
-        self.dnaData = self.dnaStore.generateData()
+        
         self.initDNAInfo()
         return None
 
