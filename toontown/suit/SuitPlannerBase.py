@@ -518,8 +518,6 @@ class SuitPlannerBase:
         dnaFileName = self.genDNAFileName()
         try:
             self.dnaStore = simbase.air.loadDNA(dnaFileName)
-        except:
-            self.dnaStore = loader.loadDNA(dnaFileName)
         self.dnaData = self.dnaStore.generateData()
         self.initDNAInfo()
         return None
