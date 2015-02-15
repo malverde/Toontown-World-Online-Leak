@@ -1,4 +1,5 @@
 set +v
+cd ..
 export ttrUsername=mgracer
 //change line 2 when distrubating this, same for start_game.sh
 echo "You wrote: $ttrUsername"
