@@ -105,20 +105,23 @@ class RemoveFriendOperation(OperationFSM):
         for i in xrange(len(friendsList)):
             if friendsList[i][0] == self.target:
                 continue
-
             newList.append(friendsList[i])
-
-        dg = self.air.dclassesByName['DistributedToonUD'].aiFormatUpdate(
-                'setFriendsList', self.sender, self.sender,
-                self.air.ourChannel, [newList])
-        self.air.send(dg)
-
-        if self.alert:
+        if self.sender in self.mgr.onlineToons:
             dg = self.air.dclassesByName['DistributedToonUD'].aiFormatUpdate(
-                 'friendsNotify', self.sender, self.sender,
-                 self.air.ourChannel, [self.target, 1])
+                    'setFriendsList', self.sender, self.sender,
+                    self.air.ourChannel, [newList])
             self.air.send(dg)
+            if self.alert:
+                dg = self.air.dclassesByName['DistributedToonUD'].aiFormatUpdate(
+                     'friendsNotify', self.sender, self.sender,
+                     self.air.ourChannel, [self.target, 1])
+                self.air.send(dg)
+            self.demand('Off')
+            return
 
+        self.air.dbInterface.updateObject(self.air.dbId, self.sender,
+            self.air.dclassesByName['DistributedToonUD'],
+            {'setFriendsList' : [newList]})
         self.demand('Off')
 
 
@@ -186,12 +189,13 @@ class ClearListOperation(OperationFSM):
 
 # -- FriendsManager --
 
-class TTIFriendsManagerUD(DistributedObjectGlobalUD):
-    notify = directNotify.newCategory('TTIFriendsManagerUD')
+class TTRFriendsManagerUD(DistributedObjectGlobalUD):
+    notify = directNotify.newCategory('TTRFriendsManagerUD')
 
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)
 
+        self.onlineToons = []
         self.tpRequests = {}
         self.whisperRequests = {}
         self.operations = []
@@ -208,7 +212,8 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
 
     def sendFriendsList(self, sender, friendsList):
         self.sendUpdateToAvatarId(sender, 'friendList', [friendsList])
-        self.toonOnline(sender, friendsList)
+        if sender not in self.onlineToons:
+            self.toonOnline(sender, friendsList)
 
     # -- Remove Friend --
     def removeFriend(self, friendId):
@@ -255,6 +260,8 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
 
     # -- Toon Online/Offline --
     def toonOnline(self, doId, friendsList):
+        self.onlineToons.append(doId)
+
         channel = self.GetPuppetConnectionChannel(doId)
         dgcleanup = self.dclass.aiFormatUpdate('goingOffline', self.doId, self.doId, self.air.ourChannel, [doId])
         dg = PyDatagram()
@@ -263,21 +270,27 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
         self.air.send(dg)
 
         for friend in friendsList:
-            self.sendUpdateToAvatarId(doId, 'friendOnline', [friend[0], 0, 0])
+            friendId = friend[0]
+            if friend[0] in self.onlineToons:
+                self.sendUpdateToAvatarId(doId, 'friendOnline', [friendId, 0, 0])
             self.sendUpdateToAvatarId(friendId, 'friendOnline', [doId, 0, 0])
 
     def goingOffline(self, avId):
         self.toonOffline(avId)
 
     def toonOffline(self, doId):
+        if doId not in self.onlineToons:
+            return
         def handleToon(dclass, fields):
             if dclass != self.air.dclassesByName['DistributedToonUD']:
                 return
-
             friendsList = fields['setFriendsList'][0]
             for friend in friendsList:
-                self.sendUpdateToAvatarId(friend[0], 'friendOffline', [doId])
-
+                friendId = friend[0]
+                if friendId in self.onlineToons:
+                    self.sendUpdateToAvatarId(friendId, 'friendOffline', [doId])
+            if doId in self.onlineToons:
+                self.onlineToons.remove(doId)
         self.air.dbInterface.queryObject(self.air.dbId, doId, handleToon)
 
     # -- Clear List --
