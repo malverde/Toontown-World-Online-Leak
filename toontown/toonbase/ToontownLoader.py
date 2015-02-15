@@ -12,6 +12,8 @@ class ToontownLoader(Loader.Loader):
         Loader.Loader.__init__(self, base)
         self.inBulkBlock = None
         self.blockName = None
+        self.loadDNA = None 
+        loadDNA = None 
         self.loadingScreen = ToontownLoadingScreen.ToontownLoadingScreen()
         return
 
