@@ -28,7 +28,7 @@ class ToontownUberRepository(ToontownInternalRepository):
         self.chatAgent = simbase.air.generateGlobalObject(OTP_DO_ID_CHAT_MANAGER,
                                                           'ChatAgent')
 
-        self.friendsManager = simbase.air.generateGlobalObject(OTP_DO_ID_TTI_FRIENDS_MANAGER,
+        self.friendsManager = simbase.air.generateGlobalObject(OTP_DO_ID_TTR_FRIENDS_MANAGER,
                                                                'TTRFriendsManager')
 
         self.globalPartyMgr = simbase.air.generateGlobalObject(OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
