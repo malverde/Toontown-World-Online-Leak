@@ -48,7 +48,7 @@ class BossbotHQAI(CogHoodAI):
         # Make our doors.
         self.createDoor()
         # Create Suit Planners in the cog playground 
-        self.createSuitPlanner(self.HOOD)
+        self.createSuitPlanner(ToontownGlobals.BossbotHQ)
         
 
         
