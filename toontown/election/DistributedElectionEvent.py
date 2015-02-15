@@ -99,9 +99,9 @@ class DistributedElectionEvent(DistributedObject, FSM):
         self.pieCollision.node().addSolid(cs)
         self.accept('enter' + self.pieCollision.node().getName(), self.handleWheelbarrowCollisionSphereEnter)
 
-        csBuddy = CollisionBox(Point3(-4.2, 0, 0), 9.5, 5.5, 18)
+        #csBuddy = CollisionBox(Point3(-4.2, 0, 0), 9.5, 5.5, 18)
         #self.goopCollision = self.buddyStand.attachNewNode(CollisionNode('goop_collision'))
-        self.goopCollision.node().addSolid(csBuddy)
+       # self.goopCollision.node().addSolid(csBuddy)
 
         # Hi NPCs!
         self.alec = NPCToons.createLocalNPC(2022)
