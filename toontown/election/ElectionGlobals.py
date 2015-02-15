@@ -100,7 +100,7 @@ FlippyPhraseIds = [[100, 101, 102, 103, 104, 105],                       # Hello
                    [1526],                                               # Piece of cake
                    [1702, 1554, 1556, 1557],                             # Cogs
                    [1558],                                               # Save powerful gags
-                   [5400],                                               # Toontown Rewritten
+                   [5400],                                               # Toontown World
                    [5401, 5407, 5408, 5409],                             # Found any bugs
                    [5402],                                               # Crashed
                    [5404],                                               # Toonbook
@@ -149,7 +149,7 @@ FlippyPhrases = ['Hey there, __NAME__! How are you doing?',
                  'Sorry, only pies here.',
                  '...like, the gear? What have gears ever done to you? :(',
                  'Hmm, good idea. Pies are going so fast that we might have to switch to cupcakes by the time of the election.',
-                 'Toontown... Rewritten? I\'ve heard Surlee say that a few times, but I can never figure out what he means.',
+                 'Toontown... World? I\'ve heard Surlee say that a few times, but I can never figure out what he means.',
                  'Hmm, well I did spot a butterfly over there.',
                  'Oof, plenty of times at first. Karts are tricky to get used to.',
                  'I do, actually! I don\'t use it often.',

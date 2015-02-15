@@ -197,7 +197,7 @@ class GetFriendsListFSM(FSM):
 
 class TTRFriendsManagerUD(DistributedObjectGlobalUD):
     """
-    The Toontown Rewritten Friends Manager UberDOG, or TTRFMUD for short.
+    The Toontown World Friends Manager UberDOG, or TTRFMUD for short.
 
     This object is responsible for all requests related to global friends, such as
     friends coming online, friends going offline, fetching a friends data etc.

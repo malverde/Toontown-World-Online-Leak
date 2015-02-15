@@ -685,7 +685,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
         mtrack = self.suit.beginSupaFlyMove(Point3(65, 3.6, 4.0), 1, 'fromSky', walkAfterLanding=False)
        # self.buddyStandDie = Sequence(
          #   ActorInterval(self.buddyStand, 'sad')
-        )
+        #)
         self.pie = BattleProps.globalPropPool.getProp('creampie')
         self.cogSequence = Sequence(
             Parallel(Func(self.moveCamera, 1, 56, 26, 9, 204, 0), Func(base.cr.cameraManager.setMainCamera, self.cameras[1].getDoId())),
