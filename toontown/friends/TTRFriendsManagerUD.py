@@ -251,20 +251,20 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
         def handleToon(dclass, fields):
             if dclass != self.air.dclassesByName['DistributedToonUD']:
                 return
-        
-            setExperience = fields['setExperience'][0]
-            setTrackAccess = fields['setTrackAccess'][0]
-            setTrackBonusLevel = fields['setTrackBonusLevel'][0]
-            setInventory = fields['setInventory'][0]
-            setHp = fields['setHp'][0]
-            setMaxHp =  fields['setMaxHp'][0]
-            setDefaultShard = fields['setDefaultShard'][0]
-            setLastHood = fields['setLastHood'][0]
-            setDNAString = fields['setDNAString'][0]
-            setLastSeen = fields.get('setLastSeen', [0])[0]
-        
-            self.sendUpdateToAvatarId(senderId, 'friendDetails', [avId, setExperience,  setTrackAccess, setInventory, setHp, setMaxHp, setDefaultShard, setLastHood, setDNAString, setLastSeen ])
-        self.air.dbInterface.queryObject(self.air.dbId, avId, handleToon)
+        details = [
+            ['setExperience' , fields['setExperience'][0]],
+            ['setTrackAccess' , fields['setTrackAccess'][0]],
+            ['setTrackBonusLevel' , fields['setTrackBonusLevel'][0]],
+            ['setInventory' , fields['setInventory'][0]],
+            ['setHp' , fields['setHp'][0]],
+            ['setMaxHp' , fields['setMaxHp'][0]],
+            ['setDefaultShard' , fields['setDefaultShard'][0]],
+            ['setLastHood' , fields['setLastHood'][0]],
+            ['setDNAString' , fields['setDNAString'][0]],
+            ['setLastSeen' , fields.get('setLastSeen', [0])[0]],
+        ]
+        self.sendUpdateToAvatarId(requesterId, 'friendDetails', [fields['ID'], cPickle.dumps(details)])
+
     # -- Toon Online/Offline --
     def toonOnline(self, doId, friendsList):
         self.onlineToons.append(doId)
