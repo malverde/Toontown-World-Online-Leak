@@ -12,7 +12,7 @@
     <store_suit_point id="10" type="STREET_POINT"x="56" y="-5" z="0.025" />
     <store_suit_point id="11" type="STREET_POINT" x=" 14" y="2" z="0.025" />
     <store_suit_point id="12" type="STREET_POINT" x="-23" y="-56" z="0.025" />
-</scene>
+
 <group name="bossbotHQ" >
     <visgroup zone= "10000" vis="10001 10002 10003 10004 10005" >
         <suit_edge a="2" b="3" />
@@ -45,3 +45,4 @@
         <battle_cell width="20" height="20" x="-5" y="-71" z="0" />
     </visgroup>
 </group>
+</scene>
