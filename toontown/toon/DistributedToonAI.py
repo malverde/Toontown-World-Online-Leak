@@ -5238,9 +5238,9 @@ def summons():
 
 @magicWord(category=CATEGORY_OVERRIDE)
 def pinkslips():
-    """ Restock (to 99) CEO pink slips. """
-    spellbook.getTarget().b_setPinkSlips(99)
-    return 'Restocked 99 pink slips successfully!'
+    """ Restock (to 255) CEO pink slips. """
+    spellbook.getTarget().b_setPinkSlips(255)
+    return 'Restocked 255 pink slips successfully!'
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[int])
 def questTier(tier):
