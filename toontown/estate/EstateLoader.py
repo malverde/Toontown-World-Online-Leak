@@ -147,7 +147,6 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
             self.sun.setScale(2)
             self.sun.setBillboardPointEye()
         if self.moon:
-            self.moon.setP(180)
             self.moon.reparentTo(self.sunMoonNode)
             self.moon.setY(-270)
             self.moon.setScale(15)

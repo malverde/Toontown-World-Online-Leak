@@ -4762,7 +4762,6 @@ def maxToon(hasConfirmed='UNCONFIRMED'):
         suitMerits = CogDisguiseGlobals.MeritsPerLevel[suitIndex]
         cogMerits.append(suitMerits[SuitDNA.levelsPerSuit - 1])
     toon.b_setCogMerits(cogMerits)
-    toon.b_setPromotionStatus([1] * suitDeptCount)
 
     # High racing tickets
     toon.b_setTickets(99999)
@@ -4994,10 +4993,10 @@ def dna(part, value):
     # This is where the fun begins, woo!
     """Set a specific part of DNA for the target toon. Be careful, you don't want to break anyone!"""
 
-   
+    av = spellbook.getTarget()
 
     dna = ToonDNA.ToonDNA()
-    dna.makeFromNetString(avatar.getDNAString())
+    dna.makeFromNetString(av.getDNAString())
 
     def isValidColor(colorIndex):
         if not 0 <= colorIndex <= 26: # This could actually be selected from ToonDNA, but I prefer this :D
@@ -5032,12 +5031,14 @@ def dna(part, value):
         dna.armColor = value
         dna.legColor = value
     elif part=='gloves': # Incase anyone tries to change glove color for whatever reason...
-      value = value.title()
-      if value not in ToonDNA.colorToInt.keys():
-          return 'Invalid glove color: {0}'.format(value)
-      dna.gloveColor = ToonDNA.colorToInt[value]
-      target.b_setDNAString(dna.makeNetString())
-      return 'Glove color set to: {0}'.format(value)   
+        return "DNA: Change of glove colors are not allowed."
+        # If you ever want to be able to edit gloves, feel free to comment out this return.
+        # However, since DToonAI checks ToonDNA, this would be impossible unless changes
+        # are made.
+        value = int(value)
+        if not 0 <= value <= 26:
+            return "DNA: Color index out of range."
+        dna.gloveColor = value
 
     # Body Sizes, Species & Gender (y u want to change gender pls)
     elif part=='gender':

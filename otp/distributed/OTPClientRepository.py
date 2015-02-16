@@ -1616,19 +1616,24 @@ class OTPClientRepository(ClientRepositoryBase):
         if len(self.activeDistrictMap.keys()) == 0:
             self.notify.info('no shards')
             return
+        if base.fillShardsToIdealPop:
+            lowPop, midPop, highPop = base.getShardPopLimits()
+            self.notify.debug('low: %s mid: %s high: %s' % (lowPop, midPop, highPop))
+            for s in self.activeDistrictMap.values():
+                if s.available and s.avatarCount < lowPop:
+                    self.notify.debug('%s: pop %s' % (s.name, s.avatarCount))
+                    if district is None:
+                        district = s
+                    elif s.avatarCount > district.avatarCount or s.avatarCount == district.avatarCount and s.name > district.name:
+                        district = s
 
-        maxPop = config.GetInt('shard-mid-pop', 300)
-
-        # Join the least populated district.
-        for shard in self.activeDistrictMap.values():
-            if district:
-                if shard.avatarCount < district.avatarCount and shard.available:
-                    if shard.avatarCount < maxPop:
-                        district = shard
-            else:
-                if shard.available:
-                    if shard.avatarCount < maxPop:
-                        district = shard
+        if district is None:
+            self.notify.debug('all shards over cutoff, picking lowest-population shard')
+            for s in self.activeDistrictMap.values():
+                if s.available:
+                    self.notify.debug('%s: pop %s' % (s.name, s.avatarCount))
+                    if district is None or s.avatarCount < district.avatarCount:
+                        district = s
 
         if district is not None:
             self.notify.debug('chose %s: pop %s' % (district.name, district.avatarCount))
@@ -1652,8 +1657,10 @@ class OTPClientRepository(ClientRepositoryBase):
         list = []
         for s in self.activeDistrictMap.values():
             if s.available:
-                list.append((s.doId, s.name, s.avatarCount, s.newAvatarCount,
-                             s.invasionStatus))
+                list.append((s.doId,
+                 s.name,
+                 s.avatarCount,
+                 s.newAvatarCount))
 
         return list
 

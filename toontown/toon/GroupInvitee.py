@@ -15,17 +15,14 @@ class GroupInvitee(ToonHeadDialog.ToonHeadDialog):
     def __init__(self):
         pass
 
-    def make(self, party, toon, leaderId, merger, **kw):
+    def make(self, party, toon, leaderId, **kw):
         self.leaderId = leaderId
         self.avName = toon.getName()
         self.av = toon
         self.avId = toon.doId
         self.avDNA = toon.getStyle()
         self.party = party
-        if merger:
-          text = TTLocalizer.BoardingInviteeMergeMessage % self.avName
-        else:
-          text = TTLocalizer.BoardingInviteeMessage % self.avName
+        text = TTLocalizer.BoardingInviteeMessage % self.avName
         style = TTDialog.TwoChoice
         buttonTextList = [OTPLocalizer.FriendInviteeOK, OTPLocalizer.FriendInviteeNo]
         command = self.__handleButton
