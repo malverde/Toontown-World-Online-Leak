@@ -240,7 +240,7 @@ CRServerConstantsTryAgain = 'Unable to contact %s.\n\nThe account server might b
 CRServerDateTryAgain = 'Could not get server date from %s. Try again?'
 CRMaintenanceCountdownMessage = 'Attention Toons! Toontown World will be going down for maintenance in %d minutes.'
 CRMaintenanceMessage = 'Attention Toons! Toontown World is now going down for maintenance.'
-AfkForceAcknowledgeMessage = 'Your toon got sleepy and went to bed.'
+AfkForceAcknowledgeMessage = 'Your toon got bored and went to bed.'
 PeriodTimerWarning = 'Your available time is almost over!'
 PeriodForceAcknowledgeMessage = 'Sorry, you have used up all of your available time. Please exit to purchase more stupid time.'
 CREnteringToontown = 'Toontown World'
@@ -2651,7 +2651,7 @@ CustomSCStrings = {10: 'Oh, well.',
  3530: "You're too much!",
  4000: 'Toons rule!',
  4010: 'Cogs drool!',
- 4020: 'Toons of the world unite!',
+ 4020: 'Toons of the world, unite!',
  4030: 'Howdy, partner!',
  4040: 'Much obliged.',
  4050: 'Get along, little doggie.',

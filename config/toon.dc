@@ -447,9 +447,9 @@ dclass DistributedToon : DistributedPlayer {
   setDNAString(blob dnaString) required broadcast ownrecv db;
   setGM(uint8 type = 0) required broadcast ownrecv db;
   setMaxBankMoney(int32 maxMoney = 50000) required broadcast ownrecv db;
-  setBankMoney(int16 money = 0) required broadcast ownrecv db;
-  setMaxMoney(int16 maxMoney = 40) required broadcast ownrecv db;
-  setMoney(int16 money = 0) required broadcast ownrecv db;
+  setBankMoney(int32 money = 0) required broadcast ownrecv db;
+  setMaxMoney(int32 maxMoney = 40) required broadcast ownrecv db;
+  setMoney(int32 money = 0) required broadcast ownrecv db;
   setMaxHp(int16 hitPoints = 16) required broadcast ownrecv db;
   setHp(int16 hp = 16) required broadcast ownrecv db;
   toonUp(uint16 hpGained) broadcast ownrecv;
@@ -2095,7 +2095,7 @@ dclass DistributedTutorialInterior : DistributedObject {
 };
 
 dclass DistributedBankMgr : DistributedObject {
-  transferMoney(int16 amount) airecv clsend;
+  transferMoney(int32 amount) airecv clsend;
 };
 
 dclass DistributedMailbox : DistributedObject {
@@ -2162,7 +2162,7 @@ dclass DistributedBank : DistributedFurnitureItem {
   avatarEnter() airecv clsend;
   freeAvatar();
   setMovie(uint8 mode, uint32 avId, int16 timestamp) broadcast ram;
-  transferMoney(int16 amount) airecv clsend;
+  transferMoney(int32 amount) airecv clsend;
 };
 
 dclass DistributedCloset : DistributedFurnitureItem {

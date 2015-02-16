@@ -1,3 +1,4 @@
+import random
 from direct.directnotify import DirectNotifyGlobal
 from otp.avatar import DistributedAvatarAI
 from toontown.battle import BattleExperienceAI
@@ -10,7 +11,7 @@ from toontown.battle import BattleBase
 from pandac.PandaModules import *
 import SuitDNA
 import random
-from otp.ai.MagicWordGlobal import *
+import math
 AllBossCogs = []
 
 class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
@@ -25,7 +26,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         self.resetBattleCounters()
         self.looseToons = []
         self.involvedToons = []
-        self.punishedToons = []        
+        self.punishedToons = []
         self.toonsA = []
         self.toonsB = []
         self.nearToons = []
@@ -88,29 +89,35 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             self.acceptOnce(event, self.__handleUnexpectedExit, extraArgs=[avId])
 
     def removeToon(self, avId):
-       av = self.air.doId2do.get(avId)
-       if av.getHp() <= 0:
-            if avId not in self.punishedToons:
-                self.air.cogSuitMgr.removeParts(av, self.deptIndex)
-                self.punishedToons.append(avId)
+        av = self.air.doId2do.get(avId)
+        if not av is None:
+            if av.getHp() <= 0:
+                if avId not in self.punishedToons:
+                    self.air.cogSuitMgr.removeParts(av, self.deptIndex)
+                    self.punishedToons.append(avId)
 
-            if avId in self.looseToons:
-             self.looseToons.remove(avId)
-            if avId in self.involvedToons:
-             self.involvedToons.remove(avId)
-            if avId in self.toonsA:
-             self.toonsA.remove(avId)
+        if avId in self.looseToons:
+            self.looseToons.remove(avId)
 
-            if avId in self.toonsB:
-             self.toonsB.remove(avId)
-            if avId in self.nearToons:
-             self.nearToons.remove(avId)
+        if avId in self.involvedToons:
+            self.involvedToons.remove(avId)
 
+        if avId in self.toonsA:
+            self.toonsA.remove(avId)
 
-            event = self.air.getAvatarExitEvent(avId)
-            self.ignore(event)
-            if not self.hasToons():
-             taskMgr.doMethodLater(10, self.__bossDone, self.uniqueName('BossDone'))
+        if avId in self.toonsB:
+            self.toonsB.remove(avId)
+
+        if avId in self.nearToons:
+            self.nearToons.remove(avId)
+
+        event = self.air.getAvatarExitEvent(avId)
+        self.ignore(event)
+        if not self.hasToons():
+            taskMgr.doMethodLater(10, self.__bossDone, self.uniqueName('BossDone'))
+
+    def getBossDoneFunc(self):
+        return self.__bossDone
 
     def __bossDone(self, task):
         self.b_setState('Off')
@@ -176,10 +183,10 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         self.demand(state)
         if self.air:
             if state in self.keyStates:
-                self.air.writeServerEvent('boss-battle', doId=self.doId, dept=self.dept,
-                 state=state,
-                 involvedToons=self.involvedToons,
-                 reward=self.formatReward())
+                self.air.writeServerEvent('bossBattle', self.doId, '%s|%s|%s|%s' % (self.dept,
+                 state,
+                 self.involvedToons,
+                 self.formatReward()))
 
     def getState(self):
         return self.state
@@ -473,6 +480,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
 
         return suits
 
+
     def generateSuits(self, battleNumber):
         raise StandardError, 'generateSuits unimplemented'
 
@@ -603,49 +611,15 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
     def doNextAttack(self, task):
         self.b_setAttackCode(ToontownGlobals.BossCogNoAttack)
 
-@magicWord(category=CATEGORY_OVERRIDE, types=[str, str, str])
-def boss(cmd, val, val2=''):
-    """
-    A bunch of commands that can be run on the current boss in the invoker's zone.
-    
-    ~boss state StateOne
-    ~boss add loose avId(short)
-    ~boss add toon avId(short)
-    ~boss remove loose avId(short)
-    ~boss remove toon avId(short)
-    """
-    for object in simbase.air.doId2do.itervalues():
-        if isinstance(object, DistributedBossCogAI):
-            # Is this boss cog in the same zone as us?
-            if object.getLocation() == spellbook.getInvoker().getLocation():
-                # Yes it is! We can run commands on it.
-                if cmd == 'state':
-                    object.b_setState(val)
-                    return "Set state of the current boss battle to %s." % val
-                elif cmd in ['add', 'remove']:
-                    avId = 100000000 + int(val2)
-                    toon = simbase.air.doId2do.get(avId)
-                    if not toon:
-                        return "This toon is not currently online!"
-                    if toon.getLocation() != spellbook.getInvoker().getLocation():
-                        return "This toon is not currently in your boss battle!"
-                    if cmd == 'add':
-                        if val == 'loose':
-                            object.looseToons.append(avId)
-                            return "Added avId %d to the loose toons list!" % avId
-                        elif val == 'toon':
-                            object.involvedToons.append(avId)
-                            return "Added avId %d to the involved toons list!" % avId
-                    elif cmd == 'remove':
-                        if val == 'loose':
-                            if avId not in object.looseToons:
-                                return "This toon is not in the loose toons list!"
-                            object.looseToons.remove(avId)
-                            return "Removed avId %d from the loose toons list!" % avId
-                        elif val == 'toon':
-                            if avId not in object.involvedToons:
-                                return "This toon is not in the involved toons list!"
-                            object.involvedToons.remove(avId)
-                            return "Removed avId %d from the involved toons list!" % avId
-                return "Unknown boss command %s." % cmd
-    return "Unable to find boss battle which has current avatar."
+    def getToonDifficulty(self):
+        totalCogSuitTier = 0
+        totalToons = 0
+
+        for toonId in self.involvedToons:
+            toon = simbase.air.doId2do.get(toonId)
+            if toon:
+                totalToons += 1
+                totalCogSuitTier += toon.cogTypes[1]
+
+        averageTier = math.floor(totalCogSuitTier / totalToons) + 1
+        return int(averageTier)

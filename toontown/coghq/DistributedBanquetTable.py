@@ -29,8 +29,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
     pitcherMinH = -360
     pitcherMaxH = 360
     rotateSpeed = 30
-    waterPowerSpeed = base.config.GetDouble('water-power-speed', 15)
-    waterPowerExponent = base.config.GetDouble('water-power-exponent', 0.75)
+    waterPowerSpeed = config.GetDouble('water-power-speed', 15)
+    waterPowerExponent = config.GetDouble('water-power-exponent', 0.75)
     useNewAnimations = True
     TugOfWarControls = False
     OnlyUpArrow = True
@@ -223,11 +223,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         newIndicator = DinerStatusIndicator.DinerStatusIndicator(parent=head, pos=Point3(0, 0, 3.5), scale=5.0)
         newIndicator.wrtReparentTo(diner)
         self.dinerStatusIndicators[i] = newIndicator
-        
-        # remove nametag (rip lag)
         diner.nametag3d.stash()
         diner.nametag.destroy()
-        
         return diner
 
     def setupChairCols(self):
@@ -302,6 +299,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         serviceLoc = self.serviceLocs[chairIndex]
 
         def foodAttach(self = self, diner = diner):
+            if not self.serviceLocs[chairIndex].getNumChildren():
+                return
             foodModel = self.serviceLocs[chairIndex].getChild(0)
             (foodModel.reparentTo(diner.getRightHand()),)
             (foodModel.setHpr(Point3(0, -94, 0)),)
@@ -318,6 +317,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             foodModel.setScale(newScale)
 
         def foodDetach(self = self, diner = diner):
+            if diner.getRightHand().getNumChildren() < 1:
+                return
             foodModel = diner.getRightHand().getChild(0)
             (foodModel.reparentTo(serviceLoc),)
             (foodModel.setPosHpr(0, 0, 0, 0, 0, 0),)
