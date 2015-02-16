@@ -4,7 +4,7 @@
 
 # Version
 
-2.0.4
+2.0.4.5
 
 ### How do I get set up? ###
 
