@@ -197,8 +197,8 @@ class ClearListOperation(OperationFSM):
 
 # -- FriendsManager --
 
-class TTRFriendsManagerUD(DistributedObjectGlobalUD):
-    notify = directNotify.newCategory('TTRFriendsManagerUD')
+class TTIFriendsManagerUD(DistributedObjectGlobalUD):
+    notify = directNotify.newCategory('TTIFriendsManagerUD')
 
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)
@@ -246,11 +246,12 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
         self.operations.append(newOperation)
         newOperation.demand('Start')
 
-    def getAvatarDetails(self, avId):
-        senderId = self.air.getAvatarIdFromSender()
-        def handleToon(dclass, fields):
-            if dclass != self.air.dclassesByName['DistributedToonUD']:
-                return
+    def getAvatarDetails(self, avId, fields):
+        # We no longer need the FSM.
+        self.deleteFSM(requesterId)
+        if not success:
+            # Something went wrong... abort.
+            return
         details = [
             ['setExperience' , fields['setExperience'][0]],
             ['setTrackAccess' , fields['setTrackAccess'][0]],
