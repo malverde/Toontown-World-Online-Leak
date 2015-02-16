@@ -5583,3 +5583,166 @@ def gloves(c1, c2=None):
     dna.gloveColor = value
     target.b_setDNAString(dna.makeNetString())
     return 'Glove color set to: {0}'.format(TTLocalizer.NumToColor[value])    
+    
+#Our Version 1.0 Magic Words
+@magicWord(category=CATEGORY_ADMIN)
+def getZone():
+    invoker = spellbook.getInvoker()
+    zone = invoker.zoneId
+    return 'The ZoneID is: %s' % (zone)
+    
+@magicWord(category=CATEGORY_ADMIN, types=[int])
+def fishingRod(rod):
+    """
+    Modify the target's fishing rod value.
+    """
+    if not 0 <= rod <= 4:
+        return 'Rod value must be in xrange (0-4).'
+    target = spellbook.getTarget()
+    target.b_setFishingRod(rod)
+    return "Set {0}'s fishing rod to {1}!".format(target.getName(), rod)
+
+@magicWord(category=CATEGORY_ADMIN, types=[str, int])
+def bank(command, value):
+    """
+    Modifies the target's bank money values.
+    """
+    command = command.lower()
+    target = spellbook.getTarget()
+    if command == 'max':
+        if not 1000 <= value <= 12000:
+            return 'Max bank value must be in xrange (1000-12000).'
+
+@magicWord(category=CATEGORY_ADMIN, types=[int])
+def money(money):
+    """
+    Modifies the target's current money value.
+    """
+    target = spellbook.getTarget()
+    maxBankMoney = target.getMaxBankMoney()
+    if not 0 <= money <= maxBankMoney:
+        return 'Money value must be in xrange (0-{0}).'.format(maxBankMoney)
+    target.b_setMoney(money)
+    return "Set {0}'s money value to {1}!".format(target.getName(), money)
+
+@magicWord(category=CATEGORY_ADMIN, types=[str, int, int])
+def quests(command, arg0=0, arg1=0):
+    target = spellbook.getTarget()
+    currQuests = target.getQuests()
+    currentQuestIds = []
+
+    for i in xrange(0, len(currQuests), 5):
+        currentQuestIds.append(currQuests[i])
+
+    pocketSize = target.getQuestCarryLimit()
+    carrying = len(currQuests) / 5
+    canCarry = False
+
+    if (carrying < pocketSize):
+        canCarry = True
+
+    if command == 'clear':
+        target.b_setQuests([])
+        return 'Cleared quests'
+    elif command == 'clearHistory':
+        target.d_setQuestHistory([])
+        return 'Cleared quests history'
+    elif command == 'add':
+        if arg0:
+            if canCarry:
+                if arg0 in Quests.QuestDict.keys():
+                    return 'Added QuestID %s'%(arg0)
+                else:
+                    return 'Invalid QuestID %s'%(arg0)
+            else:
+                return 'Cannot take anymore quests'
+        else:
+            return 'add needs 1 argument.'
+    elif command == 'remove':
+        if arg0:
+            if arg0 in currentQuestIds:
+                target.removeQuest(arg0)
+                return 'Removed QuestID %s'%(arg0)
+            elif arg0 < pocketSize and arg0 > 0:
+                if len(currentQuestIds) <= arg0:
+                    questIdToRemove = currentQuestIds[arg0 - 1]
+                    target.removeQuest(questIdToRemove)
+                    return 'Removed quest from slot %s'%(arg0)
+                else:
+                    return 'Invalid quest slot'
+            else:
+                return 'Cannot remove quest %s'%(arg0)
+        else:
+            return 'remove needs 1 argument.'
+    elif command == 'list':
+        if arg0:
+            if arg0 > 0 and arg0 <= pocketSize:
+                start = (arg0 -1) * 5
+                questDesc = currQuests[start : start + 5]
+                return 'QuestDesc in slot %s: %s.'%(arg0, questDesc)
+            else:
+                return 'Invalid quest slot %s.'%(arg0)
+        else:
+            return 'CurrentQuests: %s'%(currentQuestIds)
+    elif command == 'bagSize':
+        if arg0 > 0 and arg0 < 5:
+            target.b_setQuestCarryLimit(arg0)
+            return 'Set carry limit to %s'%(arg0)
+        else:
+            return 'Argument 0 must be between 1 and 4.'
+    elif command == 'progress':
+        if arg0 and arg1:
+            if arg0 > 0 and arg0 <= pocketSize:
+                questList = []
+                wantedQuestId = currentQuestIds[arg0 - 1]
+
+                for i in xrange(0, len(currQuests), 5):
+                    questDesc = currQuests[i : i + 5]
+
+                    if questDesc[0] == wantedQuestId:
+                        questDesc[4] = arg1
+
+                    questList.append(questDesc)
+
+                target.b_setQuests(questList)
+                return 'Set quest slot %s progress to %s'%(arg0, arg1)
+            elif arg0 in Quests.QuestDict.keys():
+                if arg0 in currentQuestIds:
+                    questList = []
+
+                    for i in xrange(0, len(currQuests), 5):
+                        questDesc = currQuests[i : i + 5]
+
+                        if questDesc[0] == arg0:
+                            questDesc[4] = arg1
+
+                        questList.append(questDesc)
+
+                    target.b_setQuests(questList)
+                    return 'Set QuestID %s progress to %s'%(arg0, arg1)
+                else:
+                    return 'Cannot progress QuestID: %s.'%(arg0)
+            else:
+                return 'Invalid quest or slot id'
+        else:
+            return 'progress needs 2 arguments.'
+    elif command == 'tier':
+        if arg0:
+            target.b_setRewardHistory(arg0, target.getRewardHistory()[1])
+            return 'Set tier to %s'%(arg0)
+        else:
+            return 'tier needs 1 argument.'
+    else:
+        return 'Invalid first argument.'
+
+@magicWord(category=CATEGORY_ADMIN)
+def skipMovie():
+    invoker = spellbook.getInvoker()
+    battleId = invoker.getBattleId()
+    if not battleId:
+        return 'You are not currently in a battle!'
+    battle = simbase.air.doId2do.get(battleId)
+    battle._DistributedBattleBaseAI__movieDone()
+    return 'Battle movie skipped.'
+    
+#END OF our Version 1.0 Magic Words
