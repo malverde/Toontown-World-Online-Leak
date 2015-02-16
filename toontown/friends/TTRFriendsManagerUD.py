@@ -7,6 +7,14 @@ import random
 import functools
 import time
 from direct.fsm.FSM import FSM
+from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
+from direct.distributed.PyDatagram import *
+from direct.task import Task
+from direct.directnotify.DirectNotifyGlobal import directNotify
+from direct.fsm.FSM import FSM
+import functools
+from time import time
+import cPickle
 
 # -- FSMS --
 class OperationFSM(FSM):
@@ -239,24 +247,24 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
         newOperation.demand('Start')
 
     def getAvatarDetails(self, avId):
-        senderId = self.air.getAvatarIdFromSender()
-        def handleToon(dclass, fields):
-            if dclass != self.air.dclassesByName['DistributedToonUD']:
-                return
-            inventory = fields['setInventory'][0]
-            trackAccess = fields['setTrackAccess'][0]
-            trophies = 0 # fields['setTrophyScore'][0] is not db
-            hp = fields['setHp'][0]
-            maxHp = fields['setMaxHp'][0]
-            defaultShard = fields['setDefaultShard'][0]
-            lastHood = fields['setLastHood'][0]
-            dnaString =  fields['setDNAString'][0]
-            experience = fields['setExperience'][0]
-            trackBonusLevel = fields['setTrackBonusLevel'][0]
-            # We need an actual way to send the fields to the client...............
-            # Inventory, trackAccess, trophies, Hp, maxHp, defaultshard, lastHood, dnastring
-            self.sendUpdateToAvatarId(senderId, 'friendDetails', [avId, inventory, trackAccess, trophies, hp, maxHp, defaultShard, lastHood, dnaString, experience, trackBonusLevel])
-        self.air.dbInterface.queryObject(self.air.dbId, avId, handleToon)
+        # We no longer need the FSM.
+        self.deleteFSM(requesterId)
+        if not success:
+            # Something went wrong... abort.
+            return
+        details = [
+            ['setExperience' , fields['setExperience'][0]],
+            ['setTrackAccess' , fields['setTrackAccess'][0]],
+            ['setTrackBonusLevel' , fields['setTrackBonusLevel'][0]],
+            ['setInventory' , fields['setInventory'][0]],
+            ['setHp' , fields['setHp'][0]],
+            ['setMaxHp' , fields['setMaxHp'][0]],
+            ['setDefaultShard' , fields['setDefaultShard'][0]],
+            ['setLastHood' , fields['setLastHood'][0]],
+            ['setDNAString' , fields['setDNAString'][0]],
+            ['setLastSeen' , fields.get('setLastSeen', [0])[0]],
+        ]
+        self.sendUpdateToAvatarId(requesterId, 'friendDetails', [fields['ID'], cPickle.dumps(details)])
 
     # -- Toon Online/Offline --
     def toonOnline(self, doId, friendsList):
