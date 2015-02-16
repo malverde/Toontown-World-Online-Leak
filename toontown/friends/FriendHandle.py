@@ -39,7 +39,7 @@ class FriendHandle:
     def uniqueName(self, idString):
         return idString + '-' + str(self.getDoId())
 
-    def d_battleSOS(self, sendToId):
+    def d_battleSOS(self, requesterId):
         base.localAvatar.sendUpdate('battleSOS', [requesterId], sendToId=self.doId)
 
     def d_teleportQuery(self, requesterId):
