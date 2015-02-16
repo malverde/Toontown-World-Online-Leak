@@ -247,11 +247,10 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
         newOperation.demand('Start')
 
     def getAvatarDetails(self, avId):
-        # We no longer need the FSM.
-        self.deleteFSM(requesterId)
-        if not success:
-            # Something went wrong... abort.
-            return
+        senderId = self.air.getAvatarIdFromSender()
+        def handleToon(dclass, fields):
+            if dclass != self.air.dclassesByName['DistributedToonUD']:
+                return
         details = [
             ['setExperience' , fields['setExperience'][0]],
             ['setTrackAccess' , fields['setTrackAccess'][0]],
