@@ -211,9 +211,9 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
                 self.suit.dna.newSuit('tbc')                
 
                 self.suit.setSpawnPoint(99)
-                self.suit.setLevel(1)
+                self.suit.setLevel(8)
                 self.suit.generateWithRequired(ToontownGlobals.ToontownCentral)
-                self.suit.takeDamage(hp)
+                self.suit.takeDamage(90)
 
     def saySurleePhrase(self, phrase = None, interrupt = 0, broadcast = False):
         if not phrase:
