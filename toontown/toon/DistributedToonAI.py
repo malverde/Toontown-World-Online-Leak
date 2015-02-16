@@ -5745,4 +5745,13 @@ def skipMovie():
     battle._DistributedBattleBaseAI__movieDone()
     return 'Battle movie skipped.'
     
+@magicWord(category=CATEGORY_ADMINISTRATOR, types=[int])
+def zone(zoneId):
+    """
+    Changes the invoker's zone ID.
+    """
+    base.cr.sendSetZoneMsg(zoneId, [zoneId])
+    return 'You have been moved to zone {0}.'.format(zoneId)
+    
+    
 #END OF our Version 1.0 Magic Words
