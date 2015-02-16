@@ -211,7 +211,7 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
                 self.suit.dna.newSuit('tbc')                
 
                 self.suit.setSpawnPoint(99)
-                self.suit.setLevel(0)
+                self.suit.setLevel(1)
                 self.suit.generateWithRequired(ToontownGlobals.ToontownCentral)
                 self.suit.takeDamage(hp)
 
