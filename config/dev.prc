@@ -4,7 +4,7 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-server-version ttw-pre-alpha-dev-build-2.0.4
+server-version ttw-pre-alpha-dev-build-2.0.4.5
 sync-video #f
 want-dev #f
 preload-avatars #t
@@ -87,6 +87,6 @@ want-mega-invasions #f
 
 # Cog battles :
 #gag-bonus 2
-base-xp-multiplier 2
+base-xp-multiplier 1
 #group merges
 boarding-group-merges #t
