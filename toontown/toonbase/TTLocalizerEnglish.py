@@ -8417,7 +8417,7 @@ TIP_GOLF = 7
 TipTitle = 'TOON TIP:'
 TipDict = {TIP_NONE: ('',),
  TIP_GENERAL: ('Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters, but not inside!',
-               'Collect Gag Buff ToonTaks to increase your Gag Accuracy or movement speed.',
+               'Collect Gag Buff ToonTasks to increase your Gag Accuracy or movement speed.',
                'Toon Troopers are here to help. If you are being troubled find one and ask for help.',
                'You can report or ignore a Toon if they are troubling you or others.',
                'Quickly check your ToonTask progress by holding down the "End" key.',
@@ -9919,10 +9919,10 @@ def getGloveColorPosterString(colorId):
 buffIdStrings = {
   0: ('Your movement speed will be slightly increased for the next %d %s.',
       'Reward: Increased movement speed'),
-  1: ('Your gag accuracy will be slightly increased for the next %d %s.',
-      'Reward: Increased gag accuracy'),
-  2: ('Your gag experience will be slightly increased for the next %d %s.',
-      'Reward: Increased gag experience')
+  1: ('Your Gag accuracy will be slightly increased for the next %d %s.',
+      'Reward: Increased Gag accuracy'),
+  2: ('Your Gag experience will be slightly increased for the next %d %s.',
+      'Reward: Increased Gag experience')
 }
 
 
