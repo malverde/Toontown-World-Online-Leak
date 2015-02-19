@@ -9,9 +9,9 @@ from toontown.coghq import CogHQExterior
 
 class BossbotHQExterior(CogHQExterior.CogHQExterior):
     notify = DirectNotifyGlobal.directNotify.newCategory('BossbotHQExterior')
-
     def __init__(self, loader, parentFSM, doneEvent):
         CogHQExterior.CogHQExterior.__init__(self, loader, parentFSM, doneEvent)
+        dnaFile = 'phase_12/dna/cog_hq_bossbot_sz.xml' 
         self.elevatorDoneEvent = 'elevatorDone'
         self.trains = None
         self.fsm.addState(State.State('elevator', self.enterElevator, self.exitElevator, ['walk', 'stopped']))
@@ -21,8 +21,8 @@ class BossbotHQExterior(CogHQExterior.CogHQExterior):
         state.addTransition('elevator')
         state = self.fsm.getStateNamed('stickerBook')
         state.addTransition('elevator')
+       
         return
-
     def enterElevator(self, distElevator, skipDFABoard = 0):
         self.accept(self.elevatorDoneEvent, self.handleElevatorDone)
         self.elevator = Elevator.Elevator(self.fsm.getStateNamed('elevator'), self.elevatorDoneEvent, distElevator)
@@ -56,3 +56,10 @@ class BossbotHQExterior(CogHQExterior.CogHQExterior):
             messenger.send(self.doneEvent)
         else:
             self.notify.error('Unknown mode: ' + where + ' in handleElevatorDone')
+    def enter(self, requestStatus):
+        CogHQExterior.CogHQExterior.enter(self, requestStatus)
+        self.loader.hood.startSky()
+
+    def exit(self):
+        self.loader.hood.stopSky()
+        CogHQExterior.CogHQExterior.exit(self)

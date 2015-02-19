@@ -4,7 +4,7 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-server-version ttw-pre-alpha-dev-build-2.0.4
+server-version ttw-pre-alpha-dev-build-2.0.4.5
 sync-video #f
 want-dev #f
 preload-avatars #t
@@ -34,8 +34,9 @@ default-model-extension .bam
 
 
 # Server settings
-want-rpc-server #f
+want-rpc-server #t
 rpc-server-endpoint http://localhost:8080/
+rpc-server-secret 0123456789abcdef    (need a more secure one )
 eventlog-host 127.0.0.1
 want-cheesy-expirations #t
 
@@ -87,6 +88,6 @@ want-mega-invasions #f
 
 # Cog battles :
 #gag-bonus 2
-base-xp-multiplier 2
+base-xp-multiplier 1
 #group merges
 boarding-group-merges #t
