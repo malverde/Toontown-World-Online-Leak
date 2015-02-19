@@ -21,6 +21,7 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
         DistributedElevator.DistributedElevator.__init__(self, cr)
         self.nametag = None
         self.currentFloor = -1
+        self.bldg = None
         return
 
     def setupElevator(self):
