@@ -15,10 +15,6 @@ import ElectionGlobals
 import random
 from otp.distributed.OtpDoGlobals import *
 from direct.task import Task
-from toontown.suit import SuitDNA
-from toontown.suit import SuitPlannerBase
-from toontown.suit import SuitBase
-
 
 class DistributedElectionEventAI(DistributedObjectAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedElectionEventAI")
@@ -47,9 +43,9 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
        These bits are for things used before Election Day, and mostly unrelated to the Election Sequence.
     '''
     def enterIdle(self):
-        # Generate Buddy's Hot Air Balloon!
+        # Generate Slappy's Hot Air Balloon!
         if self.balloon is None:
-            # Pump some self.air into Buddy's Balloon
+            # Pump some self.air into Slappy's Balloon
             self.balloon = DistributedHotAirBalloonAI(self.air)
             self.balloon.generateWithRequired(self.zoneId)
         if config.GetBool('want-doomsday', False):
@@ -87,11 +83,11 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
         # This is more for the invasion than the pre-invasion elections.
         self.pieTypeAmount = [type, num]
 
-    def buddyAvatarEnter(self):
+    def slappyAvatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
         av = self.air.doId2do.get(avId, None)
         if not av:
-            self.air.writeServerEvent('suspicious', avId=avId, issue='Got a request for Buddy\'s Cheesy Effect from a toon that isn\'t on the district!')
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Got a request for Slappy\'s Cheesy Effect from a toon that isn\'t on the district!')
             return
         av.b_setCheesyEffect(15, 0, 0)
 
@@ -109,7 +105,7 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
             event = DistributedElectionEventAI(simbase.air)
             event.generateWithRequired(2000)
         if self.balloon is None:
-            # Pump some self.air into Buddy's Balloon
+            # Pump some self.air into Slappy's Balloon
             self.balloon = DistributedHotAirBalloonAI(self.air)
             self.balloon.generateWithRequired(self.zoneId)
         self.eventSequence = Sequence(
@@ -204,16 +200,11 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
             if not self.cogDead:
                 self.cogDead = True
                 self.suit = DistributedInvasionSuitAI(self.air, self)
-                suit = DistributedInvasionSuitAI(self.air, self) 
-                suit.dna = SuitDNA.SuitDNA()
-                self.suit.dna = suit.dna
-
-                self.suit.dna.newSuit('tbc')                
-
+                self.suit.dna.newSuit('ym')
                 self.suit.setSpawnPoint(99)
-                self.suit.setLevel(8)
+                self.suit.setLevel(0)
                 self.suit.generateWithRequired(ToontownGlobals.ToontownCentral)
-                self.suit.takeDamage(90)
+                self.suit.takeDamage(hp)
 
     def saySurleePhrase(self, phrase = None, interrupt = 0, broadcast = False):
         if not phrase:
@@ -241,12 +232,8 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
     def getState(self):
         return (self.state, self.stateTime)
 
-@magicWord(category=CATEGORY_ADMIN, types=[str])
+@magicWord(category=CATEGORY_MODERATION, types=[str])
 def election(state):
-    if not config.GetBool('want-doomsday', False):
-        simbase.air.writeServerEvent('warning', avId=spellbook.getInvoker().doId, issue='Attempted to change the election state while doomsday is disabled.')
-        return 'ABOOSE! The election is currently disabled. Your request has been logged.'
-
     event = simbase.air.doFind('ElectionEvent')
     if event is None:
         event = DistributedElectionEventAI(simbase.air)
