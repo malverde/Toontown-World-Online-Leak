@@ -135,6 +135,7 @@ def generateSuits(numberOfSuits, suitLevelRange=[0, 0], suitRange=[0, 0], wantEx
              for k in range(numberOfSuits)]
     return wave
 
+
 SuitWaves = [
     # Suits in a wave can't exceed the number of spawn points.
     # While each index is actually separate wave, they will keep
@@ -183,7 +184,7 @@ SuitWaves = [
     # WAVE 9: THE FINAL WAVE
     generateSuits(15, [7, 12], [6, 7], True),
     generateSuits(20, [8, 12], [7, 7], True), # Wait Wave
-    generateSuits(25, [8, 12], [7, 7], True) # Intermission Wave
+    generateSuits(25, [8, 12], [7, 7], True), # Intermission Wave
 ]
 
 # On these waves, no more waves will spawn until all suits are destroyed.
