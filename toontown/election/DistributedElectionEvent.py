@@ -742,6 +742,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
             Func(self.alec.loop, 'neutral'),
             # Flippy isn't happy at all, he's going histerical
             Parallel(Func(self.moveCamera, 2, 77, -23, 9, 398, 0), Func(base.cr.cameraManager.setMainCamera, self.cameras[2].getDoId())),
+            Parallel(self.flippy.head.hprInterval(0.5, (0, 0, 0), blendType='easeInOut')),
             Func(self.flippy.setChatAbsolute, "What... What are you?", CFSpeech|CFTimeout),  
             Wait(1.5),
             Func(self.alec.setChatAbsolute, "Flippy,  get away from it!", CFSpeech|CFTimeout),
