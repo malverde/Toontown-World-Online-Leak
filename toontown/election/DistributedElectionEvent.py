@@ -678,17 +678,16 @@ class DistributedElectionEvent(DistributedObject, FSM):
 
         # Huh, what's that thing?
         musicSad = base.loadMusic(ElectionGlobals.SadMusic)
-        sfxSad = loader.loadSfx('phase_5/audio/sfx/ENC_Lose.ogg')
         mtrack = self.suit.beginSupaFlyMove(Point3(65, 3.6, 4.0), 1, 'fromSky', walkAfterLanding=False)
-        )
+        
         self.pie = BattleProps.globalPropPool.getProp('creampie')
         self.cogSequence = Sequence(
             Parallel(Func(self.moveCamera, 1, 56, 26, 9, 204, 0), Func(base.cr.cameraManager.setMainCamera, self.cameras[1].getDoId())),
             Parallel(Func(self.suit.reparentTo, render), Func(self.suit.addActive), Func(mtrack.start, offset)),
-            self.flippy.head.hprInterval(1, (-15, -10, 0), blendType='easeInOut'),
+            self.Buddy.head.hprInterval(1, (-15, -10, 0), blendType='easeInOut'),
             Wait(1),
             self.alec.head.hprInterval(1, (-15, -5, 0), blendType='easeInOut'),
-            Func(self.flippy.setChatAbsolute, 'I will make sure you guys...', CFSpeech|CFTimeout),
+            Func(self.flippy.setChatAbsolute, 'I will make sure you guys will...', CFSpeech|CFTimeout),
             Func(self.flippy.hideLaughMuzzle),
             Wait(2),
             # The cog has landed. Surlee knows what's coming.
