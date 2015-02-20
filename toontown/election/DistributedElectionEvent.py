@@ -203,7 +203,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
         # The first cog created - a telemarketer
         self.suit = DistributedSuitBase.DistributedSuitBase(cr)
         suitDNA = SuitDNA.SuitDNA()
-        suitDNA.newSuit('t')
+        suitDNA.newSuit('tm')
         self.suit.setDNA(suitDNA)
         self.suit.setDisplayName('Telemarketer\nBossbot\nLevel 3')
         self.suit.setPickable(0)

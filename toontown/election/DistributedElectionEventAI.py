@@ -200,7 +200,7 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
             if not self.cogDead:
                 self.cogDead = True
                 self.suit = DistributedInvasionSuitAI(self.air, self)
-                self.suit.dna.newSuit('t')
+                self.suit.dna.newSuit('tm')
                 self.suit.setSpawnPoint(99)
                 self.suit.setLevel(0)
                 self.suit.generateWithRequired(ToontownGlobals.ToontownCentral)
