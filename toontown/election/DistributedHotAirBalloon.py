@@ -18,12 +18,12 @@ class DistributedHotAirBalloon(DistributedObject, FSM):
         self.flightPathIndex = 0
 
         # Create the balloon
-        self.balloon = loader.loadModel('phase_4/models/events/election_slappyBalloon-static')
+        self.balloon = loader.loadModel('phase_4/models/events/election_buddyBalloon-static')
         self.balloon.reparentTo(base.render)
         self.balloon.setPos(*ElectionGlobals.BalloonBasePosition)
         self.balloon.setScale(ElectionGlobals.BalloonScale)
         # So we can reparent toons to the balloon so they don't fall out
-        self.cr.parentMgr.registerParent(ToontownGlobals.SPSlappysBalloon, self.balloon)
+        self.cr.parentMgr.registerParent(ToontownGlobals.SPBuddysBalloon, self.balloon)
         # Balloon collision NodePath (outside)
         self.collisionNP = self.balloon.find('**/Collision_Outer')
 
