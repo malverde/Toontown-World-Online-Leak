@@ -44,7 +44,7 @@ SurleeTips = [
     'The Cog\'s business is too boring to bear. Don\'t let them talk to you.',
     'That\'s what I\'m talking about. Keep at it!',
     'Flippy, we need more pies over here. They\'re flying out quick.',
-    'Doctor Dimm, have you had any luck on Buddy\'s stand?',
+   # 'Doctor Dimm, have you had any luck on Buddy\'s stand?',
     'Keep a close eye on your pie count, it can run out fast.'
 ]
 
@@ -304,29 +304,29 @@ def generateSpeechSequence(balloon):
     # This is the interval for Buddy's phrases to say throughout the flight.
     # It shouldn't really be edited. Instead, add more phrases above with BuddySpeechX and BuddySpeechChoices.
     speechSequence = Sequence(
-        Func(balloon.Buddy.setChatAbsolute, BuddySpeeches[0], CFSpeech | CFTimeout),
+        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[0], CFSpeech | CFTimeout),
         Wait(4),
-        Func(balloon.Buddy.setChatAbsolute, BuddySpeeches[1], CFSpeech | CFTimeout),
+        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[1], CFSpeech | CFTimeout),
         Wait(6),
-        Func(balloon.Buddy.setChatAbsolute, BuddySpeeches[2], CFSpeech | CFTimeout),
+        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[2], CFSpeech | CFTimeout),
         Wait(4),
-        Func(balloon.Buddy.setChatAbsolute, BuddySpeeches[3], CFSpeech | CFTimeout),
+        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[3], CFSpeech | CFTimeout),
         Wait(6),
-        Func(balloon.Buddy.setChatAbsolute, BuddySpeeches[4], CFSpeech | CFTimeout),
+        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[4], CFSpeech | CFTimeout),
         Wait(10),
-        Func(balloon.Buddy.setChatAbsolute, BuddySpeeches[5], CFSpeech | CFTimeout),
+        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[5], CFSpeech | CFTimeout),
         Wait(6),
-        Func(balloon.Buddy.setChatAbsolute, BuddySpeeches[6], CFSpeech | CFTimeout),
+        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[6], CFSpeech | CFTimeout),
         Wait(10),
-        Func(balloon.Buddy.setChatAbsolute, BuddySpeeches[7], CFSpeech | CFTimeout),
+        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[7], CFSpeech | CFTimeout),
         Wait(6),
-        Func(balloon.Buddy.setChatAbsolute, BuddySpeeches[8], CFSpeech | CFTimeout),
+        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[8], CFSpeech | CFTimeout),
         Wait(7),
-        Func(balloon.Buddy.setChatAbsolute, BuddySpeeches[9], CFSpeech | CFTimeout),
+        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[9], CFSpeech | CFTimeout),
         Wait(5),
-        Func(balloon.Buddy.setChatAbsolute, BuddySpeeches[10], CFSpeech | CFTimeout),
+        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[10], CFSpeech | CFTimeout),
         Wait(6),
-        Func(balloon.Buddy.setChatAbsolute, BuddySpeeches[11], CFSpeech | CFTimeout)
+        Func(balloon.buddy.setChatAbsolute, BuddySpeeches[11], CFSpeech | CFTimeout)
     )
 
     # Return the sequence back to the balloon to run
