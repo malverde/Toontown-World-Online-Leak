@@ -27,14 +27,14 @@ class DistributedHotAirBalloon(DistributedObject, FSM):
         # Balloon collision NodePath (outside)
         self.collisionNP = self.balloon.find('**/Collision_Outer')
 
-        self.buddy = NPCToons.createLocalNPC(91915)
+        self.buddy = NPCToons.createLocalNPC(2021)
         self.buddy.setPos(0.7, 0.7, 0.4)
         self.buddy.setH(150)
-        self.buddy.setScale((1/ElectionGlobals.BalloonScale)) # We want a normal sized Buddy
+        self.buddy.setScale((1/ElectionGlobals.BalloonScale)) # We want a normal sized buddy
         self.buddy.loop('neutral')
 
-        # Create balloon flight paths and Buddy speeches. It's important we do this AFTER we load everything
-        # else as this requires both the balloon and Buddy.
+        # Create balloon flight paths and buddy speeches. It's important we do this AFTER we load everything
+        # else as this requires both the balloon and buddy.
         self.flightPaths = ElectionGlobals.generateFlightPaths(self)
         self.toonFlightPaths = ElectionGlobals.generateToonFlightPaths(self)
         self.speechSequence = ElectionGlobals.generateSpeechSequence(self)
@@ -45,7 +45,7 @@ class DistributedHotAirBalloon(DistributedObject, FSM):
         # http://puu.sh/77zAm.jpg
         self.demand('Off')
         self.ignore('enter' + self.collisionNP.node().getName())
-        self.cr.parentMgr.unregisterParent(ToontownGlobals.SPBuddysBalloon)
+        self.cr.parentMgr.unregisterParent(ToontownGlobals.SPSlappysBalloon)
         self.balloon.removeNode()
         if self.buddy:
             self.buddy.delete()
@@ -57,7 +57,7 @@ class DistributedHotAirBalloon(DistributedObject, FSM):
         self.demand(state, globalClockDelta.localElapsedTime(timestamp))
             
     def enterWaiting(self, offset):
-        # Render Buddy, since we're going to be giving rides
+        # Render buddy, since we're going to be giving rides
         self.buddy.reparentTo(self.balloon)
 
         # Wait for a collision...
@@ -73,7 +73,7 @@ class DistributedHotAirBalloon(DistributedObject, FSM):
         self.balloonIdle.setT(offset)
     
     def enterElectionIdle(self, offset):
-        # Buddy is off for the election, but he left his balloon parked in TTC.
+        # buddy is off for the election, but he left his balloon parked in TTC.
         self.balloon.setPos(*ElectionGlobals.BalloonElectionPosition)
         self.balloon.setH(283)
         self.balloonElectionIdle = Sequence(
@@ -84,7 +84,7 @@ class DistributedHotAirBalloon(DistributedObject, FSM):
         self.balloonElectionIdle.setT(offset)
         
     def enterElectionCrashing(self, offset):
-        # Buddy has gone sad, and in turn his balloon has ran out of silliness.
+        # buddy has gone sad, and in turn his balloon has ran out of silliness.
         # It's tumbling down behind Toon Hall.
         self.balloonElectionFall = Sequence(
             self.balloon.posHprInterval(17, (200.0, 20.0, 0.0), (105, -5, -5), blendType='easeInOut'),
@@ -116,7 +116,7 @@ class DistributedHotAirBalloon(DistributedObject, FSM):
             base.localAvatar.disableAvatarControls()
             
             self.hopOnAnim = Sequence(Parallel(
-                Func(base.localAvatar.b_setParent, ToontownGlobals.SPBuddysBalloon), # Required to put the toon in the basket
+                Func(base.localAvatar.b_setParent, ToontownGlobals.SPSlappysBalloon), # Required to put the toon in the basket
                 Func(base.localAvatar.b_setAnimState, 'jump', 1.0)), 
                 base.localAvatar.posInterval(0.6, (0, 0, 2)), 
                 base.localAvatar.posInterval(0.4, (0, 0, 0.7)), 
