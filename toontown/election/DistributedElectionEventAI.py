@@ -202,9 +202,9 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
                 self.suit = DistributedInvasionSuitAI(self.air, self)
                 self.suit.dna.newSuit('tm')
                 self.suit.setSpawnPoint(99)
-                self.suit.setLevel(0)
+                self.suit.setLevel(3)
                 self.suit.generateWithRequired(ToontownGlobals.ToontownCentral)
-                self.suit.takeDamage(hp)
+                self.suit.takeDamage(20)
 
     def saySurleePhrase(self, phrase = None, interrupt = 0, broadcast = False):
         if not phrase:

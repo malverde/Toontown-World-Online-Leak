@@ -408,8 +408,6 @@ class DistributedElectionEvent(DistributedObject, FSM):
         if self.finishedCogLanding:
             self.flippy.setPosHpr(-15, -12, 0, 0, 0, 0)
             self.alec.setPos(-1.5, -0.14, 3.13)
-            self.Buddy.hide()
-            self.Buddy.removeActive()
             self.surlee.setPosHpr(-32, -15, 0, 40, 0, 0)
             self.accept('enter' + self.pieCollision.node().getName(), self.handleWheelbarrowCollisionSphereEnter)
 
@@ -745,6 +743,12 @@ class DistributedElectionEvent(DistributedObject, FSM):
             Parallel(self.flippy.head.hprInterval(0.5, (0, 0, 0), blendType='easeInOut')),
             Func(self.flippy.setChatAbsolute, "What... What are you?", CFSpeech|CFTimeout),  
             Wait(1.5),
+            self.flippy.posInterval(0.2, (-7.5, -9.2, 3.5)),
+            self.flippy.posHprInterval(0.4, (-14, -9, 0), (50, 0, 0)),
+            Wait(0.2),
+            Func(self.suit.loop, 'walk'),
+            Parallel(self.suit.hprInterval(1, (180, 0, 0)), self.flippy.posHprInterval(1, (-15, -1, 0), (0, 0, 0))),
+            Func(self.suit.loop, 'neutral'),                                    
             Func(self.alec.setChatAbsolute, "Flippy,  get away from it!", CFSpeech|CFTimeout),
             self.alec.head.hprInterval(1, (-5, -5, 0), blendType='easeInOut'),
             Wait(5),
