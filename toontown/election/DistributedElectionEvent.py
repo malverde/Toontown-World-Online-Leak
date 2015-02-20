@@ -68,14 +68,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
         wheelbarrow = self.flippyStand.find('**/Box')
         wheelbarrow.setPosHprScale(-2.39, 0.00, 1.77, 0.00, 0.00, 6.00, 1.14, 1.54, 0.93)
 
-        self.BuddyStand = Actor.Actor('phase_4/models/events/election_BuddyStand-mod', {
-          'idle': 'phase_4/models/events/election_BuddyStand-idle',
-          'watch-idle': 'phase_4/models/events/election_BuddyStand-watch-idle',
-          'sad': 'phase_4/models/events/election_BuddyStand-reaction',
-        })
-        self.BuddyStand.reparentTo(self.showFloor)
-        self.BuddyStand.setPosHprScale(-62.45, 14.39, 0.01, 325, 0, 0, 0.55, 0.55, 0.55)
-
+  
         # Let's give FlippyStand a bunch of pies.
         # Pies on/around the stand.
         pie = loader.loadModel('phase_3.5/models/props/tart')
@@ -97,9 +90,6 @@ class DistributedElectionEvent(DistributedObject, FSM):
         self.pieCollision.node().addSolid(cs)
         self.accept('enter' + self.pieCollision.node().getName(), self.handleWheelbarrowCollisionSphereEnter)
 
-        csBuddy = CollisionBox(Point3(-4.2, 0, 0), 9.5, 5.5, 18)
-        self.goopCollision = self.BuddyStand.attachNewNode(CollisionNode('goop_collision'))
-        self.goopCollision.node().addSolid(csBuddy)
         if not config.GetBool('want-doomsday', False):
             self.accept('enter' + self.goopCollision.node().getName(), self.handleBuddyCollisionSphereEnter)
 		
@@ -116,8 +106,6 @@ class DistributedElectionEvent(DistributedObject, FSM):
             self.startInteractiveFlippy()
 
         self.flippyStand.loop('idle')
-        self.BuddyStand.loop('idle')
-
         self.alecNode = None
 
         self.surlee = NPCToons.createLocalNPC(20191)
@@ -212,12 +200,12 @@ class DistributedElectionEvent(DistributedObject, FSM):
             self.dimm.startBlink()
             self.dimm.loop('scientistWork')
 
-        # The first cog created, as seen in the original intro video - a Yesman
+        # The first cog created - a telemarketer
         self.suit = DistributedSuitBase.DistributedSuitBase(cr)
         suitDNA = SuitDNA.SuitDNA()
-        suitDNA.newSuit('ym')
+        suitDNA.newSuit('t')
         self.suit.setDNA(suitDNA)
-        self.suit.setDisplayName('Yesman\nBossbot\nLevel 3')
+        self.suit.setDisplayName('Telemarketer\nBossbot\nLevel 3')
         self.suit.setPickable(0)
 
         # Cog speeches, for when we want to manually define it
@@ -412,14 +400,12 @@ class DistributedElectionEvent(DistributedObject, FSM):
                 character.initializeBodyCollisions('toon')
                 character.head = character.find('**/__Actor_head')
                 character.setH(90)
-            self.BuddyStand.loop('watch-idle')
             self.ignore('enter' + self.pieCollision.node().getName())
             self.alec.setPos(-4.5, -0.14, 3.13)
             self.Buddy.setPos(1, 9, 3.03)
             self.flippy.setPos(2, -10, 3.23)
 
         if self.finishedCogLanding:
-            self.BuddyStand.pose('sad', 249)
             self.flippy.setPosHpr(-15, -12, 0, 0, 0, 0)
             self.alec.setPos(-1.5, -0.14, 3.13)
             self.Buddy.hide()
@@ -499,7 +485,6 @@ class DistributedElectionEvent(DistributedObject, FSM):
             character.startBlink()
             character.head = character.find('**/__Actor_head')
         musicIntro = base.loadMusic(ElectionGlobals.IntroMusic)
-        self.BuddyStand.loop('watch-idle')
         self.ignore('enter' + self.pieCollision.node().getName())
         self.alecHallInterval = Sequence(
             Parallel(Func(self.alec.loop, 'walk'), Func(base.playMusic, musicIntro, looping=0, volume=0.8)),
@@ -558,7 +543,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
             Wait(8.5),
             Func(self.alec.setChatAbsolute, 'And of course, we can\'t forget about our two toonerific toons who have been selected to fight for the Presidency...', CFSpeech|CFTimeout),
             Wait(9),
-            Func(self.alec.setChatAbsolute, 'Buddy Quackintosh, and Flippy Doggenbottom!', CFSpeech|CFTimeout),
+            Func(self.alec.setChatAbsolute, 'Buddy Bacon, and Flippy Doggenbottom!', CFSpeech|CFTimeout),
             Wait(3.3),
             Func(self.Buddy.play, 'wave'),
             self.flippy.head.hprInterval(1, (-70, 0, 0), blendType='easeInOut'),
@@ -649,7 +634,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
             self.alec.head.hprInterval(1, (-70, 0, 0), blendType='easeInOut'),
             Wait(1),
             # Buddy's victory!
-            Func(self.alec.setChatAbsolute, 'BuddyYYY~ QUACKINTOSH!', CFSpeech|CFTimeout),
+            Func(self.alec.setChatAbsolute, 'Buddy BACON!', CFSpeech|CFTimeout),
             Wait(2),
             self.flippy.head.hprInterval(1, (-60, 0, 0), blendType='easeInOut'),
             Func(self.Buddy.showLaughMuzzle),
@@ -694,8 +679,6 @@ class DistributedElectionEvent(DistributedObject, FSM):
         musicSad = base.loadMusic(ElectionGlobals.SadMusic)
         sfxSad = loader.loadSfx('phase_5/audio/sfx/ENC_Lose.ogg')
         mtrack = self.suit.beginSupaFlyMove(Point3(65, 3.6, 4.0), 1, 'fromSky', walkAfterLanding=False)
-        self.BuddyStandDie = Sequence(
-            ActorInterval(self.BuddyStand, 'sad')
         )
         self.pie = BattleProps.globalPropPool.getProp('creampie')
         self.cogSequence = Sequence(
@@ -744,7 +727,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
             Wait(4),
             Func(self.suit.setChatAbsolute, 'I like your lingo, Toon. You know how to schmooze.', CFSpeech|CFTimeout, dialogue = self.speechMurmurSfx),
             Wait(6),
-            Func(self.suit.setChatAbsolute, 'However, you seem to need a smear of Positive Reinforcement.', CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
+            Func(self.suit.setChatAbsolute, 'However, you seem to need  my product.', CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
             #Func(self.suit.play, 'speak'),
             Wait(3),
             self.Buddy.head.hprInterval(1, (0, 0, 0)),
@@ -758,7 +741,6 @@ class DistributedElectionEvent(DistributedObject, FSM):
             Wait(1.8),
             Func(base.playMusic, musicSad, looping=0),
             Wait(0.5),
-            Parallel(Func(self.BuddyStandDie.start), Func(self.BuddyStandDie.setT, offset)),
             Func(self.flippy.setChatAbsolute, "Buddy, NO!", CFSpeech|CFTimeout),
             Wait(0.5),
             Func(self.alec.setChatAbsolute, "Oh my goodness- he...", CFSpeech|CFTimeout),
@@ -790,13 +772,13 @@ class DistributedElectionEvent(DistributedObject, FSM):
             Func(self.flippy.setChatAbsolute, "What... What are you?", CFSpeech|CFTimeout),
             Wait(4),
             # The Yesman has found a new business partner
-            Func(self.suit.setChatAbsolute, 'I don\'t like your tone. Perhaps you need a drop of Positive Reinforcement as well.', CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
+            Func(self.suit.setChatAbsolute, 'I don\'t like your tone. Perhaps you need some of my product too.', CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
             Wait(3),
             Parallel(Func(self.flippy.setChatAbsolute, "No.. No, get away. I don't need your help.", CFSpeech|CFTimeout), ActorInterval(self.flippy, 'walk', loop=1, playRate=-1, duration=3), self.flippy.posInterval(3, (-15, -7, 0)), self.alec.head.hprInterval(1, (0, -5, 0), blendType='easeInOut')),
             Func(self.flippy.loop, 'neutral'),
             Wait(1.5),
             Func(self.suit.loop, 'walk'),
-            Parallel(Func(self.suit.setChatAbsolute, 'Let me confirm our meeting to discuss this. I won\'t take no for an answer.', CFSpeech|CFTimeout, dialogue = self.speechMurmurSfx), self.suit.posInterval(2, (65, -1, 4.0))),
+            Parallel(Func(self.suit.setChatAbsolute, 'Let me confirm our meeting to discuss this. ', CFSpeech|CFTimeout, dialogue = self.speechMurmurSfx), self.suit.posInterval(2, (65, -1, 4.0))),
             Func(self.suit.loop, 'neutral'),
             Parallel(Func(self.flippy.setChatAbsolute, "Stop it, this isn't fun!", CFSpeech|CFTimeout), self.alec.head.hprInterval(1, (10, -5, 0), blendType='easeInOut'), ActorInterval(self.flippy, 'walk', loop=1, playRate=-1, duration=2), self.flippy.posInterval(2, (-15, -12, 0))),
             Func(self.flippy.loop, 'neutral'),
@@ -806,7 +788,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
             # Flippy makes a last minute attempt to try and slow him down. It... kills him?
             Parallel(ActorInterval(self.flippy, 'throw', startFrame=0, endFrame=46), Func(self.flippy.setChatAbsolute, "I'm warning you, stay back. Please.", CFSpeech|CFTimeout), Func(self.pie.reparentTo, self.flippy.rightHand)),
             Wait(1),
-            Func(self.suit.setChatAbsolute, 'Don\'t worry, I haven\'t been wrong yet.', CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
+            Func(self.suit.setChatAbsolute, 'Don\'t worry,you will like my product.', CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
             #Func(self.suit.play, 'speak'),
             Wait(1.5),
             Parallel(

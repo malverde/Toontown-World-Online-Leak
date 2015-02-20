@@ -200,7 +200,7 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
             if not self.cogDead:
                 self.cogDead = True
                 self.suit = DistributedInvasionSuitAI(self.air, self)
-                self.suit.dna.newSuit('ym')
+                self.suit.dna.newSuit('t')
                 self.suit.setSpawnPoint(99)
                 self.suit.setLevel(0)
                 self.suit.generateWithRequired(ToontownGlobals.ToontownCentral)
@@ -232,7 +232,7 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
     def getState(self):
         return (self.state, self.stateTime)
 
-@magicWord(category=CATEGORY_MODERATION, types=[str])
+@magicWord(category=CATEGORY_ADMIN, types=[str])
 def election(state):
     event = simbase.air.doFind('ElectionEvent')
     if event is None:
