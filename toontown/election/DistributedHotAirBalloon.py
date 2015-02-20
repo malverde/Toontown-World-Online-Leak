@@ -27,7 +27,7 @@ class DistributedHotAirBalloon(DistributedObject, FSM):
         # Balloon collision NodePath (outside)
         self.collisionNP = self.balloon.find('**/Collision_Outer')
 
-        self.buddy = NPCToons.createLocalNPC(2021)
+        self.buddy = NPCToons.createLocalNPC(91915)
         self.buddy.setPos(0.7, 0.7, 0.4)
         self.buddy.setH(150)
         self.buddy.setScale((1/ElectionGlobals.BalloonScale)) # We want a normal sized Buddy

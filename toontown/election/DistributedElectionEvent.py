@@ -95,7 +95,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
 		
         # Hi NPCs!
         self.alec = NPCToons.createLocalNPC(2022)
-        self.Buddy = NPCToons.createLocalNPC(2021)
+        self.Buddy = NPCToons.createLocalNPC(91915)
         self.flippy = NPCToons.createLocalNPC(2001)
         # Sometimes they all need to do the same thing.
 
