@@ -214,21 +214,7 @@ BuddySpeech3 = [
     "That is, if I get elected. Hey, are you voting for me?",
     "Nonono, don't tell me. I want to be surprised. Remember this free balloon ride at the polls, though!"
 ]
-# This one was being chosen too often. It got old. Renable it if more phrases are added so there is a larger pool to choose from.
-'''BuddySpeech4 = [
-    'Quackity quack quack!',
-    "Quack!",
-    "Quack quackity, quackity quacky quack.",
-    "Quack quack quacky?",
-    "Quack quack quack. Quack quack, quacky quack quacky quack quackity quack!",
-    "Quackity?",
-    "Quack. Quack quack, quacky quack quackity.",
-    "Quack quacky. Quack?",
-    "Quack, quack, quack, quackity quacky. Quacky!",
-    "Quack, quack quacky! Quack?",
-    "Ohohoh man, I'm just messing with you! I was pretending to use SpeedChat that whole time.",
-    "Did I have you fooled or what? Hahahaha, that's rich. Come back again and we might have a real conversation!"
-]'''
+
 BuddySpeech5 = [
     'Oooh, look who it is!',
     "I was wondering when you would come by for a ride.",
