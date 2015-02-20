@@ -248,7 +248,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
         self.showFloor.removeNode()
         self.stopInteractiveFlippy()
         self.ignore('enter' + self.pieCollision.node().getName())
-        self.ignore('enter' + self.goopCollision.node().getName())
+        #self.ignore('enter' + self.goopCollision.node().getName())
         self.__cleanupNPCs()
 
         DistributedObject.delete(self)
@@ -709,7 +709,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
             Wait(5),
             Func(self.suit.setChatAbsolute, 'President, you say? Just the Toon I need to speak with.', CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
             Wait(5),
-            Func(self.flippy.setChatAbsolute, "Man, thats some propeller is pretty sweet", CFSpeech|CFTimeout),
+            Func(self.flippy.setChatAbsolute, "Man, thats some propeller, it is pretty sweet", CFSpeech|CFTimeout),
             Wait(5),
             Func(self.suit.setChatAbsolute, 'Yes. Now as I began to-', CFSpeech|CFTimeout, dialogue = self.speechQuestionSfx),
             Wait(1),
@@ -734,7 +734,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
             #Func(self.suit.loop, 'neutral'),
             
             Func(self.flippy.setChatAbsolute, "What the , I feel more gloomier", CFSpeech|CFTimeout),
-            Wait(0.5),
+            Wait(1.5),
             Func(self.alec.setChatAbsolute, "Oh my goodness. Flippy are you ok?", CFSpeech|CFTimeout),
             Wait(2),
             Parallel(Func(self.alec.setChatAbsolute, "No. Nonono, no. This isn't happening.", CFSpeech|CFTimeout), Func(self.alec.loop, 'walk')),
@@ -742,14 +742,14 @@ class DistributedElectionEvent(DistributedObject, FSM):
             Func(self.alec.loop, 'neutral'),
             # Flippy isn't happy at all, he's going histerical
             Parallel(Func(self.moveCamera, 2, 77, -23, 9, 398, 0), Func(base.cr.cameraManager.setMainCamera, self.cameras[2].getDoId())),
-            Parallel(Func(self.flippy.setChatAbsolute, "What have you done?! What did you do to me?", CFSpeech|CFTimeout), Func(self.flippy.loop, 'run')),
-            Wait(0.5),
+            Parallel(Func(self.flippy.setChatAbsolute, "What have you done?! What did you do to me?", CFSpeech|CFTimeout))),
+            Wait(1.5),
             Func(self.alec.setChatAbsolute, "Flippy,  get away from it!", CFSpeech|CFTimeout),
             self.alec.head.hprInterval(1, (-5, -5, 0), blendType='easeInOut'),
             Wait(5),
             Func(self.flippy.setChatAbsolute, "What... What are you?", CFSpeech|CFTimeout),
             Wait(4),
-            # The Yesman has found a new business partner
+            
             Func(self.suit.setChatAbsolute, 'I don\'t like your tone. Perhaps you need some more of my product .', CFSpeech|CFTimeout, dialogue = self.speechStatementSfx),
             Wait(3),
             Parallel(Func(self.flippy.setChatAbsolute, "No.. No, get away. I don't need your help.", CFSpeech|CFTimeout), ActorInterval(self.flippy, 'walk', loop=1, playRate=-1, duration=3), self.flippy.posInterval(3, (-15, -7, 0)), self.alec.head.hprInterval(1, (0, -5, 0), blendType='easeInOut')),
