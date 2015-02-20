@@ -25,9 +25,7 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI, InvasionSuitBase, FSM):
         self.spawnPointId = 0
 
         self.brain = InvasionSuitBrainAI(self)
-        dna = SuitDNA.SuitDNA()
-        self.dna  = SuitDNA.SuitDNA()
-
+        dna = None
         self.lastMarchTime = 0.0
         self.__walkTimer = None
         self.finale = False
