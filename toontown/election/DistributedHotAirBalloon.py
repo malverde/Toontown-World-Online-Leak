@@ -18,7 +18,7 @@ class DistributedHotAirBalloon(DistributedObject, FSM):
         self.flightPathIndex = 0
 
         # Create the balloon
-        self.balloon = loader.loadModel('phase_4/models/events/election_BuddyBalloon-static')
+        self.balloon = loader.loadModel('phase_4/models/events/election_buddyBalloon-static')
         self.balloon.reparentTo(base.render)
         self.balloon.setPos(*ElectionGlobals.BalloonBasePosition)
         self.balloon.setScale(ElectionGlobals.BalloonScale)
@@ -27,11 +27,11 @@ class DistributedHotAirBalloon(DistributedObject, FSM):
         # Balloon collision NodePath (outside)
         self.collisionNP = self.balloon.find('**/Collision_Outer')
 
-        self.Buddy = NPCToons.createLocalNPC(2021)
-        self.Buddy.setPos(0.7, 0.7, 0.4)
-        self.Buddy.setH(150)
-        self.Buddy.setScale((1/ElectionGlobals.BalloonScale)) # We want a normal sized Buddy
-        self.Buddy.loop('neutral')
+        self.buddy = NPCToons.createLocalNPC(2021)
+        self.buddy.setPos(0.7, 0.7, 0.4)
+        self.buddy.setH(150)
+        self.buddy.setScale((1/ElectionGlobals.BalloonScale)) # We want a normal sized Buddy
+        self.buddy.loop('neutral')
 
         # Create balloon flight paths and Buddy speeches. It's important we do this AFTER we load everything
         # else as this requires both the balloon and Buddy.
@@ -47,8 +47,8 @@ class DistributedHotAirBalloon(DistributedObject, FSM):
         self.ignore('enter' + self.collisionNP.node().getName())
         self.cr.parentMgr.unregisterParent(ToontownGlobals.SPBuddysBalloon)
         self.balloon.removeNode()
-        if self.Buddy:
-            self.Buddy.delete()
+        if self.buddy:
+            self.buddy.delete()
         DistributedObject.delete(self)
         
     def setState(self, state, timestamp, avId):
@@ -58,7 +58,7 @@ class DistributedHotAirBalloon(DistributedObject, FSM):
             
     def enterWaiting(self, offset):
         # Render Buddy, since we're going to be giving rides
-        self.Buddy.reparentTo(self.balloon)
+        self.buddy.reparentTo(self.balloon)
 
         # Wait for a collision...
         self.accept('enter' + self.collisionNP.node().getName(), self.__handleToonEnter)
@@ -83,15 +83,6 @@ class DistributedHotAirBalloon(DistributedObject, FSM):
         self.balloonElectionIdle.loop()
         self.balloonElectionIdle.setT(offset)
         
-    def enterElectionCrashing(self, offset):
-        # Buddy has gone sad, and in turn his balloon has ran out of silliness.
-        # It's tumbling down behind Toon Hall.
-        self.balloonElectionFall = Sequence(
-            self.balloon.posHprInterval(17, (200.0, 20.0, 0.0), (105, -5, -5), blendType='easeInOut'),
-            Func(self.balloon.hide)
-        )
-        self.balloonElectionFall.start()
-        self.balloonElectionFall.setT(offset)
 
 
     def __handleToonEnter(self, collEntry):
