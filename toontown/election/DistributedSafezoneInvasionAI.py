@@ -31,7 +31,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
     def announceGenerate(self):
         self.b_setInvasionStarted(True)
         self.demand('BeginWave', 0)
-        
+
         # Kill all the butterflies in Toontown Central.
         #for butterfly in self.air.hoods[0].butterflies:
             #butterfly.requestDelete()
@@ -45,17 +45,17 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
             self._handleToonEnter(toon)
         self.accept('toon-entered-%s' % self.zoneId, self._handleToonEnter)
         self.accept('toon-left-%s' % self.zoneId, self._handleToonExit)
-        
+
     def b_setInvasionStarted(self, started):
         self.setInvasionStarted(started)
         self.d_setInvasionStarted(started)
-        
+
     def setInvasionStarted(self, started):
         self.invasionOn = started
-        
+
     def d_setInvasionStarted(self, started):
         self.sendUpdate('setInvasionStarted', [started])
-        
+
     def getInvasionStarted(self):
         return self.invasionOn
 
@@ -196,7 +196,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
 
     def enterFinale(self):
         self._delay = taskMgr.doMethodLater(20, self.spawnFinaleSuit, self.uniqueName('summon-finale-suit'))
-    
+
     def spawnFinaleSuit(self, task):
         self.election.saySurleePhrase('This is it, toons. They\'re sending in the boss! Brace yourselves, this will be the toughest one yet!', 1, True)
         suit = DistributedInvasionSuitAI(self.air, self)
@@ -229,12 +229,12 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
 
     def enterVictory(self):
         self.b_setInvasionStarted(False)
-        
+
         for toon in self.toons:
             toon.toonUp(toon.getMaxHp())
         for toon in self.sadToons:
             toon.toonUp(toon.getMaxHp())
-            
+
         taskMgr.doMethodLater(65, self.wrapUp, self.uniqueName('WrapUp-Later'))
 
     def wrapUp(self, task):
@@ -284,8 +284,8 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         avId = self.air.getAvatarIdFromSender()
         toon = self.air.doId2do.get(avId)
         if not toon:
-            self.air.writeServerEvent('suspicious', avId, 'Nonexistent Toon tried to get hit!')
-            return
+            self.air.writeServerEvent'suspicious', avId=avId, issue='Nonexistent Toon tried to get hit!')
+            return (
         # If the cog's attack is higher than the amount of laff they have, we'll only take away what they have.
         # If the attack is 5 and the toon has 3 laff, we'll only take away 3 laff. This mostly prevents toons going under 0 Laff.
         toonHp = toon.getHp()
@@ -293,7 +293,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
             toon.takeDamage(toonHp)
         else:
             toon.takeDamage(damage)
-            
+
         self.checkToonHp()
 
     def pieHitToon(self, doId):
@@ -301,11 +301,11 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         avId = self.air.getAvatarIdFromSender()
         toon = self.air.doId2do.get(doId)
         if not toon:
-            self.air.writeServerEvent('suspicious', avId, 'Hit a nonexistent Toon with a pie!')
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Hit a nonexistent Toon with a pie!')
             return
         from toontown.toon.DistributedToonAI import DistributedToonAI
         if not isinstance(toon, DistributedToonAI):
-            self.air.writeServerEvent('suspicious', avId, 'Hit a non-Toon with a pie through healToon()!')
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Hit a non-Toon with a pie through healToon()!')
             return
         # Just to be safe, let's check if the Toon has less than 0 laff.
         # Sometimes this happens from multiple cog hits at once.
@@ -368,7 +368,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         avId = self.air.getAvatarIdFromSender()
         toon = self.air.doId2do.get(avId)
         if not toon:
-            self.air.writeServerEvent('suspicious', avId, 'Nonexistent Toon tried to throw a pie!')
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Nonexistent Toon tried to throw a pie!')
             return
 
         suit = self.air.doId2do.get(doId)
@@ -398,7 +398,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         if self.waveNumber not in SafezoneInvasionGlobals.SuitIntermissionWaves and self.numberOfSuits > 0:
             self.numberOfSuits = self.numberOfSuits - 1
 
-            # Delay spawing the suits 
+            # Delay spawing the suits
             taskMgr.doMethodLater(1, self.spawnOne, self.uniqueName('summon-suit-%s' % self.numberOfSuits), extraArgs=[suit.getStyleName(), suit.getLevel()])
 
         self.suits.remove(suit)
@@ -407,10 +407,10 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
 
 @magicWord(category=CATEGORY_DEBUG, types=[str, str])
 def szInvasion(cmd, arg=''):
-    if not simbase.config.GetBool('want-doomsday', False):
-        simbase.air.writeServerEvent('aboose', spellbook.getInvoker().doId, 'Attempted to initiate doomsday while it is disabled.')
+    if not config.GetBool('want-doomsday', False):
+        simbase.air.writeServerEvent('warning', avId=spellbook.getInvoker().doId, issue='Attempted to initiate doomsday while it is disabled.')
         return 'ABOOSE! Doomsday is currently disabled. Your request has been logged.'
-        
+
     invasion = simbase.air.doFind('SafezoneInvasion')
 
     if invasion is None and cmd != 'start':

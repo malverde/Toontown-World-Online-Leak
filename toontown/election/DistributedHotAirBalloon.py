@@ -83,6 +83,15 @@ class DistributedHotAirBalloon(DistributedObject, FSM):
         self.balloonElectionIdle.loop()
         self.balloonElectionIdle.setT(offset)
         
+    def enterElectionCrashing(self, offset):
+        # Buddy has gone sad, and in turn his balloon has ran out of silliness.
+        # It's tumbling down behind Toon Hall.
+        self.balloonElectionFall = Sequence(
+            self.balloon.posHprInterval(17, (200.0, 20.0, 0.0), (105, -5, -5), blendType='easeInOut'),
+            Func(self.balloon.hide)
+        )
+        self.balloonElectionFall.start()
+        self.balloonElectionFall.setT(offset)
 
 
     def __handleToonEnter(self, collEntry):

@@ -16,7 +16,7 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         self.maxHP = 10
         self.currHP = 10
         self.zoneId = 0
-        self.dna = SuitDNA.SuitDNA()
+        self.dna = None
         self.virtual = 0
         self.skeleRevives = 0
         self.maxSkeleRevives = 0
