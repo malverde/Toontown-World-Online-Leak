@@ -1,8 +1,8 @@
 from otp.ai.AIBaseGlobal import *
 from otp.avatar import DistributedAvatarAI
-import SuitPlannerBase
-import SuitBase
-import SuitDNA
+from toontown.suit import SuitPlannerBase
+from toontown.suit import SuitBase
+from toontown.suit import SuitDNA
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import SuitBattleGlobals
 
@@ -13,8 +13,8 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         DistributedAvatarAI.DistributedAvatarAI.__init__(self, air)
         SuitBase.SuitBase.__init__(self)
         self.sp = suitPlanner
-        self.maxHP = 10
-        self.currHP = 10
+        self.maxHP = 0
+        self.currHP = 0
         self.zoneId = 0
         self.dna = SuitDNA.SuitDNA()
         self.virtual = 0
@@ -50,7 +50,10 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         self.notify.debug('Assigning level ' + str(lvl))
         if hasattr(self, 'doId'):
             self.d_setLevelDist(self.level)
-        hp = attributes['hp'][self.level]
+        if len(attributes['hp'])<=self.level:
+    	    print "HP is less then level, Oops!"
+            raise Exception("invalid list index: len(attributes['hp') = %d, self.level=%d" % (len(attributes['hp']), self.level))
+        hp = attributes['hp'][self.level]            	        
         self.maxHP = hp
         self.currHP = hp
 

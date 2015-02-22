@@ -44,7 +44,7 @@ SurleeTips = [
     'The Cog\'s business is too boring to bear. Don\'t let them talk to you.',
     'That\'s what I\'m talking about. Keep at it!',
     'Flippy, we need more pies over here. They\'re flying out quick.',
-    'Doctor Dimm, have you had any luck on Buddy\'s stand?',
+   # 'Doctor Dimm, have you had any luck on Buddy\'s stand?',
     'Keep a close eye on your pie count, it can run out fast.'
 ]
 
@@ -149,7 +149,7 @@ FlippyPhrases = ['Hey there, __NAME__! How are you doing?',
                  'Sorry, only pies here.',
                  '...like, the gear? What have gears ever done to you? :(',
                  'Hmm, good idea. Pies are going so fast that we might have to switch to cupcakes by the time of the election.',
-                 'Toontown... Rewritten? I\'ve heard Surlee say that a few times, but I can never figure out what he means.',
+                 'Toontown... World? I\'ve heard Surlee say that a few times, but I can never figure out what he means.',
                  'Hmm, well I did spot a butterfly over there.',
                  'Oof, plenty of times at first. Karts are tricky to get used to.',
                  'I do, actually! I don\'t use it often.',
@@ -214,21 +214,7 @@ BuddySpeech3 = [
     "That is, if I get elected. Hey, are you voting for me?",
     "Nonono, don't tell me. I want to be surprised. Remember this free balloon ride at the polls, though!"
 ]
-# This one was being chosen too often. It got old. Renable it if more phrases are added so there is a larger pool to choose from.
-'''BuddySpeech4 = [
-    'Quackity quack quack!',
-    "Quack!",
-    "Quack quackity, quackity quacky quack.",
-    "Quack quack quacky?",
-    "Quack quack quack. Quack quack, quacky quack quacky quack quackity quack!",
-    "Quackity?",
-    "Quack. Quack quack, quacky quack quackity.",
-    "Quack quacky. Quack?",
-    "Quack, quack, quack, quackity quacky. Quacky!",
-    "Quack, quack quacky! Quack?",
-    "Ohohoh man, I'm just messing with you! I was pretending to use SpeedChat that whole time.",
-    "Did I have you fooled or what? Hahahaha, that's rich. Come back again and we might have a real conversation!"
-]'''
+
 BuddySpeech5 = [
     'Oooh, look who it is!',
     "I was wondering when you would come by for a ride.",
