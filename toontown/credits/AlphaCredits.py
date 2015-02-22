@@ -158,12 +158,10 @@ CreditsScenes = [
 #need to give roles and send pictures to me
                 # Developers
                 Shockley(),
-                Credits('Mgracer', 'Programmar\nDeveloper\nMac Support', 'mgracer.jpg', 'left'),
-                #this is for john
-                Credits('', 'Programmar\nDeveloper', '.jpg', 'right', 2),
-                Credits('Toon Trooper Fireball', 'Programmer\nDeveloper', '.jpg', 'left'),
+                Credits('Mgracer', 'Programmer\nDeveloper\nMac Support', 'mgracer.jpg', 'left'),
+                Credits('Resistance Ranger Fireball', 'Programmer\nDeveloper', '.jpg', 'left'),
                 Credits("Purrty", "Lead Community Manager", '.jpg' ),
-                Credits("Aura", "Leader of the cogs\nCommunity Manager", 'aura.jpg', 'right', 2), 
+                Credits("Aura", "Community Manager", '.jpg', 'right', 2), 
                 Credits("Zander", "Community Manager\nTheme Song Composer", 'zander.jpg'),
                 
                 # Artists
@@ -173,13 +171,7 @@ CreditsScenes = [
                 Credits('', 'Texture Artist', '.jpg', 'right', 2), 
                 Credits('', 'Texture Artist', '.jpg'),
 
-				#Mods
-				Credits('Catastrophe', 'Moderator', 'catastrophe.jpg', 'left'),
-				Credits('Midnight', 'Moderator', 'midnight.jpg', 'right'), 
-				
-				#Pre alpha Testers
-				Credits('Ghost', 'Pre Alpha Tester', 'ghost.jpg', 'left'),
-				Credits('Pony Cat', 'Pre Alpha Tester', 'pony_cat.jpg', 'right'),
+
                 
  
                 
@@ -187,9 +179,9 @@ CreditsScenes = [
                 # Composers
                 Credits('Sindre', 'Theme Song Composer, Lead Composer', '.jpg', 'right', 2), 
                 # Special Thanks to:
-                Credits('Disney', 'The owners and creators\nof Toontown.', '11-20-13_donald.jpg', 'left', 2), 
+                Credits('Disney Online', 'The owners and creators\nof Toontown.', '11-20-13_donald.jpg', 'left', 2), 
                  Credits('VR Studio', 'For developing Toontown Online.', '11-15-13_grey.jpg'),
-#damn i cant spell his name lol
-                Credits('Jeese schelle ', 'For his continued efforts\nto bring Toontown back.', '14-1-22_ohmanohmanOHMAN.jpg', 'left') 
+
+                Credits('Jaymo', 'For his continued efforts\nto bring Toontown back.', '14-1-22_ohmanohmanOHMAN.jpg', 'left') 
 ]
       

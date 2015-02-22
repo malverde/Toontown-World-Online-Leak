@@ -71,7 +71,7 @@ estate-day-night #t
 want-instant-parties #f
 show-total-population #t
 want-toontorial #f
-want-doomsday #t
+want-doomsday #f
 
 # Chat stuff
 want-whitelist #t
