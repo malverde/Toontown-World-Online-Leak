@@ -13,6 +13,10 @@ texture-anisotropic-degree 16
 # Audio...
 audio-library-name p3fmod_audio
 
+# Useless Variables
+show-frame-rate-meter #t
+cursor-hidden #f
+undecorated #f
 
 # Resource settings
 vfs-mount resources/phase_3 /phase_3
