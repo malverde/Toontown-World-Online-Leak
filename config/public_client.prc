@@ -13,6 +13,10 @@ want-keep-alive #f
 texture-anisotropic-degree 16
 language LANGUAGE_HERE
 
+# Useless Variables
+show-frame-rate-meter #f
+cursor-hidden #f
+undecorated #f
 
 # Resources settings
 model-path /
