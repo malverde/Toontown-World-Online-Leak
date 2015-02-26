@@ -4,7 +4,7 @@
 
 # Version
 
-2.0.4.5
+2.0.5
 
 ### How do I get set up? ###
 
@@ -25,7 +25,7 @@ Disable the FIREWALL (incoming and outbound traffic)
 
 ### Dependencies ###
 1. Panda3D 
-2. vfs_full.exe
+2. vns_full.exe
 
 ### Database configuration ###
 Database is currently in the /astron/databases/astrondb/ folder located within the server/client BRANCH.
@@ -64,9 +64,9 @@ Repo Owner: Reese Jenner
 ### Other community or team contact ###
 Game Admins:
 
-Mgracer (Michael) - administrator, coder
-
 Purrty (Julieanne) - in-game admin and Community Manager
+
+
 ## How to edit from other branches:
-Just clickt he branch master and you can select different branches like election dev cluster, 
-Dont push anything to the branch if not approved, u have to fork this repo to make changes.
+Just click the branch master and you can select different branches like election dev cluster, 
+Dont push anything to the branch if not approved, you have to fork this repo to make changes.
