@@ -3,7 +3,7 @@ import math
 import TTLocalizer
 BattleCamFaceOffFov = 30.0
 BattleCamFaceOffPos = Point3(0, -10, 4)
-BattleCamDefaultPos = Point3(0, -12, 16.5)
+BattleCamDefaultPos = Point3(0, -8.6, 16.5)
 BattleCamDefaultHpr = Vec3(0, -61, 0)
 BattleCamDefaultFov = 80.0
 BattleCamMenuFov = 65.0
