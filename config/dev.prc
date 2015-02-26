@@ -9,6 +9,8 @@ sync-video #f
 want-dev #f
 preload-avatars #t
 texture-anisotropic-degree 16
+cursor-filename resources/phase_3/etc/toonmono.cur
+icon-filename resources/phase_3/etc/icon.ico
 
 # Audio...
 audio-library-name p3fmod_audio
