@@ -12,6 +12,8 @@ preload-avatars #t
 want-keep-alive #f
 texture-anisotropic-degree 16
 language LANGUAGE_HERE
+cursor-filename resources/phase_3/etc/toonmono.cur
+icon-filename resources/phase_3/etc/icon.ico
 
 # Useless Variables
 show-frame-rate-meter #f
