@@ -586,8 +586,7 @@ class TalkAssistant(DirectObject.DirectObject):
             chatFlags = CFSpeech | CFTimeout
             if self.isThought(message):
                 chatFlags = CFThought
-            if any(c in s for c in message.letters + message.digits):
-                base.cr.chatAgent.sendChatMessage(message)
+            base.cr.chatAgent.sendChatMessage(message)
             messenger.send('chatUpdate', [message, chatFlags])
         return error
 
