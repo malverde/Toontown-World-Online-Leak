@@ -3,6 +3,7 @@ from direct.showbase import DirectObject
 from pandac.PandaModules import *
 import sys
 import time
+import re
 
 from otp.chat.ChatGlobals import *
 from otp.chat.TalkGlobals import *
