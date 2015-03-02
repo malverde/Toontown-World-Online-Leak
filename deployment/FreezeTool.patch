@@ -1,0 +1,19 @@
+--- FreezeTool.py.bk	Tue May  6 21:26:46 2014
++++ FreezeTool.py	Sun Jun 29 23:37:25 2014
+@@ -1379,16 +1379,6 @@
+         modulefinder.ModuleFinder.__init__(self, *args, **kw)
+ 
+     def import_module(self, partname, fqname, parent):
+-        if parent and parent.__name__ == 'panda3d':
+-            # A special case: map a reference to the "panda3d.blah"
+-            # module into the appropriate Panda3D dll.
+-            m = getattr(panda3d, partname, None)
+-            if m:
+-                libname = m.__libraries__[-1]
+-                partname = libname
+-                fqname = libname
+-                parent = None
+-
+         return modulefinder.ModuleFinder.import_module(self, partname, fqname, parent)
+ 
+     def find_module(self, name, path, parent=None):

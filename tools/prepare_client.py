@@ -12,12 +12,12 @@ parser.add_argument('--distribution', default='en',
 parser.add_argument('--build-dir', default='build',
                     help='The directory in which to store the build files.')
 parser.add_argument('--src-dir', default='..',
-                    help='The directory of the Toontown Infinite source code.')
+                    help='The directory of the Toontown World source code.')
 parser.add_argument('--server-ver', default='infinite-dev',
                     help='The server version of this build.')
 parser.add_argument('--build-mfs', action='store_true',
                     help='When present, the resource multifiles will be built.')
-parser.add_argument('--resources-dir', default='../resources',
+parser.add_argument('--resources-dir', default='resources',
                     help='The directory of the Toontown Infinite resources.')
 parser.add_argument('--config-dir', default='../config/release',
                     help='The directory of the Toontown Infinite configuration files.')
@@ -108,7 +108,7 @@ for module in args.modules:
 
 # First, we need to add the configuration pages:
 configData = []
-with open('../config/general.prc') as f:
+with open('../config/dev.prc') as f:
     configData.append(f.read())
 
 configFileName = args.distribution + '.prc'
