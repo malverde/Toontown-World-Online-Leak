@@ -130,7 +130,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
             self.npc.reparentTo(npcOrigin)
             self.npc.clearMat()
         self.createSuit()
-        self.mickeyMovie = QuestParser.NPCMoviePlayer('tutorial_mickey', base.localAvatar, self.npc)
+        #self.mickeyMovie = QuestParser.NPCMoviePlayer('tutorial_mickey', base.localAvatar, self.npc)
         place = base.cr.playGame.getPlace()
         if place and hasattr(place, 'fsm') and place.fsm.getCurrentState().getName():
             self.notify.info('Tutorial movie: Place ready.')
@@ -142,13 +142,14 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
             self.acceptOnce('enterTutorialInterior', self.playMovie)
 
     def playMovie(self):
-        self.notify.info('Tutorial movie: Play.')
-        self.mickeyMovie.play()
+    	pass
+        #  self.notify.info('Tutorial movie: Play.')
+        #self.mickeyMovie.play()
 
     def createSuit(self):
         self.suit = Suit.Suit()
         suitDNA = SuitDNA.SuitDNA()
-        suitDNA.newSuit('f')
+        suitDNA.newSuit('cc')
         self.suit.setDNA(suitDNA)
         self.suit.loop('neutral')
         self.suit.setPosHpr(-20, 8, 0, 0, 0, 0)
@@ -162,4 +163,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
 
     def setTutorialNpcId(self, npcId):
         self.npcId = npcId
-        self.npc = self.cr.doId2do[npcId]
+
+    def getTutorialNpc(self):
+        return self.cr.doId2do[self.npcId]
+
