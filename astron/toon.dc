@@ -628,6 +628,9 @@ dclass DistributedToon : DistributedPlayer {
   setDISLid(uint32 id) ram db airecv;
   flagAv(uint32 avId, uint16 reason, string params[]) airecv ownsend;
   setBuffs(uint32[] = []) required ownrecv db;
+   magicTeleportRequest(uint32 requesterId) ownrecv;
+  magicTeleportResponse(uint32 requesterId, uint32 hoodId) ownsend airecv;
+  magicTeleportInitiate(uint32 hoodId, uint32 zoneId) ownrecv;
   magicFanfare() broadcast;
   magicTeleportRequest(uint32 requesterId) ownrecv;
   magicTeleportResponse(uint32 requesterId, uint32 hoodId) ownsend airecv;
