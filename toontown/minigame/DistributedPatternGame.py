@@ -1,7 +1,9 @@
+#TODO - change the npc to Flippy
+"""
 from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
-from DistributedMinigame import *
+#from DistributedMinigame import *
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from direct.fsm import ClassicFSM, State
@@ -826,3 +828,4 @@ class DistributedPatternGame(DistributedMinigame):
 
     def exitCleanup(self):
         pass
+"""        
