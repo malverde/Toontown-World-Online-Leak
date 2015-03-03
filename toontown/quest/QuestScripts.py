@@ -245,6 +245,7 @@ LOOP_ANIM npc "neutral"
 WAIT 0.5
 LERP_HPR npc -50 0 0 0.5
 FUNCTION npc "surpriseEyes"
+FUNCTION npc "showSurpriseMuzzle"
 PLAY_ANIM npc "right-point-start" 1.5
 WAIT 0.6944
 LOOP_ANIM npc "right-point"
