@@ -35,7 +35,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         del self.street
         self.sky.removeNode()
         del self.sky
-        #self.mickeyMovie.cleanup()
+        self.mickeyMovie.cleanup()
         del self.mickeyMovie
         self.suitWalkTrack.finish()
         del self.suitWalkTrack
@@ -130,7 +130,8 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
             self.cr.doId2do[self.npcId].reparentTo(npcOrigin)
             self.cr.doId2do[self.npcId].clearMat()
         self.createSuit()
-        #self.mickeyMovie = QuestParser.NPCMoviePlayer('tutorial_mickey', base.localAvatar, self.npc)
+      
+        self.mickeyMovie = QuestParser.NPCMoviePlayer('tutorial_mickey', base.localAvatar, self.npc)
         place = base.cr.playGame.getPlace()
         if place and hasattr(place, 'fsm') and place.fsm.getCurrentState().getName():
             self.notify.info('Tutorial movie: Place ready.')
@@ -142,9 +143,9 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
             self.acceptOnce('enterTutorialInterior', self.playMovie)
 
     def playMovie(self):
-    	pass
-        #  self.notify.info('Tutorial movie: Play.')
-        #self.mickeyMovie.play()
+    	
+        self.notify.info('Tutorial movie: Play.')
+        self.mickeyMovie.play()
 
     def createSuit(self):
         self.suit = Suit.Suit()

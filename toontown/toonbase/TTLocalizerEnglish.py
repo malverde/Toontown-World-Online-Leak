@@ -2252,8 +2252,8 @@ ToonHealJokes = [['What goes TICK-TICK-TICK-WOOF?', 'A watchdog! '],
  ['What do you get if you cross a hyena with a mynah bird?', 'An animal that laughs at its own jokes.'],
  ['What do you get if you cross a railway engine with a stick of gum?', 'A chew-chew train.'],
  ['What would you get if you crossed an elephant with a computer?', 'A big know-it-all.'],
- ['What would you get if you crossed an elephant with a skunk?', 'A big stinker.'],
- ['Why did ' + MickeyMouse + ' take a trip to outer space?', 'He wanted to find ' + Pluto + '.']]
+ ['What would you get if you crossed an elephant with a skunk?', 'A big stinker.']
+ ]
 MovieHealLaughterMisses = ('hmm',
  'heh',
  'ha',
@@ -3185,7 +3185,7 @@ KnockKnockContestJokes = {
         66: ['Big Cheese', 'Big Cheese pizza delivery here, open up!'],
         21: ['Telemarketer', 'Telemarketer I\'m not buying his offer.'],
         65: ['June', 'Juneau how to get out of this fountain?'],
-        24: ['Mickey', 'Mickey is stuck! Help'],
+       # 24: ['Mickey', 'Mickey is stuck! Help'],
         26: ['Guess', 'Does he have a mustache?'],
         25: ['Usain', 'Usain you forgot me?'],
         67: ['Wayt', 'Wayt, you forgot my name?'],
