@@ -20,7 +20,7 @@ class DistributedTutorialSuitAI(DistributedSuitBaseAI):
     def __init__(self, air):
         DistributedSuitBaseAI.__init__(self, air, None)
         suitDNA = SuitDNA.SuitDNA()
-        suitDNA.newSuit('cc')
+        suitDNA.newSuit('f')
         self.dna = suitDNA
         self.setLevel(1)
         
