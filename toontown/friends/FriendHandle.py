@@ -3,8 +3,8 @@ from toontown.toonbase import ToontownGlobals
 import copy
 from toontown.chat import ToonChatGarbler
 
-class FriendHandle:
 
+class FriendHandle:
     def __init__(self, doId, name, style, petId, isAPet = False):
         self.doId = doId
         self.style = style
@@ -40,27 +40,26 @@ class FriendHandle:
         return idString + '-' + str(self.getDoId())
 
     def d_battleSOS(self, requesterId):
-        base.localAvatar.sendUpdate('battleSOS', [requesterId], sendToId=self.doId)
+        base.cr.ttrFriendsManager.d_battleSOS(self.doId)
 
     def d_teleportQuery(self, requesterId):
         teleportNotify.debug('sending d_teleportQuery(%s)' % (requesterId,))
-        base.localAvatar.sendUpdate('teleportQuery', [requesterId], sendToId=self.doId)
+
+        base.cr.ttrFriendsManager.d_teleportQuery(self.doId)
 
     def d_teleportResponse(self, avId, available, shardId, hoodId, zoneId):
-        teleportNotify.debug('sending teleportResponse%s' % ((avId,
-          available,
-          shardId,
-          hoodId,
-          zoneId),))
-        base.localAvatar.sendUpdate('teleportResponse', [avId,
-         available,
-         shardId,
-         hoodId,
-         zoneId], sendToId=self.doId)
+        teleportNotify.debug('sending teleportResponse%s' % ((avId, available,
+            shardId, hoodId, zoneId),)
+        )
+
+        base.cr.ttrFriendsManager.d_teleportResponse(self.doId, available,
+            shardId, hoodId, zoneId
+        )
 
     def d_teleportGiveup(self, requesterId):
         teleportNotify.debug('sending d_teleportGiveup(%s)' % (requesterId,))
-        base.localAvatar.sendUpdate('teleportGiveup', [requesterId], sendToId=self.doId)
+
+        base.cr.ttrFriendsManager.d_teleportGiveup(self.doId)
 
     def isUnderstandable(self):
         if self.commonChatFlags & base.localAvatar.commonChatFlags & ToontownGlobals.CommonChat:
