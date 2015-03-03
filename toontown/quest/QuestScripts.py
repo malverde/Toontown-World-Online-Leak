@@ -14,55 +14,55 @@ WAIT 1
 FINISH_QUEST_MOVIE
 
 ID tutorial_mickey
-LOAD_SFX soundRun "phase_3.5/audio/sfx/AV_footstep_runloop.wav"
-LOAD_CC_DIALOGUE mickeyTutorialDialogue_1 "phase_3/audio/dial/CC_%s_tutorial02.mp3"
-LOAD_CC_DIALOGUE mickeyTutorialDialogue_2 "phase_3.5/audio/dial/CC_tom_tutorial_%s01.mp3"
-LOAD_CC_DIALOGUE mickeyTutorialDialogue_3a "phase_3/audio/dial/CC_%s_tutorial03.mp3"
-LOAD_CC_DIALOGUE mickeyTutorialDialogue_3b "phase_3/audio/dial/CC_%s_tutorial05.mp3"
-LOAD_DIALOGUE mickeyTutorialDialogue_4 "phase_3.5/audio/dial/CC_tom_tutorial_mickey02.mp3"
+LOAD_SFX soundRun "phase_3.5/audio/sfx/AV_footstep_runloop.ogg"
+LOAD_CC_DIALOGUE mickeyTutorialDialogue_1 "phase_3/audio/dial/CC_%s_tutorial02.ogg"
+LOAD_CC_DIALOGUE mickeyTutorialDialogue_2 "phase_3.5/audio/dial/CC_tom_tutorial_%s01.ogg"
+LOAD_CC_DIALOGUE mickeyTutorialDialogue_3a "phase_3/audio/dial/CC_%s_tutorial03.ogg"
+LOAD_CC_DIALOGUE mickeyTutorialDialogue_3b "phase_3/audio/dial/CC_%s_tutorial05.ogg"
+LOAD_DIALOGUE mickeyTutorialDialogue_4 "phase_3.5/audio/dial/CC_tom_tutorial_mickey02.ogg"
 LOCK_LOCALTOON
 REPARENTTO camera render
 POSHPRSCALE camera 11 7 3 52 0 0 1 1 1
 LOAD_CLASSIC_CHAR classicChar
-#REPARENTTO classicChar render
-#POS classicChar 0 0 0 
-#HPR classicChar 0 0 0
+REPARENTTO classicChar render
+POS classicChar 0 0 0 
+HPR classicChar 0 0 0
 POS localToon 0 0 0
 HPR localToon 0 0 0
-#WAIT 2
+WAIT 2
 PLAY_SFX soundRun 1
-#LOOP_ANIM classicChar "run"
+LOOP_ANIM classicChar "run"
 LOOP_ANIM localToon "run"
 LERP_POS localToon -1.8 14.4 0 2
-#LERP_POS classicChar 0 17 0 2
-#WAIT 2
+LERP_POS classicChar 0 17 0 2
+WAIT 2
 #LERP_HPR localToon -110 0 0 0.5
 LERP_HPR localToon -70 0 0 0.5
-#LERP_HPR classicChar -120 0 0 0.5
-#WAIT 0.5
+LERP_HPR classicChar -120 0 0 0.5
+WAIT 0.5
 STOP_SFX soundRun
 LOOP_ANIM localToon "neutral"
-#PLAY_ANIM classicChar "left-point-start" 1
-#WAIT 1.63
-#LOOP_ANIM classicChar "left-point"
-#CC_CHAT_CONFIRM classicChar "QuestScriptTutorial%s_1" mickeyTutorialDialogue_1
-#PLAY_ANIM classicChar "left-point-start" -1.5
-#WAIT 1.0867
-#LOOP_ANIM classicChar "neutral"
-#CC_CHAT_TO_CONFIRM npc classicChar "QuestScriptTutorial%s_2" "CFReversed" mickeyTutorialDialogue_2
-#PLAY_ANIM classicChar "right-point-start" 1
-#WAIT 1.0867
-#LOOP_ANIM classicChar "right-point"
-#CC_CHAT_CONFIRM classicChar "QuestScriptTutorial%s_3" mickeyTutorialDialogue_3a mickeyTutorialDialogue_3b
+PLAY_ANIM classicChar "left-point-start" 1
+WAIT 1.63
+LOOP_ANIM classicChar "left-point"
+CC_CHAT_CONFIRM classicChar "QuestScriptTutorial%s_1" mickeyTutorialDialogue_1
+PLAY_ANIM classicChar "left-point-start" -1.5
+WAIT 1.0867
+LOOP_ANIM classicChar "neutral"
+CC_CHAT_TO_CONFIRM npc classicChar "QuestScriptTutorial%s_2" "CFReversed" mickeyTutorialDialogue_2
+PLAY_ANIM classicChar "right-point-start" 1
+WAIT 1.0867
+LOOP_ANIM classicChar "right-point"
+CC_CHAT_CONFIRM classicChar "QuestScriptTutorial%s_3" mickeyTutorialDialogue_3a mickeyTutorialDialogue_3b
 PLAY_SFX soundRun 1
-#LOOP_ANIM classicChar "run"
-#LERP_HPR classicChar -180 0 0 0.5
-#WAIT 0.5
-#LERP_POS classicChar 0 0 0 2
-#WAIT 2
-#STOP_SFX soundRun
-#REPARENTTO classicChar hidden
-#UNLOAD_CHAR classicChar
+LOOP_ANIM classicChar "run"
+LERP_HPR classicChar -180 0 0 0.5
+WAIT 0.5
+LERP_POS classicChar 0 0 0 2
+WAIT 2
+STOP_SFX soundRun
+REPARENTTO classicChar hidden
+UNLOAD_CHAR classicChar
 #CHAT npc QuestScriptTutorialMickey_4 mickeyTutorialDialogue_4
 REPARENTTO camera localToon
 POS localToon 1.6 9.8 0
@@ -256,6 +256,7 @@ LERP_HPR npc -0.068 0 0 0.75
 WAIT 1.0417
 FUNCTION npc "angryEyes"
 FUNCTION npc "blinkEyes"
+FUNCTION npc "hideSurpriseMuzzle"
 LOOP_ANIM npc "neutral"
 FUNCTION localToon "questPage.showQuestsOnscreenTutorial"
 LOCAL_CHAT_CONFIRM npc QuestScript101_13 "CFReversed" tomDialogue_13
