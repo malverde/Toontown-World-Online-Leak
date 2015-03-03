@@ -1,6 +1,6 @@
 # NOTE: \a is the delimiter for chat pages
 # Quest ids can be found in Quests.py
-SCRIPT = '''
+script = '''
 ID reward_100
 SHOW laffMeter
 LERP_POS laffMeter 0 0 0 1
