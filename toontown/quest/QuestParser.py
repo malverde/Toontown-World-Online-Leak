@@ -59,7 +59,7 @@ def clear():
 def readFile():
     global curId
 
-    script = StringIO(QuestScripts.SCRIPT)
+    script = StringIO(QuestScripts.script)
 
     def readLine():
         return script.readline().replace('\r', '')
