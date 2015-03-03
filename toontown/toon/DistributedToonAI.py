@@ -5786,7 +5786,7 @@ def bringTheMadness():
     target = spellbook.getTarget()
     target.b_setNametagStyle(15)
 
-    return 'Here It Comes\n You’re about to become Disconnected\n I might Self Destruct if you try to be my Hero\n Ill give you a FrainBreeze\n Held at Gunpoint\n Im ready to Fire In The Hole\n Come over here BADBOI\n This is an Emergency\n My Pressure Cooker is Bassline Kickin\n 20K bitch\n im a High Roller\n Although We Are One\n this is my New Style\n Razor Sharp\n You are in a Close Encounter\n however\n This is Not the End\n So What\n I might get Rocktronik\n This isnt 2012\n its time to get Lawless\n How U Feelin’?\n We are all Nerds on Mushrooms\n However, here comes the world\n and when it comes\n Ill Bring The Madness\n'
+    return 'Bring The Madness'
 
 @magicWord(category=CATEGORY_MODERATION, types=[int])
 def resistanceRanger():
