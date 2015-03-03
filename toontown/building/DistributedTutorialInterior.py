@@ -127,8 +127,8 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         self.interior.flattenMedium()
         npcOrigin = self.interior.find('**/npc_origin_' + `(self.cr.doId2do[self.npcId].posIndex)`)
         if not npcOrigin.isEmpty():
-            self.npc.reparentTo(npcOrigin)
-            self.npc.clearMat()
+            self.cr.doId2do[self.npcId].reparentTo(npcOrigin)
+            self.cr.doId2do[self.npcId].clearMat()
         self.createSuit()
         #self.mickeyMovie = QuestParser.NPCMoviePlayer('tutorial_mickey', base.localAvatar, self.npc)
         place = base.cr.playGame.getPlace()
