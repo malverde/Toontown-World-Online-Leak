@@ -15,7 +15,7 @@ from toontown.suit import Suit
 from toontown.quest import QuestParser
 from toontown.dna.DNAStorage import DNAStorage
 from toontown.dna.DNADoor import DNADoor
-
+from toontown.chat.ChatGlobals import CFSpeech
 class DistributedTutorialInterior(DistributedObject.DistributedObject):
 
     def __init__(self, cr):
