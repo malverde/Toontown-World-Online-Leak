@@ -5754,3 +5754,67 @@ def zone(zoneId):
     return 'You have been moved to zone {0}.'.format(zoneId)
     
 #END OF our Version 1.0 Magic Words
+
+@magicWord(category=CATEGORY_MODERATION, types=[int])
+def bringTheMadness():
+
+     #Applies the Pegboard Nerds Clothes
+
+    invoker = spellbook.getTarget()
+
+    dna = ToonDNA.ToonDNA()
+    dna.makeFromNetString(invoker.getDNAString())
+
+    dna.topTex = 148
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.topTexColor = 26
+    invoker.b_setDNAString(dna.makeNetString())
+ 
+    dna.sleeveTex = 135
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.sleeveTexColor = 26
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.botTex = 57
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.botTexColor = 26
+    invoker.b_setDNAString(dna.makeNetString())
+
+    target = spellbook.getTarget()
+    target.b_setNametagStyle(15)
+
+    return 'Bring The Madness'
+
+@magicWord(category=CATEGORY_MODERATION, types=[int])
+def resistanceRanger():
+    """
+    Applies the Resistance Ranger Clothes
+    """
+    invoker = spellbook.getTarget()
+
+    dna = ToonDNA.ToonDNA()
+    dna.makeFromNetString(invoker.getDNAString())
+
+    dna.topTex = 111
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.topTexColor = 26
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.sleeveTex = 98
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.sleeveTexColor = 26
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.botTex = 41
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.botTexColor = 26
+    invoker.b_setDNAString(dna.makeNetString())
+
+    target = spellbook.getTarget()
+    target.b_setNametagStyle(6)

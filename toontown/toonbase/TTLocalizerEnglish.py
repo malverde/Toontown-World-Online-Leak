@@ -27,7 +27,9 @@ NametagFonts = ('phase_3/models/fonts/AnimGothic',
  'phase_3/models/fonts/Danger',
  'phase_3/models/fonts/Alie',
  'phase_3/models/fonts/OysterBar',
- 'phase_3/models/fonts/RedDogSaloon')
+ 'phase_3/models/fonts/RedDogSaloon',
+ 'phase_3/models/fonts/pbnfont.ttf'
+ )
 NametagFontNames = ('Simple',
  'Shivering',
  'Wonky',
@@ -41,7 +43,9 @@ NametagFontNames = ('Simple',
  'Action',
  'Poetic',
  'Boardwalk',
- 'Western')
+ 'Western',
+ 'PegboardNerds'
+ )
 NametagLabel = ' Nametag'
 UnpaidNameTag = 'Basic'
 ScreenshotPath = 'screenshots/'
