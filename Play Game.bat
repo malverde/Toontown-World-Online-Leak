@@ -1,7 +1,7 @@
 @echo off
 
 set /P ttrUsername="Username: " || ^
-set /P ttrPassword=“Password: " || ^
+set /P ttrPassword="Password: " || ^
 set ttrUsername=username
 set ttrPassword=password
 set TTR_PLAYCOOKIE=%ttrUsername%:%ttrPassword%
