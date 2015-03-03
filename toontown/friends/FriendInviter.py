@@ -45,7 +45,7 @@ class FriendInviter(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('FriendInviter')
 
     def __init__(self, avId, avName, avDisableName):
-        self.wantPlayerFriends = config.GetBool('want-player-friends', 0)
+        self.wantPlayerFriends = base.config.GetBool('want-player-friends', 0)
         DirectFrame.__init__(self, pos=(-1.033, 0.1, -0.35), parent=base.a2dTopRight, image_color=GlobalDialogColor, image_scale=(1.0, 1.0, 0.6), text='', text_wordwrap=TTLocalizer.FIdirectFrameWordwrap, text_scale=TTLocalizer.FIdirectFrame, text_pos=TTLocalizer.FIdirectFramePos)
         self['image'] = DGG.getDefaultDialogGeom()
         self.avId = avId
@@ -219,10 +219,10 @@ class FriendInviter(DirectFrame):
     def enterCheckAvailability(self):
         self.accept(self.avDisableName, self.__handleDisableAvatar)
         if not self.playerFriend:
-            if not base.cr.doId2do.has_key(self.avId):
+            if self.avId not in base.cr.doId2do:
                 self.fsm.request('wentAway')
                 return
-        if not base.cr.doId2do.has_key(self.avId):
+        if self.avId not in base.cr.doId2do:
             self.fsm.request('wentAway')
             return
         else:
@@ -363,7 +363,7 @@ class FriendInviter(DirectFrame):
             base.cr.removeFriend(self.avId)
         self['text'] = OTPLocalizer.FriendInviterFriendsNoMore % self.getName()
         self.bOk.show()
-        if not base.cr.doId2do.has_key(self.avId):
+        if self.avId not in base.cr.doId2do:
             messenger.send(self.avDisableName)
 
     def exitFriendsNoMore(self):
@@ -455,7 +455,7 @@ class FriendInviter(DirectFrame):
         pass
 
     def __handleOk(self):
-        if config.GetBool('want-qa-regression', 0):
+        if base.config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: MAKEAFRIENDSHIP: Make a friendship')
         unloadFriendInviter()
 
@@ -466,7 +466,7 @@ class FriendInviter(DirectFrame):
         unloadFriendInviter()
 
     def __handleStop(self):
-        if config.GetBool('want-qa-regression', 0):
+        if base.config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: BREAKAFRIENDSHIP: Break a friendship')
         self.fsm.request('endFriendship')
 

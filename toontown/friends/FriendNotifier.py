@@ -40,7 +40,6 @@ class FriendNotifier(ToonHeadDialog.ToonHeadDialog):
         return
 
     def cleanup(self):
-        print 'cleanup calling!'
         ToonHeadDialog.ToonHeadDialog.cleanup(self)
 
     def __handleButton(self, value):
