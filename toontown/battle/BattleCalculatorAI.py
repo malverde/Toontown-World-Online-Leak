@@ -52,6 +52,7 @@ class BattleCalculatorAI:
         self.__skillCreditMultiplier = 1
         self.tutorialFlag = tutorialFlag
         self.trainTrapTriggered = False
+        self.__skillCreditMultiplier = simbase.air.baseXpMultiplier
 
     def setSkillCreditMultiplier(self, mult):
         self.__skillCreditMultiplier = simbase.air.baseXpMultiplier * mult

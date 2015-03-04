@@ -1,9 +1,7 @@
 set +v
-export ttrUsername=mgracer
-//change line 2 when distrubating this, same for start_game.sh
-echo "You wrote: $ttrUsername"
-export ttrPassword=password
-export TTR_PLAYCOOKIE=$ttrUsername
+read -p "Username: " ttrUsername
+read -p "Password: " ttrPassword
+export TTR_PLAYCOOKIE=$ttrUsername:$ttrPassword
 export TTR_GAMESERVER=54.172.56.119
 
 echo ===============================

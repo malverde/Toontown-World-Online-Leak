@@ -1,6 +1,6 @@
 # NOTE: \a is the delimiter for chat pages
 # Quest ids can be found in Quests.py
-script = """
+script = '''
 ID reward_100
 SHOW laffMeter
 LERP_POS laffMeter 0 0 0 1
@@ -14,12 +14,12 @@ WAIT 1
 FINISH_QUEST_MOVIE
 
 ID tutorial_mickey
-LOAD_SFX soundRun "phase_3.5/audio/sfx/AV_footstep_runloop.wav"
-LOAD_CC_DIALOGUE mickeyTutorialDialogue_1 "phase_3/audio/dial/CC_%s_tutorial02.mp3"
-LOAD_CC_DIALOGUE mickeyTutorialDialogue_2 "phase_3.5/audio/dial/CC_tom_tutorial_%s01.mp3"
-LOAD_CC_DIALOGUE mickeyTutorialDialogue_3a "phase_3/audio/dial/CC_%s_tutorial03.mp3"
-LOAD_CC_DIALOGUE mickeyTutorialDialogue_3b "phase_3/audio/dial/CC_%s_tutorial05.mp3"
-LOAD_DIALOGUE mickeyTutorialDialogue_4 "phase_3.5/audio/dial/CC_tom_tutorial_mickey02.mp3"
+LOAD_SFX soundRun "phase_3.5/audio/sfx/AV_footstep_runloop.ogg"
+LOAD_CC_DIALOGUE mickeyTutorialDialogue_1 "phase_3/audio/dial/CC_%s_tutorial02.ogg"
+LOAD_CC_DIALOGUE mickeyTutorialDialogue_2 "phase_3.5/audio/dial/CC_tom_tutorial_%s01.ogg"
+LOAD_CC_DIALOGUE mickeyTutorialDialogue_3a "phase_3/audio/dial/CC_%s_tutorial03.ogg"
+LOAD_CC_DIALOGUE mickeyTutorialDialogue_3b "phase_3/audio/dial/CC_%s_tutorial05.ogg"
+LOAD_DIALOGUE mickeyTutorialDialogue_4 "phase_3.5/audio/dial/CC_tom_tutorial_mickey02.ogg"
 LOCK_LOCALTOON
 REPARENTTO camera render
 POSHPRSCALE camera 11 7 3 52 0 0 1 1 1
@@ -79,20 +79,20 @@ LOAD cogBuilding "phase_3.5/models/gui/tutorial_gui" "suit_buildings"
 LOAD cogs "phase_3.5/models/gui/tutorial_gui" "suits"
 LOAD tart "phase_3.5/models/props/tart"
 LOAD flower "phase_3.5/models/props/squirting-flower"
-LOAD_DIALOGUE tomDialogue_01 "phase_3.5/audio/dial/CC_tom_tutorial_questscript01.mp3"
-LOAD_DIALOGUE tomDialogue_02 "phase_3.5/audio/dial/CC_tom_tutorial_questscript03.mp3"
-LOAD_DIALOGUE tomDialogue_03 "phase_3.5/audio/dial/CC_tom_tutorial_questscript04.mp3"
-LOAD_DIALOGUE tomDialogue_04 "phase_3.5/audio/dial/CC_tom_tutorial_questscript05.mp3"
-LOAD_DIALOGUE tomDialogue_05 "phase_3.5/audio/dial/CC_tom_tutorial_questscript06.mp3"
-LOAD_DIALOGUE tomDialogue_06 "phase_3.5/audio/dial/CC_tom_tutorial_questscript07.mp3"
-LOAD_DIALOGUE tomDialogue_07 "phase_3.5/audio/dial/CC_tom_tutorial_questscript08.mp3"
-LOAD_DIALOGUE tomDialogue_08 "phase_3.5/audio/dial/CC_tom_tutorial_questscript09.mp3"
-LOAD_DIALOGUE tomDialogue_09 "phase_3.5/audio/dial/CC_tom_tutorial_questscript10.mp3"
-LOAD_DIALOGUE tomDialogue_10 "phase_3.5/audio/dial/CC_tom_tutorial_questscript11.mp3"
-LOAD_DIALOGUE tomDialogue_11 "phase_3.5/audio/dial/CC_tom_tutorial_questscript12.mp3"
-LOAD_DIALOGUE tomDialogue_12 "phase_3.5/audio/dial/CC_tom_tutorial_questscript13.mp3"
-LOAD_DIALOGUE tomDialogue_13 "phase_3.5/audio/dial/CC_tom_tutorial_questscript14.mp3"
-LOAD_DIALOGUE tomDialogue_14 "phase_3.5/audio/dial/CC_tom_tutorial_questscript16.mp3"
+LOAD_DIALOGUE tomDialogue_01 "phase_3.5/audio/dial/CC_tom_tutorial_questscript01.ogg"
+LOAD_DIALOGUE tomDialogue_02 "phase_3.5/audio/dial/CC_tom_tutorial_questscript03.ogg"
+LOAD_DIALOGUE tomDialogue_03 "phase_3.5/audio/dial/CC_tom_tutorial_questscript04.ogg"
+LOAD_DIALOGUE tomDialogue_04 "phase_3.5/audio/dial/CC_tom_tutorial_questscript05.ogg"
+LOAD_DIALOGUE tomDialogue_05 "phase_3.5/audio/dial/CC_tom_tutorial_questscript06.ogg"
+LOAD_DIALOGUE tomDialogue_06 "phase_3.5/audio/dial/CC_tom_tutorial_questscript07.ogg"
+LOAD_DIALOGUE tomDialogue_07 "phase_3.5/audio/dial/CC_tom_tutorial_questscript08.ogg"
+LOAD_DIALOGUE tomDialogue_08 "phase_3.5/audio/dial/CC_tom_tutorial_questscript09.ogg"
+LOAD_DIALOGUE tomDialogue_09 "phase_3.5/audio/dial/CC_tom_tutorial_questscript10.ogg"
+LOAD_DIALOGUE tomDialogue_10 "phase_3.5/audio/dial/CC_tom_tutorial_questscript11.ogg"
+LOAD_DIALOGUE tomDialogue_11 "phase_3.5/audio/dial/CC_tom_tutorial_questscript12.ogg"
+LOAD_DIALOGUE tomDialogue_12 "phase_3.5/audio/dial/CC_tom_tutorial_questscript13.ogg"
+LOAD_DIALOGUE tomDialogue_13 "phase_3.5/audio/dial/CC_tom_tutorial_questscript14.ogg"
+LOAD_DIALOGUE tomDialogue_14 "phase_3.5/audio/dial/CC_tom_tutorial_questscript16.ogg"
 POSHPRSCALE cogs -1.05 7 0 0 0 0 1 1 1
 POSHPRSCALE toonBuilding -1.05 7 0 0 0 0 1.875 1.875 1.875
 POSHPRSCALE cogBuilding -1.05 7 0 0 0 0 1.875 1.875 1.875
@@ -102,12 +102,12 @@ REPARENTTO camera npc
 POS camera -2.2 5.2 3.3
 HPR camera 215 5 0
 WRTREPARENTTO camera localToon
-#PLAY_ANIM npc "right-hand-start" 1
+PLAY_ANIM npc "right-hand-start" 1
 WAIT 1
 REPARENTTO cogs camera
 LERP_SCALE cogs 1.875 1.875 1.875 0.5
 WAIT 1.0833
-#LOOP_ANIM npc "right-hand" 1
+LOOP_ANIM npc "right-hand" 1
 FUNCTION npc "angryEyes"
 FUNCTION npc "blinkEyes"
 LOCAL_CHAT_CONFIRM npc QuestScript101_1 "CFReversed" tomDialogue_01
@@ -245,6 +245,7 @@ LOOP_ANIM npc "neutral"
 WAIT 0.5
 LERP_HPR npc -50 0 0 0.5
 FUNCTION npc "surpriseEyes"
+FUNCTION npc "showSurpriseMuzzle"
 PLAY_ANIM npc "right-point-start" 1.5
 WAIT 0.6944
 LOOP_ANIM npc "right-point"
@@ -255,6 +256,7 @@ LERP_HPR npc -0.068 0 0 0.75
 WAIT 1.0417
 FUNCTION npc "angryEyes"
 FUNCTION npc "blinkEyes"
+FUNCTION npc "hideSurpriseMuzzle"
 LOOP_ANIM npc "neutral"
 FUNCTION localToon "questPage.showQuestsOnscreenTutorial"
 LOCAL_CHAT_CONFIRM npc QuestScript101_13 "CFReversed" tomDialogue_13
@@ -284,17 +286,17 @@ FINISH_QUEST_MOVIE
 
 ID quest_incomplete_110
 DEBUG "quest assign 110"
-LOAD_DIALOGUE harryDialogue_01 "phase_3.5/audio/dial/CC_harry_tutorial_questscript01.mp3"
-LOAD_DIALOGUE harryDialogue_02 "phase_3.5/audio/dial/CC_harry_tutorial_questscript02.mp3"
-LOAD_DIALOGUE harryDialogue_03 "phase_3.5/audio/dial/CC_harry_tutorial_questscript03.mp3"
-LOAD_DIALOGUE harryDialogue_04 "phase_3.5/audio/dial/CC_harry_tutorial_questscript04.mp3"
-LOAD_DIALOGUE harryDialogue_05 "phase_3.5/audio/dial/CC_harry_tutorial_questscript05.mp3"
-LOAD_DIALOGUE harryDialogue_06 "phase_3.5/audio/dial/CC_harry_tutorial_questscript06.mp3"
-LOAD_DIALOGUE harryDialogue_07 "phase_3.5/audio/dial/CC_harry_tutorial_questscript07.mp3"
-LOAD_DIALOGUE harryDialogue_08 "phase_3.5/audio/dial/CC_harry_tutorial_questscript08.mp3"
-LOAD_DIALOGUE harryDialogue_09 "phase_3.5/audio/dial/CC_harry_tutorial_questscript09.mp3"
-LOAD_DIALOGUE harryDialogue_10 "phase_3.5/audio/dial/CC_harry_tutorial_questscript10.mp3"
-LOAD_DIALOGUE harryDialogue_11 "phase_3.5/audio/dial/CC_harry_tutorial_questscript11.mp3"
+LOAD_DIALOGUE harryDialogue_01 "phase_3.5/audio/dial/CC_harry_tutorial_questscript01.ogg"
+LOAD_DIALOGUE harryDialogue_02 "phase_3.5/audio/dial/CC_harry_tutorial_questscript02.ogg"
+LOAD_DIALOGUE harryDialogue_03 "phase_3.5/audio/dial/CC_harry_tutorial_questscript03.ogg"
+LOAD_DIALOGUE harryDialogue_04 "phase_3.5/audio/dial/CC_harry_tutorial_questscript04.ogg"
+LOAD_DIALOGUE harryDialogue_05 "phase_3.5/audio/dial/CC_harry_tutorial_questscript05.ogg"
+LOAD_DIALOGUE harryDialogue_06 "phase_3.5/audio/dial/CC_harry_tutorial_questscript06.ogg"
+LOAD_DIALOGUE harryDialogue_07 "phase_3.5/audio/dial/CC_harry_tutorial_questscript07.ogg"
+LOAD_DIALOGUE harryDialogue_08 "phase_3.5/audio/dial/CC_harry_tutorial_questscript08.ogg"
+LOAD_DIALOGUE harryDialogue_09 "phase_3.5/audio/dial/CC_harry_tutorial_questscript09.ogg"
+LOAD_DIALOGUE harryDialogue_10 "phase_3.5/audio/dial/CC_harry_tutorial_questscript10.ogg"
+LOAD_DIALOGUE harryDialogue_11 "phase_3.5/audio/dial/CC_harry_tutorial_questscript11.ogg"
 SET_MUSIC_VOLUME 0.4 activityMusic 0.5 0.7
 LOCAL_CHAT_CONFIRM npc QuestScript110_1 harryDialogue_01
 OBSCURE_BOOK 0
@@ -353,15 +355,15 @@ UPON_TIMEOUT SHOW bookOpenButton
 FINISH_QUEST_MOVIE
 
 ID tutorial_blocker
-LOAD_DIALOGUE blockerDialogue_01 "phase_3.5/audio/dial/CC_flippy_tutorial_blocker01.mp3"
-LOAD_DIALOGUE blockerDialogue_02 "phase_3.5/audio/dial/CC_flippy_tutorial_blocker02.mp3"
-LOAD_DIALOGUE blockerDialogue_03 "phase_3.5/audio/dial/CC_flippy_tutorial_blocker03.mp3"
-LOAD_DIALOGUE blockerDialogue_04 "phase_3.5/audio/dial/CC_flippy_tutorial_blocker04.mp3"
-LOAD_DIALOGUE blockerDialogue_05a "phase_3.5/audio/dial/CC_flippy_tutorial_blocker05.mp3"
-LOAD_DIALOGUE blockerDialogue_05b "phase_3.5/audio/dial/CC_flippy_tutorial_blocker06.mp3"
-LOAD_DIALOGUE blockerDialogue_06 "phase_3.5/audio/dial/CC_flippy_tutorial_blocker07.mp3"
-LOAD_DIALOGUE blockerDialogue_07 "phase_3.5/audio/dial/CC_flippy_tutorial_blocker08.mp3"
-LOAD_DIALOGUE blockerDialogue_08 "phase_3.5/audio/dial/CC_flippy_tutorial_blocker09.mp3"
+LOAD_DIALOGUE blockerDialogue_01 "phase_3.5/audio/dial/CC_flippy_tutorial_blocker01.ogg"
+LOAD_DIALOGUE blockerDialogue_02 "phase_3.5/audio/dial/CC_flippy_tutorial_blocker02.ogg"
+LOAD_DIALOGUE blockerDialogue_03 "phase_3.5/audio/dial/CC_flippy_tutorial_blocker03.ogg"
+LOAD_DIALOGUE blockerDialogue_04 "phase_3.5/audio/dial/CC_flippy_tutorial_blocker04.ogg"
+LOAD_DIALOGUE blockerDialogue_05a "phase_3.5/audio/dial/CC_flippy_tutorial_blocker05.ogg"
+LOAD_DIALOGUE blockerDialogue_05b "phase_3.5/audio/dial/CC_flippy_tutorial_blocker06.ogg"
+LOAD_DIALOGUE blockerDialogue_06 "phase_3.5/audio/dial/CC_flippy_tutorial_blocker07.ogg"
+LOAD_DIALOGUE blockerDialogue_07 "phase_3.5/audio/dial/CC_flippy_tutorial_blocker08.ogg"
+LOAD_DIALOGUE blockerDialogue_08 "phase_3.5/audio/dial/CC_flippy_tutorial_blocker09.ogg"
 HIDE localToon
 REPARENTTO camera npc
 FUNCTION npc "stopLookAround"
@@ -550,4 +552,4 @@ CHAT_CONFIRM npc QuestScript150_4 1
 UPON_TIMEOUT HIDE_FRIENDS_LIST
 UPON_TIMEOUT ARROWS_OFF
 FINISH_QUEST_MOVIE
-"""
+'''
