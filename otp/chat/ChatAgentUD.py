@@ -33,7 +33,7 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         words = message.split(' ')
         offset = 0
         WantWhitelist = config.GetBool('want-whitelist', 1)
-	if defaultAccess > 0:
+	if localAvatar.adminAccess >= 100:
 		WantWhitelist = False
 	else: 
 		WantWhitelist = True	
