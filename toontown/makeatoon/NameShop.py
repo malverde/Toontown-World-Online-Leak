@@ -1008,10 +1008,9 @@ class NameShop(StateData.StateData):
         self.notify.debug('ParentPos = %.2f %.2f %.2f' % (parentPos[0], parentPos[1], parentPos[2]))
 
     def storeSkipTutorialRequest(self):
-        if base.forceSkipTutorial:
-            base.cr.skipTutorialRequest = True
-        else:
-            base.cr.skipTutorialRequest = self.requestingSkipTutorial
+       # if base.forceSkipTutorial:
+        base.cr.skipTutorialRequest = True
+            #base.cr.skipTutorialRequest = self.requestingSkipTutorial
 
     def __isFirstTime(self):
         if not self.makeAToon.nameList or self.makeAToon.warp:
