@@ -6,9 +6,9 @@ import math
 
 class Nametag3d(Nametag):
     WANT_DYNAMIC_SCALING = True
-    SCALING_FACTOR = 0.055
+    SCALING_FACTOR = 0.095
     SCALING_MINDIST = 1
-    SCALING_MAXDIST = 50
+    SCALING_MAXDIST = 200
 
     BILLBOARD_OFFSET = 3.0
     SHOULD_BILLBOARD = True
@@ -41,13 +41,13 @@ class Nametag3d(Nametag):
 
     def tick(self):
         if not self.WANT_DYNAMIC_SCALING:
-            scale = self.SCALING_FACTOR
+            scale = self.SCALING_FACTOR 
         else:
             # Attempt to maintain the same on-screen size.
             distance = self.innerNP.getPos(NametagGlobals.camera).length()
             distance = max(min(distance, self.SCALING_MAXDIST), self.SCALING_MINDIST)
-
-            scale = math.sqrt(distance)*self.SCALING_FACTOR
+        extraScale = 1.5
+        scale = math.sqrt(distance)*self.SCALING_FACTOR * extraScale
 
         self.innerNP.setScale(scale)
 
