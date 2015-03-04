@@ -9,14 +9,14 @@ sync-video #f
 want-dev #f
 preload-avatars #t
 texture-anisotropic-degree 16
-cursor-filename resources/phase_3/etc/toonmono.cur
-icon-filename resources/phase_3/etc/icon.ico
+# cursor-filename resources/phase_3/etc/toonmono.cur
+# icon-filename resources/phase_3/etc/icon.ico
 
 # Audio...
 audio-library-name p3fmod_audio
 
 # Useless Variables
-show-frame-rate-meter #t
+show-frame-rate-meter #f
 cursor-hidden #f
 undecorated #f
 
