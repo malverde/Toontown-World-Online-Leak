@@ -2,6 +2,14 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 # TODO: OTP should not depend on Toontown... Hrrm.
 from toontown.chat.TTWhiteList import TTWhiteList
+from direct.directnotify import DirectNotifyGlobal
+from direct.gui.DirectGui import *
+from direct.task.Task import Task
+from pandac.PandaModules import *
+from toontown.hood import ZoneUtil
+from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownGlobals
+from toontown.toontowngui import TTDialog
 import time
 
 class ChatAgentUD(DistributedObjectGlobalUD):
