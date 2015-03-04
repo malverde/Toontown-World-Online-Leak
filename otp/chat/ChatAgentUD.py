@@ -34,11 +34,9 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         words = message.split(' ')
         offset = 0
         WantWhitelist = config.GetBool('want-whitelist', 1)
-        invokerId = self.air.getAvatarIdFromSender()
-        invoker = self.air.doId2do.get(invokerId)
         
 	if invoker.getAdminAccess() > 0:
-		 WantWhitelist = False
+		WantWhitelist = False
 	else: 
 		WantWhitelist = True	
 	        
