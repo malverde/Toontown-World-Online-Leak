@@ -243,7 +243,7 @@ QuestsDefaultReject = ('Heya, _avName_!',
  "These new gags from Goofy's Gag Shop are pretty nifty.",
  "I just bought a new gag earlier. That'll show those Cogs!",
  "I heard that Soggy Nell's building was taken over by the cogs. That could never happen here... right?",
- "I've heard rumours of gigantic Cog HQs being made on the outskirts of Toontown. I sure hope they are only rumours.")
+ "I've heard rumors of gigantic Cog HQs being made on the outskirts of Toontown. I sure hope they are only rumors.")
 QuestsDefaultTierNotDone = ('Hello, _avName_! You must finish your current ToonTasks before getting a new one.', 'Hi there! You need to finish the ToonTasks you are working on in order to get a new one.', 'Hi, _avName_! Before I can give you a new ToonTask, you need to finish the ones you have.')
 QuestsDefaultQuest = None
 QuestsDefaultVisitQuestDialog = ('I heard _toNpcName_ is looking for you._where_',
@@ -564,11 +564,11 @@ QuestsItemDict = {1: ['Pair of Glasses', 'Pairs of Glasses', 'a '],
 QuestsHQOfficerFillin = lHQOfficerM
 QuestsHQWhereFillin = ''
 QuestsHQBuildingNameFillin = lToonHQ
-QuestsHQLocationNameFillin = 'in any neighbourhood'
+QuestsHQLocationNameFillin = 'in any neighborhood'
 QuestsTailorFillin = 'Tailor'
 QuestsTailorWhereFillin = ''
 QuestsTailorBuildingNameFillin = 'Clothing Store'
-QuestsTailorLocationNameFillin = 'in any neighbourhood'
+QuestsTailorLocationNameFillin = 'in any neighborhood'
 QuestsTailorQuestSCString = 'I need to see a Tailor.'
 QuestMovieQuestChoiceCancel = 'Come back later if you need a ToonTask! Bye!'
 QuestMovieTrackChoiceCancel = 'Come back when you are ready to decide! Bye!'
@@ -587,7 +587,7 @@ TheBrrrghTrackQuestDict = {GREETING: '',
  INCOMPLETE_WRONG_NPC: 'Choose wisely.',
  COMPLETE: 'Very wise choice!',
  LEAVING: 'Good luck.  Return to me when you have mastered your new skill.'}
-QuestDialog_3225 = {QUEST: "Oh, thanks for coming, _avName_!\x07The Cogs in the neighbourhood frightened away my delivery person.\x07I don't have anyone to deliver this salad to _toNpcName_!\x07Can you do it for me? Thanks so much!_where_"}
+QuestDialog_3225 = {QUEST: "Oh, thanks for coming, _avName_!\x07The Cogs in the neighborhood frightened away my delivery person.\x07I don't have anyone to deliver this salad to _toNpcName_!\x07Can you do it for me? Thanks so much!_where_"}
 QuestDialog_2910 = {QUEST: 'Back so soon?\x07Great job on the spring.\x07The final item is a counter weight.\x07Stop by _toNpcName_ and bring back whatever you can get._where_'}
 QuestDialogDict = {160: {GREETING: '',
        QUEST: "Ok, now I think you are ready for something more rewarding.\x07If you can defeat 3 Bossbots I'll give you a little bonus.",
@@ -623,7 +623,7 @@ QuestDialogDict = {160: {GREETING: '',
  171: {QUEST: 'Oh good, you\'re back. I was getting worried that you got lost!\x07Do you understand the difference between the 4 Cogs now?\x07I think that you\'re ready to go ahead and start training for a new gag track.\x07_toNpcName_ is an expert on gags. He can give you some expert advice on your next track._where_'},
  172: {QUEST: 'Oh good, you\'re back. I was getting worried that you got lost!\x07Do you understand the difference between the 4 Cogs now?\x07I think that you\'re ready to go ahead and start training for a new gag track.\x07_toNpcName_ is an expert on gags. She can give you some expert advice on your next track._where_'},
  175: {GREETING: '',
-       QUEST: "Say, did you know that you own an Estate, your very own neighbourhood?\x07Every Toon on your Pick-a-Toon Panel has their own house there, including you!\x07Clarabelle Cow runs a phone-in Cattlelog where you can order furniture to decorate your house.\x07You can also buy SpeedChat phrases, clothing, and other fun things!\x07I'll phone Clarabelle to send you your first catalog now.\x07After this first issue, she\'ll send you a new one every week!\x07There, your Cattlelog should be on it\'s way. Go home and check it out!",
+       QUEST: "Say, did you know that you own an Estate, your very own neighborhood?\x07Every Toon on your Pick-a-Toon Panel has their own house there, including you!\x07Clarabelle Cow runs a phone-in Cattlelog where you can order furniture to decorate your house.\x07You can also buy SpeedChat phrases, clothing, and other fun things!\x07I'll phone Clarabelle to send you your first catalog now.\x07After this first issue, she\'ll send you a new one every week!\x07There, your Cattlelog should be on it\'s way. Go home and check it out!",
        INCOMPLETE_PROGRESS: 'To head home, click the yellow button on the map page in your Shtickerbook. The movers already installed your phone!',
        COMPLETE: 'Did you buy anything nice?\x07I just finished redecorating my house, and I must say it looks Toontastic.\x07Come back here any time for more ToonTasks - we have plenty of them!',
        LEAVING: QuestsDefaultLeaving},
@@ -635,9 +635,9 @@ QuestDialogDict = {160: {GREETING: '',
        LEAVING: 'That\'s about all I can tell you. Good luck on training!'},
  1039: {QUEST: 'Visit _toNpcName_ if you want to get around town more easily._where_'},
  1040: {QUEST: 'Visit _toNpcName_ if you want to get around town more easily._where_'},
- 1041: {QUEST: 'Hi!  What brings you here?\x07Everybody uses their portable hole to travel around Toontown.\x07Why, you can teleport to your friends using the Friends List, or to any neighbourhood using the map in the Shticker Book.\x07Of course, you have to earn that!\x07Say, I can turn on your teleport access to ' + lToontownCentral + ' if you help out a friend of mine.\x07Seems the Cogs are causing trouble over on Loopy Lane.  Go visit _toNpcName_._where_'},
- 1042: {QUEST: 'Hi!  What brings you here?\x07Everybody uses their portable hole to travel around Toontown.\x07Why, you can teleport to your friends using the Friends List, or to any neighbourhood using the map in the Shticker Book.\x07Of course, you have to earn that!\x07Say, I can turn on your teleport access to ' + lToontownCentral + ' if you help out a friend of mine.\x07Seems the Cogs are causing trouble over on Loopy Lane.  Go visit _toNpcName_._where_'},
- 1043: {QUEST: 'Hi!  What brings you here?\x07Everybody uses their portable hole to travel around Toontown.\x07Why, you can teleport to your friends using the Friends List, or to any neighbourhood using the map in the Shticker Book.\x07Of course, you have to earn that!\x07Say, I can turn on your teleport access to ' + lToontownCentral + ' if you help out a friend of mine.\x07Seems the Cogs are causing trouble over on Loopy Lane.  Go visit _toNpcName_._where_'},
+ 1041: {QUEST: 'Hi!  What brings you here?\x07Everybody uses their portable hole to travel around Toontown.\x07Why, you can teleport to your friends using the Friends List, or to any neighborhood using the map in the Shticker Book.\x07Of course, you have to earn that!\x07Say, I can turn on your teleport access to ' + lToontownCentral + ' if you help out a friend of mine.\x07Seems the Cogs are causing trouble over on Loopy Lane.  Go visit _toNpcName_._where_'},
+ 1042: {QUEST: 'Hi!  What brings you here?\x07Everybody uses their portable hole to travel around Toontown.\x07Why, you can teleport to your friends using the Friends List, or to any neighborhood using the map in the Shticker Book.\x07Of course, you have to earn that!\x07Say, I can turn on your teleport access to ' + lToontownCentral + ' if you help out a friend of mine.\x07Seems the Cogs are causing trouble over on Loopy Lane.  Go visit _toNpcName_._where_'},
+ 1043: {QUEST: 'Hi!  What brings you here?\x07Everybody uses their portable hole to travel around Toontown.\x07Why, you can teleport to your friends using the Friends List, or to any neighborhood using the map in the Shticker Book.\x07Of course, you have to earn that!\x07Say, I can turn on your teleport access to ' + lToontownCentral + ' if you help out a friend of mine.\x07Seems the Cogs are causing trouble over on Loopy Lane.  Go visit _toNpcName_._where_'},
  1044: {QUEST: 'Oh, thanks for stopping by.  I really need some help.\x07As you can see, I have no customers.\x07My secret recipe book is lost and nobody comes to my restaurant anymore.\x07I last saw it just before those Cogs took over my building.\x07Can you help me by recovering four of my famous recipes?',
         LEAVING: '',
         INCOMPLETE_PROGRESS: 'Any luck finding my recipes?'},
@@ -724,7 +724,7 @@ QuestDialogDict = {160: {GREETING: '',
  1092: {QUEST: "Mmm, let me see that receipt.\x07...Ah Yes, it says that 1 goldfish was sold to a Short Change.\x07It doesn't seem to mention what happened to the other 4 fish.\x07Maybe you should try and find that Short Change.",
         LEAVING: '',
         INCOMPLETE_PROGRESS: "I don't think there's anything else I can help you with.\x07Why don't you try and find that goldfish?"},
- 1080: {QUEST: "Oh thank heavens!  You found Oscar - he's my favourite, but don't tell the others.\x07What's that, Oscar?  Uh huh... they did? ... THEY ARE?\x07Well, what are we waiting for?\x07Oscar says the other 4 escaped into the pond in the playground.\x07Could you go round them up for me?\x07Just fish them out of the pond.",
+ 1080: {QUEST: "Oh thank heavens!  You found Oscar - he's my favorite, but don't tell the others.\x07What's that, Oscar?  Uh huh... they did? ... THEY ARE?\x07Well, what are we waiting for?\x07Oscar says the other 4 escaped into the pond in the playground.\x07Could you go round them up for me?\x07Just fish them out of the pond.",
         LEAVING: '',
         COMPLETE: 'You found them?!\x07Ahh, I am sooo happy to be reunited with my little buddies!\x07You deserve a handsome reward for this!',
         INCOMPLETE_PROGRESS: 'Are you having trouble finding my fish?  Oscar says they didn\'t swim too far.'},
@@ -783,7 +783,7 @@ QuestDialogDict = {160: {GREETING: '',
         INCOMPLETE_PROGRESS: "Still haven't found him?\x07He's tall and has a pointy head",
         COMPLETE: "You found it!?!?\x07Aren't you a darling!\x07You've more than earned this..."},
  2209: {QUEST: 'Melville is preparing for an important voyage.\x07Pop in and see what you can do to help sort him out._where_'},
- 2210: {QUEST: "I can use your help.\x07I've been asked by Toon HQ to take a voyage and see if I can find where the Cogs are coming from.\x07I'll need a few things for my ship but I don't have many jellybeans.\x07Stop by and pick up some ballast from Alice. You'll have to do a favour for her to get it._where_",
+ 2210: {QUEST: "I can use your help.\x07I've been asked by Toon HQ to take a voyage and see if I can find where the Cogs are coming from.\x07I'll need a few things for my ship but I don't have many jellybeans.\x07Stop by and pick up some ballast from Alice. You'll have to do a favor for her to get it._where_",
         GREETING: 'Howdy, _avName_',
         LEAVING: ''},
  2211: {QUEST: "So Melville wants ballast, does he?\x07He still owes me for the last bushel.\x07I'll give it to you if you can clear five Micromanagers off my street.",
@@ -871,7 +871,7 @@ QuestDialogDict = {160: {GREETING: '',
         COMPLETE: 'You did it, _avName_!\x07You demonstrated your superior Toonmanship.',
         GREETING: ''},
  3225: {QUEST: "_toNpcName_ says she needs some help.\x07Why don't you go see what you can do to help out?_where_"},
- 3235: {QUEST: "Oh, this is the salad I ordered!\x07Thank you for bringing it to me.\x07All those Cogs must have frightened away _toNpcName_'s regular delivery person again.\x07Why don't you do us a favour and defeat some of the Cogs out there?\x07Defeat 10 Cogs in " + lDaisyGardens + ' and then report back to _toNpcName_.',
+ 3235: {QUEST: "Oh, this is the salad I ordered!\x07Thank you for bringing it to me.\x07All those Cogs must have frightened away _toNpcName_'s regular delivery person again.\x07Why don't you do us a favor and defeat some of the Cogs out there?\x07Defeat 10 Cogs in " + lDaisyGardens + ' and then report back to _toNpcName_.',
         INCOMPLETE_PROGRESS: "You're working on defeating Cogs for me?\x07That's wonderful! Keep up the good work!",
         COMPLETE: 'Oh, thank you so much for defeating those Cogs!\x07Now maybe I can keep my regular delivery schedule.\x07Your reward is...',
         INCOMPLETE_WRONG_NPC: "Go tell _toNpcName_ about the Cogs you've defeated._where_"},
@@ -983,7 +983,7 @@ QuestDialogDict = {160: {GREETING: '',
  4910: {QUEST: 'All done!\x07Sorry it took so long.\x07Take this back to Leo._where_',
         GREETING: '',
         COMPLETE: 'Awesome, dude!\x07My concert is gonna rock!\x07Speaking of rock, you can rock some Cogs with this...'},
- 5247: {QUEST: 'This neighbourhood is pretty tough...\x07You might want to learn some new tricks.\x07_toNpcName_ taught me everything I know, so maybe he can help you too._where_'},
+ 5247: {QUEST: 'This neighborhood is pretty tough...\x07You might want to learn some new tricks.\x07_toNpcName_ taught me everything I know, so maybe he can help you too._where_'},
  5248: {GREETING: 'Ahh, yes.',
         LEAVING: '',
         INCOMPLETE_PROGRESS: 'You appear to be struggling with my assignment.',
@@ -1057,7 +1057,7 @@ QuestDialogDict = {160: {GREETING: '',
         QUEST: "Man, that Simian Sam is crazy!\x07If you're wild like Sam, I'll give you your bag, man.\x07Go bag some Cogs for your bag, man! Hey now!",
         INCOMPLETE_PROGRESS: "Are you sure you're extreme enough?  Go bag some more Cogs.",
         COMPLETE: "Hey, you are pretty wild!  That was a heap of Cogs you bagged!\x07Here's your bag!"},
- 5210: {QUEST: '_toNpcName_ is secretly in love with someone in the neighbourhood.\x07If you help her, she may reward you handsomely._where_'},
+ 5210: {QUEST: '_toNpcName_ is secretly in love with someone in the neighborhood.\x07If you help her, she may reward you handsomely._where_'},
  5211: {GREETING: 'Boo hoo.',
         QUEST: 'I spent all last night writing a letter to the dog I love.\x07But before I could deliver it, one of those nasty Cogs with a beak came in and took it.\x07Can you get it back for me?',
         LEAVING: 'Boo hoo.',
@@ -1074,7 +1074,7 @@ QuestDialogDict = {160: {GREETING: '',
         QUEST: 'I spent all last night writing a letter to the dog I love.\x07But before I could deliver it, one of those nasty Corporate Raiders came in and took it.\x07Can you get it back for me?',
         LEAVING: 'Boo hoo.',
         INCOMPLETE_PROGRESS: 'Please find my letter.'},
- 5212: {QUEST: 'Oh, thank you for finding my letter!\x07Please, please, please could you deliver it to the most handsome dog in the neighbourhood?',
+ 5212: {QUEST: 'Oh, thank you for finding my letter!\x07Please, please, please could you deliver it to the most handsome dog in the neighborhood?',
         GREETING: '',
         LEAVING: '',
         INCOMPLETE_PROGRESS: "You didn't deliver my letter, did you?"},
@@ -1354,7 +1354,7 @@ QuestDialogDict = {160: {GREETING: '',
  6206: {QUEST: "Well, _avName_, I don't have anything for you right now.\x07Wait! I think Susan Siesta was looking for help. Why don't you go see her?_where_"},
  6207: {GREETING: '',
         LEAVING: '',
-        QUEST: "I'll never get rich with those darn Cogs driving away all my business!\x07You've got to help me, _avName_.\x07Clear out a few Cog buildings for the sake of the neighbourhood and I'll add to your riches.",
+        QUEST: "I'll never get rich with those darn Cogs driving away all my business!\x07You've got to help me, _avName_.\x07Clear out a few Cog buildings for the sake of the neighborhood and I'll add to your riches.",
         INCOMPLETE_PROGRESS: "Poor me! Can't you get rid of those buildings?",
         COMPLETE: "Now I'll be in the money! I can see it now!\x07I'll spend all my time fishing. Now, let me enrich your life a little.\x07There you go!"},
  6211: {QUEST: 'Hey _avName_! I heard Lawful Linda was looking for you.\x07You should stop by and pay her a visit._where_'},
@@ -1377,7 +1377,7 @@ QuestDialogDict = {160: {GREETING: '',
         QUEST: "Yo! Youse came to da right place. I ain't too happy.\x07Yeah, I was lookin for some help wid dose Cogs. Dey always come and boss me around.\x07If you can retire some of dem Bossbots, I'll make it worth your while.",
         INCOMPLETE_PROGRESS: "Hey, _avName_, what's up wid youse?\x07You gotta keep after dem Bossbots. We got a deal, remember?\x07Rocco always keeps his word.",
         COMPLETE: "Yo, _avName_! Youse ok in my book.\x07Dem Bossbots ain't so bossy now, is they?\x07Here ya go! A nice big boost. Now, you stay outta trouble, ya hear!"},
- 6231: {QUEST: 'Nat over on Pajama Place heard rumours about a Cashbot Headquarters.\x07Head over there and see if you can help him out._where_'},
+ 6231: {QUEST: 'Nat over on Pajama Place heard rumors about a Cashbot Headquarters.\x07Head over there and see if you can help him out._where_'},
  6232: {GREETING: '',
         LEAVING: '',
         QUEST: "I got a nibble about some strange goings on.\x07Well, maybe it's the fleas but something is going on anyway.\x07All these Cashbots!\x07I think they've opened another headquarters right off Pajama Place.\x07P.J. knows his way around.\x07Go see _toNpcName_ _where_ Ask him if he's heard anything.",
@@ -2104,7 +2104,7 @@ ToonHealJokes = [['What goes TICK-TICK-TICK-WOOF?', 'A watchdog! '],
  ['What do you give an elephant with big feet?', 'Big shoes.'],
  ['Where do baby ghosts go during the day?', 'Day-scare centers.'],
  ['What did Snow White say to the photographer?', 'Someday my prints will come.'],
- ["What's Tarzan's favourite song?", 'Jungle bells.'],
+ ["What's Tarzan's favorite song?", 'Jungle bells.'],
  ["What's green and loud?", 'A froghorn.'],
  ["What's worse than raining cats and dogs?", 'Hailing taxis.'],
  ['When is the vet busiest?', "When it's raining cats and dogs."],
@@ -3339,7 +3339,7 @@ SharedChatterComments = ["That's a great name, %.",
  "Oh boy, I'm having a good day.",
  "I like what you're wearing.",
  "I think I'll go fishing this afternoon.",
- 'Have fun in my neighbourhood.',
+ 'Have fun in my neighborhood.',
  'I hope you are enjoying your stay in Toontown!',
  "I heard it's snowing at the Brrrgh.",
  'Have you ridden the trolley today?',
@@ -3379,21 +3379,21 @@ MickeyChatter = (['Welcome to ' + lToontownCentral + '.', 'Hi, my name is ' + Mi
 WinterMickeyCChatter = (["Hi, I'm Merry Mickey!",
   'Welcome to Tinseltown... I mean, Toontown!',
   'Happy Winter Holiday!',
-  'Happy Winter Holiday, %'], ['Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favour!',
+  'Happy Winter Holiday, %'], ['Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!',
   'Golly, these halls sure are decked!',
-  'Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favour!',
+  'Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!',
   'Just look at those tree lights! What a sight!',
-  'Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favour!',
+  'Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!',
   'Not a creature is stirring, except this mouse!',
-  'Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favour!',
+  'Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!',
   'I love this time of year!',
-  'Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favour!',
+  'Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!',
   "I'm feeling jolly, how about you?",
-  'Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favour!',
+  'Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!',
   'Know any good carols?',
-  'Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favour!',
+  'Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!',
   'Oh boy! I love Winter Holiday!',
-  'Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favour!',
+  'Sing your seasonal cheer at Joy Buzzers to the World and Joy is sure to return the favor!',
   "I think I'll trade my gloves for mittens!"], ['Have a happy Winter Holiday!',
   'Warm wishes to you!',
   'Shucks, sorry you have to go. So long!',
@@ -4145,14 +4145,14 @@ DownloadForceAcknowledgeMsg = 'Sorry, the %(phase)s area is still being %(verb)s
 TeaserTop = ''
 TeaserBottom = ''
 TeaserDefault = ',\nyou need to become a Member.\n\nJoin us!'
-TeaserOtherHoods = 'For unlimited adventures in all 6 neighbourhoods’
-TeaserTypeAName = 'Type in your favourite name for your Toon!'
+TeaserOtherHoods = 'For unlimited adventures in all 6 Neighborhoods’
+TeaserTypeAName = 'Type in your favorite name for your Toon!'
 TeaserSixToons = 'To play more than one Toon'
 TeaserClothing = 'To buy items from the Cattlelog \nto customize your Toon'
 TeaserCogHQ = 'To access awesome Cog HQs'
 TeaserSecretChat = 'To use the True Friends Chat feature'
 TeaserSpecies = 'To pick this type of Toon'
-TeaserFishing = 'To fish in all 6 neighbourhoods’
+TeaserFishing = 'To fish in all 6 Neighborhoods’
 TeaserGolf = 'To play Toon MiniGolf'
 TeaserParties = 'To plan a party'
 TeaserSubscribe = 'Subscribe'
@@ -4180,9 +4180,9 @@ LauncherPhaseNames = {0: 'Initialization',
  4: 'Playground',
  5: 'Streets',
  5.5: 'Estates',
- 6: 'Neighbourhoods I',
+ 6: 'Neighborhoods I',
  7: Cog + ' Buildings',
- 8: 'Neighbourhoods II',
+ 8: 'Neighborhoods II',
  9: Sellbot + ' HQ',
  10: Cashbot + ' HQ',
  11: Lawbot + ' HQ',
@@ -4827,11 +4827,11 @@ QuestPageNameAndDestination = '%s\n%s\n%s\n%s'
 QuestPosterHQOfficer = lHQOfficerM
 QuestPosterHQBuildingName = lToonHQ
 QuestPosterHQStreetName = 'Any Street'
-QuestPosterHQLocationName = 'Any Neighbourhood'
+QuestPosterHQLocationName = 'Any Neighborhood'
 QuestPosterTailor = 'Tailor'
 QuestPosterTailorBuildingName = 'Clothing Store'
 QuestPosterTailorStreetName = 'Any Playground'
-QuestPosterTailorLocationName = 'Any Neighbourhood'
+QuestPosterTailorLocationName = 'Any Neighborhood'
 QuestPosterPlayground = 'In the playground'
 QuestPosterAtHome = 'At your home'
 QuestPosterInHome = 'In your home'
