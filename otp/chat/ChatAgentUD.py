@@ -3,7 +3,6 @@ from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobal
 # TODO: OTP should not depend on Toontown... Hrrm.
 from toontown.chat.TTWhiteList import TTWhiteList
 import time
-from otp.ai.MagicWordGlobal import *
 
 class ChatAgentUD(DistributedObjectGlobalUD):
     notify = DirectNotifyGlobal.directNotify.newCategory("ChatAgentUD")
@@ -34,8 +33,7 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         words = message.split(' ')
         offset = 0
         WantWhitelist = config.GetBool('want-whitelist', 1)
-        
-	if invoker.getAdminAccess() > 0:
+	if defaultAccess > 0:
 		WantWhitelist = False
 	else: 
 		WantWhitelist = True	
