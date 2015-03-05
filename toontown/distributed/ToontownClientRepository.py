@@ -351,7 +351,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.cleanupWaitingForDatabase()
         dclass = self.dclassesByName['DistributedToon']
         NametagGlobals.setMasterArrowsOn(0)
-        loader.beginBulkLoad('localAvatarPlayGame', OTPLocalizer.CREnteringToontown, 400, 1, TTLocalizer.TIP_GENERAL)
+        loader.beginBulkLoad('localAvatarPlayGame', OTPLocalizer.CREnteringToontown, 400, 1, TTLocalizer.TIP_GENERAL, 0)
         localAvatar = LocalToon.LocalToon(self)
         localAvatar.dclass = dclass
         base.localAvatar = localAvatar
