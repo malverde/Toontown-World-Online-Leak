@@ -37,8 +37,9 @@ class ToontownLoader(Loader.Loader):
         self.inBulkBlock = 1
         self._lastTickT = globalClock.getRealTime()
         self.blockName = name
-        self.loadingScreen.begin(range, label, gui, tipCategory, zoneId)
+        self.loadingScreen.begin(range, label, gui, tipCategory)
         return None
+
 
     def endBulkLoad(self, name):
         if not self.inBulkBlock:
