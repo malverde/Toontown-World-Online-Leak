@@ -4367,10 +4367,10 @@
 						<nhpr h="-88" p="0" r="-0" />
 						<color r="0.25" g="0.25" b="0.25" a="1" />
 					</prop>
-					<prop name="animated_prop_SleepingHydrantAnimatedProp_DNARoot" code="prop_DL_hydrant">
+					<!-- <prop name="animated_prop_SleepingHydrantAnimatedProp_DNARoot" code="prop_DL_hydrant">
 						<pos x="14.8285" y="-8.31821" z="0" />
 						<nhpr h="-0" p="0" r="-0" />
-					</prop>
+					</prop> -->
 					<prop name="prop_DL_post_three_light_DNARoot" code="prop_DL_post_three_light">
 						<pos x="10.1733" y="-36.0779" z="2.28882e-005" />
 						<nhpr h="-90" p="1.00179e-005" r="6.56845e-013" />
