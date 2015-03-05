@@ -136,11 +136,11 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
          1,
          1,
          1]
-        for index in range(len(self.golfCourse.getGolferIds())):
+        for index in xrange(len(self.golfCourse.getGolferIds())):
             self.watched[index] = 0
 
     def setWatched(self, avId):
-        for index in range(len(self.golfCourse.getGolferIds())):
+        for index in xrange(len(self.golfCourse.getGolferIds())):
             if self.golfCourse.getGolferIds()[index] == avId:
                 self.watched[index] = 1
 
@@ -213,7 +213,7 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
             curNodePath = self.hardSurfaceNodePath.find('**/locator%d' % locatorNum)
 
     def loadBlockers(self):
-        loadAll = config.GetBool('golf-all-blockers', 0)
+        loadAll = simbase.config.GetBool('golf-all-blockers', 0)
         self.createLocatorDict()
         self.blockerNums = self.holeInfo['blockers']
         for locatorNum in self.locDict:
@@ -452,7 +452,7 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
 
     def parseLocators(self, objectCollection, optional = 0):
         if optional and objectCollection.getNumPaths():
-            if self.holeInfo.has_key('optionalMovers'):
+            if 'optionalMovers' in self.holeInfo:
                 for optionalMoverId in self.holeInfo['optionalMovers']:
                     searchStr = 'optional_mover_' + str(optionalMoverId)
                     for objIndex in xrange(objectCollection.getNumPaths()):
@@ -462,7 +462,7 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
                             break
 
         else:
-            for index in range(objectCollection.getNumPaths()):
+            for index in xrange(objectCollection.getNumPaths()):
                 self.fillLocator(objectCollection, index)
 
     def fillLocator(self, objectCollection, index):
