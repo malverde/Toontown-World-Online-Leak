@@ -159,7 +159,7 @@ class Hood(StateData.StateData):
         loaderName = requestStatus['loader']
         if loaderName == 'safeZoneLoader':
             if not loader.inBulkBlock:
-                loader.beginBulkLoad('hood', TTLocalizer.HeadingToPlayground, safeZoneCountMap[self.id], 1, TTLocalizer.TIP_GENERAL, , self.id)
+                loader.beginBulkLoad('hood', TTLocalizer.HeadingToPlayground, safeZoneCountMap[self.id], 1, TTLocalizer.TIP_GENERAL,  self.id)
             self.loadLoader(requestStatus)
             loader.endBulkLoad('hood')
         elif loaderName == 'townLoader':
