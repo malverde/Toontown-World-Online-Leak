@@ -5,7 +5,6 @@ from direct.task import Task
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from otp.otpbase import OTPGlobals
-from otp.nametag.NametagConstants import *
 from direct.showbase import PythonUtil
 from direct.showbase import GarbageReport
 import base64
@@ -13,6 +12,7 @@ import time
 import os
 import sys
 import re
+from toontown.chat.ChatGlobals import 
 
 class TimeManager(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('TimeManager')
