@@ -54,12 +54,13 @@ class DistributedFurnitureItem(DistributedHouseItem.DistributedHouseItem, Distri
         DistributedSmoothNode.DistributedSmoothNode.delete(self)
 
     def setItem(self, furnitureMgrId, blob):
-        self.furnitureMgr = self.cr.doId2do[furnitureMgrId]
-        self.furnitureMgr.dfitems.append(self)
-        self.item = CatalogItem.getItem(blob, store=CatalogItem.Customization)
-        self.assign(self.loadModel())
-        interior = self.furnitureMgr.getInteriorObject()
-        self.reparentTo(interior.interior)
+        self.furnitureMgr = self.cr.doId2do.get(furnitureMgrId)
+        if self.furnitureMgr:
+         self.furnitureMgr.dfitems.append(self)
+         self.item = CatalogItem.getItem(blob, store=CatalogItem.Customization)
+         self.assign(self.loadModel())
+         interior = self.furnitureMgr.getInteriorObject()
+         self.reparentTo(interior.interior)
 
     def loadModel(self):
         return self.item.loadModel()
