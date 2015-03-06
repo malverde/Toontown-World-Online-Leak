@@ -401,23 +401,12 @@ class Avatar(Actor, ShadowCaster):
         self.nametag.getNametag2d().setContents(self.nametag2dContents & self.nametag2dDist)
 
     def showNametag2d(self):
-<<<<<<< HEAD
-        nametag2d = self.nametag.getNametag2d()
-        if not self.ghostMode:
-            nametag2d.showNametag()
-            nametag2d.showChat()
-        else:
-            nametag2d.hideNametag()
-            nametag2d.hideChat()
-            nametag2d.update()
-         
-=======
         self.nametag2dContents = self.nametag2dNormalContents
         if self.ghostMode:
             self.nametag2dContents = Nametag.CSpeech
         self.nametag.getNametag2d().setContents(self.nametag2dContents & self.nametag2dDist)
 
->>>>>>> parent of 87a9f77... Merge pull request #343 from voarsh/enhancement/better-nametags
+
     def hideNametag3d(self):
         self.nametag.getNametag3d().setContents(0)
 
