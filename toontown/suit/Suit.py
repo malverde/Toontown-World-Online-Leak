@@ -11,7 +11,7 @@ from toontown.battle import BattleProps
 from toontown.toonbase import TTLocalizer
 from pandac.PandaModules import VirtualFileMountHTTP, VirtualFileSystem, Filename, DSearchPath
 from direct.showbase import AppRunnerGlobal
-from toontown.nametag import NametagGroup
+#from toontown.nametag import NametagGroup
 import string
 import os
 from toontown.suit import SuitGlobals
