@@ -54,6 +54,7 @@ def showFriendsList():
     global globalFriendsList
     if globalFriendsList == None:
         globalFriendsList = FriendsListPanel()
+    base.hideFriendMargins()
     globalFriendsList.enter()
     return
 
@@ -61,6 +62,7 @@ def showFriendsList():
 def hideFriendsList():
     if globalFriendsList != None:
         globalFriendsList.exit()
+    base.showFriendMargins()
     return
 
 
@@ -299,7 +301,7 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
         self.ignore(OTPGlobals.PlayerFriendUpdateEvent)
         base.localAvatar.obscureFriendsListButton(-1)
         messenger.send(self.doneEvent)
-        
+        base.showFriendMargins()
         return None
 
     def __close(self):

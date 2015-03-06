@@ -20,7 +20,6 @@ from pandac.PandaModules import *
 import random
 import string
 import sys
-from toontown.chat.ChatGlobals import *
 import time
 import types
 

@@ -12,7 +12,6 @@ class ChatAgentUD(DistributedObjectGlobalUD):
 
         self.whiteList = TTWhiteList()
         self.muted = {}
-
     def muteAccount(self, account, howLong):
         print ['muteAccount', account, howLong]
         self.muted[account] = int(time.time()/60) + howLong
@@ -21,14 +20,12 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         print ['unuteAccount', account]
         if account in self.muted:
             del self.muted[account]
-
-    def chatMessage(self, message):
+    def chatMessage(self, message, chatMode):
         sender = self.air.getAvatarIdFromSender()
         if sender == 0:
             self.air.writeServerEvent('suspicious', self.air.getAccountIdFromSender(),
                                          'Account sent chat without an avatar', message)
             return
-
         if sender in self.muted and int(time.time()/60) < self.muted[sender]:
             return
 
@@ -36,6 +33,7 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         words = message.split(' ')
         offset = 0
         WantWhitelist = config.GetBool('want-whitelist', 1)
+
         for word in words:
             if word and not self.whiteList.isWord(word) and WantWhitelist:
                 modifications.append((offset, offset+len(word)-1))
@@ -54,5 +52,3 @@ class ChatAgentUD(DistributedObjectGlobalUD):
                                               self.air.ourChannel,
                                               [0, 0, '', cleanMessage, modifications, 0])
         self.air.send(dg)
-
-        self.air.csm.accountDB.persistChat(sender, message, self.air.ourChannel)

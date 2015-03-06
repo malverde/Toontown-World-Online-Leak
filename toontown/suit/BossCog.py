@@ -2,7 +2,7 @@ from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.actor import Actor
 from otp.avatar import Avatar
-from toontown.nametag import NametagGlobals
+from otp.nametag.NametagGroup import NametagGroup
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from direct.fsm import FSM
@@ -32,7 +32,7 @@ class BossCog(Avatar.Avatar):
         Avatar.Avatar.__init__(self)
         self.setFont(ToontownGlobals.getSuitFont())
         self.setSpeechFont(ToontownGlobals.getSuitFont())
-        self.setPlayerType(NametagGlobals.CCSuit)
+        self.setPlayerType(NametagGroup.CCSuit)
         self.setPickable(0)
         self.doorA = None
         self.doorB = None

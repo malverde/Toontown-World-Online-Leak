@@ -9,7 +9,6 @@ SafetyNetBitmask = BitMask32(512)
 SafetyGateBitmask = BitMask32(1024)
 GhostBitmask = BitMask32(2048)
 PathFindingBitmask = BitMask32.bit(29)
-PickerBitmask = BitMask32(4096)
 OriginalCameraFov = 52.0
 DefaultCameraFov = 52.0
 DefaultCameraFar = 400.0
