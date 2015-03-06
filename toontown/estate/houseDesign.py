@@ -382,7 +382,7 @@ class ObjectManager(NodePath, DirectObject):
         self.__updateDeleteButtons()
         self.showAtticPicker()
         base.localAvatar.laffMeter.stop()
-        base.setCellsAvailable(base.leftCells + [base.bottomCells[0]], 0)
+        base.setCellsActive(base.leftCells + [base.bottomCells[0]], 0)
         if self.guiInterval:
             self.guiInterval.finish()
         self.guiInterval = self.furnitureGui.posHprScaleInterval(1.0, Point3(0.155, -0.6, -1.045), Vec3(0), Vec3(0.06), startPos=Point3(0.115, 0.0, -0.66), startHpr=Vec3(0), startScale=Vec3(0.04), blendType='easeInOut', name='lerpFurnitureButton')
@@ -418,7 +418,7 @@ class ObjectManager(NodePath, DirectObject):
             self.inTrashPicker = None
         self.__cleanupVerifyDelete()
         self.furnitureGui.hide()
-        base.setCellsAvailable(base.leftCells + [base.bottomCells[0]], 1)
+        base.setCellsActive(base.leftCells + [base.bottomCells[0]], 1)
         base.localAvatar.laffMeter.start()
         taskMgr.remove('recenterButtonFrameTask')
         self.cleanupDialog()

@@ -19,7 +19,7 @@ from toontown.golf import BuildGeometry
 from toontown.toon import Toon
 from toontown.toon import ToonDNA
 from toontown.dna.DNAStorage import DNAStorage
-from otp.nametag import NametagGroup
+from toontown.nametag import NametagGlobals
 from direct.interval.IntervalGlobal import *
 import random
 from direct.showbase import PythonUtil
@@ -745,7 +745,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             subject.setName(namegen.randomNameMoreinfo(boy=boy, girl=girl)[-1])
             self.nameCounter += 1
             subject.setPickable(0)
-            subject.setPlayerType(NametagGroup.CCSpeedChat)
+            subject.setPlayerType(NametagGlobals.CCSpeedChat)
             dna = ToonDNA.ToonDNA()
             dna.newToonRandom(seed, gender, 1)
             subject.setDNAString(dna.makeNetString())
