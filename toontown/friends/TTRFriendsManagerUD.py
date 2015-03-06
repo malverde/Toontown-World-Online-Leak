@@ -257,7 +257,7 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
             setLastSeen =  fields.get('setLastSeen', [0])[0]
         
             self.sendUpdateToAvatarId(senderId, 'friendDetails', [friendId, experience, trackAccess, trackBonusLevel, inventory , hp, maxHp, defaultShard, lastHood, dnaString, setLastSeen])
-        self.air.dbInterface.queryObject(self.air.dbId, avId, handleToon)
+        self.air.dbInterface.queryObject(self.air.dbId, friendId, handleToon)
 
     # -- Toon Online/Offline --
     def toonOnline(self, doId, friendsList):
