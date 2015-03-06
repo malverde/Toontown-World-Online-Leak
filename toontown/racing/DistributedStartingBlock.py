@@ -562,7 +562,7 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
         self.movieTrack.start()
 
     def bulkLoad(self):
-        base.loader.beginBulkLoad('atRace', TTLocalizer.StartingBlock_Loading, 60, 1, TTLocalizer.TIP_KARTING)
+        base.loader.beginBulkLoad('atRace', TTLocalizer.StartingBlock_Loading, 60, 1, TTLocalizer.TIP_KARTING, zoneId)
 
 
 class DistributedViewingBlock(DistributedStartingBlock):

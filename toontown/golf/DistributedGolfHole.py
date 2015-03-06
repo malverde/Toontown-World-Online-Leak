@@ -56,10 +56,10 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
      'Cleanup': ['Off']}
     id = 0
     notify = directNotify.newCategory('DistributedGolfHole')
-    unlimitedAimTime = config.GetBool('unlimited-aim-time', 0)
-    unlimitedTeeTime = config.GetBool('unlimited-tee-time', 0)
-    golfPowerSpeed = config.GetDouble('golf-power-speed', 3)
-    golfPowerExponent = config.GetDouble('golf-power-exponent', 0.75)
+    unlimitedAimTime = base.config.GetBool('unlimited-aim-time', 0)
+    unlimitedTeeTime = base.config.GetBool('unlimited-tee-time', 0)
+    golfPowerSpeed = base.config.GetDouble('golf-power-speed', 3)
+    golfPowerExponent = base.config.GetDouble('golf-power-exponent', 0.75)
     DefaultCamP = -16
     MaxCamP = -90
 
@@ -288,7 +288,7 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
             curNodePath = self.hardSurfaceNodePath.find('**/locator%d' % locatorNum)
 
     def loadBlockers(self):
-        loadAll = config.GetBool('golf-all-blockers', 0)
+        loadAll = base.config.GetBool('golf-all-blockers', 0)
         self.createLocatorDict()
         self.blockerNums = self.holeInfo['blockers']
         for locatorNum in self.locDict:
@@ -564,8 +564,8 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         return self.ballShadowDict[self.currentGolfer]
 
     def cleanupGeom(self):
-        self.targets.removeNode()
-        self.terrainModel.removeNode()
+        self.targets.remove()
+        self.terrainModel.remove()
         self.powerBar.destroy()
 
     def cleanupPowerBar(self):
@@ -1418,13 +1418,10 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
             if avId == localAvatar.doId:
                 self.setCamera2Ball()
                 if not self.state == 'ChooseTee':
-                    try:
-                        self.demand('ChooseTee')
-                    except:
-                        self.demand('Aim')
+                    self.request('ChooseTee')
             else:
                 self.setCamera2Ball()
-                self.demand('WatchTee')
+                self.request('WatchTee')
             self.takeOutToon(self.currentGolfer)
 
     def setAvatarTempTee(self, avId, tempTee):
@@ -1521,8 +1518,8 @@ class DistributedGolfHole(DistributedPhysicsWorld.DistributedPhysicsWorld, FSM, 
         fileName = bamFile.split('/')[-1]
         dotIndex = fileName.find('.')
         baseName = fileName[0:dotIndex]
-        camModelName = baseName + '_cammodel'
-        cameraName = baseName + '_camera'
+        camModelName = baseName + '_cammodel.bam'
+        cameraName = baseName + '_camera.bam'
         path = bamFile[0:bamFile.find(fileName)]
         camModelFullPath = path + camModelName
         cameraAnimFullPath = path + cameraName

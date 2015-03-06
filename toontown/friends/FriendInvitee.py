@@ -59,6 +59,7 @@ class FriendInvitee(ToonHeadDialog.ToonHeadDialog):
         return
 
     def __handleButton(self, value):
+        print 'handleButton'
         if value == DGG.DIALOG_OK:
             if base.friendMode == 0:
                 base.cr.friendManager.up_inviteeFriendResponse(1, self.context)

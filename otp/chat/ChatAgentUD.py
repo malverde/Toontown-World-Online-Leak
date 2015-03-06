@@ -33,6 +33,7 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         words = message.split(' ')
         offset = 0
         WantWhitelist = config.GetBool('want-whitelist', 1)
+
         for word in words:
             if word and not self.whiteList.isWord(word) and WantWhitelist:
                 modifications.append((offset, offset+len(word)-1))

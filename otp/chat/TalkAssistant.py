@@ -585,10 +585,13 @@ class TalkAssistant(DirectObject.DirectObject):
             self.receiveDeveloperMessage(message)
         else:
             chatFlags = CFSpeech | CFTimeout
-            if self.isThought(message):
-                chatFlags = CFThought
-            if re.search(r'[a-zA-Z\d]', message):    
-                base.cr.chatAgent.sendChatMessage(message)
+            if re.search(r'[a-zA-Z\d]', message):
+                if "!" or "?" in message:
+                    if self.isThought(message):
+                        chatFlags = CFThought
+                    base.cr.chatAgent.sendChatMessage(message)
+                else:
+                    base.cr.chatAgent.sendChatMessage(message)
             messenger.send('chatUpdate', [message, chatFlags])
         return error
 

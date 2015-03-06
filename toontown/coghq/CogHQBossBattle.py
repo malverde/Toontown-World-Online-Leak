@@ -162,6 +162,7 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
 
     def enterOuch(self):
         base.localAvatar.setTeleportAvailable(0)
+        #I think this is what we need to use for the laff during battle :)
         base.localAvatar.laffMeter.start()
 
     def exitOuch(self):
