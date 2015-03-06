@@ -8,7 +8,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.DisplayOptions import DisplayOptions
-from otp.nametag import NametagGlobals
+
 
 class DisplaySettingsDialog(DirectFrame, StateData.StateData):
     ApplyTimeoutSeconds = 15
@@ -431,8 +431,6 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
                 return 0
             self.notify.info('OPEN MAIN WINDOW PASSED')
             base.disableShowbaseMouse()
-            NametagGlobals.setCamera(base.cam)
-            NametagGlobals.setMouseWatcher(base.mouseWatcherNode)
             base.graphicsEngine.renderFrame()
             base.graphicsEngine.renderFrame()
             base.graphicsEngine.openWindows()

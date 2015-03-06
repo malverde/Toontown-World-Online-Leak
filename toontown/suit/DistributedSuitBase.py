@@ -22,8 +22,8 @@ import SuitDialog
 from toontown.battle import BattleProps
 import math
 import copy
-from otp.nametag.NametagConstants import *
-from otp.nametag import NametagGlobals
+from toontown.chat.ChatGlobals import *
+from toontown.nametag.NametagGlobals import *
 
 class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBase.SuitBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedSuitBase')

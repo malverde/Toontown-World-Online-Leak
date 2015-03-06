@@ -1,7 +1,7 @@
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from otp.ai.MagicWordGlobal import *
-from otp.nametag.NametagConstants import *
+
 
 lastClickedNametag = None
 
