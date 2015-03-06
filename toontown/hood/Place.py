@@ -541,7 +541,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         pass
 
     def enterDoorIn(self, requestStatus):
-        NametagGlobals.setWant2dNametags(False)
+        NametagGlobals.setMasterArrowsOn(0)
         door = base.cr.doId2do.get(requestStatus['doorDoId'])
         if door is None:
             # We're about to die anyway because door is None, so raise a StandardError with more information
@@ -551,7 +551,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         base.localAvatar.startQuestMap()
 
     def exitDoorIn(self):
-        NametagGlobals.setWant2dNametags(True)
+        NametagGlobals.setMasterArrowsOn(1)
         base.localAvatar.obscureMoveFurnitureButton(-1)
 
     def enterDoorOut(self):
@@ -716,7 +716,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
 
     def _placeTeleportInPostZoneComplete(self, requestStatus):
         teleportDebug(requestStatus, '_placeTeleportInPostZoneComplete(%s)' % (requestStatus,))
-        NametagGlobals.setWant2dNametags(False)
+        NametagGlobals.setMasterArrowsOn(0)
         base.localAvatar.laffMeter.start()
         base.localAvatar.startQuestMap()
         base.localAvatar.reconsiderCheesyEffect()
@@ -754,7 +754,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
     def exitTeleportIn(self):
         self.removeSetZoneCompleteCallback(self._tiToken)
         self._tiToken = None
-        NametagGlobals.setWant2dNametags(True)
+        NametagGlobals.setMasterArrowsOn(1)
         base.localAvatar.laffMeter.stop()
         base.localAvatar.obscureMoveFurnitureButton(-1)
         base.localAvatar.stopUpdateSmartCamera()

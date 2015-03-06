@@ -144,13 +144,11 @@ class Piejectile(DirectObject, FlyingGag):
         self.race.effectManager.addSplatEffect(spawner=self.targetKart, parent=self.targetKart)
         taskMgr.remove(self.splatTaskName)
         self.removeNode()
-        self.remove()
 
     def splat(self, optional = None):
         self.race.effectManager.addSplatEffect(spawner=self)
         taskMgr.remove(self.splatTaskName)
         self.removeNode()
-        self.remove()
 
     def __updatePhysics(self, task):
         if self.deleting:
@@ -187,7 +185,7 @@ class Piejectile(DirectObject, FlyingGag):
                 self.engine.setVector(Vec3(0, 10 + 10 * self.timeRatio + targetSpeed * (0.5 + 0.5 * self.timeRatio) + self.d2t * (0.5 + 0.5 * self.timeRatio), 12))
         else:
             self.engine.setVector(Vec3(0, 100, 3))
-        for i in xrange(int(numFrames)):
+        for i in range(int(numFrames)):
             pitch = self.gagNode.getP()
             self.gagNode.setP(pitch + self.rotH * self.physicsDt)
             roll = self.gagNode.getR()

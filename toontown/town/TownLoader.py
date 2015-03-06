@@ -15,7 +15,7 @@ from direct.task import Task
 import TownBattle
 from toontown.toon import Toon
 from toontown.toon import NPCToons
-from toontown.nametag import NametagGlobals
+from otp.nametag.NametagConstants import *
 from toontown.toon.Toon import teleportDebug
 from toontown.battle import BattleParticles
 from direct.fsm import StateData

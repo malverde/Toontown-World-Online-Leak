@@ -599,8 +599,8 @@ BossCogDamageLevels = {BossCogElectricFence: 1,
  BossCogGavelHandle: 2,
  BossCogLawyerAttack: 5,
  BossCogMoveAttack: 20,
- BossCogGolfAttack: 15,
- BossCogGolfAreaAttack: 15,
+ BossCogGolfAttack: 24,
+ BossCogGolfAreaAttack: 24,
  BossCogGearDirectedAttack: 15,
  BossCogOvertimeAttack: 10}
 BossCogBattleAPosHpr = (0,
@@ -1496,7 +1496,7 @@ DinerBattleBPosHpr = (-20,
  0,
  0,
  0)
-BossbotBossMaxDamage = 500
+BossbotBossMaxDamage = 400
 BossbotMaxSpeedDamage = 90
 BossbotSpeedRecoverRate = 2 # This was 20 - far too high - but we need to test and find a good value for this.
 BossbotBossDifficultySettings = [(8,
