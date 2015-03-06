@@ -12,7 +12,7 @@ import time
 import os
 import sys
 import re
-from toontown.chat.ChatGlobals import 
+from toontown.chat.ChatGlobals import *
 
 class TimeManager(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('TimeManager')
