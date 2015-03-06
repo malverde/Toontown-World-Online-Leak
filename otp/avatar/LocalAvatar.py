@@ -1,27 +1,32 @@
+from pandac.PandaModules import *
+from direct.gui.DirectGui import *
+from direct.showbase.PythonUtil import *
+from direct.interval.IntervalGlobal import *
+from direct.showbase.InputStateGlobal import inputState
+from pandac.PandaModules import *
+import Avatar
 from direct.controls import ControlManager
+import DistributedAvatar
+from direct.task import Task
+import PositionExaminer
+from otp.otpbase import OTPGlobals
+from otp.otpbase import OTPRender
+import math
+import string
+import random
+from direct.directnotify import DirectNotifyGlobal
+from direct.distributed import DistributedSmoothNode
+from direct.gui import DirectGuiGlobals
+from otp.otpbase import OTPLocalizer
 from direct.controls.GhostWalker import GhostWalker
 from direct.controls.GravityWalker import GravityWalker
 from direct.controls.ObserverWalker import ObserverWalker
+from direct.controls.PhysicsWalker import PhysicsWalker
 from direct.controls.SwimWalker import SwimWalker
 from direct.controls.TwoDWalker import TwoDWalker
-from direct.directnotify import DirectNotifyGlobal
-from direct.distributed import DistributedSmoothNode
-from direct.gui.DirectGui import *
-from direct.interval.IntervalGlobal import *
-from direct.showbase.InputStateGlobal import inputState
-from direct.showbase.PythonUtil import *
-from direct.task import Task
-import math
-from pandac.PandaModules import *
-import random
-
-import DistributedAvatar
+from otp.nametag.Nametag import Nametag
 from otp.ai.MagicWordGlobal import *
-from otp.otpbase import OTPGlobals
-from otp.otpbase import OTPLocalizer
-from toontown.chat.ChatGlobals import *
 from toontown.toonbase import ToontownGlobals
-
 
 class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.DistributedSmoothNode):
     notify = DirectNotifyGlobal.directNotify.newCategory('LocalAvatar')
@@ -79,11 +84,11 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.jumpLandAnimFixTask = None
         self.fov = OTPGlobals.DefaultCameraFov
         self.accept('avatarMoving', self.clearPageUpDown)
-        
+        self.nametag2dNormalContents = Nametag.CSpeech
         self.showNametag2d()
         self.setPickable(0)
         self.neverSleep = False
-
+        return
 
     def useSwimControls(self):
         self.controlManager.use('swim', self)
@@ -912,7 +917,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
     def displayWhisper(self, fromId, chatString, whisperType):
         sender = None
         sfx = self.soundWhisper
-        if whisperType == WTNormal or whisperType == WTQuickTalker:
+        if whisperType == WhisperPopup.WTNormal or whisperType == WhisperPopup.WTQuickTalker:
             if sender == None:
                 return
             chatString = sender.getName() + ': ' + chatString
@@ -921,7 +926,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
             whisper.setClickable(sender.getName(), fromId)
         whisper.manage(base.marginManager)
         base.playSfx(sfx)
-        
+        return
 
     def displayWhisperPlayer(self, fromId, chatString, whisperType):
         sender = None
@@ -931,14 +936,14 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         if playerInfo == None:
             return
         senderName = playerInfo.playerName
-        if whisperType == WTNormal or whisperType == WTQuickTalker:
+        if whisperType == WhisperPopup.WTNormal or whisperType == WhisperPopup.WTQuickTalker:
             chatString = senderName + ': ' + chatString
         whisper = WhisperPopup(chatString, OTPGlobals.getInterfaceFont(), whisperType)
         if sender != None:
             whisper.setClickable(senderName, fromId)
         whisper.manage(base.marginManager)
         base.playSfx(sfx)
-        
+        return
 
     def setAnimMultiplier(self, value):
         self.animMultiplier = value
@@ -1235,8 +1240,8 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
 
     def handlePlayerFriendWhisper(self, playerId, charMessage):
         print 'handlePlayerFriendWhisper'
-        self.displayWhisperPlayer(playerId, charMessage, WTNormal)
-            
+        self.displayWhisperPlayer(playerId, charMessage, WhisperPopup.WTNormal)
+
     def canChat(self):
         return 0
 

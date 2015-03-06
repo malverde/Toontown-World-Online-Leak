@@ -1,5 +1,5 @@
 from direct.interval.IntervalGlobal import *
-from toontown.nametag.NametagGlobals import *
+from otp.nametag.NametagConstants import *
 from pandac.PandaModules import *
 from random import choice
 

@@ -594,7 +594,7 @@ def getAccessDictByType(accessoryOwnedList):
         for accOwnedId in accessoryOwnedList:
             accType = getAccessoryType(accOwnedId)
             if accType != InvalidEntry:
-                if accType not in accessDict:
+                if not accessDict.has_key(accType):
                     accessDict[accType] = []
                 accessDict[accType].append(accOwnedId)
 
@@ -604,7 +604,7 @@ def getAccessDictByType(accessoryOwnedList):
 
 
 def getKartCost(kartID):
-    if kartID in KartDict:
+    if KartDict.has_key(kartID):
         return KartDict[kartID][KartInfo.cost]
     else:
         return 'key error'
