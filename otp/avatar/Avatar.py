@@ -655,7 +655,7 @@ class Avatar(Actor, ShadowCaster):
         return Actor.loop(self, animName, restart, partName, fromFrame, toFrame)
 
 
-@magicWord(category=CATEGORY_MODERATORION)
+@magicWord(category=CATEGORY_MODERATION)
 def target():
     """
     Returns the current Spellbook target.
