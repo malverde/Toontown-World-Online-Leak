@@ -6,7 +6,7 @@ from toontown.building import Elevator
 from toontown.toonbase import ToontownGlobals
 from pandac.PandaModules import *
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
-from otp.nametag import NametagGlobals
+from toontown.nametag import NametagGlobals
 
 class CogHQLobby(Place.Place):
     notify = DirectNotifyGlobal.directNotify.newCategory('CogHQLobby')

@@ -10,9 +10,8 @@ from direct.gui.DirectGui import *
 from direct.showbase.Transitions import Transitions
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import Sequence, Func, Wait
-from otp.nametag.ChatBalloon import ChatBalloon
-from otp.nametag import NametagGlobals
-from otp.margins.MarginManager import MarginManager
+from toontown.margins.MarginManager import MarginManager
+from toontown.nametag import NametagGlobals
 import sys
 import os
 import math
@@ -301,85 +300,59 @@ class ToonBase(OTPBase.OTPBase):
         self.screenshotStr += str
 
     def initNametagGlobals(self):
-        arrow = loader.loadModel('phase_3/models/props/arrow')
-        card = loader.loadModel('phase_3/models/props/panel')
-        speech3d = ChatBalloon(loader.loadModel('phase_3/models/props/chatbox'))
-        thought3d = ChatBalloon(loader.loadModel('phase_3/models/props/chatbox_thought_cutout'))
-        speech2d = ChatBalloon(loader.loadModel('phase_3/models/props/chatbox_noarrow'))
-        chatButtonGui = loader.loadModel('phase_3/models/gui/chat_button_gui')
-        NametagGlobals.setCamera(self.cam)
-        NametagGlobals.setArrowModel(arrow)
-        NametagGlobals.setNametagCard(card, VBase4(-0.5, 0.5, -0.5, 0.5))
-        if self.mouseWatcherNode:
-            NametagGlobals.setMouseWatcher(self.mouseWatcherNode)
-        NametagGlobals.setSpeechBalloon3d(speech3d)
-        NametagGlobals.setThoughtBalloon3d(thought3d)
-        NametagGlobals.setSpeechBalloon2d(speech2d)
-        NametagGlobals.setThoughtBalloon2d(thought3d)
-        NametagGlobals.setPageButton(PGButton.SReady, chatButtonGui.find('**/Horiz_Arrow_UP'))
-        NametagGlobals.setPageButton(PGButton.SDepressed, chatButtonGui.find('**/Horiz_Arrow_DN'))
-        NametagGlobals.setPageButton(PGButton.SRollover, chatButtonGui.find('**/Horiz_Arrow_Rllvr'))
-        NametagGlobals.setQuitButton(PGButton.SReady, chatButtonGui.find('**/CloseBtn_UP'))
-        NametagGlobals.setQuitButton(PGButton.SDepressed, chatButtonGui.find('**/CloseBtn_DN'))
-        NametagGlobals.setQuitButton(PGButton.SRollover, chatButtonGui.find('**/CloseBtn_Rllvr'))
+        NametagGlobals.setMe(base.cam)
+
+        NametagGlobals.setCardModel('phase_3/models/props/panel.bam')
+        NametagGlobals.setArrowModel('phase_3/models/props/arrow.bam')
+        NametagGlobals.setChatBalloon3dModel('phase_3/models/props/chatbox.bam')
+        NametagGlobals.setChatBalloon2dModel('phase_3/models/props/chatbox_noarrow.bam')
+        NametagGlobals.setThoughtBalloonModel('phase_3/models/props/chatbox_thought_cutout.bam')
+
+        chatButtonGui = loader.loadModel('phase_3/models/gui/chat_button_gui.bam')
+        NametagGlobals.setPageButton(
+            chatButtonGui.find('**/Horiz_Arrow_UP'), chatButtonGui.find('**/Horiz_Arrow_DN'),
+            chatButtonGui.find('**/Horiz_Arrow_Rllvr'), chatButtonGui.find('**/Horiz_Arrow_UP'))
+        NametagGlobals.setQuitButton(
+            chatButtonGui.find('**/CloseBtn_UP'), chatButtonGui.find('**/CloseBtn_DN'),
+            chatButtonGui.find('**/CloseBtn_Rllvr'), chatButtonGui.find('**/CloseBtn_UP'))
+        chatButtonGui.removeNode()
+
         rolloverSound = DirectGuiGlobals.getDefaultRolloverSound()
-        if rolloverSound:
+        if rolloverSound is not None:
             NametagGlobals.setRolloverSound(rolloverSound)
         clickSound = DirectGuiGlobals.getDefaultClickSound()
-        if clickSound:
+        if clickSound is not None:
             NametagGlobals.setClickSound(clickSound)
-        NametagGlobals.setToon(self.cam)
 
         self.marginManager = MarginManager()
-        self.margins = self.aspect2d.attachNewNode(self.marginManager, DirectGuiGlobals.MIDGROUND_SORT_INDEX + 1)
-        mm = self.marginManager
-
-        # TODO: Dynamicaly add more and reposition cells
-        padding = 0.0225
-
-        # Order: Top to bottom
+        self.margins = self.aspect2d.attachNewNode(
+            self.marginManager, DirectGuiGlobals.MIDGROUND_SORT_INDEX + 1)
         self.leftCells = [
-            mm.addGridCell(0.2 + padding, -0.45, base.a2dTopLeft), # Above boarding groups
-            mm.addGridCell(0.2 + padding, -0.9, base.a2dTopLeft),  # 1
-            mm.addGridCell(0.2 + padding, -1.35, base.a2dTopLeft)  # Below Boarding Groups
+            self.marginManager.addCell(0.25, -0.6, self.a2dTopLeft),
+            self.marginManager.addCell(0.25, -1.0, self.a2dTopLeft),
+            self.marginManager.addCell(0.25, -1.4, self.a2dTopLeft)
         ]
-
-        # Order: Left to right
         self.bottomCells = [
-            mm.addGridCell(-0.87, 0.2 + padding, base.a2dBottomCenter), # To the right of the laff meter
-            mm.addGridCell(-0.43, 0.2 + padding, base.a2dBottomCenter), # 1
-            mm.addGridCell(0.01, 0.2 + padding, base.a2dBottomCenter),  # 2
-            mm.addGridCell(0.45, 0.2 + padding, base.a2dBottomCenter),  # 3
-            mm.addGridCell(0.89, 0.2 + padding, base.a2dBottomCenter)   # To the left of the shtiker book
+            self.marginManager.addCell(0.4, 0.2, self.a2dBottomCenter),
+            self.marginManager.addCell(-0.4, 0.2, self.a2dBottomCenter),
+            self.marginManager.addCell(-1.0, 0.2, self.a2dBottomCenter),
+            self.marginManager.addCell(1.0, 0.2, self.a2dBottomCenter)
         ]
-
-        # Order: Bottom to top
         self.rightCells = [
-            mm.addGridCell(-0.2 - padding, -1.35, base.a2dTopRight), # Above the street map
-            mm.addGridCell(-0.2 - padding, -0.9, base.a2dTopRight),  # Below the friends list
-            mm.addGridCell(-0.2 - padding, -0.45, base.a2dTopRight)  # Behind the friends list
+            self.marginManager.addCell(-0.25, -0.6, self.a2dTopRight),
+            self.marginManager.addCell(-0.25, -1.0, self.a2dTopRight),
+            self.marginManager.addCell(-0.25, -1.4, self.a2dTopRight)
         ]
 
-    def hideFriendMargins(self):
-        middleCell = self.rightCells[1]
-        topCell = self.rightCells[2]
-
-        self.setCellsAvailable([middleCell, topCell], False)
-
-    def showFriendMargins(self):
-        middleCell = self.rightCells[1]
-        topCell = self.rightCells[2]
-
-        self.setCellsAvailable([middleCell, topCell], True)
-
-    def setCellsAvailable(self, cell_list, available):
-        for cell in cell_list:
-            self.marginManager.setCellAvailable(cell, available)
-
+    def setCellsActive(self, cells, active):
+        for cell in cells:
+            cell.setActive(active)
+        self.marginManager.reorganize()
+        
     def cleanupDownloadWatcher(self):
         self.downloadWatcher.cleanup()
         self.downloadWatcher = None
-        return
+        
 
     def startShow(self, cr, launcherServer = None):
         self.cr = cr

@@ -30,9 +30,10 @@ import math
 from toontown.coghq import CogDisguiseGlobals
 from toontown.building import ElevatorConstants
 from toontown.toonbase import ToontownTimer
-from otp.nametag import NametagGroup
-from otp.nametag.NametagConstants import *
-from otp.nametag import NametagGlobals
+from toontown.chat.ChatGlobals import *
+from toontown.nametag import NametagGlobals
+from toontown.nametag import NametagGroup
+from toontown.nametag.NametagGlobals import *
 OneBossCog = None
 
 class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
@@ -973,7 +974,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def exitBattleThree(self):
         self.notify.debug('----- exitBattleThree')
         DistributedBossCog.DistributedBossCog.exitBattleThree(self)
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(True)
         bossDoneEventName = self.uniqueName('DestroyedBoss')
         self.ignore(bossDoneEventName)
         taskMgr.remove(self.uniqueName('StandUp'))
@@ -1594,7 +1595,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         npc.setDNAString(dnaNetString)
         npc.setName(TTLocalizer.WitnessToonName)
         npc.setPickable(0)
-        npc.setPlayerType(NametagGroup.CCNonPlayer)
+        npc.setPlayerType(NametagGlobals.CCNonPlayer)
         npc.animFSM.request('Sit')
         self.witnessToon = npc
         self.witnessToon.setPosHpr(*ToontownGlobals.LawbotBossWitnessStandPosHpr)

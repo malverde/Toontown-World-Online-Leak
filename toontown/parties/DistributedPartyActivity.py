@@ -492,7 +492,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         self.notify.debug('BASE: startRules')
         self.accept(self.rulesDoneEvent, self.handleRulesDone)
         self.rulesPanel = MinigameRulesPanel('PartyRulesPanel', self.getTitle(), self.getInstructions(), self.rulesDoneEvent, timeout)
-        base.setCellsAvailable(base.bottomCells + [base.leftCells[0], base.rightCells[1]], False)
+        base.setCellsActive(base.bottomCells + [base.leftCells[0], base.rightCells[1]], False)
         self.rulesPanel.load()
         self.rulesPanel.enter()
 
@@ -503,7 +503,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
             self.rulesPanel.exit()
             self.rulesPanel.unload()
             del self.rulesPanel
-            base.setCellsAvailable(base.bottomCells + [base.leftCells[0], base.rightCells[1]], True)
+            base.setCellsActive(base.bottomCells + [base.leftCells[0], base.rightCells[1]], True)
 
     def handleRulesDone(self):
         self.notify.error('BASE: handleRulesDone should be overridden')

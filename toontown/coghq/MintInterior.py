@@ -5,7 +5,7 @@ from direct.fsm import State
 from direct.showbase import BulletinBoardWatcher
 from pandac.PandaModules import *
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
-from otp.nametag import NametagGlobals
+from toontown.nametag import NametagGlobals
 from toontown.toon import Toon
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil
@@ -84,7 +84,7 @@ class MintInterior(BattlePlace.BattlePlace):
         self._telemLimiter = TLGatherAllAvs('MintInterior', RotationLimitToH)
 
         def commence(self = self):
-            NametagGlobals.setMasterArrowsOn(1)
+            NametagGlobals.setWant2dNametags(True)
             self.fsm.request(requestStatus['how'], [requestStatus])
             base.playMusic(self.music, looping=1, volume=0.8)
             base.transitions.irisIn()
@@ -104,7 +104,7 @@ class MintInterior(BattlePlace.BattlePlace):
         self.acceptOnce('localToonConfrontedMintBoss', handleConfrontedBoss)
 
     def exit(self):
-        NametagGlobals.setMasterArrowsOn(0)
+        NametagGlobals.setWant2dNametags(False)
         bboard.remove(DistributedMint.DistributedMint.ReadyPost)
         self._telemLimiter.destroy()
         del self._telemLimiter
