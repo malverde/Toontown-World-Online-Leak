@@ -389,7 +389,7 @@ Winnings = [4.0,
  2.0,
  1.5,
  1.15]
-PracticeWinnings = 20
+PracticeWinnings = 35
 SpeedwayQuals = 0
 RuralQuals = 1
 UrbanQuals = 2
@@ -452,13 +452,13 @@ CircuitQualList = [CircuitQuals1, CircuitQuals2, CircuitQuals3]
 AllQualsList = [SpeedwayQualsList, RuralQualsList, UrbanQualsList]
 AllWinsList = [SpeedwayWinsList, RuralWinsList, UrbanWinsList]
 TrophiesPerCup = NumTrophies / NumCups
-QualifiedRaces = [1, 10, 100]
+QualifiedRaces = [1, 10, 60]
 TotalQualifiedRaces = 100
-WonRaces = [1, 10, 100]
+WonRaces = [1, 10, 60]
 TotalWonRaces = 100
-WonCircuitRaces = [1, 5, 25]
-SweptCircuitRaces = [1, 5, 25]
-QualifiedCircuitRaces = [1, 5, 25]
+WonCircuitRaces = [1, 5, 15]
+SweptCircuitRaces = [1, 5, 15]
+QualifiedCircuitRaces = [1, 5, 15]
 LBSubscription = {'stadium': [(RT_Speedway_1, Daily),
              (RT_Speedway_1, Weekly),
              (RT_Speedway_1, AllTime),

@@ -8,7 +8,8 @@ import TailorClothesGUI
 from toontown.toonbase import TTLocalizer
 import ToonDNA
 from toontown.estate import ClosetGlobals
-from otp.nametag.NametagConstants import CFSpeech, CFTimeout
+from toontown.chat.ChatGlobals import *
+from toontown.nametag.NametagGlobals import *
 
 class DistributedNPCTailor(DistributedNPCToonBase):
 

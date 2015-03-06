@@ -1,16 +1,17 @@
-import string
-import sys
-from direct.showbase import DirectObject
-from otp.otpbase import OTPGlobals
+from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
 from direct.fsm import State
-from otp.login import SecretFriendsInfoPanel
-from otp.login import PrivacyPolicyPanel
-from otp.otpbase import OTPLocalizer
-from direct.directnotify import DirectNotifyGlobal
-from otp.login import LeaveToPayDialog
 from direct.gui.DirectGui import *
+from direct.showbase import DirectObject
 from pandac.PandaModules import *
+
+from otp.login import LeaveToPayDialog
+from otp.login import PrivacyPolicyPanel
+from otp.login import SecretFriendsInfoPanel
+from otp.otpbase import OTPLocalizer
+from toontown.chat.ChatGlobals import *
+
+
 ChatEvent = 'ChatEvent'
 NormalChatEvent = 'NormalChatEvent'
 SCChatEvent = 'SCChatEvent'
@@ -39,7 +40,6 @@ def removeThoughtPrefix(message):
 
 class ChatManager(DirectObject.DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('ChatManager')
-    execChat = config.GetBool('exec-chat', 0)
 
     def __init__(self, cr, localAvatar):
         self.cr = cr
@@ -272,7 +272,7 @@ class ChatManager(DirectObject.DirectObject):
         playerName = None
         chatToToon = 1
         online = 0
-        if self.cr.doId2do.has_key(avatarId):
+        if avatarId in self.cr.doId2do:
             online = 1
         elif self.cr.isFriend(avatarId):
             online = self.cr.isFriendOnline(avatarId)
@@ -280,16 +280,15 @@ class ChatManager(DirectObject.DirectObject):
         if hasManager:
             if base.cr.playerFriendsManager.askAvatarOnline(avatarId):
                 online = 1
-
-        avatarUnderstandable = base.cr.config.GetBool('force-avatar-understandable', False)
-        playerUnderstandable = base.cr.config.GetBool('force-player-understandable', False)
+        avatarUnderstandable = 0
+        playerUnderstandable = 0
         av = None
         if avatarId:
             av = self.cr.identifyAvatar(avatarId)
         if av != None:
             avatarUnderstandable = av.isUnderstandable()
         if playerId:
-            if base.cr.playerFriendsManager.playerId2Info.has_key(playerId):
+            if playerId in base.cr.playerFriendsManager.playerId2Info:
                 playerInfo = base.cr.playerFriendsManager.playerId2Info.get(playerId)
                 playerName = playerInfo.playerName
                 online = 1
@@ -309,9 +308,11 @@ class ChatManager(DirectObject.DirectObject):
             self.disablewhisperButton()
         if online:
             self.whisperScButton['state'] = 'normal'
+            self.whisperButton['state'] = 'normal'
             self.changeFrameText(OTPLocalizer.ChatManagerWhisperToName % chatName)
         else:
             self.whisperScButton['state'] = 'inactive'
+            self.whisperButton['state'] = 'inactive'
             self.changeFrameText(OTPLocalizer.ChatManagerWhisperOffline % chatName)
         self.whisperFrame.show()
         self.refreshWhisperFrame()
@@ -324,9 +325,6 @@ class ChatManager(DirectObject.DirectObject):
                 if self.wantBackgroundFocus:
                     self.chatInputNormal.chatEntry['backgroundFocus'] = 1
                 self.acceptOnce('enterNormalChat', self.fsm.request, ['whisperChat', [avatarName, avatarId]])
-        if base.cr.config.GetBool('force-typed-whisper-enabled', 0):
-            self.whisperButton['state'] = 'normal'
-            self.enablewhisperButton()
         return
 
     def disablewhisperButton(self):
@@ -340,8 +338,6 @@ class ChatManager(DirectObject.DirectObject):
 
     def changeFrameText(self, newText):
         self.whisperFrame['text'] = newText
-        if len(newText) > 24:
-            self.whisperFrame['text_pos'] = (0.18, 0.042)
 
     def exitWhisper(self):
         self.whisperFrame.hide()
