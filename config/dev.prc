@@ -4,19 +4,19 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-server-version ttw-pre-alpha-dev-build-2.0.4.5
+server-version ttw-pre-alpha-dev-build-2.0.5
 sync-video #f
 want-dev #f
 preload-avatars #t
 texture-anisotropic-degree 16
-cursor-filename resources/phase_3/etc/toonmono.cur
-icon-filename resources/phase_3/etc/icon.ico
+# cursor-filename resources/phase_3/etc/toonmono.cur
+# icon-filename resources/phase_3/etc/icon.ico
 
 # Audio...
 audio-library-name p3fmod_audio
 
 # Useless Variables
-show-frame-rate-meter #t
+show-frame-rate-meter #f
 cursor-hidden #f
 undecorated #f
 
@@ -97,3 +97,4 @@ want-mega-invasions #f
 base-xp-multiplier 1
 #group merges
 boarding-group-merges #t
+force-skip-tutorial #t

@@ -139,6 +139,7 @@ class ToonBase(OTPBase.OTPBase):
         self.slowQuietZone = self.config.GetBool('slow-quiet-zone', 0)
         self.slowQuietZoneDelay = self.config.GetFloat('slow-quiet-zone-delay', 5)
         self.killInterestResponse = self.config.GetBool('kill-interest-response', 0)
+        self.forceSkipTutorial = self.config.GetBool('force-skip-tutorial', 0)
         tpMgr = TextPropertiesManager.getGlobalPtr()
         WLDisplay = TextProperties()
         WLDisplay.setSlant(0.3)

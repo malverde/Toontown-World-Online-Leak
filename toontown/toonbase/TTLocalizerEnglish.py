@@ -27,7 +27,9 @@ NametagFonts = ('phase_3/models/fonts/AnimGothic',
  'phase_3/models/fonts/Danger',
  'phase_3/models/fonts/Alie',
  'phase_3/models/fonts/OysterBar',
- 'phase_3/models/fonts/RedDogSaloon')
+ 'phase_3/models/fonts/RedDogSaloon',
+ 'phase_3/models/fonts/pbnfont.ttf'
+ )
 NametagFontNames = ('Simple',
  'Shivering',
  'Wonky',
@@ -41,7 +43,9 @@ NametagFontNames = ('Simple',
  'Action',
  'Poetic',
  'Boardwalk',
- 'Western')
+ 'Western',
+ 'PegboardNerds'
+ )
 NametagLabel = ' Nametag'
 UnpaidNameTag = 'Basic'
 ScreenshotPath = 'screenshots/'
@@ -132,7 +136,7 @@ TheBrrrgh = ('to', 'in', lTheBrrrgh)
 MinniesMelodyland = ('to', 'in', lMinniesMelodyland)
 DaisyGardens = ('to', 'in', lDaisyGardens)
 OutdoorZone = ('to', 'in', lOutdoorZone)
-FunnyFarm = ('to the', 'in the', 'Toonfest')
+FunnyFarm = ('to the', 'in the', 'FunnyFarm')
 GoofySpeedway = ('to', 'in', lGoofySpeedway)
 DonaldsDreamland = ('to', 'in', lDonaldsDreamland)
 BossbotHQ = ('to', 'in', 'Bossbot HQ')
@@ -163,7 +167,7 @@ lNext = 'Next'
 lQuit = 'Quit'
 lYes = 'Yes'
 lNo = 'No'
-sleep_auto_reply = '%s is sleeping right now'
+sleep_auto_reply = '%s is sleeping right now.'
 lHQOfficerF = 'HQ Officer'
 lHQOfficerM = 'HQ Officer'
 MickeyMouse = 'Mickey Mouse'
@@ -2252,8 +2256,8 @@ ToonHealJokes = [['What goes TICK-TICK-TICK-WOOF?', 'A watchdog! '],
  ['What do you get if you cross a hyena with a mynah bird?', 'An animal that laughs at its own jokes.'],
  ['What do you get if you cross a railway engine with a stick of gum?', 'A chew-chew train.'],
  ['What would you get if you crossed an elephant with a computer?', 'A big know-it-all.'],
- ['What would you get if you crossed an elephant with a skunk?', 'A big stinker.'],
- ['Why did ' + MickeyMouse + ' take a trip to outer space?', 'He wanted to find ' + Pluto + '.']]
+ ['What would you get if you crossed an elephant with a skunk?', 'A big stinker.']
+ ]
 MovieHealLaughterMisses = ('hmm',
  'heh',
  'ha',
@@ -3185,7 +3189,7 @@ KnockKnockContestJokes = {
         66: ['Big Cheese', 'Big Cheese pizza delivery here, open up!'],
         21: ['Telemarketer', 'Telemarketer I\'m not buying his offer.'],
         65: ['June', 'Juneau how to get out of this fountain?'],
-        24: ['Mickey', 'Mickey is stuck! Help'],
+       # 24: ['Mickey', 'Mickey is stuck! Help'],
         26: ['Guess', 'Does he have a mustache?'],
         25: ['Usain', 'Usain you forgot me?'],
         67: ['Wayt', 'Wayt, you forgot my name?'],
@@ -5693,10 +5697,10 @@ QuestScript110_11 = 'Return to Toon HQ when you are done. Bye!'
 QuestScriptTutorialBlocker_1 = 'Why, hello there!'
 QuestScriptTutorialBlocker_2 = 'Hello?'
 QuestScriptTutorialBlocker_3 = "Oh! You don't know how to use SpeedChat!"
-QuestScriptTutorialBlocker_4 = 'Click on the button to say something.'
+QuestScriptTutorialBlocker_4 = 'Click on the button to say something. I suggest hello.'
 QuestScriptTutorialBlocker_5 = 'Very good!\x07Where you are going there are many Toons to talk to.'
 QuestScriptTutorialBlocker_6 = "If you want to chat with other Toons using the keyboard, there's another button you can use."
-QuestScriptTutorialBlocker_7 = "It's called the SpeedChat Plus button. You need to turn on Speedchat Plus in your Account Manager on the Toontown World Website to use it."
+QuestScriptTutorialBlocker_7 = "It's called the SpeedChat Plus button. It is automatically enabled to use."
 QuestScriptTutorialBlocker_8 = 'Good luck! See you later!'
 QuestScriptGagShop_1 = 'Welcome to the Gag Shop!'
 QuestScriptGagShop_1a = 'This is where Toons come to buy gags to use against the Cogs.'
@@ -8740,8 +8744,8 @@ FishBingoTypeThreeway = 'Three Way'
 FishBingoTypeBlockout = 'BLOCKOUT!'
 FishBingoStart = "It's time for Fish Bingo!  Go to any available pier to play!"
 FishBingoOngoing = 'Welcome! Fish Bingo is currently in progress.'
-FishBingoEnd = 'Hope you had fun playing Fish Bingo.'
-FishBingoHelpMain = 'Welcome to Toontown Fish Bingo!  Everyone at the pond works together to fill the card before time runs out.'
+FishBingoEnd = 'Hope you had fun playing Fish Bingo!'
+FishBingoHelpMain = 'Welcome to Fish Bingo!  Everyone at the pond works together to fill the card before time runs out.'
 FishBingoHelpFlash = 'When you catch a fish, click on one of the flashing squares to mark the card.'
 FishBingoHelpNormal = 'This is a Classic Bingo card.  Mark any row down, across or diagonally to win.'
 FishBingoHelpDiagonals = 'Mark both of the diagonals to win.'
