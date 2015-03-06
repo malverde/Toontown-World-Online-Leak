@@ -391,7 +391,7 @@ class DistributedTravelGame(DistributedMinigame):
 
     def onstage(self):
         self.notify.debug('onstage')
-        NametagGlobals.setForceOnscreenChat(True)
+        NametagGlobals.setOnscreenChatForced(1)
         DistributedMinigame.onstage(self)
         self.gameBoard.reparentTo(render)
         self.sky.reparentTo(render)
@@ -413,7 +413,7 @@ class DistributedTravelGame(DistributedMinigame):
 
     def offstage(self):
         self.notify.debug('offstage')
-        NametagGlobals.setForceOnscreenChat(False)
+        NametagGlobals.setOnscreenChatForced(0)
         base.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
         self.introMovie.finish()
         self.gameBoard.hide()
@@ -470,7 +470,7 @@ class DistributedTravelGame(DistributedMinigame):
 
     def enterInputChoice(self):
         self.notify.debug('enterInputChoice')
-        NametagGlobals.setForceOnscreenChat(True)
+        NametagGlobals.setOnscreenChatForced(1)
         self.timer = ToontownTimer.ToontownTimer()
         self.timer.hide()
         if self.timerStartTime != None:
@@ -482,7 +482,7 @@ class DistributedTravelGame(DistributedMinigame):
         return
 
     def exitInputChoice(self):
-        NametagGlobals.setForceOnscreenChat(False)
+        NametagGlobals.setOnscreenChatForced(0)
         if self.timer != None:
             self.timer.destroy()
             self.timer = None

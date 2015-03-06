@@ -523,7 +523,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         for x in xrange(41):
             self.tieSequence.append(Parallel(LerpColorInterval(self.locatorList[x], 0.15, Vec4(0.5, 0.5, 0.5, 0.5), Vec4(1, 1, 1, 1)), LerpColorInterval(self.locatorList[x], 0.15, Vec4(1, 1, 1, 1), Vec4(0.5, 0.5, 0.5, 0.5))))
 
-        whisper = WhisperPopup('This Find Four game has resulted in a Tie!', OTPGlobals.getInterfaceFont(), WTNormal)
+        whisper = WhisperPopup('This Find Four game has resulted in a Tie!', OTPGlobals.getInterfaceFont(), WhisperPopup.WTNormal)
         whisper.manage(base.marginManager)
         self.tieSequence.start()
 
