@@ -4,8 +4,7 @@ import SuitDNA
 from toontown.toonbase import ToontownGlobals
 from pandac.PandaModules import *
 from toontown.battle import SuitBattleGlobals
-from toontown.nametag import NametagGlobals
-from toontown.nametag import NametagGroup
+#from toontown.nametag import NametagGlobals
 from direct.task.Task import Task
 from toontown.battle import BattleProps
 from toontown.toonbase import TTLocalizer

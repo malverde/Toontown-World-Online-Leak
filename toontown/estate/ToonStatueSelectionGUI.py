@@ -12,7 +12,6 @@ from direct.gui.DirectScrolledList import *
 from toontown.toon import Toon
 from toontown.toon import DistributedToon
 from direct.distributed import DistributedObject
-from toontown.nametag import NametagGlobals
 
 class ToonStatueSelectionGUI(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonStatueSelectionGUI')
@@ -94,13 +93,13 @@ class ToonStatueSelectionGUI(DirectFrame):
         return test
 
     def __makeFFlist(self):
-        playerAvatar = (base.localAvatar.doId, base.localAvatar.name, NametagGlobals.CCNonPlayer)
+        playerAvatar = (base.localAvatar.doId, base.localAvatar.name, NametagGroup.CCNonPlayer)
         self.ffList.append(playerAvatar)
         self.dnaSelected = base.localAvatar.style
         self.createPreviewToon(self.dnaSelected)
         for familyMember in base.cr.avList:
             if familyMember.id != base.localAvatar.doId:
-                newFF = (familyMember.id, familyMember.name, NametagGlobals.CCNonPlayer)
+                newFF = (familyMember.id, familyMember.name, NametagGroup.CCNonPlayer)
                 self.ffList.append(newFF)
 
         for friendPair in base.localAvatar.friendsList:
@@ -108,9 +107,9 @@ class ToonStatueSelectionGUI(DirectFrame):
             handle = base.cr.identifyFriend(friendId)
             if handle and not self.checkFamily(friendId):
                 if hasattr(handle, 'getName'):
-                    colorCode = NametagGlobals.CCSpeedChat
+                    colorCode = NametagGroup.CCSpeedChat
                     if flags & ToontownGlobals.FriendChat:
-                        colorCode = NametagGlobals.CCFreeChat
+                        colorCode = NametagGroup.CCFreeChat
                     newFF = (friendPair[0], handle.getName(), colorCode)
                     self.ffList.append(newFF)
                 else:
@@ -126,7 +125,7 @@ class ToonStatueSelectionGUI(DirectFrame):
         self.scrollList.refresh()
 
     def makeFamilyButton(self, familyId, familyName, colorCode):
-        fg = NametagGlobals.NametagColors[colorCode][3][0]
+        fg = NametagGlobals.getNameFg(colorCode, PGButton.SInactive)
         return DirectButton(relief=None, text=familyName, text_scale=0.04, text_align=TextNode.ALeft, text_fg=fg, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=0, command=self.__chooseFriend, extraArgs=[familyId, familyName])
 
     def __chooseFriend(self, friendId, friendName):
