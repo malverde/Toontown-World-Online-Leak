@@ -62,7 +62,6 @@ def showFriendsList():
 def hideFriendsList():
     if globalFriendsList != None:
         globalFriendsList.exit()
-    base.showFriendMargins()
     return
 
 
