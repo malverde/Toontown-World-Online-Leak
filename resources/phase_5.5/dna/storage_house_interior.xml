@@ -145,6 +145,13 @@
 		<store_node root="prop" code="closetBoy" node="" />
 	</model>
 	
+	<model path="phase_5.5/models/estate/tt_m_ara_est_accessoryTrunkGirl">
+		<store_node root="prop" code="trunkGirl" node="" />
+	</model>
+	
+	<model path="phase_5.5/models/estate/tt_m_ara_est_accessoryTrunkBoy">
+		<store_node root="prop" code="trunkBoy" node="" />
+	</model>
 
 	<model path="phase_5.5/models/estate/Piano">
 		<store_node root="prop" code="Piano" node="" />

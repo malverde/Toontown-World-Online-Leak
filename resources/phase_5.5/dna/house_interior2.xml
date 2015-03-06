@@ -14,6 +14,10 @@
 			<pos x="-19.4" y="24.7" z="0" />
 			<hpr h="0" p="0" r="0" />
 		</prop>
+		<prop name="trunkBoy_DNARoot" code="trunkBoy">
+			<pos x="2.5" y="0.5" z="0" />
+			<hpr h="0" p="0" r="0" />
+		</prop>
 		<prop name="jellybeanBank_DNARoot" code="jellybeanBank">
 			<pos x="-21.5" y="5.7" z="0" />
 			<hpr h="120" p="0" r="0" />
