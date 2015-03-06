@@ -8,6 +8,8 @@ from toontown.toonbase import TTLocalizer
 from toontown.pets import PetshopGUI
 from toontown.hood import ZoneUtil
 from toontown.toontowngui import TeaserPanel
+from toontown.chat.ChatGlobals import *
+from toontown.nametag.NametagGlobals import *
 
 class DistributedNPCPetclerk(DistributedNPCToonBase):
 

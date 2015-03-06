@@ -35,7 +35,7 @@ class DistributedElevatorAI(DistributedObjectAI.DistributedObjectAI):
          State.State('opening', self.enterOpening, self.exitOpening, ['waitEmpty', 'waitCountdown']),
          State.State('waitEmpty', self.enterWaitEmpty, self.exitWaitEmpty, ['waitCountdown']),
          State.State('waitCountdown', self.enterWaitCountdown, self.exitWaitCountdown, ['waitEmpty', 'allAboard']),
-         State.State('allAboard', self.enterAllAboard, self.exitAllAboard, ['closing', 'waitEmpty']),
+         State.State('allAboard', self.enterAllAboard, self.exitAllAboard, ['closing', 'waitEmpty', 'waitCountdown']),
          State.State('closing', self.enterClosing, self.exitClosing, ['closed', 'waitEmpty']),
          State.State('closed', self.enterClosed, self.exitClosed, ['opening'])], 'off', 'off')
         self.fsm.enterInitialState()

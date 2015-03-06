@@ -1,5 +1,5 @@
 from pandac.PandaModules import *
-from otp.nametag.NametagConstants import *
+from toontown.chat.ChatGlobals import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.DistributedObject import DistributedObject
@@ -10,7 +10,7 @@ from toontown.toon import NPCToons
 from toontown.suit import DistributedSuitBase, SuitDNA
 from toontown.toonbase import ToontownGlobals
 from toontown.battle import BattleProps
-from otp.margins.WhisperPopup import *
+from toontown.chat.WhisperPopup import WhisperPopup
 import ElectionGlobals
 from direct.directnotify import DirectNotifyGlobal
 from random import choice

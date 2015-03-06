@@ -3,7 +3,7 @@ import os
 
 
 class BackupManager:
-    def __init__(self, filepath='backups/', extension='.json'):
+    def __init__(self, filepath='backups', extension='.json'):
         self.filepath = filepath
         self.extension = extension
 

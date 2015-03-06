@@ -299,7 +299,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
     def startActive(self):
         DistributedPartyTrampolineActivity.notify.debug('startActive')
         if self.toon != None and self.toon.doId == base.localAvatar.doId:
-            base.setCellsAvailable(base.bottomCells, True)
+            base.setCellsActive(base.bottomCells, True)
             self.accept('arrow_left', self.onLeft)
             self.accept('arrow_left-up', self.onLeftUp)
             self.accept('arrow_right', self.onRight)
@@ -390,8 +390,8 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
         self.timeLeftToSimulate = 0.0
         self.doSimulateStep = False
         taskMgr.add(self.updateTask, self.uniqueName('TrampolineActivity.updateTask'))
-        base.setCellsAvailable(base.leftCells, False)
-        base.setCellsAvailable(base.bottomCells, False)
+        base.setCellsActive(base.leftCells, False)
+        base.setCellsActive(base.bottomCells, False)
         DistributedPartyActivity.startRules(self)
 
     def releaseToon(self):
@@ -405,7 +405,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
         self.hopOffAnim.start()
 
     def postHopOff(self):
-        base.setCellsAvailable(base.leftCells, True)
+        base.setCellsActive(base.leftCells, True)
         self.timer.stop()
         self.timer.hide()
         self.toon.dropShadow.reparentTo(self.toon.getShadowJoint())

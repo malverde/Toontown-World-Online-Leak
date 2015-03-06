@@ -12,7 +12,8 @@ from toontown.toontowngui import TTDialog
 from toontown.hood import ZoneUtil
 from toontown.toontowngui import TeaserPanel
 from direct.interval.IntervalGlobal import *
-from otp.margins.WhisperPopup import *
+from toontown.chat.ChatGlobals import *
+from toontown.chat.WhisperPopup import *
 import BoardingGroupShow
 
 class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPartyBase.BoardingPartyBase):
@@ -145,7 +146,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
                 if removedMember:
                     removedMemberName = removedMember.name
                     messageText = TTLocalizer.BoardingMessageLeftGroup % removedMemberName
-                    localAvatar.setSystemMessage(0, messageText, WhisperPopup.WTToontownBoardingGroup)
+                    localAvatar.setSystemMessage(0, messageText, WTToontownBoardingGroup)
 
         elif localAvatar.doId in oldMemberList and localAvatar.doId not in memberList:
             messenger.send('updateGroupStatus')
@@ -172,7 +173,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
 
     def postKick(self, leaderId):
         self.notify.debug('%s was kicked out of the Boarding Group by %s' % (localAvatar.doId, leaderId))
-        localAvatar.setSystemMessage(0, TTLocalizer.BoardingMessageKickedOut, WhisperPopup.WTToontownBoardingGroup)
+        localAvatar.setSystemMessage(0, TTLocalizer.BoardingMessageKickedOut, WTToontownBoardingGroup)
 
     def postSizeReject(self, leaderId, inviterId, inviteeId):
         self.notify.debug('%s was not invited because the group is full' % inviteeId)
@@ -263,7 +264,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
         if invitee:
             inviteeName = invitee.name
         messageText = TTLocalizer.BoardingMessageInvited % (inviterName, inviteeName)
-        localAvatar.setSystemMessage(0, messageText, WhisperPopup.WTToontownBoardingGroup)
+        localAvatar.setSystemMessage(0, messageText, WTToontownBoardingGroup)
 
     def postMessageInvitationFailed(self, inviterId):
         inviterName = ''
@@ -272,7 +273,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
             inviterName = inviter.name
         if self.invitationFailedMessageOk(inviterId):
             messageText = TTLocalizer.BoardingMessageInvitationFailed % inviterName
-            localAvatar.setSystemMessage(0, messageText, WhisperPopup.WTToontownBoardingGroup)
+            localAvatar.setSystemMessage(0, messageText, WTToontownBoardingGroup)
 
     def postMessageAcceptanceFailed(self, inviteeId, reason):
         inviteeName = ''
@@ -282,7 +283,7 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
             inviteeName = invitee.name
         if reason == BoardingPartyBase.INVITE_ACCEPT_FAIL_GROUP_FULL:
             messageText = TTLocalizer.BoardingMessageGroupFull % inviteeName
-        localAvatar.setSystemMessage(0, messageText, WhisperPopup.WTToontownBoardingGroup)
+        localAvatar.setSystemMessage(0, messageText,  WTToontownBoardingGroup)
         if self.inviterPanels.isInvitingPanelIdCorrect(inviteeId):
             self.inviterPanels.destroyInvitingPanel()
 
@@ -390,17 +391,17 @@ class DistributedBoardingParty(DistributedObject.DistributedObject, BoardingPart
             if groupFormed:
                 if leaderId == quitterId:
                     if not localAvatar.doId == leaderId:
-                        localAvatar.setSystemMessage(0, TTLocalizer.BoardingMessageGroupDissolved, WhisperPopup.WTToontownBoardingGroup)
+                        localAvatar.setSystemMessage(0, TTLocalizer.BoardingMessageGroupDissolved,  WTToontownBoardingGroup)
                 elif not kick:
                     if not localAvatar.doId == quitterId:
                         quitter = base.cr.doId2do.get(quitterId)
                         if quitter:
                             quitterName = quitter.name
                             messageText = TTLocalizer.BoardingMessageLeftGroup % quitterName
-                            localAvatar.setSystemMessage(0, messageText, WhisperPopup.WTToontownBoardingGroup)
+                            localAvatar.setSystemMessage(0, messageText, WTToontownBoardingGroup)
                         else:
                             messageText = TTLocalizer.BoardingMessageGroupDisbandedGeneric
-                            localAvatar.setSystemMessage(0, messageText, WhisperPopup.WTToontownBoardingGroup)
+                            localAvatar.setSystemMessage(0, messageText, WTToontownBoardingGroup)
         return
 
     def requestInvite(self, inviteeId):

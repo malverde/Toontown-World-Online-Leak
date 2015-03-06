@@ -5,7 +5,7 @@ from toontown.coghq import DistributedLevelBattle
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toon import TTEmote
 from otp.avatar import Emote
-from otp.nametag import NametagGlobals
+from toontown.nametag import NametagGlobals
 from toontown.battle import SuitBattleGlobals
 import random
 from toontown.suit import SuitDNA
@@ -29,7 +29,7 @@ class DistributedCountryClubBattle(DistributedLevelBattle.DistributedLevelBattle
         self.disableCollision()
         self.delayDeleteMembers()
         if self.hasLocalToon():
-            NametagGlobals.setMasterArrowsOn(0)
+            NametagGlobals.setWant2dNametags(False)
             if self.bossBattle:
                 messenger.send('localToonConfrontedCountryClubBoss')
         self.movie.playReward(ts, self.uniqueName('building-reward'), self.__handleCountryClubRewardDone)
@@ -45,4 +45,4 @@ class DistributedCountryClubBattle(DistributedLevelBattle.DistributedLevelBattle
         self.notify.debug('exitCountryClubReward()')
         self.movie.resetReward(finish=1)
         self._removeMembersKeep()
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(True)

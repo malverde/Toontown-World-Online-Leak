@@ -22,7 +22,8 @@ from otp.otpbase import OTPGlobals
 from toontown.effects import DustCloud
 from direct.showbase.PythonUtil import Functor
 from toontown.distributed import DelayDelete
-from otp.nametag.NametagConstants import *
+from toontown.chat.ChatGlobals import *
+from toontown.nametag.NametagGlobals import *
 import AccessoryGlobals
 import types
 
@@ -504,7 +505,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.jar = None
         self.setTag('pieCode', str(ToontownGlobals.PieCodeToon))
         self.setFont(ToontownGlobals.getToonFont())
-        self.setSpeechFont(ToontownGlobals.getToonFont())
+        
         self.soundChatBubble = base.loadSfx('phase_3/audio/sfx/GUI_balloon_popup.ogg')
         self.animFSM = ClassicFSM('Toon', [State('off', self.enterOff, self.exitOff),
          State('neutral', self.enterNeutral, self.exitNeutral),
@@ -2103,9 +2104,9 @@ class Toon(Avatar.Avatar, ToonHead):
         self.openEyes()
         self.startBlink()
         if config.GetBool('stuck-sleep-fix', 1):
-            doClear = SLEEP_STRING in (self.nametag.getChat(), self.nametag.getStompText())
+            doClear = SLEEP_STRING in (self.nametag.getChatText(), self.nametag.getStompChatText())
         else:
-            doClear = self.nametag.getChat() == SLEEP_STRING
+            doClear = self.nametag.getChatText() == SLEEP_STRING
         if doClear:
             self.clearChat()
         self.lerpLookAt(Point3(0, 1, 0), time=0.25)
@@ -2518,7 +2519,7 @@ class Toon(Avatar.Avatar, ToonHead):
                 state = self.animFSM.getCurrentState()
                 rogerTrack.append(Func(self.animFSM.request, 'off'))
                 rogerTrack.append(Func(self.animFSM.request, state))
-            rogerTrack.append(Func(self.nametag.setDisplayName, 'Roger Dog'))
+            rogerTrack.append(Func(self.nametag.setText, 'Roger Dog'))
             rogerTrack.append(Func(self.setHat, 24, 0, 0))
         else:
             rogerTrack.append(Func(self.updateToonDNA, self.oldStyle))
@@ -2526,7 +2527,7 @@ class Toon(Avatar.Avatar, ToonHead):
                 state = self.animFSM.getCurrentState()
                 rogerTrack.append(Func(self.animFSM.request, 'off'))
                 rogerTrack.append(Func(self.animFSM.request, state))
-            rogerTrack.append(Func(self.nametag.setDisplayName, self.nametag.name))
+            rogerTrack.append(Func(self.nametag.setText, self.nametag.name))
             rogerTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
             rogerTrack.append(Func(self.generateToonAccessories))
         track.append(rogerTrack)
@@ -2559,14 +2560,14 @@ class Toon(Avatar.Avatar, ToonHead):
                 state = self.animFSM.getCurrentState()
                 flippyTrack.append(Func(self.animFSM.request, 'off'))
                 flippyTrack.append(Func(self.animFSM.request, state))
-            flippyTrack.append(Func(self.nametag.setDisplayName, 'Flippy'))
+            flippyTrack.append(Func(self.nametag.setText, 'Flippy'))
         else:
             flippyTrack.append(Func(self.updateToonDNA, self.oldStyle))
             if hasattr(self, 'animFSM'):
                 state = self.animFSM.getCurrentState()
                 flippyTrack.append(Func(self.animFSM.request, 'off'))
                 flippyTrack.append(Func(self.animFSM.request, state))
-            flippyTrack.append(Func(self.nametag.setDisplayName, self.nametag.name))
+            flippyTrack.append(Func(self.nametag.setText, self.nametag.name))
             flippyTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
             flippyTrack.append(Func(self.generateToonAccessories))
         track.append(flippyTrack)
@@ -2599,14 +2600,14 @@ class Toon(Avatar.Avatar, ToonHead):
                 state = self.animFSM.getCurrentState()
                 surleeTrack.append(Func(self.animFSM.request, 'off'))
                 surleeTrack.append(Func(self.animFSM.request, state))
-            surleeTrack.append(Func(self.nametag.setDisplayName, 'Doctor Surlee'))
+            surleeTrack.append(Func(self.nametag.setText, 'Doctor Surlee'))
         else:
             surleeTrack.append(Func(self.updateToonDNA, self.oldStyle))
             if hasattr(self, 'animFSM'):
                 state = self.animFSM.getCurrentState()
                 surleeTrack.append(Func(self.animFSM.request, 'off'))
                 surleeTrack.append(Func(self.animFSM.request, state))
-            surleeTrack.append(Func(self.nametag.setDisplayName, self.nametag.name))
+            surleeTrack.append(Func(self.nametag.setText, self.nametag.name))
             surleeTrack.append(Func(self.setHat, self.oldHat[0], self.oldHat[1], self.oldHat[2]))
             surleeTrack.append(Func(self.generateToonAccessories))
         track.append(surleeTrack)
@@ -2972,7 +2973,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.suit.loop('neutral')
         self.isDisguised = 1
         self.setFont(ToontownGlobals.getSuitFont())
-        self.setSpeechFont(ToontownGlobals.getSuitFont())
+        
         if setDisplayName:
             if hasattr(base, 'idTags') and base.idTags:
                 name = self.getAvIdName()
@@ -2980,10 +2981,10 @@ class Toon(Avatar.Avatar, ToonHead):
                 name = self.getName()
             suitDept = SuitDNA.suitDepts.index(SuitDNA.getSuitDept(suitType))
             suitName = SuitBattleGlobals.SuitAttributes[suitType]['name']
-            self.nametag.setDisplayName(TTLocalizer.SuitBaseNameWithLevel % {'name': name,
+            self.nametag.setText(TTLocalizer.SuitBaseNameWithLevel % {'name': name,
              'dept': suitName,
              'level': self.cogLevels[suitDept] + 1})
-            self.nametag.setWordwrap(9.0)
+            self.nametag.setWordWrap(None)
 
     def takeOffSuit(self):
         if not self.isDisguised:
@@ -3006,7 +3007,7 @@ class Toon(Avatar.Avatar, ToonHead):
         Emote.globalEmote.releaseAll(self)
         self.isDisguised = 0
         self.setFont(ToontownGlobals.getToonFont())
-        self.setSpeechFont(ToontownGlobals.getToonFont())
+       
         self.nametag.setWordwrap(None)
         if hasattr(base, 'idTags') and base.idTags:
             name = self.getAvIdName()

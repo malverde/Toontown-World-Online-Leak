@@ -2,7 +2,8 @@ from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from otp.distributed.PotentialAvatar import PotentialAvatar
 from otp.otpbase import OTPLocalizer, OTPGlobals
-from otp.margins.WhisperPopup import *
+from toontown.chat.ChatGlobals import WTSystem
+from toontown.chat.WhisperPopup import WhisperPopup
 from pandac.PandaModules import *
 import hashlib
 import hmac
@@ -105,7 +106,7 @@ class ClientServicesManager(DistributedObjectGlobal):
                 'Got invalid parameters for system-message %d: %r' % (code, params))
             return
 
-        whisper = WhisperPopup(message, OTPGlobals.getInterfaceFont(), WhisperPopup.WTSystem)
+        whisper = WhisperPopup(message, OTPGlobals.getInterfaceFont(), WTSystem)
         whisper.manage(base.marginManager)
         if not self.systemMessageSfx:
             self.systemMessageSfx = base.loadSfx('phase_3/audio/sfx/clock03.ogg')
