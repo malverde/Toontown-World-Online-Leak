@@ -97,7 +97,7 @@ def unloadFriendsList():
     if globalFriendsList != None:
         globalFriendsList.unload()
         globalFriendsList = None
-    base.showFriendMargins()
+    
     return
 
 
