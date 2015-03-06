@@ -11,6 +11,7 @@ from toontown.toonbase import TTLocalizer
 from pandac.PandaModules import VirtualFileMountHTTP, VirtualFileSystem, Filename, DSearchPath
 from direct.showbase import AppRunnerGlobal
 import string
+from toontown.suit import SuitGlobals
 import os
 
 aSize = 6.06
