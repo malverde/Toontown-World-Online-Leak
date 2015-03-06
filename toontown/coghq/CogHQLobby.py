@@ -50,7 +50,7 @@ class CogHQLobby(Place.Place):
         self.loader.geom.reparentTo(render)
         self.accept('doorDoneEvent', self.handleDoorDoneEvent)
         self.accept('DistributedDoor_doorTrigger', self.handleDoorTrigger)
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(True)
         how = requestStatus['how']
         self.fsm.request(how, [requestStatus])
         self._telemLimiter = TLGatherAllAvs('CogHQLobby', RotationLimitToH)
