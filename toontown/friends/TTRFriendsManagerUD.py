@@ -253,10 +253,10 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
             dnaString =  fields['setDNAString'][0]
             experience = fields['setExperience'][0]
             trackBonusLevel = fields['setTrackBonusLevel'][0]
-            setLastSeen = fields.get['setLastSeen'] [0][0]
+            setLastSeen = fields.get(['setLastSeen'][0])[0]
             # We need an actual way to send the fields to the client...............
             # Inventory, trackAccess, trophies, Hp, maxHp, defaultshard, lastHood, dnastring
-            self.sendUpdateToAvatarId(senderId, 'friendDetails', [avId, inventory, trackAccess, trophies, hp, maxHp, defaultShard, lastHood, dnaString, experience, trackBonusLevel])
+            self.sendUpdateToAvatarId(senderId, 'friendDetails', [avId, inventory, trackAccess, trophies, hp, maxHp, defaultShard, lastHood, dnaString, experience, trackBonusLevel, setLastSeen])
         self.air.dbInterface.queryObject(self.air.dbId, avId, handleToon)
 
     # -- Toon Online/Offline --
@@ -421,3 +421,6 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
     def sleepAutoReply(self, toId):
         requester = self.air.getAvatarIdFromSender()
         self.sendUpdateToAvatarId(toId, 'setSleepAutoReply', [requester])
+   
+   
+   
