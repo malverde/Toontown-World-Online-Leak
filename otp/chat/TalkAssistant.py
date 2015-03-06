@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import DirectObject
 from pandac.PandaModules import *
