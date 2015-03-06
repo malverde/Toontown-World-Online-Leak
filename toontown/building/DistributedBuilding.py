@@ -150,17 +150,12 @@ class DistributedBuilding(DistributedObject.DistributedObject):
     def enterWaitForVictors(self, ts):
         if self.mode != 'suit':
             self.setToSuit()
-        self._ewfvTask = taskMgr.add(self._enterWaitForVictors, self.uniqueName('enterWaitForVictors'))
-
-    def _enterWaitForVictors(self, task):
         victorCount = self.victorList.count(base.localAvatar.doId)
-        if victorCount == 0:
-            return Task.cont
         if victorCount == 1:
             self.acceptOnce('insideVictorElevator', self.handleInsideVictorElevator)
             camera.reparentTo(render)
             camera.setPosHpr(self.elevatorNodePath, 0, -32.5, 9.4, 0, 348, 0)
-            base.camLens.setFov(52.0)
+            base.camLens.setMinFov(52.0/(4./3.))
             anyOthers = 0
             for v in self.victorList:
                 if v != 0 and v != base.localAvatar.doId:
@@ -177,7 +172,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             if light != None:
                 light.setColor(LIGHT_OFF_COLOR)
 
-        return Task.done
+        return
 
     def handleInsideVictorElevator(self):
         self.notify.info('inside victor elevator')
