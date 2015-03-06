@@ -17,7 +17,7 @@ from toontown.toonbase.ToontownTimer import ToontownTimer
 from toontown.toonbase import ToontownGlobals
 from direct.showbase import PythonUtil
 from otp.otpbase import OTPGlobals
-from otp.margins import WhisperPopup
+from toontown.chat import WhisperPopup
 
 class DistributedPicnicTable(DistributedNode.DistributedNode):
 
