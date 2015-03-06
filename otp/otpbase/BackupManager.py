@@ -1,9 +1,9 @@
-import json
+import simplejson
 import os
 
 
 class BackupManager:
-    def __init__(self, filepath='backups/', extension='.json'):
+    def __init__(self, filepath='backups', extension='.json'):
         self.filepath = filepath
         self.extension = extension
 
@@ -18,7 +18,7 @@ class BackupManager:
         if not os.path.exists(filename):
             return default
         with open(filename, 'r') as f:
-            return json.load(f)
+            return simplejson.load(f)
 
     def save(self, category, info, data):
         filepath = os.path.join(self.filepath, category)
@@ -26,4 +26,4 @@ class BackupManager:
             os.makedirs(filepath)
         filename = self.getFileName(category, info)
         with open(filename, 'w') as f:
-            json.dump(data, f)
+            simplejson.dump(data, f)
