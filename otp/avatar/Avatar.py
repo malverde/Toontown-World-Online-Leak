@@ -267,12 +267,7 @@ class Avatar(Actor, ShadowCaster):
         self.nametag.setFont(font)
         self.nametag.setChatFont(font)
 
-    def getSpeechFont(self):
-        return self.__speechFont
-
-    def setSpeechFont(self, font):
-        self.__speechFont = font
-        self.nametag.setSpeechFont(font)
+   
 
     def getStyle(self):
         return self.style
