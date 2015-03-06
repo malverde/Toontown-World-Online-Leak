@@ -328,22 +328,22 @@ class ToonBase(OTPBase.OTPBase):
         self.margins = self.aspect2d.attachNewNode(
             self.marginManager, DirectGuiGlobals.MIDGROUND_SORT_INDEX + 1)
         self.leftCells = [
-            self.marginManager.addCell(0.25, -0.6, self.a2dTopLeft),
-            self.marginManager.addCell(0.25, -1.0, self.a2dTopLeft),
-            self.marginManager.addCell(0.25, -1.4, self.a2dTopLeft)
+            self.marginManager.addCell(0.1, -0.6, self.a2dTopLeft),
+            self.marginManager.addCell(0.1, -1.0, self.a2dTopLeft),
+            self.marginManager.addCell(0.1, -1.4, self.a2dTopLeft)
         ]
         self.bottomCells = [
-            self.marginManager.addCell(0.4, 0.2, self.a2dBottomCenter),
-            self.marginManager.addCell(-0.4, 0.2, self.a2dBottomCenter),
-            self.marginManager.addCell(-1.0, 0.2, self.a2dBottomCenter),
-            self.marginManager.addCell(1.0, 0.2, self.a2dBottomCenter)
+            self.marginManager.addCell(0.4, 0.1, self.a2dBottomCenter),
+            self.marginManager.addCell(-0.4, 0.1, self.a2dBottomCenter),
+            self.marginManager.addCell(-1.0, 0.1, self.a2dBottomCenter),
+            self.marginManager.addCell(1.0, 0.1, self.a2dBottomCenter)
         ]
         self.rightCells = [
-            self.marginManager.addCell(-0.25, -0.6, self.a2dTopRight),
-            self.marginManager.addCell(-0.25, -1.0, self.a2dTopRight),
-            self.marginManager.addCell(-0.25, -1.4, self.a2dTopRight)
+            self.marginManager.addCell(-0.1, -0.6, self.a2dTopRight),
+            self.marginManager.addCell(-0.1, -1.0, self.a2dTopRight),
+            self.marginManager.addCell(-0.1, -1.4, self.a2dTopRight)
         ]
-
+        
     def setCellsActive(self, cells, active):
         for cell in cells:
             cell.setActive(active)
