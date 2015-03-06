@@ -1,4 +1,4 @@
-import simplejson
+import json
 import os
 
 
@@ -18,7 +18,7 @@ class BackupManager:
         if not os.path.exists(filename):
             return default
         with open(filename, 'r') as f:
-            return simplejson.load(f)
+            return json.load(f)
 
     def save(self, category, info, data):
         filepath = os.path.join(self.filepath, category)
@@ -26,4 +26,4 @@ class BackupManager:
             os.makedirs(filepath)
         filename = self.getFileName(category, info)
         with open(filename, 'w') as f:
-            simplejson.dump(data, f)
+            json.dump(data, f)
