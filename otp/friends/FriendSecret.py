@@ -6,7 +6,6 @@ import string
 from otp.otpbase import OTPLocalizer
 from otp.otpbase import OTPGlobals
 from otp.uberdog import RejectCode
-from toontown.nametag import NametagGlobals
 globalFriendSecret = None
 AccountSecret = 0
 AvatarSecret = 1
@@ -345,13 +344,13 @@ class FriendSecret(DirectFrame, StateData.StateData):
         self.secretText.hide()
         base.localAvatar.chatMgr.fsm.request('otherDialog')
         self.enterSecret['focus'] = 1
-        NametagGlobals.setForceOnscreenChat(True)
+        NametagGlobals.setOnscreenChatForced(1)
 
     def exit(self):
         if self.isEntered == 0:
             return
         self.isEntered = 0
-        NametagGlobals.setForceOnscreenChat(False)
+        NametagGlobals.setOnscreenChatForced(0)
         self.__cleanupFirstPage()
         self.ignoreAll()
         self.accept('clientCleanup', self.unload)

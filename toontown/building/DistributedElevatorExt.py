@@ -1,21 +1,19 @@
-from direct.directnotify import DirectNotifyGlobal
-from direct.distributed.ClockDelta import *
-from direct.fsm import ClassicFSM
-from direct.fsm import State
-from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
-
-import DistributedElevator
+from direct.distributed.ClockDelta import *
+from direct.interval.IntervalGlobal import *
 from ElevatorConstants import *
 from ElevatorUtils import *
-from toontown.hood import ZoneUtil
-from toontown.nametag import NametagGlobals
-from toontown.nametag.Nametag import Nametag
-from toontown.nametag.NametagGroup import NametagGroup
-from toontown.toonbase import TTLocalizer
+import DistributedElevator
 from toontown.toonbase import ToontownGlobals
+from direct.directnotify import DirectNotifyGlobal
+from direct.fsm import ClassicFSM
+from direct.fsm import State
+from toontown.hood import ZoneUtil
+from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TeaserPanel
-
+from otp.nametag.NametagGroup import NametagGroup
+from otp.nametag.Nametag import Nametag
+from otp.nametag.NametagConstants import *
 
 class DistributedElevatorExt(DistributedElevator.DistributedElevator):
 
@@ -23,6 +21,7 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
         DistributedElevator.DistributedElevator.__init__(self, cr)
         self.nametag = None
         self.currentFloor = -1
+        self.bldg = None
         return
 
     def setupElevator(self):
@@ -43,20 +42,18 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
             self.nametag.setFont(ToontownGlobals.getBuildingNametagFont())
             if TTLocalizer.BuildingNametagShadow:
                 self.nametag.setShadow(*TTLocalizer.BuildingNametagShadow)
-            self.nametag.hideChat()
-            self.nametag.hideThought()
-            nametagColor = NametagGlobals.NametagColors[NametagGlobals.CCSuitBuilding]
-            self.nametag.setNametagColor(nametagColor)
-            self.nametag.setActive(False)
+            self.nametag.setContents(Nametag.CName)
+            self.nametag.setColorCode(NametagGroup.CCSuitBuilding)
+            self.nametag.setActive(0)
             self.nametag.setAvatar(self.getElevatorModel())
-            name = self.cr.playGame.dnaStore.getTitleFromBlockNumber(self.bldg.block)
+            name = self.cr.playGame.dnaData.getBlock(self.bldg.block).title
             if not name:
                 name = TTLocalizer.CogsInc
             else:
                 name += TTLocalizer.CogsIncExt
-            self.nametag.setText(name)
+            self.nametag.setName(name)
             self.nametag.manage(base.marginManager)
-            self.nametag.updateAll()
+        return
 
     def clearNametag(self):
         if self.nametag != None:
@@ -73,7 +70,7 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
         self.bldgRequest = None
         self.bldg = buildingList[0]
         if not self.bldg:
-            self.notify.warning('setBldgDoId: elevator %d cannot find bldg %d!' % (self.doId, self.bldgDoId))
+            self.notify.error('setBldgDoId: elevator %d cannot find bldg %d!' % (self.doId, self.bldgDoId))
             return
         if self.getBldgDoorOrigin():
             self.bossLevel = self.bldg.getBossLevel()
@@ -83,15 +80,13 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
         return
 
     def setFloor(self, floorNumber):
-        self.currentFloor = 0
-        if hasattr(self, 'bldg'):
-            if self.currentFloor >= 0:
-                if self.bldg.floorIndicator[self.currentFloor]:
-                    self.bldg.floorIndicator[self.currentFloor].setColor(LIGHT_OFF_COLOR)
-            if floorNumber >= 0:
-                if self.bldg.floorIndicator[floorNumber]:
-                    self.bldg.floorIndicator[floorNumber].setColor(LIGHT_ON_COLOR)
-            self.currentFloor = floorNumber
+        if self.currentFloor >= 0:
+            if self.bldg.floorIndicator[self.currentFloor]:
+                self.bldg.floorIndicator[self.currentFloor].setColor(LIGHT_OFF_COLOR)
+        if floorNumber >= 0:
+            if self.bldg.floorIndicator[floorNumber]:
+                self.bldg.floorIndicator[floorNumber].setColor(LIGHT_ON_COLOR)
+        self.currentFloor = floorNumber
 
     def handleEnterSphere(self, collEntry):
         self.notify.debug('Entering Elevator Sphere....')
@@ -144,4 +139,7 @@ class DistributedElevatorExt(DistributedElevator.DistributedElevator):
         return self.bldg.interiorZoneId
 
     def getElevatorModel(self):
+        np = self.bldg.getSuitElevatorNodePath()
+        if np.isEmpty():
+            self.notify.error("np not ok")
         return self.bldg.getSuitElevatorNodePath()
