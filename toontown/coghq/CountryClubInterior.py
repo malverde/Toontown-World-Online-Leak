@@ -13,7 +13,7 @@ from toontown.toontowngui import TTDialog
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.coghq import DistributedCountryClub
 from toontown.building import Elevator
-from otp.nametag import NametagGlobals
+from toontown.nametag import NametagGlobals
 import random
 
 class CountryClubInterior(BattlePlace.BattlePlace):
@@ -90,7 +90,7 @@ class CountryClubInterior(BattlePlace.BattlePlace):
         self._telemLimiter = TLGatherAllAvs('CountryClubInterior', RotationLimitToH)
 
         def commence(self = self):
-            NametagGlobals.setMasterArrowsOn(1)
+            NametagGlobals.setWant2dNametags(True)
             self.fsm.request(requestStatus['how'], [requestStatus])
             base.playMusic(self.music, looping=1, volume=0.8)
             base.transitions.irisIn()
@@ -110,7 +110,7 @@ class CountryClubInterior(BattlePlace.BattlePlace):
         self.acceptOnce('localToonConfrontedCountryClubBoss', handleConfrontedBoss)
 
     def exit(self):
-        NametagGlobals.setMasterArrowsOn(0)
+        NametagGlobals.setWant2dNametags(False)
         bboard.remove(DistributedCountryClub.DistributedCountryClub.ReadyPost)
         self._telemLimiter.destroy()
         del self._telemLimiter

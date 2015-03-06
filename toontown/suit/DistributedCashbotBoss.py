@@ -19,9 +19,9 @@ from toontown.distributed import DelayDelete
 from toontown.chat import ResistanceChat
 from toontown.coghq import CogDisguiseGlobals
 from pandac.PandaModules import *
-from otp.nametag import NametagGroup
-from otp.nametag.NametagConstants import *
-from otp.nametag import NametagGlobals
+from toontown.nametag import NametagGlobals
+from toontown.chat.ChatGlobals import *
+from toontown.nametag.NametagGlobals import *
 import random
 import math
 OneBossCog = None
@@ -100,7 +100,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         npc = Toon.Toon()
         npc.setName(TTLocalizer.ResistanceToonName)
         npc.setPickable(0)
-        npc.setPlayerType(NametagGroup.CCNonPlayer)
+        npc.setPlayerType(NametagGlobals.CCNonPlayer)
         dna = ToonDNA.ToonDNA()
         dna.newToonRandom(11237, 'f', 1)
         dna.head = 'pls'
@@ -720,7 +720,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
     def enterPrepareBattleThree(self):
         self.controlToons()
-        NametagGlobals.setMasterArrowsOn(0)
+        NametagGlobals.setWant2dNametags(False)
         intervalName = 'PrepareBattleThreeMovie'
         delayDeletes = []
         self.movieCrane = self.cranes[0]
@@ -749,7 +749,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         if self.newState == 'BattleThree':
             self.movieCrane.request('Free')
             self.movieSafe.request('Initial')
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(True)
         ElevatorUtils.closeDoors(self.leftDoor, self.rightDoor, ElevatorConstants.ELEVATOR_CFO)
         taskMgr.remove(self.uniqueName('physics'))
 

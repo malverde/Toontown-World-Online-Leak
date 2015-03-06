@@ -501,10 +501,10 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         self.tableclothSphereNode.setCollideMask(BitMask32(0))
 
     def enterOff(self):
-        base.setCellsAvailable(base.leftCells + base.bottomCells, 0)
+        base.setCellsActive(base.leftCells + base.bottomCells, 0)
 
     def exitOff(self):
-        base.setCellsAvailable(base.bottomCells, 0)
+        base.setCellsActive(base.bottomCells, 0)
 
     def enterChooseMode(self):
         self.winTrack = Sequence(autoFinish=1)

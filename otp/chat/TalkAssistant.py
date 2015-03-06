@@ -3,7 +3,6 @@ from direct.showbase import DirectObject
 from pandac.PandaModules import *
 import sys
 import time
-import re
 
 from otp.chat.ChatGlobals import *
 from otp.chat.TalkGlobals import *
@@ -585,25 +584,29 @@ class TalkAssistant(DirectObject.DirectObject):
             self.receiveDeveloperMessage(message)
         else:
             chatFlags = CFSpeech | CFTimeout
-            if re.search(r'[a-zA-Z\d]', message):
-                if "!" or "?" in message:
-                    if self.isThought(message):
-                        chatFlags = CFThought
-                    base.cr.chatAgent.sendChatMessage(message)
-                else:
-                    base.cr.chatAgent.sendChatMessage(message)
+            if self.isThought(message):
+                chatFlags = CFThought
+            base.cr.chatAgent.sendChatMessage(message)
             messenger.send('chatUpdate', [message, chatFlags])
         return error
 
     def sendWhisperTalk(self, message, receiverAvId):
-        # Check if we are a true friend
-        if (receiverAvId, True) in base.localAvatar.friendsList:
-            base.cr.chatAgent.sendSFWhisperMessage(receiverAvId, message)
-            return None
+        modifications = []
+        words = message.split(' ')
+        offset = 0
+        WantWhitelist = config.GetBool('want-whitelist', 1)
+        for word in words:
+            if word and not self.whiteList.isWord(word) and WantWhitelist:
+                modifications.append((offset, offset+len(word)-1))
+            offset += len(word) + 1
 
-        base.cr.chatAgent.sendWhisperMessage(receiverAvId, message)
-        return None
+        cleanMessage = message
+        for modStart, modStop in modifications:
+            cleanMessage = cleanMessage[:modStart] + '*'*(modStop-modStart+1) + cleanMessage[modStop+1:]
 
+        message, scrubbed = base.localAvatar.scrubTalk(cleanMessage, modifications)
+
+        base.cr.ttiFriendsManager.sendUpdate('sendTalkWhisper', [receiverAvId, message])
 
     def sendAccountTalk(self, message, receiverAccount):
         error = None

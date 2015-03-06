@@ -6,7 +6,8 @@ from otp.otpbase import OTPLocalizer
 import types
 from direct.showbase import PythonUtil
 from pandac.PandaModules import *
-from otp.nametag.NametagConstants import *
+from toontown.chat.ChatGlobals import *
+from toontown.nametag.NametagGlobals import *
 from otp.avatar import Emote
 from direct.directnotify import DirectNotifyGlobal
 EmoteSleepIndex = 4
@@ -73,7 +74,7 @@ def doSleep(toon, volume = 1):
         toon.openEyes()
         toon.startBlink()
         toon.setPlayRate(1, 'neutral')
-        if toon.nametag.getChat() == TTLocalizer.ToonSleepString:
+        if toon.nametag.getChatText() == TTLocalizer.ToonSleepString:
             toon.clearChat()
         toon.lerpLookAt(Point3(0, 1, 0), time=0.25)
 

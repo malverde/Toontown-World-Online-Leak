@@ -1,13 +1,14 @@
-from direct.showbase import DirectObject
-from otp.otpbase import OTPGlobals
-import sys
 from direct.gui.DirectGui import *
+from direct.showbase import DirectObject
 from pandac.PandaModules import *
+import sys
+
+from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
+from toontown.chat.ChatGlobals import *
+
 
 class ChatInputTyped(DirectObject.DirectObject):
-    ExecNamespace = None
-
     def __init__(self, mainEntry = 0):
         self.whisperName = None
         self.whisperId = None
@@ -16,9 +17,9 @@ class ChatInputTyped(DirectObject.DirectObject):
         wantHistory = 0
         if __dev__:
             wantHistory = 1
-        self.wantHistory = config.GetBool('want-chat-history', wantHistory)
+        self.wantHistory = base.config.GetBool('want-chat-history', wantHistory)
         self.history = ['']
-        self.historySize = config.GetInt('chat-history-size', 10)
+        self.historySize = base.config.GetInt('chat-history-size', 10)
         self.historyIndex = 0
         return
 
@@ -82,7 +83,6 @@ class ChatInputTyped(DirectObject.DirectObject):
         self.typedChatButton.hide()
         self.typedChatBar.hide()
         if self.whisperId:
-            print 'have id'
             if self.toPlayer:
                 if not base.talkAssistant.checkWhisperTypedChatPlayer(self.whisperId):
                     messenger.send('Chat-Failed player typed chat test')
@@ -111,10 +111,6 @@ class ChatInputTyped(DirectObject.DirectObject):
                     pass
             elif self.whisperId:
                 pass
-            elif config.GetBool('exec-chat', 0) and text[0] == '>':
-                text = self.__execMessage(text[1:])
-                base.localAvatar.setChatAbsolute(text, CFSpeech | CFTimeout)
-                return
             else:
                 base.talkAssistant.sendOpenTalk(text)
             if self.wantHistory:
@@ -124,42 +120,12 @@ class ChatInputTyped(DirectObject.DirectObject):
     def chatOverflow(self, overflowText):
         self.sendChat(self.chatEntry.get())
 
-    def __execMessage(self, message):
-        if not ChatInputTyped.ExecNamespace:
-            ChatInputTyped.ExecNamespace = {}
-            exec 'from pandac.PandaModules import *' in globals(), self.ExecNamespace
-            self.importExecNamespace()
-        try:
-            return str(eval(message, globals(), ChatInputTyped.ExecNamespace))
-        except SyntaxError:
-            try:
-                exec message in globals(), ChatInputTyped.ExecNamespace
-                return 'ok'
-            except:
-                exception = sys.exc_info()[0]
-                extraInfo = sys.exc_info()[1]
-                if extraInfo:
-                    return str(extraInfo)
-                else:
-                    return str(exception)
-
-        except:
-            exception = sys.exc_info()[0]
-            extraInfo = sys.exc_info()[1]
-            if extraInfo:
-                return str(extraInfo)
-            else:
-                return str(exception)
-
     def cancelButtonPressed(self):
         self.chatEntry.set('')
         self.deactivate()
 
     def chatButtonPressed(self):
         self.sendChat(self.chatEntry.get())
-
-    def importExecNamespace(self):
-        pass
 
     def addToHistory(self, text):
         self.history = [text] + self.history[:self.historySize - 1]

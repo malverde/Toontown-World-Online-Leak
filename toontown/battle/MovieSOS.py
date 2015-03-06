@@ -3,8 +3,8 @@ import MovieCamera
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
 from pandac.PandaModules import *
-from otp.nametag.NametagConstants import *
-from otp.nametag import NametagGlobals
+from toontown.chat.ChatGlobals import *
+from toontown.nametag.NametagGlobals import *
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieSOS')
 
 def doSOSs(calls):

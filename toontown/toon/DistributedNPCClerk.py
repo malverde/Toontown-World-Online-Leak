@@ -7,7 +7,8 @@ from direct.task.Task import Task
 from toontown.toonbase import TTLocalizer
 from toontown.hood import ZoneUtil
 from toontown.toontowngui import TeaserPanel
-from otp.nametag.NametagConstants import *
+from toontown.chat.ChatGlobals import *
+from toontown.nametag.NametagGlobals import *
 
 class DistributedNPCClerk(DistributedNPCToonBase):
 
