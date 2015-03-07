@@ -589,12 +589,19 @@ TheBrrrghTrackQuestDict = {GREETING: '',
  LEAVING: 'Good luck.  Return to me when you have mastered your new skill.'}
 QuestDialog_3225 = {QUEST: "Oh, thanks for coming, _avName_!\x07The Cogs in the neighborhood frightened away my delivery person.\x07I don't have anyone to deliver this salad to _toNpcName_!\x07Can you do it for me? Thanks so much!_where_"}
 QuestDialog_2910 = {QUEST: 'Back so soon?\x07Great job on the spring.\x07The final item is a counter weight.\x07Stop by _toNpcName_ and bring back whatever you can get._where_'}
-QuestDialogDict = {160: {GREETING: '',
+QuestDialogDict =  {155: {GREETING: '',
+       QUEST: "Welcome Back!\x07Hope you had fun making new friends with other toons. I made a new friend and he is toontastic. \x07We just got reports from local Toon HQ officers that Cashbots are causing trouble on the streets. Go out and knock some justice into them.",
+       INCOMPLETE_PROGRESS: TheCogs + ' are out in the streets, through the street tunnels.',
+       INCOMPLETE_WRONG_NPC: 'Good job defeating those Cashbots. Go to the Toon Headquarters for your reward!',
+       COMPLETE: QuestsDefaultComplete,
+       LEAVING: QuestsDefaultLeaving},
+ 160: {GREETING: '',
        QUEST: "Ok, now I think you are ready for something more rewarding.\x07If you can defeat 3 Bossbots I'll give you a little bonus.",
        INCOMPLETE_PROGRESS: TheCogs + ' are out in the streets, through the tunnels.',
        INCOMPLETE_WRONG_NPC: 'Good job defeating those Cogs. Now go to the Toon Headquarters for your next step!',
        COMPLETE: QuestsDefaultComplete,
        LEAVING: QuestsDefaultLeaving},
+ 162: {GREETING: '',
  161: {GREETING: '',
        QUEST: "Ok, now I think you are ready for something more rewarding.\x07Come back after you defeat 3 Lawbots and I'll have a little something for you.",
        INCOMPLETE_PROGRESS: TheCogs + ' are out in the streets, through the tunnels.',
@@ -1880,6 +1887,7 @@ QuestDialogDict = {160: {GREETING: '',
          QUEST: 'You need to go tell Flippy about this...',
          INCOMPLETE_PROGRESS: 'Flippy can be found in Toon Hall',
          COMPLETE: 'A new type of Cog!\x07Good work!\x07Here is your final disguise part.'}}
+         }
 ChatGarblerDog = ['woof', 'arf', 'rruff']
 ChatGarblerCat = ['meow', 'mew']
 ChatGarblerMouse = ['squeak', 'squeaky', 'squeakity']
