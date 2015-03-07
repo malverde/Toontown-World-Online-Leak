@@ -58,7 +58,7 @@ dc-file config/otp.dc
 want-pets #f
 want-news-tab #f
 want-news-page #f
-want-accessories #t
+want-accessories #f
 want-parties #f
 want-gardening #f
 want-gifting #t
@@ -76,7 +76,7 @@ ai-sleep 0.04
 estate-day-night #t
 want-instant-parties #f
 show-total-population #t
-want-toontorial #t
+want-toontorial #f
 want-doomsday #f
 
 # Chat stuff

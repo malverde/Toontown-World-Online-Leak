@@ -1,4 +1,3 @@
-from direct.directnotify import DirectNotifyGlobal
 from toontown.catalog.CatalogItemList import CatalogItemList
 from toontown.catalog.CatalogFurnitureItem import CatalogFurnitureItem
 from toontown.catalog import CatalogItem
@@ -29,15 +28,18 @@ DNA2Furniture = {
     'bookcase_low': 1130,
     'ending_table': 1200,
     'jellybeanBank': 1300,
+    'TrunkBoy' : 4000,
+    'TrunkGirl': 4010,
 
 }
+
 
 class DNAFurnitureReaderAI:
     # This object processes the house_interior*.dna files and produces a
     # CatalogItemList representing the furniture in the DNA file. The resulting
     # list is passed to the FurnitureManager in order to initialize a blank
     # house to the default furniture arrangement.
-    notify = DirectNotifyGlobal.directNotify.newCategory("DNAFurnitureReaderAI")
+    notify = directNotify.newCategory("DNAFurnitureReaderAI")
 
     def __init__(self, dnaData, phonePos):
         self.dnaData = dnaData
