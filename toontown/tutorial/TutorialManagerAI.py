@@ -1,3 +1,4 @@
+from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.building.DistributedTutorialInteriorAI import DistributedTutorialInteriorAI
 from toontown.toon import NPCToons
@@ -13,6 +14,7 @@ from direct.fsm.FSM import FSM
 from direct.directnotify.DirectNotifyGlobal import *
 from toontown.suit.DistributedTutorialSuitAI import DistributedTutorialSuitAI
 from toontown.toonbase import ToontownGlobals
+
 
 class TZoneStruct:
     branch = 0
