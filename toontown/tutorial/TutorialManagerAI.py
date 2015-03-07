@@ -1,4 +1,3 @@
-from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.building.DistributedTutorialInteriorAI import DistributedTutorialInteriorAI
 from toontown.toon import NPCToons
@@ -11,6 +10,9 @@ from toontown.building.HQBuildingAI import HQBuildingAI
 from toontown.quest import Quests
 from toontown.building import FADoorCodes
 from direct.fsm.FSM import FSM
+from direct.directnotify.DirectNotifyGlobal import *
+from toontown.suit.DistributedTutorialSuitAI import DistributedTutorialSuitAI
+from toontown.toonbase import ToontownGlobals
 
 class TZoneStruct:
     branch = 0
@@ -58,7 +60,6 @@ class TutorialFSM(FSM):
         npcDesc = NPCToons.NPCToonDict.get(20002)
         self.harry = NPCToons.createNPC(self.air, 20002, npcDesc, self.zones.hq, 0)
         self.harry.setTutorial(1)
-	self.harry.setHq(1)
         self.building = ToontorialBuildingAI(self.air, zones.street, zones.shop, self.tom.getDoId())
         self.hq = HQBuildingAI(self.air, zones.street, zones.hq, 1)
 
