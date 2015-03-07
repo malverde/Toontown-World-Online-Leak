@@ -76,7 +76,7 @@ ai-sleep 0.04
 estate-day-night #t
 want-instant-parties #f
 show-total-population #t
-want-toontorial #f
+want-toontorial #t
 want-doomsday #f
 
 # Chat stuff
@@ -97,4 +97,4 @@ want-mega-invasions #f
 base-xp-multiplier 1
 #group merges
 boarding-group-merges #t
-force-skip-tutorial #t
+force-skip-tutorial #f
