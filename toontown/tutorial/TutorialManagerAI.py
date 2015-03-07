@@ -28,7 +28,7 @@ class TutorialFSM(FSM):
         npcDesc = NPCToons.NPCToonDict.get(20002)
         self.hqHarry = NPCToons.createNPC(self.air, 20002, npcDesc, self.zones['hq'])
         self.hqHarry.setTutorial(1)
-        self.hqHarry.setHq(1)
+        
 
         self.building = TutorialBuildingAI(
             self.air, self.zones['street'], self.zones['building'], 2, self.tutorialTom.getDoId())
