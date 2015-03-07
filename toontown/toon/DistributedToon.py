@@ -2791,7 +2791,7 @@ def unmute():
     
     #V1 MW 
     
-    @magicWord(category=CATEGORY_ADMIN, types=[int])
+@magicWord(category=CATEGORY_ADMIN, types=[int])
 def zone(zoneId):
     """
     Changes the invoker's zone ID.
