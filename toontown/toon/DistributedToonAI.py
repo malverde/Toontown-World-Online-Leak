@@ -5745,13 +5745,269 @@ def skipMovie():
     battle._DistributedBattleBaseAI__movieDone()
     return 'Battle movie skipped.'
     
-@magicWord(category=CATEGORY_ADMIN, types=[int])
-def zone(zoneId):
-    """
-    Changes the invoker's zone ID.
-    """
-    base.cr.sendSetZoneMsg(zoneId, [zoneId])
-    return 'You have been moved to zone {0}.'.format(zoneId)
+
+@magicWord(category=CATEGORY_ADMIN, types=[str, int, int])
+def inventory(a, b=None, c=None):
+    invoker = spellbook.getInvoker()
+    inventory = invoker.inventory
+    if a == 'reset':
+        maxLevelIndex = b or 6
+        if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
+            return 'Invalid max level index: {0}'.format(maxLevelIndex)
+        targetTrack = -1 or c
+        if not -1 <= targetTrack < len(ToontownBattleGlobals.Tracks):
+            return 'Invalid target track index: {0}'.format(targetTrack)
+        for track in xrange(0, len(ToontownBattleGlobals.Tracks)):
+            if (targetTrack == -1) or (track == targetTrack):
+                inventory.inventory[track][:maxLevelIndex + 1] = [0] * (maxLevelIndex+1)
+        invoker.b_setInventory(inventory.makeNetString())
+        if targetTrack == -1:
+            return 'Inventory reset.'
+        else:
+            return 'Inventory reset for target track index: {0}'.format(targetTrack)
+    elif a == 'restock':
+        maxLevelIndex = b or 6
+        if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
+            return 'Invalid max level index: {0}'.format(maxLevelIndex)
+        targetTrack = -1 or c
+        if not -1 <= targetTrack < len(ToontownBattleGlobals.Tracks):
+            return 'Invalid target track index: {0}'.format(targetTrack)
+        if (targetTrack != -1) and (not invoker.hasTrackAccess(targetTrack)):
+            return "You don't have target track index: {0}".format(targetTrack)
+        inventory.NPCMaxOutInv(targetTrack=targetTrack, maxLevelIndex=maxLevelIndex)
+        invoker.b_setInventory(inventory.makeNetString())
+        if targetTrack == -1:
+            return 'Inventory restocked.'
+        else:
+            return 'Inventory restocked for target track index: {0}'.format(targetTrack)
+    else:
+        try:
+            targetTrack = int(a)
+        except:
+            return 'Invalid first argument.'
+        if not invoker.hasTrackAccess(targetTrack):
+            return "You don't have target track index: {0}".format(targetTrack)
+        maxLevelIndex = b or 6
+        if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
+            return 'Invalid max level index: {0}'.format(maxLevelIndex)
+        for _ in xrange(c):
+            inventory.addItem(targetTrack, maxLevelIndex)
+        invoker.b_setInventory(inventory.makeNetString())
+        return 'Restored {0} Gags to: {1}, {2}'.format(c, targetTrack, maxLevelIndex)
+    
+@magicWord(category=CATEGORY_ADMIN, types=[str, str])
+def dnav1(part, value):
+    """Modify a DNA part on the target."""
+    target = spellbook.getTarget()
+
+    dna = ToonDNA.ToonDNA()
+    dna.makeFromNetString(target.getDNAString())
+
+    part = part.lower()
+    if part.endswith('color') or part.endswith('tex') or part.endswith('size'):
+        value = int(value)
+
+    if part == 'gender':
+        if value not in ('m', 'f', 'male', 'female'):
+            return 'Invalid gender: {0}'.format(value)
+        dna.gender = value[0]
+        target.b_setDNAString(dna.makeNetString())
+        return 'Gender set to: {0}'.format(dna.gender)
+
+    if part in ('head', 'species'):
+        speciesNames = (
+            'dog', 'cat', 'horse', 'mouse', 'rabbit', 'duck', 'monkey', 'bear',
+            'pig'
+        )
+        if value in speciesNames:
+            speciesIndex = speciesNames.index(value)
+            value = ToonDNA.toonSpeciesTypes[speciesIndex]
+        if value not in ToonDNA.toonSpeciesTypes:
+            return 'Invalid species: {0}'.format(value)
+        if (dna.headColor == 0x1a) and (value == 'c'):
+            return 'Invalid species for color: black'
+        if (dna.headColor == 0x00) and (value == 'b'):
+            return 'Invalid species for color: white'
+        dna.head = value + dna.head[1:3]
+        target.b_setDNAString(dna.makeNetString())
+        return 'Species set to: {0}'.format(dna.head[0])
+
+    if part == 'headsize':
+        sizes = ('ls', 'ss', 'sl', 'll')
+        if not 0 <= value <= len(sizes):
+            return 'Invalid head size index: {0}'.format(value)
+        dna.head = dna.head[0] + sizes[value]
+        target.b_setDNAString(dna.makeNetString())
+        return 'Head size index set to: {0}'.format(dna.head[1:])
+
+    if part == 'torso':
+        if dna.gender not in ('m', 'f'):
+            return 'Unknown gender.'
+        value = int(value)
+        if (dna.gender == 'm') and (not 0 <= value <= 2):
+            return 'Male torso index out of range (0-2).'
+        if (dna.gender == 'f') and (not 3 <= value <= 8):
+            return 'Female torso index out of range (3-8).'
+        dna.torso = ToonDNA.toonTorsoTypes[value]
+        target.b_setDNAString(dna.makeNetString())
+        return 'Torso set to: {0}'.format(dna.torso)
+
+    if part == 'legs':
+        value = int(value)
+        if not 0 <= value <= len(ToonDNA.toonLegTypes):
+            return 'Legs index out of range (0-{0}).'.format(
+                len(ToonDNA.toonLegTypes))
+        dna.legs = ToonDNA.toonLegTypes[value]
+        target.b_setDNAString(dna.makeNetString())
+        return 'Legs set to: {0}'.format(dna.legs)
+
+    if part == 'headcolor':
+        if dna.gender not in ('m', 'f'):
+            return 'Unknown gender.'
+        if (value == 0x1a) or (0x1a in (dna.headColor, dna.armColor, dna.legColor)):
+            return 'Toon contains black parts!'
+        if (value == 0x00) or (0x00 in (dna.headColor, dna.armColor, dna.legColor)):
+            return 'Toon contains white parts!'
+        if (dna.gender == 'm') and (value not in ToonDNA.defaultBoyColorList):
+            return 'Invalid male head color index: {0}'.format(value)
+        if (dna.gender == 'f') and (value not in ToonDNA.defaultGirlColorList):
+            return 'Invalid female head color index: {0}'.format(value)
+        dna.headColor = value
+        target.b_setDNAString(dna.makeNetString())
+        return 'Head color index set to: {0}'.format(dna.headColor)
+
+    if part == 'armcolor':
+        if dna.gender not in ('m', 'f'):
+            return 'Unknown gender.'
+        if (value == 0x1a) or (0x1a in (dna.headColor, dna.armColor, dna.legColor)):
+            return 'Toon contains black parts!'
+        if (value == 0x00) or (0x00 in (dna.headColor, dna.armColor, dna.legColor)):
+            return 'Toon contains white parts!'
+        if (dna.gender == 'm') and (value not in ToonDNA.defaultBoyColorList):
+            return 'Invalid male arm color index: {0}'.format(value)
+        if (dna.gender == 'f') and (value not in ToonDNA.defaultGirlColorList):
+            return 'Invalid female arm color index: {0}'.format(value)
+        dna.armColor = value
+        target.b_setDNAString(dna.makeNetString())
+        return 'Arm color index set to: {0}'.format(dna.armColor)
+
+    if part == 'legcolor':
+        if dna.gender not in ('m', 'f'):
+            return 'Unknown gender.'
+        if (value == 0x1a) or (0x1a in (dna.headColor, dna.armColor, dna.legColor)):
+            return 'Toon contains black parts!'
+        if (value == 0x00) or (0x00 in (dna.headColor, dna.armColor, dna.legColor)):
+            return 'Toon contains white parts!'
+        if (dna.gender == 'm') and (value not in ToonDNA.defaultBoyColorList):
+            return 'Invalid male leg color index: {0}'.format(value)
+        if (dna.gender == 'f') and (value not in ToonDNA.defaultGirlColorList):
+            return 'Invalid female leg color index: {0}'.format(value)
+        dna.legColor = value
+        target.b_setDNAString(dna.makeNetString())
+        return 'Leg color index set to: {0}'.format(dna.legColor)
+
+    if part == 'color':
+        if dna.gender not in ('m', 'f'):
+            return 'Unknown gender.'
+        if (dna.gender == 'm') and (value not in ToonDNA.defaultBoyColorList):
+            if (value != 0x1a) and (value != 0x00):
+                return 'Invalid male color index: {0}'.format(value)
+        if (dna.gender == 'f') and (value not in ToonDNA.defaultGirlColorList):
+            if (value != 0x1a) and (value != 0x00):
+                return 'Invalid female color index: {0}'.format(value)
+        if (value == 0x1a) and (dna.getAnimal() != 'cat'):
+            return 'Invalid color index for species: {0}'.format(dna.getAnimal())
+        if (value == 0x00) and (dna.getAnimal() != 'bear'):
+            return 'Invalid color index for species: {0}'.format(dna.getAnimal())
+        dna.headColor = value
+        dna.armColor = value
+        dna.legColor = value
+        target.b_setDNAString(dna.makeNetString())
+        return 'Color index set to: {0}'.format(dna.headColor)
+
+    if part == 'gloves':
+        value = value.title()
+        if value not in ToonDNA.colorToInt.keys():
+            return 'Invalid glove color: {0}'.format(value)
+        dna.gloveColor = ToonDNA.colorToInt[value]
+        target.b_setDNAString(dna.makeNetString())
+        return 'Glove color set to: {0}'.format(value)
+
+
+    if part == 'toptex':
+        if not 0 <= value <= len(ToonDNA.Shirts):
+            return 'Top texture index out of range (0-{0}).'.format(
+                len(ToonDNA.Shirts))
+        dna.topTex = value
+        target.b_setDNAString(dna.makeNetString())
+        return 'Top texture index set to: {0}'.format(dna.topTex)
+
+    if part == 'toptexcolor':
+        if not 0 <= value <= len(ToonDNA.ClothesColors):
+            return 'Top texture color index out of range(0-{0}).'.format(
+                len(ToonDNA.ClothesColors))
+        dna.topTexColor = value
+        target.b_setDNAString(dna.makeNetString())
+        return 'Top texture color index set to: {0}'.format(dna.topTexColor)
+
+    if part == 'sleevetex':
+        if not 0 <= value <= len(ToonDNA.Sleeves):
+            return 'Sleeve texture index out of range(0-{0}).'.format(
+                len(ToonDNA.Sleeves))
+        dna.sleeveTex = value
+        target.b_setDNAString(dna.makeNetString())
+        return 'Sleeve texture index set to: {0}'.format(dna.sleeveTex)
+
+    if part == 'sleevetexcolor':
+        if not 0 <= value <= len(ToonDNA.ClothesColors):
+            return 'Sleeve texture color index out of range(0-{0}).'.format(
+                len(ToonDNA.ClothesColors))
+        dna.sleeveTexColor = value
+        target.b_setDNAString(dna.makeNetString())
+        return 'Sleeve texture color index set to: {0}'.format(
+            dna.sleeveTexColor)
+
+    if part == 'bottex':
+        if dna.gender not in ('m', 'f'):
+            return 'Unknown gender.'
+        if dna.gender == 'm':
+            bottoms = ToonDNA.BoyShorts
+        else:
+            bottoms = ToonDNA.GirlBottoms
+        if not 0 <= value <= len(bottoms):
+            return 'Bottom texture index out of range (0-{0}).'.format(
+                len(bottoms))
+        dna.botTex = value
+        target.b_setDNAString(dna.makeNetString())
+        return 'Bottom texture index set to: {0}'.format(dna.botTex)
+
+    if part == 'bottexcolor':
+        if not 0 <= value <= len(ToonDNA.ClothesColors):
+            return 'Bottom texture color index out of range(0-{0}).'.format(
+                len(ToonDNA.ClothesColors))
+        dna.botTexColor = value
+        target.b_setDNAString(dna.makeNetString())
+        return 'Bottom texture color index set to: {0}'.format(dna.botTexColor)
+
+    if part == 'save':
+        data = simbase.backups.load('toondna', (target.doId,), default={})
+        data[value] = target.getDNAString()
+        simbase.backups.save('toondna', (target.doId,), data)
+        return "Saved a DNA backup for {0} under file: {1}".format(
+            target.getName(), value)
+
+    if part == 'restore':
+        data = simbase.backups.load('toondna', (target.doId,), {})
+        if value not in data:
+            return 'Could not find DNA backup for {0} under file: {1}'.format(
+                target.getName(), value)
+        dna.makeFromNetString(data[value])
+        target.b_setDNAString(data[value])
+        return 'Restored DNA backup for {0} under file: {1}'.format(
+            target.getName(), value)
+
+    return 'Invalid part: {0}'.format(part)
+    
     
 #END OF our Version 1.0 Magic Words
 
