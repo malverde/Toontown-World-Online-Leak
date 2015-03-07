@@ -58,7 +58,7 @@ dc-file config/otp.dc
 want-pets #f
 want-news-tab #f
 want-news-page #f
-want-accessories #t
+want-accessories #f
 want-parties #f
 want-gardening #f
 want-gifting #t

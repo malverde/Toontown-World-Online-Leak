@@ -13,10 +13,10 @@ from CatalogWainscotingItem import CatalogWainscotingItem, getAllWainscotings
 from CatalogWindowItem import CatalogWindowItem
 from CatalogPoleItem import nextAvailablePole, getAllPoles
 from CatalogPetTrickItem import CatalogPetTrickItem, getAllPetTricks
-from CatalogGardenItem import CatalogGardenItem
+#from CatalogGardenItem import CatalogGardenItem
 from CatalogToonStatueItem import CatalogToonStatueItem
 from CatalogRentalItem import CatalogRentalItem
-from CatalogGardenStarterItem import CatalogGardenStarterItem
+#from CatalogGardenStarterItem import CatalogGardenStarterItem
 from CatalogNametagItem import CatalogNametagItem
 from CatalogAccessoryItem import CatalogAccessoryItem
 from direct.actor import Actor
@@ -526,11 +526,11 @@ MonthlySchedule = ((7,
   12,
   31,
   (
-   CatalogGardenItem(100, 1), #GARDENS
-   CatalogGardenItem(101, 1),
-   CatalogGardenItem(103, 1),
-   CatalogGardenItem(104, 1),
-   CatalogToonStatueItem(105, endPoseIndex=108),
+   #CatalogGardenItem(100, 1), #GARDENS
+  # CatalogGardenItem(101, 1),
+   #CatalogGardenItem(103, 1),
+   #CatalogGardenItem(104, 1),
+   #CatalogToonStatueItem(105, endPoseIndex=108),
    #CatalogRentalItem(1, 2880, 1000),
   # CatalogGardenStarterItem(), 
    CatalogNametagItem(100),
