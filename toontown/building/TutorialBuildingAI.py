@@ -12,7 +12,7 @@ class TutorialBuildingAI:
         self.tutorialNpcId = tutorialNpcId
 
         self.interior = DistributedTutorialInteriorAI(
-            self.air, self.blockNumber, self.interiorZone, self.tutorialNpcId)
+            self.air,, self.interiorZone, self.tutorialNpcId)
         self.interior.generateWithRequired(self.interiorZone)
 
         self.door = DistributedDoorAI.DistributedDoorAI(
