@@ -438,7 +438,7 @@ def killVP():
     
     #V1 MW
     
-@magicWord(category=CATEGORY_ADMINI)
+@magicWord(category=CATEGORY_ADMIN)
 def bombVP():
     """
     Bombs the VP
