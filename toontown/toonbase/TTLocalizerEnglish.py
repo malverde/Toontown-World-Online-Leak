@@ -6831,8 +6831,9 @@ FlooringNames = {1000: 'Hardwood Floor',
  10000: 'Ice Cube',
  10010: 'Igloo',
  11000: 'Shamrock',
- 11010: 'Shamrock',
- 11020: 'Debbie Dick'}
+ 11010: 'Shamrock'
+ #11020: 'Debbie Dick'
+ }
 MouldingNames = {1000: 'Knotty',
  1010: 'Painted',
  1020: 'Dental',
