@@ -3,6 +3,7 @@ import CatalogItem
 import random
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
+
 FTModelName = 0
 FTColor = 1
 FTColorOptions = 2
@@ -18,39 +19,67 @@ FLIsTable = 32
 FLPhone = 64
 FLBillboard = 128
 FLTrunk = 256
-FLBoysOnly = 512
-FLGirlsOnly = 1024
-furnitureColors = [
-  (0.792, 0.353, 0.29, 1.0),
-  (0.176, 0.592, 0.439, 1.0),
-  (0.439, 0.424, 0.682, 1.0),
-  (0.325, 0.58, 0.835, 1.0),
-  (0.753, 0.345, 0.557, 1.0),
-  (0.992, 0.843, 0.392, 1.0)
-]
-woodColors = [
-  (0.933, 0.773, 0.569, 1.0),
-  (0.9333, 0.6785, 0.055, 1.0),
-  (0.545, 0.451, 0.333, 1.0),
-  (0.541, 0.0, 0.0, 1.0),
-  (0.5451, 0.2706, 0.0745, 1.0),
-  (0.5451, 0.4118, 0.4118, 1.0)
-]
-BankToMoney = {
- 1300: 15000,
- 1310: 15000,
- 1320: 15000,
- 1330: 15000,
- 1340: 15000,
- 1350: 15000
-}
+
+furnitureColors = [(0.792,
+  0.353,
+  0.29,
+  1.0),
+ (0.176,
+  0.592,
+  0.439,
+  1.0),
+ (0.439,
+  0.424,
+  0.682,
+  1.0),
+ (0.325,
+  0.58,
+  0.835,
+  1.0),
+ (0.753,
+  0.345,
+  0.557,
+  1.0),
+ (0.992,
+  0.843,
+  0.392,
+  1.0)]
+woodColors = [(0.933,
+  0.773,
+  0.569,
+  1.0),
+ (0.9333,
+  0.6785,
+  0.055,
+  1.0),
+ (0.545,
+  0.451,
+  0.333,
+  1.0),
+ (0.541,
+  0.0,
+  0.0,
+  1.0),
+ (0.5451,
+  0.2706,
+  0.0745,
+  1.0),
+ (0.5451,
+  0.4118,
+  0.4118,
+  1.0)]
+BankToMoney = {1300: 12000,
+ 1310: 12000,
+ 1320: 12000,
+ 1330: 12000,
+ 1340: 12000,
+ 1350: 12000}
 MoneyToBank = {}
 for bankId, maxMoney in BankToMoney.items():
     MoneyToBank[maxMoney] = bankId
 
 MaxBankId = 1350
-ClosetToClothes = {
- 500: 10,
+ClosetToClothes = {500: 10,
  502: 15,
  504: 20,
  506: 25,
@@ -59,24 +88,20 @@ ClosetToClothes = {
  512: 15,
  514: 20,
  516: 25,
- 518: 50
-}
+ 518: 50}
 ClothesToCloset = {}
 for closetId, maxClothes in ClosetToClothes.items():
-    if not ClothesToCloset.has_key(maxClothes):
+    if maxClothes not in ClothesToCloset:
         ClothesToCloset[maxClothes] = (closetId,)
     else:
         ClothesToCloset[maxClothes] += (closetId,)
 
 MaxClosetIds = (508, 518)
 MaxTrunkIds = (4000, 4010)
-FurnitureTypes = {
- 100: ('phase_5.5/models/estate/chairA',  # Model
-       None,                              # Color
-       None,                              # Color Options
-       80),                               # Base Price
-                                          # Flags
-                                          # Scale
+FurnitureTypes = {100: ('phase_5.5/models/estate/chairA',
+       None,
+       None,
+       80),
  105: ('phase_5.5/models/estate/chairAdesat',
        None,
        {0: (('**/cushion*', furnitureColors[0]), ('**/arm*', furnitureColors[0])),
@@ -164,8 +189,7 @@ FurnitureTypes = {
  210: ('phase_5.5/models/estate/girly_bed',
        None,
        None,
-       450,
-       FLGirlsOnly),
+       450),
  220: ('phase_5.5/models/estate/bathtub_bed',
        None,
        None,
@@ -209,8 +233,7 @@ FurnitureTypes = {
  410: ('phase_5.5/models/estate/FireplaceGirlee',
        None,
        None,
-       800,
-       FLGirlsOnly),
+       800),
  420: ('phase_5.5/models/estate/FireplaceRound',
        None,
        None,
@@ -252,7 +275,7 @@ FurnitureTypes = {
        None,
        None,
        1100,
-       FLGirlsOnly,
+       None,
        None,
        0.5),
  491: ('phase_5.5/models/estate/tt_m_prp_int_fireplace_bugRoom',
@@ -852,13 +875,13 @@ FurnitureTypes = {
  4000: ('phase_5.5/models/estate/tt_m_ara_est_accessoryTrunkBoy',
         None,
         None,
-        0,
+        5,
         FLTrunk,
         0.9),
  4010: ('phase_5.5/models/estate/tt_m_ara_est_accessoryTrunkGirl',
         None,
         None,
-        0,
+        5,
         FLTrunk,
         0.9),
  10000: ('phase_4/models/estate/pumpkin_short',
@@ -882,8 +905,7 @@ FurnitureTypes = {
          None,
          None,
          200,
-         FLPainting)
-}
+         FLPainting)}
 
 class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
 
@@ -912,8 +934,6 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
             return TTLocalizer.FurnitureYourOldBank
         elif self.getFlags() & FLTrunk:
             return TTLocalizer.FurnitureYourOldTrunk
-        else:
-            return None
         return None
 
     def notOfferedTo(self, avatar):
@@ -924,23 +944,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
                 return not forBoys
             else:
                 return forBoys
-        if self.forBoysOnly():
-            if avatar.getStyle().getGender() == 'm':
-                return 0
-            else:
-                return 1
-        elif self.forGirlsOnly():
-            if avatar.getStyle().getGender() == 'f':
-                return 0
-            else:
-                return 1
         return 0
-
-    def forBoysOnly(self):
-        return self.getFlags() & FLBoysOnly > 0
-
-    def forGirlsOnly(self):
-        return self.getFlags() & FLGirlsOnly > 0
 
     def isDeletable(self):
         return self.getFlags() & (FLBank | FLCloset | FLPhone | FLTrunk) == 0
@@ -1030,9 +1034,6 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
                 avatar.b_setMaxBankMoney(self.getMaxBankMoney())
         return retcode
 
-    def getDeliveryTime(self):
-        return 1
-
     def getPicture(self, avatar):
         model = self.loadModel()
         spin = 1
@@ -1103,7 +1104,10 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         dg.addInt16(self.furnitureType)
         if FurnitureTypes[self.furnitureType][FTColorOptions]:
             if store & CatalogItem.Customization:
-                dg.addUint8(self.colorOption)
+                if self.colorOption == None:
+                    dg.addUint8(0)
+                else:
+                    dg.addUint8(self.colorOption)
 
     def getAcceptItemErrorText(self, retcode):
         if retcode == ToontownGlobals.P_AlreadyOwnBiggerCloset:
@@ -1164,18 +1168,15 @@ def getAllClosets():
 
 
 def get50ItemTrunk(avatar, duplicateItems):
-    if config.GetBool('want-accessories', 1):
-        if avatar.getStyle().getGender() == 'm':
-            index = 0
-        else:
-            index = 1
-        trunkId = MaxTrunkIds[index]
-        item = CatalogFurnitureItem(trunkId)
-        if item in avatar.onOrder or item in avatar.mailboxContents:
-            return None
-        return item
-    # If we get here, we probably don't want accessories yet.
-    return None
+    if avatar.getStyle().getGender() == 'm':
+        index = 0
+    else:
+        index = 1
+    trunkId = MaxTrunkIds[index]
+    item = CatalogFurnitureItem(trunkId)
+    if item in avatar.onOrder or item in avatar.mailboxContents:
+        return None
+    return item
 
 
 def getMaxTrunks():
@@ -1189,7 +1190,7 @@ def getMaxTrunks():
 def getAllFurnitures(index):
     list = []
     colors = FurnitureTypes[index][FTColorOptions]
-    for n in range(len(colors)):
+    for n in xrange(len(colors)):
         list.append(CatalogFurnitureItem(index, n))
 
     return list
