@@ -17,6 +17,7 @@ import time
 class ChatAgentUD(DistributedObjectGlobalUD):
     notify = DirectNotifyGlobal.directNotify.newCategory("ChatAgentUD")
 
+
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)
 
@@ -37,6 +38,7 @@ class ChatAgentUD(DistributedObjectGlobalUD):
             self.cr.wantMagicWords = self.adminAccess >= MINIMUM_MAGICWORD_ACCESS
     
     def getAdminAccess(self):
+    	self.adminAccess = 0
         return self.adminAccess
     
     def chatMessage(self, message, chatMode):
