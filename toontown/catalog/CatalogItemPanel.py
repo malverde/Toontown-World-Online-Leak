@@ -349,7 +349,7 @@ class CatalogItemPanel(DirectFrame):
 
     def __handlePurchaseRequest(self):
         if self['item'].replacesExisting() and self['item'].hasExisting():
-            if self['item'].getFlags() & FLTrunk:
+            #if self['item'].getFlags() & FLTrunk:
                 message = TTLocalizer.CatalogVerifyPurchase % {'item': self['item'].getName(),
                  'price': self['item'].getPrice(self['type'])}
             else:

@@ -18,7 +18,7 @@ FLOnTable = 16
 FLIsTable = 32
 FLPhone = 64
 FLBillboard = 128
-FLTrunk = 256
+#FLTrunk = 256
 
 furnitureColors = [(0.792,
   0.353,
@@ -925,7 +925,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         return 1
 
     def replacesExisting(self):
-        return self.getFlags() & (FLCloset | FLBank | FLTrunk) != 0
+        return self.getFlags() & (FLCloset | FLBank) != 0 #| FLTrunk) != 0
 
     def hasExisting(self):
         return 1
@@ -935,8 +935,8 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
             return TTLocalizer.FurnitureYourOldCloset
         elif self.getFlags() & FLBank:
             return TTLocalizer.FurnitureYourOldBank
-        elif self.getFlags() & FLTrunk:
-            return TTLocalizer.FurnitureYourOldTrunk
+        #elif self.getFlags() & FLTrunk:
+         #   return TTLocalizer.FurnitureYourOldTrunk
         return None
 
     def notOfferedTo(self, avatar):

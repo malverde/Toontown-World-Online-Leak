@@ -511,7 +511,7 @@ class ObjectManager(NodePath, DirectObject):
                 if selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLCloset or \
                     selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLPhone or \
                     selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLBank or \
-                    selectedObject.dfitem.item.getFlags() &CatalogFurnitureItem.FLTrunk:
+                    #selectedObject.dfitem.item.getFlags() &CatalogFurnitureItem.FLTrunk:
                     self.sendToAtticButton.hide()
                     self.atticRoof.show()
                 else:
@@ -1558,8 +1558,8 @@ class ObjectManager(NodePath, DirectObject):
                 message = TTLocalizer.HDNonDeletableCloset
             elif item.getFlags() & CatalogFurnitureItem.FLPhone:
                 message = TTLocalizer.HDNonDeletablePhone
-            elif item.getFlags() & CatalogFurnitureItem.FLTrunk:
-                message = TTLocalizer.HDNonDeletableTrunk
+            #elif item.getFlags() & CatalogFurnitureItem.FLTrunk:
+             #   message = TTLocalizer.HDNonDeletableTrunk
         if self.furnitureManager.ownerId != base.localAvatar.doId:
             message = TTLocalizer.HDNonDeletableNotOwner % self.furnitureManager.ownerName
         self.nonDeletableItem = TTDialog.TTDialog(text=message, style=TTDialog.Acknowledge, fadeScreen=0, command=self.__resetAndCleanup)
