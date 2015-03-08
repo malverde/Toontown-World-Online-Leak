@@ -10,6 +10,8 @@ from toontown.hood import ZoneUtil
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
+from otp.ai.MagicWordGlobal import *
+from otp.otpbase import OTPGlobals
 import time
 
 class ChatAgentUD(DistributedObjectGlobalUD):
@@ -41,7 +43,7 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         words = message.split(' ')
         offset = 0
         WantWhitelist = config.GetBool('want-whitelist', 1)
-	if base.localAvatarlocalAvatar.adminAccess >= 100:
+	if  spellbook.getInvoker().getAdminAccess()  >= 100:
 		WantWhitelist = False
 	else: 
 		WantWhitelist = True	
