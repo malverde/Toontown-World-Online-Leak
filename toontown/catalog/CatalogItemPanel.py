@@ -10,7 +10,7 @@ from CatalogFlooringItem import getAllFloorings
 from CatalogMouldingItem import getAllMouldings
 from CatalogWainscotingItem import getAllWainscotings
 from CatalogFurnitureItem import getAllFurnitures
-from CatalogFurnitureItem import FLTrunk
+#from CatalogFurnitureItem import FLTrunk
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from otp.otpbase import OTPGlobals
 from direct.directnotify import DirectNotifyGlobal
