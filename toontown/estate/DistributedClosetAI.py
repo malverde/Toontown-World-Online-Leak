@@ -3,12 +3,14 @@ from toontown.estate.DistributedFurnitureItemAI import DistributedFurnitureItemA
 from toontown.toon.ToonDNA import ToonDNA
 from direct.distributed.ClockDelta import *
 import ClosetGlobals
+from toontown.ai.InteractableAI import InteractableAI
 
-class DistributedClosetAI(DistributedFurnitureItemAI):
+class DistributedClosetAI(DistributedFurnitureItemAI, InteractableAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedClosetAI")
 
     def __init__(self, air, furnitureMgr, itemType):
         DistributedFurnitureItemAI.__init__(self, air, furnitureMgr, itemType)
+        InteractableAI.__init__(self)
         self.avId = None
         self.customerDNA = None
         self.topList = []
