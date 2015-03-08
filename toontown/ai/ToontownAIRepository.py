@@ -206,47 +206,47 @@ class ToontownAIRepository(ToontownInternalRepository):
         Spawn safezone objects, streets, doors, NPCs, etc.
         """
         start = time.clock()
-        #def clearQueue():
-         #   '''So the TCP window doesn't fill up and we get the axe'''
-          #  while self.readerPollOnce():
-           #     pass
+        def clearQueue():
+            '''So the TCP window doesn't fill up and we get the axe'''
+            while self.readerPollOnce():
+                pass
 
         self.hoods.append(TTHoodAI.TTHoodAI(self))
-        #clearQueue()
+        clearQueue()
         self.hoods.append(DDHoodAI.DDHoodAI(self))
-        #clearQueue()
+        clearQueue()
         self.hoods.append(DGHoodAI.DGHoodAI(self))
-        #clearQueue()
+        clearQueue()
         self.hoods.append(BRHoodAI.BRHoodAI(self))
-        #clearQueue()
+        clearQueue()
         self.hoods.append(MMHoodAI.MMHoodAI(self))
-        #clearQueue()
+        clearQueue()
         self.hoods.append(DLHoodAI.DLHoodAI(self))
-        #clearQueue()
+        clearQueue()
         self.hoods.append(GSHoodAI.GSHoodAI(self))
-        #clearQueue()
+        clearQueue()
         self.hoods.append(OZHoodAI.OZHoodAI(self))
-        #clearQueue()
+        clearQueue()
         self.hoods.append(GZHoodAI.GZHoodAI(self))
-        #clearQueue()
+        clearQueue()
         self.hoods.append(TFHoodAI.TFHoodAI(self))
-        #clearQueue()
+        clearQueue()
 
         if config.GetBool('want-sbhq', True):
             self.hoods.append(SellbotHQAI.SellbotHQAI(self))
-         #   clearQueue()
+            clearQueue()
 
         if config.GetBool('want-cbhq', True):
             self.hoods.append(CashbotHQAI.CashbotHQAI(self))
-          #  clearQueue()
+            clearQueue()
 
         if config.GetBool('want-lbhq', True):
             self.hoods.append(LawbotHQAI.LawbotHQAI(self))
-           # clearQueue()
+            clearQueue()
 
         if config.GetBool('want-bbhq', True):
             self.hoods.append(BossbotHQAI.BossbotHQAI(self))
-            #clearQueue()
+            clearQueue()
 
         for sp in self.suitPlanners.values():
             sp.assignInitialSuitBuildings()
