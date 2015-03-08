@@ -97,7 +97,7 @@ for closetId, maxClothes in ClosetToClothes.items():
         ClothesToCloset[maxClothes] += (closetId,)
 
 MaxClosetIds = (508, 518)
-MaxTrunkIds = (4000, 4010)
+#MaxTrunkIds = (4000, 4010)
 FurnitureTypes = {100: ('phase_5.5/models/estate/chairA',
        None,
        None,
@@ -872,18 +872,21 @@ FurnitureTypes = {100: ('phase_5.5/models/estate/chairA',
         None,
         None,
         400),
- 4000: ('phase_5.5/models/estate/tt_m_ara_est_accessoryTrunkBoy',
-        None,
-        None,
-        5,
-        FLTrunk,
-        0.9),
- 4010: ('phase_5.5/models/estate/tt_m_ara_est_accessoryTrunkGirl',
-        None,
-        None,
-        5,
-        FLTrunk,
-        0.9),
+        
+ #4000: ('phase_5.5/models/estate/tt_m_ara_est_accessoryTrunkBoy',
+  #      None,
+   #     None,
+    #    5,
+     #   FLTrunk,
+      #  0.9),
+ #4010: ('phase_5.5/models/estate/tt_m_ara_est_accessoryTrunkGirl',
+  #      None,
+   #     None,
+    #    5,
+     #   FLTrunk,
+      #  0.9),
+       
+        
  10000: ('phase_4/models/estate/pumpkin_short',
          None,
          None,
@@ -937,9 +940,10 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         return None
 
     def notOfferedTo(self, avatar):
-        if self.getFlags() & FLCloset or self.getFlags() & FLTrunk:
+        if self.getFlags() & FLCloset: #or self.getFlags() & FLTrunk:
             decade = self.furnitureType - self.furnitureType % 10
-            forBoys = (decade == 500 or decade == 4000)
+            forBoys = (decade == 500) #or decade == 4000)
+            
             if avatar.getStyle().getGender() == 'm':
                 return not forBoys
             else:
