@@ -58,7 +58,7 @@ dc-file config/otp.dc
 want-pets #f
 want-news-tab #f
 want-news-page #f
-want-accessories #f
+want-accessories #t
 want-parties #f
 want-gardening #f
 want-gifting #t
@@ -98,3 +98,4 @@ base-xp-multiplier 1
 #group merges
 boarding-group-merges #t
 force-skip-tutorial #t
+want-speedhack-fix #t

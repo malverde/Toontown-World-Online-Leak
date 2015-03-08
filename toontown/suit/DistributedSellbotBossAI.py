@@ -435,3 +435,26 @@ def killVP():
         return "You aren't in a VP!"
     boss.b_setState('Victory')
     return 'Killed VP.'
+    
+    #V1 MW
+    
+@magicWord(category=CATEGORY_ADMIN)
+def bombVP():
+    """
+    Bombs the VP
+    """
+    invoker = spellbook.getInvoker()
+    boss = None
+    for do in simbase.air.doId2do.values():
+        if isinstance(do, DistributedSellbotBossAI):
+            if invoker.doId in do.involvedToons:
+                boss = do
+                break
+    if not boss:
+        return "You aren't in a VP!"
+    if boss.state not in ('BattleThree'):
+        return "The VP can't be destroyed yet. Try using skipVP."
+    boss.magicWordHit(boss.bossMaxDamage, invoker)
+    return 'Bombed VP'
+    
+    #End of V1 MW

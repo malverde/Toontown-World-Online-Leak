@@ -101,7 +101,7 @@ SPMinniesPiano = 4
 SPBuddysBalloon = 5
 CEVirtual = 14
 MaxHpLimit = 156
-MaxCarryLimit = 90
+MaxCarryLimit = 240
 MaxQuestCarryLimit = 4
 GravityValue = 32.174
 MaxCogSuitLevel = 12 - 1
@@ -150,7 +150,7 @@ TheBrrrgh = 3000
 MinniesMelodyland = 4000
 DaisyGardens = 5000
 OutdoorZone = 6000
-FunnyFarm = 7000
+Toonfest= 7000
 GoofySpeedway = 8000
 DonaldsDreamland = 9000
 BarnacleBoulevard = 1100
@@ -306,7 +306,7 @@ Hoods = (DonaldsDock,
  MinniesMelodyland,
  DaisyGardens,
  OutdoorZone,
- FunnyFarm,
+ Toonfest,
  GoofySpeedway,
  DonaldsDreamland,
  BossbotHQ,
@@ -407,7 +407,7 @@ phaseMap = {Tutorial: 4,
  GoofySpeedway: 6,
  TheBrrrgh: 8,
  DaisyGardens: 8,
- FunnyFarm: 6,
+ Toonfest: 6,
  DonaldsDreamland: 8,
  OutdoorZone: 6,
  BossbotHQ: 12,
@@ -422,7 +422,7 @@ streetPhaseMap = {ToontownCentral: 5,
  GoofySpeedway: 6,
  TheBrrrgh: 8,
  DaisyGardens: 8,
- FunnyFarm: 8,
+ Toonfest: 8,
  DonaldsDreamland: 8,
  OutdoorZone: 8,
  BossbotHQ: 12,
@@ -437,7 +437,7 @@ dnaMap = {Tutorial: 'toontown_central',
  GoofySpeedway: 'goofy_speedway',
  TheBrrrgh: 'the_burrrgh',
  DaisyGardens: 'daisys_garden',
- FunnyFarm: 'toonfest',
+ Toonfest: 'toonfest',
  DonaldsDreamland: 'donalds_dreamland',
  OutdoorZone: 'outdoor_zone',
  BossbotHQ: 'cog_hq_bossbot',
@@ -451,7 +451,7 @@ hoodNameMap = {DonaldsDock: TTLocalizer.DonaldsDock,
  MinniesMelodyland: TTLocalizer.MinniesMelodyland,
  DaisyGardens: TTLocalizer.DaisyGardens,
  OutdoorZone: TTLocalizer.OutdoorZone,
- FunnyFarm: TTLocalizer.FunnyFarm,
+ Toonfest: TTLocalizer.FunnyFarm,
  GoofySpeedway: TTLocalizer.GoofySpeedway,
  DonaldsDreamland: TTLocalizer.DonaldsDreamland,
  BossbotHQ: TTLocalizer.BossbotHQ,
@@ -470,7 +470,7 @@ safeZoneCountMap = {MyEstate: 8,
  GoofySpeedway: 500,
  TheBrrrgh: 8,
  DaisyGardens: 9,
- FunnyFarm: 500,
+ Toonfest: 500,
  DonaldsDreamland: 5,
  OutdoorZone: 500,
  GolfZone: 500,
@@ -483,7 +483,7 @@ townCountMap = {MyEstate: 8,
  GoofySpeedway: 40,
  TheBrrrgh: 40,
  DaisyGardens: 40,
- FunnyFarm: 40,
+ Toonfest: 40,
  DonaldsDreamland: 40,
  OutdoorZone: 40,
  PartyHood: 20}
@@ -495,7 +495,7 @@ hoodCountMap = {MyEstate: 2,
  GoofySpeedway: 2,
  TheBrrrgh: 2,
  DaisyGardens: 2,
- FunnyFarm: 2,
+ Toonfest: 2,
  DonaldsDreamland: 2,
  OutdoorZone: 2,
  BossbotHQ: 2,
@@ -1364,9 +1364,9 @@ LawbotBossBonusDuration = 20
 LawbotBossBonusToonup = 10
 LawbotBossBonusWeightMultiplier = 2
 LawbotBossChanceToDoAreaAttack = 11
-LOW_POP = 100 # This is 'Ideal' in the book (green)
-MID_POP = 300 # This is 'Full' in the book, but friends can still TP onto shard (soft red)
-HIGH_POP = 350 # Still 'Full' in book, but nobody joins this shard for any reason (hard red)
+LOW_POP = 1 # This is 'Ideal' in the book (green)
+MID_POP = 6 # This is 'Full' in the book, but friends can still TP onto shard (soft red)
+HIGH_POP = 10 # Still 'Full' in book, but nobody joins this shard for any reason (hard red)
 PinballCannonBumper = 0
 PinballCloudBumperLow = 1
 PinballCloudBumperMed = 2
@@ -1649,7 +1649,7 @@ hood2Id = {
  'BACK': (BossbotHQ,),
  'MIDDLE': (BossbotHQ,),
  'FRONT': (BossbotHQ,),
- 'FF' : (FunnyFarm,)}
+ 'FF' : (Toonfest,)}
 hood2Coords = {
  'CEO': [
     (61.044, 119.014, 0.025),
