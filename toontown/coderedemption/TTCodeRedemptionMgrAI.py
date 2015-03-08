@@ -7,6 +7,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.catalog import CatalogItem
 from toontown.catalog.CatalogInvalidItem import CatalogInvalidItem
 from toontown.catalog.CatalogItemList import CatalogItemList
+from toontown.catalog.CatalogFurnitureItem import CatalogFurnitureItem
 from toontown.catalog.CatalogClothingItem import CatalogClothingItem, getAllClothes
 
 import time
