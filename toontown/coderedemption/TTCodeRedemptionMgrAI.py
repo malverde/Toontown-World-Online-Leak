@@ -162,6 +162,8 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             shirt = CatalogClothingItem(1405, 0)
             shorts = CatalogClothingItem(1406, 0)
             return [shirt, shorts] # TODO: Give the correct beta rewards
-
-        return [CatalogInvalidItem()]
+        
+        #if code == "TRUNK":
+         #   return CatalogClothingItem(118, 0) # TODO: Give it the correct item
+        #return [CatalogInvalidItem()]
 
