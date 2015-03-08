@@ -1,5 +1,5 @@
-from common import *
-from DNAError import DNAError
+from panda3d.core import PandaNode
+import DNAUtil
 
 class DNAGroup:
     COMPONENT_CODE = 1
@@ -10,23 +10,14 @@ class DNAGroup:
         self.parent = None
         self.visGroup = None
 
-    def setName(self, name):
-        self.name = name
-        
-    def getName(self):
-        return self.name
-
-    def getCode(self):
-        return self.code
-
     def add(self, child):
-        self.children.append(child)
+        self.children += [child]
 
-    def setVisGroup(self, visGroup):
-        self.visGroup = visGroup
+    def remove(self, child):
+        self.children.remove(child)
 
-    def getVisGroup(self):
-        return self.visGroup
+    def at(self, index):
+        return self.children[index]
 
     def setParent(self, parent):
         self.parent = parent
@@ -38,34 +29,26 @@ class DNAGroup:
     def clearParent(self):
         self.parent = None
         self.visGroup = None
-        
-    def at(self, index):
-        return self.children[index]
-        
-    def atAsNode(self, index):
-        """Not really useful for Python"""
-        return self.at(index)
-        
+
+    def getVisGroup(self):
+        return self.visGroup
+
     def getNumChildren(self):
         return len(self.children)
 
-    def makeFromDGI(self, dgi):
-        self.name = dgi_extract_string8(dgi)
-        dgi_extract_string8(dgi)
-        dgi_extract_string8(dgi)
-        
-    def traverse(self, np, store):
-        _np = np.attachNewNode(self.name)
-        self.traverseChildren(_np, store)
+    def getName(self):
+        return self.name
 
-    # convenience functions
-    def raiseCodeNotFound(self, code = None):
-        if code is None:
-            code = self.code
-            
-        raise DNAError('%s code (%s) not found in storage!' % (self.__class__.__name__, code))
-        
-    def traverseChildren(self, np, store):
+    def setName(self, name):
+        self.name = name
+
+    def makeFromDGI(self, dgi):
+        self.name = DNAUtil.dgiExtractString8(dgi)
+        DNAUtil.dgiExtractString8(dgi)
+        DNAUtil.dgiExtractString8(dgi)
+
+    def traverse(self, nodePath, dnaStorage):
+        node = PandaNode(self.name)
+        nodePath = nodePath.attachNewNode(node, 0)
         for child in self.children:
-            child.traverse(np, store)
-            
+            child.traverse(nodePath, dnaStorage)

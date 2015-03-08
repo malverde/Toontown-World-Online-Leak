@@ -1,26 +1,17 @@
 class DNASuitEdge:
-    COMPONENT_CODE = 22
-
-    def __init__(self, startPoint, endPoint, zoneId):
-        self.startPoint = startPoint
-        self.endPoint = endPoint
+    def __init__(self, startpt, endpt, zoneId):
+        self.startpt = startpt
+        self.endpt = endpt
         self.zoneId = zoneId
 
-    def setStartPoint(self, startPoint):
-        self.startPoint = startPoint
+    def getEndPoint(self):
+        return self.endpt
 
-    def setEndPoint(self, endPoint):
-        self.endPoint = endPoint
+    def getStartPoint(self):
+        return self.startpt
+
+    def getZoneId(self):
+        return self.zoneId
 
     def setZoneId(self, zoneId):
         self.zoneId = zoneId
-
-    def getStartPoint(self):
-        return self.startPoint
-        
-    def getEndPoint(self):
-        return self.endPoint
-        
-    def getZoneId(self):
-        return self.zoneId
-        

@@ -80,9 +80,13 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.zoneId2owner = {}
 
         NPCToons.generateZone2NpcDict()
+        
+        self.use_libpandadna = simbase.config.GetBool('use-libpandadna', False)
 
         self.hoods = []
         self.zoneDataStore = AIZoneDataStore()
+        if self.use_libpandadna:
+            self.__loader = DNALoader()
 
         self.useAllMinigames = self.config.GetBool('want-all-minigames', False)
         self.doLiveUpdates = self.config.GetBool('want-live-updates', True)
@@ -264,10 +268,16 @@ class ToontownAIRepository(ToontownInternalRepository):
         return 'phase_%s/dna/%s_%s.xml' % (phase, hood, zoneId)
 
     def loadDNA(self, filename):
-        with open('/' + filename) as f:
-            tree = DNAParser.parse(f)
+        if self.use_libpandadna:
+            f = Filename('resources/' + str(filename))
+            f.setExtension('pdna')
+            x = self.__loader.loadDNAFileAI(dnastore, f)
+            
+	else:    
+         with open('/' + filename) as f:
+            x = DNAParser.parse(f)
 
-        return tree
+        return x
 
 
 @magicWord(category=CATEGORY_SYSADMIN, types=[str, int])
