@@ -1,4 +1,3 @@
-from direct.directnotify import DirectNotifyGlobal
 from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
@@ -7,6 +6,8 @@ from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
 import types
 import sys
+
+
 CatalogReverseType = None
 CatalogItemVersion = 8
 CatalogBackorderMarkup = 1.2
@@ -22,8 +23,9 @@ CatalogTypeBackorder = 2
 CatalogTypeMonthly = 3
 CatalogTypeLoyalty = 4
 
+
 class CatalogItem:
-    notify = DirectNotifyGlobal.directNotify.newCategory('CatalogItem')
+    notify = directNotify.newCategory('CatalogItem')
 
     def __init__(self, *args, **kw):
         self.saleItem = 0
@@ -128,13 +130,10 @@ class CatalogItem:
         return 0
 
     def setLoyaltyRequirement(self, days):
-        self.loyaltyDays = days
+        self.loyaltyDays = 0
 
     def loyaltyRequirement(self):
-        if not hasattr(self, 'loyaltyDays'):
-            return 0
-        else:
-            return self.loyaltyDays
+        return 0
 
     def getPrice(self, catalogType):
         if catalogType == CatalogTypeBackorder:
@@ -154,7 +153,7 @@ class CatalogItem:
         return int(self.getBasePrice() * CatalogSaleMarkdown)
 
     def getDeliveryTime(self):
-        return 0
+        return 1
 
     def getPicture(self, avatar):
         self.hasPicture = True
@@ -209,7 +208,6 @@ class CatalogItem:
         mailbox.acceptItem(self, index, callback)
 
     def discardItem(self, mailbox, index, callback):
-        print 'Item discardItem'
         mailbox.discardItem(self, index, callback)
 
     def acceptItemCleanup(self):
@@ -337,13 +335,13 @@ class CatalogItem:
                 tex = loader.loadTexture(color)
                 tex.setMinfilter(Texture.FTLinearMipmapLinear)
                 tex.setMagfilter(Texture.FTLinear)
-                for i in range(matches.getNumPaths()):
+                for i in xrange(matches.getNumPaths()):
                     matches.getPath(i).setTexture(tex, 1)
 
             else:
                 needsAlpha = color[3] != 1
                 color = VBase4(color[0], color[1], color[2], color[3])
-                for i in range(matches.getNumPaths()):
+                for i in xrange(matches.getNumPaths()):
                     matches.getPath(i).setColorScale(color, 1)
                     if needsAlpha:
                         matches.getPath(i).setTransparency(1)
