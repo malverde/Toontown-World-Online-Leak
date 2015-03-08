@@ -206,7 +206,7 @@ class DistributedClosetAI(DistributedFurnitureItemAI, InteractableAI):
     def d_setMovie(self, movie, avId, time):
         self.sendUpdate('setMovie', [movie, avId, time])
         
-    def __resetMovie(self):
+    def resetMovie(self):
         self.d_setMovie(ClosetGlobals.CLOSET_MOVIE_CLEAR, 0, globalClockDelta.getRealNetworkTime())
 
     def setMovie(self, todo0, todo1, todo2):
