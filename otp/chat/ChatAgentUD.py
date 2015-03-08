@@ -43,7 +43,7 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         words = message.split(' ')
         offset = 0
         WantWhitelist = config.GetBool('want-whitelist', 1)
-	if  spellbook.getInvoker().getAdminAccess()  >= 100:
+	if  self.getAdminAccess() >= 100:
 		WantWhitelist = False
 	else: 
 		WantWhitelist = True	
