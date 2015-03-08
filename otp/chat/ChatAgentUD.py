@@ -30,6 +30,15 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         print ['unuteAccount', account]
         if account in self.muted:
             del self.muted[account]
+            
+    def setAdminAccess(self, access):
+        self.adminAccess = access
+        if self.isLocal():
+            self.cr.wantMagicWords = self.adminAccess >= MINIMUM_MAGICWORD_ACCESS
+    
+    def getAdminAccess(self):
+        return self.adminAccess
+    
     def chatMessage(self, message, chatMode):
         sender = self.air.getAvatarIdFromSender()
         if sender == 0:
