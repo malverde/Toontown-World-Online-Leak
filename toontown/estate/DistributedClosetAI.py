@@ -138,7 +138,7 @@ class DistributedClosetAI(DistributedFurnitureItemAI, InteractableAI):
             return
         elif finished == 1:
             self.d_setMovie(ClosetGlobals.CLOSET_MOVIE_COMPLETE, avId, globalClockDelta.getRealNetworkTime())
-            taskMgr.doMethodLater(1, self.__resetMovie, 'resetMovie-%d' % self.getDoId(), extraArgs=[])
+            taskMgr.doMethodLater(1, self.resetMovie, 'resetMovie-%d' % self.getDoId(), extraArgs=[])
             self.d_setState(ClosetGlobals.CLOSED, 0, self.furnitureMgr.ownerId, self.gender, self.topList, self.botList)
             av.b_setDNAString(self.customerDNA.makeNetString())
             self.removedBottoms = []
