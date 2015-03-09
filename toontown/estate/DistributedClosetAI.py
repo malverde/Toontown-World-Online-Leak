@@ -3,12 +3,14 @@ from toontown.estate.DistributedFurnitureItemAI import DistributedFurnitureItemA
 from toontown.toon.ToonDNA import ToonDNA
 from direct.distributed.ClockDelta import *
 import ClosetGlobals
+from toontown.ai.InteractableAI import InteractableAI
 
-class DistributedClosetAI(DistributedFurnitureItemAI):
+class DistributedClosetAI(DistributedFurnitureItemAI, InteractableAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedClosetAI")
 
     def __init__(self, air, furnitureMgr, itemType):
         DistributedFurnitureItemAI.__init__(self, air, furnitureMgr, itemType)
+        InteractableAI.__init__(self)
         self.avId = None
         self.customerDNA = None
         self.topList = []
@@ -136,7 +138,7 @@ class DistributedClosetAI(DistributedFurnitureItemAI):
             return
         elif finished == 1:
             self.d_setMovie(ClosetGlobals.CLOSET_MOVIE_COMPLETE, avId, globalClockDelta.getRealNetworkTime())
-            taskMgr.doMethodLater(1, self.__resetMovie, 'resetMovie-%d' % self.getDoId(), extraArgs=[])
+            taskMgr.doMethodLater(1, self.resetMovie, 'resetMovie-%d' % self.getDoId(), extraArgs=[])
             self.d_setState(ClosetGlobals.CLOSED, 0, self.furnitureMgr.ownerId, self.gender, self.topList, self.botList)
             av.b_setDNAString(self.customerDNA.makeNetString())
             self.removedBottoms = []
@@ -204,7 +206,7 @@ class DistributedClosetAI(DistributedFurnitureItemAI):
     def d_setMovie(self, movie, avId, time):
         self.sendUpdate('setMovie', [movie, avId, time])
         
-    def __resetMovie(self):
+    def resetMovie(self):
         self.d_setMovie(ClosetGlobals.CLOSET_MOVIE_CLEAR, 0, globalClockDelta.getRealNetworkTime())
 
     def setMovie(self, todo0, todo1, todo2):
