@@ -10,7 +10,6 @@ from toontown.toonbase import ToontownTimer
 from toontown.toon import ToonHead
 from toontown.suit import SuitDNA
 from toontown.suit import Suit
-from toontown.char import Char
 import ArrowKeys
 import random
 from toontown.toonbase import ToontownGlobals
