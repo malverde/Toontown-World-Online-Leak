@@ -70,6 +70,9 @@ class DistributedTrunk(DistributedCloset.DistributedCloset):
                     self.oldGlassesList = self.glassesList[0:]
                     self.oldBackpackList = self.backpackList[0:]
                     self.oldShoesList = self.shoesList[0:]
+                    print '-----------Starting trunk interaction-----------'
+                    self.printInfo()
+                    print '-------------------------------------------------'
                     if not self.isOwner:
                         self.__popupNotOwnerPanel()
                     else:
