@@ -187,7 +187,7 @@ class DistributedBuildingMgrAI:
         return building
 
     def newHQBuilding(self, blockNumber):
-        dnaStore = self.air.dnaStoreMap[self.canonicalBranchId]
+        dnaStore = self.air.dnaStoreMap[self.canonicalBranchID]
         exteriorZoneId = dnaStore.getZoneFromBlockNumber(blockNumber)
         exteriorZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.branchId)
         interiorZoneId = (self.branchId - (self.branchId%100)) + 500 + blockNumber
@@ -197,7 +197,7 @@ class DistributedBuildingMgrAI:
         return building
 
     def newGagshopBuilding(self, blockNumber):
-        dnaStore = self.air.dnaStoreMap[self.canonicalBranchId]
+        dnaStore = self.air.dnaStoreMap[self.canonicalBranchID]
         exteriorZoneId = dnaStore.getZoneFromBlockNumber(blockNumber)
         exteriorZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.branchId)
         interiorZoneId = (self.branchId - (self.branchId%100)) + 500 + blockNumber
@@ -209,7 +209,7 @@ class DistributedBuildingMgrAI:
 
 
     def newPetshopBuilding(self, blockNumber):
-        dnaStore = self.air.dnaStoreMap[self.canonicalBranchId]
+        dnaStore = self.air.dnaStoreMap[self.canonicalBranchID]
         exteriorZoneId = dnaStore.getZoneFromBlockNumber(blockNumber)
         exteriorZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.branchId)
         interiorZoneId = (self.branchId - (self.branchId%100)) + 500 + blockNumber
@@ -219,7 +219,7 @@ class DistributedBuildingMgrAI:
         return building
 
     def newKartShopBuilding(self, blockNumber):
-        dnaStore = self.air.dnaStoreMap[self.canonicalBranchId]
+        dnaStore = self.air.dnaStoreMap[self.canonicalBranchID]
         exteriorZoneId = dnaStore.getZoneFromBlockNumber(blockNumber)
         exteriorZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.branchId)
         interiorZoneId = (self.branchId - (self.branchId%100)) + 500 + blockNumber
