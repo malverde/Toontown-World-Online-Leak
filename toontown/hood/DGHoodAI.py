@@ -28,7 +28,7 @@ class DGHoodAI(HoodAI.HoodAI):
         if simbase.config.GetBool('want-minigames', True):
             self.createTrolley()
         self.createFlower()
-       if simbase.config.GetBool('want-butterflies', True):
+        if simbase.config.GetBool('want-butterflies', True):
             self.createButterflies()
             
         #self.GreenToonEffectManager = DistributedGreenToonEffectMgrAI.DistributedGreenToonEffectMgrAI(self.air)
