@@ -102,3 +102,4 @@ force-skip-tutorial #t
 use-libpandadna #t
 
 want-speedhack-fix #t
+want-cogdominiums #f
