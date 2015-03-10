@@ -1,21 +1,13 @@
-if config.GetBool('use-libpandadna', False):
-    
-    
- 	from libpandadna.DNAParser import *
+import xml.sax
 
+class DNAError(Exception): pass
+class DNAParseError(DNAError): pass
 
-else:
-
- import xml.sax
-
- class DNAError(Exception): pass 
- class DNAParseError(DNAError): pass
-
- elementRegistry = {}
- def registerElement(element):
+elementRegistry = {}
+def registerElement(element):
     elementRegistry[element.TAG] = element
 
- class DNASaxHandler(xml.sax.ContentHandler):
+class DNASaxHandler(xml.sax.ContentHandler):
     def __init__(self):
         xml.sax.ContentHandler.__init__(self)
 
@@ -53,7 +45,7 @@ else:
 
         self.stack[-1].handleText(chars)
 
- def parse(stream):
+def parse(stream):
     handler = DNASaxHandler()
     xml.sax.parse(stream, handler)
     return handler.root
