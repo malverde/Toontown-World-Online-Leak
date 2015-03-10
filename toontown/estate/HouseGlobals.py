@@ -58,28 +58,28 @@ doorWood = (0.647, 0.392, 0.353)
 windowWood = (0.557, 0.388, 0.2)
 interiors = [
   [
-    'phase_5.5/dna/house_interior1.xml', # House Layout
+    'phase_5.5/dna/house_interior1.pdna', # House Layout
     [-19.45, 24.7018, 0, 0, 0, 0],       # Closet Position    (Unused, set in DNA)
     [-21.4932, 5.76027, 0, 120, 0, 0],   # Bean Bank Position (Unused, set in DNA)
     [],                                  # ???
     [-11, 2, 0, 0, 0, 0]                 # Phone Position
   ],
   [
-    'phase_5.5/dna/house_interior2.xml',
+    'phase_5.5/dna/house_interior2.pdna',
     [-19.45, 24.7018, 0, 0, 0, 0],
     [-21.4932, 5.76027, 0, 120, 0, 0],
     [],
     [-11, 2, 0, 0, 0, 0]
   ],
   [
-    'phase_5.5/dna/house_interior3.xml',
+    'phase_5.5/dna/house_interior3.pdna',
     [-22.5835, 21.8784, 0, 90, 0, 0],
     [-20.96, 6.49, 0, 120, 0, 0],
     ['c', 'e'],
     [-11, 2, 0, 0, 0, 0]
   ],
   [
-    'phase_5.5/dna/house_interior4.xml',
+    'phase_5.5/dna/house_interior4.pdna',
     [-22.5835, 21.8784, 0, 90, 0, 0],
     [-20.96, 6.49, 0, 120, 0, 0],
     ['c', 'e'],
