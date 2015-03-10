@@ -70,7 +70,6 @@ class ToontownAIRepository(ToontownInternalRepository):
     def __init__(self, baseChannel, serverId, districtName):
         ToontownInternalRepository.__init__(self, baseChannel, serverId, dcSuffix='AI')
 
-        self.dnaSpawner = DNASpawnerAI(self)
 
         self.districtName = districtName
 
