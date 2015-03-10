@@ -27,6 +27,10 @@ class SuitInvasionManagerAI:
         self.suitName = None
         self.numSuits = 0
         self.spawnedSuits = 0
+        self.suitDeptIndex = None
+        self.suitTypeIndex = None
+        self.flags = 0
+
 
         if config.GetBool('want-mega-invasions', False): # TODO - config for this
             # Mega invasion configuration.
@@ -81,78 +85,195 @@ class SuitInvasionManagerAI:
             self.startInvasion(suitName, numSuits, specialSuit)
         return task.again
 
+
     def getInvading(self):
-        """ Tell the caller if an invasion is currently running. """
         return self.invading
 
-    def stopInvasion(self, task=None):
-        """
-        Stop an invasion on the current AI. This is called either by
-        self.__checkInvasionOver or by magic word.
-        """
-        if not self.getInvading():
-            # We're not currently invading, go away!
-            return False
-        # TODO: Fix once we have NewsManagerAI working.
-        self.air.newsManager.sendUpdate('setInvasionStatus', [
-            ToontownGlobals.SuitInvasionEnd, self.suitName,
-            self.numSuits, self.specialSuit
-        ])
-        # Remove the invasion timeout.
-        if task is not None:
-            task.remove()
-        else:
-            taskMgr.remove('invasion-timeout')
-        self.specialSuit = 0
-        self.numSuits = 0
-        self.spawnedSuits = 0
-        self.invading = 0
-        self.suitName = None
-        self.__spAllCogsSupaFly()
+    def getInvadingCog(self):
+        return (self.suitDeptIndex, self.suitTypeIndex, self.flags)
 
-    def __checkInvasionOver(self):
-        """ Test if the current invasion has created all the suits. """
-        if self.spawnedSuits >= self.numSuits:
+    def startInvasion(self, suitDeptIndex=None, suitTypeIndex=None, flags=0,
+                      type=INVASION_TYPE_NORMAL):
+        if self.invading:
+            # An invasion is currently in progress; ignore this request.
+            return False
+
+        if (suitDeptIndex is None) and (suitTypeIndex is None) and (not flags):
+            # This invasion is no-op.
+            return False
+
+        if flags and ((suitDeptIndex is not None) or (suitTypeIndex is not None)):
+            # For invasion flags to be present, it must be a generic invasion.
+            return False
+
+        if (suitDeptIndex is None) and (suitTypeIndex is not None):
+            # It's impossible to determine the invading Cog.
+            return False
+
+        if flags not in (0, IFV2, IFSkelecog, IFWaiter):
+            # The provided flag combination is not possible.
+            return False
+
+        if (suitDeptIndex is not None) and (suitDeptIndex >= len(SuitDNA.suitDepts)):
+            # Invalid suit department.
+            return False
+
+        if (suitTypeIndex is not None) and (suitTypeIndex >= SuitDNA.suitsPerDept):
+            # Invalid suit type.
+            return False
+
+        if type not in (INVASION_TYPE_NORMAL, INVASION_TYPE_MEGA):
+            # Invalid invasion type.
+            return False
+
+        # Looks like we're all good. Begin the invasion:
+        self.invading = True
+        self.start = int(time.time())
+        self.suitDeptIndex = suitDeptIndex
+        self.suitTypeIndex = suitTypeIndex
+        self.flags = flags
+
+        # How many suits do we want?
+        if type == INVASION_TYPE_NORMAL:
+            self.total = 1000
+        elif type == INVASION_TYPE_MEGA:
+            self.total = 0xFFFFFFFF
+        self.remaining = self.total
+
+        self.flySuits()
+        self.notifyInvasionStarted()
+
+        # Update the invasion tracker on the districts page in the Shticker Book:
+        if self.suitDeptIndex is not None:
+            self.air.districtStats.b_setInvasionStatus(self.suitDeptIndex + 1)
+        else:
+            self.air.districtStats.b_setInvasionStatus(5)
+
+        # If this is a normal invasion, and the players take too long to defeat
+        # all of the Cogs, we'll want the invasion to timeout:
+        if type == INVASION_TYPE_NORMAL:
+            timeout = config.GetInt('invasion-timeout', 1800)
+            taskMgr.doMethodLater(timeout, self.stopInvasion, 'invasionTimeout')
+
+        self.sendInvasionStatus()
+        return True
+
+    def stopInvasion(self, task=None):
+        if not self.invading:
+            # We are not currently invading.
+            return False
+
+        # Stop the invasion timeout task:
+        taskMgr.remove('invasionTimeout')
+
+        # Update the invasion tracker on the districts page in the Shticker Book:
+        self.air.districtStats.b_setInvasionStatus(0)
+
+        # Revert what was done when the invasion started:
+        self.notifyInvasionEnded()
+        self.invading = False
+        self.start = 0
+        self.suitDeptIndex = None
+        self.suitTypeIndex = None
+        self.flags = 0
+        self.total = 0
+        self.remaining = 0
+        self.flySuits()
+
+        self.sendInvasionStatus()
+        return True
+
+    def getSuitName(self):
+        if self.suitDeptIndex is not None:
+            if self.suitTypeIndex is not None:
+                return SuitDNA.getSuitName(self.suitDeptIndex, self.suitTypeIndex)
+            else:
+                return SuitDNA.suitDepts[self.suitDeptIndex]
+        else:
+            return SuitDNA.suitHeadTypes[0]
+
+    def notifyInvasionStarted(self):
+        msgType = ToontownGlobals.SuitInvasionBegin
+        if self.flags & IFSkelecog:
+            msgType = ToontownGlobals.SkelecogInvasionBegin
+        elif self.flags & IFWaiter:
+            msgType = ToontownGlobals.WaiterInvasionBegin
+        elif self.flags & IFV2:
+            msgType = ToontownGlobals.V2InvasionBegin
+        self.air.newsManager.sendUpdate(
+            'setInvasionStatus',
+            [msgType, self.getSuitName(), self.total, self.flags])
+
+    def notifyInvasionEnded(self):
+        msgType = ToontownGlobals.SuitInvasionEnd
+        if self.flags & IFSkelecog:
+            msgType = ToontownGlobals.SkelecogInvasionEnd
+        elif self.flags & IFWaiter:
+            msgType = ToontownGlobals.WaiterInvasionEnd
+        elif self.flags & IFV2:
+            msgType = ToontownGlobals.V2InvasionEnd
+        self.air.newsManager.sendUpdate(
+            'setInvasionStatus', [msgType, self.getSuitName(), 0, self.flags])
+
+    def notifyInvasionUpdate(self):
+        self.air.newsManager.sendUpdate(
+            'setInvasionStatus',
+            [ToontownGlobals.SuitInvasionUpdate, self.getSuitName(),
+             self.remaining, self.flags])
+
+    def notifyInvasionBulletin(self, avId):
+        msgType = ToontownGlobals.SuitInvasionBulletin
+        if self.flags & IFSkelecog:
+            msgType = ToontownGlobals.SkelecogInvasionBulletin
+        elif self.flags & IFWaiter:
+            msgType = ToontownGlobals.WaiterInvasionBulletin
+        elif self.flags & IFV2:
+            msgType = ToontownGlobals.V2InvasionBulletin
+        self.air.newsManager.sendUpdateToAvatarId(
+            avId, 'setInvasionStatus',
+            [msgType, self.getSuitName(), self.remaining, self.flags])
+
+    def flySuits(self):
+        for suitPlanner in self.air.suitPlanners.values():
+            suitPlanner.flySuits()
+
+    def handleSuitDefeated(self):
+        self.remaining -= 1
+        if self.remaining == 0:
+            self.stopInvasion()
+        elif self.remaining == (self.total/2):
+            self.notifyInvasionUpdate()
+        self.sendInvasionStatus()
+
+    def handleStartInvasion(self, shardId, *args):
+        if shardId == self.air.ourChannel:
+            self.startInvasion(*args)
+
+    def handleStopInvasion(self, shardId):
+        if shardId == self.air.ourChannel:
             self.stopInvasion()
 
-    def getInvadingCog(self):
-        """ Tell the caller the current cog type invading and if they are a skelecog or v2.0 """
-        self.spawnedSuits += 1
-        self.__checkInvasionOver()
-        return (self.suitName, self.specialSuit)
-
-    def __spAllCogsSupaFly(self):
-        """ Tell all SuitPlanners to get rid of the current cogs. """
-        for sp in self.air.suitPlanners.values():
-            sp.flySuits()
-
-    def startInvasion(self, suitName='f', numSuits=1000, specialSuit=0):
-        """
-        Start an invasion on the current AI. This can be invoked by anything, such
-        as a toon summoning an invasion, or an admin manually starting an
-        invasion via a magic word.
-        """
-        if self.getInvading():
-            # We're already invading Toontown, go away!
-            return False
-        self.invading = True
-        self.spawnedSuits = 0
-        self.suitName = suitName
-        self.numSuits = numSuits
-        self.specialSuit = specialSuit
-        # Tell all the client's that an invasion has started via the NewsManager.
-        self.air.newsManager.sendUpdate('setInvasionStatus', [
-            ToontownGlobals.SuitInvasionBegin, self.suitName,
-            self.numSuits, self.specialSuit
-        ])
-        # If the cogs aren't defeated in a set amount of time, the invasion will
-        # simply timeout. This was calculated by judging that 1000 cogs should
-        # take around 20 minutes, becoming 1.2 seconds per cog.
-        # We added in a bit of a grace period, making it 1.5 seconds per cog, or 25 minutes.
-        timePerCog = config.GetFloat('invasion-time-per-cog', 1.5)
-        taskMgr.doMethodLater(timePerCog * numSuits, self.stopInvasion, 'invasion-timeout')
-        self.__spAllCogsSupaFly()
-        return True
+    def sendInvasionStatus(self):
+        if self.invading:
+            if self.suitDeptIndex is not None:
+                if self.suitTypeIndex is not None:
+                    type = SuitBattleGlobals.SuitAttributes[self.getSuitName()]['name']
+                else:
+                    type = SuitDNA.getDeptFullname(self.getSuitName())
+            else:
+                type = None
+            status = {
+                'invasion': {
+                    'type': type,
+                    'flags': self.flags,
+                    'remaining': self.remaining,
+                    'total': self.total,
+                    'start': self.start
+                }
+            }
+        else:
+            status = {'invasion': None}
+        self.air.netMessenger.send('shardStatus', [self.air.ourChannel, status])
 
 @magicWord(types=[str, str, int, int], category=CATEGORY_OVERRIDE)
 def invasion(cmd, name='f', num=1000, specialSuit = 0):
