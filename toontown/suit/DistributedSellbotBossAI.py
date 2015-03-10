@@ -417,7 +417,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.__goodJump(avId)
 
 
-@magicWord(category=CATEGORY_PROGRAMMER)
+@magicWord(category=CATEGORY_OVERRIDE)
 def skipVP():
     """
     Skips to the final round of the VP.
@@ -437,7 +437,7 @@ def skipVP():
     boss.b_setState('PrepareBattleThree')
     return 'Skipping the first round...'
 
-@magicWord(category=CATEGORY_PROGRAMMER)
+@magicWord(category=CATEGORY_OVERRIDE)
 def killVP():
     """
     Kills the VP.
