@@ -103,3 +103,4 @@ use-libpandadna #t
 
 want-speedhack-fix #t
 want-cogdominiums #f
+want-game-tables #f
