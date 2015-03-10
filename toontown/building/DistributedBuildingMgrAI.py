@@ -5,9 +5,9 @@ from otp.ai.AIBaseGlobal import *
 import DistributedBuildingAI
 import HQBuildingAI
 import GagshopBuildingAI
-import PetshopBuildingAI
+#import PetshopBuildingAI
 from toontown.building.KartShopBuildingAI import KartShopBuildingAI
-from toontown.building import DistributedAnimBuildingAI
+#from toontown.building import DistributedAnimBuildingAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import ZoneUtil
 import time
@@ -84,7 +84,8 @@ class DistributedBuildingMgrAI:
         return self.__buildings[blockNumber].track
 
     def getBuilding(self, blockNumber):
-        return self.__buildings[blockNumber]
+        if self.isValidBlockNumber(blockNumber):
+            return self.__buildings[blockNumber]
 
     def setFrontDoorPoint(self, blockNumber, point):
         return self.__buildings[blockNumber].setFrontDoorPoint(point)
