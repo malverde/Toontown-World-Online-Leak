@@ -89,12 +89,11 @@ class TTHoodAI(HoodAI.HoodAI):
         self.trolley.start()
 
     def createButterflies(self):
-        ButterflyGlobals.generateIndexes(self.zoneId, ButterflyGlobals.TTC)
-        for i in xrange(0, ButterflyGlobals.NUM_BUTTERFLY_AREAS[ButterflyGlobals.TTC]):
-            for _ in xrange(0, ButterflyGlobals.NUM_BUTTERFLIES[ButterflyGlobals.TTC]):
-                butterfly = DistributedButterflyAI(self.air, playground, i, self.zoneId)
+        playground = ButterflyGlobals.TTC
+        for area in range(ButterflyGlobals.NUM_BUTTERFLY_AREAS[playground]):
+            for b in range(ButterflyGlobals.NUM_BUTTERFLIES[playground]):
+                butterfly = DistributedButterflyAI.DistributedButterflyAI(self.air)
+                butterfly.setArea(playground, area)
+                butterfly.setState(0, 0, 0, 1, 1)
                 butterfly.generateWithRequired(self.zoneId)
-                butterfly.start()
-                
-                
-                
+                self.butterflies.append(butterfly)
