@@ -535,7 +535,7 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         return fromValue + (toValue - fromValue) * t
 
 
-@magicWord(category=CATEGORY_MODERATOR)
+@magicWord(category=CATEGORY_MODERATION)
 def restartCraneRound():
     """
     Restarts the crane round in the CFO.
