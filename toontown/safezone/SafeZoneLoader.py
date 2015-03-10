@@ -16,7 +16,7 @@ from toontown.tutorial import TutorialForceAcknowledge
 from toontown.toonbase.ToontownGlobals import *
 from toontown.building import ToonInterior
 from toontown.hood import QuietZoneState
-from toontown.dna.DNAParser import *
+from libpandadna.DNAParser import *
 from direct.stdpy.file import *
 
 class SafeZoneLoader(StateData.StateData):
