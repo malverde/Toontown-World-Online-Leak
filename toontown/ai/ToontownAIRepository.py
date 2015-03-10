@@ -83,8 +83,6 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         self.hoods = []
         self.zoneDataStore = AIZoneDataStore()
-        if self.use_libpandadna:
-            self.__loader = DNALoader()
 
         self.useAllMinigames = self.config.GetBool('want-all-minigames', False)
         self.doLiveUpdates = self.config.GetBool('want-live-updates', True)
