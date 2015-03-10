@@ -239,8 +239,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         clearQueue()
         self.hoods.append(GZHoodAI.GZHoodAI(self))
         clearQueue()
-        self.hoods.append(TFHoodAI.TFHoodAI(self))
-        clearQueue()
+        #self.hoods.append(TFHoodAI.TFHoodAI(self))
+        #clearQueue()
 
         if config.GetBool('want-sbhq', True):
             self.hoods.append(SellbotHQAI.SellbotHQAI(self))
