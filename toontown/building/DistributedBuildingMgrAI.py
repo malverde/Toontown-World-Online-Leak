@@ -134,14 +134,14 @@ class DistributedBuildingMgrAI:
         building.generateWithRequired(self.branchId)
         if backup is not None:
             state = backup.get('state', 'toon')
-            if ((state == 'suit') and simbase.air.wantCogbuildings) or (
+            if ((state == 'suit')) or (
                 (state == 'cogdo') and simbase.air.wantCogdominiums):
                 building.track = backup.get('track', 'c')
                 building.difficulty = backup.get('difficulty', 1)
                 building.numFloors = backup.get('numFloors', 1)
                 building.updateSavedBy(backup.get('savedBy'))
                 building.becameSuitTime = backup.get('becameSuitTime', time.time())
-                if (state == 'suit') and simbase.air.wantCogbuildings:
+                if (state == 'suit') :
                     building.setState('suit')
                 elif (state == 'cogdo') and simbase.air.wantCogdominiums:
                     building.setState('cogdo')
