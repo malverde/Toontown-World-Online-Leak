@@ -1,7 +1,7 @@
 from toontown.hood import HoodAI
 from toontown.toonbase import ToontownGlobals
 from toontown.distributed.DistributedTimerAI import DistributedTimerAI
-from libpandadna.DNAParser import DNAGroup, DNAVisGroup
+from toontown.dna.DNAParser import DNAGroup, DNAVisGroup
 from toontown.safezone.DistributedPicnicBasketAI import DistributedPicnicBasketAI
 from toontown.safezone import DistributedGameTableAI
 from toontown.hood import ZoneUtil
@@ -14,6 +14,8 @@ class OZHoodAI(HoodAI.HoodAI):
                                ToontownGlobals.OutdoorZone)
 
         self.timer = None
+        self.classicCharChip = None
+        self.classicCharDale = None
         self.picnicTables = []
         self.gameTables = []
 

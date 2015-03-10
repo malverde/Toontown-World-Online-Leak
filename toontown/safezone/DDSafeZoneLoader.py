@@ -1,8 +1,5 @@
-from pandac.PandaModules import *
-import SafeZoneLoader
-import DDPlayground
-from direct.fsm import State
-from toontown.toonbase import ToontownGlobals
+from toontown.safezone import SafeZoneLoader
+from toontown.safezone import DDPlayground
 
 class DDSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
 

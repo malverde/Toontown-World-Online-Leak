@@ -8,6 +8,7 @@ TreasureMM = 4
 TreasureDL = 5
 TreasureOZ = 6
 TreasureE  = 7
+TreasureRandom = 8
 
 TreasureModels = {
     TreasureTT: (
@@ -42,6 +43,17 @@ TreasureModels = {
         'phase_5.5/models/props/popsicle_treasure',
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
+    TreasureRandom: (
+        ['phase_4/models/props/icecream',
+        'phase_6/models/props/starfish_treasure',
+        'phase_8/models/props/flower_treasure',
+        'phase_8/models/props/snowflake_treasure',
+        'phase_6/models/props/music_treasure',
+        'phase_8/models/props/zzz_treasure',
+        'phase_6/models/props/acorn_treasure',
+        'phase_5.5/models/props/popsicle_treasure'],
+        'phase_4/audio/sfx/SZ_DD_treasure.ogg',
+    ),    
 }
 
 SafeZoneTreasureSpawns = {
@@ -253,7 +265,7 @@ SafeZoneTreasureSpawns = {
         4 # Maximum
     ),
     ToontownGlobals.Toonfest: (
-        TreasureE, 3, # +3 laff
+        TreasureRandom, 3, # +3 laff
         [
             # TODO - real positions
             (-156.9, -118.9, 0.025),
@@ -275,4 +287,5 @@ SafeZoneTreasureSpawns = {
         10, # Rate
         5 # Maximum
     ),
+    
 }
