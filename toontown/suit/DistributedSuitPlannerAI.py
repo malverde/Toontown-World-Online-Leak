@@ -814,8 +814,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
 
 
     def initTasks(self):
-        if self.air.wantCogbuildings:
-            self.createInitialSuitBuildings()
+        self.createInitialSuitBuildings()
         self.__waitForNextUpkeep()
         self.__waitForNextAdjust()
 
