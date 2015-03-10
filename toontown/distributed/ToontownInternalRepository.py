@@ -28,6 +28,9 @@ class ToontownInternalRepository(AstronInternalRepository):
         self.netMessenger.register(2, 'avatarOnline')
         self.netMessenger.register(3, 'avatarOffline')
         self.netMessenger.register(4, 'enableLogins')
+        self.netMessenger.register(5, 'startInvasion')
+        self.netMessenger.register(6, 'stopInvasion')
+
 
     def __resetWatchdog(self, task):
         signal.alarm(ai_watchdog.getValue())

@@ -9,12 +9,10 @@ from direct.distributed import DistributedObject
 import random
 import ToonInteriorColors
 from toontown.hood import ZoneUtil
-from toontown.char import Char
 from toontown.suit import SuitDNA
 from toontown.suit import Suit
 from toontown.quest import QuestParser
-from toontown.dna.DNAStorage import DNAStorage
-from toontown.dna.DNADoor import DNADoor
+from libpandadna.DNAParser import *
 from toontown.chat.ChatGlobals import CFSpeech
 class DistributedTutorialInterior(DistributedObject.DistributedObject):
 
@@ -86,7 +84,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         self.interior = loader.loadModel('phase_3.5/models/modules/toon_interior_tutorial')
         self.interior.reparentTo(render)
         dnaStore = DNAStorage()
-        node = loader.loadDNA('phase_3.5/dna/tutorial_street.xml').generate(self.dnaStore)
+        node = loader.loadDNA('phase_3.5/dna/tutorial_street.pdna').generate(self.dnaStore)
         self.street = render.attachNewNode(node)
         self.street.flattenMedium()
         self.street.setPosHpr(-17, 42, -0.5, 180, 0, 0)
@@ -146,10 +144,8 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
     def createSuit(self):
         self.suit = Suit.Suit()
         suitDNA = SuitDNA.SuitDNA()
-        suitDNA.newSuit('f')
+        suitDNA.newSuit('cc')
         self.suit.setDNA(suitDNA)
-        self.suit.nametag.setNametag2d(None)
-        self.suit.nametag.setNametag3d(None)
         self.suit.loop('neutral')
         self.suit.setPosHpr(-20, 8, 0, 0, 0, 0)
         self.suit.reparentTo(self.interior)

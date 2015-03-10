@@ -3,7 +3,7 @@ from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm.FSM import FSM
 from direct.task.Task import Task
-from toontown.chat.ChatGlobals import *
+from otp.nametag.NametagConstants import *
 from toontown.suit.DistributedSuitBase import DistributedSuitBase
 from toontown.toonbase import ToontownGlobals
 import SafezoneInvasionGlobals
@@ -352,7 +352,7 @@ class DistributedInvasionSuit(DistributedSuitBase, InvasionSuitBase, FSM, DelayD
 
     def createKapowExplosionTrack(self, parent): #(self, parent, explosionPoint, scale)
         explosionTrack = Sequence()
-        explosion = loader.loadModel('phase_3.5/models/props/explosion')
+        explosion = loader.loadModel('phase_3.5/models/props/explosion.bam')
         explosion.setBillboardPointEye()
         explosion.setDepthWrite(False)
         explosionPoint = Point3(0, 0, 4.1) #This should be set according to suit height.

@@ -7,6 +7,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.catalog import CatalogItem
 from toontown.catalog.CatalogInvalidItem import CatalogInvalidItem
 from toontown.catalog.CatalogItemList import CatalogItemList
+from toontown.catalog.CatalogFurnitureItem import CatalogFurnitureItem
 from toontown.catalog.CatalogClothingItem import CatalogClothingItem, getAllClothes
 
 import time
@@ -162,6 +163,9 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             shirt = CatalogClothingItem(1405, 0)
             shorts = CatalogClothingItem(1406, 0)
             return [shirt, shorts] # TODO: Give the correct beta rewards
-
+        
+        if code == "TRUNK":
+            object = CatalogFurnitureItem(4000, 0)
+            return [object]
         return [CatalogInvalidItem()]
 

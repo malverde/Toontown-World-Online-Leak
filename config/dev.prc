@@ -4,7 +4,7 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-server-version ttw-pre-alpha-dev-build-2.0.5
+server-version ttw-pre-alpha-dev-build-2.4.9
 sync-video #f
 want-dev #f
 preload-avatars #t
@@ -58,7 +58,7 @@ dc-file config/otp.dc
 want-pets #f
 want-news-tab #f
 want-news-page #f
-want-accessories #t
+want-accessories #f
 want-parties #f
 want-gardening #f
 want-gifting #t
@@ -98,3 +98,9 @@ base-xp-multiplier 1
 #group merges
 boarding-group-merges #t
 force-skip-tutorial #t
+#other
+use-libpandadna #t
+
+want-speedhack-fix #t
+want-cogdominiums #f
+want-game-tables #f

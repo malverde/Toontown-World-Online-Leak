@@ -14,9 +14,8 @@ from direct.actor import Actor
 import random
 from toontown.toon import DistributedToon
 from direct.directnotify import DirectNotifyGlobal
-from toontown.chat.ChatBalloon import ChatBalloon
-from toontown.nametag import NametagGlobals
-from toontown.nametag import NametagGroup
+from otp.nametag.ChatBalloon import ChatBalloon
+from otp.nametag import NametagGroup
 NUM_CATALOG_ROWS = 3
 NUM_CATALOG_COLS = 2
 CatalogPanelCenters = [[Point3(-0.95, 0, 0.91), Point3(-0.275, 0, 0.91)], [Point3(-0.95, 0, 0.275), Point3(-0.275, 0, 0.275)], [Point3(-0.95, 0, -0.4), Point3(-0.275, 0, -0.4)]]
@@ -693,10 +692,11 @@ class CatalogScreen(DirectFrame):
         self.clarabelleFrame = DirectLabel(self, relief=None, image=guiItems.find('**/clarabelle_frame'))
         hangupGui = guiItems.find('**/hangup')
         hangupRolloverGui = guiItems.find('**/hangup_rollover')
-        self.hangup = DirectButton(base.a2dBottomRight, relief=None, pos=(-0.158, 0, 0.14), scale=(0.7, 0.7, 0.7), image=[hangupGui,
+        self.hangup = DirectButton(self, relief=None, pos=(1.78, 0, -1.3), image=[hangupGui,
          hangupRolloverGui,
          hangupRolloverGui,
          hangupGui], text=['', TTLocalizer.CatalogHangUp, TTLocalizer.CatalogHangUp], text_fg=Vec4(1), text_scale=0.07, text_pos=(0.0, 0.14), command=self.hangUp)
+
         self.beanBank = DirectLabel(self, relief=None, image=guiItems.find('**/bean_bank'), text=str(base.localAvatar.getMoney() + base.localAvatar.getBankMoney()), text_align=TextNode.ARight, text_scale=0.11, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_pos=(0.75, -0.81), text_font=ToontownGlobals.getSignFont())
         nextUp = guiItems.find('**/arrow_up')
         nextRollover = guiItems.find('**/arrow_Rollover')
@@ -1058,7 +1058,7 @@ class CatalogScreen(DirectFrame):
     def __makeFFlist(self):
         for familyMember in base.cr.avList:
             if familyMember.id != base.localAvatar.doId:
-                newFF = (familyMember.id, familyMember.name, NametagGlobals.CCNonPlayer)
+                newFF = (familyMember.id, familyMember.name, NametagGroup.CCNonPlayer)
                 self.ffList.append(newFF)
 
         for friendPair in base.localAvatar.friendsList:
@@ -1066,9 +1066,9 @@ class CatalogScreen(DirectFrame):
             handle = base.cr.identifyFriend(friendId)
             if handle and not self.checkFamily(friendId):
                 if hasattr(handle, 'getName'):
-                    colorCode = NametagGlobals.CCSpeedChat
+                    colorCode = NametagGroup.CCSpeedChat
                     if flags & ToontownGlobals.FriendChat:
-                        colorCode = NametagGlobals.CCFreeChat
+                        colorCode = NametagGroup.CCFreeChat
                     newFF = (friendPair[0], handle.getName(), colorCode)
                     self.ffList.append(newFF)
                 else:
@@ -1083,9 +1083,9 @@ class CatalogScreen(DirectFrame):
                 freeChat = playerInfo.understandableYesNo
                 if handle and not self.checkFamily(avatarId):
                     if hasattr(handle, 'getName'):
-                        colorCode = NametagGlobals.CCSpeedChat
+                        colorCode = NametagGroup.CCSpeedChat
                         if freeChat:
-                            colorCode = NametagGlobals.CCFreeChat
+                            colorCode = NametagGroup.CCFreeChat
                         newFF = (avatarId, handle.getName(), colorCode)
                         self.ffList.append(newFF)
                     else:
@@ -1101,8 +1101,8 @@ class CatalogScreen(DirectFrame):
         self.scrollList.refresh()
 
     def makeFamilyButton(self, familyId, familyName, colorCode):
-         fg = NametagGlobals.NametagColors.get(colorCode)[3][0]
-         return DirectButton(
+        # fg = NametagGlobals.getNameFg(colorCode, PGButton.SInactive)
+        return DirectButton(
             relief=None,
             text=familyName,
             text_scale=0.04,

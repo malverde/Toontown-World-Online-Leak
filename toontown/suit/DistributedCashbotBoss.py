@@ -1,31 +1,36 @@
-from direct.interval.IntervalGlobal import *
-from direct.task.TaskManagerGlobal import *
 from direct.directnotify import DirectNotifyGlobal
-from toontown.toonbase import TTLocalizer
-import DistributedBossCog
+from direct.fsm import FSM
+from direct.interval.IntervalGlobal import *
 from direct.task.Task import Task
+from direct.task.TaskManagerGlobal import *
+import math
+from pandac.PandaModules import *
+import random
+
+import DistributedBossCog
 import DistributedCashbotBossGoon
 import SuitDNA
-from toontown.toon import Toon
-from toontown.toon import ToonDNA
-from direct.fsm import FSM
-from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
-from toontown.building import ElevatorUtils
-from toontown.building import ElevatorConstants
 from toontown.battle import MovieToonVictory
 from toontown.battle import RewardPanel
-from toontown.distributed import DelayDelete
+from toontown.battle import SuitBattleGlobals
+from toontown.building import ElevatorConstants
+from toontown.building import ElevatorUtils
 from toontown.chat import ResistanceChat
-from toontown.coghq import CogDisguiseGlobals
-from pandac.PandaModules import *
-from toontown.nametag import NametagGlobals
 from toontown.chat.ChatGlobals import *
+from toontown.coghq import CogDisguiseGlobals
+from toontown.distributed import DelayDelete
+from toontown.nametag import NametagGlobals
 from toontown.nametag.NametagGlobals import *
-import random
-import math
+from toontown.toon import Toon
+from toontown.toon import ToonDNA
+from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownGlobals
+
+
 OneBossCog = None
 TTL = TTLocalizer
+
 
 class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCashbotBoss')
@@ -72,7 +77,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         gravity = LinearVectorForce(0, 0, -32)
         fn.addForce(gravity)
         self.physicsMgr.addLinearForce(gravity)
-        localAvatar.chatMgr.chatInputSpeedChat.addCFOMenu()
+        base.localAvatar.chatMgr.chatInputSpeedChat.addCFOMenu()
         global OneBossCog
         if OneBossCog != None:
             self.notify.warning('Multiple BossCogs visible.')
@@ -89,7 +94,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.physicsMgr.clearLinearForces()
         self.battleThreeMusic.stop()
         self.epilogueMusic.stop()
-        localAvatar.chatMgr.chatInputSpeedChat.removeCFOMenu()
+        base.localAvatar.chatMgr.chatInputSpeedChat.removeCFOMenu()
         if OneBossCog == self:
             OneBossCog = None
         return
@@ -113,7 +118,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.resistanceToon.suitType = SuitDNA.getRandomSuitByDept('m')
         random.setstate(state)
         self.fakeGoons = []
-        for i in range(self.numFakeGoons):
+        for i in xrange(self.numFakeGoons):
             goon = DistributedCashbotBossGoon.DistributedCashbotBossGoon(base.cr)
             goon.doId = -1 - i
             goon.setBossCogId(self.doId)
@@ -129,7 +134,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             self.resistanceToon.removeActive()
             self.resistanceToon.delete()
             self.resistanceToon = None
-            for i in range(self.numFakeGoons):
+            for i in xrange(self.numFakeGoons):
                 self.fakeGoons[i].disable()
                 self.fakeGoons[i].delete()
                 self.fakeGoons[i] = None
@@ -159,22 +164,21 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 goon.request('Off')
 
     def __showFakeGoons(self, state):
-        print self.fakeGoons
         if self.fakeGoons:
             for goon in self.fakeGoons:
                 goon.request(state)
 
     def loadEnvironment(self):
         DistributedBossCog.DistributedBossCog.loadEnvironment(self)
-        self.midVault = loader.loadModel('phase_10/models/cogHQ/MidVault')
-        self.endVault = loader.loadModel('phase_10/models/cogHQ/EndVault')
-        self.lightning = loader.loadModel('phase_10/models/cogHQ/CBLightning')
-        self.magnet = loader.loadModel('phase_10/models/cogHQ/CBMagnet')
-        self.craneArm = loader.loadModel('phase_10/models/cogHQ/CBCraneArm')
-        self.controls = loader.loadModel('phase_10/models/cogHQ/CBCraneControls')
-        self.stick = loader.loadModel('phase_10/models/cogHQ/CBCraneStick')
-        self.safe = loader.loadModel('phase_10/models/cogHQ/CBSafe')
-        self.eyes = loader.loadModel('phase_10/models/cogHQ/CashBotBossEyes')
+        self.midVault = loader.loadModel('phase_10/models/cogHQ/MidVault.bam')
+        self.endVault = loader.loadModel('phase_10/models/cogHQ/EndVault.bam')
+        self.lightning = loader.loadModel('phase_10/models/cogHQ/CBLightning.bam')
+        self.magnet = loader.loadModel('phase_10/models/cogHQ/CBMagnet.bam')
+        self.craneArm = loader.loadModel('phase_10/models/cogHQ/CBCraneArm.bam')
+        self.controls = loader.loadModel('phase_10/models/cogHQ/CBCraneControls.bam')
+        self.stick = loader.loadModel('phase_10/models/cogHQ/CBCraneStick.bam')
+        self.safe = loader.loadModel('phase_10/models/cogHQ/CBSafe.bam')
+        self.eyes = loader.loadModel('phase_10/models/cogHQ/CashBotBossEyes.bam')
         self.cableTex = self.craneArm.findTexture('MagnetControl')
         self.eyes.setPosHprScale(4.5, 0, -2.5, 90, 90, 0, 0.4, 0.4, 0.4)
         self.eyes.reparentTo(self.neck)
@@ -236,7 +240,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 self.notify.warning('Not a collision node: %s' % repr(cnp))
                 break
             newCollideMask = newCollideMask | cn.getIntoCollideMask()
-            for i in range(cn.getNumSolids()):
+            for i in xrange(cn.getNumSolids()):
                 solid = cn.getSolid(i)
                 if isinstance(solid, CollisionPolygon):
                     plane = Plane(solid.getPlane())
@@ -385,15 +389,14 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
           VBase3(231, 0, 0)]]
         mainGoon = self.fakeGoons[0]
         goonLoop = Parallel()
-        print self.fakeGoons
-        for i in range(1, self.numFakeGoons):
+        for i in xrange(1, self.numFakeGoons):
             goon = self.fakeGoons[i]
             goonLoop.append(Sequence(goon.posHprInterval(8, goonPosHprs[i][0], goonPosHprs[i][1]), goon.posHprInterval(8, goonPosHprs[i][2], goonPosHprs[i][3])))
 
         goonTrack = Sequence(Func(self.__showFakeGoons, 'Walk'), Func(mainGoon.request, 'Stunned'), Func(goonLoop.loop), Wait(20))
         return goonTrack
 
-    def makePrepareBattleThreeMovie(self, delayDeletes, crane, safe):
+    def makePrepareBattleThreeMovie(self, delayDeletes):
         for toonId in self.involvedToons:
             toon = self.cr.doId2do.get(toonId)
             if toon:
@@ -473,7 +476,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
     def moveToonsToBattleThreePos(self, toons):
         track = Parallel()
-        for i in range(len(toons)):
+        for i in xrange(len(toons)):
             toon = base.cr.doId2do.get(toons[i])
             if toon:
                 posHpr = ToontownGlobals.CashbotToonsBattleThreeStartPosHpr[i]
@@ -631,7 +634,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         radius = 7
         numToons = len(self.involvedToons)
         center = (numToons - 1) / 2.0
-        for i in range(numToons):
+        for i in xrange(numToons):
             toon = self.cr.doId2do.get(self.involvedToons[i])
             if toon:
                 angle = 90 - 15 * (i - center)
@@ -654,7 +657,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 speech += TTLocalizer.ResistanceToonLevelPromotion
             if newCogSuitLevel == maxCogSuitLevel:
                 if newCogSuitLevel != ToontownGlobals.MaxCogSuitLevel:
-                    suitIndex = ((cogTypes[deptIndex]+1) * (deptIndex+1)) - 1
+                    suitIndex = (SuitDNA.suitsPerDept*deptIndex) + cogTypes[deptIndex]
                     cogTypeStr = SuitDNA.suitHeadTypes[suitIndex]
                     cogName = SuitBattleGlobals.SuitAttributes[cogTypeStr]['name']
                     speech += TTLocalizer.ResistanceToonSuitPromotion % cogName
@@ -685,6 +688,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.endVault.stash()
         self.midVault.unstash()
         self.__showResistanceToon(True)
+        base.camLens.setMinFov(ToontownGlobals.CFOElevatorFov/(4./3.))
 
     def exitElevator(self):
         DistributedBossCog.DistributedBossCog.exitElevator(self)
@@ -724,9 +728,8 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         intervalName = 'PrepareBattleThreeMovie'
         delayDeletes = []
         self.movieCrane = self.cranes[0]
-        self.movieSafe = self.safes[1]
         self.movieCrane.request('Movie')
-        seq = Sequence(self.makePrepareBattleThreeMovie(delayDeletes, self.movieCrane, self.movieSafe), Func(self.__beginBattleThree), name=intervalName)
+        seq = Sequence(self.makePrepareBattleThreeMovie(delayDeletes), Func(self.__beginBattleThree), name=intervalName)
         seq.delayDeletes = delayDeletes
         seq.start()
         self.storeInterval(seq, intervalName)
@@ -748,7 +751,6 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.releaseToons()
         if self.newState == 'BattleThree':
             self.movieCrane.request('Free')
-            self.movieSafe.request('Initial')
         NametagGlobals.setWant2dNametags(True)
         ElevatorUtils.closeDoors(self.leftDoor, self.rightDoor, ElevatorConstants.ELEVATOR_CFO)
         taskMgr.remove(self.uniqueName('physics'))

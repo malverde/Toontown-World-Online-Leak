@@ -1,19 +1,20 @@
 import random
 from pandac.PandaModules import *
 from direct.fsm.FSM import FSM
-from PathPlannerPoolAI import pool
+from InvasionPathDataAI import pathfinder
 
 # Individual suit behaviors...
 
 # Attack a specific Toon.
 class AttackBehavior(FSM):
-    REASSESS_INTERVAL = 1.0
+    REASSESS_INTERVAL = 2.0
 
     def __init__(self, brain, toonId):
         FSM.__init__(self, 'AttackFSM')
         self.brain = brain
         self.toonId = toonId
 
+        self._walkingTo = None
         self._walkTask = None
 
     def getToon(self):
@@ -35,39 +36,12 @@ class AttackBehavior(FSM):
         toonPos = Point2(toon.getComponentX(), toon.getComponentY())
         distance = (toonPos - self.brain.suit.getCurrentPos()).length()
 
-        attackPrefer, attackMax = self.brain.getAttackRange()
-        if distance < attackPrefer:
+        if distance < self.brain.getAttackRange():
             self.demand('Attack')
-        elif distance < attackMax:
-            # We're close enough that we *could* attack, but let's try to get
-            # within the preferred attacking distance. If this is not possible,
-            # just attack now.
-
-            # We can only update our walk-to if we're walking to begin with:
-            if self.state == 'Walk':
-                nav = True
-                self.brain.navigateTo(toonPos.getX(), toonPos.getY(), attackPrefer)
-            else:
-                nav = False
-
-            if not nav:
-                # Yeah, can't get close. Attack!
-                self.demand('Attack')
-        elif self.state == 'Walk' and self.brain.finalWaypoint and \
-             (self.brain.finalWaypoint - toonPos).length() < attackMax:
+        elif self._walkingTo and (self._walkingTo - toonPos).length() < self.brain.getAttackRange():
             return
         else:
             self.demand('Walk', toonPos.getX(), toonPos.getY())
-
-    def onNavFailed(self):
-        if self.state == 'Walk':
-            self.demand('Attack')
-        else:
-            # Can't get there, Captain!
-            self.brain.master.toonUnreachable(self.toonId)
-            self.brain.demand('Idle')
-            return
-
 
     def enterAttack(self):
         # Attack the Toon.
@@ -76,9 +50,13 @@ class AttackBehavior(FSM):
     def enterWalk(self, x, y):
         # Walk state -- we try to get closer to the Toon. When we're
         # close enough, we switch to 'Attack'
-        attackPrefer, attackMax = self.brain.getAttackRange()
-        self.brain.navigateTo(x, y, attackMax)
+        if not self.brain.navigateTo(x, y, self.brain.getAttackRange()):
+            # Can't get there, Captain!
+            self.brain.master.toonUnreachable(self.toonId)
+            self.brain.demand('Idle')
+            return
 
+        self._walkingTo = Point2(x, y)
         if self._walkTask:
             self._walkTask.remove()
         self._walkTask = taskMgr.doMethodLater(self.REASSESS_INTERVAL, self.__reassess,
@@ -89,6 +67,7 @@ class AttackBehavior(FSM):
         return task.again
 
     def exitWalk(self):
+        self._walkingTo = None
         if self._walkTask:
             self._walkTask.remove()
 
@@ -168,10 +147,6 @@ class UnclumpBehavior(FSM):
         # And we're walking!
         self.demand('Walking')
 
-    def onNavFailed(self):
-        # Hmm... Can't walk there. Let's just idle for a bit instead.
-        self.demand('Wait')
-
     def enterWalking(self):
         pass # Do nothing, we just wait for onArrive and exit the behavior.
 
@@ -208,7 +183,6 @@ class InvasionSuitBrainAI(FSM):
 
         # For the nav system:
         self.__waypoints = []
-        self.finalWaypoint = None
 
     def start(self):
         if self.state != 'Off':
@@ -222,8 +196,7 @@ class InvasionSuitBrainAI(FSM):
         self.demand('Off')
 
     def getAttackRange(self):
-        # Returns a tuple: Preferred attack distance, maximum distance for an attack to work
-        return 15.0, 25.0
+        return 20.0
 
     def enterOff(self):
         self.__stopProxemics()
@@ -286,17 +259,6 @@ class InvasionSuitBrainAI(FSM):
         self.suit.idle()
         self.master.requestOrders(self)
 
-    def enterAskAgain(self):
-        # Brain has absolutely nothing to do. Let's ask the master again in a few seconds in case any toons become available.
-        self.suit.idle()
-        self._askDelay = \
-        taskMgr.doMethodLater(10.0, self.demand,
-                              self.suit.uniqueName('askingAgain'),
-                              extraArgs=['Idle'])
-
-    def exitAskAgain(self):
-        self._askDelay.remove()
-
     def enterAttack(self, toonId):
         self.behavior = AttackBehavior(self, toonId)
         self.behavior.start()
@@ -313,6 +275,10 @@ class InvasionSuitBrainAI(FSM):
         self.behavior.demand('Off')
         self.behavior = None
 
+    def suitFinishedNavigating(self):
+        if self.behavior:
+            self.behavior.onArrive()
+			
     # Attacks:
     def suitFinishedAttacking(self):
         if hasattr(self.behavior, 'onAttackCompleted'):
@@ -320,18 +286,13 @@ class InvasionSuitBrainAI(FSM):
 
     # Navigation:
     def navigateTo(self, x, y, closeEnough=0):
-        pool.plan(self.__navCallback, self.suit.getCurrentPos(), (x, y),
-                  closeEnough)
-
-    def __navCallback(self, result):
-        self.__waypoints = result
+        self.__waypoints = pathfinder.planPath(self.suit.getCurrentPos(),
+                                               (x, y), closeEnough)
         if self.__waypoints:
-            self.finalWaypoint = Point2(self.__waypoints[-1])
             self.__walkToNextWaypoint()
+            return True
         else:
-            self.finalWaypoint = None
-            if hasattr(self.behavior, 'onNavFailed'):
-                self.behavior.onNavFailed()
+            return False
 
     def suitFinishedWalking(self):
         # The suit finished walking. If there's another waypoint, go to it.
@@ -340,10 +301,6 @@ class InvasionSuitBrainAI(FSM):
             self.__walkToNextWaypoint()
         else:
             self.suitFinishedNavigating()
-
-    def suitFinishedNavigating(self):
-        if hasattr(self.behavior, 'onArrive'):
-            self.behavior.onArrive()
 
     def __walkToNextWaypoint(self):
         x, y = self.__waypoints.pop(0)

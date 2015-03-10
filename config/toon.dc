@@ -290,7 +290,6 @@ from toontown.cogdominium import DistCogdoCrane/AI
 from toontown.cogdominium import DistCogdoCraneMoneyBag/AI
 from toontown.cogdominium import DistCogdoCraneCog/AI
 from toontown.parties.GlobalPartyManager/AI/UD import GlobalPartyManager/AI/UD
-from toontown.uberdog.ARGManager/AI/UD import ARGManager/AI/UD
 
 struct GiftItem {
   blob Item;
@@ -3313,5 +3312,24 @@ dclass DistributedTrashcanZeroMgr : DistributedPhaseEventMgr {
 dclass DistributedSillyMeterMgr : DistributedPhaseEventMgr {
 };
 
-dclass ARGManager : DistributedObjectGlobal {
+dclass DistributedGameTable : DistributedObject {
+  requestJoin(uint8) airecv clsend;
+  rejectJoin();
+  requestExit() airecv clsend;
+  fillSlot0(uint32) broadcast ram;
+  fillSlot1(uint32) broadcast ram;
+  fillSlot2(uint32) broadcast ram;
+  fillSlot3(uint32) broadcast ram;
+  fillSlot4(uint32) broadcast ram;
+  fillSlot5(uint32) broadcast ram;
+  emptySlot0(uint32, int16) broadcast ram;
+  emptySlot1(uint32, int16) broadcast ram;
+  emptySlot2(uint32, int16) broadcast ram;
+  emptySlot3(uint32, int16) broadcast ram;
+  emptySlot4(uint32, int16) broadcast ram;
+  emptySlot5(uint32, int16) broadcast ram;
+  setPosHpr(int16/10, int16/10, int16/10, int16/10, int16/10, int16/10) required broadcast ram;
+  announceWinner(uint32) broadcast;
 };
+
+

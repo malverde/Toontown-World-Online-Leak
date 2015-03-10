@@ -26,7 +26,7 @@ from toontown.hood import EstateHood
 from toontown.hood import PartyHood
 from toontown.toonbase import TTLocalizer
 from toontown.parties.PartyGlobals import GoToPartyStatus
-from toontown.dna.DNAStorage import DNAStorage
+from libpandadna.DNAStorage import DNAStorage
 
 class PlayGame(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('PlayGame')
@@ -36,7 +36,7 @@ class PlayGame(StateData.StateData):
      ToontownGlobals.MinniesMelodyland: MMHood.MMHood,
      ToontownGlobals.DaisyGardens: DGHood.DGHood,
      ToontownGlobals.DonaldsDreamland: DLHood.DLHood,
-     ToontownGlobals.FunnyFarm: TFHood.TFHood,
+     ToontownGlobals.Toonfest: TFHood.TFHood,
      ToontownGlobals.GoofySpeedway: GSHood.GSHood,
      ToontownGlobals.OutdoorZone: OZHood.OZHood,
      ToontownGlobals.Tutorial: TutorialHood.TutorialHood,
@@ -53,7 +53,7 @@ class PlayGame(StateData.StateData):
      ToontownGlobals.MinniesMelodyland: 'MMHood',
      ToontownGlobals.DaisyGardens: 'DGHood',
      ToontownGlobals.DonaldsDreamland: 'DLHood',
-     ToontownGlobals.FunnyFarm: 'TFHood',                
+     ToontownGlobals.Toonfest: 'TFHood',                
      ToontownGlobals.GoofySpeedway: 'GSHood',
      ToontownGlobals.OutdoorZone: 'OZHood',
      ToontownGlobals.Tutorial: 'TutorialHood',
@@ -149,21 +149,21 @@ class PlayGame(StateData.StateData):
     def loadDnaStoreTutorial(self):
         self.dnaStore = DNAStorage()
 
-        tree = loader.loadDNA('phase_3.5/dna/storage_tutorial.xml').store(self.dnaStore)
+        tree = loader.loadDNA('phase_3.5/dna/storage_tutorial.pdna').store(self.dnaStore)
 
-        tree = loader.loadDNA('phase_3.5/dna/storage_interior.xml').store(self.dnaStore)
+        tree = loader.loadDNA('phase_3.5/dna/storage_interior.pdna').store(self.dnaStore)
 
     def loadDnaStore(self):
         if not hasattr(self, 'dnaStore'):
             self.dnaStore = DNAStorage()
 
-            loader.loadDNA('phase_4/dna/storage.xml').store(self.dnaStore)
+            loader.loadDNA('phase_4/dna/storage.pdna').store(self.dnaStore)
 
             self.dnaStore.storeFont(ToontownGlobals.getInterfaceFont(), 'humanist')
             self.dnaStore.storeFont(ToontownGlobals.getSignFont(), 'mickey')
             self.dnaStore.storeFont(ToontownGlobals.getSuitFont(), 'suit')
 
-            loader.loadDNA('phase_3.5/dna/storage_interior.xml').store(self.dnaStore)
+            loader.loadDNA('phase_3.5/dna/storage_interior.pdna').store(self.dnaStore)
 
     def unloadDnaStore(self):
         if hasattr(self, 'dnaStore'):

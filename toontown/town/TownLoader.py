@@ -15,7 +15,7 @@ from direct.task import Task
 import TownBattle
 from toontown.toon import Toon
 from toontown.toon import NPCToons
-from toontown.nametag import NametagGlobals
+from otp.nametag.NametagConstants import *
 from toontown.toon.Toon import teleportDebug
 from toontown.battle import BattleParticles
 from direct.fsm import StateData
@@ -229,8 +229,8 @@ class TownLoader(StateData.StateData):
 
     def createHood(self, dnaFile, loadStorage = 1):
         if loadStorage:
-            loader.loadDNA('phase_5/dna/storage_town.xml').store(self.hood.dnaStore)
-            self.notify.debug('done loading %s' % 'phase_5/dna/storage_town.xml')
+            loader.loadDNA('phase_5/dna/storage_town.pdna').store(self.hood.dnaStore)
+            self.notify.debug('done loading %s' % 'phase_5/dna/storage_town.pdna')
             loader.loadDNA(self.townStorageDNAFile).store(self.hood.dnaStore)
             self.notify.debug('done loading %s' % self.townStorageDNAFile)
         sceneTree = loader.loadDNA(dnaFile)

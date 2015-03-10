@@ -27,7 +27,7 @@ from toontown.minigame import MinigameRulesPanel
 from toontown.racing import Piejectile
 from toontown.racing import EffectManager
 from toontown.racing import PiejectileManager
-from toontown.dna.DNAParser import *
+from libpandadna.DNAParser import *
 from otp.ai.MagicWordGlobal import *
 
 class DistributedRace(DistributedObject.DistributedObject):

@@ -15,10 +15,6 @@ import ElectionGlobals
 import random
 from otp.distributed.OtpDoGlobals import *
 from direct.task import Task
-from toontown.suit import SuitDNA
-from toontown.suit import SuitPlannerBase
-from toontown.suit import SuitBase
-
 
 class DistributedElectionEventAI(DistributedObjectAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedElectionEventAI")
@@ -87,7 +83,7 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
         # This is more for the invasion than the pre-invasion elections.
         self.pieTypeAmount = [type, num]
 
-    def buddyAvatarEnter(self):
+    def BuddyAvatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
         av = self.air.doId2do.get(avId, None)
         if not av:
@@ -204,16 +200,11 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
             if not self.cogDead:
                 self.cogDead = True
                 self.suit = DistributedInvasionSuitAI(self.air, self)
-                suit = DistributedInvasionSuitAI(self.air, self) 
-                suit.dna = SuitDNA.SuitDNA()
-                self.suit.dna = suit.dna
-
-                self.suit.dna.newSuit('tbc')                
-
+                self.suit.dna.newSuit('tm')
                 self.suit.setSpawnPoint(99)
-                self.suit.setLevel(0)
+                self.suit.setLevel(3)
                 self.suit.generateWithRequired(ToontownGlobals.ToontownCentral)
-                self.suit.takeDamage(hp)
+                self.suit.takeDamage(20)
 
     def saySurleePhrase(self, phrase = None, interrupt = 0, broadcast = False):
         if not phrase:
@@ -243,10 +234,6 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
 
 @magicWord(category=CATEGORY_ADMIN, types=[str])
 def election(state):
-    if not config.GetBool('want-doomsday', False):
-        simbase.air.writeServerEvent('warning', avId=spellbook.getInvoker().doId, issue='Attempted to change the election state while doomsday is disabled.')
-        return 'ABOOSE! The election is currently disabled. Your request has been logged.'
-
     event = simbase.air.doFind('ElectionEvent')
     if event is None:
         event = DistributedElectionEventAI(simbase.air)

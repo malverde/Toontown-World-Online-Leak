@@ -20,7 +20,6 @@ from pandac.PandaModules import *
 import random
 import string
 import sys
-from toontown.chat.ChatGlobals import *
 import time
 import types
 
@@ -2037,9 +2036,9 @@ class OTPClientRepository(ClientRepositoryBase):
             return
         dclass.startGenerate()
         if other:
-            self.generateWithRequiredOtherFields(dclass, doId, di, parentId, zoneId)
+            distObj = self.generateWithRequiredOtherFields(dclass, doId, di, parentId, zoneId)
         else:
-            self.generateWithRequiredFields(dclass, doId, di, parentId, zoneId)
+            distObj = self.generateWithRequiredFields(dclass, doId, di, parentId, zoneId)
         dclass.stopGenerate()
 
     def handleGenerateWithRequiredOtherOwner(self, di):

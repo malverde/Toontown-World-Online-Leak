@@ -1,29 +1,31 @@
-from pandac.PandaModules import *
-from direct.interval.IntervalGlobal import *
-from direct.distributed.ClockDelta import *
-from direct.directtools.DirectGeometry import CLAMP
+import copy
 from direct.controls.ControlManager import CollisionHandlerRayStart
-from direct.task import Task
-from otp.otpbase import OTPGlobals
-from otp.avatar import DistributedAvatar
-import Suit
-from toontown.toonbase import ToontownGlobals
-from toontown.toonbase import ToontownBattleGlobals
-from toontown.toonbase import TTLocalizer
-from toontown.battle import DistributedBattle
+from direct.directnotify import DirectNotifyGlobal
+from direct.directtools.DirectGeometry import CLAMP
+from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM
 from direct.fsm import State
-import SuitTimings
-import SuitBase
-import DistributedSuitPlanner
-import SuitDNA
-from direct.directnotify import DirectNotifyGlobal
-import SuitDialog
-from toontown.battle import BattleProps
+from direct.interval.IntervalGlobal import *
+from direct.task import Task
 import math
-import copy
+from pandac.PandaModules import *
+
+import DistributedSuitPlanner
+import Suit
+import SuitBase
+import SuitDNA
+import SuitDialog
+import SuitTimings
+from otp.avatar import DistributedAvatar
+from otp.otpbase import OTPGlobals
+from toontown.battle import BattleProps
+from toontown.battle import DistributedBattle
 from toontown.chat.ChatGlobals import *
 from toontown.nametag.NametagGlobals import *
+from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownBattleGlobals
+from toontown.toonbase import ToontownGlobals
+
 
 class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBase.SuitBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedSuitBase')
@@ -160,7 +162,7 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBa
             self.propInSound = base.loadSfx('phase_5/audio/sfx/ENC_propeller_in.ogg')
         if self.propOutSound == None:
             self.propOutSound = base.loadSfx('phase_5/audio/sfx/ENC_propeller_out.ogg')
-        if config.GetBool('want-new-cogs', 0):
+        if base.config.GetBool('want-new-cogs', 0):
             head = self.find('**/to_head')
             if head.isEmpty():
                 head = self.find('**/joint_head')
@@ -189,7 +191,10 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBa
         groundF = 28
         dur = self.getDuration('landing')
         fr = self.getFrameRate('landing')
-        animTimeInAir = groundF / fr
+        if fr:
+            animTimeInAir = groundF / fr
+        else:
+            animTimeInAir = groundF
         impactLength = dur - animTimeInAir
         timeTillLanding = SuitTimings.fromSky - impactLength
         waitTime = timeTillLanding - animTimeInAir
@@ -208,11 +213,9 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBa
             animTrack = Sequence(Func(self.pose, 'landing', 0), Wait(waitTime), ActorInterval(self, 'landing', duration=dur))
             if walkAfterLanding:
                 animTrack.append(Func(self.loop, 'walk'))
-            else:
-                animTrack.append(Func(self.loop, 'neutral'))
             self.attachPropeller()
             propTrack = Parallel(SoundInterval(self.propInSound, duration=waitTime + dur, node=self), Sequence(ActorInterval(self.prop, 'propeller', constrainedLoop=1, duration=waitTime + spinTime, startTime=0.0, endTime=spinTime), ActorInterval(self.prop, 'propeller', duration=propDur - openTime, startTime=openTime), Func(self.detachPropeller)))
-            return Parallel(lerpPosTrack, shadowTrack, fadeInTrack, animTrack, propTrack)
+            return Parallel(lerpPosTrack, shadowTrack, fadeInTrack, animTrack, propTrack, name=self.taskName('trackName'))
         else:
             lerpPosTrack = Sequence(Wait(impactLength), LerpPosInterval(self, timeTillLanding, skyPos, startPos=pos))
             shadowTrack = Sequence(Func(self.dropShadow.reparentTo, render), Func(self.dropShadow.setPos, pos), self.dropShadow.scaleInterval(timeTillLanding, Vec3(0.01, 0.01, 1.0), startScale=self.scale), Func(self.dropShadow.reparentTo, self.getShadowJoint()), Func(self.dropShadow.setPos, 0, 0, 0))
@@ -301,15 +304,14 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBa
 
     def makePathTrack(self, nodePath, posPoints, velocity, name):
         track = Sequence(name=name)
-        restOfPosPoints = posPoints[1:]
-        for pointIndex in range(len(posPoints) - 1):
+        nodePath.setPos(posPoints[0])
+        for pointIndex in xrange(len(posPoints) - 1):
             startPoint = posPoints[pointIndex]
             endPoint = posPoints[pointIndex + 1]
             track.append(Func(nodePath.headsUp, endPoint[0], endPoint[1], endPoint[2]))
             distance = Vec3(endPoint - startPoint).length()
             duration = distance / velocity
             track.append(LerpPosInterval(nodePath, duration=duration, pos=Point3(endPoint), startPos=Point3(startPoint)))
-
         return track
 
     def setState(self, state):
@@ -359,6 +361,11 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBa
         SuitBase.SuitBase.setSkelecog(self, flag)
         if flag:
             Suit.Suit.makeSkeleton(self)
+
+    def setWaiter(self, flag):
+        SuitBase.SuitBase.setWaiter(self, flag)
+        if flag:
+            Suit.Suit.makeWaiter(self)
 
     def showHpText(self, number, bonus = 0, scale = 1, attackTrack = -1):
         if self.HpTextEnabled and not self.ghostMode:
