@@ -312,7 +312,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         if (suitType is None) and (suitName is not None):
             suitType = SuitDNA.getSuitType(suitName)
             suitTrack = SuitDNA.getSuitDept(suitName)
-        if (suitLevel is None) and (buildingHeight is not None):
+        if suitLevel == None and buildingHeight != None:
             suitLevel = self.chooseSuitLevel(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_LVL], buildingHeight)
         (suitLevel, suitType, suitTrack) = self.pickLevelTypeAndTrack(suitLevel, suitType, suitTrack)
         newSuit.setupSuitDNA(suitLevel, suitType, suitTrack)
@@ -807,9 +807,11 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     def chooseSuitLevel(self, possibleLevels, buildingHeight):
         choices = []
         for level in possibleLevels:
-            (minFloors, maxFloors) = SuitBuildingGlobals.SuitBuildingInfo[level - 1][0]
+            minFloors, maxFloors = SuitBuildingGlobals.SuitBuildingInfo[level - 1][0]
             if buildingHeight >= minFloors - 1 and buildingHeight <= maxFloors - 1:
                 choices.append(level)
+        if len(choices) == 0:
+            return possibleLevels[0]
         return random.choice(choices)
 
 
