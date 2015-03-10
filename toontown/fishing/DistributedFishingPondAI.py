@@ -16,6 +16,12 @@ class DistributedFishingPondAI(DistributedObjectAI):
         self.targets = {}
         self.spots = {}
         self.bingoMgr = None
+        
+    def start(self):
+        for _ in range(FishingTargetGlobals.getNumTargets(self.area)):
+            fishingTarget = DistributedFishingTargetAI(simbase.air)
+            fishingTarget.setPondDoId(self.doId)
+            fishingTarget.generateWithRequired(self.zoneId)
 
     def hitTarget(self, target):
         avId = self.air.getAvatarIdFromSender()
