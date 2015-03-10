@@ -1,3 +1,4 @@
+from toontown.classicchars import DistributedDaisyAI
 from toontown.hood import HoodAI
 from toontown.safezone import ButterflyGlobals
 from toontown.safezone import DistributedButterflyAI
@@ -17,6 +18,8 @@ class DGHoodAI(HoodAI.HoodAI):
 
         self.trolley = None
         self.flower = None
+        self.classicChar = None
+        self.butterflies = []
 
         self.startup()
 
@@ -26,6 +29,9 @@ class DGHoodAI(HoodAI.HoodAI):
         if simbase.config.GetBool('want-minigames', True):
             self.createTrolley()
         self.createFlower()
+        if simbase.config.GetBool('want-classic-chars', True):
+            if simbase.config.GetBool('want-daisy', True):
+                self.createClassicChar()
         if simbase.config.GetBool('want-butterflies', True):
             self.createButterflies()
             
@@ -55,11 +61,17 @@ class DGHoodAI(HoodAI.HoodAI):
         self.flower.generateWithRequired(self.zoneId)
         self.flower.start()
 
+    def createClassicChar(self):
+        self.classicChar = DistributedDaisyAI.DistributedDaisyAI(self.air)
+        self.classicChar.generateWithRequired(self.zoneId)
+        self.classicChar.start()
 
-    def createButterflies(self, playground):
-        ButterflyGlobals.generateIndexes(self.zoneId, ButterflyGlobals.DG)
-        for i in xrange(0, ButterflyGlobals.NUM_BUTTERFLY_AREAS[ButterflyGlobals.DG]):
-            for _ in xrange(0, ButterflyGlobals.NUM_BUTTERFLIES[ButterflyGlobals.DG]):
-                butterfly = DistributedButterflyAI(self.air, playground, i, self.zoneId)
+    def createButterflies(self):
+        playground = ButterflyGlobals.DG
+        for area in range(ButterflyGlobals.NUM_BUTTERFLY_AREAS[playground]):
+            for b in range(ButterflyGlobals.NUM_BUTTERFLIES[playground]):
+                butterfly = DistributedButterflyAI.DistributedButterflyAI(self.air)
+                butterfly.setArea(playground, area)
+                butterfly.setState(0, 0, 0, 1, 1)
                 butterfly.generateWithRequired(self.zoneId)
-                butterfly.start()
+                self.butterflies.append(butterfly)
