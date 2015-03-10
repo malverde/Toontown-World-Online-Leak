@@ -52,12 +52,9 @@ class HoodAI:
         return name[2]
 
     def startup(self):
-        if self.air.wantFishing:
-            self.createFishingPonds()
-        if self.air.wantParties:
-            self.createPartyPeople()
-        if simbase.config.GetBool('want-treasure-planners', True):
-            self.createTreasurePlanner()
+        self.createFishingPonds()
+        self.createPartyPeople()
+        self.createTreasurePlanner()
         self.createBuildingManagers()
         if simbase.config.GetBool('want-suit-planners', True):
             self.createSuitPlanners()
