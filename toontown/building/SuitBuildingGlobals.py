@@ -1,5 +1,5 @@
 from ElevatorConstants import *
-
+from toontown.toonbase import ToontownGlobals
 
 SuitBuildingInfo = (((1, 1),
   (1, 3),
