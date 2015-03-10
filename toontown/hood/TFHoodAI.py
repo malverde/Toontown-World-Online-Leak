@@ -12,7 +12,7 @@ class TFHoodAI(HoodAI.HoodAI):
         self.timer = None
         self.picnicTables = []
         self.gameTables = []                      
-		self.startup()
+	self.startup()
     
     def startup(self):
         HoodAI.HoodAI.startup(self)
