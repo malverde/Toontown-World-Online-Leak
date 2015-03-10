@@ -18,6 +18,8 @@ class DistributedBuildingMgrAI:
 
     def __init__(self, air, branchID, dnaStore, trophyMgr):
         self.branchID = branchID
+        self.branchId = branchID
+        self.canonicalBranchId = ZoneUtil.getCanonicalZoneId(branchID)
         self.canonicalBranchID = ZoneUtil.getCanonicalZoneId(branchID)
         self.air = air
         self.__buildings = {}
@@ -190,7 +192,7 @@ class DistributedBuildingMgrAI:
         dnaStore = self.air.dnaStoreMap[self.canonicalBranchID]
         exteriorZoneId = dnaStore.getZoneFromBlockNumber(blockNumber)
         exteriorZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.branchID)
-        interiorZoneId = (self.branchId - (self.branchId%100)) + 500 + blockNumber
+        interiorZoneId = (self.branchID - (self.branchID%100)) + 500 + blockNumber
         building = HQBuildingAI.HQBuildingAI(
             self.air, exteriorZoneId, interiorZoneId, blockNumber)
         self.__buildings[blockNumber] = building
@@ -200,7 +202,7 @@ class DistributedBuildingMgrAI:
         dnaStore = self.air.dnaStoreMap[self.canonicalBranchID]
         exteriorZoneId = dnaStore.getZoneFromBlockNumber(blockNumber)
         exteriorZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.branchID)
-        interiorZoneId = (self.branchId - (self.branchId%100)) + 500 + blockNumber
+        interiorZoneId = (self.branchID - (self.branchID%100)) + 500 + blockNumber
         building = GagshopBuildingAI.GagshopBuildingAI(
             self.air, exteriorZoneId, interiorZoneId, blockNumber)
         self.__buildings[blockNumber] = building
