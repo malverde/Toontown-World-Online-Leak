@@ -127,7 +127,7 @@ class DistributedBuildingMgrAI:
             self.newBuilding(block, backup=backups.get(block, None))
 
         for block in animBldgBlocks:
-            self.newAnimBuilding(block, buildings.get(block, None))
+            self.newAnimBuilding(block, backups.get(block, None))
 
         for block in hqBlocks:
             self.newHQBuilding(block)
