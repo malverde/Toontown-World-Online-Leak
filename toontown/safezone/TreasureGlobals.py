@@ -253,7 +253,7 @@ SafeZoneTreasureSpawns = {
         4 # Maximum
     ),
     ToontownGlobals.Toonfest: (
-        TreasureRandom, 3, # +3 laff
+        TreasureE, 3, # +3 laff
         [
             # TODO - real positions
             (-156.9, -118.9, 0.025),
