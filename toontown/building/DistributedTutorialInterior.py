@@ -13,8 +13,7 @@ from toontown.char import Char
 from toontown.suit import SuitDNA
 from toontown.suit import Suit
 from toontown.quest import QuestParser
-from toontown.dna.DNAStorage import DNAStorage
-from toontown.dna.DNADoor import DNADoor
+from libpandadna.DNAParser import *
 from toontown.chat.ChatGlobals import CFSpeech
 class DistributedTutorialInterior(DistributedObject.DistributedObject):
 
@@ -86,7 +85,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         self.interior = loader.loadModel('phase_3.5/models/modules/toon_interior_tutorial')
         self.interior.reparentTo(render)
         dnaStore = DNAStorage()
-        node = loader.loadDNA('phase_3.5/dna/tutorial_street.xml').generate(self.dnaStore)
+        node = loader.loadDNA('phase_3.5/dna/tutorial_street.pdna').generate(self.dnaStore)
         self.street = render.attachNewNode(node)
         self.street.flattenMedium()
         self.street.setPosHpr(-17, 42, -0.5, 180, 0, 0)

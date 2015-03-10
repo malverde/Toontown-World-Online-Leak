@@ -40,5 +40,5 @@ class RegenTreasurePlannerAI(TreasurePlannerAI.TreasurePlannerAI):
         self.placeTreasure(spawnPointIndex)
 
     def preSpawnTreasures(self):
-        for i in range(self.maxTreasures):
+        for i in xrange(self.maxTreasures):
             self.placeRandomTreasure()

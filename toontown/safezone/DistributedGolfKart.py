@@ -31,7 +31,7 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.localToonOnBoard = 0
-        self.trolleyCountdownTime = config.GetFloat('trolley-countdown-time', TROLLEY_COUNTDOWN_TIME)
+        self.trolleyCountdownTime = base.config.GetFloat('trolley-countdown-time', TROLLEY_COUNTDOWN_TIME)
         self.fsm = ClassicFSM.ClassicFSM('DistributedTrolley', [State.State('off', self.enterOff, self.exitOff, ['entering',
           'waitEmpty',
           'waitCountdown',
@@ -48,7 +48,7 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
          0,
          0,
          0]
-        self.kartModelPath = 'phase_6/models/golf/golf_cart3'
+        self.kartModelPath = 'phase_6/models/golf/golf_cart3.bam'
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
@@ -174,7 +174,7 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
                 self.localToonOnBoard = 1
             if avId == base.localAvatar.getDoId():
                 self.loader.place.trolley.fsm.request('boarded')
-            if self.cr.doId2do.has_key(avId):
+            if avId in self.cr.doId2do:
                 toon = self.cr.doId2do[avId]
                 toon.stopSmooth()
                 toon.wrtReparentTo(self.golfKart)
@@ -212,7 +212,7 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
             pass
         else:
             self.avIds[index] = 0
-            if self.cr.doId2do.has_key(avId):
+            if avId in self.cr.doId2do:
                 toon = self.cr.doId2do[avId]
                 toon.stopSmooth()
                 sitStartDuration = toon.getDuration('sit-start')
@@ -341,7 +341,7 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
             keyList.append(key)
 
         for key in keyList:
-            if self.__toonTracks.has_key(key):
+            if key in self.__toonTracks:
                 self.clearToonTrack(key)
 
     def setGolfCourse(self, golfCourse):

@@ -14,8 +14,7 @@ from toontown.hood import SellbotHQAI, CashbotHQAI, LawbotHQAI, BossbotHQAI
 from toontown.toonbase import ToontownGlobals
 from direct.distributed.PyDatagram import *
 from otp.ai.AIZoneData import *
-from toontown.dna import DNAParser
-from toontown.dna.DNASpawnerAI import DNASpawnerAI
+from libpandadna.DNAParser import loadDNAFileAI
 from direct.stdpy.file import open
 import time
 import random
@@ -267,18 +266,8 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         return 'phase_%s/dna/%s_%s.xml' % (phase, hood, zoneId)
 
-    def loadDNA(self, filename):
-        if self.use_libpandadna:
-            f = Filename('resources/' + str(filename))
-            f.setExtension('pdna')
-            x = self.__loader.loadDNAFileAI(dnastore, f)
-            
-	else:    
-         with open('/' + filename) as f:
-            x = DNAParser.parse(f)
-
-        return x
-
+    def loadDNA(self, dnastore, filename):
+        return loadDNAFileAI(dnastore, filename)		
 
 @magicWord(category=CATEGORY_SYSADMIN, types=[str, int])
 def pstats(host='localhost', port=5185):
