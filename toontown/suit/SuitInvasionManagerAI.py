@@ -5,6 +5,10 @@ from toontown.toonbase import ToontownGlobals
 from random import random, randint, choice
 import datetime
 from direct.directnotify import DirectNotifyGlobal
+import time
+from toontown.battle import SuitBattleGlobals
+from toontown.suit.SuitInvasionGlobals import *
+
 
 # TODO: NewsManagerAI to properly announce invasions starting, invasions
 # ending, and invasions currently in progress.
