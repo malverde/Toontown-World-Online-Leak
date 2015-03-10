@@ -1,4 +1,7 @@
 import toontown.minigame.MinigameCreatorAI
+from direct.distributed.PyDatagram import *
+
+from pandac.PandaModules import *
 from toontown.distributed.ToontownDistrictAI import ToontownDistrictAI
 from toontown.distributed.ToontownDistrictStatsAI import ToontownDistrictStatsAI
 from toontown.distributed.ShardStatus import ShardStatusSender
@@ -72,6 +75,8 @@ class ToontownAIRepository(ToontownInternalRepository):
 
 
         self.districtName = districtName
+        
+        self.notify.setInfo(True)  #Yay this should fix logging :D 
 
         self.zoneAllocator = UniqueIdAllocator(ToontownGlobals.DynamicZonesBegin,
                                                ToontownGlobals.DynamicZonesEnd)
