@@ -29,7 +29,7 @@ class HoodAI:
         self.suitPlanners = []
 
         for zoneId in self.getZoneTable():
-            self.notify.info('Creating objects... ' + self.getLocationName(zoneId))
+            self.notify.info('Creating zone... ' + self.getLocationName(zoneId))
             dnaFileName = self.air.genDNAFileName(zoneId)
             dnaStore = DNAStorage()
             dnaData = simbase.air.loadDNA(dnaStore, dnaFileName)

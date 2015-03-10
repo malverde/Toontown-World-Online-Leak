@@ -108,7 +108,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.statusSender = ShardStatusSender(self)
 
         self.dnaStoreMap = {}
-
+		self.dnaDataMap = {}
         self.buildingManagers = {}
         self.suitPlanners = {}
 
