@@ -12,7 +12,7 @@ from toontown.battle import BattleManagerAI
 from toontown.battle import SuitBattleGlobals
 from toontown.building import HQBuildingAI
 from toontown.building import SuitBuildingGlobals
-from libpandadna.DNAParser import DNASuitPoint
+from toontown.dna.DNAParser import DNASuitPoint
 from toontown.hood import ZoneUtil
 from toontown.suit.SuitInvasionGlobals import IFSkelecog, IFWaiter, IFV2
 from toontown.suit.SuitLegList import *
@@ -814,7 +814,8 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
 
 
     def initTasks(self):
-        self.createInitialSuitBuildings()
+        if self.air.wantCogbuildings:
+            self.createInitialSuitBuildings()
         self.__waitForNextUpkeep()
         self.__waitForNextAdjust()
 
