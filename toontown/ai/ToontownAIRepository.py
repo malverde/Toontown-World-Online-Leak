@@ -93,6 +93,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.doLiveUpdates = self.config.GetBool('want-live-updates', True)
         self.baseXpMultiplier = self.config.GetFloat('base-xp-multiplier', 1.0)
         self.wantCogdominiums = self.config.GetBool('want-cogdominiums', True)
+        self.wantPets = self.config.GetBool('want-pets', True)
         self.holidayManager = HolidayManagerAI(self)
 
         self.fishManager = FishManagerAI()
