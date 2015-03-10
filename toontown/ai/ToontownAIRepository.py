@@ -96,6 +96,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.wantPets = self.config.GetBool('want-pets', True)
         self.wantHalloween = self.config.GetBool('want-halloween', False)
         self.wantChristmas = self.config.GetBool('want-christmas', False)
+        self.wantCogbuildings = self.config.GetBool('want-cogbuildings', True)
 
         self.holidayManager = HolidayManagerAI(self)
 
