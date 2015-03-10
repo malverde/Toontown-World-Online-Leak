@@ -17,6 +17,7 @@ class TTHoodAI(HoodAI.HoodAI):
                                ToontownGlobals.ToontownCentral)
 
         self.trolley = None
+        self.butterflies = []
 
         self.startup()
 
