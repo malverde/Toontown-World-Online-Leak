@@ -1,5 +1,6 @@
 from direct.directnotify import DirectNotifyGlobal
 from toontown.coghq import CogHQExterior
+from toontown.hood import ZoneUtil
 from libpandadna.DNAParser import loadDNAFileAI, DNAStorage
 
 class SellbotHQExterior(CogHQExterior.CogHQExterior):

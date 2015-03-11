@@ -229,34 +229,30 @@ class TownLoader(StateData.StateData):
 
     def createHood(self, dnaFile, loadStorage = 1):
         if loadStorage:
-            loader.loadDNA('phase_5/dna/storage_town.pdna').store(self.hood.dnaStore)
-            self.notify.debug('done loading %s' % 'phase_5/dna/storage_town.pdna')
-            loader.loadDNA(self.townStorageDNAFile).store(self.hood.dnaStore)
-            self.notify.debug('done loading %s' % self.townStorageDNAFile)
-        sceneTree = loader.loadDNA(dnaFile)
-        node = sceneTree.generate(self.hood.dnaStore)
-        base.cr.playGame.dnaData = sceneTree.generateData()
+            files = ('phase_5/dna/storage_town.pdna', self.townStorageDNAFile)
+            dnaBulk = DNABulkLoader(self.hood.dnaStore, files)
+            dnaBulk.loadDNAFiles()
+        node = loader.loadDNA(self.hood.dnaStore, dnaFile)
         self.notify.debug('done loading %s' % dnaFile)
         if node.getNumParents() == 1:
             self.geom = NodePath(node.getParent(0))
             self.geom.reparentTo(hidden)
         else:
             self.geom = hidden.attachNewNode(node)
-        self.makeDictionaries(sceneTree)
+        self.makeDictionaries(self.hood.dnaStore)
         self.reparentLandmarkBlockNodes()
         self.renameFloorPolys(self.nodeList)
         self.createAnimatedProps(self.nodeList)
         self.holidayPropTransforms = {}
         npl = self.geom.findAllMatches('**/=DNARoot=holiday_prop')
-        for i in range(npl.getNumPaths()):
+        for i in xrange(npl.getNumPaths()):
             np = npl.getPath(i)
             np.setTag('transformIndex', `i`)
             self.holidayPropTransforms[i] = np.getNetTransform()
-
-        self.notify.info('skipping self.geom.flattenMedium')
         gsg = base.win.getGsg()
         if gsg:
             self.geom.prepareScene(gsg)
+        self.geom.flattenLight()
         self.geom.setName('town_top_level')
 
     def reparentLandmarkBlockNodes(self):
