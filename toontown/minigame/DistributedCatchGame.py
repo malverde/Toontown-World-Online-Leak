@@ -116,6 +116,8 @@ class DistributedCatchGame(DistributedMinigame):
                 d = SuitDNA.SuitDNA()
                 d.newSuit(type)
                 suit.setDNA(d)
+                suit.nametag.setNametag2d(None)
+                suit.nametag.setNametag3d(None)
                 suit.pose('walk', 0)
                 self.suits.append(suit)
 

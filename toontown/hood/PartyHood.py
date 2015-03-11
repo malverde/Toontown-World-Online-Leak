@@ -26,9 +26,9 @@ class PartyHood(Hood.Hood):
         self.id = PartyHood
         self.safeZoneLoaderClass = PartyLoader.PartyLoader
         self.partyActivityDoneEvent = 'partyActivityDone'
-        self.storageDNAFile = 'phase_13/dna/storage_party_sz.xml'
-        self.holidayStorageDNADict = {WINTER_DECORATIONS: ['phase_5.5/dna/winter_storage_estate.xml'],
-         WACKY_WINTER_DECORATIONS: ['phase_5.5/dna/winter_storage_estate.xml']}
+        self.storageDNAFile = 'phase_13/dna/storage_party_sz.pdna'
+        self.holidayStorageDNADict = {WINTER_DECORATIONS: ['phase_5.5/dna/winter_storage_estate.pdna'],
+         WACKY_WINTER_DECORATIONS: ['phase_5.5/dna/winter_storage_estate.pdna']}
         self.skyFile = 'phase_3.5/models/props/TT_sky'
         self.popupInfo = None
         return
@@ -62,7 +62,7 @@ class PartyHood(Hood.Hood):
             msg = TTLocalizer.PartyOverWarningNoName
             if hasattr(base, 'distributedParty') and base.distributedParty:
                 name = base.distributedParty.hostName
-                msg = TTLocalizer.PartyOverWarningWithName % TTLocalizer.GetPossesive(name, 'party')
+                msg = TTLocalizer.PartyOverWarningWithName % TTLocalizer.GetPossesive(name)
             self.__popupKickoutMessage(msg)
             base.localAvatar.setTeleportAvailable(0)
         if retCode == 1:

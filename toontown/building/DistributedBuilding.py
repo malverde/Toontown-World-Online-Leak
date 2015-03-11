@@ -938,10 +938,10 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         pass
 
     def getVisZoneId(self):
-        exteriorZoneId = base.cr.playGame.dnaData.getBlock(self.block).zone
+        exteriorZoneId = base.cr.playGame.hood.dnaStore.getZoneFromBlockNumber(self.block)
         visZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.zoneId)
         return visZoneId
-
+        
     def getInteractiveProp(self):
         result = None
         if self.interactiveProp:

@@ -1,7 +1,7 @@
 from pandac.PandaModules import *
-from otp.nametag.Nametag import Nametag
-from otp.nametag.NametagGroup import NametagGroup
-from otp.nametag.NametagConstants import CFSpeech, CFThought, CFTimeout, CFPageButton, CFNoQuitButton, CFQuitButton
+from toontown.chat.ChatGlobals import *
+from toontown.nametag import NametagGlobals
+from toontown.nametag.NametagGroup import NametagGroup
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
 from direct.actor.Actor import Actor
@@ -46,11 +46,10 @@ class Avatar(Actor, ShadowCaster):
         self.__nameVisible = 1
         self.nametag = NametagGroup()
         self.nametag.setAvatar(self)
-        self.nametag.setFont(OTPGlobals.getInterfaceFont())
-        self.nametag.setSpeechFont(OTPGlobals.getInterfaceFont())
-        self.nametag2dContents = Nametag.CName | Nametag.CSpeech
-        self.nametag2dDist = Nametag.CName | Nametag.CSpeech
-        self.nametag2dNormalContents = Nametag.CName | Nametag.CSpeech
+
+        interfaceFont = OTPGlobals.getInterfaceFont()
+        self.nametag.setFont(interfaceFont)
+        self.nametag.setChatFont(interfaceFont)       
         self.nametag3d = self.attachNewNode('nametag3d')
         self.nametag3d.setTag('cam', 'nametag')
         self.nametag3d.setLightOff()
@@ -69,7 +68,7 @@ class Avatar(Actor, ShadowCaster):
         self.style = None
         self.commonChatFlags = 0
         self.understandable = 1
-        self.setPlayerType(NametagGroup.CCNormal)
+        self.setPlayerType(NametagGlobals.CCNormal)
         self.ghostMode = 0
         self.__chatParagraph = None
         self.__chatMessage = None
@@ -81,7 +80,7 @@ class Avatar(Actor, ShadowCaster):
         self.__chatLocal = 0
         self.__currentDialogue = None
         self.whitelistChatFlags = 0
-        return
+        
 
     def delete(self):
         try:
@@ -123,9 +122,16 @@ class Avatar(Actor, ShadowCaster):
             self.notify.warning('no nametag attributed, but would have been used.')
             return
         if self.isUnderstandable():
-            self.nametag.setColorCode(self.playerType)
+            nametagColor = NametagGlobals.NametagColors[self.playerType]
+            self.nametag.setNametagColor(nametagColor)
+            chatColor = NametagGlobals.ChatColors[self.playerType]
+            self.nametag.setChatColor(chatColor)            
         else:
-            self.nametag.setColorCode(NametagGroup.CCNoChat)
+            nametagColor = NametagGlobals.NametagColors[NametagGlobals.CCNoChat]
+            self.nametag.setNametagColor(nametagColor)
+            chatColor = NametagGlobals.ChatColors[NametagGlobals.CCNoChat]
+            self.nametag.setChatColor(chatColor)
+        self.nametag.updateAll()
 
     def setCommonChatFlags(self, commonChatFlags):
         self.commonChatFlags = commonChatFlags
@@ -140,36 +146,38 @@ class Avatar(Actor, ShadowCaster):
             reconsiderAllUnderstandable()
 
     def considerUnderstandable(self):
-        speed = 0
-        if self.playerType in (NametagGroup.CCNormal, NametagGroup.CCFreeChat, NametagGroup.CCSpeedChat):
-            self.setPlayerType(NametagGroup.CCSpeedChat)
-            speed = 1
-        if hasattr(base, 'localAvatar') and self == base.localAvatar:
+        if self.playerType in (NametagGlobals.CCNormal, NametagGlobals.CCFreeChat, NametagGlobals.CCSpeedChat):
+            self.setPlayerType(NametagGlobals.CCSpeedChat)
+        if hasattr(base, 'localAvatar') and (self == base.localAvatar):       
             self.understandable = 1
-            self.setPlayerType(NametagGroup.CCFreeChat)
-        elif self.playerType == NametagGroup.CCSuit:
+            self.setPlayerType(NametagGlobals.CCFreeChat)
+        elif self.playerType == NametagGlobals.CCSuit:
             self.understandable = 1
-            self.setPlayerType(NametagGroup.CCSuit)
-        elif self.playerType not in (NametagGroup.CCNormal, NametagGroup.CCFreeChat, NametagGroup.CCSpeedChat):
+            self.setPlayerType(NametagGlobals.CCSuit)
+        elif self.playerType not in (NametagGlobals.CCNormal, NametagGlobals.CCFreeChat, NametagGlobals.CCSpeedChat):
             self.understandable = 1
-            self.setPlayerType(NametagGroup.CCNoChat)
+            self.setPlayerType(NametagGlobals.CCNoChat)
         elif hasattr(base, 'localAvatar') and self.commonChatFlags & base.localAvatar.commonChatFlags & OTPGlobals.CommonChat:
             self.understandable = 1
-            self.setPlayerType(NametagGroup.CCFreeChat)
+            self.setPlayerType(NametagGlobals.CCFreeChat)
         elif self.commonChatFlags & OTPGlobals.SuperChat:
             self.understandable = 1
-            self.setPlayerType(NametagGroup.CCFreeChat)
+            self.setPlayerType(NametagGlobals.CCFreeChat)
         elif hasattr(base, 'localAvatar') and base.localAvatar.commonChatFlags & OTPGlobals.SuperChat:
             self.understandable = 1
-            self.setPlayerType(NametagGroup.CCFreeChat)
+            self.setPlayerType(NametagGlobals.CCFreeChat)
         elif base.cr.getFriendFlags(self.doId) & OTPGlobals.FriendChat:
             self.understandable = 1
-            self.setPlayerType(NametagGroup.CCFreeChat)
+            self.setPlayerType(NametagGlobals.CCFreeChat)
         elif base.cr.playerFriendsManager.findPlayerIdFromAvId(self.doId) is not None:
             playerInfo = base.cr.playerFriendsManager.findPlayerInfoFromAvId(self.doId)
             if playerInfo.openChatFriendshipYesNo:
                 self.understandable = 1
-                self.nametag.setColorCode(NametagGroup.CCFreeChat)
+                nametagColor = NametagGlobals.NametagColors[NametagGlobals.CCFreeChat]
+                self.nametag.setNametagColor(nametagColor)
+                chatColor = NametagGlobals.ChatColors[NametagGlobals.CCFreeChat]
+                self.nametag.setChatColor(chatColor)
+                self.nametag.updateAll()                
             elif playerInfo.isUnderstandable():
                 self.understandable = 1
             else:
@@ -181,8 +189,11 @@ class Avatar(Actor, ShadowCaster):
         if not hasattr(self, 'nametag'):
             self.notify.warning('no nametag attributed, but would have been used')
         else:
-            self.nametag.setColorCode(self.playerType)
-        return
+            nametagColor = NametagGlobals.NametagColors[self.playerType]
+            self.nametag.setNametagColor(nametagColor)
+            chatColor = NametagGlobals.ChatColors[self.playerType]
+            self.nametag.setChatColor(chatColor)
+            self.nametag.updateAll()
 
     def isUnderstandable(self):
         return self.understandable
@@ -240,13 +251,13 @@ class Avatar(Actor, ShadowCaster):
                 return
         self.name = name
         if hasattr(self, 'nametag'):
-            self.nametag.setName(name)
+            self.nametag.setText(name)
 
     def setDisplayName(self, str):
         if hasattr(self, 'isDisguised'):
             if self.isDisguised:
                 return
-        self.nametag.setDisplayName(str)
+        self.nametag.setText(str)
 
     def getFont(self):
         return self.__font
@@ -254,6 +265,7 @@ class Avatar(Actor, ShadowCaster):
     def setFont(self, font):
         self.__font = font
         self.nametag.setFont(font)
+        self.nametag.setChatFont(font)
 
     def getSpeechFont(self):
         return self.__speechFont
@@ -278,7 +290,7 @@ class Avatar(Actor, ShadowCaster):
         if dialogue:
             base.playSfx(dialogue, node=self)
         elif chatFlags & CFSpeech != 0 and self.nametag.getNumChatPages() > 0:
-            self.playDialogueForString(self.nametag.getChat())
+            self.playDialogueForString(self.nametag.getChatText())
             if self.soundChatBubble != None:
                 base.playSfx(self.soundChatBubble, node=self)
         return
@@ -329,7 +341,7 @@ class Avatar(Actor, ShadowCaster):
 
         # The standard cog phrase gets too repetitive when there are so many cogs running around.
         # Let's just choose a random one.
-        if config.GetBool('want-doomsday', False) and self.playerType == NametagGroup.CCSuit:
+        if config.GetBool('want-doomsday', False) and self.playerType == NametagGlobals.CCSuit:
             sfxIndex = random.choice([1, 2, 2, 2, 2, 3, 3, 3]) #Duplicates are Intentional
 
         if sfxIndex != None and sfxIndex < len(dialogueArray) and dialogueArray[sfxIndex] != None:
@@ -363,7 +375,30 @@ class Avatar(Actor, ShadowCaster):
 
     def setChatAbsolute(self, chatString, chatFlags, dialogue = None, interrupt = 1):
         self.clearChat()
-        self.nametag.setChat(chatString, chatFlags)
+
+        if chatFlags & CFQuicktalker:
+            self.nametag.setChatType(NametagGlobals.SPEEDCHAT)
+        else:
+            self.nametag.setChatType(NametagGlobals.CHAT)
+
+        if chatFlags & CFThought:
+            self.nametag.setChatBalloonType(NametagGlobals.THOUGHT_BALLOON)
+        else:
+            self.nametag.setChatBalloonType(NametagGlobals.CHAT_BALLOON)
+
+        if chatFlags & CFPageButton:
+            self.nametag.setChatButton(NametagGlobals.pageButton)
+        elif chatFlags & CFQuitButton:
+            self.nametag.setChatButton(NametagGlobals.quitButton)
+        else:
+            self.nametag.setChatButton(NametagGlobals.noButton)
+
+        if chatFlags & CFReversed:
+            self.nametag.setChatReversed(True)
+        else:
+            self.nametag.setChatReversed(False)
+
+        self.nametag.setChatText(chatString, timeout=(chatFlags & CFTimeout))        
         self.playCurrentDialogue(dialogue, chatFlags, interrupt)
 
     def setChatMuted(self, chatString, chatFlags, dialogue = None, interrupt = 1, quiet = 0):
@@ -371,13 +406,19 @@ class Avatar(Actor, ShadowCaster):
 
     def displayTalk(self, chatString):
         if not base.cr.avatarFriendsManager.checkIgnored(self.doId):
+            self.clearChat()
+            self.nametag.setChatType(NametagGlobals.CHAT)
+            self.nametag.setChatButton(NametagGlobals.noButton)        
             if base.talkAssistant.isThought(chatString):
-                self.nametag.setChat(base.talkAssistant.removeThoughtPrefix(chatString), CFThought)
+                chatString = base.talkAssistant.removeThoughtPrefix(chatString)
+                self.nametag.setChatBalloonType(NametagGlobals.THOUGHT_BALLOON)
+                self.nametag.setChatText(chatString)               
             else:
-                self.nametag.setChat(chatString, CFSpeech | CFTimeout)
-
+                self.nametag.setChatBalloonType(NametagGlobals.CHAT_BALLOON)
+                self.nametag.setChatText(chatString, timeout=True)
+                
     def clearChat(self):
-        self.nametag.clearChat()
+        self.nametag.clearChatText()
 
     def isInView(self):
         pos = self.getPos(camera)
@@ -395,40 +436,63 @@ class Avatar(Actor, ShadowCaster):
             self.hideName()
 
     def hideName(self):
-        self.nametag.getNametag3d().setContents(Nametag.CSpeech | Nametag.CThought)
+        nametag3d = self.nametag.getNametag3d()
+        nametag3d.hideNametag()
+        nametag3d.showChat()
+        nametag3d.showThought()
+        nametag3d.update()
 
     def showName(self):
-        if self.__nameVisible and not self.ghostMode:
-            self.nametag.getNametag3d().setContents(Nametag.CName | Nametag.CSpeech | Nametag.CThought)
+        if self.__nameVisible and (not self.ghostMode):
+            nametag3d = self.nametag.getNametag3d()
+            nametag3d.showNametag()
+            nametag3d.showChat()
+            nametag3d.showThought()
+            nametag3d.update()
 
     def hideNametag2d(self):
-        self.nametag2dContents = 0
-        self.nametag.getNametag2d().setContents(self.nametag2dContents & self.nametag2dDist)
+        nametag2d = self.nametag.getNametag2d()
+        nametag2d.hideNametag()
+        nametag2d.hideChat()
+        nametag2d.update()
 
     def showNametag2d(self):
-        self.nametag2dContents = self.nametag2dNormalContents
-        if self.ghostMode:
-            self.nametag2dContents = Nametag.CSpeech
-        self.nametag.getNametag2d().setContents(self.nametag2dContents & self.nametag2dDist)
-
-
-    def hideNametag3d(self):
-        self.nametag.getNametag3d().setContents(0)
-
-    def showNametag3d(self):
-        if self.__nameVisible and not self.ghostMode:
-            self.nametag.getNametag3d().setContents(Nametag.CName | Nametag.CSpeech | Nametag.CThought)
+        nametag2d = self.nametag.getNametag2d()
+        if not self.ghostMode:
+            nametag2d.showNametag()
+            nametag2d.showChat()
         else:
-            self.nametag.getNametag3d().setContents(0)
+            nametag2d.hideNametag()
+            nametag2d.hideChat()
+            nametag2d.update()
+         
+    def hideNametag3d(self):
+        nametag3d = self.nametag.getNametag3d()
+        nametag3d.hideNametag()
+        nametag3d.hideChat()
+        nametag3d.hideThought()
+        nametag3d.update()
+        
+    def showNametag3d(self):
+        nametag3d = self.nametag.getNametag3d()
+        if self.__nameVisible and (not self.ghostMode):
+            nametag3d.showNametag()
+            nametag3d.showChat()
+            nametag3d.showThought()
+        else:
+            nametag3d.hideNametag()
+            nametag3d.hideChat()
+            nametag3d.hideThought()
+        nametag3d.update()           
 
     def setPickable(self, flag):
         self.nametag.setActive(flag)
 
     def clickedNametag(self):
         MagicWordManager.lastClickedNametag = self
-        if self.nametag.hasButton():
+        if self.nametag.getChatButton() != NametagGlobals.noButton:
             self.advancePageNumber()
-        elif self.nametag.isActive():
+        elif self.nametag.getActive():
             messenger.send('clickedNametag', [self])
 
     def setPageChat(self, addressee, paragraph, message, quitButton, extraChatFlags = None, dialogueList = [], pageButton = True):
@@ -523,7 +587,7 @@ class Avatar(Actor, ShadowCaster):
                     self.setChatAbsolute(self.__chatMessage, self.__chatFlags, dialogue)
                     self.__chatSet = 1
                 if pageNumber < self.nametag.getNumChatPages():
-                    self.nametag.setPageNumber(pageNumber)
+                    self.nametag.setChatPageIndex(pageNumber)
                     if pageNumber > 0:
                         if len(self.__chatDialogueList) > pageNumber:
                             dialogue = self.__chatDialogueList[pageNumber]
@@ -534,7 +598,7 @@ class Avatar(Actor, ShadowCaster):
                     self.clearChat()
             else:
                 self.clearChat()
-        return
+       
 
     def getAirborneHeight(self):
         height = self.getPos(self.shadowPlacer.shadowNodePath)
@@ -544,7 +608,7 @@ class Avatar(Actor, ShadowCaster):
         self.deleteNametag3d()
         nametagNode = self.nametag.getNametag3d()
         self.nametagNodePath = self.nametag3d.attachNewNode(nametagNode)
-        iconNodePath = self.nametag.getNameIcon()
+        iconNodePath = self.nametag.getIcon()
         for cJoint in self.getNametagJoints():
             cJoint.clearNetTransforms()
             cJoint.addNetTransform(nametagNode)
@@ -558,7 +622,7 @@ class Avatar(Actor, ShadowCaster):
         if self.nametagNodePath:
             self.nametagNodePath.removeNode()
             self.nametagNodePath = None
-        return
+        
 
     def initializeBodyCollisions(self, collIdStr):
         self.collTube = CollisionTube(0, 0, 0.5, 0, 0, self.height - self.getRadius(), self.getRadius())
@@ -594,7 +658,7 @@ class Avatar(Actor, ShadowCaster):
 
             Avatar.ActiveAvatars.append(self)
             self.nametag.manage(base.marginManager)
-            self.accept(self.nametag.getUniqueId(), self.clickedNametag)
+            self.accept(self.nametag.getUniqueName(), self.clickedNametag)
 
     def removeActive(self):
         if base.wantNametags:
@@ -604,7 +668,7 @@ class Avatar(Actor, ShadowCaster):
                 pass
 
             self.nametag.unmanage(base.marginManager)
-            self.ignore(self.nametag.getUniqueId())
+            self.ignore(self.nametag.getUniqueName())
 
     def loop(self, animName, restart = 1, partName = None, fromFrame = None, toFrame = None):
         return Actor.loop(self, animName, restart, partName, fromFrame, toFrame)

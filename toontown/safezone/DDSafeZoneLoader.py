@@ -2,6 +2,8 @@ from pandac.PandaModules import *
 import SafeZoneLoader
 import DDPlayground
 from direct.fsm import State
+from toontown.char import CharDNA
+from toontown.char import Char
 from toontown.toonbase import ToontownGlobals
 
 class DDSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
@@ -11,8 +13,8 @@ class DDSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         self.playgroundClass = DDPlayground.DDPlayground
         self.musicFile = 'phase_6/audio/bgm/DD_nbrhood.ogg'
         self.activityMusicFile = 'phase_6/audio/bgm/DD_SZ_activity.ogg'
-        self.dnaFile = 'phase_6/dna/donalds_dock_sz.xml'
-        self.safeZoneStorageDNAFile = 'phase_6/dna/storage_DD_sz.xml'
+        self.dnaFile = 'phase_6/dna/donalds_dock_sz.pdna'
+        self.safeZoneStorageDNAFile = 'phase_6/dna/storage_DD_sz.pdna'
 
     def load(self):
         SafeZoneLoader.SafeZoneLoader.load(self)

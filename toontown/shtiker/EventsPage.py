@@ -741,7 +741,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
     def getRssFeed(self):
         if self.gotRssFeed:
             return
-        self.rssFeed = feedparser.parse('http://www.wdwinfo.com/news/rss.xml')
+        self.rssFeed = feedparser.parse('http://www.wdwinfo.com/news/rss.pdna')
         feedText = []
 
         def addFeedText(unicodeText, textSize = 0.03, color = (0, 0, 0, 1), feedText = feedText):

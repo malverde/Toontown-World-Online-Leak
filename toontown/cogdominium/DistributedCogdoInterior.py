@@ -1,26 +1,30 @@
-import random
-from direct.interval.IntervalGlobal import *
-from direct.distributed.ClockDelta import *
-from toontown.building.ElevatorConstants import *
-from toontown.toon import NPCToons
-from pandac.PandaModules import NodePath
-from toontown.building import ElevatorUtils
-from toontown.toonbase import ToontownGlobals
-from toontown.toonbase import ToontownBattleGlobals
 from direct.directnotify import DirectNotifyGlobal
-from direct.fsm import ClassicFSM, State
 from direct.distributed import DistributedObject
+from direct.distributed.ClockDelta import *
+from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.fsm.StatePush import StateVar, FunctionCall
-from toontown.battle import BattleBase
-from toontown.hood import ZoneUtil
-from toontown.cogdominium.CogdoLayout import CogdoLayout
-from toontown.cogdominium import CogdoGameConsts
-from toontown.cogdominium import CogdoBarrelRoom, CogdoBarrelRoomConsts
-from toontown.distributed import DelayDelete
-from toontown.toonbase import TTLocalizer
-from CogdoExecutiveSuiteMovies import CogdoExecutiveSuiteIntro
+from direct.interval.IntervalGlobal import *
+from pandac.PandaModules import NodePath
+import random
+
 from CogdoElevatorMovie import CogdoElevatorMovie
+from CogdoExecutiveSuiteMovies import CogdoExecutiveSuiteIntro
+from toontown.battle import BattleBase
+from toontown.building import ElevatorUtils
+from toontown.building.ElevatorConstants import *
+from toontown.chat.ChatGlobals import *
+from toontown.cogdominium import CogdoBarrelRoom, CogdoBarrelRoomConsts
+from toontown.cogdominium import CogdoGameConsts
+from toontown.cogdominium.CogdoLayout import CogdoLayout
+from toontown.distributed import DelayDelete
+from toontown.hood import ZoneUtil
+from toontown.toon import NPCToons
+from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownBattleGlobals
+from toontown.toonbase import ToontownGlobals
+
+
 PAINTING_DICT = {'s': 'tt_m_ara_crg_paintingMoverShaker',
  'l': 'tt_m_ara_crg_paintingLegalEagle',
  'm': 'tt_m_ara_crg_paintingMoverShaker',
@@ -148,7 +152,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
 
     def setElevatorLights(self, elevatorModel):
         npc = elevatorModel.findAllMatches('**/floor_light_?;+s')
-        for i in range(npc.getNumPaths()):
+        for i in xrange(npc.getNumPaths()):
             np = npc.getPath(i)
             floor = int(np.getName()[-1:]) - 1
             if floor == self.currentFloor:
@@ -255,7 +259,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
         self.ignore(toon.uniqueName('disable'))
 
     def __finishInterval(self, name):
-        if self.activeIntervals.has_key(name):
+        if name in self.activeIntervals:
             interval = self.activeIntervals[name]
             if interval.isPlaying():
                 interval.finish()
@@ -304,7 +308,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
         self.toons = []
         for toonId in toonIds:
             if toonId != 0:
-                if self.cr.doId2do.has_key(toonId):
+                if toonId in self.cr.doId2do:
                     toon = self.cr.doId2do[toonId]
                     toon.stopSmooth()
                     self.toons.append(toon)
@@ -322,7 +326,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
         self.suits = []
         self.joiningReserves = []
         for suitId in suitIds:
-            if self.cr.doId2do.has_key(suitId):
+            if suitId in self.cr.doId2do:
                 suit = self.cr.doId2do[suitId]
                 self.suits.append(suit)
                 suit.fsm.request('Battle')
@@ -334,9 +338,9 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
                 self.notify.warning('setSuits() - no suit: %d' % suitId)
 
         self.reserveSuits = []
-        for index in range(len(reserveIds)):
+        for index in xrange(len(reserveIds)):
             suitId = reserveIds[index]
-            if self.cr.doId2do.has_key(suitId):
+            if suitId in self.cr.doId2do:
                 suit = self.cr.doId2do[suitId]
                 self.reserveSuits.append((suit, values[index]))
             else:
@@ -422,7 +426,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
             self.cageDoor.wrtReparentTo(self.cage)
             if self.FOType:
                 paintingModelName = PAINTING_DICT.get(self.FOType)
-                for i in range(4):
+                for i in xrange(4):
                     paintingModel = loader.loadModel('phase_5/models/cogdominium/%s' % paintingModelName)
                     loc = self.floorModel.find('**/loc_painting%d' % (i + 1))
                     paintingModel.reparentTo(loc)
@@ -466,7 +470,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
         self.elevIn = elevIn
         self.elevOut = elevOut
         self._haveEntranceElevator.set(True)
-        for index in range(len(self.suits)):
+        for index in xrange(len(self.suits)):
             self.suits[index].setPos(SuitPositions[index])
             if len(self.suits) > 2:
                 self.suits[index].setH(SuitHs[index])
@@ -735,13 +739,13 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
             pass
         else:
             self.notify.warning('Invalid floor number for display badges.')
-        for player in range(len(self.toons)):
+        for player in xrange(len(self.toons)):
             goldBadge = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_crg_goldTrophy')
             goldBadge.setScale(1.2)
             goldNode = render.find('**/gold_0' + str(player + 1))
             goldBadge.reparentTo(goldNode)
-            for floor in range(numFloors):
-                silverBadge = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_crg_silverTrophy')
+            for floor in xrange(numFloors):
+                silverBadge = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_crg_silverTrophy.bam')
                 silverBadge.setScale(1.2)
                 silverNode = render.find('**/silver_0' + str(floor * 4 + (player + 1)))
                 silverBadge.reparentTo(silverNode)
@@ -760,6 +764,6 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
     def __outroPenthouseChatDone(self, elapsed = None):
         self.shopOwnerNpc.setChatAbsolute(TTLocalizer.CogdoExecutiveSuiteToonBye, CFSpeech)
         self.ignore('doneChatPage')
-        track = Parallel(Sequence(ActorInterval(self.shopOwnerNpc, 'wave'), Func(self.shopOwnerNpc.loop, 'neutral')), Sequence(Wait(2.0), Func(self.exitCogdoBuilding), Func(base.camLens.setFov, ToontownGlobals.DefaultCameraFov)))
+        track = Parallel(Sequence(ActorInterval(self.shopOwnerNpc, 'wave'), Func(self.shopOwnerNpc.loop, 'neutral')), Sequence(Wait(2.0), Func(self.exitCogdoBuilding), Func(base.camLens.setMinFov, ToontownGlobals.DefaultCameraFov/(4./3.))))
         track.start()
         self.penthouseOutroChatDoneTrack = track
