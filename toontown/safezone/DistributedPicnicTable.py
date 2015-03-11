@@ -9,7 +9,7 @@ from direct.distributed import DistributedNode
 from direct.distributed.ClockDelta import globalClockDelta
 from ChineseCheckersBoard import ChineseCheckersBoard
 from GameTutorials import *
-from GameMenu import GameMenu
+#from GameMenu import GameMenu
 from direct.fsm import ClassicFSM, State
 from direct.fsm import StateData
 from toontown.distributed import DelayDelete
