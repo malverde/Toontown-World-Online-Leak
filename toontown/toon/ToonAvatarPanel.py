@@ -457,7 +457,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         AvatarPanelBase.currentAvatarPanel = None
         if self.friendsListShown:
             self.FriendsListPanel.showFriendsList()
-        else:
+        
         return
 
     def getAvId(self):
