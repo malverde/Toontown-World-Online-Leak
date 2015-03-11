@@ -3,3 +3,4 @@ from toontown.toonbase import TTLocalizer
 
 
 class DLPlayground(Playground.Playground):
+	pass
