@@ -2,8 +2,9 @@ from pandac.PandaModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.showbase import Loader
 from toontown.toontowngui import ToontownLoadingScreen
-from libpandadna import DNAParser
+from libpandadna.DNAParser import *
 from direct.stdpy.file import open
+
 
 class ToontownLoader(Loader.Loader):
     TickPeriod = 0.2
@@ -86,6 +87,21 @@ class ToontownLoader(Loader.Loader):
         if alphaPath:
             self.tick()
         return ret
+        
+    def pdnaModel(self, *args, **kw):
+        ret = Loader.Loader.loadModel(self, *args, **kw)
+        if ret:
+            gsg = base.win.getGsg()
+            if gsg:
+                ret.prepareScene(gsg)
+        return ret
+
+    def pdnaFont(self, *args, **kw):
+        return Loader.Loader.loadFont(self, *args, **kw)
+
+    def pdnaTexture(self, texturePath, alphaPath = None, okMissing = False):
+        return Loader.Loader.loadTexture(self, texturePath, alphaPath, okMissing=okMissing)
+
 
     def loadSfx(self, soundPath):
         ret = Loader.Loader.loadSfx(self, soundPath)
