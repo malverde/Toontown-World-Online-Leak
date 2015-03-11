@@ -6,8 +6,6 @@ from toontown.building import GagshopBuildingAI
 from toontown.building import HQBuildingAI
 from toontown.building import KartShopBuildingAI
 from toontown.building import PetshopBuildingAI
-from toontown.building import BankBuildingAI
-from toontown.building import LibraryBuildingAI
 from toontown.hood import ZoneUtil
 # from toontown.building import DistributedAnimBuildingAI
 
