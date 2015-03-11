@@ -3,6 +3,8 @@ from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobal
 # TODO: OTP should not depend on Toontown... Hrrm.
 from toontown.chat.TTWhiteList import TTWhiteList
 import time
+from otp.distributed import OtpDoGlobals
+
 
 class ChatAgentUD(DistributedObjectGlobalUD):
     notify = DirectNotifyGlobal.directNotify.newCategory("ChatAgentUD")
