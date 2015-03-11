@@ -327,6 +327,8 @@ class Playground(Place.Place):
     def hidePaths(self):
         self.hideDebugPointText()
 
+
+
     def hideDebugPointText(self):
         if hasattr(self, 'debugText'):
             children = self.debugText.getChildren()

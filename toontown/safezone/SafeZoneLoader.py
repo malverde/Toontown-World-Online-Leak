@@ -64,10 +64,6 @@ class SafeZoneLoader(StateData.StateData):
         self.fsm.enterInitialState()
         messenger.send('enterSafeZone')
         self.setState(requestStatus['where'], requestStatus)
-        if not base.config.GetBool('want-parties', True):
-            partyGate = self.geom.find('**/prop_party_gate_DNARoot')
-            if not partyGate.isEmpty():
-                partyGate.removeNode()
 
     def exit(self):
         messenger.send('exitSafeZone')
@@ -98,6 +94,7 @@ class SafeZoneLoader(StateData.StateData):
             self.geom.prepareScene(gsg)
         self.geom.flattenMedium()
 
+
     def makeDictionaries(self, dnaStore):
         self.nodeList = []
         for i in xrange(dnaStore.getNumDNAVisGroups()):
@@ -115,9 +112,10 @@ class SafeZoneLoader(StateData.StateData):
         self.hood.dnaStore.resetDNAVisGroups()
         self.hood.dnaStore.resetDNAVisGroupsAI()
 
+
     def removeLandmarkBlockNodes(self):
         npc = self.geom.findAllMatches('**/suit_building_origin')
-        for i in xrange(npc.getNumPaths()):
+        for i in range(npc.getNumPaths()):
             npc.getPath(i).removeNode()
 
     def enterStart(self):
@@ -211,7 +209,7 @@ class SafeZoneLoader(StateData.StateData):
         for i in nodeList:
             animPropNodes = i.findAllMatches('**/animated_prop_*')
             numAnimPropNodes = animPropNodes.getNumPaths()
-            for j in xrange(numAnimPropNodes):
+            for j in range(numAnimPropNodes):
                 animPropNode = animPropNodes.getPath(j)
                 if animPropNode.getName().startswith('animated_prop_generic'):
                     className = 'GenericAnimatedProp'
@@ -226,7 +224,7 @@ class SafeZoneLoader(StateData.StateData):
 
             interactivePropNodes = i.findAllMatches('**/interactive_prop_*')
             numInteractivePropNodes = interactivePropNodes.getNumPaths()
-            for j in xrange(numInteractivePropNodes):
+            for j in range(numInteractivePropNodes):
                 interactivePropNode = interactivePropNodes.getPath(j)
                 className = 'GenericAnimatedProp'
                 symbols = {}

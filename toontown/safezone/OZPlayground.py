@@ -92,7 +92,7 @@ class OZPlayground(Playground.Playground):
         if self.toonSubmerged == 1:
             return
         base.playSfx(self.loader.submergeSound)
-        if base.config.GetBool('disable-flying-glitch') == 0:
+        if config.GetBool('disable-flying-glitch') == 0:
             self.fsm.request('walk')
         self.walkStateData.fsm.request('swimming', [self.loader.swimSound])
         pos = base.localAvatar.getPos(render)
@@ -176,3 +176,7 @@ class OZPlayground(Playground.Playground):
         else:
             self.notify.error('Unknown mode: ' + mode + ' in handlePicnicBasketDone')
 
+    def showPaths(self):
+        from toontown.classicchars import CCharPaths
+        from toontown.toonbase import TTLocalizer
+        self.showPathPoints(CCharPaths.getPaths(TTLocalizer.Chip))

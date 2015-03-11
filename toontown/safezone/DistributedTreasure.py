@@ -122,7 +122,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
     def handleGrab(self, avId):
         self.collNodePath.stash()
         self.avId = avId
-        if avId in self.cr.doId2do:
+        if self.cr.doId2do.has_key(avId):
             av = self.cr.doId2do[avId]
             self.av = av
         else:

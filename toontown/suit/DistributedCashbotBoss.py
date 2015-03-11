@@ -25,8 +25,10 @@ from toontown.chat.ChatGlobals import *
 from toontown.nametag.NametagGlobals import *
 import random
 import math
+from toontown.toonbase import TTLocalizer
 OneBossCog = None
 TTL = TTLocalizer
+
 
 
 class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):

@@ -104,8 +104,13 @@ class GSPlayground(Playground.Playground):
         elif where == 'exit':
             self.fsm.request('walk')
         elif where == 'racetrack':
+            print 'Entering Racetrack'
             self.doneStatus = doneStatus
             messenger.send(self.doneEvent)
         else:
             self.notify.error('Unknown mode: ' + where + ' in handleStartingBlockDone')
 
+    def showPaths(self):
+        from toontown.classicchars import CCharPaths
+        from toontown.toonbase import TTLocalizer
+        self.showPathPoints(CCharPaths.getPaths(TTLocalizer.Goofy, 1))

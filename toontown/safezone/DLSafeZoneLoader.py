@@ -1,8 +1,9 @@
-from toontown.safezone import DLPlayground
-from toontown.safezone import SafeZoneLoader
-
+from pandac.PandaModules import *
+import SafeZoneLoader
+import DLPlayground
 
 class DLSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
+
     def __init__(self, hood, parentFSM, doneEvent):
         SafeZoneLoader.SafeZoneLoader.__init__(self, hood, parentFSM, doneEvent)
         self.playgroundClass = DLPlayground.DLPlayground

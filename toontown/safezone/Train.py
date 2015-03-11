@@ -27,7 +27,6 @@ class Train(DirectObject):
         self.trackEndPos = trackEndPos
         self.numCars = len(self.CarFiles)
         self.locomotive = loader.loadModel(self.LocomotiveFile)
-        self.locomotive.flattenStrong()
         self.cars = []
         self.trainPassingSfx = base.loadSfx(self.Sfx_TrainPass)
         self.trainStopStartSfx = base.loadSfx(self.Sfx_TrainStopStart)
@@ -97,10 +96,9 @@ class Train(DirectObject):
     def __getCars(self):
         self.__cleanupCars()
         numCarsThisRun = random.randrange(1, 10)
-        for nCar in xrange(numCarsThisRun):
+        for nCar in range(numCarsThisRun):
             carType = random.randrange(0, self.numCars)
             car = loader.loadModel(self.CarFiles[carType])
-            car.flattenStrong()
             car.reparentTo(self.locomotive)
             car.setPos(self.CarLength * (nCar + 1), 0, 0)
             self.cars.append(car)
