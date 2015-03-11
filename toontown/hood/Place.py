@@ -14,6 +14,7 @@ from toontown.estate import HouseGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
 from otp.avatar import Emote
+from toontown.nametag.NametagGlobals import *
 from otp.avatar.Avatar import teleportNotify
 from direct.task import Task
 import QuietZoneState
