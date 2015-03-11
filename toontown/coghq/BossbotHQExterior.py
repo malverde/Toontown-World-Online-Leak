@@ -6,7 +6,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.building import Elevator
 from pandac.PandaModules import *
 from toontown.coghq import CogHQExterior
-from toontown.dna.DNAParser import loadDNAFileAI, DNAStorage
+from libpandadna.DNAParser import loadDNAFileAI, DNAStorage
 
 class BossbotHQExterior(CogHQExterior.CogHQExterior):
     notify = DirectNotifyGlobal.directNotify.newCategory('BossbotHQExterior')
