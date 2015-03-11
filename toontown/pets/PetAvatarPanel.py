@@ -267,8 +267,6 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         AvatarPanel.currentAvatarPanel = None
         if self.friendsListShown:
             self.FriendsListPanel.showFriendsList()
-        else:
-            base.showFriendMargins()
         return
 
     def __fillPetInfo(self, avatar):

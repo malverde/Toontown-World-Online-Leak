@@ -454,12 +454,10 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
 
     def __handleClose(self):
         self.cleanup()
-        base.showFriendMargins()
         AvatarPanelBase.currentAvatarPanel = None
         if self.friendsListShown:
             self.FriendsListPanel.showFriendsList()
         else:
-            base.showFriendMargins()
         return
 
     def getAvId(self):
