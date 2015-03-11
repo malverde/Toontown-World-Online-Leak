@@ -102,7 +102,6 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
                     self.__refreshPetInfo(av)
 
                 self.avatar.updateMoodFromServer(refresh)
-        base.hideFriendMargins()
         return
 
     def __checkPetProximity(self, task = None):
