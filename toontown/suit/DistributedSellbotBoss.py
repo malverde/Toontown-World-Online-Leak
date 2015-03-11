@@ -28,8 +28,8 @@ from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-
-
+from toontown.chat.ChatGlobals import *
+from toontown.nametag.NametagGlobals import *
 OneBossCog = None
 
 class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):

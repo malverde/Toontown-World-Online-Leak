@@ -1,4 +1,6 @@
 from direct.actor import Actor
+from otp.avatar import Avatar
+from toontown.nametag import NametagGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import FSM
 from direct.fsm import State

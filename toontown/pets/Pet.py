@@ -13,6 +13,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from direct.showbase import PythonUtil
 import random
+from toontown.nametag import NametagGlobals
 import types
 Component2IconDict = {'boredom': 'Bored',
  'restlessness': None,
@@ -42,7 +43,7 @@ class Pet(Avatar.Avatar):
         Pet.SerialNum += 1
         self.lockedDown = 0
         self.setPickable(1)
-        self.setPlayerType(NametagGroup.CCNonPlayer)
+        self.setPlayerType(NametagGlobals.CCNonPlayer)
         self.animFSM = ClassicFSM('petAnimFSM', [State('off', self.enterOff, self.exitOff),
          State('neutral', self.enterNeutral, self.exitNeutral),
          State('neutralHappy', self.enterNeutralHappy, self.exitNeutralHappy),
@@ -322,9 +323,9 @@ class Pet(Avatar.Avatar):
         if self.moodModel:
             self.moodModel.hide()
         if config.GetBool('want-speech-bubble', 1):
-            self.nametag.setChat(random.choice(TTLocalizer.SpokenMoods[mood]), CFSpeech)
+            self.nametag.setChatText(random.choice(TTLocalizer.SpokenMoods[mood]))
         else:
-            self.nametag.setChat(random.choice(TTLocalizer.SpokenMoods[mood]), CFThought)
+            self.nametag.setChatText(random.choice(TTLocalizer.SpokenMoods[mood]))
 
     def getGenderString(self):
         if self.style:

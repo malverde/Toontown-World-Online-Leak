@@ -1,5 +1,9 @@
-from toontown.safezone import SafeZoneLoader
-from toontown.safezone import TTPlayground
+from pandac.PandaModules import *
+import SafeZoneLoader
+import TTPlayground
+import random
+from toontown.launcher import DownloadForceAcknowledge
+from toontown.nametag import NametagGlobals
 
 class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
     def __init__(self, hood, parentFSM, doneEvent):
