@@ -25,7 +25,7 @@ class OZHoodAI(HoodAI.HoodAI):
         HoodAI.HoodAI.startup(self)
 
         self.createTimer()
-        self.createPicnicTables()
+        #self.createPicnicTables()
         if simbase.config.GetBool('want-game-tables', True):
             self.createGameTables()
 
