@@ -24,7 +24,7 @@ class TTHood(ToonHood):
       ToontownGlobals.SPOOKY_PROPS: ['phase_4/dna/halloween_props_storage_TT.pdna', 'phase_4/dna/halloween_props_storage_TT_sz.pdna']}
 
 
-@magicWord(category=CATEGORY_CREATIVE)
+@magicWord(category=CATEGORY_MODERATION)
 def spooky():
     """
     Activates the 'spooky' effect on the current area.
