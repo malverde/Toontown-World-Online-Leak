@@ -94,6 +94,9 @@ class DistributedTrolleyAI(DistributedObjectAI, FSM):
 
     def exitLeaving(self):
         taskMgr.remove(self.leavingTask)
+        
+    def start(self):
+        self.enter()
 
     def enterEntering(self):
         self.enteringTask = taskMgr.doMethodLater(TROLLEY_ENTER_TIME, self.__doneEntering, 'trolleyEnterTask')
