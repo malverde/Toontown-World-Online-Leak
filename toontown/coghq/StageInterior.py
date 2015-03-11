@@ -13,7 +13,7 @@ from toontown.toontowngui import TTDialog
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.coghq import DistributedStage
 from toontown.building import Elevator
-from otp.nametag import NametagGlobals
+from toontown.nametag import NametagGlobals
 
 class StageInterior(BattlePlace.BattlePlace):
     notify = DirectNotifyGlobal.directNotify.newCategory('StageInterior')
@@ -86,7 +86,7 @@ class StageInterior(BattlePlace.BattlePlace):
         base.cr.forbidCheesyEffects(1)
 
         def commence(self = self):
-            NametagGlobals.setMasterArrowsOn(1)
+            NametagGlobals.setWant2dNametags(True)
             self.fsm.request(requestStatus['how'], [requestStatus])
             base.playMusic(self.music, looping=1, volume=0.8)
             base.transitions.irisIn()
@@ -106,7 +106,7 @@ class StageInterior(BattlePlace.BattlePlace):
         self.acceptOnce('localToonConfrontedStageBoss', handleConfrontedBoss)
 
     def exit(self):
-        NametagGlobals.setMasterArrowsOn(0)
+        NametagGlobals.setWant2dNametags(False)
         self._telemLimiter.destroy()
         del self._telemLimiter
         bboard.remove(DistributedStage.DistributedStage.ReadyPost)

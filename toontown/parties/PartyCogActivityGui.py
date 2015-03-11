@@ -254,12 +254,12 @@ class PartyCogActivityGui(DirectObject):
     def disableToontownHUD(self):
         base.localAvatar.hideName()
         base.localAvatar.laffMeter.hide()
-        base.setCellsAvailable(base.bottomCells + [base.rightCells[1]], False)
+        base.setCellsActive(base.bottomCells + [base.rightCells[1]], False)
 
     def enableToontownHUD(self):
         base.localAvatar.showName()
         base.localAvatar.laffMeter.show()
-        base.setCellsAvailable(base.bottomCells + [base.rightCells[1]], True)
+        base.setCellsActive(base.bottomCells + [base.rightCells[1]], True)
 
     def setTeam(self, team):
         self.team = team

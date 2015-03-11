@@ -1,16 +1,18 @@
-from direct.fsm import FSM
-from otp.otpbase import OTPGlobals
-import sys
 from direct.directnotify import DirectNotifyGlobal
+from direct.fsm import FSM
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
-from otp.otpbase import OTPLocalizer
 from direct.task import Task
+from pandac.PandaModules import *
+import sys
+
 from otp.chat.ChatInputTyped import ChatInputTyped
+from otp.otpbase import OTPGlobals
+from otp.otpbase import OTPLocalizer
+from toontown.chat.ChatGlobals import *
+
 
 class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('ChatInputWhiteList')
-    ExecNamespace = None
 
     def __init__(self, entryOptions, parent = None, **kw):
         FSM.FSM.__init__(self, 'ChatInputWhiteListFrame')
@@ -46,12 +48,12 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
         wantHistory = 0
         if __dev__:
             wantHistory = 1
-        self.wantHistory = config.GetBool('want-chat-history', wantHistory)
+        self.wantHistory = base.config.GetBool('want-chat-history', wantHistory)
         self.history = ['']
-        self.historySize = config.GetInt('chat-history-size', 10)
+        self.historySize = base.config.GetInt('chat-history-size', 10)
         self.historyIndex = 0
         self.promoteWhiteList = 0
-        self.checkBeforeSend = config.GetBool('white-list-check-before-send', 0)
+        self.checkBeforeSend = base.config.GetBool('white-list-check-before-send', 0)
         self.whiteList = None
         self.active = 0
         self.autoOff = 0
@@ -193,12 +195,7 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
 
         if text:
             self.chatEntry.set('')
-            if config.GetBool('exec-chat', 0) and text[0] == '>':
-                text = self.__execMessage(text[1:])
-                base.localAvatar.setChatAbsolute(text, CFSpeech | CFTimeout)
-                return
-            else:
-                self.sendChatBySwitch(text)
+            self.sendChatBySwitch(text)
             if self.wantHistory:
                 self.addToHistory(text)
         else:
@@ -279,39 +276,9 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
         self.historyIndex -= 1
         self.historyIndex %= len(self.history)
 
-    def importExecNamespace(self):
-        pass
-
-    def __execMessage(self, message):
-        if not ChatInputTyped.ExecNamespace:
-            ChatInputTyped.ExecNamespace = {}
-            exec 'from pandac.PandaModules import *' in globals(), self.ExecNamespace
-            self.importExecNamespace()
-        try:
-            return str(eval(message, globals(), ChatInputTyped.ExecNamespace))
-        except SyntaxError:
-            try:
-                exec message in globals(), ChatInputTyped.ExecNamespace
-                return 'ok'
-            except:
-                exception = sys.exc_info()[0]
-                extraInfo = sys.exc_info()[1]
-                if extraInfo:
-                    return str(extraInfo)
-                else:
-                    return str(exception)
-
-        except:
-            exception = sys.exc_info()[0]
-            extraInfo = sys.exc_info()[1]
-            if extraInfo:
-                return str(extraInfo)
-            else:
-                return str(exception)
-
     def applyFilter(self, keyArgs, strict = False):
         text = self.chatEntry.get(plain=True)
-        if len(text) > 0 and text[0] in ['~', '>']:
+        if text.startswith('~'):
             self.okayToSubmit = True
         else:
             words = text.split(' ')
