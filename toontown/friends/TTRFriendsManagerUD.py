@@ -245,17 +245,17 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
             if dclass != self.air.dclassesByName['DistributedToonUD']:
                 return       
         	details = [
-            ['setExperience' , fields['setExperience'][0]],
-            ['setTrackAccess' , fields['setTrackAccess'][0]],
-            ['setTrackBonusLevel' , fields['setTrackBonusLevel'][0]],
-            ['setInventory' , fields['setInventory'][0]],
-            ['setHp' , fields['setHp'][0]],
-            ['setMaxHp' , fields['setMaxHp'][0]],
-            ['setDefaultShard' , fields['setDefaultShard'][0]],
-            ['setLastHood' , fields['setLastHood'][0]],
-            ['setDNAString' , fields['setDNAString'][0]],
-            ['setLastSeen' , fields.get('setLastSeen', [0])[0]],
-        ]
+            	['setExperience' , fields['setExperience'][0]],
+            	['setTrackAccess' , fields['setTrackAccess'][0]],
+            	['setTrackBonusLevel' , fields['setTrackBonusLevel'][0]],
+            	['setInventory' , fields['setInventory'][0]],
+            	['setHp' , fields['setHp'][0]],
+            	['setMaxHp' , fields['setMaxHp'][0]],
+            	['setDefaultShard' , fields['setDefaultShard'][0]],
+            	['setLastHood' , fields['setLastHood'][0]],
+            	['setDNAString' , fields['setDNAString'][0]],
+            	['setLastSeen' , fields.get('setLastSeen', [0])[0]],
+        	]
         	self.sendUpdateToAvatarId(senderId, 'friendDetails', [fields['ID'], cPickle.dumps(details)])
         self.air.dbInterface.queryObject(self.air.dbId, avId, handleToon)        	
 
