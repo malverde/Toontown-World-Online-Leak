@@ -3287,7 +3287,7 @@ dclass TTRFriendsManager : DistributedObjectGlobal {
   goingOffline(uint32 avId);
 
   getAvatarDetails(uint32) clsend;
-  friendDetails(uint32 friendId, blob details);
+  friendDetails(uint32 avId, blob details);
   routeTeleportQuery(uint32 toId) clsend;
   teleportQuery(uint32 fromId);
 
