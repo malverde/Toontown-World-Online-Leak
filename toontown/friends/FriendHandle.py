@@ -39,7 +39,7 @@ class FriendHandle:
     def uniqueName(self, idString):
         return idString + '-' + str(self.getDoId())
 
-    def d_battleSOS(self, requesterId):
+    def d_battleSOS(self, sendToId):
         base.cr.ttrFriendsManager.d_battleSOS(self.doId)
 
     def d_teleportQuery(self, requesterId):
