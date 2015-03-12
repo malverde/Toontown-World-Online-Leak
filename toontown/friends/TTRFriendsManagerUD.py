@@ -244,15 +244,15 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
         def handleToon(dclass, fields):
             if dclass != self.air.dclassesByName['DistributedToonUD']:
                 return       
-            	experience = fields['setExperience'][0]
-            	trackAccess = fields['setTrackAccess'][0]
-            	trackBonusLevel =fields['setTrackBonusLevel'][0]
-            	inventory = fields['setInventory'][0]
-                hp = fields['setHp'][0]
-                maxHp = fields['setMaxHp'][0]
-            	defaultShard = fields['setDefaultShard'][0]
-            	lastHood = fields['setLastHood'][0]
-            	dnaString =  fields['setDNAString'][0]
+            experience = fields['setExperience'][0]
+            trackAccess = fields['setTrackAccess'][0]
+            trackBonusLevel =fields['setTrackBonusLevel'][0]
+            inventory = fields['setInventory'][0]
+            hp = fields['setHp'][0]
+            maxHp = fields['setMaxHp'][0]
+            defaultShard = fields['setDefaultShard'][0]
+            lastHood = fields['setLastHood'][0]
+            dnaString =  fields['setDNAString'][0]
            	setLastSeen = fields.get('setLastSeen', [0])[0]
             self.sendUpdateToAvatarId(senderId, 'friendDetails', [avId, experience, trackAccess, trackBonusLevel , inventory, hp, maxHp, defaultShard, lastHood, dnaString, setLastSeen])
         self.air.dbInterface.queryObject(self.air.dbId, avId, handleToon)        	
