@@ -394,16 +394,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
 
     def __sendGetAvatarDetails(self, avId):
         #return
-
         self.ttrFriendsManager.d_getAvatarDetails(avId)
-
-        return
-        datagram = PyDatagram()
-        avatar = self.__queryAvatarMap[avId].avatar
-        datagram.addUint16(avatar.getRequestID())
-        datagram.addUint32(avId)
-        self.send(datagram)
-
     def n_handleGetAvatarDetailsResp(self, avId, fields):
         self.notify.info('Query reponse for avId %d' % avId)
         try:

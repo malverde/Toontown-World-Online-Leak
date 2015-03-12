@@ -785,9 +785,9 @@ class UnloadAvatarFSM(OperationFSM):
 
     def enterUnloadAvatar(self):
         channel = self.csm.GetAccountConnectionChannel(self.target)
+        
+        self.csm.air.friendsManager.toonOffline(self.avId)
 
-        # Fire off the avatarOffline message.
-        self.csm.air.netMessenger.send('avatarOffline', [self.avId])
 
         # Get lost, POST_REMOVES!:
         dg = PyDatagram()

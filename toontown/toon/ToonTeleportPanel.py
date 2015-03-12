@@ -149,7 +149,7 @@ class ToonTeleportPanel(DirectFrame):
 
     def enterCheckAvailability(self):
         myId = base.localAvatar.getDoId()
-        base.localAvatar.d_teleportQuery(myId, sendToId=self.avId)
+        base.cr.ttrFriendsManager.d_teleportQuery(self.avId)
         self['text'] = TTLocalizer.TeleportPanelCheckAvailability % self.avName
         self.accept('teleportResponse', self.__teleportResponse)
         self.bCancel.show()

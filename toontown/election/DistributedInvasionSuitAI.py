@@ -4,14 +4,14 @@ from direct.fsm.FSM import FSM
 from direct.task.Task import Task
 from toontown.toonbase import ToontownGlobals
 from toontown.suit.DistributedSuitBaseAI import DistributedSuitBaseAI
-from toontown.suit import SuitTimings
+from toontown.election import SuitTimings
 from toontown.battle import SuitBattleGlobals
 import SafezoneInvasionGlobals
 from InvasionSuitBase import InvasionSuitBase
 from InvasionSuitBrainAI import InvasionSuitBrainAI
 import SafezoneInvasionGlobals
 from random import random, choice, randint
-from toontown.suit import SuitDNA
+from toontown.election import SuitDNA
 
 class DistributedInvasionSuitAI(DistributedSuitBaseAI, InvasionSuitBase, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedInvasionSuitAI")
@@ -26,7 +26,6 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI, InvasionSuitBase, FSM):
         self.spawnPointId = 0
 
         self.brain = InvasionSuitBrainAI(self)
-        dna = None
         self.lastMarchTime = 0.0
         self.__walkTimer = None
         self.finale = False
@@ -146,7 +145,6 @@ class DistributedInvasionSuitAI(DistributedSuitBaseAI, InvasionSuitBase, FSM):
         self.b_setState('Attack')
 
     def enterAttack(self):
-    	dna = SuitDNA.SuitDNA()
         if self.brain.suit.dna.body in ['a', 'b']:
             self._delay = taskMgr.doMethodLater(4.6, self.__attackDone,
                                                 self.uniqueName('attack'))
