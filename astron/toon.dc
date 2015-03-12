@@ -3287,8 +3287,7 @@ dclass TTRFriendsManager : DistributedObjectGlobal {
   goingOffline(uint32 avId);
 
   getAvatarDetails(uint32) clsend;
-  friendDetails(uint32,  uint16[], int8[], uint16,  blob, int16, uint32, uint32, blob, blob,  int16);
-avId, experience, trackAccess, trackBonusLevel , inventory, hp, maxHp, defaultShard, lastHood, dnaString, setLastSeen]
+  friendDetails(uint32,  uint16[], int8[], uint16,  blob, int16, uint32, uint32, blob, blob, int16);
   routeTeleportQuery(uint32 toId) clsend;
   teleportQuery(uint32 fromId);
 
