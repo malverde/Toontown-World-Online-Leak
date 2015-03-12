@@ -239,7 +239,7 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
         self.operations.append(newOperation)
         newOperation.demand('Start')
 
-    def getAvatarDetails(self, friendId):
+    def getAvatarDetails(self, avId):
         senderId = self.air.getAvatarIdFromSender()
         def handleToon(dclass, fields):
             if dclass != self.air.dclassesByName['DistributedToonUD']:
