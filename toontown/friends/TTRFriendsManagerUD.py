@@ -240,22 +240,11 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
         newOperation.demand('Start')
 
     def getAvatarDetails(self, friendId):
-        requesterId = self.air.getAvatarIdFromSender()
-        if requesterId in self.fsms:
-            # Looks like the requester already has an FSM running. In the future we
-            # may want to handle this, but for now just ignore it.
-            return
-        fsm =  OperationFSM(self, requesterId, friendId, self.__gotAvatarDetails)
-        fsm.start()
-        self.fsms[requesterId] = fsm
-
-    def __gotAvatarDetails(self, success, requesterId, fields):
-        # We no longer need the FSM.
-        self.deleteFSM(requesterId)
-        if not success:
-            # Something went wrong... abort.
-            return
-        details = [
+        senderId = self.air.getAvatarIdFromSender()
+        def handleToon(dclass, fields):
+            if dclass != self.air.dclassesByName['DistributedToonUD']:
+                return       
+        	details = [
             ['setExperience' , fields['setExperience'][0]],
             ['setTrackAccess' , fields['setTrackAccess'][0]],
             ['setTrackBonusLevel' , fields['setTrackBonusLevel'][0]],
@@ -267,7 +256,9 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
             ['setDNAString' , fields['setDNAString'][0]],
             ['setLastSeen' , fields.get('setLastSeen', [0])[0]],
         ]
-        self.sendUpdateToAvatarId(requesterId, 'friendDetails', [fields['ID'], cPickle.dumps(details)])
+        	self.sendUpdateToAvatarId(senderId, 'friendDetails', [fields['ID'], cPickle.dumps(details)])
+        self.air.dbInterface.queryObject(self.air.dbId, avId, handleToon)        	
+
 
 
     # -- Toon Online/Offline --
