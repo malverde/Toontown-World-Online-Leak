@@ -8,7 +8,7 @@ import math
 
 class DistributedFishingTargetAI(DistributedNodeAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedFishingTargetAI")
-	
+
     def __init__(self, air):
         DistributedNodeAI.__init__(self, air)
         self.pondId = 0
@@ -20,13 +20,16 @@ class DistributedFishingTargetAI(DistributedNodeAI):
     def generate(self):
         DistributedNodeAI.generate(self)
         self.updateState()
+        if not self.pondId:
+            #We dont have a pond ID for some reason...
+            return
         pond = self.air.doId2do[self.pondId]
         pond.addTarget(self)
         self.centerPoint = FishingTargetGlobals.getTargetCenter(pond.getArea())
-        
+
     def delete(self):
         taskMgr.remove('updateFishingTarget%d' % self.doId)
-        
+
         DistributedNodeAI.delete(self)
 
     def setPondDoId(self, pondId):
@@ -44,12 +47,11 @@ class DistributedFishingTargetAI(DistributedNodeAI):
         return [0, self.angle, self.targetRadius, self.time, globalClockDelta.getRealNetworkTime()]
 
     def updateState(self):
+        if not self.pondId in self.air.doId2do:
+            return
         self.b_setPosHpr(self.targetRadius * math.cos(self.angle) + self.centerPoint[0], self.targetRadius * math.sin(self.angle) + self.centerPoint[1], self.centerPoint[2], 0, 0, 0)
         self.angle = random.randrange(359)
         self.targetRadius = random.uniform(FishingTargetGlobals.getTargetRadius(self.air.doId2do[self.pondId].getArea()), 0)
         self.time = random.uniform(10.0, 5.0)
-        z = self.centerPoint[2]
-
         self.sendUpdate('setState', [0, self.angle, self.targetRadius, self.time, globalClockDelta.getRealNetworkTime()])
         taskMgr.doMethodLater(self.time + random.uniform(5, 2.5), DistributedFishingTargetAI.updateState, 'updateFishingTarget%d' % self.doId, [self])
-
