@@ -6,7 +6,6 @@ import string
 import random
 import functools
 import time
-import cPickle
 from direct.fsm.FSM import FSM
 
 # -- FSMS --
@@ -190,8 +189,8 @@ class ClearListOperation(OperationFSM):
 
 # -- FriendsManager --
 
-class TTRFriendsManagerUD(DistributedObjectGlobalUD):
-    notify = directNotify.newCategory('TTRFriendsManagerUD')
+class TTIFriendsManagerUD(DistributedObjectGlobalUD):
+    notify = directNotify.newCategory('TTIFriendsManagerUD')
 
     def announceGenerate(self):
         DistributedObjectGlobalUD.announceGenerate(self)
@@ -255,9 +254,7 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
             dnaString =  fields['setDNAString'][0]
             setLastSeen = fields.get('setLastSeen', [0])[0]
             self.sendUpdateToAvatarId(senderId, 'friendDetails', [avId, experience, trackAccess, trackBonusLevel , inventory, hp, maxHp, defaultShard, lastHood, dnaString, setLastSeen])
-        self.air.dbInterface.queryObject(self.air.dbId, avId, handleToon)        	
-
-
+        self.air.dbInterface.queryObject(self.air.dbId, avId, handleToon)
 
     # -- Toon Online/Offline --
     def toonOnline(self, doId, friendsList):
@@ -421,6 +418,6 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
     def sleepAutoReply(self, toId):
         requester = self.air.getAvatarIdFromSender()
         self.sendUpdateToAvatarId(toId, 'setSleepAutoReply', [requester])
-   
-   
-   
+    
+    
+    
