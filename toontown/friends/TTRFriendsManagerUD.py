@@ -240,24 +240,35 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
         newOperation.demand('Start')
 
     def getAvatarDetails(self, friendId):
-        senderId = self.air.getAvatarIdFromSender()
-        def handleToon(dclass, fields):
-            if dclass != self.air.dclassesByName['DistributedToonUD']:
-                return
-            experience = fields['setExperience'][0]
-            
-            trackAccess = fields['setTrackAccess'][0]
-            trackBonusLevel = fields['setTrackBonusLevel'][0]
-            inventory =   fields['setInventory'][0]
-            hp = fields['setHp'][0]
-            maxHp = fields['setMaxHp'][0]
-            defaultShard = fields['setDefaultShard'][0]
-            lastHood = fields['setLastHood'][0]
-            dnaString =  fields['setDNAString'][0]
-            setLastSeen =  fields.get('setLastSeen', [0])[0]
-        
-            self.sendUpdateToAvatarId(senderId, 'friendDetails', [friendId, experience, trackAccess, trackBonusLevel, inventory , hp, maxHp, defaultShard, lastHood, dnaString, setLastSeen])
-        self.air.dbInterface.queryObject(self.air.dbId, friendId, handleToon)
+        requesterId = self.air.getAvatarIdFromSender()
+        if requesterId in self.fsms:
+            # Looks like the requester already has an FSM running. In the future we
+            # may want to handle this, but for now just ignore it.
+            return
+        fsm =  OperationFSM(self, requesterId, friendId, self.__gotAvatarDetails)
+        fsm.start()
+        self.fsms[requesterId] = fsm
+
+    def __gotAvatarDetails(self, success, requesterId, fields):
+        # We no longer need the FSM.
+        self.deleteFSM(requesterId)
+        if not success:
+            # Something went wrong... abort.
+            return
+        details = [
+            ['setExperience' , fields['setExperience'][0]],
+            ['setTrackAccess' , fields['setTrackAccess'][0]],
+            ['setTrackBonusLevel' , fields['setTrackBonusLevel'][0]],
+            ['setInventory' , fields['setInventory'][0]],
+            ['setHp' , fields['setHp'][0]],
+            ['setMaxHp' , fields['setMaxHp'][0]],
+            ['setDefaultShard' , fields['setDefaultShard'][0]],
+            ['setLastHood' , fields['setLastHood'][0]],
+            ['setDNAString' , fields['setDNAString'][0]],
+            ['setLastSeen' , fields.get('setLastSeen', [0])[0]],
+        ]
+        self.sendUpdateToAvatarId(requesterId, 'friendDetails', [fields['ID'], cPickle.dumps(details)])
+
 
     # -- Toon Online/Offline --
     def toonOnline(self, doId, friendsList):
