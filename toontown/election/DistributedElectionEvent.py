@@ -7,7 +7,7 @@ from direct.fsm.FSM import FSM
 from direct.actor import Actor
 from direct.task import Task
 from toontown.toon import NPCToons
-from toontown.suit import DistributedSuitBase, SuitDNA
+from toontown.election import DistributedSuitBase, SuitDNA
 from toontown.toonbase import ToontownGlobals
 from toontown.battle import BattleProps
 from otp.margins.WhisperPopup import *

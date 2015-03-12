@@ -7,7 +7,7 @@ from DistributedInvasionSuitAI import DistributedInvasionSuitAI
 from InvasionMasterAI import InvasionMasterAI
 import SafezoneInvasionGlobals
 import DistributedElectionEventAI
-from toontown.suit import SuitTimings
+from toontown.election import SuitTimings
 from toontown.toonbase import ToontownBattleGlobals
 
 class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
