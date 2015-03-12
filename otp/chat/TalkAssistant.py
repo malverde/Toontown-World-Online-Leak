@@ -584,13 +584,13 @@ class TalkAssistant(DirectObject.DirectObject):
         if base.cr.wantMagicWords and len(message) > 0 and message[0] == '~':
             messenger.send('magicWord', [message])
             self.receiveDeveloperMessage(message)
-        else:
+        else:       
             chatFlags = CFSpeech | CFTimeout
-            if re.search(r'[a-zA-Z\d]', message):
-                if not "¬" in message:
-                    if self.isThought(message):
-                        chatFlags = CFThought
-                    base.cr.chatAgent.sendChatMessage(message)
+           # if re.search(r'[a-zA-Z\d]', message):
+            #    if not "¬" in message:
+            if self.isThought(message):
+                chatFlags = CFThought
+            base.cr.chatAgent.sendChatMessage(message)
             messenger.send('chatUpdate', [message, chatFlags])
         return error
 

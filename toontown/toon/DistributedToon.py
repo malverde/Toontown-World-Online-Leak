@@ -2787,3 +2787,16 @@ def unmute():
     print ['unmute', target.doId]
     base.cr.chatAgent.sendUnmuteAccount(target.doId)
     return 'Unmute request sent'
+    
+    
+    #V1 MW 
+    
+@magicWord(category=CATEGORY_ADMIN, types=[int])
+def zone(zoneId):
+    """
+    Changes the invoker's zone ID.
+    """
+    base.cr.sendSetZoneMsg(zoneId, [zoneId])
+    return 'You have been moved to zone {0}.'.format(zoneId)
+    
+    #End of V1 MW

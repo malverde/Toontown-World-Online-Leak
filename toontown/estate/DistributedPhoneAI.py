@@ -75,6 +75,12 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
 
         av.b_setCatalogNotify(ToontownGlobals.NoItems, av.mailboxNotify)
 
+    def __gotHouse(self, dclass, fields):
+            if dclass != self.air.dclassesByName['DistributedHouseAI']:
+                return
+
+            numItems = len(CatalogItemList(fields['setInteriorItems'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticItems'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticWallpaper'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticWindows'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setInteriorWallpaper'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setInteriorWindows'][0], store=CatalogItem.Customization))
+            self.sendUpdateToAvatarId(fields['setAvatarId'][0], 'setLimits', [numItems])
 
     def avatarExit(self):
         avId = self.air.getAvatarIdFromSender()
@@ -113,6 +119,9 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
             return
 
         item = CatalogItem.getItem(item)
+        if item.loyaltyRequirement(): # These items aren't purchasable! Hacker alert!
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to purchase an unimplemented loyalty item!')
+            return        
         if isinstance(item, CatalogInvalidItem): # u wot m8
             self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to purchase invalid catalog item.')
             return
