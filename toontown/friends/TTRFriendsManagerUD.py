@@ -254,7 +254,7 @@ class TTRFriendsManagerUD(DistributedObjectGlobalUD):
             	lastHood = fields['setLastHood'][0]
             	dnaString =  fields['setDNAString'][0]
            	setLastSeen = fields.get('setLastSeen', [0])[0]
-            self.sendUpdateToAvatarId(senderId, 'friendDetails', [avId, experience, trackAccess, trackBonusLevel , inventory hp, maxHp, defaultShard, lastHood, dnaString, setLastSeen ])
+            self.sendUpdateToAvatarId(senderId, 'friendDetails', [avId, experience, trackAccess, trackBonusLevel , inventory, hp, maxHp, defaultShard, lastHood, dnaString, setLastSeen])
         self.air.dbInterface.queryObject(self.air.dbId, avId, handleToon)        	
 
 
