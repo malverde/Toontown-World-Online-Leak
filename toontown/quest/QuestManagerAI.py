@@ -3,6 +3,12 @@ from direct.directnotify.DirectNotifyGlobal import directNotify
 from toontown.toonbase import ToontownBattleGlobals
 import random
 
+QuestIdIndex = 0
+QuestFromNpcIdIndex = 1
+QuestToNpcIdIndex = 2
+QuestRewardIdIndex = 3
+QuestProgressIndex = 4
+
 class QuestManagerAI:
     notify = directNotify.newCategory('QuestManagerAI')
     def __init__(self, air):
