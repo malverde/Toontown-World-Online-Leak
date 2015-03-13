@@ -296,13 +296,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                     del self.pendingBuildingHeights[0]
                     self.pendingBuildingHeights.append(buildingHeight)
         if suitName is None:
-            suitDeptIndex, suitTypeIndex, flags = self.air.suitInvasionManager.getInvadingCog()
-            if flags & IFSkelecog:
-                skelecog = 1
-            if flags & IFWaiter:
-                waiter = True
-            if flags & IFV2:
-                revives = 1
+            suitName, specialSuit = self.air.suitInvasionManager.getInvadingCog()
             if suitDeptIndex is not None:
                 suitTrack = SuitDNA.suitDepts[suitDeptIndex]
             if suitTypeIndex is not None:
