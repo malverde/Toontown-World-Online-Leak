@@ -109,7 +109,6 @@ class TownLoader(StateData.StateData):
         del self.hood
         del self.nodeDict
         del self.zoneDict
-        del self.nodeToZone
         del self.fadeInDict
         del self.fadeOutDict
         del self.nodeList
