@@ -383,21 +383,23 @@ class Street(BattlePlace.BattlePlace):
                     self.loader.zoneDict[self.zoneId].clearColor()
                 if newZoneId != None:
                     self.loader.zoneDict[newZoneId].setColor(0, 0, 1, 1, 100)
-            if newZoneId != None:
-                visZones = [self.loader.nodeToZone[x] for x in self.loader.nodeDict[newZoneId]]
-                visZones.append(ZoneUtil.getBranchZone(newZoneId))
-                base.cr.sendSetZoneMsg(newZoneId, visZones)
-                self.notify.debug('Entering Zone %d' % newZoneId)
+            if newZoneId is not None:
+                loader = base.cr.playGame.getPlace().loader
+                if newZoneId in loader.zoneVisDict:
+                    base.cr.sendSetZoneMsg(newZoneId, loader.zoneVisDict[newZoneId])
+                else:
+                    visList = [newZoneId] + loader.zoneVisDict.values()[0]
+                    base.cr.sendSetZoneMsg(newZoneId, visList)
             self.zoneId = newZoneId
         geom = base.cr.playGame.getPlace().loader.geom
-        self.eventLights = geom.findAllMatches('**/*light*')
-        self.eventLights += geom.findAllMatches('**/*lamp*')
-        self.eventLights += geom.findAllMatches('**/prop_snow_tree*')
-        self.eventLights += geom.findAllMatches('**/prop_tree*')
-        self.eventLights += geom.findAllMatches('**/*christmas*')
-        for light in self.eventLights:
+        self.halloweenLights = geom.findAllMatches('**/*light*')
+        self.halloweenLights += geom.findAllMatches('**/*lamp*')
+        self.halloweenLights += geom.findAllMatches('**/prop_snow_tree*')
+        for light in self.halloweenLights:
             light.setColorScaleOff(1)
+
         return
+
 
     def replaceStreetSignTextures(self):
         if not hasattr(base.cr, 'playGame'):
