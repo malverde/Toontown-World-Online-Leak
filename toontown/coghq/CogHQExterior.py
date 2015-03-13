@@ -81,8 +81,6 @@ class CogHQExterior(BattlePlace.BattlePlace):
         self.fsm.request(how, [requestStatus])
 
     def exit(self):
-        if self.visInterest:
-            base.cr.removeInterest(self.visInterest)
         self.fsm.requestFinalState()
         self._telemLimiter.destroy()
         del self._telemLimiter
@@ -95,6 +93,7 @@ class CogHQExterior(BattlePlace.BattlePlace):
             self.loader.geom.reparentTo(hidden)
         self.ignoreAll()
         BattlePlace.BattlePlace.exit(self)
+
 
     def enterTunnelOut(self, requestStatus):
         fromZoneId = self.zoneId - self.zoneId % 100
