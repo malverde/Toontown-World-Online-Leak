@@ -1,6 +1,6 @@
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
-from otp.nametag.NametagConstants import *
+from toontown.nametag.NametagGlobals import *
 from toontown.toon import NPCToons
 
 class TestScene1:

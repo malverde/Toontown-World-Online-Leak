@@ -1,32 +1,31 @@
-from direct.directnotify import DirectNotifyGlobal
+import copy
+from direct.actor import Actor
+from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from pandac.PandaModules import *
-from otp.avatar import Avatar
-from toontown.hood import ZoneUtil
-from toontown.launcher import DownloadForceAcknowledge
-from toontown.safezone.SafeZoneLoader import SafeZoneLoader
-from toontown.safezone.OZPlayground import OZPlayground
-from direct.actor import Actor
 from direct.interval.IntervalGlobal import *
+from pandac.PandaModules import *
 import random
-from toontown.distributed import DelayDelete
-from direct.distributed.ClockDelta import *
+
+from otp.avatar import Avatar
+from toontown.chat.ChatGlobals import *
+from toontown.nametag.NametagGroup import *
 from otp.otpbase import OTPGlobals
-import copy
+from toontown.distributed import DelayDelete
 from toontown.effects import Bubbles
-import random
-if (__debug__):
-    import pdb
+from toontown.hood import ZoneUtil
+from toontown.safezone.OZPlayground import OZPlayground
+from toontown.safezone.SafeZoneLoader import SafeZoneLoader
+from toontown.toon import Toon, ToonDNA
+
 
 class OZSafeZoneLoader(SafeZoneLoader):
-
     def __init__(self, hood, parentFSM, doneEvent):
         SafeZoneLoader.__init__(self, hood, parentFSM, doneEvent)
         self.musicFile = 'phase_6/audio/bgm/OZ_SZ.ogg'
         self.activityMusicFile = 'phase_6/audio/bgm/GS_KartShop.ogg'
-        self.dnaFile = 'phase_6/dna/outdoor_zone_sz.xml'
-        self.safeZoneStorageDNAFile = 'phase_6/dna/storage_OZ_sz.xml'
+        self.dnaFile = 'phase_6/dna/outdoor_zone_sz.pdna'
+        self.safeZoneStorageDNAFile = 'phase_6/dna/storage_OZ_sz.pdna'
         self.__toonTracks = {}
         del self.fsm
         self.fsm = ClassicFSM.ClassicFSM('SafeZoneLoader', [State.State('start', self.enterStart, self.exitStart, ['quietZone', 'playground', 'toonInterior']),
@@ -48,9 +47,10 @@ class OZSafeZoneLoader(SafeZoneLoader):
         waterfallPlacer = self.geom.find('**/waterfall*')
         binMgr = CullBinManager.getGlobalPtr()
         binMgr.addBin('water', CullBinManager.BTFixed, 29)
+        binMgr = CullBinManager.getGlobalPtr()
         water = self.geom.find('**/water1*')
         water.setTransparency(1)
-        water.setColorScale(1.0, 1.0, 1.0, 1.0)
+        water.setColorScale(1, 1, 1, 1)
         water.setBin('water', 51, 1)
         pool = self.geom.find('**/pPlane5*')
         pool.setTransparency(1)
@@ -106,7 +106,10 @@ class OZSafeZoneLoader(SafeZoneLoader):
             mesh.setTexProjector(mesh.findTextureStage('default'), joint, self.waterfallActor)
         self.waterfallActor.setPos(waterfallPlacer.getPos())
         self.accept('clientLogout', self._handleLogout)
-        return
+
+        self.constructionSign = loader.loadModel('phase_4/models/props/construction_sign.bam')
+        self.constructionSign.reparentTo(render)
+        self.constructionSign.setPosHpr(-47.941, -138.724, 0.122, 181, 0, 0)
 
     def exit(self):
         self.clearToonTracks()
@@ -299,7 +302,10 @@ class OZSafeZoneLoader(SafeZoneLoader):
         self.geyserSoundNoToon.stop()
         self.geyserSoundNoToonInterval = None
         self.geyserSoundNoToon = None
-        return
+
+        if self.constructionSign is not None:
+            self.constructionSign.removeNode()
+            self.constructionSign = None
 
     def enterPlayground(self, requestStatus):
         self.playgroundClass = OZPlayground
@@ -334,7 +340,7 @@ class OZSafeZoneLoader(SafeZoneLoader):
             return ZoneUtil.getHoodId(status['zoneId']) == self.hood.hoodId
 
     def enterGolfCourse(self, requestStatus):
-        if requestStatus.has_key('curseId'):
+        if 'curseId' in requestStatus:
             self.golfCourseId = requestStatus['courseId']
         else:
             self.golfCourseId = 0
@@ -378,5 +384,5 @@ class OZSafeZoneLoader(SafeZoneLoader):
             keyList.append(key)
 
         for key in keyList:
-            if self.__toonTracks.has_key(key):
+            if key in self.__toonTracks:
                 self.clearToonTrack(key)

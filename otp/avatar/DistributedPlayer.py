@@ -1,21 +1,25 @@
-from pandac.PandaModules import *
-from otp.margins.WhisperPopup import WhisperPopup
-from otp.nametag.NametagConstants import CFQuicktalker, CFPageButton, CFQuitButton, CFSpeech, CFThought, CFTimeout
-from otp.chat import ChatGarbler
-import string
+from direct.showbase import PythonUtil
 from direct.task import Task
+from pandac.PandaModules import *
+import string
+import time
+
+from otp.ai.MagicWordGlobal import *
+from otp.avatar import Avatar, PlayerBase
+from otp.avatar import DistributedAvatar
+from otp.avatar.Avatar import teleportNotify
+from otp.chat import ChatGarbler
+from otp.chat import TalkAssistant
+from otp.distributed.TelemetryLimited import TelemetryLimited
+from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
 from otp.speedchat import SCDecoders
-from direct.showbase import PythonUtil
-from otp.avatar import DistributedAvatar
-import time
-from otp.avatar import Avatar, PlayerBase
-from otp.chat import TalkAssistant
-from otp.otpbase import OTPGlobals
-from otp.avatar.Avatar import teleportNotify
-from otp.distributed.TelemetryLimited import TelemetryLimited
-from otp.ai.MagicWordGlobal import *
-if config.GetBool('want-chatfilter-hacks', 0):
+from toontown.chat.ChatGlobals import *
+from toontown.chat.WhisperPopup import WhisperPopup
+
+
+
+if base.config.GetBool('want-chatfilter-hacks', 0):
     from otp.switchboard import badwordpy
     import os
     badwordpy.init(os.environ.get('OTP') + '\\src\\switchboard\\', '')
@@ -45,9 +49,8 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
             self.DISLid = 0
             self.adminAccess = 0
             self.autoRun = 0
-            self.whiteListEnabled = config.GetBool('whitelist-chat-enabled', 1)
-
-        return
+            self.whiteListEnabled = base.config.GetBool('whitelist-chat-enabled', 1)
+            self.lastTeleportQuery = time.time()
 
     @staticmethod
     def GetPlayerGenerateEvent():
@@ -131,7 +134,7 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
     def setAccountName(self, accountName):
         self.accountName = accountName
 
-    def setSystemMessage(self, aboutId, chatString, whisperType = WhisperPopup.WTSystem):
+    def setSystemMessage(self, aboutId, chatString, whisperType = WTSystem):
         self.displayWhisper(aboutId, chatString, whisperType)
 
     def displayWhisper(self, fromId, chatString, whisperType):
@@ -156,7 +159,7 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
             return
         chatString = SCDecoders.decodeSCStaticTextMsg(msgIndex)
         if chatString:
-            self.displayWhisper(fromId, chatString, WhisperPopup.WTQuickTalker)
+            self.displayWhisper(fromId, chatString, WTQuickTalker)
             base.talkAssistant.receiveAvatarWhisperSpeedChat(TalkAssistant.SPEEDCHAT_NORMAL, msgIndex, fromId)
         return
 
@@ -182,17 +185,13 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
             return
         chatString = SCDecoders.decodeSCCustomMsg(msgIndex)
         if chatString:
-            self.displayWhisper(fromId, chatString, WhisperPopup.WTQuickTalker)
+            self.displayWhisper(fromId, chatString, WTQuickTalker)
             base.talkAssistant.receiveAvatarWhisperSpeedChat(TalkAssistant.SPEEDCHAT_CUSTOM, msgIndex, fromId)
         return
 
     def whisperSCEmoteTo(self, emoteId, sendToId, toPlayer):
-        print 'whisperSCEmoteTo %s %s %s' % (emoteId, sendToId, toPlayer)
-        if toPlayer:
-            base.cr.playerFriendsManager.sendSCEmoteWhisper(sendToId, emoteId)
-            return
         messenger.send('wakeup')
-        self.sendUpdate('setWhisperSCEmoteFrom', [self.doId, emoteId], sendToId)
+        base.cr.ttiFriendsManager.d_whisperSCEmoteTo(sendToId, emoteId)
 
     def setWhisperSCEmoteFrom(self, fromId, emoteId):
         handle = base.cr.identifyAvatar(fromId)
@@ -203,7 +202,7 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
             return
         chatString = SCDecoders.decodeSCEmoteWhisperMsg(emoteId, handle.getName())
         if chatString:
-            self.displayWhisper(fromId, chatString, WhisperPopup.WTEmote)
+            self.displayWhisper(fromId, chatString, WTEmote)
             base.talkAssistant.receiveAvatarWhisperSpeedChat(TalkAssistant.SPEEDCHAT_EMOTE, emoteId, fromId)
         return
 
@@ -219,8 +218,8 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
         if self.cr.wantMagicWords and len(chatString) > 0 and chatString[0] == '~':
             messenger.send('magicWord', [chatString])
         else:
-            if config.GetBool('want-chatfilter-hacks', 0):
-                if config.GetBool('want-chatfilter-drop-offending', 0):
+            if base.config.GetBool('want-chatfilter-hacks', 0):
+                if base.config.GetBool('want-chatfilter-drop-offending', 0):
                     if badwordpy.test(chatString):
                         return
                 else:
@@ -243,10 +242,6 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
         return
 
     def setTalkWhisper(self, fromAV, fromAC, avatarName, chat, mods, flags):
-        handle = base.cr.identifyAvatar(fromAV)
-        if handle == None:
-            return
-        avatarName = handle.getName()
         newText, scrubbed = self.scrubTalk(chat, mods)
         self.displayTalkWhisper(fromAV, avatarName, chat, mods)
         base.talkAssistant.receiveWhisperTalk(fromAV, avatarName, fromAC, None, self.doId, self.getName(), newText, scrubbed)
@@ -358,7 +353,7 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
                     teleportNotify.debug('party is ending')
                     self.d_teleportResponse(self.doId, 0, 0, 0, 0, sendToId=requesterId)
                     return
-            if self.__teleportAvailable and not self.ghostMode and config.GetBool('can-be-teleported-to', 1):
+            if self.__teleportAvailable and not self.ghostMode and base.config.GetBool('can-be-teleported-to', 1):
                 teleportNotify.debug('teleport initiation successful')
                 self.setSystemMessage(requesterId, OTPLocalizer.WhisperComingToVisit % avatar.getName())
                 messenger.send('teleportQuery', [avatar, self])
@@ -390,16 +385,9 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
         )
 
     def teleportResponse(self, avId, available, shardId, hoodId, zoneId):
-        teleportNotify.debug('received teleportResponse%s' % ((avId,
-          available,
-          shardId,
-          hoodId,
-          zoneId),))
-        messenger.send('teleportResponse', [avId,
-         available,
-         shardId,
-         hoodId,
-         zoneId])
+        teleportNotify.debug('received teleportResponse%s' % ((avId, available,
+            shardId, hoodId, zoneId),)
+        )
 
     def d_teleportGiveup(self, requesterId, sendToId):
         teleportNotify.debug('sending teleportGiveup(%s) to %s' % (requesterId, sendToId))
@@ -409,18 +397,13 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
     def teleportGiveup(self, requesterId):
         teleportNotify.debug('received teleportGiveup(%s)' % (requesterId,))
         avatar = base.cr.identifyAvatar(requesterId)
+
         if not self._isValidWhisperSource(avatar):
             self.notify.warning('teleportGiveup from non-toon %s' % requesterId)
             return
-        if avatar != None:
-            self.setSystemMessage(requesterId, OTPLocalizer.WhisperGiveupVisit % avatar.getName())
-        return
 
     def b_teleportGreeting(self, avId):
         if hasattr(self, 'ghostMode') and self.ghostMode:
-            # If we're in ghost mode, we don't want to greet the person we're
-            # teleporting to. On another note, why the hell is Toontown-specific
-            # stuff in here? :S ...
             return
         self.d_teleportGreeting(avId)
         self.teleportGreeting(avId)

@@ -3,16 +3,18 @@ from otp.avatar import Avatar
 import SuitDNA
 from toontown.toonbase import ToontownGlobals
 from pandac.PandaModules import *
-from otp.nametag.NametagGroup import NametagGroup
 from toontown.battle import SuitBattleGlobals
+from toontown.nametag import NametagGlobals
+from toontown.nametag import NametagGroup
 from direct.task.Task import Task
 from toontown.battle import BattleProps
 from toontown.toonbase import TTLocalizer
 from pandac.PandaModules import VirtualFileMountHTTP, VirtualFileSystem, Filename, DSearchPath
 from direct.showbase import AppRunnerGlobal
+from toontown.nametag import NametagGroup
 import string
-from toontown.suit import SuitGlobals
 import os
+from toontown.suit import SuitGlobals
 
 aSize = 6.06
 bSize = 5.29
@@ -341,8 +343,7 @@ class Suit(Avatar.Avatar):
 
         Avatar.Avatar.__init__(self)
         self.setFont(ToontownGlobals.getSuitFont())
-        self.setSpeechFont(ToontownGlobals.getSuitFont())
-        self.setPlayerType(NametagGroup.CCSuit)
+        self.setPlayerType(NametagGlobals.CCSuit)
         self.setPickable(1)
         self.leftHand = None
         self.rightHand = None
@@ -431,15 +432,11 @@ class Suit(Avatar.Avatar):
         self.generateCorporateMedallion()
 
     def generateBody(self):
+        global Preloaded
         animDict = self.generateAnimDict()
         filePrefix, bodyPhase = ModelDict[self.style.body]
-        if config.GetBool('want-new-cogs', 0):
-            if cogExists(filePrefix + 'zero'):
-                self.loadModel('phase_3.5' + filePrefix + 'zero')
-            else:
-                self.loadModel('phase_3.5' + filePrefix + 'mod')
-        else:
-            self.loadModel('phase_3.5' + filePrefix + 'mod')
+        filepath = 'phase_3.5' + filePrefix + 'mod'
+        self.loadModel(Preloaded[filepath], copy = True)
         self.loadAnims(animDict)
         self.setSuitClothes()
 
@@ -547,19 +544,13 @@ class Suit(Avatar.Avatar):
         modelRoot.find('**/hands').setTexture(handTex, 1)
 
     def generateHead(self, headType):
-        if config.GetBool('want-new-cogs', 0):
-            filePrefix, phase = HeadModelDict[self.style.body]
-        else:
-            filePrefix, phase = ModelDict[self.style.body]
-        headModel = loader.loadModel('phase_' + str(phase) + filePrefix + 'heads')
+        filePrefix, phase = ModelDict[self.style.body]
+        filepath = 'phase_' + str(phase) + filePrefix + 'heads'
+        headModel = NodePath('cog_head')
+        Preloaded[filepath].copyTo(headModel)
         headReferences = headModel.findAllMatches('**/' + headType)
-        for i in range(0, headReferences.getNumPaths()):
-            if config.GetBool('want-new-cogs', 0):
-                headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'to_head')
-                if not headPart:
-                    headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'joint_head')
-            else:
-                headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'joint_head')
+        for i in xrange(0, headReferences.getNumPaths()):
+            headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'joint_head')
             if self.headTexture:
                 headTex = loader.loadTexture('phase_' + str(phase) + '/maps/' + self.headTexture)
                 headTex.setMinfilter(Texture.FTLinearMipmapLinear)
@@ -567,10 +558,10 @@ class Suit(Avatar.Avatar):
                 headPart.setTexture(headTex, 1)
             if self.headColor:
                 headPart.setColor(self.headColor)
+            headPart.flattenStrong()
             self.headParts.append(headPart)
-
         headModel.removeNode()
-        
+
     def generateCorporateTie(self, modelPath = None):
         if not modelPath:
             modelPath = self

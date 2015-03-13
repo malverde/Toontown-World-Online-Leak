@@ -534,8 +534,8 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                                 self.groupFrame['text']=TTLocalizer.BoardingPartyTitle;
                             self.groupButton['command'] = self.handleInvite
                             self.groupButton['image'] = self.inviteImageList
-                        self.groupButton['state'] = DGG.NORMAL
-                    if base.config.GetBool('want-boarding-groups', 1):
+                            self.groupButton['state'] = DGG.NORMAL                            
+                    if config.GetBool('want-boarding-groups', 1):
                         base.setCellsActive([base.rightCells[0]], 0)
                         self.groupFrame.show()
         return

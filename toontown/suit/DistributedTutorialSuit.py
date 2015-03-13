@@ -1,9 +1,10 @@
-from pandac.PandaModules import *
+import DistributedSuitBase
+from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from direct.directnotify import DirectNotifyGlobal
+from pandac.PandaModules import *
 from toontown.distributed.DelayDeletable import DelayDeletable
-import DistributedSuitBase
+
 
 class DistributedTutorialSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedTutorialSuit')
@@ -19,8 +20,6 @@ class DistributedTutorialSuit(DistributedSuitBase.DistributedSuitBase, DelayDele
              State.State('Battle', self.enterBattle, self.exitBattle, []),
              State.State('WaitForBattle', self.enterWaitForBattle, self.exitWaitForBattle, ['Battle'])], 'Off', 'Off')
             self.fsm.enterInitialState()
-
-        return None
 
     def generate(self):
         DistributedSuitBase.DistributedSuitBase.generate(self)
@@ -45,29 +44,24 @@ class DistributedTutorialSuit(DistributedSuitBase.DistributedSuitBase, DelayDele
 
     def d_requestBattle(self, pos, hpr):
         self.cr.playGame.getPlace().setState('WaitForBattle')
-        self.sendUpdate('requestBattle', [pos[0],
-         pos[1],
-         pos[2],
-         hpr[0],
-         hpr[1],
-         hpr[2]])
-        return None
+        self.sendUpdate('requestBattle', [pos[0], pos[1], pos[2], hpr[0], hpr[1], hpr[2]])
 
     def __handleToonCollision(self, collEntry):
         toonId = base.localAvatar.getDoId()
         self.notify.debug('Distributed suit: requesting a Battle with ' + 'toon: %d' % toonId)
         self.d_requestBattle(self.getPos(), self.getHpr())
         self.setState('WaitForBattle')
-        return None
 
     def enterWalk(self):
         self.enableBattleDetect('walk', self.__handleToonCollision)
         self.loop('walk', 0)
-        pathPoints = [Vec3(55, 15, -0.5),
-         Vec3(55, 25, -0.5),
-         Vec3(25, 25, -0.5),
-         Vec3(25, 15, -0.5),
-         Vec3(55, 15, -0.5)]
+        pathPoints = [
+            Vec3(55, 25, -0.5),
+            Vec3(25, 25, -0.5),
+            Vec3(25, 15, -0.5),
+            Vec3(55, 15, -0.5),
+            Vec3(55, 25, -0.5)
+        ]
         self.tutWalkTrack = self.makePathTrack(self, pathPoints, 4.5, 'tutFlunkyWalk')
         self.tutWalkTrack.loop()
 
@@ -75,4 +69,3 @@ class DistributedTutorialSuit(DistributedSuitBase.DistributedSuitBase, DelayDele
         self.disableBattleDetect()
         self.tutWalkTrack.pause()
         self.tutWalkTrack = None
-        return

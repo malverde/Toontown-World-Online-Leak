@@ -10,7 +10,6 @@ import re
 import sys
 import token
 import tokenize
-from StringIO import StringIO
 
 import BlinkingArrows
 from otp.speedchat import SpeedChatGlobals
@@ -21,7 +20,8 @@ from toontown.suit import SuitDNA
 from toontown.toon import ToonHeadFrame
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
-from toontown.quest import QuestScripts
+
+
 
 
 notify = DirectNotifyGlobal.directNotify.newCategory('QuestParser')
@@ -54,33 +54,24 @@ def clear():
     globalVarDict.clear()
 
 
-def readFile():
+def readFile(filename):
     global curId
-
-    script = StringIO(QuestScripts.script)
-
-    def readLine():
-        return script.readline().replace('\r', '')
-
-    gen = tokenize.generate_tokens(readLine)
+    scriptFile = StreamReader(vfs.openReadFile(filename, 1), 1)
+    gen = tokenize.generate_tokens(scriptFile.readline)
     line = getLineOfTokens(gen)
-
     while line is not None:
-
         if line == []:
             line = getLineOfTokens(gen)
             continue
-
         if line[0] == 'ID':
             parseId(line)
         elif curId is None:
             notify.error('Every script must begin with an ID')
         else:
             lineDict[curId].append(line)
-
         line = getLineOfTokens(gen)
 
-    script.close()
+    return
 
 def getLineOfTokens(gen):
     tokens = []
@@ -1091,4 +1082,11 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         else:
             return Wait(0.0)
 
-readFile()
+searchPath = DSearchPath()
+searchPath.appendDirectory(Filename('/phase_3/etc'))
+scriptFile = Filename('QuestScripts.txt')
+found = vfs.resolveFilename(scriptFile, searchPath)
+if not found:
+    notify.error('Could not find QuestScripts.txt file')
+readFile(scriptFile)
+

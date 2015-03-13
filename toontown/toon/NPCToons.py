@@ -1,5 +1,5 @@
 from pandac.PandaModules import *
-from otp.nametag.NametagGroup import *
+from toontown.nametag import NametagGlobals
 from toontown.toonbase import ToontownGlobals
 import random
 from toontown.hood import ZoneUtil
@@ -185,7 +185,7 @@ def createLocalNPC(npcId):
     npc = Toon.Toon()
     npc.setName(name)
     npc.setPickable(0)
-    npc.setPlayerType(NametagGroup.CCNonPlayer)
+    npc.setPlayerType(NametagGlobals.CCNonPlayer)
     dna = ToonDNA.ToonDNA()
     if dnaType == 'r':
         dnaList = getRandomDNA(npcId, gender)

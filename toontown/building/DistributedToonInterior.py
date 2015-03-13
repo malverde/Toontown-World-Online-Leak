@@ -1,21 +1,23 @@
-from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
-from direct.interval.IntervalGlobal import *
-from direct.distributed.ClockDelta import *
-from toontown.toonbase import ToontownGlobals
 import cPickle
+import random
+
 import ToonInterior
+import ToonInteriorColors
 from direct.directnotify import DirectNotifyGlobal
-from direct.fsm import ClassicFSM, State
 from direct.distributed import DistributedObject
+from direct.distributed.ClockDelta import *
+from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 import random
 import ToonInteriorColors
-from toontown.dna.DNADoor import DNADoor
+from libpandadna.DNADoor import DNADoor
 from toontown.hood import ZoneUtil
 from toontown.toon import ToonDNA
 from toontown.toon import ToonHead
-from otp.speedchat import SpeedChatGlobals
+from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
+from toontown.toonbase import ToontownGlobals
+from toontown.toonbase.ToonBaseGlobal import *
+
 
 SIGN_LEFT = -4
 SIGN_RIGHT = 4
@@ -57,7 +59,7 @@ class DistributedToonInterior(DistributedObject.DistributedObject):
     def replaceRandomInModel(self, model):
         baseTag = 'random_'
         npc = model.findAllMatches('**/' + baseTag + '???_*')
-        for i in range(npc.getNumPaths()):
+        for i in xrange(npc.getNumPaths()):
             np = npc.getPath(i)
             name = np.getName()
             b = len(baseTag)
@@ -137,39 +139,8 @@ class DistributedToonInterior(DistributedObject.DistributedObject):
         del self.dnaStore
         del self.randomGenerator
         self.interior.flattenMedium()
-
-        '''snowmanHeadInteriors = [
-            2740, # TTC, Loopy Lane, Used Firecrackers
-            4652, # MML, Alto Avenue, Full Stop Shop
-            9608, # DDL, non-HQ street, Cat Nip For Cat Naps
-            5710, # DG, Maple Street, Tuft Guy Gym
-            1711, # DD, Seaweed Street, Deep-Sea Diner
-            3620, # TB, Walrus Way, Skiing Clinic
-        ]
-        snowmanInteriorPhrase = {
-            snowmanHeadInteriors[0] : 30225,
-            snowmanHeadInteriors[1] : 30224,
-            snowmanHeadInteriors[2] : 30221,
-            snowmanHeadInteriors[3] : 30220,
-            snowmanHeadInteriors[4] : 30222,
-            snowmanHeadInteriors[5] : 30223,
-        }
-        if self.zoneId in snowmanHeadInteriors:
-            def phraseSaid(phraseId):
-                phraseNeeded = snowmanInteriorPhrase.get(self.zoneId)
-
-                if phraseId == phraseNeeded:
-                    self.sendUpdate('nextSnowmanHeadPart', [])
-            self.accept(SpeedChatGlobals.SCStaticTextMsgEvent, phraseSaid)'''
-
-        if config.GetBool('want-toonhall-cats', False):
-            if self.zoneId == 2513:
-                # Pfft... all this is needed for is the ActivateEvent...
-                from toontown.ai.DistributedBlackCatMgr import DistributedBlackCatMgr
-                def phraseSaid(phraseId):
-                    if phraseId == 5700: # Toontastic!
-                        messenger.send(DistributedBlackCatMgr.ActivateEvent)
-                self.accept(SpeedChatGlobals.SCStaticTextMsgEvent, phraseSaid)
+        for npcToon in self.cr.doFindAllInstances(DistributedNPCToonBase):
+            npcToon.initToonState()
 
     def setZoneIdAndBlock(self, zoneId, block):
         self.zoneId = zoneId
