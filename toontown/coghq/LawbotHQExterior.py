@@ -6,6 +6,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.building import Elevator
 from pandac.PandaModules import *
 from toontown.coghq import CogHQExterior
+from toontown.hood import ZoneUtil
 from libpandadna.DNAParser import loadDNAFileAI, DNAStorage
 
 class LawbotHQExterior(CogHQExterior.CogHQExterior):
