@@ -377,6 +377,37 @@ class QuestManagerAI:
                             return quest.getItem()
         # Nope, no fishing quests, or we're out of luck. Too bad.
         return 0
+        
+    def toonCaughtFishingItem(self, av):
+        # Get the avatars current quests.
+        avQuests = av.getQuests()
+        fishingItem = -1
+        questList = []
+
+        # Iterate through their current quests.
+        for i in xrange(0, len(avQuests), 5):
+            questDesc = avQuests[i : i + 5]
+            questClass = Quests.getQuest(questDesc[QuestIdIndex])
+            if fishingItem != -1:
+                questList.append(questDesc)
+                continue
+            if isinstance(questClass, Quests.RecoverItemQuest):
+                if not hasattr(questClass, 'getItem'):
+                    questList.append(questDesc)
+                    continue
+                if questClass.getHolder() == Quests.AnyFish:
+                    if not questClass.getCompletionStatus(av, questDesc) == Quests.COMPLETE:
+                        baseChance = questClass.getPercentChance()
+                        amountRemaining = questClass.getNumItems() - questDesc[QuestProgressIndex]
+                        chance = Quests.calcRecoverChance(amountRemaining, baseChance)
+                        if chance >= baseChance:
+                            questDesc[QuestProgressIndex] += 1
+                            fishingItem = questClass.getItem()
+            questList.append(questDesc)
+
+        av.b_setQuests(questList)
+        return fishingItem
+
 
     def hasTailorClothingTicket(self, toon, npc):
         for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
