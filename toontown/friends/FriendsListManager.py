@@ -182,7 +182,6 @@ class FriendsListManager:
         else:
             friendToon = base.cr.doId2do.get(avId)
             if friendToon:
-                print 'got toon'
                 dna = friendToon.getStyle()
                 FriendNotifier.FriendNotifier(avId, friendToon.getName(), dna, None)
         return
