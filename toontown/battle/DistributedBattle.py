@@ -1,20 +1,16 @@
-from pandac.PandaModules import *
-from direct.interval.IntervalGlobal import *
-from BattleBase import *
-from toontown.toonbase import ToontownGlobals
-from toontown.toonbase import ToontownBattleGlobals
-import DistributedBattleBase
 from direct.directnotify import DirectNotifyGlobal
-import MovieUtil
-from toontown.suit import Suit
-from direct.actor import Actor
-from toontown.toon import TTEmote
-from otp.avatar import Emote
-import SuitBattleGlobals
-from toontown.distributed import DelayDelete
+from direct.interval.IntervalGlobal import *
+from pandac.PandaModules import *
 import random
-from toontown.nametag import NametagGlobals
 
+from BattleBase import *
+import DistributedBattleBase
+import SuitBattleGlobals
+from otp.avatar import Emote
+from toontown.chat.ChatGlobals import *
+from toontown.distributed import DelayDelete
+from toontown.nametag import NametagGlobals
+from toontown.toonbase import ToontownBattleGlobals
 class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattle')
     camFOFov = ToontownBattleGlobals.BattleCamFaceOffFov
