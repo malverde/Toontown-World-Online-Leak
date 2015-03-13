@@ -16,7 +16,7 @@ from toontown.friends.FriendsListPanel import determineFriendName
 from toontown.nametag.Nametag import Nametag
 from toontown.nametag.NametagFloat2d import *
 from toontown.nametag.NametagGlobals import *
-from toontown.nametag.NametagGroup import NametagGroup
+from toontown.nametag.NametagGroup import *
 from toontown.parties import PartyGlobals
 from toontown.parties import PartyUtils
 from toontown.parties.CalendarGuiMonth import CalendarGuiMonth

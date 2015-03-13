@@ -16,7 +16,6 @@ from toontown.parties.JellybeanRewardGui import JellybeanRewardGui
 from toontown.parties.PartyUtils import getPartyActivityIcon, getCenterPosFromGridSize
 
 class DistributedPartyActivity(DistributedObject.DistributedObject):
-    deferFor = 1 # We need to defer the generation of activities 1 frame, as the party must generate first
     def __init__(self, cr, activityId, activityType, wantLever = False, wantRewardGui = False):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.activityId = activityId
@@ -464,7 +463,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
                     avatar.stopLookAround()
 
     def getAvatar(self, toonId):
-        if self.cr.doId2do.has_key(toonId):
+        if toonId in self.cr.doId2do:
             return self.cr.doId2do[toonId]
         else:
             self.notify.warning('BASE: getAvatar: No avatar in doId2do with id: ' + str(toonId))

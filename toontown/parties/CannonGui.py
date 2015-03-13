@@ -75,7 +75,7 @@ class CannonGui(DirectObject):
 
     def enable(self, timer = 0):
         self.__aimPad.show()
-        base.setCellsActive([base.bottomCells[3], base.bottomCells[4]], 0)
+        base.setCellsActive([base.bottomCells[2], base.bottomCells[3]], 0)
         base.setCellsActive([base.rightCells[1]], 0)
         if timer > 0:
             self.__timerPad.setTime(timer)
@@ -85,7 +85,7 @@ class CannonGui(DirectObject):
 
     def disable(self):
         self.__aimPad.hide()
-        base.setCellsActive([base.bottomCells[3], base.bottomCells[4]], 1)
+        base.setCellsActive([base.bottomCells[2], base.bottomCells[3]], 1)
         base.setCellsActive([base.rightCells[1]], 1)
         self.__timerPad.hide()
         self.disableKeys()

@@ -135,7 +135,7 @@ class Cannon:
         self.toonHead.reparentTo(hidden)
         tag = NametagFloat3d()
         tag.hideNametag()
-        tag.update()        
+        tag.update()
         tag.setBillboardOffset(0)
         tag.setAvatar(self.toonHead)
         toon.nametag.add(tag)
