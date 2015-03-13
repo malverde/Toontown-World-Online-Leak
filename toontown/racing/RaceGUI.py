@@ -119,7 +119,7 @@ class RaceGUI:
         ls = LineSegs('MapLines')
         ls.setColor(1, 1, 1, 1)
         ls.setThickness(2)
-        for x in xrange(101):
+        for x in range(101):
             self.race.curve.getPoint(x / 100.0 * maxT, pt)
             if x == 0:
                 ls.moveTo(pt[0], pt[1], pt[2])
@@ -150,7 +150,7 @@ class RaceGUI:
         self.wrongWaySeq = Sequence(self.wrongWayLabel.colorScaleInterval(0.25, colorScale=Vec4(1, 1, 1, 1), startColorScale=Vec4(1, 1, 1, 0)), self.wrongWayLabel.colorScaleInterval(0.25, colorScale=Vec4(1, 1, 1, 0), startColorScale=Vec4(1, 1, 1, 1)))
         interpolateFacePos = lambda x: self.faceStartPos * (1.0 - x) + self.faceEndPos * x
         self.timeLabels = []
-        for x in xrange(self.race.lapCount):
+        for x in range(self.race.lapCount):
             minLabel = DirectLabel(relief=None, pos=(interpolateFacePos((2.0 * x + 1) / (self.race.lapCount * 2))[0] - 0.06, 0, 0.84), text="0'", text_scale=0.06, text_fg=(0.95, 0.95, 0, 1), text_font=ToontownGlobals.getSignFont(), text_align=TextNode.ARight)
             minLabel.reparentTo(self.raceModeRoot)
             self.directObjList.append(minLabel)
@@ -181,7 +181,7 @@ class RaceGUI:
         line.setScale(self.faceEndPos[0] - self.faceStartPos[0], 1, 0.01)
         line.setPos(0, 0, self.faceStartPos[2])
         self.cardMaker.setName('RaceProgressLineHash')
-        for n in xrange(self.race.lapCount + 1):
+        for n in range(self.race.lapCount + 1):
             hash = self.raceModeRoot.attachNewNode(self.cardMaker.generate())
             hash.setScale(line.getScale()[2], 1, line.getScale()[2] * 5)
             t = float(n) / self.race.lapCount
@@ -265,7 +265,7 @@ class RaceGUI:
         self.render2dRoot.show()
         self.raceModeRoot.show()
         self.maxLapHit = min(self.maxLapHit, self.race.lapCount - 1)
-        for x in xrange(self.maxLapHit + 1):
+        for x in range(self.maxLapHit + 1):
             for y in self.timeLabels[x]:
                 y.configure(text_font=ToontownGlobals.getSignFont())
                 y.show()

@@ -147,7 +147,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         return 1
 
     def handleTeleportQuery(self, fromAvatar, toAvatar):
-        if base.config.GetBool('want-tptrack', False):
+        if config.GetBool('want-tptrack', False):
             if toAvatar == localAvatar:
                 toAvatar.doTeleportResponse(fromAvatar, toAvatar, toAvatar.doId, 1, toAvatar.defaultShard, base.cr.playGame.getPlaceId(), self.getZoneId(), fromAvatar.doId)
             else:
@@ -541,15 +541,17 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         pass
 
     def enterDoorIn(self, requestStatus):
-        NametagGlobals.setWant2dNametags(False)
+        NametagGlobals.setMasterArrowsOn(0)
         door = base.cr.doId2do.get(requestStatus['doorDoId'])
-        if not door is None:
-            door.readyToExit()
+        if door is None:
+            # We're about to die anyway because door is None, so raise a StandardError with more information
+            raise StandardError("Place's door is None! Place: %s, requestStatus: %s" % (str(self.__class__), str(requestStatus)))
+        door.readyToExit()
         base.localAvatar.obscureMoveFurnitureButton(1)
         base.localAvatar.startQuestMap()
 
     def exitDoorIn(self):
-        NametagGlobals.setWant2dNametags(True)
+        NametagGlobals.setMasterArrowsOn(1)
         base.localAvatar.obscureMoveFurnitureButton(-1)
 
     def enterDoorOut(self):
@@ -620,13 +622,22 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         base.localAvatar.obscureMoveFurnitureButton(-1)
 
     def enterDied(self, requestStatus, callback = None):
-        if callback == None:
-            callback = self.__diedDone
-        base.localAvatar.laffMeter.start()
-        camera.wrtReparentTo(render)
-        base.localAvatar.b_setAnimState('Died', 1, callback, [requestStatus])
+        if self.zoneId == ToontownGlobals.ToontownCentral:
+            callback = self.__pgdiedDone
+            base.localAvatar.laffMeter.start()
+            base.localAvatar.b_setAnimState('PlaygroundDied', 1, callback, [])
+            base.localAvatar.setNumPies(0)
+        else:
+            if callback == None:
+                callback = self.__diedDone
+            base.localAvatar.laffMeter.start()
+            camera.wrtReparentTo(render)
+            base.localAvatar.b_setAnimState('Died', 1, callback, [requestStatus])
         base.localAvatar.obscureMoveFurnitureButton(1)
         return
+
+    def __pgdiedDone(self):
+        self.fsm.request('walk')
 
     def __diedDone(self, requestStatus):
         self.doneStatus = requestStatus
@@ -705,14 +716,14 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
 
     def _placeTeleportInPostZoneComplete(self, requestStatus):
         teleportDebug(requestStatus, '_placeTeleportInPostZoneComplete(%s)' % (requestStatus,))
-        NametagGlobals.setWant2dNametags(False)
+        NametagGlobals.setMasterArrowsOn(0)
         base.localAvatar.laffMeter.start()
         base.localAvatar.startQuestMap()
         base.localAvatar.reconsiderCheesyEffect()
         base.localAvatar.obscureMoveFurnitureButton(1)
         avId = requestStatus.get('avId', -1)
         if avId != -1:
-            if avId in base.cr.doId2do:
+            if base.cr.doId2do.has_key(avId):
                 teleportDebug(requestStatus, 'teleport to avatar')
                 avatar = base.cr.doId2do[avId]
                 avatar.forceToTruePosition()
@@ -743,7 +754,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
     def exitTeleportIn(self):
         self.removeSetZoneCompleteCallback(self._tiToken)
         self._tiToken = None
-        NametagGlobals.setWant2dNametags(True)
+        NametagGlobals.setMasterArrowsOn(1)
         base.localAvatar.laffMeter.stop()
         base.localAvatar.obscureMoveFurnitureButton(-1)
         base.localAvatar.stopUpdateSmartCamera()
@@ -926,3 +937,47 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
     def handleQuietZoneDone(self):
         how = base.cr.handlerArgs['how']
         self.fsm.request(how, [base.cr.handlerArgs])
+        
+#Teleport to locations - staff 
+from otp.ai.MagicWordGlobal import *
+
+def hookTeleportInDone(place):
+    '''
+    Called instead of Place.py's original
+    teleportInDone function; indicates that
+    the destination has been reached.
+    '''
+    global HOOD
+    teleportNotify.debug('Hooked TeleportInDone')
+    if hasattr(place, 'fsm'):
+        teleportNotify.debug('teleportInDone: %s' % place.nextState)
+        place.fsm.request(place.nextState, [1])
+    try:
+        coordinates = ToontownGlobals.hood2Coords[HOOD]
+        base.localAvatar.setPos(*coordinates[0])
+        base.localAvatar.setHpr(*coordinates[1])
+        HOOD = None
+    except:
+        return
+
+@magicWord(category=CATEGORY_ADMIN, types=[str])
+def tp(hood):
+    '''
+    Teleport to hood.
+    '''
+    global HOOD
+    try:
+        HOOD = hood.upper()
+        request = ToontownGlobals.hood2Id[HOOD]
+        hoodNames = ToontownGlobals.hoodNameMap
+        place = base.cr.playGame.getPlace()
+    except:
+        return 'Invalid location!'
+
+    Place.teleportInDone = lambda place: hookTeleportInDone(place)
+    hoodId = request[0]
+    if len(request) == 2:
+        place.handleBookCloseTeleport(*request)
+    else:
+        place.handleBookCloseTeleport(hoodId, hoodId)
+    return 'Heading to: {}!'.format(hoodNames[hoodId][-1])

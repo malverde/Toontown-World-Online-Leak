@@ -115,6 +115,7 @@ class GZPlayground(Playground.Playground):
         elif where == 'exit':
             self.fsm.request('walk')
         elif where == 'racetrack':
+            print 'Entering Racetrack'
             self.doneStatus = doneStatus
             messenger.send(self.doneEvent)
         else:

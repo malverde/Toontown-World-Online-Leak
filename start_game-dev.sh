@@ -1,4 +1,3 @@
-#!/bin/sh
 set +v
 read -p "Username: " ttrUsername
 read -p "Password: " ttrPassword

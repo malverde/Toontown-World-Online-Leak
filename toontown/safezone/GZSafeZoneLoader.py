@@ -19,8 +19,8 @@ class GZSafeZoneLoader(SafeZoneLoader):
         SafeZoneLoader.__init__(self, hood, parentFSM, doneEvent)
         self.musicFile = 'phase_6/audio/bgm/GZ_SZ.ogg'
         self.activityMusicFile = 'phase_6/audio/bgm/GS_KartShop.ogg'
-        self.dnaFile = 'phase_6/dna/golf_zone_sz.pdna'
-        self.safeZoneStorageDNAFile = 'phase_6/dna/storage_GZ_sz.pdna'
+        self.dnaFile = 'phase_6/dna/golf_zone_sz.xml'
+        self.safeZoneStorageDNAFile = 'phase_6/dna/storage_GZ_sz.xml'
         del self.fsm
         self.fsm = ClassicFSM.ClassicFSM('SafeZoneLoader', [State.State('start', self.enterStart, self.exitStart, ['quietZone', 'playground', 'toonInterior']),
          State.State('playground', self.enterPlayground, self.exitPlayground, ['quietZone', 'golfcourse']),
@@ -40,13 +40,6 @@ class GZSafeZoneLoader(SafeZoneLoader):
     def enterPlayground(self, requestStatus):
         self.playgroundClass = GZPlayground
         SafeZoneLoader.enterPlayground(self, requestStatus)
-        top = self.geom.find('**/linktunnel_bosshq_10000_DNARoot')
-        sign = top.find('**/Sign_5')
-        sign.node().setEffect(DecalEffect.make())
-        locator = top.find('**/sign_origin')
-        signText = DirectGui.OnscreenText(text=TextEncoder.upper(TTLocalizer.BossbotHQ[-1]), font=ToontownGlobals.getSuitFont(), scale=TTLocalizer.GZSZLsignText, fg=(0, 0, 0, 1), mayChange=False, parent=sign)
-        signText.setPosHpr(locator, 0, 0, -0.3, 0, 0, 0)
-        signText.setDepthWrite(0)
 
     def exitPlayground(self):
         taskMgr.remove('titleText')
@@ -84,7 +77,7 @@ class GZSafeZoneLoader(SafeZoneLoader):
             return ZoneUtil.getHoodId(status['zoneId']) == self.hood.hoodId
 
     def enterGolfCourse(self, requestStatus):
-        if 'curseId' in requestStatus:
+        if requestStatus.has_key('curseId'):
             self.golfCourseId = requestStatus['courseId']
         else:
             self.golfCourseId = 0

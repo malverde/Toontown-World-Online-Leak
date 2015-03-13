@@ -2,7 +2,7 @@ from pandac.PandaModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.showbase import Loader
 from toontown.toontowngui import ToontownLoadingScreen
-from libpandadna import DNAParser
+from toontown.dna import DNAParser
 from direct.stdpy.file import open
 
 class ToontownLoader(Loader.Loader):
@@ -20,9 +20,14 @@ class ToontownLoader(Loader.Loader):
         del self.loadingScreen
         Loader.Loader.destroy(self)
 
-    def loadDNA(self, dnastore, filename):
-		return loadDNA(dnastore, filename)
-		
+    def loadDNA(self, filename):
+        filename = '/' + filename
+
+        with open(filename, 'r') as f:
+            tree = DNAParser.parse(f)
+
+        return tree
+
     def beginBulkLoad(self, name, label, range, gui, tipCategory, zoneId):
         self._loadStartT = globalClock.getRealTime()
         Loader.Loader.notify.info("starting bulk load of block '%s'" % name)

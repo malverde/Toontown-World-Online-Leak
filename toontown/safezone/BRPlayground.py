@@ -1,25 +1,59 @@
+from pandac.PandaModules import *
+import Playground
 from direct.task.Task import Task
 import random
-
-from toontown.classicchars import CCharPaths
-from toontown.safezone import Playground
-from toontown.toonbase import TTLocalizer
-
+from toontown.hood import Place
+from toontown.toonbase import ToontownGlobals
 
 class BRPlayground(Playground.Playground):
+    STILL = 1
+    RUN = 2
+    ROTATE = 3
+    stillPos = Point3(0, 20, 8)
+    runPos = Point3(0, 60, 8)
+    rotatePos = Point3(0, 0, 8)
+    timeFromStill = 1.0
+    timeFromRotate = 2.0
+
+    def __init__(self, loader, parentFSM, doneEvent):
+        Playground.Playground.__init__(self, loader, parentFSM, doneEvent)
+
+    def load(self):
+        Playground.Playground.load(self)
+
+    def unload(self):
+        Playground.Playground.unload(self)
+
     def enter(self, requestStatus):
         Playground.Playground.enter(self, requestStatus)
-        taskMgr.doMethodLater(1, self.__windTask, 'BR-wind')
+        self.nextWindTime = 0
+        taskMgr.add(self.__windTask, 'br-wind')
+        self.state = 0
 
     def exit(self):
+        taskMgr.remove('br-wind')
+        taskMgr.remove('lerp-snow')
         Playground.Playground.exit(self)
-        taskMgr.remove('BR-wind')
 
-    def showPaths(self):
-        self.showPathPoints(CCharPaths.getPaths(TTLocalizer.Pluto))
+    def enterTunnelOut(self, requestStatus):
+        Place.Place.enterTunnelOut(self, requestStatus)
 
     def __windTask(self, task):
-        base.playSfx(random.choice(self.loader.windSound))
-        time = random.random() * 8.0 + 1
-        taskMgr.doMethodLater(time, self.__windTask, 'BR-wind')
-        return Task.done
+        now = globalClock.getFrameTime()
+        if now < self.nextWindTime:
+            return Task.cont
+        randNum = random.random()
+        wind = int(randNum * 100) % 3 + 1
+        if wind == 1:
+            base.playSfx(self.loader.wind1Sound)
+        elif wind == 2:
+            base.playSfx(self.loader.wind2Sound)
+        elif wind == 3:
+            base.playSfx(self.loader.wind3Sound)
+        self.nextWindTime = now + randNum * 8.0
+        return Task.cont
+
+    def showPaths(self):
+        from toontown.classicchars import CCharPaths
+        from toontown.toonbase import TTLocalizer
+        self.showPathPoints(CCharPaths.getPaths(TTLocalizer.Pluto))

@@ -27,7 +27,7 @@ from toontown.minigame import MinigameRulesPanel
 from toontown.racing import Piejectile
 from toontown.racing import EffectManager
 from toontown.racing import PiejectileManager
-from libpandadna.DNAParser import *
+from toontown.dna.DNAStorage import DNAStorage
 from otp.ai.MagicWordGlobal import *
 
 class DistributedRace(DistributedObject.DistributedObject):
@@ -122,7 +122,7 @@ class DistributedRace(DistributedObject.DistributedObject):
         localAvatar.d_broadcastPositionNow()
         DistributedSmoothNode.activateSmoothing(1, 1)
         self.reversed = self.trackId / 2.0 > int(self.trackId / 2.0)
-        for i in xrange(3):
+        for i in range(3):
             base.loader.tick()
 
         self.sky = loader.loadModel('phase_3.5/models/props/TT_sky')
@@ -136,7 +136,7 @@ class DistributedRace(DistributedObject.DistributedObject):
             self.loadFog()
         self.setupGeom()
         self.startSky()
-        for i in xrange(5):
+        for i in range(5):
             base.loader.tick()
 
     def disable(self):
@@ -422,7 +422,7 @@ class DistributedRace(DistributedObject.DistributedObject):
             self.spin = Vec3(180, 0, 0)
         else:
             self.spin = Vec3(0, 0, 0)
-        for i in xrange(4):
+        for i in range(4):
             base.loader.tick()
 
         self.gui.initRaceMode()
@@ -716,16 +716,18 @@ class DistributedRace(DistributedObject.DistributedObject):
 
     def loadUrbanTrack(self):
         self.dnaStore = DNAStorage()
-        files = ('phase_4/dna/storage.pdna', 'phase_5/dna/storage_town.pdna',
-                 'phase_4/dna/storage_TT.pdna', 'phase_5/dna/storage_TT_town.pdna',
-                 'phase_8/dna/storage_BR.pdna', 'phase_8/dna/storage_BR_town.pdna',
-                 'phase_8/dna/storage_DL.pdna', 'phase_8/dna/storage_DL_town.pdna')
-        dnaBulk = DNABulkLoader(self.dnaStore, files)
-        dnaBulk.loadDNAFiles()
-        dnaFile = 'phase_6/dna/urban_track_town.pdna'
+        loader.loadDNA('phase_4/dna/storage.xml').store(self.dnaStore)
+        loader.loadDNA('phase_5/dna/storage_town.xml').store(self.dnaStore)
+        loader.loadDNA('phase_4/dna/storage_TT.xml').store(self.dnaStore)
+        loader.loadDNA('phase_5/dna/storage_TT_town.xml').store(self.dnaStore)
+        loader.loadDNA('phase_8/dna/storage_BR.xml').store(self.dnaStore)
+        loader.loadDNA('phase_8/dna/storage_BR_town.xml').store(self.dnaStore)
+        loader.loadDNA('phase_8/dna/storage_DL.xml').store(self.dnaStore)
+        loader.loadDNA('phase_8/dna/storage_DL_town.xml').store(self.dnaStore)
+        dnaFile = 'phase_6/dna/urban_track_town.xml'
         if self.trackId in (RaceGlobals.RT_Urban_2, RaceGlobals.RT_Urban_2_rev):
-            dnaFile = 'phase_6/dna/urban_track_town_B.pdna'
-        node = loader.loadDNAFile(self.dnaStore, dnaFile)
+            dnaFile = 'phase_6/dna/urban_track_town_B.xml'
+        node = loader.loadDNA(dnaFile).generate(self.dnaStore)
         self.townGeom = self.geom.attachNewNode(node)
         self.townGeom.findAllMatches('**/+CollisionNode').stash()
         self.buildingGroups = {}
@@ -773,7 +775,7 @@ class DistributedRace(DistributedObject.DistributedObject):
             self.buildingGroups[side] = []
             self.currBldgInd[side] = None
             self.currBldgGroups[side] = None
-            for i in xrange(maxNum):
+            for i in range(maxNum):
                 for barricade in ('innerbarricade', 'outerbarricade'):
                     bldgGroup = self.townGeom.find('**/Buildings_' + side + '-' + barricade + '_' + str(i))
                     if bldgGroup.isEmpty():
@@ -902,7 +904,7 @@ class DistributedRace(DistributedObject.DistributedObject):
                         dict = self.innerBarricadeDict
                     elif side == 'outersidest':
                         dict = self.outerBarricadeDict
-                    if segmentInd in dict:
+                    if dict.has_key(segmentInd):
                         self.currBldgGroups[side] = dict[segmentInd]
                     for i in self.currBldgGroups[side]:
                         self.buildingGroups[side][i].unstash()
@@ -914,7 +916,7 @@ class DistributedRace(DistributedObject.DistributedObject):
     def setupGeom(self):
         trackFilepath = RaceGlobals.TrackDict[self.trackId][0]
         self.geom = loader.loadModel(trackFilepath)
-        for i in xrange(10):
+        for i in range(10):
             base.loader.tick()
 
         self.geom.reparentTo(render)
@@ -924,12 +926,12 @@ class DistributedRace(DistributedObject.DistributedObject):
             lapStartPos = self.geom.find('**/lap_start').getPos()
         self.startPos = lapStartPos
         lapMidPos = self.geom.find('**/lap_middle').getPos()
-        for i in xrange(5):
+        for i in range(5):
             base.loader.tick()
 
         self.startingPos = []
         posLocators = self.geom.findAllMatches('**/start_pos*')
-        for i in xrange(posLocators.getNumPaths()):
+        for i in range(posLocators.getNumPaths()):
             base.loader.tick()
             self.startingPos.append([posLocators[i].getPos(), posLocators[i].getHpr()])
 
@@ -943,35 +945,35 @@ class DistributedRace(DistributedObject.DistributedObject):
             self.curve = self.geom.find('**/curve_reverse').node()
         else:
             self.curve = self.geom.find('**/curve_forward').node()
-        for i in xrange(4000):
+        for i in range(4000):
             self.curvePoints.append(Point3(0, 0, 0))
             self.curve.getPoint(i / 4000.0 * (self.curve.getMaxT() - 1e-11), self.curvePoints[-1])
             self.curveTs.append(i / 4000.0 * (self.curve.getMaxT() - 1e-11))
 
         if self.trackId in (RaceGlobals.RT_Urban_2, RaceGlobals.RT_Urban_2_rev):
             self.precomputeSideStreets()
-        for i in xrange(10):
+        for i in range(10):
             base.loader.tick()
 
         self.startT = self.getNearestT(lapStartPos)
         self.midT = self.getNearestT(lapMidPos)
         self.gags = []
         gagList = RaceGlobals.TrackDict[self.trackId][4]
-        for i in xrange(len(gagList)):
+        for i in range(len(gagList)):
             self.notify.debug('generating gag: %s' % i)
             self.gags.append(RaceGag(self, i, Vec3(*gagList[i]) + Vec3(0, 0, 3)))
 
-        for i in xrange(5):
+        for i in range(5):
             base.loader.tick()
 
     def precomputeSideStreets(self):
         farDist = base.camLens.getFar() + 300
         farDistSquared = farDist * farDist
-        for i in xrange(int(self.barricadeSegments)):
+        for i in range(int(self.barricadeSegments)):
             testPoint = Point3(0, 0, 0)
             self.curve.getPoint(i / self.barricadeSegments * (self.curve.getMaxT() - 1e-11), testPoint)
             for side in ('innersidest', 'outersidest'):
-                for bldgGroupIndex in xrange(len(self.buildingGroups[side])):
+                for bldgGroupIndex in range(len(self.buildingGroups[side])):
                     bldgGroup = self.buildingGroups[side][bldgGroupIndex]
                     if not bldgGroup.getNode(0).getBounds().isEmpty():
                         bldgPoint = bldgGroup.getNode(0).getBounds().getCenter()
@@ -983,7 +985,7 @@ class DistributedRace(DistributedObject.DistributedObject):
                                 dict = self.outerBarricadeDict
                             else:
                                 self.notify.error('unhandled side')
-                            if i in dict:
+                            if dict.has_key(i):
                                 if bldgGroupIndex not in dict[i]:
                                     dict[i].append(bldgGroupIndex)
                             else:
@@ -1001,7 +1003,7 @@ class DistributedRace(DistributedObject.DistributedObject):
                                 dict = self.outerBarricadeDict
                             else:
                                 self.notify.error('unhandled side')
-                            if i in dict:
+                            if dict.has_key(i):
                                 if bldgGroupIndex not in dict[i]:
                                     dict[i].append(bldgGroupIndex)
                             else:
@@ -1020,7 +1022,7 @@ class DistributedRace(DistributedObject.DistributedObject):
         minIndex = -1
         currPoint = Point3(0, 0, 0)
         kartPoint = self.localKart.getPos()
-        for i in xrange(len(self.curvePoints)):
+        for i in range(len(self.curvePoints)):
             currPoint = self.curvePoints[i]
             currLength2 = (kartPoint - currPoint).lengthSquared()
             if currLength2 < minLength2:
@@ -1047,7 +1049,7 @@ class DistributedRace(DistributedObject.DistributedObject):
         minLength2 = 1000000
         minIndex = -1
         currPoint = Point3(0, 0, 0)
-        for i in xrange(len(self.curvePoints)):
+        for i in range(len(self.curvePoints)):
             currPoint = self.curvePoints[i]
             currLength2 = (pos - currPoint).lengthSquared()
             if currLength2 < minLength2:
@@ -1236,16 +1238,8 @@ class DistributedRace(DistributedObject.DistributedObject):
          'reason': RaceGlobals.Exit_UserReq}
         base.cr.playGame.hood.loader.fsm.request('quietZone', [out])
         return
-
-
-# TODO: Move this command to the AI server, and add more features to it.
-@magicWord(category=CATEGORY_OVERRIDE, types=[str])
-def race(command):
-    """
-    A command set for races.
-    """
-    command = command.lower()
-    if command == 'leave':
-        messenger.send('leaveRace')
-        return 'You left the race!'
-    return 'Invalid command!'
+        
+@magicWord(category=CATEGORY_OVERRIDE)
+def leaveRace():
+    """Leave the current race you are in."""
+    messenger.send('leaveRace')

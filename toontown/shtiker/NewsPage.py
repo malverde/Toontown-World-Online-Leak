@@ -55,8 +55,8 @@ class NewsPage(ShtikerPage.ShtikerPage):
                 self.book.prevArrow.hide()
                 self.book.disableAllPageTabs()
             self.newsFrame.activate()
-            base.setCellsActive(base.leftCells, 0)
-            base.setCellsActive([base.rightCells[1]], 0)
+            base.setCellsAvailable(base.leftCells, 0)
+            base.setCellsAvailable([base.rightCells[1]], 0)
             localAvatar.book.bookCloseButton.hide()
             localAvatar.setLastTimeReadNews(base.cr.toontownTimeManager.getCurServerDateTime())
 
@@ -68,8 +68,8 @@ class NewsPage(ShtikerPage.ShtikerPage):
         ShtikerPage.ShtikerPage.exit(self)
         if HaveNewsFrame:
             self.newsFrame.deactivate()
-            base.setCellsActive(base.leftCells, 1)
-            base.setCellsActive([base.rightCells[1]], 1)
+            base.setCellsAvailable(base.leftCells, 1)
+            base.setCellsAvailable([base.rightCells[1]], 1)
             if localAvatar.book.shouldBookButtonBeHidden():
                 localAvatar.book.bookCloseButton.hide()
             else:

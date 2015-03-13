@@ -210,7 +210,7 @@ class Party(Place.Place):
                     host.removeGMIcon()
                     host.setGMPartyIcon()
                 else:
-                    np = NodePath(host.nametag.getIcon())
+                    np = NodePath(host.nametag.getNameIcon())
                     base.distributedParty.partyHat.reparentTo(np)
 
     def __removePartyHat(self):

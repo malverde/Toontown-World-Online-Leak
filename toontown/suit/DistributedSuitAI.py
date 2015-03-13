@@ -8,18 +8,17 @@ import SuitPlannerBase
 import SuitBase
 import SuitDialog
 import SuitDNA
-from SuitLegList import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import SuitBattleGlobals
 from toontown.building import FADoorCodes
 import DistributedSuitBaseAI
 from toontown.hood import ZoneUtil
-from toontown.toon import NPCToons
 import random
+from SuitLegList import *
 
 class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
-    SUIT_BUILDINGS = simbase.config.GetBool('want-suit-buildings', 1)
-    DEBUG_SUIT_POSITIONS = simbase.config.GetBool('debug-suit-positions', 0)
+    SUIT_BUILDINGS = config.GetBool('want-suit-buildings', 1)
+    DEBUG_SUIT_POSITIONS = config.GetBool('debug-suit-positions', 0)
     UPDATE_TIMESTAMP_INTERVAL = 180.0
     myId = 0
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedSuitAI')
@@ -44,13 +43,13 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         self.attemptingTakeover = 0
         self.buildingDestination = None
         self.buildingDestinationIsCogdo = False
+        return
 
     def delete(self):
         del self.bldgTrack
         del self.branchId
         del self.buildingDestination
         del self.buildingDestinationIsCogdo
-
         DistributedSuitBaseAI.DistributedSuitBaseAI.delete(self)
 
     def stopTasks(self):
@@ -75,14 +74,14 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
             pass
         elif self.pathState != 1:
             if self.notify.getDebug():
-                self.notify.debug('requestBattle() - suit %s not on path' % self.getDoId())
+                self.notify.debug('requestBattle() - suit %d not on path' % self.getDoId())
             if self.pathState == 2 or self.pathState == 4:
                 self.b_setBrushOff(SuitDialog.getBrushOffIndex(self.getStyleName()))
             self.d_denyBattle(toonId)
             return
         elif self.legType != SuitLeg.TWalk:
             if self.notify.getDebug():
-                self.notify.debug('requestBattle() - suit %s not in Bellicose' % self.getDoId())
+                self.notify.debug('requestBattle() - suit %d not in Bellicose' % self.getDoId())
             self.b_setBrushOff(SuitDialog.getBrushOffIndex(self.getStyleName()))
             self.d_denyBattle(toonId)
             return
@@ -90,10 +89,10 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         self.confrontHpr = Vec3(h, p, r)
         if self.sp.requestBattle(self.zoneId, self, toonId):
             if self.notify.getDebug():
-                self.notify.debug('Suit %s requesting battle in zone %s' % (self.getDoId(), self.zoneId))
+                self.notify.debug('Suit %d requesting battle in zone %d' % (self.getDoId(), self.zoneId))
         else:
             if self.notify.getDebug():
-                self.notify.debug('requestBattle from suit %s - denied by battle manager' % self.getDoId())
+                self.notify.debug('requestBattle from suit %d - denied by battle manager' % self.getDoId())
             self.b_setBrushOff(SuitDialog.getBrushOffIndex(self.getStyleName()))
             self.d_denyBattle(toonId)
         return
@@ -159,7 +158,7 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         self.d_setPathPosition(index, timestamp)
 
     def d_setPathPosition(self, index, timestamp):
-        self.notify.debug('Suit %s reaches point %s at time %0.2f' % (self.getDoId(), index, timestamp))
+        self.notify.debug('Suit %d reaches point %d at time %0.2f' % (self.getDoId(), index, timestamp))
         self.sendUpdate('setPathPosition', [index, globalClockDelta.localToNetworkTime(timestamp)])
 
     def setPathPosition(self, index, timestamp):
@@ -219,7 +218,7 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         self.zoneId = ZoneUtil.getTrueZoneId(self.legList.getZoneId(0), self.branchId)
         self.legType = self.legList.getType(0)
         if self.notify.getDebug():
-            self.notify.debug('creating suit in zone %s' % self.zoneId)
+            self.notify.debug('creating suit in zone %d' % self.zoneId)
 
     def resync(self):
         self.b_setPathPosition(self.currentLeg, self.pathStartTime + self.legList.getStartTime(self.currentLeg))
@@ -234,9 +233,8 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
             self.__beginLegType(self.legList.getType(nextLeg))
             zoneId = self.legList.getZoneId(nextLeg)
             zoneId = ZoneUtil.getTrueZoneId(zoneId, self.branchId)
-            if zoneId:
-                self.__enterZone(zoneId)
-            self.notify.debug('Suit %s reached leg %s of %s in zone %s.' % (self.getDoId(),
+            self.__enterZone(zoneId)
+            self.notify.debug('Suit %d reached leg %d of %d in zone %d.' % (self.getDoId(),
              nextLeg,
              numLegs - 1,
              self.zoneId))
@@ -258,7 +256,7 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
             taskMgr.remove(self.taskName('move'))
             taskMgr.doMethodLater(delay, self.moveToNextLeg, self.taskName('move'))
         else:
-            if simbase.config.GetBool('want-cogbuildings', True):
+            if self.attemptingTakeover:
                 self.startTakeOver()
             self.requestRemoval()
         return Task.done
@@ -269,9 +267,8 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
     def __enterZone(self, zoneId):
         if zoneId != self.zoneId:
             self.sp.zoneChange(self, self.zoneId, zoneId)
-            # Originally, we would call self.air.sendSetZoneMsg(). I think the
-            # following is a worthy replacement, however:
-            self.b_setLocation(simbase.air.districtId, zoneId)
+            self.setLocation(self.parentId, zoneId)
+            self.air.sendSetLocation(self, self.parentId, zoneId)
             self.zoneId = zoneId
             if self.pathState == 1:
                 self.sp.checkForBattle(zoneId, self)
@@ -284,9 +281,9 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
             self.openToonDoor()
         elif legType == SuitLeg.TToSuitBuilding:
             self.openSuitDoor()
-        elif legType == SuitLeg.TToCogHQ:
+        elif legType == SuitLeg.TToCoghq:
             self.openCogHQDoor(1)
-        elif legType == SuitLeg.TFromCogHQ:
+        elif legType == SuitLeg.TFromCoghq:
             self.openCogHQDoor(0)
 
     def resume(self):
@@ -355,10 +352,8 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         if not self.SUIT_BUILDINGS:
             return
         blockNumber = self.buildingDestination
-        if self.sp.buildingMgr is None:
-            return
         if not self.sp.buildingMgr.isSuitBlock(blockNumber):
-            self.notify.debug('Suit %s taking over building %s in %s' % (self.getDoId(), blockNumber, self.zoneId))
+            self.notify.debug('Suit %d taking over building %d in %d' % (self.getDoId(), blockNumber, self.zoneId))
             difficulty = self.getActualLevel() - 1
             if self.buildingDestinationIsCogdo:
                 self.sp.cogdoTakeOver(blockNumber, difficulty, self.buildingHeight)

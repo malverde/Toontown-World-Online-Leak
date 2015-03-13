@@ -20,7 +20,7 @@ class ChineseTutorial(DirectFrame, FSM.FSM):
         self.accept('stoppedAsleep', self.handleQuit)
         self['image'] = DGG.getDefaultDialogGeom()
         self.title = DirectLabel(self, relief=None, text='', text_pos=(0.0, 0.4), text_fg=(1, 0, 0, 1), text_scale=0.13, text_font=ToontownGlobals.getSignFont())
-        images = loader.loadModel('phase_6/models/golf/checker_tutorial.bam')
+        images = loader.loadModel('phase_6/models/golf/checker_tutorial')
         images.setTransparency(1)
         self.iPage1 = images.find('**/tutorialPage1*')
         self.iPage1.reparentTo(aspect2d)
@@ -138,7 +138,7 @@ class CheckersTutorial(DirectFrame, FSM.FSM):
         self.accept('stoppedAsleep', self.handleQuit)
         self['image'] = DGG.getDefaultDialogGeom()
         self.title = DirectLabel(self, relief=None, text='', text_pos=(0.0, 0.4), text_fg=(1, 0, 0, 1), text_scale=0.13, text_font=ToontownGlobals.getSignFont())
-        images = loader.loadModel('phase_6/models/golf/regularchecker_tutorial.bam')
+        images = loader.loadModel('phase_6/models/golf/regularchecker_tutorial')
         images.setTransparency(1)
         self.iPage1 = images.find('**/tutorialPage1*')
         self.iPage1.reparentTo(aspect2d)
@@ -257,3 +257,100 @@ class CheckersTutorial(DirectFrame, FSM.FSM):
         if task != None:
             task.done
         return
+
+class FindFourTutorial(DirectFrame, FSM.FSM):
+
+    def __init__(self, doneFunction, doneEvent = None, callback = None):
+        FSM.FSM.__init__(self, 'FindFourTutorial')
+        self.doneFunction = doneFunction
+        base.localAvatar.startSleepWatch(self.handleQuit)
+        self.doneEvent = doneEvent
+        self.callback = callback
+        self.setStateArray(['Page1',
+         'Page2',
+         'Page3',
+         'Quit'])
+        DirectFrame.__init__(self, pos=(-0.7, 0.0, 0.0), image_color=ToontownGlobals.GlobalDialogColor, image_scale=(1.0, 1.5, 1.0), text='', text_scale=0.06)
+        self.accept('stoppedAsleep', self.handleQuit)
+        self['image'] = DGG.getDefaultDialogGeom()
+        self.title = DirectLabel(self, relief=None, text='', text_pos=(0.0, 0.4), text_fg=(1, 0, 0, 1), text_scale=0.13, text_font=ToontownGlobals.getSignFont())
+        images = loader.loadModel('phase_6/models/golf/findfour_game')
+        images.setTransparency(1)
+        buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
+        gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
+        self.bNext = DirectButton(self, image=(gui.find('**/Horiz_Arrow_UP'),
+         gui.find('**/Horiz_Arrow_DN'),
+         gui.find('**/Horiz_Arrow_Rllvr'),
+         gui.find('**/Horiz_Arrow_UP')), image3_color=Vec4(1, 1, 1, 0.5), relief=None, text=TTLocalizer.ChineseTutorialNext, text3_fg=Vec4(0, 0, 0, 0.5), text_scale=0.05, text_pos=(0.0, -0.1), pos=(0.35, -0.3, -0.33), command=self.requestNext)
+        self.bPrev = DirectButton(self, image=(gui.find('**/Horiz_Arrow_UP'),
+         gui.find('**/Horiz_Arrow_DN'),
+         gui.find('**/Horiz_Arrow_Rllvr'),
+         gui.find('**/Horiz_Arrow_UP')), image3_color=Vec4(1, 1, 1, 0.5), image_scale=(-1.0, 1.0, 1.0), relief=None, text=TTLocalizer.ChineseTutorialPrev, text3_fg=Vec4(0, 0, 0, 0.5), text_scale=0.05, text_pos=(0.0, -0.1), pos=(-0.35, -0.3, -0.33), command=self.requestPrev)
+        self.bQuit = DirectButton(self, image=(buttons.find('**/ChtBx_OKBtn_UP'), buttons.find('**/ChtBx_OKBtn_DN'), buttons.find('**/ChtBx_OKBtn_Rllvr')), relief=None, text=TTLocalizer.ChineseTutorialDone, text_scale=0.05, text_pos=(0.0, -0.1), pos=(0.0, -0.3, -0.33), command=self.handleQuit)
+        self.bQuit.hide()
+        buttons.removeNode()
+        gui.removeNode()
+        self.request('Page1')
+        return
+
+    def __del__(self):
+        self.cleanup()
+
+    def enterPage1(self, *args):
+        self.bNext.show()
+        self.title['text'] = (TTLocalizer.ChineseTutorialTitle1,)
+        self['text'] = TTLocalizer.CheckersPage1
+        self['text_pos'] = (0.0, 0.23)
+        self['text_wordwrap'] = 13.5
+        self['text_scale'] = 0.06
+        self.bPrev['state'] = DGG.DISABLED
+        self.bPrev.hide()
+        self.bNext['state'] = DGG.NORMAL
+
+    def exitPage1(self, *args):
+        self.bPrev['state'] = DGG.NORMAL
+
+    def enterPage2(self, *args):
+        self.bPrev.show()
+        self.bNext.show()
+        self.title['text'] = (TTLocalizer.ChineseTutorialTitle2,)
+        self['text'] = TTLocalizer.CheckersPage2
+        self['text_pos'] = (0.0, 0.28)
+        self['text_wordwrap'] = 12.5
+        self['text_scale'] = 0.06
+        self.bNext['state'] = DGG.NORMAL
+
+    def exitPage2(self, *args):
+        pass
+
+    def enterPage3(self, *args):
+        self.bPrev.show()
+        self.title['text'] = (TTLocalizer.ChineseTutorialTitle2,)
+        self['text'] = TTLocalizer.CheckersPage3 + '\n\n' + TTLocalizer.CheckersPage4
+        self['text_pos'] = (0.0, 0.32)
+        self['text_wordwrap'] = 19
+        self['text_scale'] = 0.05
+        self.bNext['state'] = DGG.DISABLED
+        self.bNext.hide()
+        self.bQuit.show()
+
+    def exitPage3(self, *args):
+        self.bQuit.hide()
+
+    def enterQuit(self, *args):
+        self.bNext.destroy()
+        self.bPrev.destroy()
+        self.bQuit.destroy()
+        DirectFrame.destroy(self)
+
+    def exitQuit(self, *args):
+        pass
+
+    def handleQuit(self, task = None):
+        self.forceTransition('Quit')
+        base.cr.playGame.getPlace().setState('walk')
+        self.doneFunction()
+        if task != None:
+            task.done
+        return
+

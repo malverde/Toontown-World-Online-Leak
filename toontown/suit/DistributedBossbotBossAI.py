@@ -1,25 +1,22 @@
-from direct.directnotify import DirectNotifyGlobal
-from direct.distributed.ClockDelta import globalClockDelta
-from direct.fsm import FSM
-from direct.interval.IntervalGlobal import LerpPosInterval
+import random
 import math
 from pandac.PandaModules import Point3
-import random
-
-from otp.ai.MagicWordGlobal import *
-from toontown.battle import BattleExperienceAI
-from toontown.battle import DistributedBattleDinersAI
-from toontown.battle import DistributedBattleWaitersAI
-from toontown.building import SuitBuildingGlobals
-from toontown.coghq import DistributedBanquetTableAI
+from direct.directnotify import DirectNotifyGlobal
+from direct.fsm import FSM
+from direct.interval.IntervalGlobal import LerpPosInterval
 from toontown.coghq import DistributedFoodBeltAI
+from toontown.coghq import DistributedBanquetTableAI
 from toontown.coghq import DistributedGolfSpotAI
+from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import ToontownBattleGlobals
 from toontown.suit import DistributedBossCogAI
 from toontown.suit import DistributedSuitAI
 from toontown.suit import SuitDNA
-from toontown.toonbase import ToontownBattleGlobals
-from toontown.toonbase import ToontownGlobals
-
+from toontown.building import SuitBuildingGlobals
+from toontown.battle import DistributedBattleWaitersAI
+from toontown.battle import DistributedBattleDinersAI
+from toontown.battle import BattleExperienceAI
+from direct.distributed.ClockDelta import globalClockDelta
 
 class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBossbotBossAI')
@@ -28,6 +25,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
      2,
      3,
      4]
+    BossName = "CEO"
 
     def __init__(self, air):
         DistributedBossCogAI.DistributedBossCogAI.__init__(self, air, 'c')
@@ -107,8 +105,11 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             if simbase.config.GetBool('bossbot-boss-cheat', 0):
                 listVersion[14] = weakenedValue
                 SuitBuildingGlobals.SuitBuildingInfo = tuple(listVersion)
+                
             retval = self.invokeSuitPlanner(14, 0)
+            
             return retval
+            
         else:
             suits = self.generateDinerSuits()
             return suits
@@ -338,7 +339,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
     def generateDinerSuits(self):
         diners = []
-        for i in xrange(len(self.notDeadList)):
+        for i in xrange(2 if simbase.config.GetBool('bossbot-boss-cheat', 0) else len(self.notDeadList)):
             if simbase.config.GetBool('bossbot-boss-cheat', 0):
                 suit = self.__genSuitObject(self.zoneId, 2, 'c', 2, 0)
             else:
@@ -351,7 +352,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         active = []
         for i in xrange(2):
             if simbase.config.GetBool('bossbot-boss-cheat', 0):
-                suit = self.__genSuitObject(self.zoneId, 2, 'c', 2, 0)
+                suit = self.__genSuitObject(self.zoneId, 1, 'c', 1, 0)
             else:
                 suitType = 8
                 suitLevel = 12
@@ -462,17 +463,16 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             belt.goToonup()
 
         self.battleFourSetup = True
-
     def hitBoss(self, bossDamage):
         avId = self.air.getAvatarIdFromSender()
         if not self.validate(avId, avId in self.involvedToons, 'hitBoss from unknown avatar'):
-            return
-        if bossDamage > 3:
+            return    
+        if bossDamage > 3: # Hacker they shouldnt do more then 3 damage!!!!
+            # Ban them.
             self.air.writeServerEvent('suspicious', avId, 'Bossbot: Toon sent an attack over 3 damage!')
-            self.air.banManager.ban(avId, 0, 'hacking')
-            return
+            self.air.banManager.ban(avId, 0, 'sys-hack')            
+            return               
         if bossDamage < 1:
-            self.air.writeServerEvent('suspicious', avId, 'Bossbot: Toon sent an attack less than 1 damage!')
             return
         currState = self.getCurrentOrNextState()
         if currState != 'BattleFour':
@@ -598,6 +598,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                 toon.b_promote(self.deptIndex)
 
     def givePinkSlipReward(self, toon):
+        self.notify.debug('TODO give pink slip to %s' % toon)
         toon.addPinkSlips(self.battleDifficulty + 1)
 
     def getThreat(self, toonId):
@@ -746,9 +747,32 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             returnedToonId = random.choice(maxToons)
         return returnedToonId
 
+    def getToonDifficulty(self):
+        highestCogSuitLevel = 0
+        totalCogSuitLevels = 0.0
+        totalNumToons = 0.0
+        for toonId in self.involvedToons:
+            toon = simbase.air.doId2do.get(toonId)
+            if toon:
+                toonLevel = toon.getNumPromotions(self.dept)
+                totalCogSuitLevels += toonLevel
+                totalNumToons += 1
+                if toon.cogLevels > highestCogSuitLevel:
+                    highestCogSuitLevel = toonLevel
+
+        if not totalNumToons:
+            totalNumToons = 1.0
+        averageLevel = totalCogSuitLevels / totalNumToons
+        self.notify.debug('toons average level = %f, highest level = %d' % (averageLevel, highestCogSuitLevel))
+        retval = min(averageLevel, self.maxToonLevels)
+        return retval
+
     def calcAndSetBattleDifficulty(self):
         self.toonLevels = self.getToonDifficulty()
-        battleDifficulty = int(math.floor(self.toonLevels / 2))
+        numDifficultyLevels = len(ToontownGlobals.BossbotBossDifficultySettings)
+        battleDifficulty = int(self.toonLevels / self.maxToonLevels * numDifficultyLevels)
+        if battleDifficulty >= numDifficultyLevels:
+            battleDifficulty = numDifficultyLevels - 1
         self.b_setBattleDifficulty(battleDifficulty)
 
     def b_setBattleDifficulty(self, batDiff):
@@ -903,11 +927,29 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.moveAttackAllowed = not self.moveAttackAllowed
         return self.moveAttackAllowed
 
+from otp.ai.MagicWordGlobal import *
+from panda3d.core import *
+    
+@magicWord(category=CATEGORY_ADMIN, types=[])
+def endceo():
+    toon = spellbook.getTarget()
+    if toon:
+        z = toon.zoneId
+        for obj in simbase.air.doId2do.values():
+            zone = getattr(obj, "zoneId", -1)
+            if zone == z:
+                if obj.__class__.__name__ == "DistributedBossbotBossAI":
+                    obj.b_setState('Victory')
+                    return "CEO defeated!"
+    
+        return "CEO not found!"
+        
+    return "Error!"
 
-@magicWord(category=CATEGORY_OVERRIDE)
-def skipCEO():
+@magicWord(category=CATEGORY_SYSADMIN, types=[str])
+def skipCEO(battle='next'):
     """
-    Skips to the final round of the CEO.
+    Skips to the indicated round of the CEO.
     """
     invoker = spellbook.getInvoker()
     boss = None
@@ -918,25 +960,61 @@ def skipCEO():
                 break
     if not boss:
         return "You aren't in a CEO!"
-    if boss.state in ('PrepareBattleThree', 'BattleThree'):
-        return "You can't skip this round."
+
+    battle = battle.lower()
+
+    if battle == 'two':
+        if boss.state in ('PrepareBattleFour', 'BattleFour', 'PrepareBattleThree', 'BattleThree', 'PrepareBattleTwo', 'BattleTwo'):
+            return "You can not return to previous rounds!"
+        else:
+            boss.b_setState('PrepareBattleTwo')
+            return "Skipping to second round..."
+
+    if battle == 'three':
+        if boss.state in ('PrepareBattleFour', 'BattleFour', 'PrepareBattleThree', 'BattleThree'):
+            return "You can not return to previous rounds!"
+        else:
+            boss.b_setState('PrepareBattleThree')
+            return "Skipping to third round..."
+
+    if battle == 'four':
+        if boss.state in ('PrepareBattleFour', 'BattleFour'):
+            return "You can not return to previous rounds!"
+        else:
+            boss.b_setState('PrepareBattleFour')
+            return "Skipping to last round..."
+
+    if battle == 'next':
+        if boss.state in ('PrepareBattleOne', 'BattleOne'):
+            boss.b_setState('PrepareBattleTwo')
+            return "Skipping current round..."
+        elif boss.state in ('PrepareBattleTwo', 'BattleTwo'):
+            boss.b_setState('PrepareBattleThree')
+            return "Skipping current round..."
+        elif boss.state in ('PrepareBattleThree', 'BattleThree'):
+            boss.b_setState('PrepareBattleFour')
+            return "Skipping current round..."
+        elif boss.state in ('PrepareBattleFour', 'BattleFour'):
+            return "Can not skip current round."
+
     boss.exitIntroduction()
-    boss.b_setState('PrepareBattleThree')
-
-
-@magicWord(category=CATEGORY_OVERRIDE)
-def killCEO():
-    """
-    Kills the CEO.
-    """
-    invoker = spellbook.getInvoker()
+    
+@magicWord(category=CATEGORY_ADMIN, types=[])
+def feedCogs():
     boss = None
     for do in simbase.air.doId2do.values():
         if isinstance(do, DistributedBossbotBossAI):
-            if invoker.doId in do.involvedToons:
-                boss = do
-                break
-    if not boss:
-        return "You aren't in a CEO!"
-    boss.b_setState('Victory')
-    return 'Killed CEO.'
+             if invoker.doId in do.involvedToons:
+                 boss = do
+                 break
+    else:
+         return 'You aren\'t in a CEO!'
+ 
+    if boss.state != 'BattleTwo':
+         return 'You need to be in round 2!'
+ 
+    for table in boss.tables:
+         for i in xrange(table.numChairs):
+             if table.getDinerStatus(i) in (table.HUNGRY, table.ANGRY):
+                 table.foodServed(i)
+    return 'Serving cogs...'    

@@ -16,7 +16,7 @@ from toontown.tutorial import TutorialForceAcknowledge
 from toontown.toonbase.ToontownGlobals import *
 from toontown.building import ToonInterior
 from toontown.hood import QuietZoneState
-from libpandadna.DNAParser import *
+from toontown.dna.DNAParser import *
 from direct.stdpy.file import *
 
 class SafeZoneLoader(StateData.StateData):
@@ -64,10 +64,6 @@ class SafeZoneLoader(StateData.StateData):
         self.fsm.enterInitialState()
         messenger.send('enterSafeZone')
         self.setState(requestStatus['where'], requestStatus)
-        if not base.config.GetBool('want-parties', True):
-            partyGate = self.geom.find('**/prop_party_gate_DNARoot')
-            if not partyGate.isEmpty():
-                partyGate.removeNode()
 
     def exit(self):
         messenger.send('exitSafeZone')
@@ -76,48 +72,47 @@ class SafeZoneLoader(StateData.StateData):
         self.fsm.request(stateName, [requestStatus])
 
     def createSafeZone(self, dnaFile):
+        '''self.geom = NodePath('')
+        self.nodeList = []
+        self.holidayPropTransforms = {}
+        self.animPropDict = {}'''
         if self.safeZoneStorageDNAFile:
-            dnaBulk = DNABulkLoader(self.hood.dnaStore, (self.safeZoneStorageDNAFile,))
-            dnaBulk.loadDNAFiles()
-        node = loadDNAFile(self.hood.dnaStore, dnaFile)
+            loader.loadDNA(self.safeZoneStorageDNAFile).store(self.hood.dnaStore)
+        sceneTree = loader.loadDNA(dnaFile)
+        node = sceneTree.generate(self.hood.dnaStore)
+        base.cr.playGame.dnaData = sceneTree.generateData()
         if node.getNumParents() == 1:
             self.geom = NodePath(node.getParent(0))
             self.geom.reparentTo(hidden)
         else:
             self.geom = hidden.attachNewNode(node)
-        self.makeDictionaries(self.hood.dnaStore)
+        self.makeDictionaries(sceneTree)
         self.createAnimatedProps(self.nodeList)
         self.holidayPropTransforms = {}
         npl = self.geom.findAllMatches('**/=DNARoot=holiday_prop')
-        for i in xrange(npl.getNumPaths()):
+        for i in range(npl.getNumPaths()):
             np = npl.getPath(i)
             np.setTag('transformIndex', `i`)
             self.holidayPropTransforms[i] = np.getNetTransform()
+
+        self.geom.flattenMedium()
         gsg = base.win.getGsg()
         if gsg:
             self.geom.prepareScene(gsg)
-        self.geom.flattenMedium()
 
-    def makeDictionaries(self, dnaStore):
+    def makeDictionaries(self, sceneTree):
         self.nodeList = []
-        for i in xrange(dnaStore.getNumDNAVisGroups()):
-            groupFullName = dnaStore.getDNAVisGroupName(i)
-            groupName = base.cr.hoodMgr.extractGroupName(groupFullName)
-            groupNode = self.geom.find('**/' + groupFullName)
+        for visgroup in base.cr.playGame.dnaData.visgroups:
+            groupNode = self.geom.find('**/' + visgroup.name)
             if groupNode.isEmpty():
                 self.notify.error('Could not find visgroup')
-            groupNode.flattenMedium()
             self.nodeList.append(groupNode)
 
         self.removeLandmarkBlockNodes()
-        self.hood.dnaStore.resetPlaceNodes()
-        self.hood.dnaStore.resetDNAGroups()
-        self.hood.dnaStore.resetDNAVisGroups()
-        self.hood.dnaStore.resetDNAVisGroupsAI()
 
     def removeLandmarkBlockNodes(self):
         npc = self.geom.findAllMatches('**/suit_building_origin')
-        for i in xrange(npc.getNumPaths()):
+        for i in range(npc.getNumPaths()):
             npc.getPath(i).removeNode()
 
     def enterStart(self):
@@ -211,7 +206,7 @@ class SafeZoneLoader(StateData.StateData):
         for i in nodeList:
             animPropNodes = i.findAllMatches('**/animated_prop_*')
             numAnimPropNodes = animPropNodes.getNumPaths()
-            for j in xrange(numAnimPropNodes):
+            for j in range(numAnimPropNodes):
                 animPropNode = animPropNodes.getPath(j)
                 if animPropNode.getName().startswith('animated_prop_generic'):
                     className = 'GenericAnimatedProp'
@@ -226,7 +221,7 @@ class SafeZoneLoader(StateData.StateData):
 
             interactivePropNodes = i.findAllMatches('**/interactive_prop_*')
             numInteractivePropNodes = interactivePropNodes.getNumPaths()
-            for j in xrange(numInteractivePropNodes):
+            for j in range(numInteractivePropNodes):
                 interactivePropNode = interactivePropNodes.getPath(j)
                 className = 'GenericAnimatedProp'
                 symbols = {}

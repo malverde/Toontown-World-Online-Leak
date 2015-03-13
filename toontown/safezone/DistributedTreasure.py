@@ -4,6 +4,7 @@ from toontown.toonbase.ToontownGlobals import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.safezone import TreasureGlobals
+from random import choice
 
 class DistributedTreasure(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedTreasure')
@@ -61,12 +62,20 @@ class DistributedTreasure(DistributedObject.DistributedObject):
 
         self.grabSound = base.loadSfx(grabSoundPath)
         self.rejectSound = base.loadSfx(self.rejectSoundPath)
+        
         if self.nodePath == None:
             self.makeNodePath()
         else:
             self.treasure.getChildren().detach()
-        model = loader.loadModel(modelPath)
-        model.instanceTo(self.treasure)
+        
+        # Determine the model to use. Sometimes we'll have more than one.
+        modelList = []
+        for model in modelPath:
+            modelList.append(model)
+            modelChoice = choice(modelList)
+            self.loadedModel = loader.loadModel(modelChoice)
+
+        self.loadedModel.instanceTo(self.treasure)
         return
 
     def makeNodePath(self):
@@ -122,7 +131,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
     def handleGrab(self, avId):
         self.collNodePath.stash()
         self.avId = avId
-        if avId in self.cr.doId2do:
+        if self.cr.doId2do.has_key(avId):
             av = self.cr.doId2do[avId]
             self.av = av
         else:

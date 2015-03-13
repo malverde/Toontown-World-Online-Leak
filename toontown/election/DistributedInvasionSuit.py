@@ -3,7 +3,7 @@ from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm.FSM import FSM
 from direct.task.Task import Task
-from toontown.chat.ChatGlobals import *
+from otp.nametag.NametagConstants import *
 from toontown.suit.DistributedSuitBase import DistributedSuitBase
 from toontown.toonbase import ToontownGlobals
 import SafezoneInvasionGlobals

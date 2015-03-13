@@ -19,11 +19,9 @@ class SZHoodAI(HoodAI):
     """
     
     def __init__(self, air):
-        HoodAI.__init__(self, air, zoneId, canonicalHoodId)
+        HoodAI.__init__(self, air)
 
         self.safezone = self.HOOD
-        self.zoneId = self.HOOD
-        self.canonicalHoodId = self.HOOD
         self.streets = {}
         
         self.trolley = None

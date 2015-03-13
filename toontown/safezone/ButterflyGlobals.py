@@ -197,7 +197,7 @@ def generateIndexes(doId, playground):
 
 
 def clearIndexes(doId):
-    if doId in allocatedIndexes:
+    if allocatedIndexes.has_key(doId):
         del allocatedIndexes[doId]
 
 
@@ -212,7 +212,7 @@ def getFirstRoute(playground, area, doId):
 
 
 def __getCurrentPos(playground, area, doId):
-    if doId in allocatedIndexes:
+    if allocatedIndexes.has_key(doId):
         unusedI = allocatedIndexes[doId][0][area]
         usedI = allocatedIndexes[doId][1][area]
     else:
@@ -227,7 +227,7 @@ def __getCurrentPos(playground, area, doId):
 
 
 def getNextPos(currentPos, playground, area, doId):
-    if doId in allocatedIndexes:
+    if allocatedIndexes.has_key(doId):
         unusedI = allocatedIndexes[doId][0][area]
         usedI = allocatedIndexes[doId][1][area]
     else:
@@ -250,7 +250,7 @@ def getNextPos(currentPos, playground, area, doId):
 
 
 def recycleIndex(index, playground, area, doId):
-    if doId in allocatedIndexes:
+    if allocatedIndexes.has_key(doId):
         unusedI = allocatedIndexes[doId][0][area]
         usedI = allocatedIndexes[doId][1][area]
     else:

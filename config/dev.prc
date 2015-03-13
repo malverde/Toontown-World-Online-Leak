@@ -98,9 +98,4 @@ base-xp-multiplier 1
 #group merges
 boarding-group-merges #t
 force-skip-tutorial #t
-#other
-use-libpandadna #t
-
 want-speedhack-fix #t
-want-cogdominiums #f
-want-game-tables #f

@@ -194,9 +194,9 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
     def getExteriorAndInteriorZoneId(self):
         blockNumber = self.block
         dnaStore = self.air.dnaStoreMap[self.canonicalZoneId]
-        zoneId = dnaStore.getZoneFromBlockNumber(blockNumber)
+        zoneId = dnaStore.getBlock(blockNumber).zone
         zoneId = ZoneUtil.getTrueZoneId(zoneId, self.zoneId)
-        interiorZoneId = (zoneId - (zoneId%100)) + 500 + blockNumber
+        interiorZoneId = zoneId - zoneId % 100 + 500 + blockNumber
         return (zoneId, interiorZoneId)
 
     def d_setState(self, state):
