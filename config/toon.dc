@@ -3272,7 +3272,7 @@ blob dna;
 uint32 petId;
 };
 
-dclass TTRFriendsManager : DistributedObjectGlobal {
+dclass TTIFriendsManager : DistributedObjectGlobal {
   removeFriend(uint32) clsend;
   requestAvatarInfo(uint32[]) clsend;
 
@@ -3287,6 +3287,7 @@ dclass TTRFriendsManager : DistributedObjectGlobal {
   goingOffline(uint32 avId);
 
   getAvatarDetails(uint32) clsend;
+
   friendDetails(uint32, blob, uint16[], int8[], blob, int16, int16, uint32, uint32, blob, uint32);
   routeTeleportQuery(uint32 toId) clsend;
   teleportQuery(uint32 fromId);
