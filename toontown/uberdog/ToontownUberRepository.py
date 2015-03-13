@@ -31,10 +31,6 @@ class ToontownUberRepository(ToontownInternalRepository):
         self.friendsManager = simbase.air.generateGlobalObject(OTP_DO_ID_TTR_FRIENDS_MANAGER,
                                                                'TTRFriendsManager')
 
-        if config.GetBool('want-parties', True):
-            # want-parties overrides config for want-GlobalPartyManagerUD
-            self.globalPartyMgr = self.generateGlobalIfWanted(OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
-        else:
-            self.globalPartyMgr = None
+        self.globalPartyMgr = simbase.air.generateGlobalObject(OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
 
         self.deliveryManager = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER, 'DistributedDeliveryManager')
