@@ -8297,7 +8297,7 @@ FlowerGuiCancel = lCancel
 FlowerGuiOk = 'Sell All'
 FlowerBasketValue = '%(name)s, you have %(num)s flowers in your basket worth a total of %(value)s jellybeans. Do you want to sell them all?'
 
-def GetPossesive(name, place):
+def GetPossesive(name):
     if name[-1:] == 's':
         possesive = name + "'"
     else:
