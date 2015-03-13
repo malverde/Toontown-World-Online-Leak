@@ -9,5 +9,5 @@ echo Starting Toontown  World Online...
 echo Username: $ttrUsername
 echo Client Agent IP: $TTR_GAMESERVER$
 echo ===============================
-ppython -m toontown.toonbase.ToontownStart.py
+ppython -m toontown.toonbase.ToontownStart
 sleep 1
