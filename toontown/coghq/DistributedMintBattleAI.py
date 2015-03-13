@@ -24,10 +24,7 @@ class DistributedMintBattleAI(DistributedLevelBattleAI.DistributedLevelBattleAI)
         return self.level.mintId
 
     def handleToonsWon(self, toons):
-        extraMerits = [0,
-         0,
-         0,
-         0]
+        extraMerits = [0, 0, 0, 0]
         amount = ToontownGlobals.MintCogBuckRewards[self.level.mintId]
         index = ToontownGlobals.cogHQZoneId2deptIndex(self.level.mintId)
         extraMerits[index] = amount
@@ -44,7 +41,7 @@ class DistributedMintBattleAI(DistributedLevelBattleAI.DistributedLevelBattleAI)
                 self.toonParts[toon.doId] = self.air.cogSuitMgr.recoverPart(
                                             toon, 'fullSuit', self.suitTrack,
                                             self.getTaskZoneId(), toons)
-                self.notify.debug('toonParts = %s' % self.toonParts)                
+                self.notify.debug('toonParts = %s' % self.toonParts)
 
     def enterMintReward(self):
         self.joinableFsm.request('Unjoinable')

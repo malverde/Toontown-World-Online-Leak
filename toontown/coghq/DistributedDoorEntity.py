@@ -362,9 +362,7 @@ class DistributedDoorEntity(DistributedDoorEntityBase.DistributedDoorEntityBase,
         return
 
     def openInnerDoors(self):
-        print 'openInnerDoors'
         if not self.level.complexVis() or self.isOuterDoorOpen and (not self.isVisBlocker or self.isVisReady):
-            print 'openInnerDoors stage Two'
             duration = self.duration
             slideSfx = base.loadSfx('phase_9/audio/sfx/CHQ_FACT_door_open_sliding.ogg')
             finalSfx = base.loadSfx('phase_9/audio/sfx/CHQ_FACT_door_open_final.ogg')
@@ -382,7 +380,6 @@ class DistributedDoorEntity(DistributedDoorEntityBase.DistributedDoorEntityBase,
         self.isOuterDoorOpen = isOpen
 
     def enterState1(self):
-        print 'doors enter state 1'
         FourState.FourState.enterState1(self)
         self.isOuterDoorOpen = 0
         if self.isVisBlocker:

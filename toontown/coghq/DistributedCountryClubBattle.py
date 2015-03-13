@@ -1,17 +1,19 @@
-from pandac.PandaModules import *
-from direct.interval.IntervalGlobal import *
-from toontown.battle.BattleBase import *
-from toontown.coghq import DistributedLevelBattle
+import random
+
 from direct.directnotify import DirectNotifyGlobal
-from toontown.toon import TTEmote
+from direct.fsm import ClassicFSM, State
+from direct.fsm import State
+from direct.interval.IntervalGlobal import *
 from otp.avatar import Emote
 from toontown.nametag import NametagGlobals
+from pandac.PandaModules import *
 from toontown.battle import SuitBattleGlobals
-import random
+from toontown.battle.BattleBase import *
+from toontown.coghq import DistributedLevelBattle
 from toontown.suit import SuitDNA
-from direct.fsm import State
-from direct.fsm import ClassicFSM, State
+from toontown.toon import TTEmote
 from toontown.toonbase import ToontownGlobals
+
 
 class DistributedCountryClubBattle(DistributedLevelBattle.DistributedLevelBattle):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCountryClubBattle')
@@ -32,7 +34,7 @@ class DistributedCountryClubBattle(DistributedLevelBattle.DistributedLevelBattle
             NametagGlobals.setWant2dNametags(False)
             if self.bossBattle:
                 messenger.send('localToonConfrontedCountryClubBoss')
-        self.movie.playReward(ts, self.uniqueName('building-reward'), self.__handleCountryClubRewardDone)
+        self.movie.playReward(ts, self.uniqueName('building-reward'), self.__handleCountryClubRewardDone, noSkip=True)
 
     def __handleCountryClubRewardDone(self):
         self.notify.debug('countryClub reward done')

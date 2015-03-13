@@ -1,18 +1,17 @@
-from pandac.PandaModules import *
-from direct.interval.IntervalGlobal import *
-from StomperGlobals import *
-from direct.distributed import ClockDelta
-from direct.showbase.PythonUtil import lerp
-import math
-from otp.level import DistributedEntity
-from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import NodePath
-from otp.level import BasicEntities
-from direct.task import Task
-from toontown.toonbase import ToontownGlobals
-from toontown.coghq import BattleBlocker
-import random
 from math import *
+import math
+import random
+
+from StomperGlobals import *
+from direct.directnotify import DirectNotifyGlobal
+from direct.distributed import ClockDelta
+from direct.interval.IntervalGlobal import *
+from direct.showbase.PythonUtil import lerp
+from direct.task import Task
+from otp.level import BasicEntities
+from pandac.PandaModules import *
+from pandac.PandaModules import NodePath
+
 
 class DistributedMover(BasicEntities.DistributedNodePathEntity):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedMover')
@@ -29,7 +28,6 @@ class DistributedMover(BasicEntities.DistributedNodePathEntity):
         self.pos1Wait = 1.0
         self.pos1Move = 1.0
         self.moverIval = None
-        return
 
     def generateInit(self):
         self.notify.debug('generateInit')
@@ -79,11 +77,12 @@ class DistributedMover(BasicEntities.DistributedNodePathEntity):
         self.entity2Move = entId
         if entId:
             ent = self.level.getEntity(entId)
-            if self.attachedEnt and not self.attachedEnt.isEmpty():
-                self.attachedEnt.reparentTo(self.oldParent)
-            self.oldParent = ent.getParent()
-            ent.reparentTo(self.moverNode)
-            self.attachedEnt = ent
+            if ent:
+                if self.attachedEnt and not self.attachedEnt.isEmpty():
+                    self.attachedEnt.reparentTo(self.oldParent)
+                self.oldParent = ent.getParent()
+                ent.reparentTo(self.moverNode)
+                self.attachedEnt = ent
 
     def startMove(self, timeStamp):
         currentTime = ClockDelta.globalClockDelta.getRealNetworkTime()
@@ -114,7 +113,7 @@ class DistributedMover(BasicEntities.DistributedNodePathEntity):
             firstIVal = LerpPosHprInterval(self.moverNode, timeJump, Vec3(target.getPos(self)[0], target.getPos(self)[1], target.getPos(self)[2]), Vec3(target.getHpr(self)[0], target.getHpr(self)[1], target.getHpr(self)[2]), blendType=myBlend, fluid=1)
             self.moverIval.append(firstIVal)
             if self.cycleType in 'linear':
-                for linearCycle in range(10):
+                for linearCycle in xrange(10):
                     self.moverIval.append(firstIVal)
 
             if self.cycleType != 'oneWay':

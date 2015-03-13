@@ -1,16 +1,18 @@
 from direct.directnotify import DirectNotifyGlobal
-from toontown.battle import BattlePlace
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from toontown.toonbase import ToontownGlobals
-from toontown.building import Elevator
 from pandac.PandaModules import *
+from toontown.battle import BattlePlace
+from toontown.building import Elevator
 from toontown.coghq import CogHQExterior
+from toontown.dna.DNAParser import loadDNAFileAI, DNAStorage
 from toontown.hood import ZoneUtil
-from libpandadna.DNAParser import loadDNAFileAI, DNAStorage
+from toontown.toonbase import ToontownGlobals
+
 
 class LawbotHQExterior(CogHQExterior.CogHQExterior):
     notify = DirectNotifyGlobal.directNotify.newCategory('LawbotHQExterior')
+
     def enter(self, requestStatus):
         CogHQExterior.CogHQExterior.enter(self, requestStatus)
 
@@ -34,4 +36,3 @@ class LawbotHQExterior(CogHQExterior.CogHQExterior):
 
         # Next, we want interest in all vis groups due to this being a Cog HQ:
         base.cr.sendSetZoneMsg(self.zoneId, self.zoneVisDict.values()[0])
-

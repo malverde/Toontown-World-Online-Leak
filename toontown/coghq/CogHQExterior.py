@@ -6,13 +6,9 @@ from toontown.toonbase import ToontownGlobals
 from pandac.PandaModules import *
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.nametag import NametagGlobals
-from pandac.PandaModules import *
-from toontown.dna import DNAUtil
-from toontown.nametag import NametagGlobals
 
 class CogHQExterior(BattlePlace.BattlePlace):
     notify = DirectNotifyGlobal.directNotify.newCategory('CogHQExterior')
-    
 
     def __init__(self, loader, parentFSM, doneEvent):
         BattlePlace.BattlePlace.__init__(self, loader, doneEvent)
@@ -54,7 +50,6 @@ class CogHQExterior(BattlePlace.BattlePlace):
          State.State('tunnelIn', self.enterTunnelIn, self.exitTunnelIn, ['walk', 'WaitForBattle', 'battle']),
          State.State('tunnelOut', self.enterTunnelOut, self.exitTunnelOut, ['final']),
          State.State('final', self.enterFinal, self.exitFinal, ['start'])], 'start', 'final')
-        self.visInterest = None
 
     def load(self):
         self.parentFSM.getStateNamed('cogHQExterior').addChild(self.fsm)
@@ -94,7 +89,6 @@ class CogHQExterior(BattlePlace.BattlePlace):
         self.ignoreAll()
         BattlePlace.BattlePlace.exit(self)
 
-
     def enterTunnelOut(self, requestStatus):
         fromZoneId = self.zoneId - self.zoneId % 100
         tunnelName = base.cr.hoodMgr.makeLinkTunnelName(self.loader.hood.id, fromZoneId)
@@ -107,7 +101,7 @@ class CogHQExterior(BattlePlace.BattlePlace):
         BattlePlace.BattlePlace.enterTeleportIn(self, requestStatus)
 
     def enterTeleportOut(self, requestStatus, callback = None):
-        if requestStatus.has_key('battle'):
+        if 'battle' in requestStatus:
             self.__teleportOutDone(requestStatus)
         else:
             BattlePlace.BattlePlace.enterTeleportOut(self, requestStatus, self.__teleportOutDone)

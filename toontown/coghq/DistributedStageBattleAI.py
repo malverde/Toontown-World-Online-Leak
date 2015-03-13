@@ -1,12 +1,13 @@
-from toontown.toonbase import ToontownGlobals
-from toontown.coghq import DistributedLevelBattleAI
-from direct.directnotify import DirectNotifyGlobal
-from direct.fsm import State
-from direct.fsm import ClassicFSM, State
-from toontown.battle.BattleBase import *
 import CogDisguiseGlobals
-from toontown.toonbase.ToontownBattleGlobals import getStageCreditMultiplier
+from direct.directnotify import DirectNotifyGlobal
+from direct.fsm import ClassicFSM, State
+from direct.fsm import State
 from direct.showbase.PythonUtil import addListsByValue
+from toontown.battle.BattleBase import *
+from toontown.coghq import DistributedLevelBattleAI
+from toontown.toonbase import ToontownGlobals
+from toontown.toonbase.ToontownBattleGlobals import getStageCreditMultiplier
+
 
 class DistributedStageBattleAI(DistributedLevelBattleAI.DistributedLevelBattleAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedStageBattleAI')
@@ -31,10 +32,7 @@ class DistributedStageBattleAI(DistributedLevelBattleAI.DistributedLevelBattleAI
             self.suitsKilledPerFloor[floor].extend(self.suitsKilledThisBattle)
 
     def handleToonsWon(self, toons):
-        extraMerits = [0,
-         0,
-         0,
-         0]
+        extraMerits = [0, 0, 0, 0]
         amount = ToontownGlobals.StageNoticeRewards[self.level.stageId]
         index = ToontownGlobals.cogHQZoneId2deptIndex(self.level.stageId)
         extraMerits[index] = amount
@@ -52,6 +50,7 @@ class DistributedStageBattleAI(DistributedLevelBattleAI.DistributedLevelBattleAI
                                             toon, 'fullSuit', self.suitTrack,
                                             self.getTaskZoneId(), toons)
                 self.notify.debug('toonParts = %s' % self.toonParts)
+
     def enterStageReward(self):
         self.joinableFsm.request('Unjoinable')
         self.runableFsm.request('Unrunable')
@@ -60,10 +59,9 @@ class DistributedStageBattleAI(DistributedLevelBattleAI.DistributedLevelBattleAI
         self.bossDefeated = 1
         self.level.setVictors(self.activeToons[:])
         self.timer.startCallback(BUILDING_REWARD_TIMEOUT, self.serverRewardDone)
-        return None
 
     def exitStageReward(self):
-        return None
+        pass
 
     def enterResume(self):
         DistributedLevelBattleAI.DistributedLevelBattleAI.enterResume(self)

@@ -1,24 +1,23 @@
 from direct.directnotify import DirectNotifyGlobal
-from toontown.battle import BattlePlace
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
-from toontown.toonbase import ToontownGlobals
-from toontown.building import Elevator
-from pandac.PandaModules import *
-from toontown.dna import DNAUtil
 from toontown.nametag import NametagGlobals
+from pandac.PandaModules import *
+from toontown.battle import BattlePlace
+from toontown.building import Elevator
+from toontown.dna.DNAParser import loadDNAFileAI, DNAStorage
+from toontown.hood import ZoneUtil
+from toontown.toonbase import ToontownGlobals
+
 
 class FactoryExterior(BattlePlace.BattlePlace):
     notify = DirectNotifyGlobal.directNotify.newCategory('FactoryExterior')
-    
 
     def __init__(self, loader, parentFSM, doneEvent):
         BattlePlace.BattlePlace.__init__(self, loader, doneEvent)
         self.parentFSM = parentFSM
         self.elevatorDoneEvent = 'elevatorDone'
-        self.visInterest = None
-        self.visGroups = None
 
     def load(self):
         self.fsm = ClassicFSM.ClassicFSM('FactoryExterior', [State.State('start', self.enterStart, self.exitStart, ['walk',
@@ -55,7 +54,6 @@ class FactoryExterior(BattlePlace.BattlePlace):
          State.State('final', self.enterFinal, self.exitFinal, ['start'])], 'start', 'final')
         self.parentFSM.getStateNamed('factoryExterior').addChild(self.fsm)
         BattlePlace.BattlePlace.load(self)
-        
 
     def unload(self):
         self.parentFSM.getStateNamed('factoryExterior').removeChild(self.fsm)
@@ -115,8 +113,6 @@ class FactoryExterior(BattlePlace.BattlePlace):
         del self.tunnelOriginList
         del self.nodeList
         self.ignoreAll()
-        if self.visInterest:
-            base.cr.removeInterest(self.visInterest)
         BattlePlace.BattlePlace.exit(self)
 
     def enterTunnelOut(self, requestStatus):
@@ -185,27 +181,3 @@ class FactoryExterior(BattlePlace.BattlePlace):
             messenger.send(self.doneEvent)
         else:
             self.notify.error('Unknown mode: ' + where + ' in handleElevatorDone')
-            
-    def updateVis(self, zone):
-        if not self.visGroups:
-            dna = loader.loadDNA(self.dnaFile)
-            self.visGroups = DNAUtil.getVisGroups(dna)
-        visZones = []
-        for vg in self.visGroups:
-            if vg.getZone() == zone:
-                visZones = vg.getVisibleZones()
-                visZones.append(ToontownGlobals.SellbotFactoryExt) # :dolphin:
-                break
-        if not self.visInterest:
-            self.visInterest = base.cr.addInterest(base.localAvatar.defaultShard, visZones, 'cogHQVis')
-        else:
-            base.cr.alterInterest(self.visInterest, base.localAvatar.defaultShard, visZones)
-            
-    def doEnterZone(self, newZoneId):
-        self.updateVis(newZoneId)
-        if newZoneId != self.zoneId:
-            if newZoneId != None:
-                base.cr.sendSetZoneMsg(newZoneId)
-                self.notify.debug('Entering Zone %d' % newZoneId)
-            self.zoneId = newZoneId
-        return
