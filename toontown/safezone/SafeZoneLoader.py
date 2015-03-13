@@ -64,6 +64,10 @@ class SafeZoneLoader(StateData.StateData):
         self.fsm.enterInitialState()
         messenger.send('enterSafeZone')
         self.setState(requestStatus['where'], requestStatus)
+        if not base.config.GetBool('want-parties', True):
+            partyGate = self.geom.find('**/prop_party_gate_DNARoot')
+            if not partyGate.isEmpty():
+                partyGate.removeNode()
 
     def exit(self):
         messenger.send('exitSafeZone')
