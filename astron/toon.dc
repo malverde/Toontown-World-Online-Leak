@@ -3272,7 +3272,7 @@ blob dna;
 uint32 petId;
 };
 
-dclass TTIFriendsManager : DistributedObjectGlobal {
+dclass TTRFriendsManager : DistributedObjectGlobal {
   removeFriend(uint32) clsend;
   requestAvatarInfo(uint32[]) clsend;
 
