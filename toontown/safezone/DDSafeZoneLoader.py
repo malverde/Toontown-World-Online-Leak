@@ -1,10 +1,5 @@
-from pandac.PandaModules import *
-import SafeZoneLoader
-import DDPlayground
-from direct.fsm import State
-from toontown.char import CharDNA
-from toontown.char import Char
-from toontown.toonbase import ToontownGlobals
+from toontown.safezone import SafeZoneLoader
+from toontown.safezone import DDPlayground
 
 class DDSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
 
@@ -51,9 +46,3 @@ class DDSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         del self.waterSound
         del self.submergeSound
         del self.boat
-
-    def enter(self, requestStatus):
-        SafeZoneLoader.SafeZoneLoader.enter(self, requestStatus)
-
-    def exit(self):
-        SafeZoneLoader.SafeZoneLoader.exit(self)
