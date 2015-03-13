@@ -87,7 +87,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             pos=(0.0125, 0, 0.4),
             relief=None,
             text=self.avName,
-            text_font=ToontownGlobals.getInterfaceFont(),
+            text_font=avatar.getFont(),
             text_fg=Vec4(0, 0, 0, 1),
             text_pos=(0, 0),
             text_scale=0.042,
@@ -130,7 +130,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
 
 
 
-        if base.cr.playerFriendsManager.askTransientFriend(self.avId) and not base.cr.doId2do.has_key(self.avId):
+        if base.cr.playerFriendsManager.askTransientFriend(self.avId) and self.avId not in base.cr.doId2do:
             self.friendButton['state'] = DGG.DISABLED
 
 
@@ -316,7 +316,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         self.accept('updateGroupStatus', self.__checkGroupStatus)
 
         self.frame.show()
-        base.hideFriendMargins() 
         messenger.send('avPanelDone')
 
     def disableAll(self):
@@ -374,7 +373,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         self.ignoreAll()
         if hasattr(self.avatar, 'bFake') and self.avatar.bFake:
             self.avatar.delete()
-        base.setCellsAvailable([base.rightCells[0]], 1)
+        base.setCellsActive([base.rightCells[0]], 1)
         AvatarPanelBase.AvatarPanelBase.cleanup(self)
         return
 
@@ -455,12 +454,9 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
 
     def __handleClose(self):
         self.cleanup()
-        base.showFriendMargins()
         AvatarPanelBase.currentAvatarPanel = None
         if self.friendsListShown:
             self.FriendsListPanel.showFriendsList()
-        else:
-            base.showFriendMargins()
         return
 
     def getAvId(self):
@@ -493,7 +489,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         if not base.cr.playGame.getPlace().getState() == 'elevator':
             self.confirmKickOutDialog = TTDialog.TTDialog(style=TTDialog.YesNo, text=TTLocalizer.BoardingKickOutConfirm % self.avName, command=self.__confirmKickOutCallback)
             self.confirmKickOutDialog.show()
-            localAvatar.disableAvatarControls()
 
     def __confirmKickOutCallback(self, value):
         if self.confirmKickOutDialog:
@@ -503,7 +498,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
             if self.groupButton:
                 self.groupButton['state'] = DGG.DISABLED
             localAvatar.boardingParty.requestKick(self.avId)
-        localAvatar.enableAvatarControls()
         return
 
     def __checkGroupStatus(self):
@@ -523,6 +517,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                             self.groupButton['image'] = self.inviteImageDisabled
                             self.groupButton['image_color'] = Vec4(1, 1, 1, 0.4)
                             self.groupButton['state'] = DGG.NORMAL
+                    else:
                         g1 = localAvatar.boardingParty.countInGroup(self.avId)
                         g2 = localAvatar.boardingParty.countInGroup(localAvatar.doId)
                         if (g1 + g2) > localAvatar.boardingParty.maxSize:
@@ -539,9 +534,9 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                                 self.groupFrame['text']=TTLocalizer.BoardingPartyTitle;
                             self.groupButton['command'] = self.handleInvite
                             self.groupButton['image'] = self.inviteImageList
-                            self.groupButton['state'] = DGG.NORMAL                            
-                    if config.GetBool('want-boarding-groups', 1):
-                        base.setCellsAvailable([base.rightCells[0]], 0)
+                        self.groupButton['state'] = DGG.NORMAL
+                    if base.config.GetBool('want-boarding-groups', 1):
+                        base.setCellsActive([base.rightCells[0]], 0)
                         self.groupFrame.show()
         return
 

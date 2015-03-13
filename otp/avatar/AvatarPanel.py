@@ -27,7 +27,7 @@ class AvatarPanel(DirectObject.DirectObject):
             self.avDisableName = avatar.uniqueName('disable')
             self.avGenerateName = avatar.uniqueName('generate')
             self.avHpChangeName = avatar.uniqueName('hpChange')
-            if base.cr.doId2do.has_key(self.avId):
+            if self.avId in base.cr.doId2do:
                 self.avatar = base.cr.doId2do[self.avId]
         else:
             self.avDisableName = None
