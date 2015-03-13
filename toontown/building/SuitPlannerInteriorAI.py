@@ -144,11 +144,12 @@ class SuitPlannerInteriorAI:
             suitLevel = min(max(suitLevel, suitType), suitType + 4)
         if not self.respectInvasions:
             specialSuit = 0
-        dna = SuitDNA.SuitDNA()        
+        dna = SuitDNA.SuitDNA()
         dna.newSuitRandom(suitType, bldgTrack)
         suit.dna = dna
+        self.notify.debug('Creating suit type ' + suit.dna.name + ' of level ' + str(suitLevel) + ' from type ' + str(suitType) + ' and track ' + str(bldgTrack))
         suit.setLevel(suitLevel)
-        return flags
+        return specialSuit
 
     def __genSuitObject(self, suitZone, suitType, bldgTrack, suitLevel, revives = 0):
         newSuit = DistributedSuitAI.DistributedSuitAI(simbase.air, None)
