@@ -2973,7 +2973,6 @@ class Toon(Avatar.Avatar, ToonHead):
         self.suit.loop('neutral')
         self.isDisguised = 1
         self.setFont(ToontownGlobals.getSuitFont())
-        self.setSpeechFont(ToontownGlobals.getSuitFont())
         if setDisplayName:
             if hasattr(base, 'idTags') and base.idTags:
                 name = self.getAvIdName()
@@ -3007,11 +3006,7 @@ class Toon(Avatar.Avatar, ToonHead):
         Emote.globalEmote.releaseAll(self)
         self.isDisguised = 0
         self.setFont(ToontownGlobals.getToonFont())
-        if setDisplayName:
-            if hasattr(base, 'idTags') and base.idTags:
-                name = self.getAvIdName()
-            else:
-                name = self.getName()
+        self.nametag.setWordWrap(None)
         if hasattr(base, 'idTags') and base.idTags:
             name = self.getAvIdName()
         else:
@@ -3034,6 +3029,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.suit.delete()
         del self.suit
         del self.suitGeom
+
 
     def makeWaiter(self):
         if not self.isDisguised:
