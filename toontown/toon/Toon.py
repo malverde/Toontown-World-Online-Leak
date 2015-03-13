@@ -3007,7 +3007,6 @@ class Toon(Avatar.Avatar, ToonHead):
         Emote.globalEmote.releaseAll(self)
         self.isDisguised = 0
         self.setFont(ToontownGlobals.getToonFont())
-        self.setSpeechFont(ToontownGlobals.getToonFont())
         self.nametag.setWordwrap(None)
         if hasattr(base, 'idTags') and base.idTags:
             name = self.getAvIdName()
