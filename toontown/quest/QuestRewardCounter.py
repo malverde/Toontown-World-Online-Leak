@@ -70,7 +70,14 @@ class QuestRewardCounter:
         cogTypes = av.getCogTypes()
         suitHp = 0
         for dept in HQdepts:
-            suitHp += levels[dept]
+            level = levels[dept]
+            type = cogTypes[dept]
+            if type >= SuitDNA.suitsPerDept - 1:
+                for milestoneLevel in ToontownGlobals.CogSuitHPLevels:
+                    if level >= milestoneLevel:
+                        suitHp += 1
+                    else:
+                        break
 
         self.notify.debug('Adding %s hp for cog suits' % suitHp)
         self.maxHp += suitHp
