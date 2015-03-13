@@ -102,7 +102,7 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         self.holidayManager = HolidayManagerAI(self)
 
-        self.fishManager = FishManagerAI()
+        self.fishManager = FishManagerAI(self)
         self.questManager = QuestManagerAI(self)
         self.cogPageManager = CogPageManagerAI()
         self.factoryMgr = FactoryManagerAI(self)
