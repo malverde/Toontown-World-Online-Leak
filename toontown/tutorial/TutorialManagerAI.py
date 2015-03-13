@@ -11,6 +11,10 @@ from toontown.building.HQBuildingAI import HQBuildingAI
 from toontown.quest import Quests
 from toontown.building import FADoorCodes
 from direct.fsm.FSM import FSM
+from direct.directnotify.DirectNotifyGlobal import *
+from toontown.suit.DistributedTutorialSuitAI import DistributedTutorialSuitAI
+from toontown.toonbase import ToontownGlobals
+
 
 class TZoneStruct:
     branch = 0
@@ -58,7 +62,6 @@ class TutorialFSM(FSM):
         npcDesc = NPCToons.NPCToonDict.get(20002)
         self.harry = NPCToons.createNPC(self.air, 20002, npcDesc, self.zones.hq, 0)
         self.harry.setTutorial(1)
-
         self.building = ToontorialBuildingAI(self.air, zones.street, zones.shop, self.tom.getDoId())
         self.hq = HQBuildingAI(self.air, zones.street, zones.hq, 1)
 
@@ -144,7 +147,7 @@ class TutorialManagerAI(DistributedObjectAI):
         av = self.air.doId2do.get(avId)
         if av:
             av.b_setTutorialAck(1)
-            av.b_setQuestHistory([110, 100])
+            av.b_setQuestHistory([110, 100, 1])
             av.addQuest((110, Quests.getQuestFromNpcId(110), Quests.getQuestToNpcId(110), Quests.getQuestReward(110, av), 0), 0)
             self.air.questManager.toonRodeTrolleyFirstTime(av) #gg hacky
             self.d_skipTutorialResponse(avId, 1)
@@ -180,18 +183,19 @@ class TutorialManagerAI(DistributedObjectAI):
             return
 
         # Reset Toon to be appropriate for the tutorial:
-        av.b_setQuests([])
-        av.b_setQuestHistory([])
-        av.b_setRewardHistory(0, [])
-        av.b_setHp(15)
-        av.b_setMaxHp(15)
+        #av.b_setQuests([])
+        #av.b_setQuestHistory([])
+       # av.b_setRewardHistory(0, [])
+        #i want max hp to be 138 , 137 seems too odd lol
+        #av.b_setHp(16)
+        #av.b_setMaxHp(16)
 
-        av.inventory.zeroInv()
-        if av.inventory.numItem(ToontownBattleGlobals.THROW_TRACK, 0) == 0:
-            av.inventory.addItem(ToontownBattleGlobals.THROW_TRACK, 0)
-        if av.inventory.numItem(ToontownBattleGlobals.SQUIRT_TRACK, 0) == 0:
-            av.inventory.addItem(ToontownBattleGlobals.SQUIRT_TRACK, 0)
-        av.d_setInventory(av.inventory.makeNetString())
+        #av.inventory.zeroInv()
+        #if av.inventory.numItem(ToontownBattleGlobals.THROW_TRACK, 0) == 0:
+         #   av.inventory.addItem(ToontownBattleGlobals.THROW_TRACK, 0)
+        #if av.inventory.numItem(ToontownBattleGlobals.SQUIRT_TRACK, 0) == 0:
+         #   av.inventory.addItem(ToontownBattleGlobals.SQUIRT_TRACK, 0)
+        #av.d_setInventory(av.inventory.makeNetString())
 
-        av.experience.zeroOutExp()
-        av.d_setExperience(av.experience.makeNetString())
+        #av.experience.zeroOutExp()
+        #av.d_setExperience(av.experience.makeNetString())
