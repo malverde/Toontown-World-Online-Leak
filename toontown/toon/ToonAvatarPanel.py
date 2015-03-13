@@ -374,7 +374,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         self.ignoreAll()
         if hasattr(self.avatar, 'bFake') and self.avatar.bFake:
             self.avatar.delete()
-        base.setCellsActive([base.rightCells[0]], 1)
+        base.setCellsAvailable([base.rightCells[0]], 1)
         AvatarPanelBase.AvatarPanelBase.cleanup(self)
         return
 
@@ -539,9 +539,9 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                                 self.groupFrame['text']=TTLocalizer.BoardingPartyTitle;
                             self.groupButton['command'] = self.handleInvite
                             self.groupButton['image'] = self.inviteImageList
-                        self.groupButton['state'] = DGG.NORMAL
-                    if base.config.GetBool('want-boarding-groups', 1):
-                        base.setCellsActive([base.rightCells[0]], 0)
+                            self.groupButton['state'] = DGG.NORMAL                            
+                    if config.GetBool('want-boarding-groups', 1):
+                        base.setCellsAvailable([base.rightCells[0]], 0)
                         self.groupFrame.show()
         return
 
