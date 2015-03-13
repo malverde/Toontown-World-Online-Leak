@@ -949,5 +949,5 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
 
     def handleToonExited(self, toonId):
         self.notify.debug('DistributedPartyCannonActivity handleToonExited( toonId=%s ) ' % toonId)
-        if self.cr.doId2do.has_key(toonId):
+        if toonId in self.cr.doId2do:
             self.notify.warning('handleToonExited is not defined')
