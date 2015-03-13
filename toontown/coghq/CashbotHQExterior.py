@@ -4,7 +4,7 @@ from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
 from toontown.building import Elevator
 from toontown.coghq import CogHQExterior
-from toontown.dna.DNAParser import loadDNAFileAI, DNAStorage
+from libpandadna.DNAParser import loadDNAFileAI, DNAStorage
 from toontown.hood import ZoneUtil
 from toontown.safezone import Train
 
