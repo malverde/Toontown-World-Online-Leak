@@ -1,7 +1,6 @@
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 from otp.otpbase import OTPLocalizer
 from toontown.hood import ZoneUtil
-import cPickle
 
 class TTRFriendsManager(DistributedObjectGlobal):
     def d_removeFriend(self, friendId):
@@ -41,7 +40,7 @@ class TTRFriendsManager(DistributedObjectGlobal):
             ['setDNAString' , dnaString],
             ['setLastSeen', setLastSeen],
         ]
-      
+        base.cr.n_handleGetAvatarDetailsResp(avId, fields=fields)      
     def d_teleportQuery(self, toId):
         self.sendUpdate('routeTeleportQuery', [toId])
 
