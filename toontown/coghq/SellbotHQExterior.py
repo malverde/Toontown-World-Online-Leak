@@ -1,6 +1,6 @@
 from direct.directnotify import DirectNotifyGlobal
 from toontown.coghq import CogHQExterior
-from toontown.dna.DNAParser import loadDNAFileAI, DNAStorage
+from libpandadna.DNAParser import loadDNAFileAI, DNAStorage
 from toontown.hood import ZoneUtil
 
 
