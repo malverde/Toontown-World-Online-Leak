@@ -18,6 +18,7 @@ from toontown.nametag.NametagGlobals import *
 from otp.avatar.Avatar import teleportNotify
 from direct.task import Task
 import QuietZoneState
+
 from toontown.distributed import ToontownDistrictStats
 
 class Place(StateData.StateData, FriendsListManager.FriendsListManager):
@@ -927,3 +928,25 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
     def handleQuietZoneDone(self):
         how = base.cr.handlerArgs['how']
         self.fsm.request(how, [base.cr.handlerArgs])
+        
+@magicWord(category=CATEGORY_ADMIN, types=[str])
+def tp(hood):
+    '''
+    Teleport to hood.
+    '''
+    global HOOD
+    try:
+        HOOD = hood.upper()
+        request = ToontownGlobals.hood2Id[HOOD]
+        hoodNames = ToontownGlobals.hoodNameMap
+        place = base.cr.playGame.getPlace()
+    except:
+        return 'Invalid location!'
+
+    Place.teleportInDone = lambda place: hookTeleportInDone(place)
+    hoodId = request[0]
+    if len(request) == 2:
+        place.handleBookCloseTeleport(*request)
+    else:
+        place.handleBookCloseTeleport(hoodId, hoodId)
+    return 'Heading to: {}!'.format(hoodNames[hoodId][-1])        
