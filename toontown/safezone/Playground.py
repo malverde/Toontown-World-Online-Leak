@@ -21,7 +21,7 @@ from direct.gui import DirectLabel
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.quest import Quests
 from toontown.battle import BattleParticles
-from libpandadna.DNAParser import DNABulkLoader
+from toontown.dna.DNAParser import DNABulkLoader
 
 class Playground(Place.Place):
     notify = DirectNotifyGlobal.directNotify.newCategory('Playground')
@@ -326,7 +326,6 @@ class Playground(Place.Place):
 
     def hidePaths(self):
         self.hideDebugPointText()
-
 
 
     def hideDebugPointText(self):

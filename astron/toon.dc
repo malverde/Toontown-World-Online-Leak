@@ -520,11 +520,11 @@ dclass DistributedToon : DistributedPlayer {
   setCheesyEffect(int16 effect = 0, uint32 hoodId = 0, uint32 expireTime = 0) required broadcast ownrecv db;
   setGhostMode(uint8 flag) broadcast ownrecv ram;
   setPosIndex(uint8 index = 0) required ownrecv db;
-  setFishCollection(uint8 genusList[] = [], uint8 speciesList[] = [], uint16 weightList[] = []) required ownrecv db;
-  setMaxFishTank(uint8 maxTank = 20) required ownrecv db;
-  setFishTank(uint8 genusList[] = [], uint8 speciesList[] = [], uint16 weightList[] = []) required ownrecv db;
-  setFishingRod(uint8 rodId = 0) required broadcast ownrecv db;
-  setFishingTrophies(uint8 trophyList[] = []) required ownrecv db;
+  setFishCollection(uint8[] = [], uint8[] = [], uint16[] = []) required ownrecv db;
+  setMaxFishTank(uint8 = 20) required ownrecv db;
+  setFishTank(uint8[] = [], uint8[] = [], uint16[] = []) required ownrecv db;
+  setFishingRod(uint8 = 0) required broadcast ownrecv db;
+  setFishingTrophies(uint8[] = []) required ownrecv db; 
   setFlowerCollection(uint8 speciesList[] = [], uint8 varietyList[] = []) required ownrecv db;
   setFlowerBasket(uint8 speciesList[] = [], uint8 varietyList[] = []) required ownrecv db;
   setMaxFlowerBasket(uint8 maxFlowerBasket = 20) required ownrecv db;
@@ -548,8 +548,8 @@ dclass DistributedToon : DistributedPlayer {
   setPetId(uint32 petId = 0) required broadcast ownrecv db;
   setPetMovie(uint32 petId, uint8 flag) ownsend airecv;
   setPetTutorialDone(uint8 bDone = 0) required ownsend airecv db;
-  setFishBingoTutorialDone(uint8 bDone = 0) required ownsend airecv db;
-  setFishBingoMarkTutorialDone(uint8 bDone = 0) required ownsend airecv db;
+  setFishBingoTutorialDone(uint8 = 0) required ownsend airecv db;
+  setFishBingoMarkTutorialDone(uint8 = 0) required ownsend airecv db;
   setKartBodyType(int8 bodyType = -1) required broadcast ownrecv db;
   setKartBodyColor(int8 bodyColor = -1) required broadcast ownrecv db;
   setKartAccessoryColor(int8 accColor = -1) required broadcast ownrecv db;
@@ -943,37 +943,37 @@ dclass DistributedSafezoneInvasion : DistributedObject {
 };
 
 dclass DistributedFishingPond : DistributedObject {
-  hitTarget(uint32 target) airecv clsend;
-  setArea(uint32 area) required broadcast ram;
+  hitTarget(uint32) airecv clsend;
+  setArea(uint32) required broadcast ram;
 };
 
 dclass DistributedFishingTarget : DistributedNode {
-  setPondDoId(uint32 pondDoId) required broadcast ram;
-  setState(uint8 stateIndex, int16/10 angle, uint16/100 radius, uint16/10 time, int16 timeStamp) required broadcast ram;
+  setPondDoId(uint32) required broadcast ram;
+  setState(uint8, int16/10, uint16/100, uint16/10, int16) required broadcast ram;
 };
 
 dclass DistributedFishingSpot : DistributedObject {
-  setPondDoId(uint32 pondDoId) required broadcast ram;
-  setPosHpr(int16/10 x, int16/10 y, int16/10 z, int16/10 h, int16/10 p, int16/10 r) required broadcast ram;
+  setPondDoId(uint32) required broadcast ram;
+  setPosHpr(int16/10, int16/10, int16/10, int16/10, int16/10, int16/10) required broadcast ram;
   requestEnter() airecv clsend;
   rejectEnter();
   requestExit() airecv clsend;
-  setOccupied(uint32 avId) broadcast ram;
-  doCast(uint8/255 p, int16/100 h) airecv clsend;
+  setOccupied(uint32) broadcast ram;
+  doCast(uint8/255, int16/100) airecv clsend;
   sellFish() airecv clsend;
-  sellFishComplete(uint8 trophyResult, uint16 numFishCaught);
-  setMovie(uint8 mode, uint8 code, uint16 itemDesc1, uint16 itemDesc2, uint16 itemDesc3, uint8/100 power, int16/100 h) broadcast ram;
+  sellFishComplete(uint8, uint16);
+  setMovie(uint8, uint8, uint16, uint16, uint16, uint8/100, int16/100) broadcast ram;
 };
 
 dclass DistributedPondBingoManager : DistributedObject {
-  setPondDoId(uint32 pondId) required broadcast ram;
-  updateGameState(uint32 gameState, uint8 cellId);
-  setCardState(uint16 cardId, uint8 typeId, uint16 tileSeed, uint32 gameState);
-  setState(string state, int16 timeStamp);
-  cardUpdate(uint16 cardId, uint8 cellId, uint8 genus, uint8 species) airecv clsend;
+  setPondDoId(uint32) required broadcast ram;
+  updateGameState(uint32, uint8);
+  setCardState(uint16, uint8, uint16, uint32);
+  setState(string, int16);
+  cardUpdate(uint16, uint8, uint8, uint8) airecv clsend;
   enableBingo();
-  handleBingoCall(uint16 cardId) airecv clsend;
-  setJackpot(uint16 jackpot);
+  handleBingoCall(uint16) airecv clsend;
+  setJackpot(uint16);
 };
 
 dclass DistributedCannon : DistributedObject {
