@@ -725,18 +725,18 @@ dclass DistributedBossCog : DistributedNode {
 };
 
 dclass DistributedSellbotBoss : DistributedBossCog {
-  setCagedToonNpcId(uint32 npcId) required broadcast ram;
-  setDooberIds(uint32 dooberIds[]) broadcast ram;
-  setBossDamage(uint16 bossDamage, uint8 recoverRate, int16 timestamp) broadcast ram;
-  setState(string state) broadcast ram;
-  hitBoss(uint8 bossDamage) airecv clsend;
+  setCagedToonNpcId(uint32) required broadcast ram;
+  setDooberIds(uint32[]) broadcast ram;
+  setBossDamage(uint16, uint8, int16) broadcast ram;
+  setState(string) broadcast ram;
+  hitBoss(uint8) airecv clsend;
   hitBossInsides() airecv clsend;
-  hitToon(uint32 toonId) airecv clsend;
+  hitToon(uint32) airecv clsend;
   finalPieSplat() airecv clsend;
   touchCage() airecv clsend;
-  doStrafe(uint8 side, uint8 direction) broadcast;
-  cagedToonBattleThree(uint16 index, uint32 avId) broadcast;
-  toonPromoted(uint8(0-1) promoted);
+  doStrafe(uint8, uint8) broadcast;
+  cagedToonBattleThree(uint16, uint32) broadcast;
+  toonPromoted(uint8(0-1));
 };
 
 dclass DistributedCashbotBoss : DistributedBossCog {

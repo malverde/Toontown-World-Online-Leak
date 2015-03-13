@@ -24,6 +24,7 @@ class DistributedBossElevator(DistributedElevatorExt.DistributedElevatorExt):
         self.finalCloseSfx = base.loadSfx('phase_9/audio/sfx/CHQ_FACT_door_open_final.ogg')
         self.type = ELEVATOR_VP
         self.countdownTime = ElevatorData[self.type]['countdown']
+        self.elevatorModel = None
 
     def disable(self):
         DistributedElevator.DistributedElevator.disable(self)
@@ -32,8 +33,9 @@ class DistributedBossElevator(DistributedElevatorExt.DistributedElevatorExt):
         DistributedElevatorExt.DistributedElevatorExt.generate(self)
 
     def delete(self):
-        self.elevatorModel.removeNode()
-        del self.elevatorModel
+        if self.elevatorModel is not None:
+            self.elevatorModel.removeNode()
+            del self.elevatorModel
         DistributedElevatorExt.DistributedElevatorExt.delete(self)
 
     def setupElevator(self):
