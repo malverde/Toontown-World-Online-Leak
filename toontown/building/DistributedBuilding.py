@@ -434,15 +434,16 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         return
 
     def setupSuitBuilding(self, nodePath):
-        dnaData = base.cr.playGame.dnaData
+        if nodePath.isEmpty():
+            return
         dnaStore = self.cr.playGame.dnaStore
         level = int(self.difficulty / 2) + 1
         suitNP = dnaStore.findNode('suit_landmark_' + chr(self.track) + str(level))
-        zoneId = dnaData.getBlock(self.block).zone
+        zoneId = dnaStore.getZoneFromBlockNumber(self.block)
         zoneId = ZoneUtil.getTrueZoneId(zoneId, self.interiorZoneId)
         newParentNP = base.cr.playGame.hood.loader.zoneDict[zoneId]
         suitBuildingNP = suitNP.copyTo(newParentNP)
-        buildingTitle = dnaData.getBlock(self.block).title
+        buildingTitle = dnaStore.getTitleFromBlockNumber(self.block)
         if not buildingTitle:
             buildingTitle = TTLocalizer.CogsInc
         else:

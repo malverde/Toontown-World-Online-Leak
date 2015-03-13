@@ -16,6 +16,7 @@ from toontown.toon import ToonDNA
 from toontown.toon import ToonHead
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 from toontown.toonbase import ToontownGlobals
+from otp.speedchat import SpeedChatGlobals
 from toontown.toonbase.ToonBaseGlobal import *
 
 

@@ -64,6 +64,7 @@ want-gardening #f
 want-gifting #f
 want-picnic-games #f
 want-chinese-table #f
+want-fishing #t
 want-checkers-table #f
 want-findfour-table #f
 # This is a temporary 'fix' for DistributedSmoothNodes... probably not the permanent solution to our problem, but it works for now.
