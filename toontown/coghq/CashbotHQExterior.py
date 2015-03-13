@@ -5,7 +5,7 @@ from pandac.PandaModules import *
 from toontown.building import Elevator
 from toontown.coghq import CogHQExterior
 from toontown.safezone import Train
-from libpandandna import *
+from libpandadna import *
 
 class CashbotHQExterior(CogHQExterior.CogHQExterior):
     notify = DirectNotifyGlobal.directNotify.newCategory('CashbotHQExterior')
