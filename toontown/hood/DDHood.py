@@ -26,17 +26,6 @@ class DDHood(ToonHood):
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
         ToonHood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
 
-        # Load content pack ambience settings:
-        ambience = contentPacksMgr.getAmbience('donalds-dock')
-
-        color = ambience.get('underwater-color')
-        if color is not None:
-            try:
-                self.underwaterColor = Vec4(color['r'], color['g'], color['b'], color['a'])
-            except Exception, e:
-                raise ContentPackError(e)
-        elif self.underwaterColor is None:
-            self.underwaterColor = Vec4(0, 0, 0.6, 1)
 
     def load(self):
         ToonHood.load(self)
