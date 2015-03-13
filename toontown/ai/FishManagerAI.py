@@ -96,7 +96,7 @@ class FishManagerAI:
             return [itemType, money, 0, 0]
 
 
-@magicWord(category=CATEGORY_ADMINISTRATOR, types=[str])
+@magicWord(category=CATEGORY_ADMIN, types=[str])
 def fish(fishName):
     """
     Register/unregister the fish to be caught on the invoker.
