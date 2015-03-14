@@ -894,20 +894,18 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 possibles = backup
                 backup = []
             path = self.genPath(suit.startPoint, p[1], minPathLen, maxPathLen)
-            if path and not self.pathCollision(path, startTime):
+            if path and (not self.pathCollision(path, startTime)):
                 suit.endPoint = p[1]
                 suit.minPathLen = minPathLen
                 suit.maxPathLen = maxPathLen
                 suit.buildingDestination = p[0]
                 suit.buildingDestinationIsCogdo = cogdoTakeover
-                suit.setPath(self.dnaData.suitGraph, path)
+                suit.setPath(path)
                 return 1
             retryCount += 1
-
         return 0
-
+        
     def pathCollision(self, path, elapsedTime):
-        # TODO - determine whether or not I horrible broke this
         point = path[0]
         adjacentPoint = path[1]
         for p in path:
