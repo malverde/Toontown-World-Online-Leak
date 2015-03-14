@@ -9,12 +9,13 @@ from direct.distributed import DistributedObject
 import random
 import ToonInteriorColors
 from toontown.hood import ZoneUtil
+from toontown.char import Char
 from toontown.suit import SuitDNA
 from toontown.suit import Suit
 from toontown.quest import QuestParser
 from toontown.dna.DNAStorage import DNAStorage
 from toontown.dna.DNADoor import DNADoor
-from toontown.chat.ChatGlobals import CFSpeech
+
 class DistributedTutorialInterior(DistributedObject.DistributedObject):
 
     def __init__(self, cr):
@@ -34,6 +35,8 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         del self.street
         self.sky.removeNode()
         del self.sky
+        self.mickeyMovie.cleanup()
+        del self.mickeyMovie
         self.suitWalkTrack.finish()
         del self.suitWalkTrack
         self.suit.delete()
@@ -122,13 +125,12 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         del self.dnaStore
         del self.randomGenerator
         self.interior.flattenMedium()
-        npcOrigin = self.interior.find('**/npc_origin_' + `(self.cr.doId2do[self.npcId].posIndex)`)
+        npcOrigin = self.interior.find('**/npc_origin_' + `(self.npc.posIndex)`)
         if not npcOrigin.isEmpty():
-            self.cr.doId2do[self.npcId].reparentTo(npcOrigin)
-            self.cr.doId2do[self.npcId].clearMat()
+            self.npc.reparentTo(npcOrigin)
+            self.npc.clearMat()
         self.createSuit()
-        base.localAvatar.setPosHpr(-2, 12, 0, -10, 0, 0)
-        self.cr.doId2do[self.npcId].setChatAbsolute(TTLocalizer.QuestScriptTutorialMickey_4, CFSpeech)      
+        self.mickeyMovie = QuestParser.NPCMoviePlayer('tutorial_mickey', base.localAvatar, self.npc)
         place = base.cr.playGame.getPlace()
         if place and hasattr(place, 'fsm') and place.fsm.getCurrentState().getName():
             self.notify.info('Tutorial movie: Place ready.')
@@ -140,12 +142,13 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
             self.acceptOnce('enterTutorialInterior', self.playMovie)
 
     def playMovie(self):
-    	
         self.notify.info('Tutorial movie: Play.')
+        self.mickeyMovie.play()
+
     def createSuit(self):
         self.suit = Suit.Suit()
         suitDNA = SuitDNA.SuitDNA()
-        suitDNA.newSuit('cc')
+        suitDNA.newSuit('f')
         self.suit.setDNA(suitDNA)
         self.suit.loop('neutral')
         self.suit.setPosHpr(-20, 8, 0, 0, 0, 0)
@@ -159,7 +162,4 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
 
     def setTutorialNpcId(self, npcId):
         self.npcId = npcId
-
-    def getTutorialNpc(self):
-        return self.cr.doId2do[self.npcId]
-
+        self.npc = self.cr.doId2do[npcId]
