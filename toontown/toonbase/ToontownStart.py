@@ -127,25 +127,6 @@ del tempLoader
 if (os.path.exists('game_data.pyd')):
 	os.unlink('game_data.pyd')
  
-def downloadTask(task):
-	
-	if channel.run():
-		# Still waiting for file to finish downloading.
-		return task.cont
-	if not channel.isDownloadComplete():
-		print "Error downloading file."
-		return task.done
-	data = rf.getData()
-	print "got data:"
-	print data
-	return task.done
-http = HTTPClient()
-channel = http.makeChannel(True)
-channel.beginGetDocument(DocumentSpec('Link_to_pyd.pyd'))
-rf = Ramfile()
-channel.downloadToRam(rf)
-channel.downloadToFile('game_data.pyd')
-taskMgr.add(downloadTask, 'download')
 
 version.cleanup()
 del version
