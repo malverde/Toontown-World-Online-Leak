@@ -216,6 +216,7 @@ LOOP_ANIM npc "neutral"
 WAIT 0.5
 LERP_HPR npc -50 0 0 0.5
 FUNCTION npc "surpriseEyes"
+FUNCTION npc "showSurpriseMuzzle"
 PLAY_ANIM npc "right-point-start" 1.5
 WAIT 0.6944
 LOOP_ANIM npc "right-point"
@@ -226,6 +227,7 @@ LERP_HPR npc -0.068 0 0 0.75
 WAIT 1.0417
 FUNCTION npc "angryEyes"
 FUNCTION npc "blinkEyes"
+FUNCTION npc "hideSurpriseMuzzle"
 LOOP_ANIM npc "neutral"
 FUNCTION localToon "questPage.showQuestsOnscreenTutorial"
 LOCAL_CHAT_CONFIRM npc QuestScript101_13 "CFReversed" tomDialogue_13
