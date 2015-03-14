@@ -1,24 +1,21 @@
-from direct.actor import Actor
+from pandac.PandaModules import *
 from direct.gui.DirectGui import *
+from pandac.PandaModules import *
 from direct.gui.DirectScrolledList import *
-from pandac.PandaModules import *
-from pandac.PandaModules import *
-import random
-
-import CatalogFurnitureItem
-import CatalogInvalidItem
-import CatalogItem
-import CatalogItemPanel
-import CatalogItemTypes
-from otp.nametag.ChatBalloon import ChatBalloon
-from toontown.nametag import NametagGlobals
-from toontown.nametag import NametagGroup
-from toontown.toon import DistributedToon
-from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
-
-
+import CatalogItem
+import CatalogInvalidItem
+import CatalogFurnitureItem
+from toontown.toonbase import TTLocalizer
+import CatalogItemPanel
+import CatalogItemTypes
+from direct.actor import Actor
+import random
+from toontown.toon import DistributedToon
+from direct.directnotify import DirectNotifyGlobal
+from otp.nametag.ChatBalloon import ChatBalloon
+from otp.nametag import NametagGroup
 NUM_CATALOG_ROWS = 3
 NUM_CATALOG_COLS = 2
 CatalogPanelCenters = [[Point3(-0.95, 0, 0.91), Point3(-0.275, 0, 0.91)], [Point3(-0.95, 0, 0.275), Point3(-0.275, 0, 0.275)], [Point3(-0.95, 0, -0.4), Point3(-0.275, 0, -0.4)]]
@@ -30,7 +27,7 @@ CatalogPanelColors = {CatalogItemTypes.FURNITURE_ITEM: Vec4(0.733, 0.78, 0.933, 
  CatalogItemTypes.WINDOW_ITEM: Vec4(0.827, 0.91, 0.659, 1.0)}
 
 class CatalogScreen(DirectFrame):
-    notify = directNotify.newCategory('CatalogScreen')
+    notify = DirectNotifyGlobal.directNotify.newCategory('CatalogScreen')
 
     def __init__(self, parent = aspect2d, **kw):
         guiItems = loader.loadModel('phase_5.5/models/gui/catalog_gui')
@@ -66,11 +63,11 @@ class CatalogScreen(DirectFrame):
         self.showPageItems()
         self.hide()
         self.clarabelleChatNP = None
+        self.clarabelleChatBalloon = None
         self.clarabelleGreetingSfx = None
         self.clarabelleGoodbyeSfx = None
         self.clarabelleErrorSfx = None
-        self.clarabelleChatterSfx = None        
-        self.clarabelleChatBalloon = None
+        self.clarabelleChatterSfx = None
         self.gifting = -1
         self.createdGiftGui = None
         self.viewing = None
@@ -84,11 +81,12 @@ class CatalogScreen(DirectFrame):
         self.accept(localAvatar.uniqueName('emblemsChange'), self.__emblemChange)
         deliveryText = 'setDeliverySchedule-%s' % base.localAvatar.doId
         self.accept(deliveryText, self.remoteUpdate)
+        base.setBackgroundColor(Vec4(0.529, 0.290, 0.286, 1))
         render.hide()
         DirectFrame.show(self)
 
         def clarabelleGreeting(task):
-            self.setClarabelleChat(TTLocalizer.CatalogGreeting)
+            self.setClarabelleChat(TTLocalizer.CatalogGreeting, type='greeting')
 
         def clarabelleHelpText1(task):
             self.setClarabelleChat(TTLocalizer.CatalogHelpText1)
@@ -112,6 +110,7 @@ class CatalogScreen(DirectFrame):
         self.ignore(localAvatar.uniqueName('emblemsChange'))
         deliveryText = 'setDeliverySchedule-%s' % base.localAvatar.doId
         self.ignore(deliveryText)
+        base.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
         render.show()
         DirectFrame.hide(self)
 
@@ -182,7 +181,7 @@ class CatalogScreen(DirectFrame):
         self.emblemCatalogButton['state'] = DGG.DISABLED
 
     def showNewItems(self, index = None):
-        if base.config.GetBool('want-qa-regression', 0):
+        if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: CATALOG: New item')
         taskMgr.remove('clarabelleHelpText1')
         messenger.send('wakeup')
@@ -199,7 +198,7 @@ class CatalogScreen(DirectFrame):
         return
 
     def showBackorderItems(self, index = None):
-        if base.config.GetBool('want-qa-regression', 0):
+        if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: CATALOG: Backorder item')
         taskMgr.remove('clarabelleHelpText1')
         messenger.send('wakeup')
@@ -216,7 +215,7 @@ class CatalogScreen(DirectFrame):
         return
 
     def showLoyaltyItems(self, index = None):
-        if base.config.GetBool('want-qa-regression', 0):
+        if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: CATALOG: Special item')
         taskMgr.remove('clarabelleHelpText1')
         messenger.send('wakeup')
@@ -233,7 +232,7 @@ class CatalogScreen(DirectFrame):
         return
 
     def showEmblemItems(self, index = None):
-        if base.config.GetBool('want-qa-regression', 0):
+        if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: CATALOG: Emblem item')
         taskMgr.remove('clarabelleHelpText1')
         messenger.send('wakeup')
@@ -314,8 +313,8 @@ class CatalogScreen(DirectFrame):
             pIndex = 0
             randGen = random.Random()
             randGen.seed(base.localAvatar.catalogScheduleCurrentWeek + (self.pageIndex << 8) + (newOrBackOrLoyalty << 16))
-            for i in xrange(NUM_CATALOG_ROWS):
-                for j in xrange(NUM_CATALOG_COLS):
+            for i in range(NUM_CATALOG_ROWS):
+                for j in range(NUM_CATALOG_COLS):
                     if pIndex < len(self.visiblePanels):
                         type = self.visiblePanels[pIndex]['item'].getTypeCode()
                         self.squares[i][j].setColor(CatalogPanelColors.values()[randGen.randint(0, len(CatalogPanelColors) - 1)])
@@ -553,8 +552,9 @@ class CatalogScreen(DirectFrame):
         self.emblemCatalogButton2.hide()
         self.__makeFFlist()
         if len(self.ffList) > 0:
-            self.giftToggle = DirectButton(self.base, relief=None, pressEffect=0, image=(giftToggleUp, giftToggleDown, giftToggleUp), image_scale=(1.0, 1, 0.7), command=self.__giftToggle, text=TTLocalizer.CatalogGiftToggleOff, text_font=ToontownGlobals.getSignFont(), text_pos=TTLocalizer.CSgiftTogglePos, text_scale=TTLocalizer.CSgiftToggle, text_fg=(0.353, 0.627, 0.627, 1.0), text3_fg=(0.15, 0.3, 0.3, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0), image_color=Vec4(1.0, 1.0, 0.2, 1.0), image1_color=Vec4(0.9, 0.85, 0.2, 1.0), image2_color=Vec4(0.9, 0.85, 0.2, 1.0), image3_color=Vec4(0.5, 0.45, 0.2, 1.0))
-            self.giftToggle.setPos(0.0, 0, -0.035)
+            if config.GetBool('want-gifting', True):
+                self.giftToggle = DirectButton(self.base, relief=None, pressEffect=0, image=(giftToggleUp, giftToggleDown, giftToggleUp), image_scale=(1.0, 1, 0.7), command=self.__giftToggle, text=TTLocalizer.CatalogGiftToggleOff, text_font=ToontownGlobals.getSignFont(), text_pos=TTLocalizer.CSgiftTogglePos, text_scale=TTLocalizer.CSgiftToggle, text_fg=(0.353, 0.627, 0.627, 1.0), text3_fg=(0.15, 0.3, 0.3, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0), image_color=Vec4(1.0, 1.0, 0.2, 1.0), image1_color=Vec4(0.9, 0.85, 0.2, 1.0), image2_color=Vec4(0.9, 0.85, 0.2, 1.0), image3_color=Vec4(0.5, 0.45, 0.2, 1.0))
+                self.giftToggle.setPos(0.0, 0, -0.035)
             self.giftLabel = DirectLabel(self.base, relief=None, image=giftFriends, image_scale=(1.15, 1, 1.14), text=' ', text_font=ToontownGlobals.getSignFont(), text_pos=(1.2, -0.97), text_scale=0.07, text_fg=(0.392, 0.549, 0.627, 1.0), sortOrder=100, textMayChange=1)
             self.giftLabel.setPos(-0.15, 0, 0.08)
             self.giftLabel.hide()
@@ -581,7 +581,7 @@ class CatalogScreen(DirectFrame):
             self.__chooseFriend(self.ffList[0][0], self.ffList[0][1])
             self.update()
             self.createdGiftGui = 1
-        for i in xrange(4):
+        for i in range(4):
             self.newCatalogButton.component('text%d' % i).setR(90)
             self.newCatalogButton2.component('text%d' % i).setR(90)
             self.backCatalogButton.component('text%d' % i).setR(90)
@@ -595,8 +595,8 @@ class CatalogScreen(DirectFrame):
          [],
          [],
          []]
-        for i in xrange(NUM_CATALOG_ROWS):
-            for j in xrange(NUM_CATALOG_COLS):
+        for i in range(NUM_CATALOG_ROWS):
+            for j in range(NUM_CATALOG_COLS):
                 square = guiItems.find('**/square%d%db' % (i + 1, j + 1))
                 label = DirectLabel(self.base, image=square, relief=None, state='normal')
                 self.squares[i].append(label)
@@ -727,7 +727,7 @@ class CatalogScreen(DirectFrame):
         self.cCamNode.setLens(self.cLens)
         self.cCamNode.setScene(self.cRender)
         self.cCam = self.cCamera.attachNewNode(self.cCamNode)
-        self.cDr = base.win.makeDisplayRegion(0.58, 0.82, 0.53, 0.85)
+        self.cDr = base.win.makeDisplayRegion(0.56, 0.81, 0.52, 0.85)
         self.cDr.setSort(1)
         self.cDr.setClearDepthActive(1)
         self.cDr.setClearColorActive(1)
@@ -742,10 +742,24 @@ class CatalogScreen(DirectFrame):
         self.clarabelle.find('**/glassR').setBin('fixed', 2)
         switchboard = loader.loadModel('phase_5.5/models/estate/switchboard')
         switchboard.reparentTo(self.clarabelle)
-        switchboard.setPos(0, -2, 0)
+        switchboard.setPos(1, -1.6, 0)
+        switchboard.setH(30)
+        room = loader.loadModel('phase_3/models/makeatoon/tt_m_ara_mat_room.bam')
+        room.reparentTo(self.clarabelle)
+        room.find('**/genderProps').removeNode()
+        room.find('**/bodyWalls').removeNode()
+        room.find('**/bodyProps').removeNode()
+        room.find('**/colorWalls').removeNode()
+        room.find('**/colorProps').removeNode()
+        room.find('**/clothWalls').removeNode()
+        room.find('**/nameWalls').removeNode()
+        room.find('**/nameProps').removeNode()
+        room.find('**/spotlight').removeNode()
+        room.setPos(5.5, 1.25, 0)
+        room.setH(330)
         self.clarabelle.reparentTo(self.cRender)
-        self.clarabelle.setPosHprScale(-0.56, 6.43, -3.81, 121.61, 0.0, 0.0, 1.0, 1.0, 1.0)
-        self.clarabelleFrame.setPosHprScale(-0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0)
+        self.clarabelle.setPosHprScale(-0.52, 6.13, -3.81, 85, 0.0, 0.0, 1.0, 1.0, 1.0)
+        self.clarabelleFrame.setPosHprScale(-0.01, 0.0, -0.01, 0.0, 0.0, 0.0, 1.02, 1.0, 1.02)
 
     def reload(self):
         for panel in self.panelList + self.backPanelList + self.loyaltyPanelList + self.emblemPanelList:
@@ -813,6 +827,7 @@ class CatalogScreen(DirectFrame):
         if self.giftAvatar:
             base.cr.cancelAvatarDetailsRequest(self.giftAvatar)
         self.hide()
+        self.hangup.hide()
         self.destroy()
         del self.base
         del self.squares
@@ -887,7 +902,7 @@ class CatalogScreen(DirectFrame):
     def hangUp(self):
         if hasattr(self, 'giftAvatar') and self.giftAvatar:
             self.giftAvatar.disable()
-        self.setClarabelleChat(random.choice(TTLocalizer.CatalogGoodbyeList))
+        self.setClarabelleChat(random.choice(TTLocalizer.CatalogGoodbyeList), type='goodbye')
         self.setPageIndex(-1)
         self.showPageItems()
         self.nextPageButton.hide()
@@ -998,7 +1013,6 @@ class CatalogScreen(DirectFrame):
         if timeout:
             taskMgr.doMethodLater(timeout, self.clearClarabelleChat, 'clearClarabelleChat')
 
-
     def clearClarabelleChat(self, task = None):
         taskMgr.remove('clearClarabelleChat')
         if self.clarabelleChatNP:
@@ -1041,10 +1055,9 @@ class CatalogScreen(DirectFrame):
         return test
 
     def __makeFFlist(self):
-        from toontown.nametag import NametagGroup
         for familyMember in base.cr.avList:
             if familyMember.id != base.localAvatar.doId:
-                newFF = (familyMember.id, familyMember.name, NametagGlobals.CCNonPlayer)
+                newFF = (familyMember.id, familyMember.name, NametagGroup.CCNonPlayer)
                 self.ffList.append(newFF)
 
         for friendPair in base.localAvatar.friendsList:
@@ -1052,9 +1065,9 @@ class CatalogScreen(DirectFrame):
             handle = base.cr.identifyFriend(friendId)
             if handle and not self.checkFamily(friendId):
                 if hasattr(handle, 'getName'):
-                    colorCode = NametagGlobals.CCSpeedChat
+                    colorCode = NametagGroup.CCSpeedChat
                     if flags & ToontownGlobals.FriendChat:
-                        colorCode = NametagGlobals.CCFreeChat
+                        colorCode = NametagGroup.CCFreeChat
                     newFF = (friendPair[0], handle.getName(), colorCode)
                     self.ffList.append(newFF)
                 else:
@@ -1069,9 +1082,9 @@ class CatalogScreen(DirectFrame):
                 freeChat = playerInfo.understandableYesNo
                 if handle and not self.checkFamily(avatarId):
                     if hasattr(handle, 'getName'):
-                        colorCode = NametagGlobals.CCSpeedChat
+                        colorCode = NametagGroup.CCSpeedChat
                         if freeChat:
-                            colorCode = NametagGlobals.CCFreeChat
+                            colorCode = NametagGroup.CCFreeChat
                         newFF = (avatarId, handle.getName(), colorCode)
                         self.ffList.append(newFF)
                     else:
@@ -1087,9 +1100,20 @@ class CatalogScreen(DirectFrame):
         self.scrollList.refresh()
 
     def makeFamilyButton(self, familyId, familyName, colorCode):
-        from toontown.nametag import NametagGlobals
-        fg = NametagGlobals.NametagColors.get(colorCode)[3][0]
-        return DirectButton(relief=None, text=familyName, text_scale=0.04, text_align=TextNode.ALeft, text_fg=fg, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=0, command=self.__chooseFriend, extraArgs=[familyId, familyName])
+        # fg = NametagGlobals.getNameFg(colorCode, PGButton.SInactive)
+        return DirectButton(
+            relief=None,
+            text=familyName,
+            text_scale=0.04,
+            text_align=TextNode.ALeft,
+            # text_fg=fg,
+            text1_bg=self.textDownColor,
+            text2_bg=self.textRolloverColor,
+            text3_fg=self.textDisabledColor,
+            textMayChange=0,
+            command=self.__chooseFriend,
+            extraArgs=[familyId, familyName]
+            )
 
     def __chooseFriend(self, friendId, friendName):
         messenger.send('wakeup')
