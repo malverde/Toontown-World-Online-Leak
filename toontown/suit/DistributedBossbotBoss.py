@@ -1,8 +1,7 @@
 import math
+from toontown.chat.ChatGlobals import *
 import random
 from pandac.PandaModules import VBase3, CollisionPlane, CollisionNode, CollisionSphere, CollisionTube, NodePath, Plane, Vec3, Vec2, Point3, BitMask32, CollisionHandlerEvent, TextureStage, VBase4, BoundingSphere
-from otp.nametag.NametagConstants import CFSpeech
-from otp.nametag.NametagGroup import NametagGroup
 from direct.interval.IntervalGlobal import Sequence, Wait, Func, LerpHprInterval, Parallel, LerpPosInterval, Track, ActorInterval, ParallelEndTogether, LerpFunctionInterval, LerpScaleInterval, LerpPosHprInterval, SoundInterval
 from direct.task import Task
 from direct.fsm import FSM
@@ -27,6 +26,7 @@ from toontown.coghq import CogDisguiseGlobals
 from toontown.suit import Suit
 from toontown.suit import SuitDNA
 from toontown.effects import DustCloud
+from toontown.nametag import NametagGlobals
 OneBossCog = None
 TTL = TTLocalizer
 
@@ -195,7 +195,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         npc = Toon.Toon()
         npc.setName(TTLocalizer.BossbotResistanceToonName)
         npc.setPickable(0)
-        npc.setPlayerType(NametagGroup.CCNonPlayer)
+        npc.setPlayerType(NametagGlobals.CCNonPlayer)
         dna = ToonDNA.ToonDNA()
         dna.newToonRandom(11237, 'm', 1)
         dna.head = 'sls'
