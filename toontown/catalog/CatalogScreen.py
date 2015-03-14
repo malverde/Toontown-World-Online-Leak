@@ -87,7 +87,7 @@ class CatalogScreen(DirectFrame):
         DirectFrame.show(self)
 
         def clarabelleGreeting(task):
-            self.setClarabelleChat(TTLocalizer.CatalogGreeting, type='greeting')
+            self.setClarabelleChat(TTLocalizer.CatalogGreeting)
 
         def clarabelleHelpText1(task):
             self.setClarabelleChat(TTLocalizer.CatalogHelpText1)
