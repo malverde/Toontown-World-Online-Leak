@@ -31,4 +31,4 @@ class DDHood(ToonHood):
     def load(self):
         ToonHood.load(self)
 
-        self.fog = Fog('DDFog')
+       # self.fog = Fog('DDFog')
