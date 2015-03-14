@@ -938,7 +938,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         return 0
 
     def battleCollision(self, point, adjacentPoint):
-        zoneId = self.dnaStore.getSuitEdgeZone(point.getIndex(), adjacentPoint.getIndex())
+        zoneId = self.dnaData.suitGraph.getEdgeZone(self.dnaData.suitGraph.getConnectingEdge(point, adjacentPoint))
         return self.battleMgr.cellHasBattle(zoneId)
 
     def removeSuit(self, suit):
