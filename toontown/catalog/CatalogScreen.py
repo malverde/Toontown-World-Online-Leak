@@ -66,6 +66,10 @@ class CatalogScreen(DirectFrame):
         self.showPageItems()
         self.hide()
         self.clarabelleChatNP = None
+        self.clarabelleGreetingSfx = None
+        self.clarabelleGoodbyeSfx = None
+        self.clarabelleErrorSfx = None
+        self.clarabelleChatterSfx = None        
         self.clarabelleChatBalloon = None
         self.gifting = -1
         self.createdGiftGui = None
@@ -859,6 +863,26 @@ class CatalogScreen(DirectFrame):
         del self.cDr
         self.clarabelle.cleanup()
         del self.clarabelle
+
+        if self.clarabelleChatBalloon:
+            self.clarabelleChatBalloon.removeNode()
+            del self.clarabelleChatBalloon
+        if self.clarabelleGreetingSfx:
+            for sound in self.clarabelleGreetingSfx:
+                del sound
+            del self.clarabelleGreetingSfx
+        if self.clarabelleGoodbyeSfx:
+            for sound in self.clarabelleGoodbyeSfx:
+                del sound
+            del self.clarabelleGoodbyeSfx
+        if self.clarabelleErrorSfx:
+            for sound in self.clarabelleGoodbyeSfx:
+                del sound
+            del self.clarabelleGoodbyeSfx
+        if self.clarabelleChatterSfx:
+            for sound in self.clarabelleChatterSfx:
+                del sound
+            del self.clarabelleChatterSfx
 
     def hangUp(self):
         if hasattr(self, 'giftAvatar') and self.giftAvatar:
