@@ -1,4 +1,4 @@
-from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
+"""from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 from toontown.toonbase import ToontownGlobals
 from otp.speedchat import SpeedChatGlobals
 from direct.directnotify.DirectNotifyGlobal import directNotify
@@ -28,9 +28,11 @@ Interior2Messages = {
 
 class ARGManager(DistributedObjectGlobal):
     """
+"""
     This is a client-view of the manager that handles everything to do
     with the portable hole ARG event.
     """
+"""
 
     notify = directNotify.newCategory('ARGManager')
 
@@ -65,3 +67,4 @@ class ARGManager(DistributedObjectGlobal):
 
     def cleanupPortableHoleEvent(self):
         self.ignore(SpeedChatGlobals.SCStaticTextMsgEvent)
+        """

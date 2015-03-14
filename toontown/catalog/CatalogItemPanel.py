@@ -283,8 +283,8 @@ class CatalogItemPanel(DirectFrame):
         typeName = self['item'].getTypeName()
         if typeName == TTLocalizer.EmoteTypeName or typeName == TTLocalizer.ChatTypeName:
             page = 'emotions'
-        elif typeName == TTLocalizer.GardenTypeName or typeName == TTLocalizer.GardenStarterTypeName:
-            page = 'gardening'
+        #elif typeName == TTLocalizer.GardenTypeName or typeName == TTLocalizer.GardenStarterTypeName:
+            #page = 'gardening'
         else:
             page = 'clothing'
 

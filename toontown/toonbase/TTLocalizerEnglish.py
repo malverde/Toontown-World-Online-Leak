@@ -136,7 +136,7 @@ TheBrrrgh = ('to', 'in', lTheBrrrgh)
 MinniesMelodyland = ('to', 'in', lMinniesMelodyland)
 DaisyGardens = ('to', 'in', lDaisyGardens)
 OutdoorZone = ('to', 'in', lOutdoorZone)
-FunnyFarm = ('to the', 'in the', 'FunnyFarm')
+FunnyFarm = ('to the', 'in the', 'Toonfest')
 GoofySpeedway = ('to', 'in', lGoofySpeedway)
 DonaldsDreamland = ('to', 'in', lDonaldsDreamland)
 BossbotHQ = ('to', 'in', 'Bossbot HQ')
@@ -2780,7 +2780,7 @@ SuitAttackTaunts = {'Audit': ["I believe your books don't balance.",
               'There should be a law against you.',
               "There's no ex post facto with me!",
               "The opinions expressed in this attack are not those of Toontown World Online.",
-              "This attack will be as painful as Toontown Online closing. ", 
+              "This attack will be as painful as Toontown Online closing.",
               'We cannot be held responsible for damages suffered in this attack.',
               'Your results for this attack may vary.',
               'This attack is void where prohibited.',
@@ -5817,7 +5817,7 @@ WindowViewTypeName = 'Window View'
 PetTrickTypeName = 'Doodle Training'
 GardenTypeName = 'Garden Supplies'
 RentalTypeName = 'Rental Item'
-GardenStarterTypeName = 'Gardening Kit'
+#GardenStarterTypeName = 'Gardening Kit'
 NametagTypeName = 'Name tag'
 AccessoryTypeName = 'Accessory'
 CatalogItemTypeNames = {0: 'INVALID_ITEM',
@@ -5835,7 +5835,7 @@ CatalogItemTypeNames = {0: 'INVALID_ITEM',
  12: BeanTypeName,
  13: GardenTypeName,
  14: RentalTypeName,
- 15: GardenStarterTypeName,
+ #15: GardenStarterTypeName,
  16: NametagTypeName,
  17: 'TOON_STATUE',
  18: 'ANIMATED FURNITURE',
@@ -6831,8 +6831,9 @@ FlooringNames = {1000: 'Hardwood Floor',
  10000: 'Ice Cube',
  10010: 'Igloo',
  11000: 'Shamrock',
- 11010: 'Shamrock',
- 11020: 'Debbie Dick'}
+ 11010: 'Shamrock'
+ #11020: 'Debbie Dick'
+ }
 MouldingNames = {1000: 'Knotty',
  1010: 'Painted',
  1020: 'Dental',

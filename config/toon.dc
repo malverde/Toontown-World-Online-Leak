@@ -290,7 +290,6 @@ from toontown.cogdominium import DistCogdoCrane/AI
 from toontown.cogdominium import DistCogdoCraneMoneyBag/AI
 from toontown.cogdominium import DistCogdoCraneCog/AI
 from toontown.parties.GlobalPartyManager/AI/UD import GlobalPartyManager/AI/UD
-from toontown.uberdog.ARGManager/AI/UD import ARGManager/AI/UD
 
 struct GiftItem {
   blob Item;
@@ -3274,23 +3273,56 @@ uint32 petId;
 };
 
 dclass TTRFriendsManager : DistributedObjectGlobal {
-  clearList(uint32 avId);
-  removeFriend(uint32 avId) clsend;
-  requestAvatarInfo(uint32 avIds[]) clsend;
+  removeFriend(uint32) clsend;
+  requestAvatarInfo(uint32[]) clsend;
 
   requestFriendsList() clsend;
 
-  friendInfo(Friend resp);
-  friendList(Friend resp[]);
+  friendInfo(Friend);
+  friendList(Friend []);
 
-  friendOnline(uint32 id, uint8 commonChatFlags, uint8 whitelistChatFlags);
-  friendOffline(uint32 id);
+  friendOnline(uint32, uint8, uint8);
+  friendOffline(uint32);
 
-  comingOnline(uint32 avId, uint32 friendIds[]);
   goingOffline(uint32 avId);
 
-  getAvatarDetails(uint32 friendId) clsend;
-  friendDetails(uint32 friendId, blob details);
+  getAvatarDetails(uint32) clsend;
+  friendDetails(uint32, blob, uint16[], int8[], blob, int16, int16, uint32, uint32, blob, uint32);
+  routeTeleportQuery(uint32 toId) clsend;
+  teleportQuery(uint32 fromId);
+
+  teleportResponse(uint32 fromId, uint8 tpAvailable, uint32 defaultShard, uint32 hoodId, uint32 zoneId) clsend;
+  setTeleportResponse(uint32 toId, uint8 tpAvailable, uint32 defaultShard, uint32 hoodId, uint32 zoneId);
+
+  whisperSCTo(uint32 toId, uint16 msgIndex) clsend;
+  setWhisperSCFrom(uint32 fromId, uint16 msgIndex);
+
+  whisperSCCustomTo(uint32 toId, uint16 msgIndex) clsend;
+  setWhisperSCCustomFrom(uint32 fromId, uint16 msgIndex);
+
+  whisperSCEmoteTo(uint32 toId, uint16 emoteId) clsend;
+  setWhisperSCEmoteFrom(uint32 fromId, uint16 emoteId);
+
+  requestSecret() clsend;
+  requestSecretResponse(int8 status, string secret);
+
+  submitSecret(string(0-256) secret) clsend;
+  submitSecretResponse(int8 status, int32 avId);
+
+  sendTalkWhisper(uint32 toId, string message) clsend;
+  receiveTalkWhisper(uint32 fromId, string message);
+
+  battleSOS(uint32 toId) clsend;
+  setBattleSOS(uint32 fromId);
+
+  teleportGiveup(uint32 toId) clsend;
+  setTeleportGiveup(uint32 fromId);
+
+  whisperSCToontaskTo(uint32, uint32, uint32, uint32, uint8) clsend;
+  setWhisperSCToontaskFrom(uint32, uint32, uint32, uint32, uint8);
+
+  sleepAutoReply(uint32 toId) clsend;
+  setSleepAutoReply(uint32 fromId);
 };
 
 
@@ -3313,5 +3345,3 @@ dclass DistributedTrashcanZeroMgr : DistributedPhaseEventMgr {
 dclass DistributedSillyMeterMgr : DistributedPhaseEventMgr {
 };
 
-dclass ARGManager : DistributedObjectGlobal {
-};

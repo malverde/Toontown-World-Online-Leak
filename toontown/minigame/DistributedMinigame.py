@@ -103,7 +103,8 @@ class DistributedMinigame(DistributedObject.DistributedObject):
         self.sendUpdate('setAvatarJoined', [])
         self.normalExit = 1
         count = self.modelCount
-        loader.beginBulkLoad('minigame', TTLocalizer.HeadingToMinigameTitle % self.getTitle(), count, 1, TTLocalizer.TIP_MINIGAME)
+        zoneId = 0
+        loader.beginBulkLoad('minigame', TTLocalizer.HeadingToMinigameTitle % self.getTitle(), count, 1, TTLocalizer.TIP_MINIGAME,  zoneId)
         self.load()
         loader.endBulkLoad('minigame')
         globalClock.syncFrameTime()

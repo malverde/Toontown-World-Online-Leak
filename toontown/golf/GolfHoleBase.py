@@ -38,7 +38,7 @@ class GolfHoleBase:
         terrainData = self.terrainModel.find('**/softSurface')
         grassData = terrainData.findAllMatches('**/grass*')
         self.terrainData = []
-        for index in range(grassData.getNumPaths()):
+        for index in xrange(grassData.getNumPaths()):
             someTerrainData = grassData[index]
             terrainDataOde = OdeTriMeshData(someTerrainData)
             self.meshDataList.append(terrainDataOde)
@@ -51,7 +51,7 @@ class GolfHoleBase:
 
         slickData = terrainData.findAllMatches('**/slick*')
         self.terrainData = []
-        for index in range(slickData.getNumPaths()):
+        for index in xrange(slickData.getNumPaths()):
             someTerrainData = slickData[index]
             terrainDataOde = OdeTriMeshData(someTerrainData)
             self.meshDataList.append(terrainDataOde)
@@ -209,7 +209,7 @@ class GolfHoleBase:
         lift = 0
         startTime = GolfGlobals.BALL_CONTACT_FRAME / 24
         startFrame = int(startTime * self.FPS)
-        for frame in range(int(startFrame)):
+        for frame in xrange(int(startFrame)):
             self.simulate()
             self.setTimeIntoCycle(self.swingTime + float(frameCount) * self.DTAStep)
             frameCount += 1

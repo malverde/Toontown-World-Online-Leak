@@ -411,6 +411,7 @@ class Avatar(Actor, ShadowCaster):
             self.nametag2dContents = Nametag.CSpeech
         self.nametag.getNametag2d().setContents(self.nametag2dContents & self.nametag2dDist)
 
+
     def hideNametag3d(self):
         self.nametag.getNametag3d().setContents(0)
 

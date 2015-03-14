@@ -183,9 +183,8 @@ class TutorialManagerAI(DistributedObjectAI):
         av.b_setQuests([])
         av.b_setQuestHistory([])
         av.b_setRewardHistory(0, [])
-        #i want max hp to be 138 , 137 seems too odd lol
-        av.b_setHp(16)
-        av.b_setMaxHp(16)
+        av.b_setHp(15)
+        av.b_setMaxHp(15)
 
         av.inventory.zeroInv()
         if av.inventory.numItem(ToontownBattleGlobals.THROW_TRACK, 0) == 0:
