@@ -12,7 +12,7 @@ from toontown.battle import BattleManagerAI
 from toontown.battle import SuitBattleGlobals
 from toontown.building import HQBuildingAI
 from toontown.building import SuitBuildingGlobals
-from libpandadna.DNAParser import DNASuitPoint
+from toontown.dna.DNAParser import DNASuitPoint
 from toontown.hood import ZoneUtil
 from toontown.suit.SuitInvasionGlobals import IFSkelecog, IFWaiter, IFV2
 from toontown.suit.SuitLegList import *
@@ -242,7 +242,10 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 i -= 1
         return pointList
 
-    def createNewSuit(self, blockNumbers, streetPoints, toonBlockTakeover = None, cogdoTakeover = None, minPathLen = None, maxPathLen = None, buildingHeight = None, suitLevel = None, suitType = None, suitTrack = None, suitName = None, specialSuit = 0):
+    def createNewSuit(self, blockNumbers, streetPoints, toonBlockTakeover=None,
+            cogdoTakeover=None, minPathLen=None, maxPathLen=None,
+            buildingHeight=None, suitLevel=None, suitType=None, suitTrack=None,
+            suitName=None, skelecog=None, revives=None, waiter=None):
         startPoint = None
         blockNumber = None
         if self.notify.getDebug():
@@ -250,27 +253,29 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         while startPoint == None and len(blockNumbers) > 0:
             bn = random.choice(blockNumbers)
             blockNumbers.remove(bn)
-            if self.buildingSideDoors.has_key(bn):
+            if bn in self.buildingSideDoors:
                 for doorPoint in self.buildingSideDoors[bn]:
-                    points = self.dnaData.suitGraph.getAdjacentPoints(doorPoint)
-                    for p in points:
+                    points = self.dnaStore.getAdjacentPoints(doorPoint)
+                    i = points.getNumPoints() - 1
+                    while blockNumber == None and i >= 0:
+                        pi = points.getPointIndex(i)
+                        p = self.pointIndexes[pi]
+                        i -= 1
                         startTime = SuitTimings.fromSuitBuilding
-                        startTime += self.dnaData.suitGraph.getSuitEdgeTravelTime(doorPoint, p, self.suitWalkSpeed)
+                        startTime += self.dnaStore.getSuitEdgeTravelTime(doorPoint.getIndex(), pi, self.suitWalkSpeed)
                         if not self.pointCollision(p, doorPoint, startTime):
                             startTime = SuitTimings.fromSuitBuilding
                             startPoint = doorPoint
                             blockNumber = bn
-                            break
-
         while startPoint == None and len(streetPoints) > 0:
             p = random.choice(streetPoints)
             streetPoints.remove(p)
             if not self.pointCollision(p, None, SuitTimings.fromSky):
                 startPoint = p
                 startTime = SuitTimings.fromSky
-
+                continue
         if startPoint == None:
-            return
+            return None
         newSuit = DistributedSuitAI.DistributedSuitAI(simbase.air, self)
         newSuit.startPoint = startPoint
         if blockNumber != None:
@@ -285,36 +290,49 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                     suitTrack = self.pendingBuildingTracks[0]
                     del self.pendingBuildingTracks[0]
                     self.pendingBuildingTracks.append(suitTrack)
+
                 if buildingHeight == None and len(self.pendingBuildingHeights) > 0:
                     buildingHeight = self.pendingBuildingHeights[0]
                     del self.pendingBuildingHeights[0]
                     self.pendingBuildingHeights.append(buildingHeight)
-        if suitName == None:
-            suitName, specialSuit = self.air.suitInvasionManager.getInvadingCog()
-            if suitName == None:
+        if suitName is None:
+            suitDeptIndex, suitTypeIndex, flags = self.air.suitInvasionManager.getInvadingCog()
+            if flags & IFSkelecog:
+                skelecog = 1
+            if flags & IFWaiter:
+                waiter = True
+            if flags & IFV2:
+                revives = 1
+            if suitDeptIndex is not None:
+                suitTrack = SuitDNA.suitDepts[suitDeptIndex]
+            if suitTypeIndex is not None:
+                suitName = self.air.suitInvasionManager.getSuitName()
+            else:
                 suitName = self.defaultSuitName
-        if suitType == None and suitName != None:
+        if (suitType is None) and (suitName is not None):
             suitType = SuitDNA.getSuitType(suitName)
             suitTrack = SuitDNA.getSuitDept(suitName)
-        if suitLevel == None and buildingHeight != None:
+        if (suitLevel is None) and (buildingHeight is not None):
             suitLevel = self.chooseSuitLevel(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_LVL], buildingHeight)
-        suitLevel, suitType, suitTrack = self.pickLevelTypeAndTrack(suitLevel, suitType, suitTrack)
+        (suitLevel, suitType, suitTrack) = self.pickLevelTypeAndTrack(suitLevel, suitType, suitTrack)
         newSuit.setupSuitDNA(suitLevel, suitType, suitTrack)
         newSuit.buildingHeight = buildingHeight
-        gotDestination = self.chooseDestination(newSuit, startTime, toonBlockTakeover=toonBlockTakeover, cogdoTakeover=cogdoTakeover, minPathLen=minPathLen, maxPathLen=maxPathLen)
+        gotDestination = self.chooseDestination(newSuit, startTime, toonBlockTakeover = toonBlockTakeover, cogdoTakeover = cogdoTakeover, minPathLen = minPathLen, maxPathLen = maxPathLen)
         if not gotDestination:
             self.notify.debug("Couldn't get a destination in %d!" % self.zoneId)
             newSuit.doNotDeallocateChannel = None
             newSuit.delete()
-            return
+            return None
         newSuit.initializePath()
         self.zoneChange(newSuit, None, newSuit.zoneId)
-        # Determine if we are spawning a special type of suit. 1 is Skelecog, 2 is v2.0.
-        if specialSuit == 1:
-            newSuit.setSkelecog(1)
-        elif specialSuit == 2:
-            newSuit.setSkeleRevives(1)
+        if skelecog:
+            newSuit.setSkelecog(skelecog)
         newSuit.generateWithRequired(newSuit.zoneId)
+        if revives is not None:
+            newSuit.b_setSkeleRevives(revives)
+        if waiter:
+            newSuit.b_setWaiter(1)
+        newSuit.d_setSPDoId(self.doId)
         newSuit.moveToNextLeg(None)
         self.suitList.append(newSuit)
         if newSuit.flyInSuit:
@@ -324,7 +342,6 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         if newSuit.attemptingTakeover:
             self.numAttemptingTakeover += 1
         return newSuit
-
 
     def countNumNeededBuildings(self):
         if not self.buildingMgr:
