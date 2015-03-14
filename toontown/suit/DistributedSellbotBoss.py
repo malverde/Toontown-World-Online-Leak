@@ -1,35 +1,35 @@
-from direct.directnotify import DirectNotifyGlobal
-from direct.directutil import Mopath
-from direct.distributed.ClockDelta import *
-from direct.fsm import ClassicFSM, State
-from direct.fsm import FSM
-from direct.gui.DirectGui import *
-from direct.interval.IntervalGlobal import *
-from direct.showbase.PythonUtil import Functor
-from direct.showutil import Rope
-from direct.task import Task
-import math
 from pandac.PandaModules import *
-import random
-
-import DistributedBossCog
-import SuitDNA
-from toontown.battle import BattleBase
-from toontown.battle import MovieToonVictory
-from toontown.battle import RewardPanel
-from toontown.battle import SuitBattleGlobals
+from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleProps import *
-from toontown.chat.ChatGlobals import *
-from toontown.coghq import CogDisguiseGlobals
-from toontown.distributed import DelayDelete
-from toontown.nametag.NametagGlobals import *
-from toontown.suit import SellbotBossGlobals
-from toontown.toon import NPCToons
-from toontown.toonbase import TTLocalizer
-from toontown.toonbase import ToontownBattleGlobals
+from direct.distributed.ClockDelta import *
+from direct.showbase.PythonUtil import Functor
+from direct.gui.DirectGui import *
+from pandac.PandaModules import *
+from direct.fsm import FSM
+from direct.fsm import ClassicFSM, State
+from direct.fsm import State
+from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
-
-
+from toontown.toonbase import ToontownBattleGlobals
+import DistributedBossCog
+from toontown.toonbase import TTLocalizer
+import SuitDNA
+from toontown.toon import Toon
+from toontown.battle import BattleBase
+from direct.directutil import Mopath
+from direct.showutil import Rope
+from toontown.distributed import DelayDelete
+from toontown.battle import MovieToonVictory
+from toontown.building import ElevatorUtils
+from toontown.battle import RewardPanel
+from toontown.toon import NPCToons
+from direct.task import Task
+import random
+import math
+from toontown.coghq import CogDisguiseGlobals
+from toontown.suit import SellbotBossGlobals
+from otp.nametag.NametagConstants import *
+from otp.nametag import NametagGlobals
 OneBossCog = None
 
 class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
@@ -69,6 +69,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.nerfed = ToontownGlobals.SELLBOT_NERF_HOLIDAY in base.cr.newsManager.getHolidayIdList()
         self.localToonPromoted = True
         self.resetMaxDamage()
+        return
 
     def announceGenerate(self):
         global OneBossCog
@@ -83,7 +84,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.piesRestockSfx = loader.loadSfx('phase_9/audio/sfx/CHQ_SOS_pies_restock.ogg')
         self.rampSlideSfx = loader.loadSfx('phase_9/audio/sfx/CHQ_VP_ramp_slide.ogg')
         self.strafeSfx = []
-        for i in xrange(10):
+        for i in range(10):
             self.strafeSfx.append(loader.loadSfx('phase_3.5/audio/sfx/SA_shred.ogg'))
 
         render.setTag('pieCode', str(ToontownGlobals.PieCodeNotBossCog))
@@ -119,9 +120,10 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.loadEnvironment()
         self.__makeCagedToon()
         self.__loadMopaths()
-        if OneBossCog is not None:
+        if OneBossCog != None:
             self.notify.warning('Multiple BossCogs visible.')
         OneBossCog = self
+        return
 
     def disable(self):
         global OneBossCog
@@ -151,6 +153,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
         if OneBossCog == self:
             OneBossCog = None
+        return
 
     def resetMaxDamage(self):
         if self.nerfed:
@@ -183,6 +186,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def __gotDoobers(self, doobers):
         self.dooberRequest = None
         self.doobers = doobers
+        return
 
     def setBossDamage(self, bossDamage, recoverRate, timestamp):
         recoverStartTime = globalClockDelta.networkToLocalTime(timestamp)
@@ -216,11 +220,8 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.cagedToon.reparentTo(self.cage)
         self.cagedToon.setPosHpr(0, -2, 0, 180, 0, 0)
         self.cagedToon.loop('neutral')
-        self.cagedToon.setActiveShadow(0)
-        touch = CollisionPolygon(
-            Point3(-3.0382, 3.0382, -1), Point3(3.0382, 3.0382, -1),
-            Point3(3.0382, -3.0382, -1), Point3(-3.0382, -3.0382, -1))
-        touch.setTangible(0)
+        
+        touch = cs = CollisionSphere(0, 0, 0, 4)
         touchNode = CollisionNode('Cage')
         touchNode.setCollideMask(ToontownGlobals.WallBitmask)
         touchNode.addSolid(touch)
@@ -231,6 +232,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             self.cagedToon.removeActive()
             self.cagedToon.delete()
             self.cagedToon = None
+        return
 
     def __walkToonToPromotion(self, toonId, delay, mopath, track, delayDeletes):
         toon = base.cr.doId2do.get(toonId)
@@ -398,6 +400,8 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         if instruct == 1:
             self.cagedToon.nametag3d.setScale(2)
         elif instruct == 2:
+            if cageIndex >= len(TTLocalizer.CagedToonDrop):
+                cageIndex = -1
             self.cagedToon.setChatAbsolute(TTLocalizer.CagedToonDrop[cageIndex], CFSpeech)
         elif instruct == 3:
             self.cagedToon.nametag3d.setScale(1)
@@ -454,7 +458,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 speech += TTLocalizer.CagedToonLevelPromotion
             if newCogSuitLevel == maxCogSuitLevel:
                 if newCogSuitLevel != ToontownGlobals.MaxCogSuitLevel:
-                    suitIndex = (SuitDNA.suitsPerDept*deptIndex) + cogTypes[deptIndex]
+                    suitIndex = ((cogTypes[deptIndex]+1) * (deptIndex+1)) - 1
                     cogTypeStr = SuitDNA.suitHeadTypes[suitIndex]
                     cogName = SuitBattleGlobals.SuitAttributes[cogTypeStr]['name']
                     speech += TTLocalizer.CagedToonSuitPromotion % cogName
@@ -494,11 +498,13 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             self.onscreenMessage.destroy()
             self.onscreenMessage = None
         self.onscreenMessage = DirectLabel(text=text, text_fg=VBase4(1, 1, 1, 1), text_align=TextNode.ACenter, relief=None, pos=(0, 0, 0.35), scale=0.1)
+        return
 
     def __clearOnscreenMessage(self):
         if self.onscreenMessage:
             self.onscreenMessage.destroy()
             self.onscreenMessage = None
+        return
 
     def __showWaitingMessage(self, task):
         self.__showOnscreenMessage(TTLocalizer.BuildingWaitingForVictors)
@@ -509,10 +515,12 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             self.cageShadow.setPos(0, 77.9, 18)
             self.cageShadow.setColorScale(1, 1, 1, 0.6)
         self.cageShadow.reparentTo(render)
+        return
 
     def __removeCageShadow(self):
         if self.cageShadow != None:
             self.cageShadow.detachNode()
+        return
 
     def setCageIndex(self, cageIndex):
         self.cageIndex = cageIndex
@@ -554,7 +562,6 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.promotionMusic = base.loadMusic('phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
         self.betweenBattleMusic = base.loadMusic('phase_9/audio/bgm/encntr_toon_winning.ogg')
         self.battleTwoMusic = base.loadMusic('phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
-        self.battleThreeMusic = base.loadMusic('phase_9/audio/bgm/encntr_vp_boss.ogg')
         self.geom.reparentTo(render)
 
     def unloadEnvironment(self):
@@ -692,7 +699,6 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.forward = 1
         self.doAnimate()
         self.cagedToon.removeActive()
-        base.camLens.setMinFov(ToontownGlobals.VPElevatorFov/(4./3.))
 
     def exitElevator(self):
         DistributedBossCog.DistributedBossCog.exitElevator(self)
@@ -727,6 +733,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         else:
             cageIndex = 0
         self.setCageIndex(cageIndex)
+        return
 
     def exitBattleOne(self):
         DistributedBossCog.DistributedBossCog.exitBattleOne(self)
@@ -826,6 +833,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             cageIndex = 2
         self.setCageIndex(cageIndex)
         base.playMusic(self.battleTwoMusic, looping=1, volume=0.9)
+        return
 
     def exitBattleTwo(self):
         intervalName = self.uniqueName('cageDrop')
@@ -920,6 +928,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         taskMgr.remove(taskName)
         self.battleThreeMusicTime = self.battleThreeMusic.getTime()
         self.battleThreeMusic.stop()
+        return
 
     def enterNearVictory(self):
         self.cleanupIntervals()
@@ -1086,7 +1095,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         radius = 15
         numToons = len(self.involvedToons)
         center = (numToons - 1) / 2.0
-        for i in xrange(numToons):
+        for i in range(numToons):
             toon = base.cr.doId2do.get(self.involvedToons[i])
             if toon:
                 angle = 270 - 15 * (i - center)
@@ -1117,7 +1126,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
     def __toonsToPromotionPosition(self, toonIds, battleNode):
         points = BattleBase.BattleBase.toonPoints[len(toonIds) - 1]
-        for i in xrange(len(toonIds)):
+        for i in range(len(toonIds)):
             toon = base.cr.doId2do.get(toonIds[i])
             if toon:
                 toon.reparentTo(render)
@@ -1126,7 +1135,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
     def __doobersToPromotionPosition(self, doobers, battleNode):
         points = BattleBase.BattleBase.toonPoints[len(doobers) - 1]
-        for i in xrange(len(doobers)):
+        for i in range(len(doobers)):
             suit = doobers[i]
             suit.fsm.request('neutral')
             suit.loop('neutral')
@@ -1157,7 +1166,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         taskMgr.remove(self.uniqueName('PieAdvice'))
 
     def __pieSplat(self, toon, pieCode):
-        if base.config.GetBool('easy-vp', 0):
+        if config.GetBool('easy-vp', 0):
             if not self.dizzy:
                 pieCode = ToontownGlobals.PieCodeBossInsides
         if pieCode == ToontownGlobals.PieCodeBossInsides:
@@ -1210,6 +1219,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         if self.strafeInterval:
             self.strafeInterval.finish()
             self.strafeInterval = None
+        return
 
     def doStrafe(self, side, direction):
         gearRoot = self.rotateNode.attachNewNode('gearRoot')
@@ -1232,7 +1242,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             spread = -spread
         dist = 50
         rate = time / numGears
-        for i in xrange(numGears):
+        for i in range(numGears):
             node = gearRoot.attachNewNode(str(i))
             node.hide()
             node.setPos(0, 0, 0)

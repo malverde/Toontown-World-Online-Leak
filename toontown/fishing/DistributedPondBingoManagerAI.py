@@ -4,6 +4,7 @@ from toontown.fishing import BingoGlobals
 from toontown.fishing import FishGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.fishing.NormalBingo import NormalBingo
+from otp.ai.MagicWordGlobal import *
 from toontown.fishing.ThreewayBingo import ThreewayBingo
 from toontown.fishing.DiagonalBingo import DiagonalBingo
 from toontown.fishing.BlockoutBingo import BlockoutBingo
@@ -212,3 +213,22 @@ class DistributedPondBingoManagerAI(DistributedObjectAI):
         self.state = 'Playing'
         self.sendStateUpdate()
         taskMgr.doMethodLater(BingoGlobals.getGameTime(self.typeId), DistributedPondBingoManagerAI.finishGame, 'finishGame%d' % self.getDoId(), [self])
+
+@magicWord(category=CATEGORY_OVERRIDE)
+def stopBingo():
+    for pond in simbase.air.fishManager.ponds.values():
+        pond.bingoMgr.shouldStop = True
+    return "Stopped Fish Bingo for the current district."
+
+@magicWord(category=CATEGORY_OVERRIDE)
+def startBingo():
+    for pond in simbase.air.fishManager.ponds.values():
+        if pond.bingoMgr.state == 'Off':
+            pond.bingoMgr.createGame()
+        pond.bingoMgr.shouldStop = False
+    return "Started Fish Bingo for the current district."
+
+@magicWord(category=CATEGORY_OVERRIDE, types=[str, int])
+def requestBingoCard(cardName, seed = None):
+    RequestCard[spellbook.getTarget().doId] = ToontownGlobals.BingoCardNames[cardName], seed
+    return "Sent request for the bingo card " + cardName
