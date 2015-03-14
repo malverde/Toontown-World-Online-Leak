@@ -4,7 +4,7 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-server-version ttw-pre-alpha-dev-build-2.4.9
+server-version ttw-pre-alpha-dev-build-2.5.0
 sync-video #f
 want-dev #f
 preload-avatars #t
