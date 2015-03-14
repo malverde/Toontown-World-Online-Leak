@@ -31,7 +31,7 @@ class BossCog(Avatar.Avatar):
     def __init__(self):
         Avatar.Avatar.__init__(self)
         self.setFont(ToontownGlobals.getSuitFont())
- 	self.setPlayerType(NametagGlobals.CCSuit)
+ 		self.setPlayerType(NametagGlobals.CCSuit)
         self.setPickable(0)
         self.doorA = None
         self.doorB = None

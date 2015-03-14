@@ -18,7 +18,7 @@ import math
 import time
 import random
 from SuitLegList import *
-from libpandadna.DNAParser import DNASuitPoint
+from toontown.dna import *
 from otp.ai.MagicWordGlobal import *
 
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
@@ -924,17 +924,16 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         for suit in self.suitList:
             if suit.pointInMyPath(point, elapsedTime):
                 return 1
-        if adjacentPoint is not None:
+
+        if adjacentPoint != None:
             return self.battleCollision(point, adjacentPoint)
         else:
-            points = self.dnaStore.getAdjacentPoints(point)
-            i = points.getNumPoints() - 1
-            while i >= 0:
-                pi = points.getPointIndex(i)
-                p = self.pointIndexes[pi]
-                i -= 1
+            points = self.dnaData.suitGraph.getAdjacentPoints(point)
+            for p in points:
+                assert self.dnaData.suitGraph.getConnectingEdge(p, point)
                 if self.battleCollision(point, p):
                     return 1
+
         return 0
 
     def battleCollision(self, point, adjacentPoint):
