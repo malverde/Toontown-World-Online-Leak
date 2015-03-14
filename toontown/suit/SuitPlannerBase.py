@@ -515,19 +515,26 @@ class SuitPlannerBase:
     def setupDNA(self):
         if self.dnaStore:
             return None
-        self.dnaStore = DNAStorage()
         dnaFileName = self.genDNAFileName()
-        loadDNAFileAI(self.dnaStore, dnaFileName)
+        try:
+            self.dnaStore = simbase.air.loadDNA(dnaFileName)
+        except:
+            self.dnaStore = loader.loadDNA(dnaFileName)
+        self.dnaData = self.dnaStore.generateData()
         self.initDNAInfo()
+        return None
 
     def genDNAFileName(self):
-        zoneId = ZoneUtil.getCanonicalZoneId(self.getZoneId())
-        hoodId = ZoneUtil.getCanonicalHoodId(zoneId)
-        hood = ToontownGlobals.dnaMap[hoodId]
-        phase = ToontownGlobals.streetPhaseMap[hoodId]
-        if hoodId == zoneId:
-            zoneId = 'sz'
-        return 'phase_%s/dna/%s_%s.pdna' % (phase, hood, zoneId)
+        try:
+            return simbase.air.genDNAFileName(self.getZoneId())
+        except:
+            zoneId = ZoneUtil.getCanonicalZoneId(self.getZoneId())
+            hoodId = ZoneUtil.getCanonicalHoodId(zoneId)
+            hood = ToontownGlobals.dnaMap[hoodId]
+            phase = ToontownGlobals.streetPhaseMap[hoodId]
+            if hoodId == zoneId:
+                zoneId = 'sz'
+            return 'phase_%s/dna/%s_%s.pdna' % (phase, hood, zoneId)
 
     def getZoneId(self):
         return self.zoneId
