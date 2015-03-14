@@ -2,7 +2,7 @@ import SuitPlannerBase
 from direct.distributed import DistributedObject
 from otp.ai.MagicWordGlobal import *
 from pandac.PandaModules import *
-from toontown.dna.DNAParser import DNASuitPoint
+from libpandadna.DNAParser import DNASuitPoint
 from toontown.toonbase import ToontownGlobals
 
 
@@ -170,7 +170,7 @@ class DistributedSuitPlanner(DistributedObject.DistributedObject, SuitPlannerBas
             self.__makePathVizText(str(p.getIndex()), pos[0], pos[1], pos[2], color, i=p.getIndex())
 
 
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+@magicWord(category=CATEGORY_MODERATION)
 def suitPaths():
     response = "Couldn't toggle suit path visualization."
     for do in base.cr.doId2do.values():
