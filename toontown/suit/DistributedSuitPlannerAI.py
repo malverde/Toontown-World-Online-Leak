@@ -12,7 +12,7 @@ from toontown.battle import BattleManagerAI
 from toontown.battle import SuitBattleGlobals
 from toontown.building import HQBuildingAI
 from toontown.building import SuitBuildingGlobals
-from libpandadna.DNAParser import DNASuitPoint
+from toontown.dna.DNAParser import DNASuitPoint
 from toontown.hood import ZoneUtil
 from toontown.suit.SuitInvasionGlobals import IFSkelecog, IFWaiter, IFV2
 from toontown.suit.SuitLegList import *
@@ -296,13 +296,23 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                     del self.pendingBuildingHeights[0]
                     self.pendingBuildingHeights.append(buildingHeight)
         if suitName is None:
-            suitName, specialSuit = self.air.suitInvasionManager.getInvadingCog()
-            if suitName == None:
+            suitDeptIndex, suitTypeIndex, flags = self.air.suitInvasionManager.getInvadingCog()
+            if flags & IFSkelecog:
+                skelecog = 1
+            if flags & IFWaiter:
+                waiter = True
+            if flags & IFV2:
+                revives = 1
+            if suitDeptIndex is not None:
+                suitTrack = SuitDNA.suitDepts[suitDeptIndex]
+            if suitTypeIndex is not None:
+                suitName = self.air.suitInvasionManager.getSuitName()
+            else:
                 suitName = self.defaultSuitName
         if (suitType is None) and (suitName is not None):
             suitType = SuitDNA.getSuitType(suitName)
             suitTrack = SuitDNA.getSuitDept(suitName)
-        if suitLevel == None and buildingHeight != None:
+        if (suitLevel is None) and (buildingHeight is not None):
             suitLevel = self.chooseSuitLevel(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_LVL], buildingHeight)
         (suitLevel, suitType, suitTrack) = self.pickLevelTypeAndTrack(suitLevel, suitType, suitTrack)
         newSuit.setupSuitDNA(suitLevel, suitType, suitTrack)
@@ -797,11 +807,9 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     def chooseSuitLevel(self, possibleLevels, buildingHeight):
         choices = []
         for level in possibleLevels:
-            minFloors, maxFloors = SuitBuildingGlobals.SuitBuildingInfo[level - 1][0]
+            (minFloors, maxFloors) = SuitBuildingGlobals.SuitBuildingInfo[level - 1][0]
             if buildingHeight >= minFloors - 1 and buildingHeight <= maxFloors - 1:
                 choices.append(level)
-        if len(choices) == 0:
-            return possibleLevels[0]
         return random.choice(choices)
 
 
