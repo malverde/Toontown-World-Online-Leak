@@ -12,7 +12,7 @@ class DDStreet(Street.Street):
         Street.Street.unload(self)
 
     def enter(self, requestStatus):
-        self.loader.hood.setWhiteFog()
+    
         Street.Street.enter(self, requestStatus)
 
     def exit(self):
