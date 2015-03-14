@@ -906,18 +906,15 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         return 0
         
     def pathCollision(self, path, elapsedTime):
-        i = 0
-        pi = path.getPointIndex(i)
-        point = self.pointIndexes[pi]
-        adjacentPoint = self.pointIndexes[path.getPointIndex(i + 1)]
-        while (point.getPointType() == DNASuitPoint.FRONT_DOOR_POINT) or (
-                point.getPointType() == DNASuitPoint.SIDE_DOOR_POINT):
-            i += 1
-            lastPi = pi
-            pi = path.getPointIndex(i)
-            adjacentPoint = point
-            point = self.pointIndexes[pi]
-            elapsedTime += self.dnaStore.getSuitEdgeTravelTime(lastPi, pi, self.suitWalkSpeed)
+        point = path[0]
+        adjacentPoint = path[1]
+        for p in path:
+            if not (p.getPointType() == DNAStoreSuitPoint.FRONTDOORPOINT or p.getPointType() == DNAStoreSuitPoint.SIDEDOORPOINT):
+                break
+            adjacentPoint = path[path.index(p) + 1]
+            point = p
+            elapsedTime += self.dnaData.suitGraph.getSuitEdgeTravelTime(p, adjacentPoint, self.suitWalkSpeed)
+
         result = self.pointCollision(point, adjacentPoint, elapsedTime)
         return result
 
