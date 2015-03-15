@@ -1,41 +1,41 @@
-import copy
-from direct.directnotify import DirectNotifyGlobal
-from direct.interval.IntervalGlobal import *
-from direct.showbase import AppRunnerGlobal
-from direct.showbase import DirectObject
-from direct.showbase import PythonUtil
-import os
-from pandac.PandaModules import *
-import re
 import sys
-import token
+import os
 import tokenize
-from StringIO import StringIO
-
+import copy
+from direct.interval.IntervalGlobal import *
+from direct.directnotify import DirectNotifyGlobal
+from direct.showbase import AppRunnerGlobal
+from pandac.PandaModules import *
+from direct.showbase import DirectObject
 import BlinkingArrows
-from otp.speedchat import SpeedChatGlobals
-from toontown.ai import DistributedBlackCatMgr
-from toontown.chat.ChatGlobals import *
-from toontown.suit import Suit
-from toontown.suit import SuitDNA
 from toontown.toon import ToonHeadFrame
+from toontown.char import CharDNA
+from toontown.suit import SuitDNA
+from toontown.char import Char
+from toontown.suit import Suit
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
-from toontown.quest import QuestScripts
-
+from otp.speedchat import SpeedChatGlobals
+from otp.nametag.NametagConstants import *
+from toontown.ai import DistributedBlackCatMgr
+from direct.showbase import PythonUtil
+from direct.interval.IntervalGlobal import *
+from otp.nametag.NametagConstants import *
 
 notify = DirectNotifyGlobal.directNotify.newCategory('QuestParser')
 lineDict = {}
 globalVarDict = {}
 curId = None
-FLOAT = re.compile(r'[+-]?\d+[.]\d*([e][+-]\d+)?')
-
 
 def init():
     globalVarDict.update({'render': render,
      'camera': camera,
      'hidden': hidden,
      'aspect2d': aspect2d,
+     'bottomLeft' : base.a2dBottomLeft,
+     'topLeft' : base.a2dTopLeft,
+     'topRight' : base.a2dTopRight,
+     'bottomRight' : base.a2dBottomRight,
      'localToon': base.localAvatar,
      'laffMeter': base.localAvatar.laffMeter,
      'inventory': base.localAvatar.inventory,
@@ -54,41 +54,30 @@ def clear():
     globalVarDict.clear()
 
 
-def readFile():
+def readFile(filename):
     global curId
-
-    script = StringIO(QuestScripts.script)
-
-    def readLine():
-        return script.readline().replace('\r', '')
-
-    gen = tokenize.generate_tokens(readLine)
+    scriptFile = StreamReader(vfs.openReadFile(filename, 1), 1)
+    gen = tokenize.generate_tokens(scriptFile.readline)
     line = getLineOfTokens(gen)
-
     while line is not None:
-
         if line == []:
             line = getLineOfTokens(gen)
             continue
-
         if line[0] == 'ID':
             parseId(line)
         elif curId is None:
             notify.error('Every script must begin with an ID')
         else:
             lineDict[curId].append(line)
-
         line = getLineOfTokens(gen)
 
-    script.close()
+    return
+
 
 def getLineOfTokens(gen):
     tokens = []
     nextNeg = 0
-    try:
-        token = gen.next()
-    except StopIteration:
-        return None
+    token = gen.next()
     if token[0] == tokenize.ENDMARKER:
         return None
     while token[0] != tokenize.NEWLINE and token[0] != tokenize.NL:
@@ -97,28 +86,21 @@ def getLineOfTokens(gen):
         elif token[0] == tokenize.OP and token[1] == '-':
             nextNeg = 1
         elif token[0] == tokenize.NUMBER:
-            if re.match(FLOAT, token[1]):
-                number = float(token[1])
-            else:
-                number = int(token[1])
             if nextNeg:
-                tokens.append(-number)
+                tokens.append(-float(token[1]))
                 nextNeg = 0
             else:
-                tokens.append(number)
+                tokens.append(float(token[1]))
         elif token[0] == tokenize.STRING:
-            tokens.append(eval(token[1]))
+            tokens.append(token[1])
         elif token[0] == tokenize.NAME:
             tokens.append(token[1])
         else:
             notify.warning('Ignored token type: %s on line: %s' % (tokenize.tok_name[token[0]], token[2][0]))
-
-        try:
-            token = gen.next()
-        except StopIteration:
-            break
+        token = gen.next()
 
     return tokens
+
 
 def parseId(line):
     global curId
@@ -131,7 +113,7 @@ def parseId(line):
 
 
 def questDefined(scriptId):
-    return scriptId in lineDict
+    return lineDict.has_key(scriptId)
 
 
 class NPCMoviePlayer(DirectObject.DirectObject):
@@ -154,9 +136,13 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         return
 
     def getVar(self, varName):
-        if varName in self.privateVarDict:
+        if varName[0] == '"':
+            varName = varName[1:-1]
+            return globals()[varName]
+
+        if self.privateVarDict.has_key(varName):
             return self.privateVarDict[varName]
-        elif varName in globalVarDict:
+        elif globalVarDict.has_key(varName):
             return globalVarDict[varName]
         elif varName.find('tomDialogue') > -1 or varName.find('harryDialogue') > -1:
             notify.warning('%s getting referenced. Tutorial Ack: %d                                  Place: %s' % (varName, base.localAvatar.tutorialAck, base.cr.playGame.hood))
@@ -166,9 +152,9 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         return None
 
     def delVar(self, varName):
-        if varName in self.privateVarDict:
+        if self.privateVarDict.has_key(varName):
             del self.privateVarDict[varName]
-        elif varName in globalVarDict:
+        elif globalVarDict.has_key(varName):
             del globalVarDict[varName]
         else:
             notify.warning('Variable not defined: %s' % varName)
@@ -487,10 +473,17 @@ class NPCMoviePlayer(DirectObject.DirectObject):
     def parseLoad(self, line):
         if len(line) == 3:
             token, varName, modelPath = line
-            node = loader.loadModel(modelPath.replace('"', ''))
+            modelPath = modelPath[1:-1]
+            fn = Filename(modelPath)
+            fn.setExtension('bam')
+            node = loader.loadModel(fn)
         elif len(line) == 4:
             token, varName, modelPath, subNodeName = line
-            node = loader.loadModel(modelPath.replace('"', '')).find('**/' + subNodeName)
+            modelPath = modelPath[1:-1]
+            fn = Filename(modelPath)
+            fn.setExtension('bam')
+            subNodeName = subNodeName[1:-1]
+            node = loader.loadModel(fn).find('**/' + subNodeName)
         else:
             notify.error('invalid parseLoad command')
         self.setVar(varName, node)
@@ -504,7 +497,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         token, varName, fileName = line
         if varName == 'tomDialogue_01':
             notify.debug('VarName tomDialogue getting added. Tutorial Ack: %d' % base.localAvatar.tutorialAck)
-        if base.config.GetString('language', 'english') == 'japanese':
+        if config.GetString('language', 'english') == 'japanese':
             dialogue = base.loadSfx(fileName)
         else:
             dialogue = None
@@ -518,7 +511,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         else:
             classicChar = 'minnie'
         filename = filenameTemplate % classicChar
-        if base.config.GetString('language', 'english') == 'japanese':
+        if config.GetString('language', 'english') == 'japanese':
             dialogue = base.loadSfx(filename)
         else:
             dialogue = None
@@ -596,6 +589,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
             subNodeName = None
         elif len(line) == 4:
             token, childNodeName, parentNodeName, subNodeName = line
+            subNodeName = subNodeName[1:-1]
         childNode = self.getVar(childNodeName)
         if subNodeName:
             parentNode = self.getVar(parentNodeName).find(subNodeName)
@@ -664,7 +658,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         toonId = self.toon.getDoId()
         avatarName = line[1]
         avatar = self.getVar(avatarName)
-        chatString = eval('TTLocalizer.' + line[2])
+        chatString = getattr(TTLocalizer, line[2])
         chatFlags = CFSpeech | CFTimeout
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         if extraChatFlags:
@@ -687,16 +681,13 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         extraChatFlags = None
         dialogueList = []
         for arg in args:
-            if type(arg) == type(0):
-                quitButton = arg
-            elif type(arg) == type(''):
-                if len(arg) > 2 and arg[:2] == 'CF':
-                    extraChatFlags = eval(arg)
-                else:
-                    dialogueList.append(self.getVar(arg))
+            if type(arg) in (int, float) or arg.isdigit():
+                quitButton = int(arg)
+            elif arg[0] == '"' and arg[-1] == '"':
+                if len(arg) > 4 and arg[1:3] == 'CF':
+                    extraChatFlags = globals()[arg[1:-1]]
             else:
-                pass
-                #notify.error('invalid argument type')
+                dialogueList.append(self.getVar(arg))
 
         return (quitButton, extraChatFlags, dialogueList)
 
@@ -705,7 +696,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         toonId = self.toon.getDoId()
         avatarName = line[1]
         avatar = self.getVar(avatarName)
-        chatString = eval('TTLocalizer.' + line[2])
+        chatString = getattr(TTLocalizer, line[2])
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         return Func(avatar.setPageChat, toonId, 0, chatString, quitButton, extraChatFlags, dialogueList)
 
@@ -713,7 +704,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         lineLength = len(line)
         avatarName = line[1]
         avatar = self.getVar(avatarName)
-        chatString = eval('TTLocalizer.' + line[2])
+        chatString = getattr(TTLocalizer, line[2])
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         return Func(avatar.setLocalPageChat, chatString, quitButton, extraChatFlags, dialogueList)
 
@@ -721,13 +712,17 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         lineLength = len(line)
         avatarName = line[1]
         avatar = self.getVar(avatarName)
-        chatString = eval('TTLocalizer.' + line[2])
+        chatString = getattr(TTLocalizer, line[2])
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         if len(dialogueList) > 0:
             dialogue = dialogueList[0]
         else:
             dialogue = None
-        return Func(avatar.setChatAbsolute, chatString, CFSpeech, dialogue)
+        if extraChatFlags:
+            flags = CFSpeech | extraChatFlags
+        else:
+            flags = CFSpeech
+        return Func(avatar.setChatAbsolute, chatString, flags, dialogue)
 
     def parseLocalChatToConfirm(self, line):
         lineLength = len(line)
@@ -736,8 +731,8 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         toAvatarKey = line[2]
         toAvatar = self.getVar(toAvatarKey)
         localizerAvatarName = toAvatar.getName().capitalize()
-        toAvatarName = eval('TTLocalizer.' + localizerAvatarName)
-        chatString = eval('TTLocalizer.' + line[3])
+        toAvatarName = getattr(TTLocalizer, localizerAvatarName)
+        chatString = getattr(TTLocalizer, line[3])
         chatString = chatString.replace('%s', toAvatarName)
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[4:])
         return Func(avatar.setLocalPageChat, chatString, quitButton, extraChatFlags, dialogueList)
@@ -747,9 +742,9 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         avatarName = line[1]
         avatar = self.getVar(avatarName)
         if self.toon.getStyle().gender == 'm':
-            chatString = eval('TTLocalizer.' + line[2] % 'Mickey')
+            chatString = getattr(TTLocalizer, line[2][1:-1] % 'Mickey')
         else:
-            chatString = eval('TTLocalizer.' + line[2] % 'Minnie')
+            chatString = getattr(TTLocalizer, line[2][1:-1] % 'Minnie')
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[3:])
         return Func(avatar.setLocalPageChat, chatString, quitButton, extraChatFlags, dialogueList)
 
@@ -760,11 +755,11 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         toAvatarKey = line[2]
         toAvatar = self.getVar(toAvatarKey)
         localizerAvatarName = toAvatar.getName().capitalize()
-        toAvatarName = eval('TTLocalizer.' + localizerAvatarName)
+        toAvatarName = getattr(TTLocalizer, localizerAvatarName)
         if self.toon.getStyle().gender == 'm':
-            chatString = eval('TTLocalizer.' + line[3] % 'Mickey')
+            chatString = getattr(TTLocalizer, line[3][1:-1] % 'Mickey')
         else:
-            chatString = eval('TTLocalizer.' + line[3] % 'Minnie')
+            chatString = getattr(TTLocalizer, line[3][1:-1] % 'Minnie')
         chatString = chatString.replace('%s', toAvatarName)
         quitButton, extraChatFlags, dialogueList = self.parseExtraChatArgs(line[4:])
         return Func(avatar.setLocalPageChat, chatString, quitButton, extraChatFlags, dialogueList)
@@ -794,6 +789,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         else:
             notify.error('invalid number of arguments')
         actor = self.getVar(actorName)
+        animName = animName[1:-1]
         return Sequence(Func(actor.setPlayRate, playRate, animName), Func(actor.play, animName))
 
     def parseLoopAnim(self, line):
@@ -805,6 +801,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         else:
             notify.error('invalid number of arguments')
         actor = self.getVar(actorName)
+        animName = animName[1:-1]
         return Sequence(Func(actor.setPlayRate, playRate, animName), Func(actor.loop, animName))
 
     def parseLerpPos(self, line):
@@ -864,7 +861,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         else:
             token, nodeName, binName, sortOrder = line
         node = self.getVar(nodeName)
-        return Sequence(Func(node.setBin, binName, sortOrder))
+        return Sequence(Func(node.setBin, binName[1:-1], sortOrder))
 
     def parseClearBin(self, line):
         token, nodeName = line
@@ -873,29 +870,34 @@ class NPCMoviePlayer(DirectObject.DirectObject):
 
     def parseWaitEvent(self, line):
         token, eventName = line
-        return eventName
+        return eventName[1:-1]
 
     def parseSendEvent(self, line):
         token, eventName = line
-        return Func(messenger.send, eventName)
+        return Func(messenger.send, eventName[1:-1])
 
     def parseFunction(self, line):
         token, objectName, functionName = line
         object = self.getVar(objectName)
-        cfunc = compile('object' + '.' + functionName, '<string>', 'eval')
-        return Func(eval(cfunc))
+        # cfunc = compile('object' + '.' + functionName, '<string>', 'eval')
+        # return Func(eval(cfunc))
+        functionName = functionName[1:-1]
+        func = object
+        for fn in functionName.split('.'):
+            func = getattr(func, fn)
+        return Func(func)
 
     def parseAddLaffMeter(self, line):
         token, maxHpDelta = line
         newMaxHp = maxHpDelta + self.toon.getMaxHp()
         newHp = newMaxHp
         laffMeter = self.getVar('laffMeter')
-        return Func(laffMeter.adjustFace, newHp, newMaxHp)
+        return Func(laffMeter.adjustFace, int(newHp), int(newMaxHp))
 
     def parseLaffMeter(self, line):
         token, newHp, newMaxHp = line
         laffMeter = self.getVar('laffMeter')
-        return Func(laffMeter.adjustFace, newHp, newMaxHp)
+        return Func(laffMeter.adjustFace, int(newHp), int(newMaxHp))
 
     def parseObscureLaffMeter(self, line):
         token, val = line
@@ -905,17 +907,17 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         token, track, level, number = line
         inventory = self.getVar('inventory')
         countSound = base.loadSfx('phase_3.5/audio/sfx/tick_counter.ogg')
-        return Sequence(Func(base.playSfx, countSound), Func(inventory.buttonBoing, track, level), Func(inventory.addItems, track, level, number), Func(inventory.updateGUI, track, level))
+        return Sequence(Func(base.playSfx, countSound), Func(inventory.buttonBoing, int(track), int(level)), Func(inventory.addItems, int(track), int(level), int(number)), Func(inventory.updateGUI, int(track), int(level)))
 
     def parseSetInventory(self, line):
         token, track, level, number = line
         inventory = self.getVar('inventory')
-        return Sequence(Func(inventory.setItem, track, level, number), Func(inventory.updateGUI, track, level))
+        return Sequence(Func(inventory.setItem, int(track), int(level), int(number)), Func(inventory.updateGUI, int(track), int(level)))
 
     def parseSetInventoryYPos(self, line):
         token, track, level, yPos = line
         inventory = self.getVar('inventory')
-        button = inventory.buttons[track][level].stateNodePath[0]
+        button = inventory.buttons[int(track)][int(level)].stateNodePath[0]
         text = button.find('**/+TextNode')
         return Sequence(Func(text.setY, yPos))
 
@@ -932,7 +934,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         elif val == 0:
             return Func(inventory.hideDetail)
         elif val == 1:
-            return Func(inventory.showDetail, track, level)
+            return Func(inventory.showDetail, int(track), int(level))
         else:
             notify.error('invalid inventory detail level: %s' % val)
 
@@ -992,7 +994,8 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         toonHeadFrame = self.toonHeads.get(toonId)
         if not toonHeadFrame:
             toonHeadFrame = ToonHeadFrame.ToonHeadFrame(toon)
-            toonHeadFrame.tag1Node
+            # TODO - fix this next line
+            #toonHeadFrame.tag1Node.setActive(1)
             toonHeadFrame.hide()
             self.toonHeads[toonId] = toonHeadFrame
             self.setVar('%sToonHead' % toonName, toonHeadFrame)
@@ -1015,7 +1018,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
             def phraseSaid(phraseId):
                 toontastic = 315
                 if phraseId == toontastic:
-                    messenger.send('DistributedBlackCatMgr-activate')
+                    messenger.send(DistributedBlackCatMgr.DistributedBlackCatMgr.ActivateEvent)
 
             def enableBlackCatListen():
                 self.acceptOnce(SpeedChatGlobals.SCStaticTextMsgEvent, phraseSaid)
@@ -1057,7 +1060,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         return Sequence(Func(grabCurTrackAccess), LerpFunctionInterval(updateGagLevel, fromData=1, toData=7, duration=0.3), WaitInterval(3.5), LerpFunctionInterval(updateGagLevel, fromData=7, toData=1, duration=0.3), Func(restoreTrackAccess), Func(messenger.send, 'doneThrowSquirtPreview'))
 
     def parseSetMusicVolume(self, line):
-        if base.config.GetString('language', 'english') == 'japanese':
+        if config.GetString('language', 'english') == 'japanese':
             try:
                 loader = base.cr.playGame.place.loader
                 type = 'music'
@@ -1091,4 +1094,19 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         else:
             return Wait(0.0)
 
-readFile()
+    def cleanString(self, string, charactors):
+        cleanedString = ''
+        for char in charactors:
+            if char in string:
+                cleanedString = string.replace(char, '')
+
+        return cleanedString
+
+
+searchPath = DSearchPath()
+searchPath.appendDirectory(Filename('/phase_3/etc'))
+scriptFile = Filename('QuestScripts.txt')
+found = vfs.resolveFilename(scriptFile, searchPath)
+if not found:
+    notify.error('Could not find QuestScripts.txt file')
+readFile(scriptFile)
