@@ -54,7 +54,7 @@ class Avatar(Actor, ShadowCaster):
         self.nametag3d = self.attachNewNode('nametag3d')
         self.nametag3d.setTag('cam', 'nametag')
         self.nametag3d.setLightOff()
-       if self.ManagesNametagAmbientLightChanged:
+        if self.ManagesNametagAmbientLightChanged:
             self.acceptNametagAmbientLightChange()
         OTPRender.renderReflection(False, self.nametag3d, 'otp_avatar_nametag', None)
         self.getGeomNode().showThrough(OTPRender.ShadowCameraBitmask)
