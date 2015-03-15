@@ -277,13 +277,13 @@ class DistributedLawbotBossSuit(DistributedSuitBase.DistributedSuitBase):
         self.activeIntervals = {}
 
     def clearInterval(self, name, finish = 1):
-        if self.activeIntervals.has_key(name):
+        if name in self.activeIntervals:
             ival = self.activeIntervals[name]
             if finish:
                 ival.finish()
             else:
                 ival.pause()
-            if self.activeIntervals.has_key(name):
+            if name in self.activeIntervals:
                 del self.activeIntervals[name]
         else:
             self.notify.debug('interval: %s already cleared' % name)
@@ -306,7 +306,7 @@ class DistributedLawbotBossSuit(DistributedSuitBase.DistributedSuitBase):
 
     def exitPreThrowProsecute(self):
         throwName = self.uniqueName('preThrowProsecute')
-        if self.activeIntervals.has_key(throwName):
+        if throwName in self.activeIntervals:
             self.activeIntervals[throwName].pause()
             del self.activeIntervals[throwName]
 
@@ -324,7 +324,7 @@ class DistributedLawbotBossSuit(DistributedSuitBase.DistributedSuitBase):
 
     def exitPostThrowProsecute(self):
         throwName = self.uniqueName('postThrowProsecute')
-        if self.activeIntervals.has_key(throwName):
+        if throwName in self.activeIntervals:
             self.activeIntervals[throwName].finish()
             del self.activeIntervals[throwName]
 
@@ -346,7 +346,7 @@ class DistributedLawbotBossSuit(DistributedSuitBase.DistributedSuitBase):
 
     def exitPreThrowAttack(self):
         throwName = self.uniqueName('preThrowAttack')
-        if self.activeIntervals.has_key(throwName):
+        if throwName in self.activeIntervals:
             self.activeIntervals[throwName].pause()
             del self.activeIntervals[throwName]
 
@@ -368,12 +368,11 @@ class DistributedLawbotBossSuit(DistributedSuitBase.DistributedSuitBase):
 
     def exitPostThrowAttack(self):
         throwName = self.uniqueName('postThrowAttack')
-        if self.activeIntervals.has_key(throwName):
+        if throwName in self.activeIntervals:
             self.activeIntervals[throwName].finish()
             del self.activeIntervals[throwName]
 
     def enterStunned(self):
-        self.loop('lured', 0)
         stunSequence = MovieUtil.createSuitStunInterval(self, 0, ToontownGlobals.LawbotBossLawyerStunTime)
         seqName = stunSequence.getName()
         stunSequence.append(Func(self.fsm.request, 'neutral'))

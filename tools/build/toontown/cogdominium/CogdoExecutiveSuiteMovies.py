@@ -17,7 +17,6 @@ class CogdoExecutiveSuiteIntro(CogdoGameMovie):
     notify = DirectNotifyGlobal.directNotify.newCategory('CogdoExecutiveSuiteIntro')
     introDuration = 7
     cameraMoveDuration = 3
-
     def __init__(self, shopOwner):
         CogdoGameMovie.__init__(self)
         self._shopOwner = shopOwner
@@ -91,7 +90,7 @@ class CogdoExecutiveSuiteIntro(CogdoGameMovie):
 
         def start():
             self.frame.show()
-            base.setCellsAvailable(base.bottomCells + base.leftCells + base.rightCells, 0)
+            base.setCellsActive(base.bottomCells + base.leftCells + base.rightCells, 0)
 
         def showShopOwner():
             self._setCamTarget(self._shopOwner, -10, offset=Point3(0, 0, 5))
@@ -100,7 +99,7 @@ class CogdoExecutiveSuiteIntro(CogdoGameMovie):
             self._dialogueLabel.reparentTo(hidden)
             self.toonHead.reparentTo(hidden)
             self.frame.hide()
-            base.setCellsAvailable(base.bottomCells + base.leftCells + base.rightCells, 1)
+            base.setCellsActive(base.bottomCells + base.leftCells + base.rightCells, 1)
             self._stopUpdateTask()
 
         self._ival = Sequence(Func(start), Func(self.displayLine, dialogue), Func(showShopOwner), ParallelEndTogether(camera.posInterval(self.cameraMoveDuration, Point3(8, 0, 13), blendType='easeInOut'), camera.hprInterval(0.5, self._camHelperNode.getHpr(), blendType='easeInOut')), Wait(self.introDuration), Func(end))

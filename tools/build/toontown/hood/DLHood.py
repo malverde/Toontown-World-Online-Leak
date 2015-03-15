@@ -1,34 +1,21 @@
-from pandac.PandaModules import *
-import ToonHood
-from toontown.town import DLTownLoader
-from toontown.safezone import DLSafeZoneLoader
-from toontown.toonbase.ToontownGlobals import *
+from toontown.safezone.DLSafeZoneLoader import DLSafeZoneLoader
+from toontown.town.DLTownLoader import DLTownLoader
+from toontown.toonbase import ToontownGlobals
+from toontown.hood.ToonHood import ToonHood
 
-class DLHood(ToonHood.ToonHood):
 
-    def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
-        ToonHood.ToonHood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
-        self.id = DonaldsDreamland
-        self.townLoaderClass = DLTownLoader.DLTownLoader
-        self.safeZoneLoaderClass = DLSafeZoneLoader.DLSafeZoneLoader
-        self.storageDNAFile = 'phase_8/dna/storage_DL.xml'
-        self.holidayStorageDNADict = {WINTER_DECORATIONS: ['phase_8/dna/winter_storage_DL.xml'],
-         WACKY_WINTER_DECORATIONS: ['phase_8/dna/winter_storage_DL.xml'],
-         HALLOWEEN_PROPS: ['phase_8/dna/halloween_props_storage_DL.xml'],
-         SPOOKY_PROPS: ['phase_8/dna/halloween_props_storage_DL.xml']}
-        self.skyFile = 'phase_8/models/props/DL_sky'
-        self.titleColor = (1.0, 0.9, 0.5, 1.0)
+class DLHood(ToonHood):
+    notify = directNotify.newCategory('DLHood')
 
-    def load(self):
-        ToonHood.ToonHood.load(self)
-        self.parentFSM.getStateNamed('DLHood').addChild(self.fsm)
+    ID = ToontownGlobals.DonaldsDreamland
+    TOWNLOADER_CLASS = DLTownLoader
+    SAFEZONELOADER_CLASS = DLSafeZoneLoader
+    STORAGE_DNA = 'phase_8/dna/storage_DL.pdna'
+    SKY_FILE = 'phase_8/models/props/DL_sky'
+    TITLE_COLOR = (1.0, 0.9, 0.5, 1.0)
 
-    def unload(self):
-        self.parentFSM.getStateNamed('DLHood').removeChild(self.fsm)
-        ToonHood.ToonHood.unload(self)
-
-    def enter(self, requestStatus):
-        ToonHood.ToonHood.enter(self,  requestStatus)
-
-    def exit(self):
-        ToonHood.ToonHood.exit(self)
+    HOLIDAY_DNA = {
+      ToontownGlobals.WINTER_DECORATIONS: ['phase_8/dna/winter_storage_DL.pdna'],
+      ToontownGlobals.WACKY_WINTER_DECORATIONS: ['phase_8/dna/winter_storage_DL.pdna'],
+      ToontownGlobals.HALLOWEEN_PROPS: ['phase_8/dna/halloween_props_storage_DL.pdna'],
+      ToontownGlobals.SPOOKY_PROPS: ['phase_8/dna/halloween_props_storage_DL.pdna']}

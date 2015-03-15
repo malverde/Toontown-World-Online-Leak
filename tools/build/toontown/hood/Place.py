@@ -544,15 +544,13 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
     def enterDoorIn(self, requestStatus):
         NametagGlobals.setWant2dNametags(False)
         door = base.cr.doId2do.get(requestStatus['doorDoId'])
-        if door is None:
-            # We're about to die anyway because door is None, so raise a StandardError with more information
-            raise StandardError("Place's door is None! Place: %s, requestStatus: %s" % (str(self.__class__), str(requestStatus)))
-        door.readyToExit()
+        if not door is None:
+            door.readyToExit()
         base.localAvatar.obscureMoveFurnitureButton(1)
         base.localAvatar.startQuestMap()
 
     def exitDoorIn(self):
-        NametagGlobals.setWant2dNametags(False)
+        NametagGlobals.setWant2dNametags(True)
         base.localAvatar.obscureMoveFurnitureButton(-1)
 
 
@@ -725,7 +723,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         base.localAvatar.obscureMoveFurnitureButton(1)
         avId = requestStatus.get('avId', -1)
         if avId != -1:
-            if base.cr.doId2do.has_key(avId):
+            if avId in base.cr.doId2do:
                 teleportDebug(requestStatus, 'teleport to avatar')
                 avatar = base.cr.doId2do[avId]
                 avatar.forceToTruePosition()

@@ -149,7 +149,7 @@ class DistributedTagGame(DistributedMinigame):
             scorePanel.reparentTo(base.a2dBottomRight)
             self.scorePanels.append(scorePanel)
 
-        base.setCellsAvailable(base.rightCells, 0)
+        base.setCellsActive(base.rightCells, 0)
         self.walkStateData.enter()
         self.walkStateData.fsm.request('walking')
         if base.localAvatar.isIt:
@@ -182,7 +182,7 @@ class DistributedTagGame(DistributedMinigame):
             panel.cleanup()
 
         self.scorePanels = []
-        base.setCellsAvailable(base.rightCells, 1)
+        base.setCellsActive(base.rightCells, 1)
         base.mouseInterfaceNode.setForwardSpeed(ToontownGlobals.ToonForwardSpeed)
         base.mouseInterfaceNode.setRotateSpeed(ToontownGlobals.ToonRotateSpeed)
         self.itPointer.reparentTo(hidden)

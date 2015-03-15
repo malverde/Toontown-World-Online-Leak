@@ -977,7 +977,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
     def enterIntroduction(self):
         self.controlToons()
         ElevatorUtils.openDoors(self.leftDoor, self.rightDoor, self.elevatorType)
-        NametagGlobals.setMasterArrowsOn(0)
+        NametagGlobals.setWant2dNametags(False)
         intervalName = 'IntroductionMovie'
         delayDeletes = []
         seq = Sequence(self.makeIntroductionMovie(delayDeletes), Func(self.__beginBattleOne), name=intervalName)
@@ -1067,8 +1067,8 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         self.accept('clickedNametag', self.__clickedNameTag)
         self.accept('friendAvatar', self.__handleFriendAvatar)
         self.accept('avatarDetails', self.__handleAvatarDetails)
-        NametagGlobals.setWant2dNametags(False)
-        NametagGlobals.setWantActiveNametags(True)
+        NametagGlobals.setMasterArrowsOn(0)
+        NametagGlobals.setMasterNametagsActive(1)
 
     def exitBattleFour(self):
         self.ignore('clickedNameTag')

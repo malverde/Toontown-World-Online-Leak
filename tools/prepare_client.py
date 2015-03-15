@@ -125,19 +125,14 @@ dcStream = StringStream()
 dcFile.write(dcStream, True)
 dcData = dcStream.getData()
 
-# Now, collect our timezone info:
-zoneInfo = {}
-for timezone in pytz.all_timezones:
-    zoneInfo['zoneinfo/' + timezone] = pytz.open_resource(timezone).read()
-
 # Finally, write our data to _miraidata.py:
 print 'Writing _miraidata.py...'
 gameData = '''\
 CONFIG = %r
 DC = %r
-ZONEINFO = %r'''
+'''
 with open(os.path.join(args.build_dir, '_miraidata.py'), 'w') as f:
-    f.write(gameData % (configData, dcData, zoneInfo))
+    f.write(gameData % (configData, dcData))
 
 
 def getDirectoryMD5Hash(directory):
