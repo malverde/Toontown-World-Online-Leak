@@ -6,6 +6,7 @@ from libpandadna.DNAParser import *
 from direct.stdpy.file import open
 
 
+
 class ToontownLoader(Loader.Loader):
     TickPeriod = 0.2
 
@@ -23,6 +24,9 @@ class ToontownLoader(Loader.Loader):
 
     def loadDNA(self, dnastore, filename):
 		return loadDNAFile(dnastore, filename)
+		
+    def loadDNAFile(self, dnastore, filename):
+        return loadDNAFile(dnastore, filename)
 		
     def beginBulkLoad(self, name, label, range, gui, tipCategory, zoneId):
         self._loadStartT = globalClock.getRealTime()
