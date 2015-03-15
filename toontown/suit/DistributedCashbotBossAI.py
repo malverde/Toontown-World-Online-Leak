@@ -576,7 +576,7 @@ def skipCFO():
     return 'Skipping the first round...'
 
 
-@magicWord(category=CATEGORY_MODERATION)
+@magicWord(category=CATEGORY_MODERATOR)
 def killCFO():
     """
     Kills the CFO.
