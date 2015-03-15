@@ -11,7 +11,6 @@ from toontown.hood import TTHood
 from toontown.hood import DDHood
 from toontown.hood import MMHood
 from toontown.hood import BRHood
-from toontown.dna.DNAStorage import DNAStorage
 from toontown.hood import DGHood
 from toontown.hood import DLHood
 from toontown.hood import TFHood
