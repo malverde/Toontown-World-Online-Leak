@@ -210,7 +210,6 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity, Goo
 
     def exitOff(self):
         self.show()
-
     def enterWalk(self, avId = None, ts = 0):
         self.notify.debug('enterWalk, ts = %s' % ts)
         self.startToonDetect()

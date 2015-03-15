@@ -22,12 +22,15 @@ from toontown.battle import BattleProps
 from toontown.battle import DistributedBattle
 from toontown.chat.ChatGlobals import *
 from toontown.distributed.DelayDeletable import DelayDeletable
+import math
+import copy
+import DistributedSuitBase
+from otp.otpbase import OTPLocalizer
+import random
+from SuitLegList import *
+from toontown.chat.ChatGlobals import *
 from toontown.nametag import NametagGlobals
 from toontown.nametag.NametagGlobals import *
-from toontown.suit.SuitLegList import *
-from toontown.toonbase import ToontownGlobals
-
-
 STAND_OUTSIDE_DOOR = 2.5
 BATTLE_IGNORE_TIME = 6
 BATTLE_WAIT_TIME = 3
@@ -639,6 +642,7 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
                     base.playSfx(self.soundChatBubble, node=self)
             elif self.nametag.getStompChatText():
                 self.playDialogueForString(self.nametag.getStompChatText(), self.nametag.CHAT_STOMP_DELAY)
+
 
     def playDialogueForString(self, chatString, delay = 0.0):
         if len(chatString) == 0:
