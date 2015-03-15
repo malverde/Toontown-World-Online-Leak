@@ -13,7 +13,7 @@ import time
 import random
 
 class DistributedBuildingMgrAI:
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBuildingMgrAI')
+    notify =  directNotify.newCategory('DistributedBuildingMgrAI')
 
     def __init__(self, air, branchID, dnaStore, trophyMgr):
         self.branchID = branchID
