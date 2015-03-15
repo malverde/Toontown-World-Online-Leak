@@ -150,9 +150,9 @@ class PlayGame(StateData.StateData):
     def loadDnaStoreTutorial(self):
         self.dnaStore = DNAStorage()
 
-        tree = loader.loadDNAFileAI('phase_3.5/dna/storage_tutorial.pdna').store(self.dnaStore)
+        tree = loader.loadDNA('phase_3.5/dna/storage_tutorial.pdna').store(self.dnaStore)
 
-        tree = loader.loadDNAFileAI('phase_3.5/dna/storage_interior.pdna').store(self.dnaStore)
+        tree = loader.loadDNA('phase_3.5/dna/storage_interior.pdna').store(self.dnaStore)
 
     def loadDnaStore(self):
         if not hasattr(self, 'dnaStore'):

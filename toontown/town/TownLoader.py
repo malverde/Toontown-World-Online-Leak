@@ -232,7 +232,7 @@ class TownLoader(StateData.StateData):
             files = ('phase_5/dna/storage_town.pdna', self.townStorageDNAFile)
             dnaBulk = DNABulkLoader(self.hood.dnaStore, files)
             dnaBulk.loadDNAFiles()
-        node = loader.loadDNAFileAI(self.hood.dnaStore, dnaFile)
+        node = loader.loadDNA(self.hood.dnaStore, dnaFile)
         self.notify.debug('done loading %s' % dnaFile)
         if node.getNumParents() == 1:
             self.geom = NodePath(node.getParent(0))

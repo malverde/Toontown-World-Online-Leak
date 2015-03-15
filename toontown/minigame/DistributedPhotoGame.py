@@ -125,7 +125,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         files = ('phase_4/dna/storage.pdna', self.storageDNAFile, self.safeZoneStorageDNAFile)
         dnaBulk = DNABulkLoader(self.dnaStore, files)
         dnaBulk.loadDNAFiles()
-        node = loader.loadDNAFileAI(self.dnaStore, self.dnaFile)
+        node = loader.loadDNA(self.dnaStore, self.dnaFile)
         self.scene = hidden.attachNewNode(node)
         self.construct()
         purchaseModels = loader.loadModel('phase_4/models/gui/purchase_gui')
