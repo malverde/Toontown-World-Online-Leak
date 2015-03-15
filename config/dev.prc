@@ -88,7 +88,8 @@ force-player-understandable #t
 want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
-want-mega-invasions #f
+want-mega-invasions #t
+mega-invasion-cog-type bs
 
 
 
