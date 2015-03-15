@@ -1,7 +1,7 @@
 from pandac.PandaModules import *
-from otp.nametag.Nametag import Nametag
-from otp.nametag.NametagGroup import NametagGroup
-from otp.nametag.NametagConstants import CFSpeech, CFThought, CFTimeout, CFPageButton, CFNoQuitButton, CFQuitButton
+from toontown.chat.ChatGlobals import *
+from toontown.nametag import NametagGlobals
+from toontown.nametag.NametagGroup import NametagGroup
 from otp.otpbase import OTPGlobals
 from otp.otpbase import OTPLocalizer
 from direct.actor.Actor import Actor
@@ -54,7 +54,7 @@ class Avatar(Actor, ShadowCaster):
         self.nametag3d = self.attachNewNode('nametag3d')
         self.nametag3d.setTag('cam', 'nametag')
         self.nametag3d.setLightOff()
-        if self.ManagesNametagAmbientLightChanged:
+       if self.ManagesNametagAmbientLightChanged:
             self.acceptNametagAmbientLightChange()
         OTPRender.renderReflection(False, self.nametag3d, 'otp_avatar_nametag', None)
         self.getGeomNode().showThrough(OTPRender.ShadowCameraBitmask)
