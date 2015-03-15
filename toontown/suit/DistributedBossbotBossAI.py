@@ -904,7 +904,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         return self.moveAttackAllowed
 
 
-@magicWord(category=CATEGORY_PROGRAMMER)
+@magicWord(category=CATEGORY_MODERATION)
 def skipCEO():
     """
     Skips to the final round of the CEO.
@@ -924,7 +924,7 @@ def skipCEO():
     boss.b_setState('PrepareBattleThree')
 
 
-@magicWord(category=CATEGORY_PROGRAMMER)
+@magicWord(category=CATEGORY_MODERATION)
 def killCEO():
     """
     Kills the CEO.
