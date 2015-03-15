@@ -17,61 +17,13 @@ class SuitInvasionManagerAI:
         self.suitDeptIndex = None
         self.suitTypeIndex = None
         self.flags = 0
-        if config.GetBool('want-mega-invasions', False): # TODO - config for this
-            # Mega invasion configuration.
-            self.randomInvasionProbability = config.GetFloat('mega-invasion-probability', 0.4)
-            self.megaInvasionCog = config.GetString('mega-invasion-cog-type', '')
-            if not self.megaInvasionCog:
-                raise AttributeError("No mega invasion cog specified, but mega invasions are on!")
-            if self.megaInvasionCog not in SuitDNA.suitHeadTypes:
-                raise AttributeError("Invalid cog type specified for mega invasion!")
-            # Start ticking.
-            taskMgr.doMethodLater(randint(1800, 5400), self.__randomInvasionTick, 'random-invasion-tick')
-
-        elif config.GetBool('want-random-invasions', True):
-            # Random invasion configuration.
-            self.randomInvasionProbability = config.GetFloat('random-invasion-probability', 0.3)
-            # Start ticking.
-            taskMgr.doMethodLater(randint(1800, 5400), self.__randomInvasionTick, 'random-invasion-tick')
 
 
+        # We want to handle shard status queries so that a ShardStatusReceiver
+        # being created after we're created will know where we're at:
+        self.air.netMessenger.accept('queryShardStatus', self, self.sendInvasionStatus)
 
-    def __randomInvasionTick(self, task=None):
-        """
-        Each hour, have a tick to check if we want to start an invasion in
-        the current district. This works by having a random invasion
-        probability, and each tick it will generate a random float between
-        0 and 1, and then if it's less than or equal to the probablity, it
-        will spawn the invasion.
-
-        An invasion will not be started if there is an invasion already
-        on-going.
-        """
-        # Generate a new tick delay.
-        task.delayTime = randint(1800, 5400)
-        if self.getInvading():
-            # We're already running an invasion. Don't start a new one.
-            self.notify.debug('Invasion tested but already running invasion!')
-            return task.again
-        if random() <= self.randomInvasionProbability:
-            # We want an invasion!
-            self.notify.debug('Invasion probability hit! Starting invasion.')
-            # We want to test if we get a mega invasion or a normal invasion.
-            # Take the mega invasion probability and test it. If we get lucky
-            # a second time, spawn a mega invasion, otherwise spawn a normal
-            # invasion.
-            if config.GetBool('want-mega-invasions', False) and random() <= self.randomInvasionProbability:
-                # N.B.: randomInvasionProbability = mega invasion probability.
-                suitName = self.megaInvasionCog
-                numSuits = randint(2000, 15000)
-                specialSuit = random.choice([0, 0, 0, 1, 2])
-            else:
-                suitName = choice(SuitDNA.suitHeadTypes)
-                numSuits = randint(1500, 5000)
-                specialSuit = False
-            self.startInvasion(suitName, numSuits, specialSuit)
-        return task.again
-
+        self.sendInvasionStatus()
 
     def getInvading(self):
         return self.invading
