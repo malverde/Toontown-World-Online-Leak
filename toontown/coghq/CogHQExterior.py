@@ -5,13 +5,10 @@ from direct.fsm import State
 from toontown.toonbase import ToontownGlobals
 from pandac.PandaModules import *
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
-from otp.nametag import NametagGlobals
-from pandac.PandaModules import *
-from toontown.dna import DNAUtil
+from toontown.nametag import NametagGlobals
 
 class CogHQExterior(BattlePlace.BattlePlace):
     notify = DirectNotifyGlobal.directNotify.newCategory('CogHQExterior')
-    dnaFile = None
 
     def __init__(self, loader, parentFSM, doneEvent):
         BattlePlace.BattlePlace.__init__(self, loader, doneEvent)
@@ -53,7 +50,6 @@ class CogHQExterior(BattlePlace.BattlePlace):
          State.State('tunnelIn', self.enterTunnelIn, self.exitTunnelIn, ['walk', 'WaitForBattle', 'battle']),
          State.State('tunnelOut', self.enterTunnelOut, self.exitTunnelOut, ['final']),
          State.State('final', self.enterFinal, self.exitFinal, ['start'])], 'start', 'final')
-        self.visInterest = None
 
     def load(self):
         self.parentFSM.getStateNamed('cogHQExterior').addChild(self.fsm)
@@ -65,15 +61,6 @@ class CogHQExterior(BattlePlace.BattlePlace):
         BattlePlace.BattlePlace.unload(self)
 
     def enter(self, requestStatus):
-        if self.dnaFile is not None:
-            dna = loader.loadDNA(self.dnaFile)
-            visgroups = DNAUtil.getVisGroups(dna)
-            visZones = []
-            for vg in visgroups:
-                if vg.getZone() == dna.zone:
-                    visZones = vg.getVisibleZones()
-                    break
-            self.visInterest = base.cr.addInterest(base.localAvatar.defaultShard, visZones, 'cogHQVis')
         self.zoneId = requestStatus['zoneId']
         BattlePlace.BattlePlace.enter(self)
         self.fsm.enterInitialState()
@@ -83,14 +70,12 @@ class CogHQExterior(BattlePlace.BattlePlace):
         self._telemLimiter = TLGatherAllAvs('CogHQExterior', RotationLimitToH)
         self.accept('doorDoneEvent', self.handleDoorDoneEvent)
         self.accept('DistributedDoor_doorTrigger', self.handleDoorTrigger)
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(True)
         self.tunnelOriginList = base.cr.hoodMgr.addLinkTunnelHooks(self, self.nodeList, self.zoneId)
         how = requestStatus['how']
         self.fsm.request(how, [requestStatus])
 
     def exit(self):
-        if self.visInterest:
-            base.cr.removeInterest(self.visInterest)
         self.fsm.requestFinalState()
         self._telemLimiter.destroy()
         del self._telemLimiter
@@ -116,7 +101,7 @@ class CogHQExterior(BattlePlace.BattlePlace):
         BattlePlace.BattlePlace.enterTeleportIn(self, requestStatus)
 
     def enterTeleportOut(self, requestStatus, callback = None):
-        if requestStatus.has_key('battle'):
+        if 'battle' in requestStatus:
             self.__teleportOutDone(requestStatus)
         else:
             BattlePlace.BattlePlace.enterTeleportOut(self, requestStatus, self.__teleportOutDone)

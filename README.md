@@ -18,7 +18,8 @@
 
 Basic set-up has been completed.
 
-
+How to build the client in windows:
+First run the prepare client.py Then launch the visual studio 2013 command prompt. Then run the build client.py through the command prompt.
 ### Configuration ###
 Enable TCP traffic ports from 700 through 800
 Disable the FIREWALL (incoming and outbound traffic)

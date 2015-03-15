@@ -260,7 +260,7 @@ class Playground(Place.Place):
             self.loader.hood.startSky()
             lightsOn = LerpColorScaleInterval(base.cr.playGame.hood.loader.geom, 0.1, Vec4(1, 1, 1, 1))
             lightsOn.start()
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(True)
         self.zoneId = requestStatus['zoneId']
         self.tunnelOriginList = base.cr.hoodMgr.addLinkTunnelHooks(self, self.loader.nodeList, self.zoneId)
         how = requestStatus['how']
@@ -284,7 +284,7 @@ class Playground(Place.Place):
                 light.reparentTo(hidden)
 
         newsManager = base.cr.newsManager
-        NametagGlobals.setMasterArrowsOn(0)
+        NametagGlobals.setWant2dNametags(False)
         for i in self.loader.nodeList:
             self.loader.exitAnimatedProps(i)
 
@@ -328,26 +328,6 @@ class Playground(Place.Place):
     def hidePaths(self):
         self.hideDebugPointText()
 
-    def showPathPoints(self, paths, waypoints = None):
-        self.hideDebugPointText()
-        lines = LineSegs()
-        lines.setColor(1, 0, 0, 1)
-        from toontown.classicchars import CCharPaths
-        for name, pointDef in paths.items():
-            self.showDebugPointText(name, pointDef[0])
-            for connectTo in pointDef[1]:
-                toDef = paths[connectTo]
-                fromP = pointDef[0]
-                toP = toDef[0]
-                lines.moveTo(fromP[0], fromP[1], fromP[2] + 2.0)
-                wpList = CCharPaths.getWayPoints(name, connectTo, paths, waypoints)
-                for wp in wpList:
-                    lines.drawTo(wp[0], wp[1], wp[2] + 2.0)
-                    self.showDebugPointText('*', wp)
-
-                lines.drawTo(toP[0], toP[1], toP[2] + 2.0)
-
-        self.debugText.attachNewNode(lines.create())
 
     def hideDebugPointText(self):
         if hasattr(self, 'debugText'):

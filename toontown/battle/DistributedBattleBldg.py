@@ -14,8 +14,9 @@ from toontown.suit import Suit
 import SuitBattleGlobals
 import random
 from toontown.toonbase import ToontownGlobals
-from otp.nametag.NametagConstants import *
-from otp.nametag import NametagGlobals
+from toontown.chat.ChatGlobals import *
+from toontown.nametag import NametagGlobals
+from toontown.nametag.NametagGlobals import *
 
 class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleBldg')
@@ -186,7 +187,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         self.notify.debug('exitReward()')
         self.clearInterval(self.uniqueName('floorReward'))
         self._removeMembersKeep()
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(True)
         for toon in self.toons:
             toon.startSmooth()
 
@@ -195,7 +196,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
     def enterBuildingReward(self, ts):
         self.delayDeleteMembers()
         if self.hasLocalToon():
-            NametagGlobals.setMasterArrowsOn(0)
+        NametagGlobals.setWant2dNametags(False)
         self.movie.playReward(ts, self.uniqueName('building-reward'), self.__handleBuildingRewardDone, noSkip=True)
         return None
 
@@ -208,7 +209,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
     def exitBuildingReward(self):
         self.movie.resetReward(finish=1)
         self._removeMembersKeep()
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(True)
         return None
 
     def enterResume(self, ts = 0):

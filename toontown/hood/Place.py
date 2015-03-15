@@ -14,6 +14,7 @@ from toontown.estate import HouseGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
 from otp.avatar import Emote
+
 from otp.avatar.Avatar import teleportNotify
 from direct.task import Task
 import QuietZoneState
@@ -541,7 +542,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         pass
 
     def enterDoorIn(self, requestStatus):
-        NametagGlobals.setMasterArrowsOn(0)
+        NametagGlobals.setWant2dNametags(False)
         door = base.cr.doId2do.get(requestStatus['doorDoId'])
         if door is None:
             # We're about to die anyway because door is None, so raise a StandardError with more information
@@ -551,8 +552,9 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         base.localAvatar.startQuestMap()
 
     def exitDoorIn(self):
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(False)
         base.localAvatar.obscureMoveFurnitureButton(-1)
+
 
     def enterDoorOut(self):
         base.localAvatar.obscureMoveFurnitureButton(1)
@@ -713,10 +715,10 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
 
     def enterTeleportIn(self, requestStatus):
         self._tiToken = self.addSetZoneCompleteCallback(Functor(self._placeTeleportInPostZoneComplete, requestStatus), 100)
-
+        
     def _placeTeleportInPostZoneComplete(self, requestStatus):
         teleportDebug(requestStatus, '_placeTeleportInPostZoneComplete(%s)' % (requestStatus,))
-        NametagGlobals.setMasterArrowsOn(0)
+        NametagGlobals.setWant2dNametags(False)
         base.localAvatar.laffMeter.start()
         base.localAvatar.startQuestMap()
         base.localAvatar.reconsiderCheesyEffect()
@@ -754,13 +756,14 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
     def exitTeleportIn(self):
         self.removeSetZoneCompleteCallback(self._tiToken)
         self._tiToken = None
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(True)
         base.localAvatar.laffMeter.stop()
         base.localAvatar.obscureMoveFurnitureButton(-1)
         base.localAvatar.stopUpdateSmartCamera()
         base.localAvatar.detachCamera()
         base.localAvatar.stopPosHprBroadcast()
         return
+
 
     def requestTeleport(self, hoodId, zoneId, shardId, avId):
         if avId > 0:

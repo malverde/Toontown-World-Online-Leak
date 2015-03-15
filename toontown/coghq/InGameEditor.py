@@ -25,9 +25,6 @@ class InGameEditor(AppShell):
     frameHeight = 475
     usecommandarea = 1
     usestatusarea = 1
-    contactname = 'Darren Ranalli'
-    contactphone = '(818) 623-3904'
-    contactemail = 'darren.ranalli@disney.com'
     WantUndo = False
 
     def __init__(self, level, doneEvent, requestSaveEvent, saveAsEvent, undoEvent, redoEvent, wireframeEvent, oobeEvent, csEvent, runEvent, texEvent, **kw):
@@ -93,7 +90,7 @@ class InGameEditor(AppShell):
         entTypes.sort()
         numEntities = len(entTypes)
         cascadeMenu = ''
-        for index in range(numEntities):
+        for index in xrange(numEntities):
             type = entTypes[index]
             if index % 10 == 0:
                 lastIndex = min(index + 9, numEntities - 1)
@@ -161,27 +158,27 @@ class InGameEditor(AppShell):
     def selectedNodePathHook(self, nodePath):
         np = nodePath.findNetTag('entity')
         if not np.isEmpty():
-            if np.id() != nodePath.id():
+            if np.get_key() != nodePath.get_key():
                 np.select()
             else:
                 self.findEntityFromNP(np)
 
     def findEntityFromNP(self, nodePath):
-        entId = self.level.nodePathId2EntId.get(nodePath.id())
+        entId = self.level.nodePathId2EntId.get(nodePath.get_key())
         if entId:
             self.selectEntity(entId)
         else:
             for entId in self.level.levelSpec.getAllEntIds():
                 np = self.level.getEntInstanceNP(entId)
                 if np:
-                    if np.id() == nodePath.id():
+                    if np.get_key() == nodePath.get_key():
                         self.selectEntity(entId)
                         return
 
     def manipCleanupHook(self, nodePathList):
         if not nodePathList:
             return
-        entId = self.level.nodePathId2EntId.get(nodePathList[0].id())
+        entId = self.level.nodePathId2EntId.get(nodePathList[0].get_key())
         if entId:
             t = nodePathList[0].getTransform()
             entSpec = self.level.levelSpec.getEntitySpec(entId)
@@ -547,7 +544,7 @@ class InGameEditor(AppShell):
             else:
                 initialDir = Filename.expandFrom('$TTMODELS/built/%s' % text.get()[1:-1]).toOsSpecific()
             print text, text.get()[1:-1], initialDir
-            rawFilename = askopenfilename(defaultextension='*', initialdir=initialDir, filetypes=(('Bam Files', '*'),
+            rawFilename = askopenfilename(defaultextension='*', initialdir=initialDir, filetypes=(('Bam Files', '*.bam'),
              ('Egg Files', '*.egg'),
              ('Maya Binaries', '*.mb'),
              ('All files', '*')), title='Load Model File', parent=self.interior())
@@ -1025,7 +1022,7 @@ class LevelExplorerItem(TreeItem):
         return self.levelElement.getName()
 
     def GetKey(self):
-        return self.levelElement.id()
+        return self.levelElement.get_key()
 
     def IsEditable(self):
         return 1

@@ -15,7 +15,10 @@ from toontown.dna.DNADoor import DNADoor
 from toontown.hood import ZoneUtil
 from toontown.toon import ToonDNA
 from toontown.toon import ToonHead
+from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
+from toontown.toonbase import ToontownGlobals
 from otp.speedchat import SpeedChatGlobals
+from toontown.toonbase.ToonBaseGlobal import *
 
 SIGN_LEFT = -4
 SIGN_RIGHT = 4

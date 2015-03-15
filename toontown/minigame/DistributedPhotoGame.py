@@ -18,8 +18,8 @@ from toontown.toonbase import TTLocalizer
 from toontown.golf import BuildGeometry
 from toontown.toon import Toon
 from toontown.toon import ToonDNA
-from toontown.dna.DNAStorage import DNAStorage
-from otp.nametag import NametagGroup
+from libpandadna.DNAParser import *
+from toontown.nametag import NametagGlobals
 from direct.interval.IntervalGlobal import *
 import random
 from direct.showbase import PythonUtil
@@ -122,14 +122,13 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.storageDNAFile = self.data['DNA_TRIO'][1]
         self.dnaFile = self.data['DNA_TRIO'][2]
         self.dnaStore = DNAStorage()
-        loader.loadDNA('phase_4/dna/storage.xml').store(self.dnaStore)
-        loader.loadDNA(self.storageDNAFile).store(self.dnaStore)
-        loader.loadDNA(self.safeZoneStorageDNAFile).store(self.dnaStore)
-        sceneTree = loader.loadDNA(self.dnaFile)
-        node = sceneTree.generate(self.dnaStore)
-        self.sceneData = sceneTree.generateData()
+        files = ('phase_4/dna/storage.pdna', self.storageDNAFile, self.safeZoneStorageDNAFile)
+        dnaBulk = DNABulkLoader(self.dnaStore, files)
+        dnaBulk.loadDNAFiles()
+        node = loader.loadDNA(self.dnaStore, self.dnaFile)
         self.scene = hidden.attachNewNode(node)
         self.construct()
+        purchaseModels = loader.loadModel('phase_4/models/gui/purchase_gui')
         self.filmImage = loader.loadModel('phase_4/models/minigames/photogame_filmroll')
         self.filmImage.reparentTo(hidden)
         self.tripodModel = loader.loadModel('phase_4/models/minigames/toon_cannon')
@@ -148,7 +147,6 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.viewfinderNode.setDepthWrite(1)
         self.viewfinderNode.setDepthTest(1)
         self.viewfinderNode.setY(-1.0)
-        self.viewfinderNode.hide()
         self.screenSizeMult = 0.5
         self.screenSizeX = (base.a2dRight - base.a2dLeft) * self.screenSizeMult
         self.screenSizeZ = (base.a2dTop - base.a2dBottom) * self.screenSizeMult
@@ -252,7 +250,6 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.notify.debug('Onstage')
         DistributedMinigame.onstage(self)
         self.__createTripod()
-        self.viewfinderNode.show()
         self.tripod.reparentTo(render)
         self.tripod.hide()
         self.__loadToonInTripod(self.localAvId)
@@ -439,7 +436,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
                 newEntry = (entry.getFromNode(), object)
                 distance = Vec3(entry.getSurfacePoint(self.tripod)).lengthSquared()
                 name = entry.getFromNode().getName()
-                if not distDict.has_key(name):
+                if not name in distDict:
                     distDict[name] = distance
                     hitDict[name] = (entry.getFromNode(), object, marker)
                 elif distance < distDict[name]:
@@ -467,7 +464,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             else:
                 quality = 1
                 onCenter = 1
-            if not centerDict.has_key(superParent):
+            if superParent not in centerDict:
                 centerDict[superParent] = (onCenter,
                  overB,
                  overT,
@@ -631,7 +628,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             hMove = hMDegree * (1.0 - ZOOMRATIO)
             vMove = vMDegree * (1.0 - ZOOMRATIO)
             self.currentFov = self.zoomFov
-            base.camLens.setFov(self.zoomFov)
+            base.camLens.setMinFov(self.zoomFov/(4./3.))
             self.blackoutNode.show()
             self.swivel.setHpr(self.swivel, hMove * -self.zoomFlip, vMove * self.zoomFlip, 0)
         else:
@@ -639,7 +636,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             hMove = hMDegree * ((1.0 - ZOOMRATIO) / ZOOMRATIO)
             vMove = vMDegree * ((1.0 - ZOOMRATIO) / ZOOMRATIO)
             self.currentFov = self.outFov
-            base.camLens.setFov(self.outFov)
+            base.camLens.setMinFov(self.outFov/(4./3.))
             self.blackoutNode.hide()
             self.swivel.setHpr(self.swivel, hMove * self.zoomFlip, vMove * -self.zoomFlip, 0)
 
@@ -668,7 +665,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             hMove = hMDegree * (1.0 - ZOOMRATIO)
             vMove = vMDegree * (1.0 - ZOOMRATIO)
             self.currentFov = self.zoomFov
-            base.camLens.setFov(self.zoomFov)
+            base.camLens.setMinFov(self.zoomFov/(4./3.))
             self.blackoutNode.show()
             orgQuat = self.swivel.getQuat()
             self.swivel.setHpr(self.swivel, hMove * -self.zoomFlip, vMove * self.zoomFlip, 0)
@@ -677,7 +674,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             self.swivel.setQuat(orgQuat)
             zoomTrack = Parallel()
             zoomTrack.append(LerpQuatInterval(self.swivel, ZOOMTIME, newQuat))
-            zoomTrack.append(LerpFunc(base.camLens.setFov, fromData=self.outFov, toData=self.zoomFov, duration=ZOOMTIME))
+            zoomTrack.append(LerpFunc(base.camLens.setMinFov, fromData=self.outFov/(4./3.), toData=self.zoomFov/(4./3.), duration=ZOOMTIME))
             zoomTrack.append(LerpFunc(self.setBlackout, fromData=0.0, toData=0.5, duration=ZOOMTIME))
             self.cameraTrack.append(zoomTrack)
             self.cameraTrack.append(Func(self.finishZoom, 1))
@@ -686,7 +683,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             hMove = hMDegree * ((1.0 - ZOOMRATIO) / ZOOMRATIO)
             vMove = vMDegree * ((1.0 - ZOOMRATIO) / ZOOMRATIO)
             self.currentFov = self.outFov
-            base.camLens.setFov(self.outFov)
+            base.camLens.setMinFov(self.outFov/(4./3.))
             orgQuat = self.swivel.getQuat()
             self.swivel.setHpr(self.swivel, hMove * self.zoomFlip, vMove * -self.zoomFlip, 0)
             self.swivel.setR(0.0)
@@ -694,7 +691,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             self.swivel.setQuat(orgQuat)
             zoomTrack = Parallel()
             zoomTrack.append(LerpQuatInterval(self.swivel, ZOOMTIME, newQuat))
-            zoomTrack.append(LerpFunc(base.camLens.setFov, fromData=self.zoomFov, toData=self.outFov, duration=ZOOMTIME))
+            zoomTrack.append(LerpFunc(base.camLens.setMinFov, fromData=self.zoomFov/(4./3.), toData=self.outFov/(4./3.), duration=ZOOMTIME))
             zoomTrack.append(LerpFunc(self.setBlackout, fromData=0.5, toData=0.0, duration=ZOOMTIME))
             self.cameraTrack.append(zoomTrack)
             self.cameraTrack.append(Func(self.blackoutNode.hide))
@@ -731,7 +728,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.scenery.append(self.photoRoot)
         random.seed(time.time())
         namegen = NameGenerator.NameGenerator()
-        for pathIndex in range(len(self.data['PATHS'])):
+        for pathIndex in xrange(len(self.data['PATHS'])):
             path = self.data['PATHS'][pathIndex]
             subject = Toon.Toon()
             gender = random.choice(['m', 'f'])
@@ -745,7 +742,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             subject.setName(namegen.randomNameMoreinfo(boy=boy, girl=girl)[-1])
             self.nameCounter += 1
             subject.setPickable(0)
-            subject.setPlayerType(NametagGroup.CCSpeedChat)
+            subject.setPlayerType(NametagGlobals.CCSpeedChat)
             dna = ToonDNA.ToonDNA()
             dna.newToonRandom(seed, gender, 1)
             subject.setDNAString(dna.makeNetString())
@@ -1415,7 +1412,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.sky.find('**/cloud1').setBin('background', -99)
         self.sky.find('**/cloud2').setBin('background', -98)
         self.scene.reparentTo(render)
-        self.makeDictionaries(self.sceneData)
+        self.makeDictionaries(self.dnaStore)
         self.createAnimatedProps(self.nodeList)
         self.startAnimatedProps()
         #Causes a crash, disabling has seemingly no bad effect.
@@ -1439,7 +1436,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.sky.find('**/skypanel5').setBin('background', -94)
         self.sky.find('**/skypanel6').setBin('background', -93)
         self.scene.reparentTo(render)
-        self.makeDictionaries(self.sceneData)
+        self.makeDictionaries(self.dnaStore)
         self.createAnimatedProps(self.nodeList)
         self.startAnimatedProps()
         boatGeom = self.scene.find('**/donalds_boat')
@@ -1482,7 +1479,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
     def constructDG(self):
         self.photoRoot = render.attachNewNode('DG PhotoRoot')
         self.photoRoot.setPos(1.39, 92.91, 2.0)
-        self.bigFlower = loader.loadModel('phase_8/models/props/DG_flower-mod')
+        self.bigFlower = loader.loadModel('phase_8/models/props/DG_flower-mod.bam')
         self.bigFlower.reparentTo(self.photoRoot)
         self.bigFlower.setScale(2.5)
         self.sky = loader.loadModel('phase_3.5/models/props/TT_sky')
@@ -1500,7 +1497,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             maze.setTag('sceneryIndex', '%s' % len(self.scenery))
             self.scenery.append(maze)
 
-        self.makeDictionaries(self.sceneData)
+        self.makeDictionaries(self.dnaStore)
         self.createAnimatedProps(self.nodeList)
         self.startAnimatedProps()
 
@@ -1527,7 +1524,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.scene.find('**/doorFrameHoleLeft_1*').hide()
         self.scene.find('**/doorFrameHoleRight').hide()
         self.scene.find('**/doorFrameHoleLeft').hide()
-        self.makeDictionaries(self.sceneData)
+        self.makeDictionaries(self.dnaStore)
         self.createAnimatedProps(self.nodeList)
         self.startAnimatedProps()
         lm = self.scene.findAllMatches('**/*landmark*')
@@ -1550,7 +1547,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.scene.find('**/door_trigger_11*').hide()
         self.scene.find('**/doorFrameHoleRight_0*').hide()
         self.scene.find('**/doorFrameHoleLeft_0*').hide()
-        self.makeDictionaries(self.sceneData)
+        self.makeDictionaries(self.dnaStore)
         self.createAnimatedProps(self.nodeList)
         self.startAnimatedProps()
         self.snow = BattleParticles.loadParticleFile('snowdisk.ptf')
@@ -1581,7 +1578,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.scene.find('**/doorFrameHoleLeft_0*').hide()
         self.scene.find('**/doorFrameHoleRight_1*').hide()
         self.scene.find('**/doorFrameHoleLeft_1*').hide()
-        self.makeDictionaries(self.sceneData)
+        self.makeDictionaries(self.dnaStore)
         self.createAnimatedProps(self.nodeList)
         self.startAnimatedProps()
 
@@ -1589,11 +1586,12 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.stopAnimatedProps()
         self.deleteAnimatedProps()
 
-    def makeDictionaries(self, sceneData):
+    def makeDictionaries(self, dnaStore):
         self.nodeList = []
-        for visgroup in sceneData.visgroups:
-            groupName = base.cr.hoodMgr.extractGroupName(visgroup.name)
-            groupNode = self.scene.find('**/' + visgroup.name)
+        for i in xrange(dnaStore.getNumDNAVisGroups()):
+            groupFullName = dnaStore.getDNAVisGroupName(i)
+            groupName = base.cr.hoodMgr.extractGroupName(groupFullName)
+            groupNode = self.scene.find('**/' + groupFullName)
             if groupNode.isEmpty():
                 self.notify.error('Could not find visgroup')
             self.nodeList.append(groupNode)

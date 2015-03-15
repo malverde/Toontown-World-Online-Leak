@@ -13,7 +13,17 @@ from DNAFurnitureReaderAI import DNAFurnitureReaderAI
 from toontown.toonbase import ToontownGlobals
 import HouseGlobals
 import random
-# 2?
+# The house interior DNA files 
+houseInteriors = [
+    'phase_5.5/dna/house_interior3.pdna',
+    'phase_5.5/dna/house_interior4.pdna',
+    'phase_5.5/dna/house_interior5.pdna',
+    'phase_5.5/dna/house_interior7.pdna',
+    'phase_5.5/dna/house_interior8.pdna',
+    'phase_5.5/dna/house_interior10.pdna',
+]
+
+
 defaultWindows = [
     CatalogWindowItem(20, placement=2), CatalogWindowItem(20, placement=4)
 ]

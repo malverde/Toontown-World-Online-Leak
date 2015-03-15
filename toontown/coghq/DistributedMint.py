@@ -50,7 +50,8 @@ class DistributedMint(DistributedObject.DistributedObject):
 
     def gotAllRooms(self):
         self.notify.debug('mint %s: got all rooms' % self.doId)
-        self.roomWatcher.destroy()
+        if self.roomWatcher:
+            self.roomWatcher.destroy()
         self.roomWatcher = None
         self.geom = render.attachNewNode('mint%s' % self.doId)
         for doId in self.roomDoIds:

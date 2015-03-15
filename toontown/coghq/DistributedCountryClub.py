@@ -18,7 +18,7 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCountryClub')
     ReadyPost = 'CountryClubReady'
     WinEvent = 'CountryClubWinEvent'
-    doBlockRooms = config.GetBool('block-country-club-rooms', 1)
+    doBlockRooms = base.config.GetBool('block-country-club-rooms', 1)
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
@@ -98,8 +98,8 @@ class DistributedCountryClub(DistributedObject.DistributedObject):
     def gotAllRooms(self):
         self.notify.debug('countryClub %s: got all rooms' % self.doId)
         if self.roomWatcher:
-         self.roomWatcher.destroy()
-         self.roomWatcher = None
+            self.roomWatcher.destroy()
+            self.roomWatcher = None
         self.geom = render.attachNewNode('countryClub%s' % self.doId)
         for doId in self.roomDoIds:
             self.rooms.append(base.cr.doId2do[doId])

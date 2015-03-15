@@ -62,10 +62,23 @@ class GameMenu(DirectFrame):
             scale=0.36,
             relief=0,
             pos=(-0.8, 0, -0.7),
+<<<<<<< HEAD
             command=self.findFourSelected
         )
 
         #Text
+=======
+            command=self.findFourSelected)
+        if not config.GetBool('want-chinese', 0):
+            self.ChineseCheckers['command'] = self.doNothing
+            self.ChineseCheckers.setColor(0.7, 0.7, 0.7, 0.7)
+        if not config.GetBool('want-checkers', 0):
+            self.Checkers['command'] = self.doNothing
+            self.Checkers.setColor(0.7, 0.7, 0.7, 0.7)
+        if not config.GetBool('want-findfour', 0):
+            self.FindFour['command'] = self.doNothing
+            self.FindFour.setColor(0.7, 0.7, 0.7, 0.7)
+>>>>>>> feature/libpandadna
         self.chineseText = OnscreenText(
             text='Chinese Checkers',
             pos=(0, 0.56, -0.8),
@@ -102,6 +115,7 @@ class GameMenu(DirectFrame):
             mayChange=True)
         self.findFourText.setR(-8)
         self.checkersText.setR(8)
+<<<<<<< HEAD
 
         # We don't want the buttons to work if the config is disabled
         if not config.GetBool('want-chinese-table', True):
@@ -114,6 +128,8 @@ class GameMenu(DirectFrame):
             self.FindFour['command'] = self.doNothing
             self.FindFour.setColor(0.7, 0.7, 0.7, 0.7)
             
+=======
+>>>>>>> feature/libpandadna
         return
 
     def delete(self):
@@ -129,20 +145,32 @@ class GameMenu(DirectFrame):
         DirectFrame.destroy(self)
 
     def checkersSelected(self):
+<<<<<<< HEAD
         if self.picnicFunction:
             self.picnicFunction(1)
+=======
+        self.picnicFunction(1)
+>>>>>>> feature/libpandadna
         self.picnicFunction = None
         return
 
     def regCheckersSelected(self):
+<<<<<<< HEAD
         if self.picnicFunction:
             self.picnicFunction(2)
+=======
+        self.picnicFunction(2)
+>>>>>>> feature/libpandadna
         self.picnicFunction = None
         return
 
     def findFourSelected(self):
+<<<<<<< HEAD
         if self.picnicFunction:
             self.picnicFunction(3)
+=======
+        self.picnicFunction(3)
+>>>>>>> feature/libpandadna
         self.picnicFunction = None
         return
 

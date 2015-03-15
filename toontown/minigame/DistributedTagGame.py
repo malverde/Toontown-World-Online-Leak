@@ -89,7 +89,7 @@ class DistributedTagGame(DistributedMinigame):
         camera.setPosHpr(0, -24, 16, 0, -30, 0)
         base.camLens.setFar(450.0)
         base.transitions.irisIn(0.4)
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(True)
         DistributedSmoothNode.activateSmoothing(1, 1)
         self.IT = None
         return
@@ -97,7 +97,7 @@ class DistributedTagGame(DistributedMinigame):
     def offstage(self):
         self.notify.debug('offstage')
         DistributedSmoothNode.activateSmoothing(1, 0)
-        NametagGlobals.setMasterArrowsOn(0)
+        NametagGlobals.setWant2dNametags(False)
         DistributedMinigame.offstage(self)
         self.sky.reparentTo(hidden)
         self.ground.reparentTo(hidden)

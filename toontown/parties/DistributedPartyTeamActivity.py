@@ -19,7 +19,7 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
         self._maxPlayersPerTeam = 0
         self._minPlayersPerTeam = 0
         self._duration = 0
-        self._startDelay = config.GetFloat('party-team-activity-start-delay', startDelay)
+        self._startDelay = base.config.GetFloat('party-team-activity-start-delay', startDelay)
         self._willBalanceTeams = balanceTeams
         self._currentStatus = ''
         return
@@ -207,7 +207,7 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
             switchers = list(set(oldLeftTeam) & set(newRightTeam)) + list(set(oldRightTeam) & set(newLeftTeam))
         else:
             switchers = []
-        for i in range(len(PartyGlobals.TeamActivityTeams)):
+        for i in xrange(len(PartyGlobals.TeamActivityTeams)):
             persistentToons = set(oldToonIds[i]) & set(newToonIds[i])
             for toonId in persistentToons:
                 if oldToonIds[i].index(toonId) != newToonIds[i].index(toonId):
@@ -240,7 +240,7 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
         return len(self.toonIds[team])
 
     def getTeam(self, toonId):
-        for i in range(len(PartyGlobals.TeamActivityTeams)):
+        for i in xrange(len(PartyGlobals.TeamActivityTeams)):
             if self.toonIds[i].count(toonId) > 0:
                 return i
         else:

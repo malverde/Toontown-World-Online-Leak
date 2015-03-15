@@ -58,12 +58,13 @@ dc-file config/otp.dc
 want-pets #f
 want-news-tab #f
 want-news-page #f
-want-accessories #f
-want-parties #f
+want-accessories #t
+want-parties #t
 want-gardening #f
 want-gifting #t
 want-picnic-games #f
 want-chinese-table #f
+want-fishing #t
 want-checkers-table #f
 want-findfour-table #f
 # This is a temporary 'fix' for DistributedSmoothNodes... probably not the permanent solution to our problem, but it works for now.
@@ -98,5 +99,10 @@ mega-invasion-cog-type bs
 base-xp-multiplier 1
 #group merges
 boarding-group-merges #t
-force-skip-tutorial #f
+#other
+use-libpandadna #t
+
 want-speedhack-fix #t
+want-cogdominiums #f
+want-game-tables #f
+force-skip-tutorial #f

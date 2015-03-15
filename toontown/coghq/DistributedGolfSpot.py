@@ -21,8 +21,8 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
     toonGolfOffsetPos = Point3(-2, 0, -GolfGlobals.GOLF_BALL_RADIUS)
     toonGolfOffsetHpr = Point3(-90, 0, 0)
     rotateSpeed = 20
-    golfPowerSpeed = config.GetDouble('golf-power-speed', 3)
-    golfPowerExponent = config.GetDouble('golf-power-exponent', 0.75)
+    golfPowerSpeed = base.config.GetDouble('golf-power-speed', 3)
+    golfPowerExponent = base.config.GetDouble('golf-power-exponent', 0.75)
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
@@ -674,17 +674,17 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
         print entry
 
     def flyBallFinishedFlying(self, sequence):
-        if self.flyBallTracks.has_key(sequence):
+        if sequence in self.flyBallTracks:
             del self.flyBallTracks[sequence]
 
     def __finishFlyBallTrack(self, sequence):
-        if self.flyBallTracks.has_key(sequence):
+        if sequence in self.flyBallTracks:
             flyBallTrack = self.flyBallTracks[sequence]
             del self.flyBallTracks[sequence]
             flyBallTrack.finish()
 
     def flyBallFinishedSplatting(self, sequence):
-        if self.splatTracks.has_key(sequence):
+        if sequence in self.splatTracks:
             del self.splatTracks[sequence]
 
     def __flyBallHit(self, entry):
@@ -694,7 +694,7 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
             return
         sequence = int(entry.getFromNodePath().getNetTag('pieSequence'))
         self.__finishFlyBallTrack(sequence)
-        if self.splatTracks.has_key(sequence):
+        if sequence in self.splatTracks:
             splatTrack = self.splatTracks[sequence]
             del self.splatTracks[sequence]
             splatTrack.finish()

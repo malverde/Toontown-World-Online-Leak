@@ -3,7 +3,7 @@ from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.directnotify import DirectNotifyGlobal
 from otp.avatar import DistributedAvatar
-from otp.nametag import NametagGlobals
+from toontown.nametag import NametagGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.battle import BattleExperience
@@ -937,7 +937,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         self.transitions.IrisModelName = 'phase_3/models/misc/iris'
         self.transitions.FadeModelName = 'phase_3/models/misc/fade'
         self.transitions.fadeScreen(alpha=1)
-        NametagGlobals.setMasterArrowsOn(0)
+        NametagGlobals.setWant2dNametags(False)
 
     def __doneWaitForToons(self):
         self.doneBarrier('WaitForToons')
@@ -946,7 +946,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         self.show()
         self.transitions.noFade()
         del self.transitions
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(True)
 
     def enterElevator(self):
         for toonId in self.involvedToons:
@@ -996,7 +996,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         self.clearInterval(intervalName)
         self.unstickToons()
         self.releaseToons()
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(True)
         ElevatorUtils.closeDoors(self.leftDoor, self.rightDoor, self.elevatorType)
 
     def enterBattleOne(self):
@@ -1019,8 +1019,8 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         self.accept('clickedNametag', self.__clickedNameTag)
         self.accept('friendAvatar', self.__handleFriendAvatar)
         self.accept('avatarDetails', self.__handleAvatarDetails)
-        NametagGlobals.setMasterArrowsOn(0)
-        NametagGlobals.setMasterNametagsActive(1)
+        NametagGlobals.setWant2dNametags(False)
+        NametagGlobals.setWantActiveNametags(True)
 
     def exitBattleThree(self):
         self.ignore('clickedNameTag')
@@ -1067,8 +1067,8 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         self.accept('clickedNametag', self.__clickedNameTag)
         self.accept('friendAvatar', self.__handleFriendAvatar)
         self.accept('avatarDetails', self.__handleAvatarDetails)
-        NametagGlobals.setMasterArrowsOn(0)
-        NametagGlobals.setMasterNametagsActive(1)
+        NametagGlobals.setWant2dNametags(False)
+        NametagGlobals.setWantActiveNametags(True)
 
     def exitBattleFour(self):
         self.ignore('clickedNameTag')

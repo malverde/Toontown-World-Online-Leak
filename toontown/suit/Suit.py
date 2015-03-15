@@ -3,16 +3,18 @@ from otp.avatar import Avatar
 import SuitDNA
 from toontown.toonbase import ToontownGlobals
 from pandac.PandaModules import *
-from otp.nametag.NametagGroup import NametagGroup
 from toontown.battle import SuitBattleGlobals
+from toontown.nametag import NametagGlobals
+from toontown.nametag import NametagGroup
 from direct.task.Task import Task
 from toontown.battle import BattleProps
 from toontown.toonbase import TTLocalizer
 from pandac.PandaModules import VirtualFileMountHTTP, VirtualFileSystem, Filename, DSearchPath
 from direct.showbase import AppRunnerGlobal
+from toontown.nametag import NametagGroup
 import string
-from toontown.suit import SuitGlobals
 import os
+from toontown.suit import SuitGlobals
 
 aSize = 6.06
 bSize = 5.29
@@ -341,8 +343,7 @@ class Suit(Avatar.Avatar):
 
         Avatar.Avatar.__init__(self)
         self.setFont(ToontownGlobals.getSuitFont())
-        self.setSpeechFont(ToontownGlobals.getSuitFont())
-        self.setPlayerType(NametagGroup.CCSuit)
+        self.setPlayerType(NametagGlobals.CCSuit)
         self.setPickable(1)
         self.leftHand = None
         self.rightHand = None
@@ -570,7 +571,7 @@ class Suit(Avatar.Avatar):
             self.headParts.append(headPart)
 
         headModel.removeNode()
-        
+
     def generateCorporateTie(self, modelPath = None):
         if not modelPath:
             modelPath = self

@@ -16,7 +16,7 @@ from toontown.tutorial import TutorialForceAcknowledge
 from toontown.toonbase.ToontownGlobals import *
 from toontown.building import ToonInterior
 from toontown.hood import QuietZoneState
-from toontown.dna.DNAParser import *
+from libpandadna.DNAParser import *
 from direct.stdpy.file import *
 
 class SafeZoneLoader(StateData.StateData):
@@ -64,6 +64,10 @@ class SafeZoneLoader(StateData.StateData):
         self.fsm.enterInitialState()
         messenger.send('enterSafeZone')
         self.setState(requestStatus['where'], requestStatus)
+        if not base.config.GetBool('want-parties', True):
+            partyGate = self.geom.find('**/prop_party_gate_DNARoot')
+            if not partyGate.isEmpty():
+                partyGate.removeNode()
 
     def exit(self):
         messenger.send('exitSafeZone')
@@ -72,43 +76,46 @@ class SafeZoneLoader(StateData.StateData):
         self.fsm.request(stateName, [requestStatus])
 
     def createSafeZone(self, dnaFile):
-        '''self.geom = NodePath('')
-        self.nodeList = []
-        self.holidayPropTransforms = {}
-        self.animPropDict = {}'''
         if self.safeZoneStorageDNAFile:
-            loader.loadDNA(self.safeZoneStorageDNAFile).store(self.hood.dnaStore)
-        sceneTree = loader.loadDNA(dnaFile)
-        node = sceneTree.generate(self.hood.dnaStore)
-        base.cr.playGame.dnaData = sceneTree.generateData()
+            dnaBulk = DNABulkLoader(self.hood.dnaStore, (self.safeZoneStorageDNAFile,))
+            dnaBulk.loadDNAFiles()
+        node = loadDNAFile(self.hood.dnaStore, dnaFile)
         if node.getNumParents() == 1:
             self.geom = NodePath(node.getParent(0))
             self.geom.reparentTo(hidden)
         else:
             self.geom = hidden.attachNewNode(node)
-        self.makeDictionaries(sceneTree)
+        self.makeDictionaries(self.hood.dnaStore)
         self.createAnimatedProps(self.nodeList)
         self.holidayPropTransforms = {}
         npl = self.geom.findAllMatches('**/=DNARoot=holiday_prop')
-        for i in range(npl.getNumPaths()):
+        for i in xrange(npl.getNumPaths()):
             np = npl.getPath(i)
             np.setTag('transformIndex', `i`)
             self.holidayPropTransforms[i] = np.getNetTransform()
-
-        self.geom.flattenMedium()
         gsg = base.win.getGsg()
         if gsg:
             self.geom.prepareScene(gsg)
+        self.geom.flattenMedium()
 
-    def makeDictionaries(self, sceneTree):
+
+    def makeDictionaries(self, dnaStore):
         self.nodeList = []
-        for visgroup in base.cr.playGame.dnaData.visgroups:
-            groupNode = self.geom.find('**/' + visgroup.name)
+        for i in xrange(dnaStore.getNumDNAVisGroups()):
+            groupFullName = dnaStore.getDNAVisGroupName(i)
+            groupName = base.cr.hoodMgr.extractGroupName(groupFullName)
+            groupNode = self.geom.find('**/' + groupFullName)
             if groupNode.isEmpty():
                 self.notify.error('Could not find visgroup')
+            groupNode.flattenMedium()
             self.nodeList.append(groupNode)
 
         self.removeLandmarkBlockNodes()
+        self.hood.dnaStore.resetPlaceNodes()
+        self.hood.dnaStore.resetDNAGroups()
+        self.hood.dnaStore.resetDNAVisGroups()
+        self.hood.dnaStore.resetDNAVisGroupsAI()
+
 
     def removeLandmarkBlockNodes(self):
         npc = self.geom.findAllMatches('**/suit_building_origin')

@@ -8,22 +8,22 @@ import xml.etree.ElementTree as ET
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--build-dir', default='build',
-                    help='The directory of the Toontown Infinite build.')
+                    help='The directory of the Toontown World build.')
 parser.add_argument('--dest-dir', default='.',
                     help='The directory in which to store the patcher.')
 parser.add_argument('--output', default='patcher.xml',
                     help='The name of the output file.')
-parser.add_argument('--launcher-version', default='infinite-dev',
-                    help='The current version of the Toontown Infinite launcher.')
-parser.add_argument('--account-server', default='toontowninfinite.com',
+parser.add_argument('--launcher-version', default='1.0',
+                    help='The current version of the Toontown World launcher.')
+parser.add_argument('--account-server', default='toontownworldonline.com',
                     help='The address of the Toontown Infinite account server.')
-parser.add_argument('--client-agent', default='192.99.200.107',
-                    help='The IP address of the Client Agent to connect to.')
-parser.add_argument('--server-version', default='infinite-dev',
-                    help='The current version of the Toontown Infinite game.')
+parser.add_argument('--client-agent', default='ip',
+                    help='The IP address of the game to connect to.')
+parser.add_argument('--server-version', default='',
+                    help='The current version of the Toontown World game.')
 parser.add_argument('--resources-revision', default='',
                     help='The current revision of the resources repository.')
-parser.add_argument('includes', nargs='*', default=['GameData.bin'],
+parser.add_argument('includes', nargs='*', default=['GameData.so, GameData.pyd'],
                     help='The files to include in the main directory.')
 args = parser.parse_args()
 

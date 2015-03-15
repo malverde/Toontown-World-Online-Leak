@@ -19,8 +19,9 @@ OverTankLimit = 8
 FishItemNewEntry = 9
 FishItemNewRecord = 10
 BingoBoot = (BootItem, 99)
-ProbabilityDict = {93: FishItem,
- 94: JellybeanItem,
+ProbabilityDict = {94: FishItem,
+                   92: QuestItem,
+ 95: JellybeanItem,
  100: BootItem}
 SortedProbabilityCutoffs = ProbabilityDict.keys()
 SortedProbabilityCutoffs.sort()
@@ -720,12 +721,12 @@ for rodIndex in __rodDict:
 __anywhereDict = copy.deepcopy(__emptyRodDict)
 __pondInfoDict = {}
 for genus, speciesList in __fishDict.items():
-    for species in range(len(speciesList)):
+    for species in xrange(len(speciesList)):
         __totalNumFish += 1
         speciesDesc = speciesList[species]
         rarity = speciesDesc[RARITY_INDEX]
         zoneList = speciesDesc[ZONE_LIST_INDEX]
-        for zoneIndex in range(len(zoneList)):
+        for zoneIndex in xrange(len(zoneList)):
             zone = zoneList[zoneIndex]
             effectiveRarity = getEffectiveRarity(rarity, zoneIndex)
             if zone == Anywhere:
@@ -740,7 +741,7 @@ for genus, speciesList in __fishDict.items():
                 if subZones:
                     pondZones.extend(subZones)
                 for pondZone in pondZones:
-                    if __pondInfoDict.has_key(pondZone):
+                    if pondZone in __pondInfoDict:
                         rodDict = __pondInfoDict[pondZone]
                     else:
                         rodDict = copy.deepcopy(__emptyRodDict)
@@ -776,7 +777,7 @@ def testRarity(rodId = 0, numIter = 100000):
      8: 0,
      9: 0,
      10: 0}
-    for i in range(numIter):
+    for i in xrange(numIter):
         v = __rollRarityDice(rodId)
         d[v] += 1
 
@@ -843,10 +844,10 @@ def generateFishingReport(numCasts = 10000, hitRate = 0.8):
     for pond in __pondInfoDict:
         totalPondMoney[pond] = 0
         totalPondBaitCost[pond] = 0
-        for rod in range(MaxRodId + 1):
+        for rod in xrange(MaxRodId + 1):
             totalRodMoney.setdefault(rod, 0)
             baitCost = getCastCost(rod)
-            for cast in range(numCasts):
+            for cast in xrange(numCasts):
                 totalPondBaitCost[pond] += baitCost
                 if random.random() > hitRate:
                     continue
@@ -870,7 +871,7 @@ def generateFishingReport(numCasts = 10000, hitRate = 0.8):
     numPonds = len(totalPondMoney)
     for pond, money in totalPondMoney.items():
         baitCost = 0
-        for rod in range(MaxRodId + 1):
+        for rod in xrange(MaxRodId + 1):
             baitCost += getCastCost(rod)
 
         totalCastCost = baitCost * numCasts

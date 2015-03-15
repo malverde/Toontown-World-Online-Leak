@@ -39,23 +39,9 @@ class DDHood(ToonHood.ToonHood):
     def exit(self):
         ToonHood.ToonHood.exit(self)
 
-    def setUnderwaterFog(self):
-        if base.wantFog:
-            self.fog.setColor(self.underwaterFogColor)
-            self.fog.setLinearRange(0.1, 100.0)
-            render.setFog(self.fog)
-            self.sky.setFog(self.fog)
+        self.underwaterFogColor = Vec4(0.0, 0.0, 0.6, 1.0)
+        
+    def load(self):
+        ToonHood.load(self)
 
-    def setWhiteFog(self):
-        if base.wantFog:
-            self.fog.setColor(self.whiteFogColor)
-            self.fog.setLinearRange(0.0, 400.0)
-            render.clearFog()
-            render.setFog(self.fog)
-            self.sky.clearFog()
-            self.sky.setFog(self.fog)
-
-    def setNoFog(self):
-        if base.wantFog:
-            render.clearFog()
-            self.sky.clearFog()
+       # self.fog = Fog('DDFog')

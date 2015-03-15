@@ -215,7 +215,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.sendSetAvatarIdMsg(0)
         self.clearFriendState()
         if self.music == None and base.musicManagerIsValid:
-            self.music = base.musicManager.getSound('phase_3/audio/bgm/ttr_theme.ogg')
+            self.music = base.musicManager.getSound('phase_3/audio/bgm/ttw_theme.ogg')
             if self.music:
                 self.music.setLoop(1)
                 self.music.setVolume(0.9)
@@ -350,7 +350,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     def handleAvatarResponseMsg(self, avatarId, di):
         self.cleanupWaitingForDatabase()
         dclass = self.dclassesByName['DistributedToon']
-        NametagGlobals.setMasterArrowsOn(0)
+        NametagGlobals.setWant2dNametags(False)
         loader.beginBulkLoad('localAvatarPlayGame', OTPLocalizer.CREnteringToontown, 400, 1, TTLocalizer.TIP_GENERAL, 0)
         localAvatar = LocalToon.LocalToon(self)
         localAvatar.dclass = dclass
@@ -373,36 +373,22 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.loginFSM.request('playingGame')
 
     def getAvatarDetails(self, avatar, func, *args):
-        avId = avatar.doId
-        if avId in self.doId2do:
-            func(1, self.doId2do[avId], *args)
-            return
-
         pad = ScratchPad()
         pad.func = func
         pad.args = args
         pad.avatar = avatar
         pad.delayDelete = DelayDelete.DelayDelete(avatar, 'getAvatarDetails')
-        self.__queryAvatarMap[avId] = pad
-        self.__sendGetAvatarDetails(avId)
+        self.__queryAvatarMap[avatar.doId] = pad
+        self.__sendGetAvatarDetails(avatar.doId)
 
     def cancelAvatarDetailsRequest(self, avatar):
         avId = avatar.doId
-        if self.__queryAvatarMap.has_key(avId):
+        if avId in self.__queryAvatarMap:
             pad = self.__queryAvatarMap.pop(avId)
             pad.delayDelete.destroy()
 
     def __sendGetAvatarDetails(self, avId):
-        #return
-
         self.ttrFriendsManager.d_getAvatarDetails(avId)
-
-        return
-        datagram = PyDatagram()
-        avatar = self.__queryAvatarMap[avId].avatar
-        datagram.addUint16(avatar.getRequestID())
-        datagram.addUint32(avId)
-        self.send(datagram)
 
     def n_handleGetAvatarDetailsResp(self, avId, fields):
         self.notify.info('Query reponse for avId %d' % avId)
