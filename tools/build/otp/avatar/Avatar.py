@@ -47,7 +47,6 @@ class Avatar(Actor, ShadowCaster):
         self.nametag = NametagGroup()
         self.nametag.setAvatar(self)
         self.nametag.setFont(OTPGlobals.getInterfaceFont())
-        self.nametag.setSpeechFont(OTPGlobals.getInterfaceFont())
         self.nametag2dContents = Nametag.CName | Nametag.CSpeech
         self.nametag2dDist = Nametag.CName | Nametag.CSpeech
         self.nametag2dNormalContents = Nametag.CName | Nametag.CSpeech
