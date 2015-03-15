@@ -8,6 +8,7 @@ from toontown.building import HQBuildingAI
 from toontown.building import KartShopBuildingAI
 from toontown.building import PetshopBuildingAI
 from toontown.hood import ZoneUtil
+from direct.directnotify.DirectNotifyGlobal import *
 import time
 import random
 

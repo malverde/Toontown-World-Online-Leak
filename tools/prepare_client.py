@@ -13,13 +13,13 @@ parser.add_argument('--build-dir', default='build',
                     help='The directory in which to store the build files.')
 parser.add_argument('--src-dir', default='..',
                     help='The directory of the Toontown source code.')
-parser.add_argument('--server-ver', default='dev',
+parser.add_argument('--server-ver', default='ttw-pre-alpha-dev-build-2.5.0',
                     help='The server version of this build.\n')
 parser.add_argument('--build-mfs', action='store_true',
                     help='When present, multifiles will be built.')
 parser.add_argument('--resources-dir', default='../resources',
                     help='The directory of the Toontown resources.')
-parser.add_argument('modules', nargs='*', default=['otp', 'toontown'],
+parser.add_argument('modules', nargs='*', default=['otp', 'toontown', 'libpandadna'],
                     help='The Toontown modules to be included in the build.')
 args = parser.parse_args()
 
@@ -108,7 +108,7 @@ for module in args.modules:
 # PRC file data, (stripped) DC file, and time zone info.
 
 # First, we need the PRC file data:
-configFileName = 'public_client.prc'
+configFileName = 'dev.prc'
 configData = []
 with open(os.path.join(args.src_dir, 'config', configFileName)) as f:
     data = f.read()
