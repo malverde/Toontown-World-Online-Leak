@@ -276,7 +276,7 @@ class DistributedPartyCannon(DistributedObject, Cannon):
                     place.fsm.request('walk')
             av.setPlayRate(1.0, 'run')
             if av.nametag and self.toonHead:
-                av.nametag.removeNametag(self.toonHead.tag)
+                av.nametag.remove(self.toonHead.tag)
             if av.getParent().getName() == 'toonOriginChange':
                 av.wrtReparentTo(render)
                 self.__setToonUpright(av)

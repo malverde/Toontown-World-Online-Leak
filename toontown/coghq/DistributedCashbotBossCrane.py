@@ -407,7 +407,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         taskMgr.add(self.__watchControls, 'watchCraneControls')
         taskMgr.doMethodLater(5, self.__displayCraneAdvice, self.craneAdviceName)
         taskMgr.doMethodLater(10, self.__displayMagnetAdvice, self.magnetAdviceName)
-        NametagGlobals.setOnscreenChatForced(1)
+        NametagGlobals.setForceOnscreenChat(True)
         self.arrowVert = 0
         self.arrowHorz = 0
         return
@@ -428,7 +428,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.ignore('InputState-turnRight')
         self.arrowVert = 0
         self.arrowHorz = 0
-        NametagGlobals.setOnscreenChatForced(0)
+        NametagGlobals.setForceOnscreenChat(False)
         taskMgr.remove('watchCraneControls')
         self.__setMoveSound(None)
         return

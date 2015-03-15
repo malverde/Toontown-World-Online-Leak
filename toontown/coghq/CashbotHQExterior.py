@@ -54,6 +54,7 @@ class CashbotHQExterior(CogHQExterior.CogHQExterior):
 
     def enter(self, requestStatus):
         CogHQExterior.CogHQExterior.enter(self, requestStatus)
+
         for train in self.trains:
             train.show()
 

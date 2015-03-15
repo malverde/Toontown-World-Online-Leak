@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from pandac.PandaModules import *
-from otp.nametag.NametagFloat3d import NametagFloat3d
-from otp.nametag.Nametag import Nametag
+from toontown.nametag.NametagFloat3d import NametagFloat3d
+from toontown.nametag.Nametag import Nametag
 from toontown.toonbase.ToonBaseGlobal import *
 from DistributedMinigame import *
 from direct.distributed.ClockDelta import *
@@ -199,7 +199,7 @@ class DistributedCannonGame(DistributedMinigame):
             if av:
                 av.loop('neutral')
                 av.setPlayRate(1.0, 'run')
-                av.nametag.removeNametag(head.tag)
+                av.nametag.remove(head.tag)
             head.delete()
 
         del self.toonHeadDict
@@ -346,10 +346,11 @@ class DistributedCannonGame(DistributedMinigame):
         self.toonHeadDict[avId] = head
         toon = self.getAvatar(avId)
         tag = NametagFloat3d()
-        tag.setContents(Nametag.CSpeech | Nametag.CThought)
+        tag.hideNametag()
+        tag.update()
         tag.setBillboardOffset(0)
         tag.setAvatar(head)
-        toon.nametag.addNametag(tag)
+        toon.nametag.add(tag)
         tagPath = head.attachNewNode(tag)
         tagPath.setPos(0, 0, 1)
         head.tag = tag

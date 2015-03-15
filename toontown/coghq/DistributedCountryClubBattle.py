@@ -31,7 +31,7 @@ class DistributedCountryClubBattle(DistributedLevelBattle.DistributedLevelBattle
         self.disableCollision()
         self.delayDeleteMembers()
         if self.hasLocalToon():
-            NametagGlobals.setMasterArrowsOn(0)
+            NametagGlobals.setWant2dNametags(False)
             if self.bossBattle:
                 messenger.send('localToonConfrontedCountryClubBoss')
         self.movie.playReward(ts, self.uniqueName('building-reward'), self.__handleCountryClubRewardDone, noSkip=True)

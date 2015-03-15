@@ -1,4 +1,7 @@
 import toontown.minigame.MinigameCreatorAI
+from direct.distributed.PyDatagram import *
+
+from pandac.PandaModules import *
 from toontown.distributed.ToontownDistrictAI import ToontownDistrictAI
 from toontown.distributed.ToontownDistrictStatsAI import ToontownDistrictStatsAI
 from toontown.distributed.ShardStatus import ShardStatusSender
@@ -14,8 +17,7 @@ from toontown.hood import SellbotHQAI, CashbotHQAI, LawbotHQAI, BossbotHQAI
 from toontown.toonbase import ToontownGlobals
 from direct.distributed.PyDatagram import *
 from otp.ai.AIZoneData import *
-from toontown.dna import DNAParser
-from toontown.dna.DNASpawnerAI import DNASpawnerAI
+from libpandadna.DNAParser import loadDNAFileAI
 from direct.stdpy.file import open
 import time
 import random
@@ -71,15 +73,18 @@ class ToontownAIRepository(ToontownInternalRepository):
     def __init__(self, baseChannel, serverId, districtName):
         ToontownInternalRepository.__init__(self, baseChannel, serverId, dcSuffix='AI')
 
-        self.dnaSpawner = DNASpawnerAI(self)
 
         self.districtName = districtName
+        
+        self.notify.setInfo(True)  #Yay this should fix logging :D 
 
         self.zoneAllocator = UniqueIdAllocator(ToontownGlobals.DynamicZonesBegin,
                                                ToontownGlobals.DynamicZonesEnd)
         self.zoneId2owner = {}
 
         NPCToons.generateZone2NpcDict()
+        
+        self.use_libpandadna = simbase.config.GetBool('use-libpandadna', False)
 
         self.hoods = []
         self.zoneDataStore = AIZoneDataStore()
@@ -111,7 +116,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.statusSender = ShardStatusSender(self)
 
         self.dnaStoreMap = {}
-
+	self.dnaDataMap = {}
         self.buildingManagers = {}
         self.suitPlanners = {}
 
@@ -237,8 +242,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         clearQueue()
         self.hoods.append(GZHoodAI.GZHoodAI(self))
         clearQueue()
-        self.hoods.append(TFHoodAI.TFHoodAI(self))
-        clearQueue()
+        #self.hoods.append(TFHoodAI.TFHoodAI(self))
+        #clearQueue()
 
         if config.GetBool('want-sbhq', True):
             self.hoods.append(SellbotHQAI.SellbotHQAI(self))
@@ -269,14 +274,10 @@ class ToontownAIRepository(ToontownInternalRepository):
         else:
             phase = ToontownGlobals.streetPhaseMap[hoodId]
 
-        return 'phase_%s/dna/%s_%s.xml' % (phase, hood, zoneId)
-
-    def loadDNA(self, filename):
-        with open('/' + filename) as f:
-            tree = DNAParser.parse(f)
-
-        return tree
-
+        return 'phase_%s/dna/%s_%s.pdna' % (phase, hood, zoneId)
+        
+    def loadDNA(self, dnastore, filename):
+        return loadDNAFileAI(dnastore, filename)		
 
 @magicWord(category=CATEGORY_SYSADMIN, types=[str, int])
 def pstats(host='localhost', port=5185):

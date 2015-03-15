@@ -5,7 +5,6 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.fsm.FSM import FSM
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import DirectFrame, DirectButton, DirectLabel, DirectScrolledList, DirectCheckButton
-from direct.gui import DirectGuiGlobals
 from direct.showbase import DirectObject
 from direct.showbase import PythonUtil
 from pandac.PandaModules import *
@@ -22,6 +21,7 @@ from toontown.parties import PartyGlobals
 from toontown.parties import PartyUtils
 from toontown.parties.CalendarGuiMonth import CalendarGuiMonth
 from toontown.parties.InviteVisual import InviteVisual
+from toontown.parties.PartyEditor import PartyEditor
 from toontown.parties.PartyInfo import PartyInfo
 from toontown.parties.ScrolledFriendList import ScrolledFriendList
 from toontown.toon import ToonHead

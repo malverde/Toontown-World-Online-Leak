@@ -25,8 +25,48 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         self.reparentTo(render)
         self.boardNode = loader.loadModel('phase_6/models/golf/findfour_game')
         self.boardNode.reparentTo(self)
-        self.board = [[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]]
+        self.board = [[0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0],
+         [0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0],
+         [0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0],
+         [0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0],
+         [0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0],
+         [0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0]]
         self.exitButton = None
         self.inGame = False
         self.waiting = True
@@ -76,7 +116,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         from direct.fsm import ClassicFSM, State
         self.fsm = ClassicFSM.ClassicFSM('ChineseCheckers', [State.State('waitingToBegin', self.enterWaitingToBegin, self.exitWaitingToBegin, ['playing', 'gameOver']), State.State('playing', self.enterPlaying, self.exitPlaying, ['gameOver']), State.State('gameOver', self.enterGameOver, self.exitGameOver, ['waitingToBegin'])], 'waitingToBegin', 'waitingToBegin')
         startLoc = self.boardNode.find('**/locators')
-        self.locatorList = list(startLoc.getChildren())
+        self.locatorList = startLoc.getChildren()
         self.startingPositions = self.locatorList.pop(0)
         self.startingPositions = self.startingPositions.getChildren()
         instancePiece = self.boardNode.find('**/pieces')

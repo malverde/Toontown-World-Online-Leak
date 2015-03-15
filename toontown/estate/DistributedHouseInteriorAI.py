@@ -8,7 +8,7 @@ from toontown.catalog.CatalogMouldingItem import CatalogMouldingItem
 from toontown.catalog.CatalogFlooringItem import CatalogFlooringItem
 from toontown.catalog.CatalogWainscotingItem import CatalogWainscotingItem
 from toontown.catalog.CatalogFurnitureItem import CatalogFurnitureItem
-from toontown.dna.DNAParser import *
+from libpandadna.DNAParser import *
 from DNAFurnitureReaderAI import DNAFurnitureReaderAI
 from toontown.toonbase import ToontownGlobals
 import HouseGlobals
@@ -65,16 +65,14 @@ class DistributedHouseInteriorAI(DistributedObjectAI):
 
     def initialize(self):
         # Get DNA file appropriate to this house...
-        interior = random.choice(HouseGlobals.interiors)
-        
-        dnaFile = interior[0]
-        phonePos = interior[4]
+        dnaFile = houseInteriors[self.houseIndex]
 
         # Load DNA...
-        dnaData = self.air.loadDNA(dnaFile)
+        dnaStorage = DNAStorage()
+        dnaData = loadDNAFileAI(dnaStorage, dnaFile)
 
         # Read it into furniture...
-        furnitureReader = DNAFurnitureReaderAI(dnaData, phonePos)
+        furnitureReader = DNAFurnitureReaderAI(dnaData, [-11, 2, 0, 0, 0, 0])
 
         # Set furniture:
         self.furnitureManager.setItems(furnitureReader.getBlob())

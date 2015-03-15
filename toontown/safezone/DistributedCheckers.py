@@ -586,7 +586,8 @@ class DistributedCheckers(DistributedNode.DistributedNode):
         for xx in range(32):
             for blah in self.locatorList[xx].getChildren():
                 blah.hide()
-                blah1 = blah.find('**/checker_k*')
+                if self.locatorList[xx].getChildren().index(blah) != 0:
+                    blah1 = blah.find('**/checker_k*')
 
             owner = self.board.squareList[xx].getState()
             if owner == self.playerNum:

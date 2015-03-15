@@ -9,13 +9,11 @@ from direct.distributed import DistributedObject
 import random
 import ToonInteriorColors
 from toontown.hood import ZoneUtil
-from otp.nametag.NametagConstants import CFSpeech, CFTimeout, CFThought
 from toontown.suit import SuitDNA
 from toontown.suit import Suit
 from toontown.quest import QuestParser
-from toontown.dna.DNAStorage import DNAStorage
-from toontown.dna.DNADoor import DNADoor
-
+from libpandadna.DNAParser import *
+from toontown.chat.ChatGlobals import CFSpeech
 class DistributedTutorialInterior(DistributedObject.DistributedObject):
 
     def __init__(self, cr):
@@ -86,7 +84,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         self.interior = loader.loadModel('phase_3.5/models/modules/toon_interior_tutorial')
         self.interior.reparentTo(render)
         dnaStore = DNAStorage()
-        node = loader.loadDNA('phase_3.5/dna/tutorial_street.xml').generate(self.dnaStore)
+        node = loader.loadDNA('phase_3.5/dna/tutorial_street.pdna').generate(self.dnaStore)
         self.street = render.attachNewNode(node)
         self.street.flattenMedium()
         self.street.setPosHpr(-17, 42, -0.5, 180, 0, 0)
@@ -126,10 +124,10 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         npcOrigin = self.interior.find('**/npc_origin_' + `(self.npc.posIndex)`)
         if not npcOrigin.isEmpty():
             self.npc.reparentTo(npcOrigin)
-            self.npc.clearMat()
+            self.npc.clearMat()            
         self.createSuit()
         base.localAvatar.setPosHpr(-2, 12, 0, -10, 0, 0)
-        self.cr.doId2do[self.npcId].setChatAbsolute(TTLocalizer.QuestScriptTutorialMickey_4, CFSpeech)        
+        self.cr.doId2do[self.npcId].setChatAbsolute(TTLocalizer.QuestScriptTutorialMickey_4, CFSpeech)      
         place = base.cr.playGame.getPlace()
         if place and hasattr(place, 'fsm') and place.fsm.getCurrentState().getName():
             self.notify.info('Tutorial movie: Place ready.')
@@ -141,13 +139,15 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
             self.acceptOnce('enterTutorialInterior', self.playMovie)
 
     def playMovie(self):
+    	
         self.notify.info('Tutorial movie: Play.')
-
     def createSuit(self):
         self.suit = Suit.Suit()
         suitDNA = SuitDNA.SuitDNA()
         suitDNA.newSuit('f')
         self.suit.setDNA(suitDNA)
+        self.suit.nametag.setNametag2d(None)
+        self.suit.nametag.setNametag3d(None)
         self.suit.loop('neutral')
         self.suit.setPosHpr(-20, 8, 0, 0, 0, 0)
         self.suit.reparentTo(self.interior)

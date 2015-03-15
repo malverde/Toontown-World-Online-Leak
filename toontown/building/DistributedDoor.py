@@ -97,18 +97,22 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             return
         if self.nametag == None:
             self.nametag = NametagGroup()
+            self.nametag.setNametag3d(None)
             self.nametag.setFont(ToontownGlobals.getBuildingNametagFont())
             if TTLocalizer.BuildingNametagShadow:
                 self.nametag.setShadow(*TTLocalizer.BuildingNametagShadow)
-            self.nametag.setContents(Nametag.CName)
-            self.nametag.setColorCode(NametagGroup.CCToonBuilding)
-            self.nametag.setActive(0)
+            self.nametag.hideChat()
+            self.nametag.hideThought()
+            nametagColor = NametagGlobals.NametagColors[NametagGlobals.CCToonBuilding]
+            self.nametag.setNametagColor(nametagColor)
+            self.nametag.setActive(False)
             self.nametag.setAvatar(self.getDoorNodePath())
             
             name = self.cr.playGame.dnaStore.getTitleFromBlockNumber(self.block)
             self.nametag.setText(name)
             self.nametag.manage(base.marginManager)
-        return
+            self.nametag.updateAll()
+        
 
     def clearNametag(self):
         if self.nametag != None:

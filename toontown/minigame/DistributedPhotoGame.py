@@ -295,8 +295,8 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.traverser = CollisionTraverser('traverser name')
         self.rayArray = []
         vRange = (GOODROWS - BADROWS) / 2
-        for row in range(-(GOODROWS / 2), GOODROWS / 2 + 1):
-            for column in range(-(GOODROWS / 2), GOODROWS / 2 + 1):
+        for row in xrange(-(GOODROWS / 2), GOODROWS / 2 + 1):
+            for column in xrange(-(GOODROWS / 2), GOODROWS / 2 + 1):
                 goodRange = range(-((GOODROWS - BADROWS) / 2), (GOODROWS - BADROWS) / 2 + 1)
                 rayQuality = 'g'
                 if row not in goodRange or column not in goodRange:
@@ -411,7 +411,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         distDict = {}
         hitDict = {}
         centerDict = {}
-        for i in range(self.queue.getNumEntries()):
+        for i in xrange(self.queue.getNumEntries()):
             entry = self.queue.getEntry(i)
             object = None
             objectIndex = None
@@ -888,7 +888,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         DistributedMinigame.setGameStart(self, timestamp)
         self.__stopIntro()
         self.__putCameraOnTripod()
-        if not config.GetBool('endless-cannon-game', 0):
+        if not base.config.GetBool('endless-cannon-game', 0):
             self.timer.show()
             self.timer.countdown(self.data['TIME'], self.__gameTimerExpired)
         self.filmPanel.reparentTo(base.a2dTopRight)
@@ -1016,7 +1016,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             starList = self.starDict[data[1]]
             starParent = self.starParentDict[data[1]]
             score = int(data[2])
-            for index in range(NUMSTARS):
+            for index in xrange(NUMSTARS):
                 if index < score:
                     starList[index].show()
                 else:
@@ -1055,7 +1055,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         starImage = loader.loadModel('phase_4/models/minigames/photogame_star')
         starParent = model.attachNewNode('star parent')
         self.starDict[model] = []
-        for index in range(NUMSTARS):
+        for index in xrange(NUMSTARS):
             star = DirectLabel(parent=starParent, image=starImage, image_color=(1, 1, 1, 1), image_scale=Point3(STARSIZE, 0.0, STARSIZE), relief=None)
             star.setX(STARSIZE * -0.5 * float(NUMSTARS) + float(index + 0.5) * STARSIZE)
             star.setZ(-0.05 - STARSIZE)
@@ -1613,7 +1613,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         for i in nodeList:
             animPropNodes = i.findAllMatches('**/animated_prop_*')
             numAnimPropNodes = animPropNodes.getNumPaths()
-            for j in range(numAnimPropNodes):
+            for j in xrange(numAnimPropNodes):
                 animPropNode = animPropNodes.getPath(j)
                 if animPropNode.getName().startswith('animated_prop_generic'):
                     className = 'GenericAnimatedProp'
@@ -1628,7 +1628,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
 
             interactivePropNodes = i.findAllMatches('**/interactive_prop_*')
             numInteractivePropNodes = interactivePropNodes.getNumPaths()
-            for j in range(numInteractivePropNodes):
+            for j in xrange(numInteractivePropNodes):
                 interactivePropNode = interactivePropNodes.getPath(j)
                 className = 'GenericAnimatedProp'
                 symbols = {}

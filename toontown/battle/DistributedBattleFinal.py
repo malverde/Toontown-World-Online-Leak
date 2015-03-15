@@ -159,7 +159,7 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
         for toon in self.toons:
             toon.startSmooth()
 
-        return None
+        
 
     def enterResume(self, ts = 0):
         if self.hasLocalToon():
