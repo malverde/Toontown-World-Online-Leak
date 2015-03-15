@@ -18,10 +18,6 @@ class SuitInvasionManagerAI:
         self.suitTypeIndex = None
         self.flags = 0
 
-        self.air.netMessenger.accept(
-            'startInvasion', self, self.handleStartInvasion)
-        self.air.netMessenger.accept(
-            'stopInvasion', self, self.handleStopInvasion)
 
         # We want to handle shard status queries so that a ShardStatusReceiver
         # being created after we're created will know where we're at:
