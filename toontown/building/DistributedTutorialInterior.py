@@ -84,7 +84,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         self.interior = loader.loadModel('phase_3.5/models/modules/toon_interior_tutorial')
         self.interior.reparentTo(render)
         dnaStore = DNAStorage()
-        node = loader.loadDNA('phase_3.5/dna/tutorial_street.pdna').generate(self.dnaStore)
+        node = loader.loadDNAFileAI('phase_3.5/dna/tutorial_street.pdna').generate(self.dnaStore)
         self.street = render.attachNewNode(node)
         self.street.flattenMedium()
         self.street.setPosHpr(-17, 42, -0.5, 180, 0, 0)

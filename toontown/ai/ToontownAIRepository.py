@@ -276,8 +276,15 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         return 'phase_%s/dna/%s_%s.pdna' % (phase, hood, zoneId)
         
-    def loadDNA(self, dnastore, filename):
+    def loadDNAFileAI(self, dnastore, filename):   
         return loadDNAFileAI(dnastore, filename)		
+        
+    def loadDNA(self, filename):
+        with open('/' + filename) as f:
+            tree = DNAParser.parse(f)
+
+        return tree
+    
 
 @magicWord(category=CATEGORY_SYSADMIN, types=[str, int])
 def pstats(host='localhost', port=5185):

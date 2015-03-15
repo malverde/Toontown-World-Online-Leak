@@ -14,7 +14,7 @@ class StreetAI:
         self.air = air
         self.zoneId = zoneId
         
-        self.air.dnaStoreMap[self.zoneId] = self.air.loadDNA(self.air.genDNAFileName(self.zoneId)).generateData()
+        self.air.dnaStoreMap[self.zoneId] = self.air.loadDNAFileAI(self.air.genDNAFileName(self.zoneId)).generateData()
         self.spawnObjects()
 
     def spawnObjects(self):
