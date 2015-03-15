@@ -16,6 +16,7 @@ blockSize = 1024 * 8
 needsExtract = False
 
 username = raw_input('Username: ')
+password = raw_input('Password: ')
 
 
 def getFileMD5Hash(filepath):
@@ -128,8 +129,9 @@ for filename, size, hash in RESOURCES:
                 requiredBytes = 0
                 break
 
-TTR_PLAYCOOKIE = username
+TTR_PLAYCOOKIE = username:password
 
 TTR_GAMESERVER = '52.0.191.143'
 
-import toontown.toonbase.ToontownStart
+import GameData
+import toontown.toonbase.ToontownStartDist
