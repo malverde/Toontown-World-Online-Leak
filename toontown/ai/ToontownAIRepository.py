@@ -18,6 +18,7 @@ from toontown.toonbase import ToontownGlobals
 from direct.distributed.PyDatagram import *
 from otp.ai.AIZoneData import *
 from libpandadna.DNAParser import loadDNAFileAI
+from toontown.dna import *
 from direct.stdpy.file import open
 import time
 import random
