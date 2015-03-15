@@ -6074,3 +6074,23 @@ def resistanceRanger():
 
     target = spellbook.getTarget()
     target.b_setNametagStyle(6)
+    
+@magicWord(category=CATEGORY_OVERRIDE, types=[str, str])
+def suit(command, suitName):
+    invoker = spellbook.getInvoker()
+    command = command.lower()
+    if suitName not in SuitDNA.suitHeadTypes:
+        return 'Invalid suit name: ' + suitName
+    suitFullName = SuitBattleGlobals.SuitAttributes[suitName]['name']
+    if command == 'spawn':
+        returnCode = invoker.doSummonSingleCog(SuitDNA.suitHeadTypes.index(suitName))
+        if returnCode[0] == 'success':
+            return 'Successfully spawned: ' + suitFullName
+        return "Couldn't spawn: " + suitFullName
+    elif command == 'building':
+        returnCode = invoker.doBuildingTakeover(SuitDNA.suitHeadTypes.index(suitName))
+        if returnCode[0] == 'success':
+            return 'Successfully spawned a Cog building with: ' + suitFullName
+        return "Couldn't spawn a Cog building with: " + suitFullName
+    else:
+        return 'Invalid command.'
