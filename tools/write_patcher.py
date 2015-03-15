@@ -16,10 +16,10 @@ parser.add_argument('--output', default='patcher.xml',
 parser.add_argument('--launcher-version', default='1.0',
                     help='The current version of the Toontown World launcher.')
 parser.add_argument('--account-server', default='toontownworldonline.com',
-                    help='The address of the Toontown Infinite account server.')
+                    help='The address of the Toontown World account server.')
 parser.add_argument('--client-agent', default='54.174.138.210',
                     help='The IP address of the game to connect to.')
-parser.add_argument('--server-version', default='ttw-alpha-2.5.0',
+parser.add_argument('--server-version', default='ttw-pre-alpha-dev-build-2.5.0',
                     help='The current version of the Toontown World game.')
 parser.add_argument('includes', nargs='*', default=['GameData.so, GameData.pyd'],
                     help='The files to include in the main directory.')
