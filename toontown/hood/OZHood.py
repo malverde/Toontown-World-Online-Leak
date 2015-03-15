@@ -23,7 +23,7 @@ class OZHood(ToonHood):
     def load(self):
         ToonHood.load(self)
 
-        self.fog = Fog('OZFog')
+    
 
     def enter(self, requestStatus):
         ToonHood.enter(self, requestStatus)
