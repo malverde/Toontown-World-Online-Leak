@@ -122,7 +122,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         del self.dnaStore
         del self.randomGenerator
         self.interior.flattenMedium()
-        npcOrigin = self.interior.find('**/npc_origin_' + `(self.npc.posIndex)`)
+        npcOrigin = self.interior.find('**/npc_origin_' + `(self.cr.doId2do[self.npcId].posIndex)`)
         if not npcOrigin.isEmpty():
             self.npc.reparentTo(npcOrigin)
             self.npc.clearMat()
