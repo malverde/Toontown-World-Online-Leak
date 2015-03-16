@@ -9,11 +9,12 @@ from direct.distributed import DistributedObject
 import random
 import ToonInteriorColors
 from toontown.hood import ZoneUtil
+from libpandadna.DNAParser import *
 from toontown.suit import SuitDNA
 from toontown.suit import Suit
 from toontown.quest import QuestParser
-from libpandadna.DNAParser import *
 from toontown.chat.ChatGlobals import CFSpeech
+
 class DistributedTutorialInterior(DistributedObject.DistributedObject):
 
     def __init__(self, cr):
@@ -121,13 +122,14 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         del self.dnaStore
         del self.randomGenerator
         self.interior.flattenMedium()
-        npcOrigin = self.interior.find('**/npc_origin_' + `(self.npc.posIndex)`)
+        npcOrigin = self.interior.find('**/npc_origin_' + `(self.cr.doId2do[self.npcId].posIndex)`)
         if not npcOrigin.isEmpty():
-            self.npc.reparentTo(npcOrigin)
-            self.npc.clearMat()            
+            self.cr.doId2do[self.npcId].reparentTo(npcOrigin)
+            self.cr.doId2do[self.npcId].clearMat()
         self.createSuit()
         base.localAvatar.setPosHpr(-2, 12, 0, -10, 0, 0)
-        self.cr.doId2do[self.npcId].setChatAbsolute(TTLocalizer.QuestScriptTutorialMickey_4, CFSpeech)      
+        self.cr.doId2do[self.npcId].setChatAbsolute(TTLocalizer.QuestScriptTutorialMickey_4, CFSpeech)
+
         place = base.cr.playGame.getPlace()
         if place and hasattr(place, 'fsm') and place.fsm.getCurrentState().getName():
             self.notify.info('Tutorial movie: Place ready.')
@@ -139,15 +141,13 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
             self.acceptOnce('enterTutorialInterior', self.playMovie)
 
     def playMovie(self):
-    	
         self.notify.info('Tutorial movie: Play.')
+
     def createSuit(self):
         self.suit = Suit.Suit()
         suitDNA = SuitDNA.SuitDNA()
         suitDNA.newSuit('f')
         self.suit.setDNA(suitDNA)
-        self.suit.nametag.setNametag2d(None)
-        self.suit.nametag.setNametag3d(None)
         self.suit.loop('neutral')
         self.suit.setPosHpr(-20, 8, 0, 0, 0, 0)
         self.suit.reparentTo(self.interior)
