@@ -13,8 +13,8 @@ from toontown.char import Char
 from toontown.suit import SuitDNA
 from toontown.suit import Suit
 from toontown.quest import QuestParser
-from toontown.dna.DNAStorage import DNAStorage
-from toontown.dna.DNADoor import DNADoor
+from libpandadna.DNAParser import *
+from toontown.chat.ChatGlobals import CFSpeech
 
 class DistributedTutorialInterior(DistributedObject.DistributedObject):
 
@@ -35,8 +35,6 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         del self.street
         self.sky.removeNode()
         del self.sky
-        self.mickeyMovie.cleanup()
-        del self.mickeyMovie
         self.suitWalkTrack.finish()
         del self.suitWalkTrack
         self.suit.delete()
@@ -88,7 +86,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         self.interior = loader.loadModel('phase_3.5/models/modules/toon_interior_tutorial')
         self.interior.reparentTo(render)
         dnaStore = DNAStorage()
-        node = loader.loadDNA('phase_3.5/dna/tutorial_street.xml').generate(self.dnaStore)
+        node = loader.loadDNAFile(self.cr.playGame.hood.dnaStore, 'phase_3.5/dna/tutorial_street.pdna')
         self.street = render.attachNewNode(node)
         self.street.flattenMedium()
         self.street.setPosHpr(-17, 42, -0.5, 180, 0, 0)
@@ -130,7 +128,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
             self.npc.reparentTo(npcOrigin)
             self.npc.clearMat()
         self.createSuit()
-        self.mickeyMovie = QuestParser.NPCMoviePlayer('tutorial_mickey', base.localAvatar, self.npc)
+        self.cr.doId2do[self.npcId].setChatAbsolute(TTLocalizer.QuestScriptTutorialMickey_4, CFSpeech)
         place = base.cr.playGame.getPlace()
         if place and hasattr(place, 'fsm') and place.fsm.getCurrentState().getName():
             self.notify.info('Tutorial movie: Place ready.')
@@ -143,7 +141,6 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
 
     def playMovie(self):
         self.notify.info('Tutorial movie: Play.')
-        self.mickeyMovie.play()
 
     def createSuit(self):
         self.suit = Suit.Suit()
