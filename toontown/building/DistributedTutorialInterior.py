@@ -122,9 +122,11 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         self.interior.flattenMedium()
         npcOrigin = self.interior.find('**/npc_origin_' + `(self.cr.doId2do[self.npcId].posIndex)`)
         if not npcOrigin.isEmpty():
-            self.npc.reparentTo(npcOrigin)
-            self.npc.clearMat()
+            self.cr.doId2do[self.npcId].reparentTo(npcOrigin)
+            self.cr.doId2do[self.npcId].clearMat()
+
         self.createSuit()
+	    base.localAvatar.setPosHpr(-2, 12, 0, -10, 0, 0)        
         self.cr.doId2do[self.npcId].setChatAbsolute(TTLocalizer.QuestScriptTutorialMickey_4, CFSpeech)
         place = base.cr.playGame.getPlace()
         if place and hasattr(place, 'fsm') and place.fsm.getCurrentState().getName():
@@ -158,4 +160,4 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         self.npcId = npcId
         
     def getTutorialNpc(self):
-        return self.cr.doId2do[self.npcId]
+		self.npc = self.cr.doId2do[npcId]
