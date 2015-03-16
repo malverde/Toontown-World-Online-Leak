@@ -10,7 +10,7 @@ import os
 import thread
 import time
 import urllib2
-import xml 
+imort xml 
 
 
 downloadServer = 'https://toontownworldonline.com/download/'
@@ -75,7 +75,7 @@ def extract(filepath):
 
 
 # First, read the patcher.ver data:
-patcher = urllib2.urlopen('{0}/patcher.xml'.format(downloadServer))
+patcher = urllib2.urlopen('{0}/patcher.json'.format(downloadServer))
 exec(patcher.read())  # Brings MAIN and RESOURCES into the namespace.
 patcher.close()
 
