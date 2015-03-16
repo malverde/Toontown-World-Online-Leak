@@ -9,7 +9,7 @@ import time
 import urllib2
 
 
-downloadServer = 'pathcer link here'
+downloadServer = 'https://toontownworldonline.com/download/'
 downloadedBytes = 0
 requiredBytes = 0
 blockSize = 1024 * 8
@@ -71,7 +71,7 @@ def extract(filepath):
 
 
 # First, read the patcher.ver data:
-patcher = urllib2.urlopen('{0}/patcher.ver'.format(downloadServer))
+patcher = urllib2.urlopen('{0}/updater.json'.format(downloadServer))
 exec(patcher.read())  # Brings MAIN and RESOURCES into the namespace.
 patcher.close()
 
