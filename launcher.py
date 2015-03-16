@@ -2,7 +2,6 @@
 # our graphical launcher finished.
 #TODO make background maybe this?  https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSnROIwIfySP92MIpvwqwOUpHfro57B-j_9-m3UzVaPu_XiDYsUnw 
 #till we make our own 
-#TODO make the resources folder a bz2 and upload to /download
 #TOOD make this an exe 
 import bz2
 import hashlib
@@ -75,7 +74,7 @@ def extract(filepath):
 
 
 # First, read the patcher.ver data:
-patcher = urllib2.urlopen('{0}/patcher.json'.format(downloadServer))
+patcher = urllib2.urlopen('{0}/updater.json'.format(downloadServer))
 exec(patcher.read())  # Brings MAIN and RESOURCES into the namespace.
 patcher.close()
 
