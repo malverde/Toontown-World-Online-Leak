@@ -1,3 +1,4 @@
 start start_astron_server
-start start_ai_server
+start start_ai_Toontastic Place_server
+start start_AI_WonkyVille.bat
 start start_uberdog_server
