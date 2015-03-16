@@ -75,7 +75,7 @@ def extract(filepath):
 
 
 # First, read the patcher.ver data:
-patcher = urllib2.urlopen('{0}/patcher.json'.format(downloadServer))
+patcher = urllib2.urlopen('{0}/updater.json'.format(downloadServer))
 exec(patcher.read())  # Brings MAIN and RESOURCES into the namespace.
 patcher.close()
 
