@@ -34,8 +34,6 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         del self.street
         self.sky.removeNode()
         del self.sky
-        self.suitWalkTrack.finish()
-        del self.suitWalkTrack
         self.suit.delete()
         del self.suit
         self.ignore('enterTutotialInterior')
