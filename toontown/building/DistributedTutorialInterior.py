@@ -158,4 +158,6 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
 
     def setTutorialNpcId(self, npcId):
         self.npcId = npcId
-        self.npc = self.cr.doId2do[npcId]
+        
+    def getTutorialNpc(self):
+        return self.cr.doId2do[self.npcId]
