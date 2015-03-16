@@ -21,7 +21,7 @@ parser.add_argument('--client-agent', default='54.174.138.210',
                     help='The IP address of the game to connect to.')
 parser.add_argument('--server-version', default='ttw-pre-alpha-2.5.0',
                     help='The current version of the Toontown World game.')
-parser.add_argument('includes', nargs='*', default=['GameData.so', 'GameData.pyd'],
+parser.add_argument('includes', nargs='*', default=['GameData.so', 'GameData.pyd', '_miraidata.py'],
                     help='The files to include in the main directory.')
 args = parser.parse_args()
 
