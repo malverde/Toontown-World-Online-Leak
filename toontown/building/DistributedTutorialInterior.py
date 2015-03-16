@@ -9,10 +9,10 @@ from direct.distributed import DistributedObject
 import random
 import ToonInteriorColors
 from toontown.hood import ZoneUtil
+from libpanda.dna.DNAParser import *
 from toontown.suit import SuitDNA
 from toontown.suit import Suit
 from toontown.quest import QuestParser
-from libpandadna.DNAParser import *
 from toontown.chat.ChatGlobals import CFSpeech
 
 class DistributedTutorialInterior(DistributedObject.DistributedObject):
@@ -34,6 +34,8 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         del self.street
         self.sky.removeNode()
         del self.sky
+        self.suitWalkTrack.finish()
+        del self.suitWalkTrack
         self.suit.delete()
         del self.suit
         self.ignore('enterTutotialInterior')
@@ -124,10 +126,10 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         if not npcOrigin.isEmpty():
             self.cr.doId2do[self.npcId].reparentTo(npcOrigin)
             self.cr.doId2do[self.npcId].clearMat()
-
         self.createSuit()
-        base.localAvatar.setPosHpr(-2, 12, 0, -10, 0, 0)        
+        base.localAvatar.setPosHpr(-2, 12, 0, -10, 0, 0)
         self.cr.doId2do[self.npcId].setChatAbsolute(TTLocalizer.QuestScriptTutorialMickey_4, CFSpeech)
+
         place = base.cr.playGame.getPlace()
         if place and hasattr(place, 'fsm') and place.fsm.getCurrentState().getName():
             self.notify.info('Tutorial movie: Place ready.')
@@ -158,6 +160,4 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
 
     def setTutorialNpcId(self, npcId):
         self.npcId = npcId
-        
-    def getTutorialNpc(self):
-		self.npc = self.cr.doId2do[npcId]
+        self.npc = self.cr.doId2do[npcId]

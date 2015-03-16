@@ -179,7 +179,7 @@ class TutorialManagerAI(DistributedObjectAI):
             self.air.writeServerEvent('suspicious', avId=avId, issue='Attempted to request Toontorial when it would be impossible to do so')
             return
 
-"""        # Reset Toon to be appropriate for the tutorial:
+        # Reset Toon to be appropriate for the tutorial:
         av.b_setQuests([])
         av.b_setQuestHistory([])
         av.b_setRewardHistory(0, [])
@@ -195,4 +195,3 @@ class TutorialManagerAI(DistributedObjectAI):
 
         av.experience.zeroOutExp()
         av.d_setExperience(av.experience.makeNetString())
-"""
