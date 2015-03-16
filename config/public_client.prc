@@ -4,14 +4,14 @@
 
 # Client settings
 window-title Toontown World[Pre-Alpha]
-server-version ttw-alpha-2.0.0
+server-version ttw-pre-alpha-2.5.0
 audio-library-name p3openal_audio
 sync-video #f
 want-dev #f
 preload-avatars #t
 want-keep-alive #f
 texture-anisotropic-degree 16
-language LANGUAGE_HERE
+language English
 cursor-filename resources/phase_3/etc/toonmono.cur
 icon-filename resources/phase_3/etc/icon.ico
 
@@ -84,7 +84,29 @@ show-total-population #t
 server-timezone BST/EDT/-5
 server-port 7199
 account-server-endpoint https://toontownworldonline.com/api/
-account-bridge-filename astron/databases/account-bridge.db
 
 # Cog battles:
-base-xp-multiplier 1.0
+base-xp-multiplier 2.0
+want-accessories #t
+want-parties #t 
+want-picnic-games #f 
+want-fishing #t
+estate-day-night #t 
+show-total-population #t
+want-toontorial #t
+want-doomsday #f
+want-whitelist #t
+want-suit-planners #t
+# Holidays and Events
+want-arg-manager #t
+want-mega-invasions #t
+mega-invasion-cog-type bs
+boarding-group-merges #t 
+want-speedhack-fix #t 
+want-cogdominiums #f
+want-game-tables #f
+force-skip-tutorial #f
+
+
+
+
