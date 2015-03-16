@@ -1,6 +1,9 @@
 # I know, this isn't ideal. However, this is just temporary until we can get
 # our graphical launcher finished.
-
+#TODO make background maybe this?  https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSnROIwIfySP92MIpvwqwOUpHfro57B-j_9-m3UzVaPu_XiDYsUnw 
+#till we make our own 
+#TODO make the resources folder a bz2 and upload to /download
+#TOOD make this an exe 
 import bz2
 import hashlib
 import os
