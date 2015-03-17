@@ -375,7 +375,7 @@ class CreateAvatarFSM(OperationFSM):
 
     def __handleStoreAvatar(self, fields):
         if fields:
-            # TODO: delete self.avId
+            del self.avId
             self.demand('Kill', 'Database failed to associate the new avatar to your account!')
             return
 
