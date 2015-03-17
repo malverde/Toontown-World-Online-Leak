@@ -1,7 +1,6 @@
 #updater with GUI :D
 
 from random import choice
-base.disableMouse()
 from direct.task import Task
 import math
 from math import pi, sin, cos
