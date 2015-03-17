@@ -10,9 +10,6 @@ if (os.path.exists('GameData.so')):
 if (os.path.exists('phase_1.mf')):
 	os.unlink('phase_1.mf')
 
-if (os.path.exists('phase_2.mf')):
-	os.unlink('phase_2.mf')
-
 if (os.path.exists('phase_3.mf')):
 	os.unlink('phase_3.mf')
 
