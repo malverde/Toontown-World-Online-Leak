@@ -188,7 +188,6 @@ class DistributedInvasionSuit(DistributedSuitBase, InvasionSuitBase, FSM, DelayD
         self.attackDamage = attackDamage
 
     def makeAttackTrack(self):
-        # TODO: Add more props than the tie. Possibly more animations.
         prop = BattleProps.globalPropPool.getProp(self.attackProp)
         propIsActor = True
         animName = 'throw-paper'
