@@ -45,7 +45,7 @@ ssl-certificates /phase_3/etc/TTRCA.crt
 ssl-certificates /phase_3/etc/TTRDev.crt
 want-dev-certificate-trust #t
 #</dev>
-server-force-ssl #t
+server-force-ssl #f
 
 
 
