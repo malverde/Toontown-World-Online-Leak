@@ -1,3 +1,3 @@
 
-ppython -m launcher
+ppython -m launchergui
 sleep 1
