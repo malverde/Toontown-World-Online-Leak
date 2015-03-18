@@ -11,7 +11,6 @@ want-dev #f
 preload-avatars #t
 want-keep-alive #f
 texture-anisotropic-degree 16
-language English
 cursor-filename resources/phase_3/etc/toonmono.cur
 icon-filename resources/phase_3/etc/icon.ico
 
