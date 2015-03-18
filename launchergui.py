@@ -38,6 +38,7 @@ from panda3d.core import Filename
 import os
 import platform
 
+launcherneedsanupdate = " Launcher is outdated please download from the TTW site"
 
 username = raw_input('Username: ')
 #password = raw_input('Password: ')
@@ -47,10 +48,11 @@ vfs.mount(Filename("phase_2.mf"), ".", VirtualFileSystem.MFReadOnly)
 #TODO make start check for updates
 #TODO make it so that we enter username in a textbox thingy
 def start():
+
 	TTR_PLAYCOOKIE = username#:password
 
 	TTR_GAMESERVER = '52.0.191.143'
-
+	import sys.exit
 	import GameData
 	import toontown.toonbase.ToontownStartDist
 if platform == 'win32':	
