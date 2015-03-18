@@ -44,6 +44,8 @@ username = raw_input('Username: ')
 
 vfs = VirtualFileSystem.getGlobalPtr()
 vfs.mount(Filename("phase_2.mf"), ".", VirtualFileSystem.MFReadOnly)
+#TODO make start check for updates
+#TODO make it so that we enter username in a textbox thingy
 def start():
 	TTR_PLAYCOOKIE = username#:password
 
