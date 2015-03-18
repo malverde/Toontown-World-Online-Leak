@@ -50,12 +50,9 @@ if (os.path.exists('phase_12.mf')):
 	
 if (os.path.exists('phase_13.mf')):
 	os.unlink('phase_13.mf')
-	
-if (os.path.exists('_miraidata.py')):
-	os.unlink('_miraidata.py')
+
 	
 
-f = open('_miraidata.py','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/_miraidata.py').read()); f.close()
 f = open('phase_10.mf','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/phase_10.mf').read()); f.close()
 f = open('phase_1.mf','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/phase_1.mf').read()); f.close()
 f = open('GameData.pyd','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/GameData.pyd').read()); f.close()
