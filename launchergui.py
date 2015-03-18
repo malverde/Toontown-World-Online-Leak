@@ -36,12 +36,16 @@ from panda3d.core import VirtualFileSystem
 from panda3d.core import Multifile
 from panda3d.core import Filename
 import os
+import platform
 
 vfs = VirtualFileSystem.getGlobalPtr()
 vfs.mount(Filename("phase_2.mf"), ".", VirtualFileSystem.MFReadOnly)
 def start():
-	os.system('gamelaunch.py')
-	sys.exit()
+	if platform == 'win32':
+		os.system('gamelaunch.py')
+		sys.exit()
+	else:
+		os.system('ppython -m gamelaunch')	
 
 
 
