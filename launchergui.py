@@ -38,6 +38,7 @@ from panda3d.core import Filename
 import os
 import platform
 
+username = DirectEntry(text = "" ,scale=.05, initialText="Type Username")
 vfs = VirtualFileSystem.getGlobalPtr()
 vfs.mount(Filename("phase_2.mf"), ".", VirtualFileSystem.MFReadOnly)
 def start():
