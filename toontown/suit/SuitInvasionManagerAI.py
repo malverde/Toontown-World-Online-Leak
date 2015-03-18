@@ -63,7 +63,7 @@ class SuitInvasionManagerAI:
             # We're already running an invasion. Don't start a new one.
             self.notify.debug('Invasion tested but already running invasion!')
             return task.again
-        if random() <= self.randomInvasionProbability:
+        if random.random() <= self.randomInvasionProbability:
             # We want an invasion!
             self.notify.debug('Invasion probability hit! Starting invasion.')
             # We want to test if we get a mega invasion or a normal invasion.
