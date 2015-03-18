@@ -1,11 +1,13 @@
 import os
 import urllib 
+import platform
 
-if (os.path.exists('GameData.pyd')):
-	os.unlink('GameData.pyd')
-	
-if (os.path.exists('GameData.so')):
-	os.unlink('GameData.so')
+if platform == 'win32':
+	if (os.path.exists('GameData.pyd')):
+		os.unlink('GameData.pyd')
+else:
+	if (os.path.exists('GameData.so')):
+		os.unlink('GameData.so')
 
 if (os.path.exists('phase_1.mf')):
 	os.unlink('phase_1.mf')
