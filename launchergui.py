@@ -26,7 +26,6 @@ from pandac.PandaModules import *
 
 from direct.gui.DirectGui import *
 from direct.actor.Actor import Actor
-from patcher import *
 from direct.filter.CommonFilters import *
 import sys
 from random import randint
