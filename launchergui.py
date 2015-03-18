@@ -18,14 +18,15 @@ base.disableMouse()
 from direct.task import Task
 import math
 from math import pi, sin, cos
-
+from direct.task.TaskManagerGlobal import *
+from direct.task.Task import Task
 from direct.task import Task
 from direct.interval.IntervalGlobal import *
 from pandac.PandaModules import *
 
 from direct.gui.DirectGui import *
 from direct.actor.Actor import Actor
-
+from patcher import *
 from direct.filter.CommonFilters import *
 import sys
 from random import randint
@@ -36,46 +37,37 @@ from panda3d.core import VirtualFileSystem
 from panda3d.core import Multifile
 from panda3d.core import Filename
 import os
-import platform
-
-launcherneedsanupdate = " Launcher is outdated please download from the TTW site"
-
-username = raw_input('Username: ')
-#password = raw_input('Password: ')
 
 vfs = VirtualFileSystem.getGlobalPtr()
 vfs.mount(Filename("phase_2.mf"), ".", VirtualFileSystem.MFReadOnly)
-#TODO make start check for updates
-#TODO make it so that we enter username in a textbox thingy
 def start():
+	os.system('gamelaunch.py')
+	sys.exit()
 
-	TTR_PLAYCOOKIE = username#:password
-
-	TTR_GAMESERVER = '52.0.191.143'
-	import sys.exit
-	import GameData
-	import toontown.toonbase.ToontownStartDist
-if platform == 'win32':	
-	os.system('pause')
-else:
-	os.system('sleep 1')	
 
 
 ButtonImage = loader.loadModel("phase_2/models/gui/tt_m_gui_mat_nameShop.bam")
 B1 = DirectButton(frameSize=None, text='Start Game', image=(ButtonImage.find('**/tt_t_gui_mat_namePanelSquareUp'), \
 ButtonImage.find('**/tt_t_gui_mat_namePanelSquareDown'), ButtonImage.find('**/tt_t_gui_mat_namePanelSquareHover')), relief=None, command=start, text_pos=(0, -0.015), \
-geom=None, pad=(0.01, 0.01), suppressKeys=0, pos = (1.00, 0, 0.89), text_scale=0.050, borderWidth=(0.13, 0.01), scale=.7) 
+geom=None, pad=(0.01, 0.01), suppressKeys=0, pos = (-0.37, 0, -0.93), text_scale=0.050, borderWidth=(0.13, 0.01), scale=.7) 
 
 
 def update():
 	import davidsgameupdater
 
 ButtonImage = loader.loadModel("phase_2/models/gui/tt_m_gui_mat_nameShop.bam")
-B2 = DirectButton(frameSize=None, text='Check for updates', image=(ButtonImage.find('**/tt_t_gui_mat_namePanelSquareUp'), \
+B2 = DirectButton(frameSize=None, text='Update Main Game', image=(ButtonImage.find('**/tt_t_gui_mat_namePanelSquareUp'), \
 ButtonImage.find('**/tt_t_gui_mat_namePanelSquareDown'), ButtonImage.find('**/tt_t_gui_mat_namePanelSquareHover')), relief=None, command=update, text_pos=(0, -0.015), \
-geom=None, pad=(0.01, 0.01), suppressKeys=0, pos = (1.00, 0, 0), text_scale=0.050, borderWidth=(0.13, 0.01), scale=.7) 
+geom=None, pad=(0.01, 0.01), suppressKeys=0, pos = (-0.77, 0, -0.93), text_scale=0.050, borderWidth=(0.13, 0.01), scale=.7) 
 
 
+def updateph():
+	import phaseupdater
+
+ButtonImage = loader.loadModel("phase_2/models/gui/tt_m_gui_mat_nameShop.bam")
+B3 = DirectButton(frameSize=None, text='Update Phase files', image=(ButtonImage.find('**/tt_t_gui_mat_namePanelSquareUp'), \
+ButtonImage.find('**/tt_t_gui_mat_namePanelSquareDown'), ButtonImage.find('**/tt_t_gui_mat_namePanelSquareHover')), relief=None, command=updateph, text_pos=(0, -0.015), \
+geom=None, pad=(0.01, 0.01), suppressKeys=0, pos = (-1.16, 0, -0.93), text_scale=0.050, borderWidth=(0.13, 0.01), scale=.7) 
 
 
 
