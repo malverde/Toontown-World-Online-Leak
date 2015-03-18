@@ -2,10 +2,11 @@ import SuitDNA
 from otp.ai.MagicWordGlobal import *
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
-from random import random, randint, choice
+
 import datetime
 from direct.directnotify import DirectNotifyGlobal
-
+import random 
+from random import  randint, choice
 # TODO: NewsManagerAI to properly announce invasions starting, invasions
 # ending, and invasions currently in progress.
 # All numbers/values in here are hard-coded. Maybe we should move them to
