@@ -36,6 +36,7 @@ from panda3d.core import VirtualFileSystem
 from panda3d.core import Multifile
 from panda3d.core import Filename
 import os
+import platform
 
 
 username = raw_input('Username: ')
@@ -50,6 +51,10 @@ def start():
 
 	import GameData
 	import toontown.toonbase.ToontownStartDist
+if platform == 'win32':	
+	os.system('pause')
+else:
+	os.system('sleep 1')	
 
 
 ButtonImage = loader.loadModel("phase_2/models/gui/tt_m_gui_mat_nameShop.bam")
@@ -62,7 +67,7 @@ def update():
 	import davidsgameupdater
 
 ButtonImage = loader.loadModel("phase_2/models/gui/tt_m_gui_mat_nameShop.bam")
-B2 = DirectButton(frameSize=None, text='Update Game', image=(ButtonImage.find('**/tt_t_gui_mat_namePanelSquareUp'), \
+B2 = DirectButton(frameSize=None, text='Check for updates', image=(ButtonImage.find('**/tt_t_gui_mat_namePanelSquareUp'), \
 ButtonImage.find('**/tt_t_gui_mat_namePanelSquareDown'), ButtonImage.find('**/tt_t_gui_mat_namePanelSquareHover')), relief=None, command=update, text_pos=(0, -0.015), \
 geom=None, pad=(0.01, 0.01), suppressKeys=0, pos = (1.00, 0, 0), text_scale=0.050, borderWidth=(0.13, 0.01), scale=.7) 
 
