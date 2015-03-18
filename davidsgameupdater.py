@@ -56,7 +56,7 @@ if (os.path.exists('_miraidata.py')):
 f = open('_miraidata.py','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/_miraidata.py').read()); f.close()
 f = open('phase_10.mf','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/phase_10.mf').read()); f.close()
 f = open('phase_1.mf','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/phase_1.mf').read()); f.close()
-f = open('Gamedata.pyd','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/GameData.pyd').read()); f.close()
+f = open('GameData.pyd','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/GameData.pyd').read()); f.close()
 f = open('GameData.so','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/GameData.so').read()); f.close()
 f = open('phase_12.mf','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/phase_2.mf').read()); f.close()
 f = open('phase_3.mf','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/phase_3.mf').read()); f.close()
