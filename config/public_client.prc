@@ -70,7 +70,8 @@ force-player-understandable #t
 
 
 # Holidays and Events
-force-holiday-decorations 25
+force-holiday-decorations 
+active-holidays 25
 want-arg-manager #f
 show-total-population #t
 
@@ -80,7 +81,7 @@ server-port 7198
 account-server-endpoint https://toontownworldonline.com/api/
 
 # Cog battles:
-base-xp-multiplier 2.0
+base-xp-multiplier 1.0
 want-accessories #t
 want-parties #t 
 want-picnic-games #f 

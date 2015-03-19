@@ -19,7 +19,7 @@ class HolidayManagerAI:
 
 
     def setup(self):
-        holidays = config.GetString('force-holiday-decorations', '')
+        holidays = config.GetString('active-holidays', '')
         if holidays != '':
             for holiday in holidays.split(","):
                 holiday = int(holiday)
