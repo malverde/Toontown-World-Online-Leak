@@ -70,7 +70,7 @@ class SuitInvasionManagerAI:
             # Take the mega invasion probability and test it. If we get lucky
             # a second time, spawn a mega invasion, otherwise spawn a normal
             # invasion.
-            if config.GetBool('want-mega-invasions', False) and random() <= self.randomInvasionProbability:
+            if config.GetBool('want-mega-invasions', False) and random.random() <= self.randomInvasionProbability:
                 # N.B.: randomInvasionProbability = mega invasion probability.
                 suitName = self.megaInvasionCog
                 numSuits = randint(2000, 15000)
