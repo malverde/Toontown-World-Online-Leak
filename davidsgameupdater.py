@@ -6,10 +6,10 @@ import platform
 print 'Updating Game Plase Wait'
 
 print 'Removing old files'
-if platform == 'win32':
+if sys.platform == 'win32':
 	if (os.path.exists('GameData.pyd')):
 		os.unlink('GameData.pyd')
-if platform == 'darwin':
+else:
 	if (os.path.exists('GameData.so')):
 		os.unlink('GameData.so')	
 
