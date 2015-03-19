@@ -49,11 +49,6 @@ default-model-extension .bam
 
 
 
-# This is the shared secret for CSMUD login
-# ##### NB! Update deployment/server.prc too! #####
-#csmud-secret Yv1JrpTUdkX6M86h44Z9q4AUaQYdFnectDgl2I5HOQf8CBh7LUZWpzKB9FBD
-
-
 # DC files are NOT configured.
 # They're wrapped up into the code automatically.
 
@@ -85,7 +80,7 @@ server-port 7198
 account-server-endpoint https://toontownworldonline.com/api/
 
 # Cog battles:
-base-xp-multiplier 1.0
+base-xp-multiplier 2.0
 want-accessories #t
 want-parties #t 
 want-picnic-games #f 
