@@ -4,7 +4,7 @@ import os
 
 
 
-loadPrcFile('config/public_client.prc')
+    loadPrcFile('config/dev.prc')
 
 # The VirtualFileSystem, which has already initialized, doesn't see the mount
 # directives in the config(s) yet. We have to force it to load those manually:

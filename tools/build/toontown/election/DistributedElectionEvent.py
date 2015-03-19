@@ -838,8 +838,6 @@ class DistributedElectionEvent(DistributedObject, FSM):
             ActorInterval(self.surlee, 'scientistEmcee', startFrame=251, endFrame=314),
             ActorInterval(self.surlee, 'scientistEmcee', startFrame=314, endFrame=251)
         )
-        # TODO: Make Alec say things when you get near him.
-        # He is hiding, and scared of anyone who gets near.
         self.alecRunAway = Sequence(
             Func(self.alec.loop, 'walk'),
             self.alec.posInterval(1, (4.2, -0.25, 3.13)),
