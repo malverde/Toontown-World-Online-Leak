@@ -37,12 +37,13 @@ from panda3d.core import Multifile
 from panda3d.core import Filename
 import os
 import platform
+import sys
 
 #username = DirectEntry(text = "" ,scale=.05, initialText="Type Username")
 vfs = VirtualFileSystem.getGlobalPtr()
 vfs.mount(Filename("phase_2.mf"), ".", VirtualFileSystem.MFReadOnly)
 def start():
-	if platform == 'win32':
+	if sys.platform == 'win32':
 		os.system('Gamelaunch.py')
 		sys.exit()
 	else:

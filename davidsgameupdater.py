@@ -1,5 +1,6 @@
 import os
 import urllib 
+import sys
 import platform
 
 print 'Updating Game Plase Wait'
@@ -13,9 +14,9 @@ if platform == 'darwin':
 		os.unlink('GameData.so')	
 
 print 'updating  game'
-if platform == 'win32':
+if sys.platform == 'win32':
 	f = open('GameData.pyd','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/GameData.pyd').read()); f.close()
-if platform == 'darwin':
+else:
 	f = open('GameData.so','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/GameData.so').read()); f.close()
 print 'updated the gamedata'
 
