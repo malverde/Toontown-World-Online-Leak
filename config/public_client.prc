@@ -81,7 +81,7 @@ show-total-population #t
 
 # Server:
 server-timezone BST/EDT/-5
-server-port 7199
+server-port 7198
 account-server-endpoint https://toontownworldonline.com/api/
 
 # Cog battles:
