@@ -253,7 +253,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             blockNumbers.remove(bn)
             if self.buildingSideDoors.has_key(bn):
                 for doorPoint in self.buildingSideDoors[bn]:
-                    points = self.dnaData.suitGraph.getAdjacentPoints(doorPoint)
+                    points = self.dnaStore.getAdjacentPoints(doorPoint)
                     for p in points:
                         startTime = SuitTimings.fromSuitBuilding
                         startTime += self.dnaData.suitGraph.getSuitEdgeTravelTime(doorPoint, p, self.suitWalkSpeed)
