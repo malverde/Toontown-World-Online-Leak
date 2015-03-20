@@ -26,9 +26,8 @@ class HolidayDecorator:
             self.decorate()
             return
         storageFile = base.cr.playGame.hood.storageDNAFile
-        if storageFile:
-            pass # TODO: DNATODO
-            #loadDNAFile(self.dnaStore, storageFile, CSDefault)
+        if storageFile:      
+            loadDNAFile(self.dnaStore, storageFile, CSDefault)
         self.swapIval = self.getSwapVisibleIval()
         if self.swapIval:
             self.swapIval.start()
