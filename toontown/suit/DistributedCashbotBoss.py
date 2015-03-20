@@ -19,17 +19,16 @@ from toontown.building import ElevatorUtils
 from toontown.chat import ResistanceChat
 from toontown.chat.ChatGlobals import *
 from toontown.coghq import CogDisguiseGlobals
-from toontown.distributed import DelayDelete
+from pandac.PandaModules import *
 from toontown.nametag import NametagGlobals
+from toontown.chat.ChatGlobals import *
 from toontown.nametag.NametagGlobals import *
-from toontown.toon import Toon
-from toontown.toon import ToonDNA
+import random
+import math
 from toontown.toonbase import TTLocalizer
-from toontown.toonbase import ToontownGlobals
-
-
 OneBossCog = None
 TTL = TTLocalizer
+
 
 
 class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
@@ -751,6 +750,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.releaseToons()
         if self.newState == 'BattleThree':
             self.movieCrane.request('Free')
+            self.movieSafe.request('Initial')
         NametagGlobals.setWant2dNametags(True)
         ElevatorUtils.closeDoors(self.leftDoor, self.rightDoor, ElevatorConstants.ELEVATOR_CFO)
         taskMgr.remove(self.uniqueName('physics'))

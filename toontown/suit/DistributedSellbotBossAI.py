@@ -20,11 +20,8 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     hitCountDamage = 35
     numPies = ToontownGlobals.FullPies
 
-    DEPT = 's'
-    SOS_AMOUNT = 1
-
     def __init__(self, air):
-        DistributedBossCogAI.DistributedBossCogAI.__init__(self, air, self.DEPT)
+        DistributedBossCogAI.DistributedBossCogAI.__init__(self, air, 's')
         FSM.FSM.__init__(self, 'DistributedSellbotBossAI')
         self.doobers = []
         self.cagedToonNpcId = random.choice(NPCToons.HQnpcFriends.keys())
@@ -222,7 +219,6 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         DistributedBossCogAI.DistributedBossCogAI.enterIntroduction(self)
         self.__makeDoobers()
         self.b_setBossDamage(0, 0, 0)
-        self.air.achievementsManager.toonsStartedVP(self.involvedToons)
 
     def exitIntroduction(self):
         DistributedBossCogAI.DistributedBossCogAI.exitIntroduction(self)
@@ -275,7 +271,6 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.setPieType()
         self.b_setBossDamage(0, 0, 0)
         self.battleThreeStart = globalClock.getFrameTime()
-
         for toonId in self.involvedToons:
             toon = simbase.air.doId2do.get(toonId)
             if toon:
@@ -353,7 +348,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         for toonId in self.involvedToons:
             toon = self.air.doId2do.get(toonId)
             if toon:
-                if not toon.attemptAddNPCFriend(self.cagedToonNpcId, numCalls=self.SOS_AMOUNT):
+                if not toon.attemptAddNPCFriend(self.cagedToonNpcId, numCalls=2):
                     self.notify.info('%s.unable to add NPCFriend %s to %s.' % (self.doId, self.cagedToonNpcId, toonId))
                 toon.b_promote(self.deptIndex)
 
@@ -403,21 +398,8 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             return
         self.b_setAttackCode(ToontownGlobals.BossCogRecoverDizzyAttack)
 
-    def enterReward(self):
-        self.air.achievementsManager.toonsFinishedVP(self.involvedToons)
-        DistributedBossCogAI.DistributedBossCogAI.enterReward(self)
-
-    def hasToonTouchedCage(self, toon):
-        return toon.__touchedCage
-
-    def setToonTouchedCage(self, toon):
-        toon.__touchedCage = 1
-
-    def toonDidGoodJump(self, avId):
-        self.__goodJump(avId)
-
-
-@magicWord(category=CATEGORY_PROGRAMMER)
+  
+@magicWord(category=CATEGORY_ADMIN)
 def skipVP():
     """
     Skips to the final round of the VP.
@@ -437,7 +419,7 @@ def skipVP():
     boss.b_setState('PrepareBattleThree')
     return 'Skipping the first round...'
 
-@magicWord(category=CATEGORY_PROGRAMMER)
+@magicWord(category=CATEGORY_ADMIN)
 def killVP():
     """
     Kills the VP.
@@ -453,3 +435,26 @@ def killVP():
         return "You aren't in a VP!"
     boss.b_setState('Victory')
     return 'Killed VP.'
+    
+    #V1 MW
+    
+@magicWord(category=CATEGORY_ADMIN)
+def bombVP():
+    """
+    Bombs the VP
+    """
+    invoker = spellbook.getInvoker()
+    boss = None
+    for do in simbase.air.doId2do.values():
+        if isinstance(do, DistributedSellbotBossAI):
+            if invoker.doId in do.involvedToons:
+                boss = do
+                break
+    if not boss:
+        return "You aren't in a VP!"
+    if boss.state not in ('BattleThree'):
+        return "The VP can't be destroyed yet. Try using skipVP."
+    boss.magicWordHit(boss.bossMaxDamage, invoker)
+    return 'Bombed VP'
+    
+    #End of V1 MW
