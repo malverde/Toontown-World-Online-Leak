@@ -243,10 +243,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 i -= 1
         return pointList
 
-    def createNewSuit(self, blockNumbers, streetPoints, toonBlockTakeover=None,
-            cogdoTakeover=None, minPathLen=None, maxPathLen=None,
-            buildingHeight=None, suitLevel=None, suitType=None, suitTrack=None,
-            suitName=None, skelecog=None, revives=None, waiter=None):
+    def createNewSuit(self, blockNumbers, streetPoints, toonBlockTakeover = None, cogdoTakeover = None, minPathLen = None, maxPathLen = None, buildingHeight = None, suitLevel = None, suitType = None, suitTrack = None, suitName = None, specialSuit = 0):
         startPoint = None
         blockNumber = None
         if self.notify.getDebug():
@@ -254,29 +251,27 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         while startPoint == None and len(blockNumbers) > 0:
             bn = random.choice(blockNumbers)
             blockNumbers.remove(bn)
-            if bn in self.buildingSideDoors:
+            if self.buildingSideDoors.has_key(bn):
                 for doorPoint in self.buildingSideDoors[bn]:
-                    points = self.dnaStore.getAdjacentPoints(doorPoint)
-                    i = points.getNumPoints() - 1
-                    while blockNumber == None and i >= 0:
-                        pi = points.getPointIndex(i)
-                        p = self.pointIndexes[pi]
-                        i -= 1
+                    points = self.dnaData.suitGraph.getAdjacentPoints(doorPoint)
+                    for p in points:
                         startTime = SuitTimings.fromSuitBuilding
-                        startTime += self.dnaStore.getSuitEdgeTravelTime(doorPoint.getIndex(), pi, self.suitWalkSpeed)
+                        startTime += self.dnaData.suitGraph.getSuitEdgeTravelTime(doorPoint, p, self.suitWalkSpeed)
                         if not self.pointCollision(p, doorPoint, startTime):
                             startTime = SuitTimings.fromSuitBuilding
                             startPoint = doorPoint
                             blockNumber = bn
+                            break
+
         while startPoint == None and len(streetPoints) > 0:
             p = random.choice(streetPoints)
             streetPoints.remove(p)
             if not self.pointCollision(p, None, SuitTimings.fromSky):
                 startPoint = p
                 startTime = SuitTimings.fromSky
-                continue
+
         if startPoint == None:
-            return None
+            return
         newSuit = DistributedSuitAI.DistributedSuitAI(simbase.air, self)
         newSuit.startPoint = startPoint
         if blockNumber != None:
@@ -291,39 +286,36 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                     suitTrack = self.pendingBuildingTracks[0]
                     del self.pendingBuildingTracks[0]
                     self.pendingBuildingTracks.append(suitTrack)
-
                 if buildingHeight == None and len(self.pendingBuildingHeights) > 0:
                     buildingHeight = self.pendingBuildingHeights[0]
                     del self.pendingBuildingHeights[0]
                     self.pendingBuildingHeights.append(buildingHeight)
-        if suitName is None:
+        if suitName == None:
             suitName, specialSuit = self.air.suitInvasionManager.getInvadingCog()
             if suitName == None:
                 suitName = self.defaultSuitName
-        if (suitType is None) and (suitName is not None):
+        if suitType == None and suitName != None:
             suitType = SuitDNA.getSuitType(suitName)
             suitTrack = SuitDNA.getSuitDept(suitName)
         if suitLevel == None and buildingHeight != None:
             suitLevel = self.chooseSuitLevel(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_LVL], buildingHeight)
-        (suitLevel, suitType, suitTrack) = self.pickLevelTypeAndTrack(suitLevel, suitType, suitTrack)
+        suitLevel, suitType, suitTrack = self.pickLevelTypeAndTrack(suitLevel, suitType, suitTrack)
         newSuit.setupSuitDNA(suitLevel, suitType, suitTrack)
         newSuit.buildingHeight = buildingHeight
-        gotDestination = self.chooseDestination(newSuit, startTime, toonBlockTakeover = toonBlockTakeover, cogdoTakeover = cogdoTakeover, minPathLen = minPathLen, maxPathLen = maxPathLen)
+        gotDestination = self.chooseDestination(newSuit, startTime, toonBlockTakeover=toonBlockTakeover, cogdoTakeover=cogdoTakeover, minPathLen=minPathLen, maxPathLen=maxPathLen)
         if not gotDestination:
             self.notify.debug("Couldn't get a destination in %d!" % self.zoneId)
             newSuit.doNotDeallocateChannel = None
             newSuit.delete()
-            return None
+            return
         newSuit.initializePath()
         self.zoneChange(newSuit, None, newSuit.zoneId)
-        if skelecog:
-            newSuit.setSkelecog(skelecog)
+        # Determine if we are spawning a special type of suit. 1 is Skelecog, 2 is v2.0.
+        if specialSuit == 1:
+            newSuit.setSkelecog(1)
+        elif specialSuit == 2:
+            newSuit.setSkeleRevives(1)
         newSuit.generateWithRequired(newSuit.zoneId)
-        if revives is not None:
-            newSuit.b_setSkeleRevives(revives)
-        if waiter:
-            newSuit.b_setWaiter(1)
-        newSuit.d_setSPDoId(self.doId)
         newSuit.moveToNextLeg(None)
         self.suitList.append(newSuit)
         if newSuit.flyInSuit:
