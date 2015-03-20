@@ -5,7 +5,7 @@ import random
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 import ToonInteriorColors
-from libpandadna.DNAParser import DNADoor
+from toontown.dna.DNAParser import DNADoor
 from toontown.hood import ZoneUtil
 
 class DistributedGagshopInterior(DistributedObject.DistributedObject):

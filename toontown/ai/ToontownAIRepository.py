@@ -17,7 +17,7 @@ from toontown.hood import SellbotHQAI, CashbotHQAI, LawbotHQAI, BossbotHQAI
 from toontown.toonbase import ToontownGlobals
 from direct.distributed.PyDatagram import *
 from otp.ai.AIZoneData import *
-from libpandadna.DNAParser import loadDNAFileAI
+from toontown.dna.DNAParser import loadDNAFileAI
 from direct.stdpy.file import open
 import time
 import random
@@ -84,7 +84,6 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         NPCToons.generateZone2NpcDict()
         
-        self.use_libpandadna = simbase.config.GetBool('use-libpandadna', False)
 
         self.hoods = []
         self.zoneDataStore = AIZoneDataStore()

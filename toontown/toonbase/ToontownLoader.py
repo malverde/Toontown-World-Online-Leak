@@ -2,7 +2,7 @@ from pandac.PandaModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.showbase import Loader
 from toontown.toontowngui import ToontownLoadingScreen
-from libpandadna.DNAParser import *
+from toontown.dna.DNAParser import *
 from direct.stdpy.file import open
 
 

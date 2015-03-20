@@ -100,7 +100,6 @@ base-xp-multiplier 1
 #group merges
 boarding-group-merges #t
 #other
-use-libpandadna #t
 
 want-speedhack-fix #t
 want-cogdominiums #f

@@ -8,7 +8,7 @@ from direct.directnotify import DirectNotifyGlobal
 import ToonInteriorColors
 import cPickle
 from toontown.toonbase import TTLocalizer
-from libpandadna.DNADoor import DNADoor
+from toontown.dna.DNADoor import DNADoor
 
 class DistributedHQInterior(DistributedObject.DistributedObject):
 

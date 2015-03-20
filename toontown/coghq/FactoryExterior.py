@@ -6,7 +6,7 @@ from toontown.nametag import NametagGlobals
 from pandac.PandaModules import *
 from toontown.battle import BattlePlace
 from toontown.building import Elevator
-from libpandadna.DNAParser import loadDNAFileAI, DNAStorage
+from toontown.dnaDNAParser import loadDNAFileAI, DNAStorage
 from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals
 

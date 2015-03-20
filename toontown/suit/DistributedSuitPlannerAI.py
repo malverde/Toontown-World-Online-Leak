@@ -12,7 +12,7 @@ from toontown.battle import BattleManagerAI
 from toontown.battle import SuitBattleGlobals
 from toontown.building import HQBuildingAI
 from toontown.building import SuitBuildingGlobals
-from libpandadna.DNAParser import DNASuitPoint
+from toontown.dna.DNAParser import DNASuitPoint
 from otp.ai.MagicWordGlobal import *
 from toontown.hood import ZoneUtil
 from toontown.suit.SuitInvasionGlobals import IFSkelecog, IFWaiter, IFV2
