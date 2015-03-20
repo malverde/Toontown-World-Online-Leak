@@ -1,21 +1,34 @@
-from DNASceneElement import DNASceneElement
-from DNAParser import *
-from panda3d.core import *
+from DNAUtil import *
 
-class DNABattleCell(DNASceneElement):
-    TAG = 'battle_cell'
-    PARENTS = ['visgroup']
+class DNABattleCell:
+    COMPONENT_CODE = 21
 
-    def __init__(self, width, height, x, y, z):
-        DNASceneElement.__init__(self)
+    def __init__(self, width, height, pos):
+        self.width = width
+        self.height = height
+        self.pos = pos
 
-        self.width = float(width)
-        self.height = float(height)
-        self.pos = Point3(float(x), float(y), float(z))
+    def setWidth(self, width):
+        self.width = width
+
+    def getWidth(self):
+        return self.width
+
+    def setHeight(self, height):
+        self.height = height
+
+    def getHeight(self):
+        return self.height
+
+    def setPos(self, pos):
+        self.pos = pos
 
     def getPos(self):
         return self.pos
 
-    # TODO: Put stuff in the data pass.
+    def setWidthHeight(self, width, height):
+        self.width = width
+        self.height = height
 
-registerElement(DNABattleCell)
+    def __str__(self):
+        return 'DNABattleCell width: ' + str(self.width) + ' height: ' + str(self.height) + ' pos: ' + str(self.pos)

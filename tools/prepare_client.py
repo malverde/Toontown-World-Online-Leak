@@ -19,7 +19,7 @@ parser.add_argument('--build-mfs', action='store_true',
                     help='When present, multifiles will be built.')
 parser.add_argument('--resources-dir', default='../resources',
                     help='The directory of the Toontown resources.')
-parser.add_argument('modules', nargs='*', default=['otp', 'toontown', 'libpandadna'],
+parser.add_argument('modules', nargs='*', default=['otp', 'toontown'],
                     help='The Toontown modules to be included in the build.')
 args = parser.parse_args()
 
