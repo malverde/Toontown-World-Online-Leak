@@ -535,7 +535,7 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         return fromValue + (toValue - fromValue) * t
 
 
-@magicWord(category=CATEGORY_MODERATION)
+@magicWord(category=CATEGORY_MODERATOR)
 def restartCraneRound():
     """
     Restarts the crane round in the CFO.
@@ -555,7 +555,7 @@ def restartCraneRound():
     return 'Restarting the crane round...'
 
 
-@magicWord(category=CATEGORY_MODERATION)
+@magicWord(category=CATEGORY_MODERATOR)
 def skipCFO():
     """
     Skips to the final round of the CFO.
@@ -576,7 +576,7 @@ def skipCFO():
     return 'Skipping the first round...'
 
 
-@magicWord(category=CATEGORY_MODERATION)
+@magicWord(category=CATEGORY_MODERATOR)
 def killCFO():
     """
     Kills the CFO.

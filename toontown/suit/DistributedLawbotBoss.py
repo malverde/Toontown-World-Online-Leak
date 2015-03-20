@@ -32,10 +32,8 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownTimer
-from toontown.chat.ChatGlobals import *
-from toontown.nametag import NametagGlobals
-from toontown.nametag import NametagGroup
-from toontown.nametag.NametagGlobals import *
+
+
 OneBossCog = None
 
 
