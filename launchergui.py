@@ -44,7 +44,7 @@ vfs = VirtualFileSystem.getGlobalPtr()
 vfs.mount(Filename("phase_2.mf"), ".", VirtualFileSystem.MFReadOnly)
 def start():
 	if sys.platform == 'win32':
-		os.system('Gamelaunch.py')
+		os.system('ppython -m Gamelaunch.py')
 		sys.exit()
 	else:
 		os.system('ppython -m Gamelaunch')	
