@@ -153,17 +153,15 @@ class SuitPlannerInteriorAI:
 
     def __genSuitObject(self, suitZone, suitType, bldgTrack, suitLevel, revives = 0):
         newSuit = DistributedSuitAI.DistributedSuitAI(simbase.air, None)
-        flags = self.__setupSuitInfo(newSuit, bldgTrack, suitLevel, suitType)
-        if flags & IFSkelecog:
+        skel = self.__setupSuitInfo(newSuit, bldgTrack, suitLevel, suitType)
+        if skel == 1:
             newSuit.setSkelecog(1)
-        newSuit.setSkeleRevives(revives)
+        elif skel == 2:
+            newSuit.setSkeleRevives(1)
         newSuit.generateWithRequired(suitZone)
-        if flags & IFWaiter:
-            newSuit.b_setWaiter(1)
-        if flags & IFV2:
-            newSuit.b_setSkeleRevives(1)
         newSuit.node().setName('suit-%s' % newSuit.doId)
         return newSuit
+
 
     def myPrint(self):
         self.notify.info('Generated suits for building: ')
