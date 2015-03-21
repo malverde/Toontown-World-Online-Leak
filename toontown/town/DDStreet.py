@@ -16,5 +16,5 @@ class DDStreet(Street.Street):
         Street.Street.enter(self, requestStatus)
 
     def exit(self):
-        self.loader.hood.setNoFog()
+
         Street.Street.exit(self)
