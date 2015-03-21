@@ -3,7 +3,7 @@
 # Config.prc should be reproduced here.
 
 # Client settings
-window-title Toontown World[Pre-Alpha]
+window-title Toontown World [Pre-Alpha]
 server-version ttw-pre-alpha-2.5.0
 audio-library-name p3openal_audio
 sync-video #f
@@ -11,8 +11,8 @@ want-dev #f
 preload-avatars #t
 want-keep-alive #f
 texture-anisotropic-degree 16
-cursor-filename resources/phase_3/etc/toonmono.cur
-icon-filename resources/phase_3/etc/icon.ico
+cursor-filename /phase_3/etc/toonmono.cur
+icon-filename /phase_3/etc/icon.ico
 
 # Useless Variables
 show-frame-rate-meter #f
@@ -51,7 +51,6 @@ default-model-extension .bam
 
 # DC files are NOT configured.
 # They're wrapped up into the code automatically.
-
 
 # Beta Modifications
 # Temporary modifications for unimplemented features go here.
