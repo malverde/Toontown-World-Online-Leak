@@ -1,5 +1,5 @@
 from pandac.PandaModules import *
-from libpandadna.DNAParser import DNAGroup, DNAVisGroup
+from toontown.dna.DNAParser import DNAGroup, DNAVisGroup
 from toontown.hood import HoodAI
 from toontown.hood import ZoneUtil
 from toontown.safezone.DistributedGolfKartAI import DistributedGolfKartAI

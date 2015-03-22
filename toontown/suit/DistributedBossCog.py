@@ -3,7 +3,6 @@ from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.directnotify import DirectNotifyGlobal
 from otp.avatar import DistributedAvatar
-from toontown.nametag import NametagGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.battle import BattleExperience
@@ -22,6 +21,7 @@ from toontown.friends import FriendsListManager
 from direct.controls.ControlManager import CollisionHandlerRayStart
 from direct.showbase import PythonUtil
 import random
+from toontown.nametag import NametagGlobals
 
 class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBossCog')
@@ -179,20 +179,20 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         self.activeIntervals = {}
 
     def clearInterval(self, name, finish = 1):
-        if self.activeIntervals.has_key(name):
+        if name in self.activeIntervals:
             ival = self.activeIntervals[name]
             if finish:
                 ival.finish()
             else:
                 ival.pause()
-            if self.activeIntervals.has_key(name):
+            if name in self.activeIntervals:
                 DelayDelete.cleanupDelayDeletes(ival)
                 del self.activeIntervals[name]
         else:
             self.notify.debug('interval: %s already cleared' % name)
 
     def finishInterval(self, name):
-        if self.activeIntervals.has_key(name):
+        if name in self.activeIntervals:
             interval = self.activeIntervals[name]
             interval.finish()
 
@@ -338,6 +338,10 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         return Sequence()
 
     def controlToons(self):
+        for panel in self.cr.openAvatarPanels:
+            if panel:
+                panel.cleanupDialog()
+
         for toonId in self.involvedToons:
             toon = self.cr.doId2do.get(toonId)
             if toon:
@@ -461,7 +465,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         self.cqueue.sortEntries()
         numEntries = self.cqueue.getNumEntries()
         if numEntries != 0:
-            for i in range(self.cqueue.getNumEntries() - 1, -1, -1):
+            for i in xrange(self.cqueue.getNumEntries() - 1, -1, -1):
                 entry = self.cqueue.getEntry(i)
                 solid = entry.getFrom()
                 if solid == self.ray1:
@@ -622,7 +626,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
     def toonsToBattlePosition(self, toonIds, battleNode):
         points = BattleBase.BattleBase.toonPoints[len(toonIds) - 1]
         self.notify.debug('toonsToBattlePosition: points = %s' % points[0][0])
-        for i in range(len(toonIds)):
+        for i in xrange(len(toonIds)):
             toon = base.cr.doId2do.get(toonIds[i])
             if toon:
                 toon.reparentTo(render)
@@ -828,7 +832,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         self.notify.debug('backupToonsToBattlePosition:')
         ival = Parallel()
         points = BattleBase.BattleBase.toonPoints[len(toonIds) - 1]
-        for i in range(len(toonIds)):
+        for i in xrange(len(toonIds)):
             toon = base.cr.doId2do.get(toonIds[i])
             if toon:
                 pos, h = points[i]
@@ -880,7 +884,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
             if not self.twoFaced:
                 neutral = 'Ff_neutral'
             gearTrack = Parallel()
-            for i in range(4):
+            for i in xrange(4):
                 node = gearRoot.attachNewNode(str(i))
                 node.hide()
                 node.setPos(0, 5.85, 4.0)
@@ -1067,8 +1071,8 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         self.accept('clickedNametag', self.__clickedNameTag)
         self.accept('friendAvatar', self.__handleFriendAvatar)
         self.accept('avatarDetails', self.__handleAvatarDetails)
-        NametagGlobals.setMasterArrowsOn(0)
-        NametagGlobals.setMasterNametagsActive(1)
+        NametagGlobals.setWant2dNametags(False)
+        NametagGlobals.setWantActiveNametags(True)
 
     def exitBattleFour(self):
         self.ignore('clickedNameTag')
@@ -1088,7 +1092,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         pass
 
     def setToonsToNeutral(self, toonIds):
-        for i in range(len(toonIds)):
+        for i in xrange(len(toonIds)):
             toon = base.cr.doId2do.get(toonIds[i])
             if toon:
                 if toon.isDisguised:

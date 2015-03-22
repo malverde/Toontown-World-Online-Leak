@@ -10,7 +10,7 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 import random
 import ToonInteriorColors
-from libpandadna.DNADoor import DNADoor
+from toontown.dna.DNADoor import DNADoor
 from toontown.hood import ZoneUtil
 from toontown.toon import ToonDNA
 from toontown.toon import ToonHead
