@@ -13,7 +13,7 @@ import QuietZoneState
 import ZoneUtil
 from toontown.toonbase import TTLocalizer
 from toontown.toon.Toon import teleportDebug
-from libpandadna.DNAParser import *
+from toontown.dna.DNAParser import *
 
 class Hood(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('Hood')

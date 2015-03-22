@@ -23,7 +23,7 @@ from toontown.building import ToonInterior
 from toontown.hood import QuietZoneState
 from toontown.hood import ZoneUtil
 from random import randint
-from libpandadna.DNAParser import DNABulkLoader
+from toontown.dna.DNAParser import DNABulkLoader
 
 class TownLoader(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('TownLoader')
