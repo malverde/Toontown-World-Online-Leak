@@ -74,13 +74,13 @@ B3 = DirectButton(frameSize=None, text='Update Phase files', image=(ButtonImage.
 ButtonImage.find('**/tt_t_gui_mat_namePanelSquareDown'), ButtonImage.find('**/tt_t_gui_mat_namePanelSquareHover')), relief=None, command=updateph, text_pos=(0, -0.015), \
 geom=None, pad=(0.01, 0.01), suppressKeys=0, pos = (-1.16, 0, -0.93), text_scale=0.050, borderWidth=(0.13, 0.01), scale=.7) 
 
-def bug():
-	import webbrowser
-webbrowser.open_new_tab('https://toontownworldonline.com/support/')
-ButtonImage = loader.loadModel("phase_2/models/gui/tt_m_gui_mat_nameShop.bam")
-B4 = DirectButton(frameSize=None, text='Report A Bug', image=(ButtonImage.find('**/tt_t_gui_mat_namePanelSquareUp'), \
-ButtonImage.find('**/tt_t_gui_mat_namePanelSquareDown'), ButtonImage.find('**/tt_t_gui_mat_namePanelSquareHover')), relief=None, command=bug, text_pos=(0, -0.015), \
-geom=None, pad=(0.01, 0.01), suppressKeys=0, pos = (0.02, 0, -0.93), text_scale=0.050, borderWidth=(0.13, 0.01), scale=.7) 
+#def bug():
+#	import webbrowser
+#webbrowser.open_new_tab('https://toontownworldonline.com/support/')
+#ButtonImage = loader.loadModel("phase_2/models/gui/tt_m_gui_mat_nameShop.bam")
+#B4 = DirectButton(frameSize=None, text='Report A Bug', image=(ButtonImage.find('**/tt_t_gui_mat_namePanelSquareUp'), \
+#ButtonImage.find('**/tt_t_gui_mat_namePanelSquareDown'), ButtonImage.find('**/tt_t_gui_mat_namePanelSquareHover')), relief=None, command=bug, text_pos=(0, -0.015), \
+#geom=None, pad=(0.01, 0.01), suppressKeys=0, pos = (0.02, 0, -0.93), text_scale=0.050, borderWidth=(0.13, 0.01), scale=.7) 
 
 
 run()
