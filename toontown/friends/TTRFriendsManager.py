@@ -27,7 +27,7 @@ class TTRFriendsManager(DistributedObjectGlobal):
     def d_getAvatarDetails(self, avId):
         self.sendUpdate('getAvatarDetails', [avId])
 
-    def friendDetails(self, avId, experience, trackAccess,  trackBonusLevel, inventory, hp, maxHp, defaultShard, lastHood, dnaString, setLastSeen):
+    def friendDetails(self, avId, inventory, trackAccess, trophies, hp, maxHp, defaultShard, lastHood, dnaString, experience, trackBonusLevel, setLastSeen):
         fields = [
             ['setExperience' , experience],
             ['setTrackAccess' , trackAccess],
@@ -40,7 +40,8 @@ class TTRFriendsManager(DistributedObjectGlobal):
             ['setDNAString' , dnaString],
             ['setLastSeen', setLastSeen],
         ]
-        base.cr.n_handleGetAvatarDetailsResp(avId, fields=fields)      
+        base.cr.n_handleGetAvatarDetailsResp(avId, fields=fields)
+
     def d_teleportQuery(self, toId):
         self.sendUpdate('routeTeleportQuery', [toId])
 
@@ -150,4 +151,3 @@ class TTRFriendsManager(DistributedObjectGlobal):
 
     def setSleepAutoReply(self, fromId):
         base.localAvatar.setSleepAutoReply(fromId)
-
