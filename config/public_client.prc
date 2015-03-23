@@ -13,7 +13,6 @@ want-keep-alive #f
 texture-anisotropic-degree 16
 cursor-filename /phase_3/etc/toonmono.cur
 icon-filename /phase_3/etc/icon.ico
-load-display pandagl
 
 # Useless Variables
 show-frame-rate-meter #f
