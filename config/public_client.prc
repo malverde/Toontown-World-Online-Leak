@@ -4,7 +4,7 @@
 
 # Client settings
 window-title Toontown World [Pre-Alpha]
-server-version ttw-pre-alpha-2.5.0
+server-version ttw-pre-alpha-2.5.1
 audio-library-name p3openal_audio
 sync-video #f
 want-dev #f
