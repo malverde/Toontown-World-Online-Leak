@@ -1,1 +1,0 @@
-from cphidgets import error
