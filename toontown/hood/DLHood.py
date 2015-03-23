@@ -2,6 +2,7 @@ from toontown.safezone.DLSafeZoneLoader import DLSafeZoneLoader
 from toontown.town.DLTownLoader import DLTownLoader
 from toontown.toonbase import ToontownGlobals
 from toontown.hood.ToonHood import ToonHood
+from toontown.toonbase import ToontownLoader
 
 
 class DLHood(ToonHood):
@@ -13,6 +14,8 @@ class DLHood(ToonHood):
     STORAGE_DNA = 'phase_8/dna/storage_DL.pdna'
     SKY_FILE = 'phase_8/models/props/DL_sky'
     TITLE_COLOR = (1.0, 0.9, 0.5, 1.0)
+    self.loader = ToontownLoader.ToontownLoader(self)
+
 
     HOLIDAY_DNA = {
       ToontownGlobals.WINTER_DECORATIONS: ['phase_8/dna/winter_storage_DL.pdna'],

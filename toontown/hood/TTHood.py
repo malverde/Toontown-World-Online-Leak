@@ -2,6 +2,7 @@ from toontown.safezone.TTSafeZoneLoader import TTSafeZoneLoader
 from toontown.town.TTTownLoader import TTTownLoader
 from toontown.toonbase import ToontownGlobals
 from toontown.hood.ToonHood import ToonHood
+from toontown.toonbase import ToontownLoader
 
 from otp.ai.MagicWordGlobal import *
 
@@ -16,6 +17,7 @@ class TTHood(ToonHood):
     SKY_FILE = 'phase_3.5/models/props/TT_sky'
     SPOOKY_SKY_FILE = 'phase_3.5/models/props/BR_sky'
     TITLE_COLOR = (1.0, 0.5, 0.4, 1.0)
+	self.loader = ToontownLoader.ToontownLoader(self)
 
     HOLIDAY_DNA = {
       ToontownGlobals.WINTER_DECORATIONS: ['phase_4/dna/winter_storage_TT.pdna', 'phase_4/dna/winter_storage_TT_sz.pdna'],

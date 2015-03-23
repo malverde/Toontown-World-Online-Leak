@@ -4,6 +4,7 @@ from toontown.safezone.DDSafeZoneLoader import DDSafeZoneLoader
 from toontown.town.DDTownLoader import DDTownLoader
 from toontown.toonbase import ToontownGlobals
 from toontown.hood.ToonHood import ToonHood
+from toontown.toonbase import ToontownLoader
 
 
 class DDHood(ToonHood):
@@ -27,6 +28,8 @@ class DDHood(ToonHood):
         ToonHood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
 
         self.underwaterFogColor = Vec4(0.0, 0.0, 0.6, 1.0)
+        self.loader = ToontownLoader.ToontownLoader(self)
+
         
     def load(self):
         ToonHood.load(self)
