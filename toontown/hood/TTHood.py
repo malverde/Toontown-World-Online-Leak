@@ -17,7 +17,6 @@ class TTHood(ToonHood):
     SKY_FILE = 'phase_3.5/models/props/TT_sky'
     SPOOKY_SKY_FILE = 'phase_3.5/models/props/BR_sky'
     TITLE_COLOR = (1.0, 0.5, 0.4, 1.0)
-    loader = ToontownLoader.ToontownLoader()
 
     HOLIDAY_DNA = {
       ToontownGlobals.WINTER_DECORATIONS: ['phase_4/dna/winter_storage_TT.pdna', 'phase_4/dna/winter_storage_TT_sz.pdna'],

@@ -28,8 +28,6 @@ class DDHood(ToonHood):
         ToonHood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
 
         self.underwaterFogColor = Vec4(0.0, 0.0, 0.6, 1.0)
-        self.loader = ToontownLoader.ToontownLoader(self)
-
         
     def load(self):
         ToonHood.load(self)
