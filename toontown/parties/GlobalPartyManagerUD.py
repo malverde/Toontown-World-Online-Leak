@@ -196,9 +196,13 @@ class GlobalPartyManagerUD(DistributedObjectGlobalUD):
         # An AI is wondering if the host has a party. We'll tell em!
         if hostId in self.host2PartyId:
             # Yep, he has a party.
+         try: 
             party = self.id2Party[self.host2PartyId[hostId]]
             self.sendToAI('partyInfoOfHostResponseUdToAi', [self._formatParty(party), party.get('inviteeIds', [])])
             return
+            
+    	 except KeyError:
+    	    print " Id not in party"    
         print 'query failed, av %s isnt hosting anything' % hostId
 
     def requestPartySlot(self, partyId, avId, gateId):
