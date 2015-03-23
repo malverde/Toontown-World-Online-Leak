@@ -10,7 +10,7 @@ import FactoryExterior
 import FactoryInterior
 import SellbotHQExterior
 import SellbotHQBossBattle
-from pandac.PandaModules import DecalEffect
+from pandac.PandaModules import DecalEffect, NodePath
 aspectSF = 0.7227
 
 class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
@@ -33,7 +33,6 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.cogHQLobbyModelPath = 'phase_9/models/cogHQ/SellbotHQLobby'
         self.factoryExteriorModelPath = 'phase_9/models/cogHQ/SellbotFactoryExterior'
         self.geom = None
-        return
 
     def load(self, zoneId):
         CogHQLoader.CogHQLoader.load(self, zoneId)
@@ -44,7 +43,6 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
             self.geom.removeNode()
             self.geom = None
         CogHQLoader.CogHQLoader.unloadPlaceGeom(self)
-        return
 
     def loadPlaceGeom(self, zoneId):
         self.notify.info('loadPlaceGeom: %s' % zoneId)
@@ -56,7 +54,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
             factoryLinkTunnel = self.geom.find('**/Tunnel2')
             factoryLinkTunnel.setName('linktunnel_sellhq_11200_DNARoot')
             cogSignModel = loader.loadModel('phase_4/models/props/sign_sellBotHeadHQ')
-            cogSign = cogSignModel.find('**/sign_sellBotHeadHQ')
+            cogSign = cogSignModel.find('**/sign_sellBotHeadHQ').copyTo(NodePath())
             cogSign.flattenStrong()
             cogSignModel.removeNode()
             cogSignSF = 23
@@ -97,7 +95,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
             factoryLinkTunnel.setName('linktunnel_sellhq_11000_DNARoot')
             factoryLinkTunnel.find('**/tunnel_sphere').setName('tunnel_trigger')
             cogSignModel = loader.loadModel('phase_4/models/props/sign_sellBotHeadHQ')
-            cogSign = cogSignModel.find('**/sign_sellBotHeadHQ')
+            cogSign = cogSignModel.find('**/sign_sellBotHeadHQ').copyTo(NodePath())
             cogSign.flattenStrong()
             cogSignModel.removeNode()
             cogSignSF = 23
@@ -167,7 +165,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.hood.hideTitleText()
         self.exitPlace()
         self.placeClass = None
-        return
+        
 
     def enterFactoryInterior(self, requestStatus):
         self.placeClass = FactoryInterior.FactoryInterior
@@ -176,7 +174,6 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
     def exitFactoryInterior(self):
         self.exitPlace()
         self.placeClass = None
-        return
 
     def getExteriorPlaceClass(self):
         return SellbotHQExterior.SellbotHQExterior

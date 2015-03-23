@@ -10,13 +10,9 @@ class LobbyManagerAI(DistributedObjectAI.DistributedObjectAI):
         self.air = air
         self.bossConstructor = bossConstructor
 
-    def generate(self):
-        DistributedObjectAI.DistributedObjectAI.generate(self)
-        self.notify.debug('generate')
-
     def delete(self):
-        self.notify.debug('delete')
         self.ignoreAll()
+
         DistributedObjectAI.DistributedObjectAI.delete(self)
 
     def createBossOffice(self, avIdList):
