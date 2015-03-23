@@ -249,9 +249,9 @@ class TownLoader(StateData.StateData):
             np = npl.getPath(i)
             np.setTag('transformIndex', `i`)
             self.holidayPropTransforms[i] = np.getNetTransform()
-        gsg = base.win.getGsg()
-        if gsg:
-            self.geom.prepareScene(gsg)
+       # gsg = base.win.getGsg()
+       # if gsg:
+       #     self.geom.prepareScene(gsg)
         self.geom.flattenLight()
         self.geom.setName('town_top_level')
 

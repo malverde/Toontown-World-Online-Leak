@@ -126,17 +126,18 @@ class DisplayOptions:
                 self.restoreWindowProperties()
                 self.notify.warning('DISPLAY SET - AFTER RESTORE')
             base.win.setSort(original_sort)
-            base.graphicsEngine.renderFrame()
-            base.graphicsEngine.renderFrame()
+           # base.graphicsEngine.renderFrame()
+            #base.graphicsEngine.renderFrame()
         return state
 
     def resetWindowProperties(self, pipe, properties):
+    	gsg = None
         if base.win:
             currentProperties = WindowProperties(base.win.getProperties())
-            gsg = base.win.getGsg()
+           # gsg = base.win.getGsg()
         else:
             currentProperties = WindowProperties.getDefault()
-            gsg = None
+           # gsg = None
         newProperties = WindowProperties(currentProperties)
         newProperties.addProperties(properties)
         if base.pipe != pipe:

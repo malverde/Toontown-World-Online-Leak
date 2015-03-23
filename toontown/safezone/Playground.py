@@ -637,9 +637,9 @@ class Playground(Place.Place):
         self.makeDictionaries(self.loader.dnaStore)
         self.tunnelOriginList = base.cr.hoodMgr.addLinkTunnelHooks(self, self.nodeList, self.zoneId)
         self.geom.flattenMedium()
-        gsg = base.win.getGsg()
-        if gsg:
-            self.geom.prepareScene(gsg)
+        #gsg = base.win.getGsg()
+        #if gsg:
+         #   self.geom.prepareScene(gsg)
 
     def makeDictionaries(self, dnaStore):
         self.nodeList = []

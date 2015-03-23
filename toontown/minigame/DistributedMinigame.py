@@ -113,7 +113,7 @@ class DistributedMinigame(DistributedObject.DistributedObject):
         def cleanup(self = self):
             self.notify.debug('BASE: cleanup: normalExit=%s' % self.normalExit)
             self.offstage()
-            base.cr.renderFrame()
+            #base.cr.renderFrame()
             if self.normalExit:
                 self.sendUpdate('setAvatarExited', [])
 

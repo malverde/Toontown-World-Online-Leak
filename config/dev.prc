@@ -11,6 +11,10 @@ preload-avatars #t
 texture-anisotropic-degree 16
 # cursor-filename resources/phase_3/etc/toonmono.cur
 # icon-filename resources/phase_3/etc/icon.ico
+assert-abort 1
+notify-level info
+
+threading-model /Draw
 
 # Audio...
 audio-library-name p3fmod_audio

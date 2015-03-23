@@ -192,7 +192,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
 
         def cleanup(self = self):
             self.notify.debug('BASE: cleanup: normalExit=%s' % self.normalExit)
-            base.cr.renderFrame()
+            #base.cr.renderFrame()
             if self.normalExit:
                 self.sendUpdate('toonExitRequest')
 

@@ -411,17 +411,18 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
         self.exit()
 
     def resetDisplayProperties(self, pipe, properties):
+        gsg = None
         if base.win:
             currentProperties = base.win.getProperties()
-            gsg = base.win.getGsg()
+            #gsg = base.win.getGsg()
         else:
             currentProperties = WindowProperties.getDefault()
-            gsg = None
+            #gsg = None
         newProperties = WindowProperties(currentProperties)
         newProperties.addProperties(properties)
         if base.pipe != pipe:
             self.apiChanged = 1
-            gsg = None
+            #gsg = None
         if gsg == None or currentProperties.getFullscreen() != newProperties.getFullscreen() or currentProperties.getParentWindow() != newProperties.getParentWindow():
             self.notify.debug('window properties: %s' % properties)
             self.notify.debug('gsg: %s' % gsg)
@@ -431,8 +432,8 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
                 return 0
             self.notify.info('OPEN MAIN WINDOW PASSED')
             base.disableShowbaseMouse()
-            base.graphicsEngine.renderFrame()
-            base.graphicsEngine.renderFrame()
+#            base.graphicsEngine.renderFrame()
+ #           base.graphicsEngine.renderFrame()
             base.graphicsEngine.openWindows()
             if base.win.isClosed():
                 self.notify.info('Window did not open, removing.')
@@ -441,7 +442,7 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
         else:
             self.notify.debug('Adjusting properties')
             base.win.requestProperties(properties)
-            base.graphicsEngine.renderFrame()
+            #base.graphicsEngine.renderFrame()
         return 1
 
     def isCurrentlyEmbedded(self):
