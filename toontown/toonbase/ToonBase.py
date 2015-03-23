@@ -278,7 +278,7 @@ class ToonBase(OTPBase.OTPBase):
             if len(self.screenshotStr):
                 strTextLabel = DirectLabel(pos=(0.0, 0.001, 0.9), text=self.screenshotStr, text_scale=0.05, text_fg=VBase4(1.0, 1.0, 1.0, 1.0), text_bg=(0, 0, 0, 0), text_shadow=(0, 0, 0, 1), relief=None)
                 strTextLabel.setBin('gui-popup', 0)
-        #self.graphicsEngine.renderFrame()
+        self.graphicsEngine.renderFrame()
         self.screenshot(namePrefix=namePrefix, imageComment=ctext + ' ' + self.screenshotStr)
         self.lastScreenShotTime = globalClock.getRealTime()
         self.transitions.setFadeColor(1, 1, 1)
@@ -361,7 +361,7 @@ class ToonBase(OTPBase.OTPBase):
         self.cr = cr
         if self.display.antialias:
             render.setAntialias(AntialiasAttrib.MAuto)
-        #base.graphicsEngine.renderFrame()
+        base.graphicsEngine.renderFrame()
         self.downloadWatcher = ToontownDownloadWatcher.ToontownDownloadWatcher(TTLocalizer.LauncherPhaseNames)
         if launcher.isDownloadComplete():
             self.cleanupDownloadWatcher()
