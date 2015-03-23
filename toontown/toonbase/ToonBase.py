@@ -7,7 +7,6 @@ from direct.directnotify import DirectNotifyGlobal
 import ToontownLoader
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import *
-from toontown.toonbase.ToontownTransitions import ToontownTransitions
 from direct.showbase.Transitions import Transitions
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import Sequence, Func, Wait
@@ -89,7 +88,6 @@ class ToonBase(OTPBase.OTPBase):
         self.loader = ToontownLoader.ToontownLoader(self)
         __builtins__['loader'] = self.loader
         oldLoader.destroy()
-        self.transitions = ToontownTransitions(self.loader)
         self.accept('PandaPaused', self.disableAllAudio)
         self.accept('PandaRestarted', self.enableAllAudio)
         self.friendMode = self.config.GetBool('switchboard-friends', 0)
