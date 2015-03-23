@@ -18,6 +18,6 @@ class FactoryManagerAI(DirectObject.DirectObject):
         factoryZone = self.air.allocateZone()
         if FactoryManagerAI.factoryId is not None:
             factoryId = FactoryManagerAI.factoryId
-            factory = DistributedFactoryAI.DistributedFactoryAI(self.air, factoryId, factoryZone, entranceId, players)
+        factory = DistributedFactoryAI.DistributedFactoryAI(self.air, factoryId, factoryZone, entranceId, players)
         factory.generateWithRequired(factoryZone)
         return factoryZone
