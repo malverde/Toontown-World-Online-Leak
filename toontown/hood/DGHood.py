@@ -15,7 +15,7 @@ class DGHood(ToonHood):
     SKY_FILE = 'phase_3.5/models/props/TT_sky'
     SPOOKY_SKY_FILE = 'phase_3.5/models/props/BR_sky'
     TITLE_COLOR = (0.8, 0.6, 1.0, 1.0)
-    loader = ToontownLoader.ToontownLoader(self)
+    loader = ToontownLoader.ToontownLoader()
 
 
     HOLIDAY_DNA = {
