@@ -197,7 +197,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
     def gotCurrentSpec(self, curSpec):
         self.entTypeReg = self.level.getEntityTypeReg()
         curSpec.setEntityTypeReg(self.entTypeReg)
-        self.axis = loader.loadModel('models/misc/xyzAxis')
+        self.axis = loader.loadModel('models/misc/xyzAxis.bam')
         self.axis.setColorOff()
         self.axis.setColorScale(1, 1, 1, 1, 1)
         self.initializeLevel(self.doId, curSpec, curSpec.getScenario())
@@ -332,7 +332,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
         Level.Level.onEntityCreate(self, entId)
         entityNP = self.getEntInstanceNP(entId)
         if entityNP:
-            self.nodePathId2EntId[entityNP.id()] = entId
+            self.nodePathId2EntId[entityNP.get_key()] = entId
         if not self.editorInitialized:
             return
         self.insertEntityIntoTree(entId)
@@ -347,7 +347,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
         if self.editorInitialized:
             entityNP = self.getEntInstanceNP(entId)
             if entityNP in self.nodePathId2EntId:
-                del self.nodePathId2EntId[entityNP.id()]
+                del self.nodePathId2EntId[entityNP.get_key()]
             if ent is self.selectedEntity:
                 self.editor.clearAttribEditPane()
                 self.selectedEntity = None

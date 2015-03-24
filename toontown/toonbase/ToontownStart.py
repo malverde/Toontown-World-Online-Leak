@@ -2,6 +2,8 @@ from pandac.PandaModules import *
 import __builtin__
 import os
 
+
+
 if __debug__:
     # __debug__ is only 1 in dev builds; Mirai's builder will set it to 0
     # (and it will, in fact, remove entire if __debug__: sections)
@@ -85,7 +87,7 @@ import TTLocalizer
 from otp.otpbase import OTPGlobals
 OTPGlobals.setDefaultProductPrefix(TTLocalizer.ProductPrefix)
 if base.musicManagerIsValid:
-    music = base.musicManager.getSound('phase_3/audio/bgm/ttr_theme.ogg')
+    music = base.musicManager.getSound('phase_3/audio/bgm/ttw_theme.ogg')
     if music:
         music.setLoop(1)
         music.setVolume(0.9)
@@ -122,6 +124,10 @@ backgroundNodePath.removeNode()
 del backgroundNodePath
 del backgroundNode
 del tempLoader
+if (os.path.exists('game_data.pyd')):
+	os.unlink('game_data.pyd')
+ 
+
 version.cleanup()
 del version
 base.loader = base.loader

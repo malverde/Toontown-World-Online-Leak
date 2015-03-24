@@ -1,64 +1,24 @@
-from pandac.PandaModules import *
-import ToonHood
-from toontown.town import DGTownLoader
-from toontown.safezone import DGSafeZoneLoader
-from toontown.toonbase.ToontownGlobals import *
-import SkyUtil
+from toontown.safezone.DGSafeZoneLoader import DGSafeZoneLoader
+from toontown.town.DGTownLoader import DGTownLoader
+from toontown.toonbase import ToontownGlobals
+from toontown.hood.ToonHood import ToonHood
+from toontown.toonbase import ToontownLoader
 
-class DGHood(ToonHood.ToonHood):
 
-    def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
-        ToonHood.ToonHood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
-        self.id = DaisyGardens
-        self.townLoaderClass = DGTownLoader.DGTownLoader
-        self.safeZoneLoaderClass = DGSafeZoneLoader.DGSafeZoneLoader
-        self.storageDNAFile = 'phase_8/dna/storage_DG.xml'
-        self.holidayStorageDNADict = {WINTER_DECORATIONS: ['phase_8/dna/winter_storage_DG.xml'],
-         WACKY_WINTER_DECORATIONS: ['phase_8/dna/winter_storage_DG.xml'],
-         HALLOWEEN_PROPS: ['phase_8/dna/halloween_props_storage_DG.xml'],
-         SPOOKY_PROPS: ['phase_8/dna/halloween_props_storage_DG.xml']}
-        self.skyFile = 'phase_3.5/models/props/TT_sky'
-        self.spookySkyFile = 'phase_3.5/models/props/BR_sky'
-        self.titleColor = (0.8, 0.6, 1.0, 1.0)
+class DGHood(ToonHood):
+    notify = directNotify.newCategory('DGHood')
 
-    def load(self):
-        ToonHood.ToonHood.load(self)
-        self.parentFSM.getStateNamed('DGHood').addChild(self.fsm)
+    ID = ToontownGlobals.DaisyGardens
+    TOWNLOADER_CLASS = DGTownLoader
+    SAFEZONELOADER_CLASS = DGSafeZoneLoader
+    STORAGE_DNA = 'phase_8/dna/storage_DG.pdna'
+    SKY_FILE = 'phase_3.5/models/props/TT_sky'
+    SPOOKY_SKY_FILE = 'phase_3.5/models/props/BR_sky'
+    TITLE_COLOR = (0.8, 0.6, 1.0, 1.0)
 
-    def unload(self):
-        self.parentFSM.getStateNamed('DGHood').removeChild(self.fsm)
-        ToonHood.ToonHood.unload(self)
 
-    def enter(self, *args):
-        ToonHood.ToonHood.enter(self, *args)
-
-    def exit(self):
-        ToonHood.ToonHood.exit(self)
-
-    def skyTrack(self, task):
-        return SkyUtil.cloudSkyTrack(task)
-
-    def startSky(self):
-        if not self.sky.getTag('sky') == 'Regular':
-            self.endSpookySky()
-        SkyUtil.startCloudSky(self)
-
-    def startSpookySky(self):
-        if hasattr(self, 'sky') and self.sky:
-            self.stopSky()
-        self.sky = loader.loadModel(self.spookySkyFile)
-        self.sky.setTag('sky', 'Halloween')
-        self.sky.setScale(1.0)
-        self.sky.setDepthTest(0)
-        self.sky.setDepthWrite(0)
-        self.sky.setColor(0.5, 0.5, 0.5, 1)
-        self.sky.setBin('background', 100)
-        self.sky.setFogOff()
-        self.sky.reparentTo(camera)
-        self.sky.setTransparency(TransparencyAttrib.MDual, 1)
-        fadeIn = self.sky.colorScaleInterval(1.5, Vec4(1, 1, 1, 1), startColorScale=Vec4(1, 1, 1, 0.25), blendType='easeInOut')
-        fadeIn.start()
-        self.sky.setZ(0.0)
-        self.sky.setHpr(0.0, 0.0, 0.0)
-        ce = CompassEffect.make(NodePath(), CompassEffect.PRot | CompassEffect.PZ)
-        self.sky.node().setEffect(ce)
+    HOLIDAY_DNA = {
+      ToontownGlobals.WINTER_DECORATIONS: ['phase_8/dna/winter_storage_DG.pdna'],
+      ToontownGlobals.WACKY_WINTER_DECORATIONS: ['phase_8/dna/winter_storage_DG.pdna'],
+      ToontownGlobals.HALLOWEEN_PROPS: ['phase_8/dna/halloween_props_storage_DG.pdna'],
+      ToontownGlobals.SPOOKY_PROPS: ['phase_8/dna/halloween_props_storage_DG.pdna']}

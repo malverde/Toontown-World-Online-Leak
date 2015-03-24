@@ -243,9 +243,9 @@ class PublicPartyGui(DirectFrame):
         return (list, label)
 
     def stash(self):
-        base.setCellsAvailable(base.bottomCells, 1)
+        base.setCellsActive(base.bottomCells, 1)
         DirectFrame.stash(self)
 
     def unstash(self):
-        base.setCellsAvailable(base.bottomCells, 0)
+        base.setCellsActive(base.bottomCells, 0)
         DirectFrame.unstash(self)

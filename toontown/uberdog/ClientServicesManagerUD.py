@@ -375,7 +375,7 @@ class CreateAvatarFSM(OperationFSM):
 
     def __handleStoreAvatar(self, fields):
         if fields:
-            # TODO: delete self.avId
+            del self.avId
             self.demand('Kill', 'Database failed to associate the new avatar to your account!')
             return
 
@@ -785,6 +785,7 @@ class UnloadAvatarFSM(OperationFSM):
 
     def enterUnloadAvatar(self):
         channel = self.csm.GetAccountConnectionChannel(self.target)
+        self.csm.air.friendsManager.toonOffline(self.avId)
 
         # Fire off the avatarOffline message.
         self.csm.air.netMessenger.send('avatarOffline', [self.avId])

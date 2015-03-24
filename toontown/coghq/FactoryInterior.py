@@ -11,8 +11,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.building import Elevator
-from otp.nametag.NametagConstants import *
-from otp.nametag import NametagGlobals
+from toontown.nametag import NametagGlobals
 
 class FactoryInterior(BattlePlace.BattlePlace):
     notify = DirectNotifyGlobal.directNotify.newCategory('FactoryInterior')
@@ -84,7 +83,7 @@ class FactoryInterior(BattlePlace.BattlePlace):
         self._telemLimiter = TLGatherAllAvs('FactoryInterior', RotationLimitToH)
 
         def commence(self = self):
-            NametagGlobals.setMasterArrowsOn(1)
+            NametagGlobals.setWant2dNametags(True)
             self.fsm.request(requestStatus['how'], [requestStatus])
             base.playMusic(self.music, looping=1, volume=0.8)
             base.transitions.irisIn()
@@ -105,7 +104,7 @@ class FactoryInterior(BattlePlace.BattlePlace):
         self.acceptOnce('localToonConfrontedForeman', handleConfrontedForeman)
 
     def exit(self):
-        NametagGlobals.setMasterArrowsOn(0)
+        NametagGlobals.setWant2dNametags(False)
         self._telemLimiter.destroy()
         del self._telemLimiter
         if hasattr(base, 'factoryReady'):

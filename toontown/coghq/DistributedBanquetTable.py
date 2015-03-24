@@ -29,8 +29,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
     pitcherMinH = -360
     pitcherMaxH = 360
     rotateSpeed = 30
-    waterPowerSpeed = config.GetDouble('water-power-speed', 15)
-    waterPowerExponent = config.GetDouble('water-power-exponent', 0.75)
+    waterPowerSpeed = base.config.GetDouble('water-power-speed', 15)
+    waterPowerExponent = base.config.GetDouble('water-power-exponent', 0.75)
     useNewAnimations = True
     TugOfWarControls = False
     OnlyUpArrow = True
@@ -192,6 +192,8 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         level -= 4
         diner.dna.newSuitRandom(level=level, dept='c')
         diner.setDNA(diner.dna)
+        diner.nametag.setNametag2d(None)
+        diner.nametag.setNametag3d(None)
         if self.useNewAnimations:
             diner.loop('sit', fromFrame=i)
         else:
@@ -223,8 +225,6 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         newIndicator = DinerStatusIndicator.DinerStatusIndicator(parent=head, pos=Point3(0, 0, 3.5), scale=5.0)
         newIndicator.wrtReparentTo(diner)
         self.dinerStatusIndicators[i] = newIndicator
-        diner.nametag3d.stash()
-        diner.nametag.destroy()
         return diner
 
     def setupChairCols(self):
@@ -299,7 +299,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         serviceLoc = self.serviceLocs[chairIndex]
 
         def foodAttach(self = self, diner = diner):
-            if not self.serviceLocs[chairIndex].getNumChildren():
+            if self.serviceLocs[chairIndex].getNumChildren() < 1:
                 return
             foodModel = self.serviceLocs[chairIndex].getChild(0)
             (foodModel.reparentTo(diner.getRightHand()),)
@@ -501,7 +501,6 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             self.waterPitcherNode = self.tableGroup.attachNewNode('pitcherNode')
             self.waterPitcherNode.setPos(pos)
             self.waterPitcherModel.reparentTo(self.waterPitcherNode)
-            self.waterPitcherModel.ls()
             self.nozzle = self.waterPitcherModel.find('**/nozzle_tip')
             self.handLocator = self.waterPitcherModel.find('**/hand_locator')
             self.handPos = self.handLocator.getPos()
@@ -1109,10 +1108,10 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
     def __updateKeyPressRateTask(self, task):
         if self.state not in 'Controlled':
             return Task.done
-        for i in range(len(self.keyTTL)):
+        for i in xrange(len(self.keyTTL)):
             self.keyTTL[i] -= 0.1
 
-        for i in range(len(self.keyTTL)):
+        for i in xrange(len(self.keyTTL)):
             if self.keyTTL[i] <= 0:
                 a = self.keyTTL[0:i]
                 del self.keyTTL

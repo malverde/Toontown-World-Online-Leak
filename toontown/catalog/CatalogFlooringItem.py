@@ -26,7 +26,6 @@ FlooringTypes = {1000: ('phase_5.5/maps/floor_wood_neutral.jpg', CTBasicWoodColo
  10010: ('phase_5.5/maps/floor_snow.jpg', CTWhite, 225),
  11000: ('phase_5.5/maps/StPatsFloor1.jpg', CTWhite, 225),
  11010: ('phase_5.5/maps/StPatsFloor2.jpg', CTWhite, 225),
- #11020: ('phase_5.5/maps/painting84_05.jpg', None, 169)
  }
 
 class CatalogFlooringItem(CatalogSurfaceItem):

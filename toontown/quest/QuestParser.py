@@ -9,9 +9,7 @@ from pandac.PandaModules import *
 from direct.showbase import DirectObject
 import BlinkingArrows
 from toontown.toon import ToonHeadFrame
-from toontown.char import CharDNA
 from toontown.suit import SuitDNA
-from toontown.char import Char
 from toontown.suit import Suit
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals

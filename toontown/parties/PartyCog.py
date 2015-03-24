@@ -30,7 +30,7 @@ class PartyCogManager:
             cog.unload()
 
     def updateDistances(self, distances):
-        for i in range(len(distances)):
+        for i in xrange(len(distances)):
             self.cogs[i].updateDistance(distances[i])
 
 

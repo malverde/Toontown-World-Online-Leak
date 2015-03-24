@@ -19,8 +19,8 @@ class QuestChoiceGui(DirectFrame):
         self.timer = ToontownTimer.ToontownTimer()
         self.timer.reparentTo(self)
         self.timer.setScale(0.3)
-        base.setCellsAvailable(base.leftCells, 0)
-        base.setCellsAvailable([base.bottomCells[0], base.bottomCells[1]], 0)
+        base.setCellsActive(base.leftCells, 0)
+        base.setCellsActive([base.bottomCells[0], base.bottomCells[1]], 0)
         return
 
     def setQuests(self, quests, fromNpcId, timeout):
@@ -56,8 +56,8 @@ class QuestChoiceGui(DirectFrame):
         if questId != 0:
             if config.GetBool('want-qa-regression', 0):
                 self.notify.info('QA-REGRESSION: CREATEATASK: Create A Task.')
-        base.setCellsAvailable(base.leftCells, 1)
-        base.setCellsAvailable([base.bottomCells[0], base.bottomCells[1]], 1)
+        base.setCellsActive(base.leftCells, 1)
+        base.setCellsActive([base.bottomCells[0], base.bottomCells[1]], 1)
         self.timer.stop()
         messenger.send('chooseQuest', [questId])
 

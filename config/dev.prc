@@ -4,7 +4,7 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-server-version ttw-pre-alpha-dev-build-2.5.0
+server-version ttw-pre-alpha-2.5.1
 sync-video #f
 want-dev #f
 preload-avatars #t
@@ -58,12 +58,13 @@ dc-file config/otp.dc
 want-pets #f
 want-news-tab #f
 want-news-page #f
-want-accessories #f
-want-parties #f
+want-accessories #t
+want-parties #t
 want-gardening #f
 want-gifting #t
 want-picnic-games #f
 want-chinese-table #f
+want-fishing #t
 want-checkers-table #f
 want-findfour-table #f
 # This is a temporary 'fix' for DistributedSmoothNodes... probably not the permanent solution to our problem, but it works for now.
@@ -88,7 +89,8 @@ force-player-understandable #t
 want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
-want-mega-invasions #f
+want-mega-invasions #t
+mega-invasion-cog-type bs
 
 
 
@@ -97,5 +99,10 @@ want-mega-invasions #f
 base-xp-multiplier 1
 #group merges
 boarding-group-merges #t
-force-skip-tutorial #f
+#other
+
 want-speedhack-fix #t
+want-cogdominiums #f
+want-game-tables #f
+force-skip-tutorial #f
+active-holidays 19
