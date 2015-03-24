@@ -17,7 +17,7 @@ class EntityTypeDesc:
             self.attribDescDict[attribName] = desc
 
     def isConcrete(self):
-        return 'abstract' not inself.__class__.__dict__
+        return 'abstract' not in inself.__class__.__dict__
 
     def isPermanent(self):
         return 'permanent' in self.__class__.__dict__
