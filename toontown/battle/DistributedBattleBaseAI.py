@@ -1450,7 +1450,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                                         pass
                                     target.battleTrap = NO_TRAP
                                     needUpdate = 1
-                                    if target.doId in trapDict
+                                    if target.doId in trapDict:
                                         del trapDict[target.doId]
                                     if suitsLuredOntoTraps.count(target) == 0:
                                         suitsLuredOntoTraps.append(target)
