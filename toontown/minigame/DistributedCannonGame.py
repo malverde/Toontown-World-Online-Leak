@@ -255,7 +255,7 @@ class DistributedCannonGame(DistributedMinigame):
         self.tower.reparentTo(hidden)
         for avId in self.avIdList:
             self.cannonDict[avId][0].reparentTo(hidden)
-            if self.dropShadowDict.has_key(avId):
+            if avId in self.dropShadowDict:
                 self.dropShadowDict[avId].reparentTo(hidden)
             av = self.getAvatar(avId)
             if av:
