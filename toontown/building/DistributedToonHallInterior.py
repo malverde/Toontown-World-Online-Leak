@@ -51,9 +51,9 @@ class DistributedToonHallInterior(DistributedToonInterior):
         del self.dnaStore
         del self.randomGenerator
         self.interior.flattenMedium()
-        self.sillyFSM.enterInitialState()
 
-            self.sillyMeter = Actor.Actor('phase_4/models/props/tt_a_ara_ttc_sillyMeter_default', {'arrowTube': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_arrowFluid',
+
+	self.sillyMeter = Actor.Actor('phase_4/models/props/tt_a_ara_ttc_sillyMeter_default', {'arrowTube': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_arrowFluid',
          'phaseOne': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseOne',
          'phaseTwo': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseTwo',
          'phaseThree': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseThree',
