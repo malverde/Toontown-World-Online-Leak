@@ -51,9 +51,6 @@ place_model "phase_4/models/modules/gazebo" [
 	store_node [ "prop" "prop_gazebo" "" ]
         ]
 
-place_model "phase_4/models/modules/blockade" [
-	store_node [ "prop" "prop_blockade" "" ]
-        ]
 
 place_model "phase_4/models/modules/toonhall" [
 	store_node [ "toon_landmark" "toon_landmark_TT_toonhall" "" ]
