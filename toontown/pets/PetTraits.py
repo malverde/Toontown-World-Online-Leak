@@ -5,14 +5,13 @@ import random, copy
 TraitDivisor = 10000
 
 def getTraitNames():
-  if not hasaTtr(PetTraits, 'TraitNames'):
-   traitNames = []
-  for desc in PetTraits.TraitDescs:
+    if not hasattr(PetTraits, 'TraitNames'):
+        traitNames = []
+        for desc in PetTraits.TraitDescs:
+            traitNames.append(desc[0])
+            PetTraits.TraitNames = traitNames
 
- 
-   PetTraits.TraitNames = traitNames
-
-  return PetTraits.TraitNames
+    return PetTraits.TraitNames
 
 
 def uniform(min, max, rng):
@@ -121,7 +120,8 @@ class PetTraits:
          ToontownGlobals.DaisyGardens: (0.4, 0.75),
          ToontownGlobals.MinniesMelodyland: (0.5, 0.8),
          ToontownGlobals.TheBrrrgh: (0.6, 0.85),
-         ToontownGlobals.DonaldsDreamland: (0.7, 0.9)}
+         ToontownGlobals.DonaldsDreamland: (0.7, 0.9),
+         ToontownGlobals.FunnyFarm: (0.8, 0.9)}
 
     class StdDecDistrib(TraitDistribution):
         TraitType = TraitDistribution.TraitTypes.DECREASING
@@ -130,7 +130,8 @@ class PetTraits:
          ToontownGlobals.DaisyGardens: (0.25, 0.6),
          ToontownGlobals.MinniesMelodyland: (0.2, 0.5),
          ToontownGlobals.TheBrrrgh: (0.15, 0.4),
-         ToontownGlobals.DonaldsDreamland: (0.1, 0.3)}
+         ToontownGlobals.DonaldsDreamland: (0.1, 0.3),
+         ToontownGlobals.FunnyFarm: (0.05, 0.2)}
 
     class ForgetfulnessDistrib(TraitDistribution):
         TraitType = TraitDistribution.TraitTypes.DECREASING
@@ -139,7 +140,8 @@ class PetTraits:
          ToontownGlobals.DaisyGardens: (0.0, 0.8),
          ToontownGlobals.MinniesMelodyland: (0.0, 0.7),
          ToontownGlobals.TheBrrrgh: (0.0, 0.6),
-         ToontownGlobals.DonaldsDreamland: (0.0, 0.5)}
+         ToontownGlobals.DonaldsDreamland: (0.0, 0.5),
+         ToontownGlobals.FunnyFarm: (0.0, 0.4)}
 
     TraitDescs = (('forgetfulness', ForgetfulnessDistrib(), True),
      ('boredomThreshold', StdIncDistrib(), True),

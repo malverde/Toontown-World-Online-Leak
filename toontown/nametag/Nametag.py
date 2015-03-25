@@ -11,8 +11,8 @@ class Nametag:
 
     CHAT_TEXT_WORD_WRAP = 12
 
-    PANEL_X_PADDING = 0.2
-    PANEL_Z_PADDING = 0.2
+    PANEL_X_PADDING = 0.05
+    PANEL_Z_PADDING = 0.05
 
     CHAT_BALLOON_ALPHA = 1
 

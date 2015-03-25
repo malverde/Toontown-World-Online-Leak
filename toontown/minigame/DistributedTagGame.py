@@ -27,10 +27,10 @@ class DistributedTagGame(DistributedMinigame):
         self.addChildGameFSM(self.gameFSM)
         self.walkStateData = Walk.Walk('walkDone')
         self.scorePanels = []
-        self.initialPositions = ((0, 10, 0, 180, 0, 0),
-         (10, 0, 0, 90, 0, 0),
-         (0, -10, 0, 0, 0, 0),
-         (-10, 0, 0, -90, 0, 0))
+        self.initialPositions = ((-14.708, 72.615, 0.025, 312.447, 0, 0),
+         (13.979, 108.194, 0.025, 138.657, 0, 0),
+         (16.280, 85.399, 0.025, 430.129, 0, 0),
+         (-11.633, 106.149, 0.025, 220.285, 0, 0))
         base.localAvatar.isIt = 0
         self.modelCount = 4
 
@@ -49,7 +49,7 @@ class DistributedTagGame(DistributedMinigame):
         self.itText = OnscreenText.OnscreenText('itText', fg=(0.95, 0.95, 0.65, 1), scale=0.14, font=ToontownGlobals.getSignFont(), pos=(0.0, -0.8), wordwrap=15, mayChange=1)
         self.itText.hide()
         self.sky = loader.loadModel('phase_3.5/models/props/TT_sky')
-        self.ground = loader.loadModel('phase_4/models/minigames/tag_arena')
+        self.ground = loader.loadModel('phase_4/models/minigames/daisys_garden')
         self.music = base.loadMusic('phase_4/audio/bgm/MG_toontag.ogg')
         self.tagSfx = base.loadSfx('phase_4/audio/sfx/MG_Tag_C.ogg')
         self.itPointer = loader.loadModel('phase_4/models/minigames/bboard-pointer')
@@ -86,7 +86,7 @@ class DistributedTagGame(DistributedMinigame):
         base.localAvatar.reparentTo(render)
         base.localAvatar.loop('neutral')
         camera.reparentTo(render)
-        camera.setPosHpr(0, -24, 16, 0, -30, 0)
+        camera.setPosHpr(0, 45, 44, 0, -50, 0)
         base.camLens.setFar(450.0)
         base.transitions.irisIn(0.4)
         NametagGlobals.setWant2dNametags(True)

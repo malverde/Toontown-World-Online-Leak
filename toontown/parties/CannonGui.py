@@ -5,11 +5,11 @@ from toontown.parties import PartyUtils
 
 class CannonGui(DirectObject):
     notify = directNotify.newCategory('CannonGui')
-    FIRE_KEY = 'control'
-    UP_KEY = 'arrow_up'
-    DOWN_KEY = 'arrow_down'
-    LEFT_KEY = 'arrow_left'
-    RIGHT_KEY = 'arrow_right'
+    FIRE_KEY = base.JUMP
+    UP_KEY = base.Move_Up
+    DOWN_KEY = base.Move_Down
+    LEFT_KEY = base.Move_Left
+    RIGHT_KEY = base.Move_Right
     FIRE_PRESSED = 'cannongui_fire_pressed'
 
     def __init__(self):

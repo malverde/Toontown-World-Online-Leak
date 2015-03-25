@@ -68,7 +68,7 @@ class DistributedAnimatedPropAI(DistributedObjectAI.DistributedObjectAI):
         pass
 
     def enterPlaying(self):
-        self.d_setState('playing')
+        self.d_setState('attract')
 
     def exitPlaying(self):
         pass

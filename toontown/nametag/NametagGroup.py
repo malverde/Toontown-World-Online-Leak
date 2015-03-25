@@ -61,6 +61,9 @@ class NametagGroup:
         # Add the tick task:
         self.tickTaskName = self.getUniqueName() + '-tick'
         self.tickTask = taskMgr.add(self.tick, self.tickTaskName, sort=45)
+        
+    def getNameIcon(self):
+        return self.icon
 
     def destroy(self):
         if self.marginManager is not None:

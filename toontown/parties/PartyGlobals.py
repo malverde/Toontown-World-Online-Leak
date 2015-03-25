@@ -120,7 +120,7 @@ UnreleasedActivityIds = (ActivityIds.PartyCog,
  ActivityIds.PartyValentineDance20,
  ActivityIds.PartyTugOfWar,
  ActivityIds.PartyCannon,
- #ActivityIds.PartyTrampoline,
+ ActivityIds.PartyTrampoline,
  ActivityIds.PartyCatch,
  ActivityIds.PartyDance,
  ActivityIds.PartyDance20)

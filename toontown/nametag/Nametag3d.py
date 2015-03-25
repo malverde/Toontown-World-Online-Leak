@@ -11,8 +11,8 @@ from toontown.toontowngui.Clickable3d import Clickable3d
 
 class Nametag3d(Nametag, Clickable3d):
     SCALING_MIN_DISTANCE = 1
-    SCALING_MAX_DISTANCE = 50
-    SCALING_FACTOR = 0.065
+    SCALING_MAX_DISTANCE = 1000
+    SCALING_FACTOR = 0.075
 
     def __init__(self):
         Nametag.__init__(self)
@@ -104,14 +104,16 @@ class Nametag3d(Nametag, Clickable3d):
 
     def tick(self, task):
         distance = self.contents.getPos(base.cam).length()
-
+        
+	extraScale = 1.0
         if distance < self.SCALING_MIN_DISTANCE:
             distance = self.SCALING_MIN_DISTANCE
         elif distance > self.SCALING_MAX_DISTANCE:
+        	extraScale = 2.0
             distance = self.SCALING_MAX_DISTANCE
 
         if distance != self.distance:
-            self.contents.setScale(math.sqrt(distance) * self.SCALING_FACTOR)
+            self.contents.setScale(math.sqrt(distance) * self.SCALING_FACTOR * extraScale)
             self.distance = distance
 
         self.updateClickRegion()

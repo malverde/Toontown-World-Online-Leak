@@ -2,7 +2,7 @@ from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import DirectObject
 from otp.ai.AIZoneData import AIZoneData
-from toontown.toonbase import ToontownGlobals
+from toontown.toonbase.BitmaskGlobals import PetLookatPetBitmask, PetLookatNonPetBitmask
 from toontown.pets import PetConstants
 
 def getStartLookingAtOtherEvent(lookingAvId):
@@ -83,11 +83,11 @@ class PetLookerAI:
         lookSphereNode.addSolid(lookSphere)
         lookSphereNode.setFromCollideMask(BitMask32.allOff())
         if isPet:
-            intoCollideMask = ToontownGlobals.PetLookatPetBitmask
-            fromCollideMask = ToontownGlobals.PetLookatPetBitmask | ToontownGlobals.PetLookatNonPetBitmask
+            intoCollideMask = PetLookatPetBitmask
+            fromCollideMask = PetLookatPetBitmask | PetLookatNonPetBitmask
         else:
-            intoCollideMask = ToontownGlobals.PetLookatNonPetBitmask
-            fromCollideMask = ToontownGlobals.PetLookatPetBitmask
+            intoCollideMask = PetLookatNonPetBitmask
+            fromCollideMask = PetLookatPetBitmask
         lookSphereNode.setIntoCollideMask(intoCollideMask)
         lookSphereNode.setFromCollideMask(fromCollideMask)
         self.lookSphereNodePath = self.__collNode.attachNewNode(lookSphereNode)
