@@ -441,12 +441,11 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     #simbase.air.banManager.ban(self.doId, dislId, commentStr)'''
 
     def announceZoneChange(self, newZoneId, oldZoneId):
-        from toontown.pets import PetObserve
-        self.air.welcomeValleyManager.toonSetZone(self.doId, newZoneId)
-        broadcastZones = [oldZoneId, newZoneId]
-        if self.isInEstate() or self.wasInEstate():
-            broadcastZones = union(broadcastZones, self.estateZones)
-        PetObserve.send(broadcastZones, PetObserve.PetActionObserve(PetObserve.Actions.CHANGE_ZONE, self.doId, (oldZoneId, newZoneId)))
+        if simbase.wantPets:
+            broadcastZones = [oldZoneId, newZoneId]
+            if self.isInEstate() or self.wasInEstate():
+                broadcastZones = union(broadcastZones, self.estateZones)
+            PetObserve.send(broadcastZones, PetObserve.PetActionObserve(PetObserve.Actions.CHANGE_ZONE, self.doId, (oldZoneId, newZoneId)))
 
     def checkAccessorySanity(self, accessoryType, idx, textureIdx, colorIdx):
         if idx == 0 and textureIdx == 0 and colorIdx == 0:
