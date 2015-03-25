@@ -39,8 +39,7 @@ class PetManagerAI:
         
         self.seeds = {}
         for hood in (ToontownGlobals.ToontownCentral, ToontownGlobals.DonaldsDock, ToontownGlobals.DaisyGardens,
-                     ToontownGlobals.MinniesMelodyland, ToontownGlobals.TheBrrrgh, ToontownGlobals.DonaldsDreamland,
-                     ToontownGlobals.FunnyFarm):
+                     ToontownGlobals.MinniesMelodyland, ToontownGlobals.TheBrrrgh, ToontownGlobals.DonaldsDreamland):
             self.seeds[hood] = [seeds.pop() for _ in xrange(self.NUM_DAILY_PETS)]
             
         self.seeds['day'] = getDayId()
