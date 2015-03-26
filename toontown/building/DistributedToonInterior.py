@@ -1,21 +1,25 @@
-from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
-from direct.interval.IntervalGlobal import *
-from direct.distributed.ClockDelta import *
-from toontown.toonbase import ToontownGlobals
 import cPickle
-import ToonInterior
-from direct.directnotify import DirectNotifyGlobal
-from direct.fsm import ClassicFSM, State
-from direct.distributed import DistributedObject
-from direct.fsm import State
 import random
+
+import ToonInterior
 import ToonInteriorColors
-from toontown.dna.DNADoor import DNADoor
+from direct.directnotify import DirectNotifyGlobal
+from direct.distributed import DistributedObject
+from direct.distributed.ClockDelta import *
+from direct.fsm import ClassicFSM, State
+from direct.fsm import State
+from direct.interval.IntervalGlobal import *
+from otp.speedchat import SpeedChatGlobals
+from pandac.PandaModules import *
+from toontown.dna.DNAParser import DNADoor
 from toontown.hood import ZoneUtil
 from toontown.toon import ToonDNA
 from toontown.toon import ToonHead
-from otp.speedchat import SpeedChatGlobals
+from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
+from toontown.toonbase import ToontownGlobals
+from toontown.toonbase.ToonBaseGlobal import *
+from toontown.toon import Toon
+
 
 SIGN_LEFT = -4
 SIGN_RIGHT = 4
@@ -57,7 +61,7 @@ class DistributedToonInterior(DistributedObject.DistributedObject):
     def replaceRandomInModel(self, model):
         baseTag = 'random_'
         npc = model.findAllMatches('**/' + baseTag + '???_*')
-        for i in range(npc.getNumPaths()):
+        for i in xrange(npc.getNumPaths()):
             np = npc.getPath(i)
             name = np.getName()
             b = len(baseTag)
@@ -137,39 +141,8 @@ class DistributedToonInterior(DistributedObject.DistributedObject):
         del self.dnaStore
         del self.randomGenerator
         self.interior.flattenMedium()
-
-        '''snowmanHeadInteriors = [
-            2740, # TTC, Loopy Lane, Used Firecrackers
-            4652, # MML, Alto Avenue, Full Stop Shop
-            9608, # DDL, non-HQ street, Cat Nip For Cat Naps
-            5710, # DG, Maple Street, Tuft Guy Gym
-            1711, # DD, Seaweed Street, Deep-Sea Diner
-            3620, # TB, Walrus Way, Skiing Clinic
-        ]
-        snowmanInteriorPhrase = {
-            snowmanHeadInteriors[0] : 30225,
-            snowmanHeadInteriors[1] : 30224,
-            snowmanHeadInteriors[2] : 30221,
-            snowmanHeadInteriors[3] : 30220,
-            snowmanHeadInteriors[4] : 30222,
-            snowmanHeadInteriors[5] : 30223,
-        }
-        if self.zoneId in snowmanHeadInteriors:
-            def phraseSaid(phraseId):
-                phraseNeeded = snowmanInteriorPhrase.get(self.zoneId)
-
-                if phraseId == phraseNeeded:
-                    self.sendUpdate('nextSnowmanHeadPart', [])
-            self.accept(SpeedChatGlobals.SCStaticTextMsgEvent, phraseSaid)'''
-
-        if config.GetBool('want-toonhall-cats', False):
-            if self.zoneId == 2513:
-                # Pfft... all this is needed for is the ActivateEvent...
-                from toontown.ai.DistributedBlackCatMgr import DistributedBlackCatMgr
-                def phraseSaid(phraseId):
-                    if phraseId == 5700: # Toontastic!
-                        messenger.send(DistributedBlackCatMgr.ActivateEvent)
-                self.accept(SpeedChatGlobals.SCStaticTextMsgEvent, phraseSaid)
+        for npcToon in self.cr.doFindAllInstances(DistributedNPCToonBase):
+            npcToon.initToonState()
 
     def setZoneIdAndBlock(self, zoneId, block):
         self.zoneId = zoneId
@@ -193,20 +166,19 @@ class DistributedToonInterior(DistributedObject.DistributedObject):
 
         return trophy
 
-    def buildFrame(self, name, dnaTuple):
+    def buildFrame(self, name, dnaTuple): #This now will display the whole toon's body! This is not finished yet. But it looks cool!
         frame = loader.loadModel('phase_3.5/models/modules/trophy_frame')
-        dna = ToonDNA.ToonDNA()
-        apply(dna.newToonFromProperties, dnaTuple)
-        head = ToonHead.ToonHead()
-        head.setupHead(dna)
-        head.setPosHprScale(0, -0.05, -0.05, 180, 0, 0, 0.55, 0.02, 0.55)
-        if dna.head[0] == 'r':
-            head.setZ(-0.15)
-        elif dna.head[0] == 'h':
-            head.setZ(0.05)
-        elif dna.head[0] == 'm':
-            head.setScale(0.45, 0.02, 0.45)
-        head.reparentTo(frame)
+        if base.localAvatarStyle:
+            from toontown.toon import Toon
+            toon = Toon.Toon()
+            dna = ToonDNA.ToonDNA()
+            toon.loop('idle', fromFrame=0, toFrame=100)
+            toon.getGeomNode().setDepthWrite(1)
+            toon.getGeomNode().setDepthTest(1)
+            toon.setHpr(180, 0, 0)
+            toon.setScale(0.12)
+            toon.setPosHprScale(0, -0.5, -0.5, 180, 0, 0, 0.55, 1, 0.55)
+            toon.reparentTo(frame)
         nameText = TextNode('trophy')
         nameText.setFont(ToontownGlobals.getToonFont())
         nameText.setAlign(TextNode.ACenter)

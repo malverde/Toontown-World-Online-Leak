@@ -102,7 +102,6 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
                     self.__refreshPetInfo(av)
 
                 self.avatar.updateMoodFromServer(refresh)
-        base.hideFriendMargins()
         return
 
     def __checkPetProximity(self, task = None):
@@ -218,7 +217,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         return
 
     def __handleCall(self):
-        if config.GetBool('want-qa-regression', 0):
+        if base.config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: PET: Call')
         self.notify.debug('__handleCall(): doId=%s' % self.avatar.doId)
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_CALL)
@@ -230,7 +229,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         return
 
     def __handleFeed(self):
-        if config.GetBool('want-qa-regression', 0):
+        if base.config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: PET: Feed')
         self.notify.debug('__handleFeed(): doId=%s' % self.avatar.doId)
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_FEED)
@@ -242,7 +241,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         return
 
     def __handleScratch(self):
-        if config.GetBool('want-qa-regression', 1):
+        if base.config.GetBool('want-qa-regression', 1):
             self.notify.info('QA-REGRESSION: PET: Scratch')
         self.notify.debug('__handleScratch(): doId=%s' % self.avatar.doId)
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_SCRATCH)
@@ -268,8 +267,6 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         AvatarPanel.currentAvatarPanel = None
         if self.friendsListShown:
             self.FriendsListPanel.showFriendsList()
-        else:
-            base.showFriendMargins()
         return
 
     def __fillPetInfo(self, avatar):

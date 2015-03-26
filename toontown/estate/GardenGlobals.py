@@ -596,7 +596,7 @@ def getSpeciesVarietyGivenRecipe(recipeKey):
         attrib = PlantAttributes[species]
         if attrib['plantType'] == GAG_TREE_TYPE:
             continue
-        if attrib.has_key('varieties'):
+        if 'varieties' in attrib:
             for variety in range(len(attrib['varieties'])):
                 if attrib['varieties'][variety][0] == recipeKey:
                     return (species, variety)
@@ -608,14 +608,14 @@ def getNumBeansRequired(species, variety):
     retval = -1
     if not PlantAttributes.get(species):
         return retval
-    if not PlantAttributes[species].has_key('varieties'):
+    if 'varieties' not in PlantAttributes[species]:
         return retval
     if variety >= len(PlantAttributes[species]['varieties']):
         return -1
     recipeKey = PlantAttributes[species]['varieties'][variety][0]
     recipe = Recipes.get(recipeKey)
     if recipe:
-        if recipe.has_key('beans'):
+        if "beans" in recipe:
             retval = len(recipe['beans'])
     return retval
 

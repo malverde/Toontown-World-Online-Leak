@@ -1,15 +1,16 @@
 from direct.directnotify import DirectNotifyGlobal
-from toontown.safezone import DistributedGolfKartAI
 from toontown.building import DistributedElevatorExtAI
 from toontown.building import ElevatorConstants
+from toontown.safezone import DistributedGolfKartAI
 from toontown.toonbase import ToontownGlobals
+
 
 class DistributedCogKartAI(DistributedElevatorExtAI.DistributedElevatorExtAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCogKartAI')
 
     def __init__(self, air, index, x, y, z, h, p, r, bldg, minLaff):
         self.posHpr = (x, y, z, h, p, r)
-        DistributedElevatorExtAI.DistributedElevatorExtAI.__init__(self, air, bldg, minLaff=minLaff)
+        DistributedElevatorExtAI.DistributedElevatorExtAI.__init__(self, air, bldg, minLaff = minLaff)
         self.type = ElevatorConstants.ELEVATOR_COUNTRY_CLUB
         self.courseIndex = index
         if self.courseIndex == 0:
@@ -31,18 +32,16 @@ class DistributedCogKartAI(DistributedElevatorExtAI.DistributedElevatorExtAI):
             for i in self.seats:
                 if i not in [None, 0]:
                     players.append(i)
-
             countryClubZone = self.bldg.createCountryClub(self.countryClubId, players)
-            for seatIndex in range(len(self.seats)):
+            for seatIndex in xrange(len(self.seats)):
                 avId = self.seats[seatIndex]
                 if avId:
-                    self.sendUpdateToAvatarId(avId, 'setCountryClubInteriorZone', [countryClubZone])
+                    self.sendUpdateToAvatarId(avId, 'setCountryClubInteriorZone', [
+                        countryClubZone])
                     self.clearFullNow(seatIndex)
-
         else:
             self.notify.warning('The elevator left, but was empty.')
         self.fsm.request('closed')
-        return
 
     def sendAvatarsToDestination(self, avIdList):
         if len(avIdList) > 0:
@@ -57,4 +56,3 @@ class DistributedCogKartAI(DistributedElevatorExtAI.DistributedElevatorExtAI):
     def enterClosed(self):
         DistributedElevatorExtAI.DistributedElevatorExtAI.enterClosed(self)
         self.fsm.request('opening')
-

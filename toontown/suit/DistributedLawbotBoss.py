@@ -1,39 +1,41 @@
-from direct.showbase.ShowBase import *
-from direct.interval.IntervalGlobal import *
-from toontown.battle.BattleProps import *
+from direct.directnotify import DirectNotifyGlobal
+from direct.directutil import Mopath
 from direct.distributed.ClockDelta import *
+from direct.fsm import FSM
+from direct.gui.DirectGui import *
+from direct.interval.IntervalGlobal import *
 from direct.showbase.PythonUtil import Functor
 from direct.showbase.PythonUtil import StackTrace
-from direct.gui.DirectGui import *
-from pandac.PandaModules import *
-from direct.fsm import FSM
-from direct.fsm import ClassicFSM
-from direct.fsm import State
-from direct.directnotify import DirectNotifyGlobal
-from toontown.toonbase import ToontownGlobals
-from toontown.toonbase import ToontownBattleGlobals
-import DistributedBossCog
-from toontown.toonbase import TTLocalizer
-import SuitDNA
-from toontown.toon import Toon
-from toontown.battle import BattleBase
-from direct.directutil import Mopath
-from direct.showutil import Rope
-from toontown.distributed import DelayDelete
-from toontown.battle import MovieToonVictory
-from toontown.building import ElevatorUtils
-from toontown.battle import RewardPanel
-from toontown.toon import NPCToons
+from direct.showbase.ShowBase import *
 from direct.task import Task
-import random
 import math
-from toontown.coghq import CogDisguiseGlobals
+from pandac.PandaModules import *
+import random
+
+import DistributedBossCog
+import SuitDNA
+from toontown.battle import BattleBase
+from toontown.battle import MovieToonVictory
+from toontown.battle import RewardPanel
+from toontown.battle import SuitBattleGlobals
+from toontown.battle.BattleProps import *
 from toontown.building import ElevatorConstants
+from toontown.building import ElevatorUtils
+from toontown.chat.ChatGlobals import *
+from toontown.coghq import CogDisguiseGlobals
+from toontown.distributed import DelayDelete
+from toontown.nametag import NametagGlobals
+from toontown.nametag import NametagGroup
+from toontown.nametag.NametagGlobals import *
+from toontown.toon import Toon
+from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownBattleGlobals
+from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownTimer
-from otp.nametag import NametagGroup
-from otp.nametag.NametagConstants import *
-from otp.nametag import NametagGlobals
+
+
 OneBossCog = None
+
 
 class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedLawbotBoss')
@@ -72,7 +74,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.reflectedMainDoor = None
         self.panFlashInterval = None
         self.panDamage = ToontownGlobals.LawbotBossDefensePanDamage
-        if config.GetBool('lawbot-boss-cheat', 0):
+        if base.config.GetBool('lawbot-boss-cheat', 0):
             self.panDamage = 25
         self.evidenceHitSfx = None
         self.toonUpSfx = None
@@ -101,7 +103,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.juryMovesSfx = loader.loadSfx('phase_11/audio/sfx/LB_jury_moves.ogg')
         self.toonUpSfx = loader.loadSfx('phase_11/audio/sfx/LB_toonup.ogg')
         self.strafeSfx = []
-        for i in range(10):
+        for i in xrange(10):
             self.strafeSfx.append(loader.loadSfx('phase_3.5/audio/sfx/SA_shred.ogg'))
 
         render.setTag('pieCode', str(ToontownGlobals.PieCodeNotBossCog))
@@ -137,7 +139,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.loadEnvironment()
         self.__makeWitnessToon()
         self.__loadMopaths()
-        localAvatar.chatMgr.chatInputSpeedChat.addCJMenu()
+        base.localAvatar.chatMgr.chatInputSpeedChat.addCJMenu()
         if OneBossCog != None:
             self.notify.warning('Multiple BossCogs visible.')
         OneBossCog = self
@@ -171,7 +173,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         if self.bonusTimer:
             self.bonusTimer.destroy()
             del self.bonusTimer
-        localAvatar.chatMgr.chatInputSpeedChat.removeCJMenu()
+        base.localAvatar.chatMgr.chatInputSpeedChat.removeCJMenu()
         if OneBossCog == self:
             OneBossCog = None
         return
@@ -217,7 +219,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def __gotLawyers(self, lawyers):
         self.lawyerRequest = None
         self.lawyers = lawyers
-        for i in range(len(self.lawyers)):
+        for i in xrange(len(self.lawyers)):
             suit = self.lawyers[i]
             suit.fsm.request('neutral')
             suit.loop('neutral')
@@ -484,7 +486,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         colNode.setName('WitnessStand')
 
     def loadScale(self):
-        self.useProgrammerScale = config.GetBool('want-injustice-scale-debug', 0)
+        self.useProgrammerScale = base.config.GetBool('want-injustice-scale-debug', 0)
         if self.useProgrammerScale:
             self.loadScaleOld()
         else:
@@ -697,6 +699,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             self.reflectedMainDoor.stash()
         base.camera.reparentTo(self.elevatorModel)
         base.camera.setPosHpr(0, 30, 8, 180, 0, 0)
+        base.camLens.setMinFov(ToontownGlobals.CJElevatorFov/(4./3.))
 
     def exitElevator(self):
         self.notify.debug('----- exitElevator')
@@ -801,7 +804,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         for toonId in self.involvedToons:
             toon = self.cr.doId2do.get(toonId)
             if toon:
-                if self.cannons.has_key(index):
+                if index in self.cannons:
                     cannon = self.cannons[index]
                     cannonSeq = cannon.generateCannonAppearTrack(toon)
                     multiCannons.append(cannonSeq)
@@ -844,7 +847,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             self.toonsToBattlePosition(self.toonsB, self.battleBNode)
         base.playMusic(self.battleTwoMusic, looping=1, volume=0.9)
         self.startJuryBoxMoving()
-        for index in range(len(self.cannons)):
+        for index in xrange(len(self.cannons)):
             cannon = self.cannons[index]
             cannon.cannon.show()
 
@@ -960,10 +963,10 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.bossMaxDamage = ToontownGlobals.LawbotBossMaxDamage
         base.playMusic(self.battleThreeMusic, looping=1, volume=0.9)
         self.__showWitnessToon()
-        diffSettings = ToontownGlobals.LawbotBossDifficultySettings[self.battleDifficulty]
-        if diffSettings[4]:
-            localAvatar.chatMgr.chatInputSpeedChat.removeCJMenu()
-            localAvatar.chatMgr.chatInputSpeedChat.addCJMenu(self.bonusWeight)
+        #diffSettings = ToontownGlobals.LawbotBossDifficultySettings[self.battleDifficulty]
+        #if diffSettings[4]:
+            #localAvatar.chatMgr.chatInputSpeedChat.removeCJMenu()
+            #localAvatar.chatMgr.chatInputSpeedChat.addCJMenu(self.bonusWeight)
 
     def __doneBattleThree(self):
         self.notify.debug('----- __doneBattleThree')
@@ -973,7 +976,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def exitBattleThree(self):
         self.notify.debug('----- exitBattleThree')
         DistributedBossCog.DistributedBossCog.exitBattleThree(self)
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(True)
         bossDoneEventName = self.uniqueName('DestroyedBoss')
         self.ignore(bossDoneEventName)
         taskMgr.remove(self.uniqueName('StandUp'))
@@ -1186,7 +1189,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def __toonsToPromotionPosition(self, toonIds, battleNode):
         self.notify.debug('----- __toonsToPromotionPosition')
         points = BattleBase.BattleBase.toonPoints[len(toonIds) - 1]
-        for i in range(len(toonIds)):
+        for i in xrange(len(toonIds)):
             toon = base.cr.doId2do.get(toonIds[i])
             if toon:
                 toon.reparentTo(render)
@@ -1311,7 +1314,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             spread = -spread
         dist = 50
         rate = time / numGears
-        for i in range(numGears):
+        for i in xrange(numGears):
             node = gearRoot.attachNewNode(str(i))
             node.hide()
             node.setPos(0, 0, 0)
@@ -1340,7 +1343,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 self.notify.warning('Not a collision node: %s' % repr(cnp))
                 break
             newCollideMask = newCollideMask | cn.getIntoCollideMask()
-            for i in range(cn.getNumSolids()):
+            for i in xrange(cn.getNumSolids()):
                 solid = cn.getSolid(i)
                 if isinstance(solid, CollisionPolygon):
                     plane = Plane(solid.getPlane())
@@ -1402,7 +1405,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         ival = Parallel()
         points = BattleBase.BattleBase.toonPoints[len(toonIds) - 1]
         self.notify.debug('walkToonsToBattlePosition: points = %s' % points[0][0])
-        for i in range(len(toonIds)):
+        for i in xrange(len(toonIds)):
             toon = base.cr.doId2do.get(toonIds[i])
             if toon:
                 pos, h = points[i]
@@ -1435,7 +1438,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             points = list(BattleBase.BattleBase.toonPoints[3])
             points.extend(BattleBase.BattleBase.toonPoints[len(toonIds) - 5])
         self.notify.debug('toonsToBattlePosition: points = %s' % points[0][0])
-        for i in range(len(toonIds)):
+        for i in xrange(len(toonIds)):
             toon = base.cr.doId2do.get(toonIds[i])
             if toon:
                 toon.wrtReparentTo(render)
@@ -1483,7 +1486,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         vertexWriter.addData3f(x2, y1, z2)
         vertexWriter.addData3f(x1, y2, z2)
         vertexWriter.addData3f(x2, y2, z2)
-        for index in range(8):
+        for index in xrange(8):
             normalWriter.addData3f(1.0, 1.0, 1.0)
             colorWriter.addData4f(r, g, b, a)
             texWriter.addData2f(1.0, 1.0)
@@ -1594,7 +1597,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         npc.setDNAString(dnaNetString)
         npc.setName(TTLocalizer.WitnessToonName)
         npc.setPickable(0)
-        npc.setPlayerType(NametagGroup.CCNonPlayer)
+        npc.setPlayerType(NametagGlobals.CCNonPlayer)
         npc.animFSM.request('Sit')
         self.witnessToon = npc
         self.witnessToon.setPosHpr(*ToontownGlobals.LawbotBossWitnessStandPosHpr)
@@ -1642,7 +1645,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         radius = 7
         numToons = len(self.involvedToons)
         center = (numToons - 1) / 2.0
-        for i in range(numToons):
+        for i in xrange(numToons):
             toon = self.cr.doId2do.get(self.involvedToons[i])
             if toon:
                 angle = 90 - 15 * (i - center)
@@ -1655,7 +1658,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 toon.show()
 
     def __talkAboutPromotion(self, speech):
-         if self.prevCogSuitLevel < ToontownGlobals.MaxCogSuitLevel:    
+        if self.prevCogSuitLevel < ToontownGlobals.MaxCogSuitLevel:
             deptIndex = CogDisguiseGlobals.dept2deptIndex(self.style.dept)
             cogLevels = base.localAvatar.getCogLevels()
             newCogSuitLevel = cogLevels[deptIndex]
@@ -1665,20 +1668,20 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 speech += TTLocalizer.WitnessToonLevelPromotion
             if newCogSuitLevel == maxCogSuitLevel:
                 if newCogSuitLevel != ToontownGlobals.MaxCogSuitLevel:
-                    suitIndex = ((cogTypes[deptIndex]+1) * (deptIndex+1)) - 1
+                    suitIndex = (SuitDNA.suitsPerDept*deptIndex) + cogTypes[deptIndex]
                     cogTypeStr = SuitDNA.suitHeadTypes[suitIndex]
                     cogName = SuitBattleGlobals.SuitAttributes[cogTypeStr]['name']
                     speech += TTLocalizer.WitnessToonSuitPromotion % cogName
-         else:
+        else:
             speech += TTLocalizer.WitnessToonMaxed % (ToontownGlobals.MaxCogSuitLevel + 1)
-         return speech
+        return speech
 
     def __positionToonsInFrontOfCannons(self):
         self.notify.debug('__positionToonsInFrontOfCannons')
         index = 0
         self.involvedToons.sort()
         for toonId in self.involvedToons:
-            if self.cannons.has_key(index):
+            if index in self.cannons:
                 cannon = self.cannons[index]
                 toon = self.cr.doId2do.get(toonId)
                 self.notify.debug('cannonId = %d' % cannon.doId)

@@ -20,8 +20,10 @@ import HouseGlobals
 from toontown.building import ToonInteriorColors
 from direct.showbase.MessengerGlobal import messenger
 from toontown.dna.DNADoor import DNADoor
-from otp.nametag.NametagGroup import NametagGroup
-from otp.nametag.Nametag import Nametag
+from toontown.nametag.NametagGroup import NametagGroup
+from toontown.nametag.Nametag import Nametag
+ 
+
 
 class DistributedHouse(DistributedObject.DistributedObject):
     notify = directNotify.newCategory('DistributedHouse')
@@ -167,7 +169,7 @@ class DistributedHouse(DistributedObject.DistributedObject):
         if self.name == '':
             return
         else:
-            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name, 'house')
+            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name)
         nameText.setText(houseName)
         self.nameText = nameText
         textHeight = nameText.getHeight() - 2
@@ -207,7 +209,7 @@ class DistributedHouse(DistributedObject.DistributedObject):
         if self.name == '':
             return
         else:
-            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name, 'house')
+            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name)
         matText.setText(houseName)
         self.matText = matText
         textHeight = matText.getHeight() - 2
@@ -230,18 +232,21 @@ class DistributedHouse(DistributedObject.DistributedObject):
         if self.name == '':
             houseName = ''
         else:
-            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name, 'house')
+            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name)
         self.nametag = NametagGroup()
+        self.nametag.setNametag3d(None)
         self.nametag.setFont(ToontownGlobals.getBuildingNametagFont())
         if TTLocalizer.BuildingNametagShadow:
             self.nametag.setShadow(*TTLocalizer.BuildingNametagShadow)
-        self.nametag.setContents(Nametag.CName)
-        self.nametag.setColorCode(NametagGroup.CCHouseBuilding)
-        self.nametag.setActive(0)
+	    self.nametag.hideChat()
+        self.nametag.hideThought()
+        nametagColor = NametagGlobals.NametagColors[NametagGlobals.CCToonBuilding]
+        self.nametag.setNametagColor(nametagColor)
+        self.nametag.setActive(False)
         self.nametag.setAvatar(self.house)
-        self.nametag.setObjectCode(self.doId)
-        self.nametag.setName(houseName)
+        self.nametag.setText(houseName)		
         self.nametag.manage(base.marginManager)
+        self.nametag.updateAll()
 
     def unload(self):
         self.notify.debug('unload')
@@ -357,7 +362,7 @@ class DistributedHouse(DistributedObject.DistributedObject):
         if self.name == '':
             return
         else:
-            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name, 'house')
+            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name)
         nameText.setText(houseName)
         self.nameText = nameText
         textHeight = nameText.getHeight() - 2

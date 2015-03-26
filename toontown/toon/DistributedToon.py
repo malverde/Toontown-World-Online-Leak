@@ -8,8 +8,10 @@ from otp.avatar import DistributedPlayer
 from otp.avatar import Avatar, DistributedAvatar
 from otp.speedchat import SCDecoders
 from otp.chat import TalkAssistant
-from otp.nametag.NametagConstants import *
-from otp.margins.WhisperPopup import *
+from toontown.nametag import NametagGlobals
+from toontown.nametag.NametagGlobals import *
+from toontown.chat.ChatGlobals import *
+from toontown.chat.WhisperPopup import *
 import Toon
 from direct.task.Task import Task
 from direct.distributed import DistributedSmoothNode
@@ -393,7 +395,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def battleSOS(self, requesterId):
         avatar = base.cr.identifyAvatar(requesterId)
         if isinstance(avatar, DistributedToon) or isinstance(avatar, FriendHandle.FriendHandle):
-            self.setSystemMessage(requesterId, TTLocalizer.MovieSOSWhisperHelp % avatar.getName(), whisperType=WhisperPopup.WTBattleSOS)
+            self.setSystemMessage(requesterId, TTLocalizer.MovieSOSWhisperHelp % avatar.getName(), whisperType=WTBattleSOS)
         elif avatar is not None:
             self.notify.warning('got battleSOS from non-toon %s' % requesterId)
         return
@@ -456,7 +458,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             self.setDisplayName(self.gmNameTagString)
             self.setName(self.gmNameTagString)
             self.trophyStar1 = loader.loadModel('models/misc/smiley')
-            self.trophyStar1.reparentTo(self.nametag.getNameIcon())
+            self.trophyStar1.reparentTo(self.nametag.getIcon())
             self.trophyStar1.setScale(1)
             self.trophyStar1.setZ(2.25)
             self.trophyStar1.setColor(Vec4(0.75, 0.75, 0.75, 0.75))
@@ -544,7 +546,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                 self.sendUpdate('setSleepAutoReply', [base.localAvatar.doId], fromId)
         chatString = SCDecoders.decodeSCEmoteWhisperMsg(emoteId, handle.getName())
         if chatString:
-            self.displayWhisper(fromId, chatString, WhisperPopup.WTEmote)
+            self.displayWhisper(fromId, chatString, WTEmote)
             base.talkAssistant.receiveAvatarWhisperSpeedChat(TalkAssistant.SPEEDCHAT_EMOTE, emoteId, fromId)
         return
 
@@ -569,7 +571,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                 self.sendUpdate('setSleepAutoReply', [base.localAvatar.doId], fromId)
         chatString = SCDecoders.decodeSCStaticTextMsg(msgIndex)
         if chatString:
-            self.displayWhisper(fromId, chatString, WhisperPopup.WTQuickTalker)
+            self.displayWhisper(fromId, chatString, WTQuickTalker)
             base.talkAssistant.receiveAvatarWhisperSpeedChat(TalkAssistant.SPEEDCHAT_NORMAL, msgIndex, fromId)
         return
 
@@ -1382,7 +1384,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             base.cr.centralLogger.writeClientEvent('Hacker victim setSpeedChatStyleIndex invalid attacking toon = %d' % self.doId)
         self.speedChatStyleIndex = realIndexToUse
         nameKey, arrowColor, rolloverColor, frameColor = speedChatStyles[realIndexToUse]
-        self.nametag.setQtColor(VBase4(frameColor[0], frameColor[1], frameColor[2], 1))
+        self.nametag.setSpeedChatColor(VBase4(frameColor[0], frameColor[1], frameColor[2], 1))
+        self.nametag.updateAll()       
         if self.isLocal():
             messenger.send('SpeedChatStyleChange', [])
 
@@ -1590,7 +1593,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             return
         if self.trophyScore >= ToontownGlobals.TrophyStarLevels[4]:
             self.trophyStar = loader.loadModel('phase_3.5/models/gui/name_star')
-            np = NodePath(self.nametag.getNameIcon())
+            np = NodePath(self.nametag.getIcon())
             self.trophyStar.reparentTo(np)
             self.trophyStar.setScale(2)
             self.trophyStar.setZ(2)
@@ -1600,7 +1603,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                 taskMgr.add(self.__starSpin, self.uniqueName('starSpin'))
         elif self.trophyScore >= ToontownGlobals.TrophyStarLevels[2]:
             self.trophyStar = loader.loadModel('phase_3.5/models/gui/name_star')
-            np = NodePath(self.nametag.getNameIcon())
+            np = NodePath(self.nametag.getIcon())
             self.trophyStar.reparentTo(np)
             self.trophyStar.setScale(1.5)
             self.trophyStar.setZ(1.6)
@@ -1610,7 +1613,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                 taskMgr.add(self.__starSpin, self.uniqueName('starSpin'))
         elif self.trophyScore >= ToontownGlobals.TrophyStarLevels[0]:
             self.trophyStar = loader.loadModel('phase_3.5/models/gui/name_star')
-            np = NodePath(self.nametag.getNameIcon())
+            np = NodePath(self.nametag.getIcon())
             self.trophyStar.reparentTo(np)
             self.trophyStar.setScale(1.5)
             self.trophyStar.setZ(1.6)
@@ -2049,7 +2052,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             self.inventory.updateGUI()
 
     def getTrackBonusLevel(self, track = None):
-        if track == None:
+        if track is None:
             return self.trackBonusLevel
         else:
             return self.trackBonusLevel[track]
@@ -2166,12 +2169,12 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def setFancyNametag(self, name = None):
         if name == None:
             name = self.getName()
-        if self.getNametagStyle() == 100:
-            self.setFont(ToontownGlobals.getToonFont())
+        if self.getNametagStyle() >= len(TTLocalizer.NametagFonts):
+            self.nametag.setFont(ToontownGlobals.getToonFont())        
         else:
-            self.setFont(ToontownGlobals.getNametagFont(self.getNametagStyle()))
+            self.nametag.setFont(ToontownGlobals.getNametagFont(self.getNametagStyle()))
         Avatar.Avatar.setDisplayName(self, name)
-        return
+        
 
     def removeFancyNametag(self):
         self.nametag.clearShadow()
@@ -2202,13 +2205,11 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             base.playSfx(dialogue, node=self)
         elif chatFlags & CFSpeech != 0:
             if self.nametag.getNumChatPages() > 0:
-                self.playDialogueForString(self.nametag.getChat())
+                self.playDialogueForString(self.nametag.getChatText())
                 if self.soundChatBubble != None:
                     base.playSfx(self.soundChatBubble, node=self)
-            elif self.nametag.getChatStomp() > 0:
-                self.playDialogueForString(self.nametag.getStompText(), self.nametag.getStompDelay())
-        return
-
+            elif self.nametag.getStompChatText():
+                self.playDialogueForString(self.nametag.getStompChatText(), self.nametag.CHAT_STOMP_DELAY)
     def playDialogueForString(self, chatString, delay = 0.0):
         if len(chatString) == 0:
             return
@@ -2276,19 +2277,40 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
     def setChatAbsolute(self, chatString, chatFlags, dialogue = None, interrupt = 1, quiet = 0):
         DistributedAvatar.DistributedAvatar.setChatAbsolute(self, chatString, chatFlags, dialogue, interrupt)
 
-    def setChatMuted(self, chatString, chatFlags, dialogue = None, interrupt = 1, quiet = 0):
-        self.nametag.setChat(chatString, chatFlags)
+    def setChatMuted(self, chatString, chatFlags, dialogue=None, interrupt=1, quiet=0):
+        if chatFlags & CFQuicktalker:
+            self.nametag.setChatType(NametagGlobals.SPEEDCHAT)
+        elif chatFlags & CFSpeech:
+            self.nametag.setChatType(NametagGlobals.CHAT)
+
+        if chatFlags & CFThought:
+            self.nametag.setChatBalloonType(NametagGlobals.THOUGHT_BALLOON)
+        else:
+            self.nametag.setChatBalloonType(NametagGlobals.CHAT_BALLOON)
+
+        if chatFlags & CFPageButton:
+            self.nametag.setChatButton(NametagGlobals.pageButton)
+        elif chatFlags & CFQuitButton:
+            self.nametag.setChatButton(NametagGlobals.quitButton)
+        else:
+            self.nametag.setChatButton(NametagGlobals.noButton)
+
+        self.nametag.setChatText(chatString, timeout=bool(chatFlags & CFTimeout))    
         self.playCurrentDialogue(dialogue, chatFlags - CFSpeech, interrupt)
 
     def displayTalk(self, chatString, mods = None):
         flags = CFSpeech | CFTimeout
+        self.nametag.setChatType(NametagGlobals.CHAT)        
         if base.talkAssistant.isThought(chatString):
             flags = CFThought
+            self.nametag.setChatBalloonType(NametagGlobals.THOUGHT_BALLOON)            
             chatString = base.talkAssistant.removeThoughtPrefix(chatString)
-        self.nametag.setChat(chatString, flags)
+        else:
+            self.nametag.setChatBalloonType(NametagGlobals.CHAT_BALLOON)
+        self.nametag.setChatText(chatString, timeout=(flags & CFTimeout))
         if base.toonChatSounds:
             self.playCurrentDialogue(None, flags, interrupt=1)
-        return
+
 
     def setMail(self, mail):
         DistributedToon.partyNotify.debug('setMail called with %d mail items' % len(mail))
@@ -2422,7 +2444,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                 if hasattr(self, 'eventsPage') and base.localAvatar.book.entered and base.localAvatar.book.isOnPage(self.eventsPage) and self.eventsPage.getMode() == EventsPage.EventsPage_Host:
                     base.localAvatar.eventsPage.loadHostedPartyInfo()
                 if hasattr(self, 'displaySystemClickableWhisper'):
-                    self.displaySystemClickableWhisper(0, TTLocalizer.PartyCanStart, whisperType=WhisperPopup.WTSystem)
+                    self.displaySystemClickableWhisper(0, TTLocalizer.PartyCanStart, whisperType=WTSystem)
                 else:
                     self.setSystemMessage(0, TTLocalizer.PartyCanStart)
 
@@ -2451,10 +2473,10 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                             name = host.getName()
                         if invite.status == InviteStatus.Accepted:
                             displayStr = TTLocalizer.PartyHasStartedAcceptedInvite % TTLocalizer.GetPossesive(name, 'party')
-                            self.displaySystemClickableWhisper(-1, displayStr, whisperType=WhisperPopup.WTSystem)
+                            self.displaySystemClickableWhisper(-1, displayStr, whisperType=WTSystem)
                         else:
                             displayStr = TTLocalizer.PartyHasStartedNotAcceptedInvite % TTLocalizer.GetPossesive(name, 'party')
-                            self.setSystemMessage(partyInfo.hostId, displayStr, whisperType=WhisperPopup.WTSystem)
+                            self.setSystemMessage(partyInfo.hostId, displayStr, whisperType=WTSystem)
                 break
 
         if not found:
@@ -2631,7 +2653,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         icons = loader.loadModel(modelName)
         self.gmIcon = icons.find(searchString)
         self.gmIcon.setScale(scale)
-        np = NodePath(self.nametag.getNameIcon())
+        np = NodePath(self.nametag.getIcon())
         self.gmIcon.reparentTo(np)
         self.setTrophyScore(self.trophyScore)
         self.gmIcon.setZ(-2.5)
@@ -2647,7 +2669,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if gmType > len(iconInfo) - 1:
             return
         self.gmIcon = loader.loadModel(iconInfo[gmType])
-        self.gmIcon.reparentTo(NodePath(self.nametag.getNameIcon()))
+        self.gmIcon.reparentTo(NodePath(self.nametag.getIcon()))
         self.gmIcon.setScale(3.25)
         self.setTrophyScore(self.trophyScore)
         self.gmIcon.setZ(1.0)

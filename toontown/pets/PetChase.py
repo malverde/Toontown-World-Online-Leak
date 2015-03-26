@@ -69,3 +69,6 @@ class PetChase(Impulse.Impulse):
         if vH:
             self.rotVel.setX(vH)
             self.mover.addRotShove(self.rotVel)
+            
+    def setMinDist(self, minDist):
+        self.minDist = minDist

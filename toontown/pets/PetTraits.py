@@ -5,14 +5,13 @@ import random, copy
 TraitDivisor = 10000
 
 def getTraitNames():
-  if not hasaTtr(PetTraits, 'TraitNames'):
-   traitNames = []
-  for desc in PetTraits.TraitDescs:
+    if not hasattr(PetTraits, 'TraitNames'):
+        traitNames = []
+        for desc in PetTraits.TraitDescs:
+            traitNames.append(desc[0])
+            PetTraits.TraitNames = traitNames
 
- 
-   PetTraits.TraitNames = traitNames
-
-  return PetTraits.TraitNames
+    return PetTraits.TraitNames
 
 
 def uniform(min, max, rng):
@@ -122,7 +121,7 @@ class PetTraits:
          ToontownGlobals.MinniesMelodyland: (0.5, 0.8),
          ToontownGlobals.TheBrrrgh: (0.6, 0.85),
          ToontownGlobals.DonaldsDreamland: (0.7, 0.9)}
-
+         
     class StdDecDistrib(TraitDistribution):
         TraitType = TraitDistribution.TraitTypes.DECREASING
         Sz2MinMax = {ToontownGlobals.ToontownCentral: (0.35, 0.8),

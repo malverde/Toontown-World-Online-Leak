@@ -1,35 +1,23 @@
-from pandac.PandaModules import *
-import ToonHood
-from toontown.town import BRTownLoader
-from toontown.safezone import BRSafeZoneLoader
-from toontown.toonbase.ToontownGlobals import *
+from toontown.safezone.BRSafeZoneLoader import BRSafeZoneLoader
+from toontown.town.BRTownLoader import BRTownLoader
+from toontown.toonbase import ToontownGlobals
+from toontown.hood.ToonHood import ToonHood
+from toontown.toonbase import ToontownLoader
 
-class BRHood(ToonHood.ToonHood):
 
-    def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
-        ToonHood.ToonHood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
-        self.id = TheBrrrgh
-        self.townLoaderClass = BRTownLoader.BRTownLoader
-        self.safeZoneLoaderClass = BRSafeZoneLoader.BRSafeZoneLoader
-        self.storageDNAFile = 'phase_8/dna/storage_BR.xml'
-        self.holidayStorageDNADict = {WINTER_DECORATIONS: ['phase_8/dna/winter_storage_BR.xml'],
-         WACKY_WINTER_DECORATIONS: ['phase_8/dna/winter_storage_BR.xml'],
-         HALLOWEEN_PROPS: ['phase_8/dna/halloween_props_storage_BR.xml'],
-         SPOOKY_PROPS: ['phase_8/dna/halloween_props_storage_BR.xml']}
-        self.skyFile = 'phase_3.5/models/props/BR_sky'
-        self.spookySkyFile = 'phase_3.5/models/props/BR_sky'
-        self.titleColor = (0.3, 0.6, 1.0, 1.0)
+class BRHood(ToonHood):
+    notify = directNotify.newCategory('BRHood')
 
-    def load(self):
-        ToonHood.ToonHood.load(self)
-        self.parentFSM.getStateNamed('BRHood').addChild(self.fsm)
+    ID = ToontownGlobals.TheBrrrgh
+    TOWNLOADER_CLASS = BRTownLoader
+    SAFEZONELOADER_CLASS = BRSafeZoneLoader
+    STORAGE_DNA = 'phase_8/dna/storage_BR.pdna'
+    SKY_FILE = 'phase_3.5/models/props/BR_sky'
+    SPOOKY_SKY_FILE = 'phase_3.5/models/props/BR_sky'
+    TITLE_COLOR = (0.3, 0.6, 1.0, 1.0)
 
-    def unload(self):
-        self.parentFSM.getStateNamed('BRHood').removeChild(self.fsm)
-        ToonHood.ToonHood.unload(self)
-
-    def enter(self, *args):
-        ToonHood.ToonHood.enter(self, *args)
-
-    def exit(self):
-        ToonHood.ToonHood.exit(self)
+    HOLIDAY_DNA = {
+      ToontownGlobals.WINTER_DECORATIONS: ['phase_8/dna/winter_storage_BR.pdna'],
+      ToontownGlobals.WACKY_WINTER_DECORATIONS: ['phase_8/dna/winter_storage_BR.pdna'],
+      ToontownGlobals.HALLOWEEN_PROPS: ['phase_8/dna/halloween_props_storage_BR.pdna'],
+      ToontownGlobals.SPOOKY_PROPS: ['phase_8/dna/halloween_props_storage_BR.pdna']}

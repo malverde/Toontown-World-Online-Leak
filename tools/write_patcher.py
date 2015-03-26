@@ -8,22 +8,20 @@ import xml.etree.ElementTree as ET
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--build-dir', default='build',
-                    help='The directory of the Toontown Infinite build.')
+                    help='The directory of the Toontown World build.')
 parser.add_argument('--dest-dir', default='.',
                     help='The directory in which to store the patcher.')
 parser.add_argument('--output', default='patcher.xml',
                     help='The name of the output file.')
-parser.add_argument('--launcher-version', default='infinite-dev',
-                    help='The current version of the Toontown Infinite launcher.')
-parser.add_argument('--account-server', default='toontowninfinite.com',
-                    help='The address of the Toontown Infinite account server.')
-parser.add_argument('--client-agent', default='192.99.200.107',
-                    help='The IP address of the Client Agent to connect to.')
-parser.add_argument('--server-version', default='infinite-dev',
-                    help='The current version of the Toontown Infinite game.')
-parser.add_argument('--resources-revision', default='',
-                    help='The current revision of the resources repository.')
-parser.add_argument('includes', nargs='*', default=['GameData.bin'],
+parser.add_argument('--launcher-version', default='1.0',
+                    help='The current version of the Toontown World launcher.')
+parser.add_argument('--account-server', default='toontownworldonline.com',
+                    help='The address of the Toontown World account server.')
+parser.add_argument('--client-agent', default='54.174.138.210',
+                    help='The IP address of the game to connect to.')
+parser.add_argument('--server-version', default='ttw-pre-alpha-2.5.0',
+                    help='The current version of the Toontown World game.')
+parser.add_argument('includes', nargs='*', default=['GameData.so', 'GameData.pyd', '_miraidata.py'],
                     help='The files to include in the main directory.')
 args = parser.parse_args()
 
@@ -71,13 +69,10 @@ print 'Writing %s...' % args.output
 # First, add the element:
 patcher = ET.Element('patcher')
 
-# Next, add the Toontown Infinite launcher version:
+# Next, add the Toontown World launcher version:
 launcher_version = ET.SubElement(patcher, 'launcher-version')
 launcher_version.text = args.launcher_version
 
-# Then add the account server address:
-account_server = ET.SubElement(patcher, 'account-server')
-account_server.text = args.account_server
 
 # Then add the Client Agent IP:
 client_agent = ET.SubElement(patcher, 'client-agent')
@@ -87,9 +82,6 @@ client_agent.text = args.client_agent
 server_version = ET.SubElement(patcher, 'server-version')
 server_version.text = args.server_version
 
-# Next, add the resources revision:
-resources_revision = ET.SubElement(patcher, 'resources-revision')
-resources_revision.text = args.resources_revision
 
 # Next, add the root directory:
 root = ET.SubElement(patcher, 'directory')

@@ -1,18 +1,17 @@
-from DNASceneElement import DNASceneElement
-from DNAParser import *
-from panda3d.core import *
+class DNASuitEdge:
+    def __init__(self, startpt, endpt, zoneId):
+        self.startpt = startpt
+        self.endpt = endpt
+        self.zoneId = zoneId
 
-class DNASuitEdge(DNASceneElement):
-    TAG = 'suit_edge'
-    PARENTS = ['visgroup']
+    def getEndPoint(self):
+        return self.endpt
 
-    def __init__(self, a, b):
-        DNASceneElement.__init__(self)
+    def getStartPoint(self):
+        return self.startpt
 
-        self.a = int(a)
-        self.b = int(b)
+    def getZoneId(self):
+        return self.zoneId
 
-    def _storeData(self, data):
-        data.suitEdges.append(self)
-
-registerElement(DNASuitEdge)
+    def setZoneId(self, zoneId):
+        self.zoneId = zoneId

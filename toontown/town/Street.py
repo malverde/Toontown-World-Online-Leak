@@ -19,7 +19,7 @@ from toontown.toon.Toon import teleportDebug
 from toontown.estate import HouseGlobals
 from toontown.toonbase import TTLocalizer
 from direct.interval.IntervalGlobal import *
-from otp.nametag import NametagGlobals
+from toontown.nametag import NametagGlobals
 visualizeZones = config.GetBool('visualize-zones', 0)
 
 class Street(BattlePlace.BattlePlace):
@@ -109,7 +109,7 @@ class Street(BattlePlace.BattlePlace):
         base.localAvatar.setGeom(self.loader.geom)
         base.localAvatar.setOnLevelGround(1)
         self._telemLimiter = TLGatherAllAvs('Street', RotationLimitToH)
-        NametagGlobals.setMasterArrowsOn(arrowsOn)
+        NametagGlobals.setWant2dNametags(arrowsOn)
 
         def __lightDecorationOn__():
             geom = base.cr.playGame.getPlace().loader.geom
@@ -179,7 +179,7 @@ class Street(BattlePlace.BattlePlace):
                 light.reparentTo(hidden)
 
         newsManager = base.cr.newsManager
-        NametagGlobals.setMasterArrowsOn(0)
+        NametagGlobals.setWant2dNametags(False)
         self.loader.hood.stopSky()
         self.loader.music.stop()
         base.localAvatar.setGeom(render)
@@ -383,21 +383,23 @@ class Street(BattlePlace.BattlePlace):
                     self.loader.zoneDict[self.zoneId].clearColor()
                 if newZoneId != None:
                     self.loader.zoneDict[newZoneId].setColor(0, 0, 1, 1, 100)
-            if newZoneId != None:
-                visZones = [self.loader.nodeToZone[x] for x in self.loader.nodeDict[newZoneId]]
-                visZones.append(ZoneUtil.getBranchZone(newZoneId))
-                base.cr.sendSetZoneMsg(newZoneId, visZones)
-                self.notify.debug('Entering Zone %d' % newZoneId)
+            if newZoneId is not None:
+                loader = base.cr.playGame.getPlace().loader
+                if newZoneId in loader.zoneVisDict:
+                    base.cr.sendSetZoneMsg(newZoneId, loader.zoneVisDict[newZoneId])
+                else:
+                    visList = [newZoneId] + loader.zoneVisDict.values()[0]
+                    base.cr.sendSetZoneMsg(newZoneId, visList)
             self.zoneId = newZoneId
         geom = base.cr.playGame.getPlace().loader.geom
-        self.eventLights = geom.findAllMatches('**/*light*')
-        self.eventLights += geom.findAllMatches('**/*lamp*')
-        self.eventLights += geom.findAllMatches('**/prop_snow_tree*')
-        self.eventLights += geom.findAllMatches('**/prop_tree*')
-        self.eventLights += geom.findAllMatches('**/*christmas*')
-        for light in self.eventLights:
+        self.halloweenLights = geom.findAllMatches('**/*light*')
+        self.halloweenLights += geom.findAllMatches('**/*lamp*')
+        self.halloweenLights += geom.findAllMatches('**/prop_snow_tree*')
+        for light in self.halloweenLights:
             light.setColorScaleOff(1)
+
         return
+
 
     def replaceStreetSignTextures(self):
         if not hasattr(base.cr, 'playGame'):

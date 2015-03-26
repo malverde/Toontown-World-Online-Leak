@@ -889,7 +889,7 @@ class RegionDropPlacer(DropPlacer):
             rowList = self.DropRegionTable[row]
             for column in range(len(rowList)):
                 region = rowList[column]
-                if not self.DropRegion2GridCoordList.has_key(region):
+                if region not in self.DropRegion2GridCoordList:
                     self.DropRegion2GridCoordList[region] = []
                 self.DropRegion2GridCoordList[region].append([row, column])
 

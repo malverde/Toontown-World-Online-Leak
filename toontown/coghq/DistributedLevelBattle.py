@@ -1,18 +1,21 @@
-from pandac.PandaModules import *
-from direct.interval.IntervalGlobal import *
-from toontown.battle.BattleBase import *
-from toontown.battle import DistributedBattle
 from direct.directnotify import DirectNotifyGlobal
-from toontown.toon import TTEmote
-from otp.avatar import Emote
-from toontown.battle import SuitBattleGlobals
-import random
-from toontown.suit import SuitDNA
-from direct.fsm import State
 from direct.fsm import ClassicFSM
+from direct.fsm import State
+from direct.interval.IntervalGlobal import *
+from pandac.PandaModules import *
+import random
+
+from otp.avatar import Emote
+from toontown.battle import DistributedBattle
+from toontown.battle import SuitBattleGlobals
+from toontown.battle.BattleBase import *
+from toontown.chat.ChatGlobals import *
+from toontown.nametag import NametagGlobals
+from toontown.nametag.NametagGlobals import *
+from toontown.suit import SuitDNA
+from toontown.toon import TTEmote
 from toontown.toonbase import ToontownGlobals
-from otp.nametag.NametagConstants import *
-from otp.nametag import NametagGlobals
+
 
 class DistributedLevelBattle(DistributedBattle.DistributedBattle):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedLevelBattle')
@@ -166,17 +169,17 @@ class DistributedLevelBattle(DistributedBattle.DistributedBattle):
             TauntCamHeight = random.choice((MidTauntCamHeight, 1, 11))
             camTrack = Sequence()
             camTrack.append(Func(camera.reparentTo, suitLeader))
-            camTrack.append(Func(base.camLens.setFov, self.camFOFov))
+            camTrack.append(Func(base.camLens.setMinFov, self.camFOFov/(4./3.)))
             camTrack.append(Func(camera.setPos, TauntCamX, TauntCamY, TauntCamHeight))
             camTrack.append(Func(camera.lookAt, suitLeader, suitOffsetPnt))
             camTrack.append(Wait(delay))
-            camTrack.append(Func(base.camLens.setFov, self.camFov))
+            camTrack.append(Func(base.camLens.setMinFov, self.camFov/(4./3.)))
             camTrack.append(Func(camera.wrtReparentTo, self))
             camTrack.append(Func(camera.setPos, self.camFOPos))
             camTrack.append(Func(camera.lookAt, suit))
         mtrack = Parallel(suitTrack, toonTrack)
         if self.hasLocalToon():
-            NametagGlobals.setMasterArrowsOn(0)
+            NametagGlobals.setWant2dNametags(False)
             mtrack = Parallel(mtrack, camTrack)
         done = Func(callback)
         track = Sequence(mtrack, done, name=name)
@@ -226,6 +229,6 @@ class DistributedLevelBattle(DistributedBattle.DistributedBattle):
         self.notify.info('exitReward()')
         self.clearInterval(self.uniqueName('floorReward'))
         self._removeMembersKeep()
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(True)
         for toon in self.toons:
             toon.startSmooth()

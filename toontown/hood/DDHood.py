@@ -1,61 +1,35 @@
-from pandac.PandaModules import *
-import ToonHood
-from toontown.town import DDTownLoader
-from toontown.safezone import DDSafeZoneLoader
-from toontown.toonbase.ToontownGlobals import *
+from pandac.PandaModules import Vec4
 
-class DDHood(ToonHood.ToonHood):
+from toontown.safezone.DDSafeZoneLoader import DDSafeZoneLoader
+from toontown.town.DDTownLoader import DDTownLoader
+from toontown.toonbase import ToontownGlobals
+from toontown.hood.ToonHood import ToonHood
+from toontown.toonbase import ToontownLoader
+
+
+class DDHood(ToonHood):
+    notify = directNotify.newCategory('DDHood')
+
+    ID = ToontownGlobals.DonaldsDock
+    TOWNLOADER_CLASS = DDTownLoader
+    SAFEZONELOADER_CLASS = DDSafeZoneLoader
+    STORAGE_DNA = 'phase_6/dna/storage_DD.pdna'
+    SKY_FILE = 'phase_3.5/models/props/BR_sky'
+    SPOOKY_SKY_FILE = 'phase_3.5/models/props/BR_sky'
+    TITLE_COLOR = (0.8, 0.6, 0.5, 1.0)
+
+    HOLIDAY_DNA = {
+      ToontownGlobals.WINTER_DECORATIONS: ['phase_6/dna/winter_storage_DD.pdna'],
+      ToontownGlobals.WACKY_WINTER_DECORATIONS: ['phase_6/dna/winter_storage_DD.pdna'],
+      ToontownGlobals.HALLOWEEN_PROPS: ['phase_6/dna/halloween_props_storage_DD.pdna'],
+      ToontownGlobals.SPOOKY_PROPS: ['phase_6/dna/halloween_props_storage_DD.pdna']}
 
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
-        ToonHood.ToonHood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
-        self.id = DonaldsDock
-        self.townLoaderClass = DDTownLoader.DDTownLoader
-        self.safeZoneLoaderClass = DDSafeZoneLoader.DDSafeZoneLoader
-        self.storageDNAFile = 'phase_6/dna/storage_DD.xml'
-        self.holidayStorageDNADict = {WINTER_DECORATIONS: ['phase_6/dna/winter_storage_DD.xml'],
-         WACKY_WINTER_DECORATIONS: ['phase_6/dna/winter_storage_DD.xml'],
-         HALLOWEEN_PROPS: ['phase_6/dna/halloween_props_storage_DD.xml'],
-         SPOOKY_PROPS: ['phase_6/dna/halloween_props_storage_DD.xml']}
-        self.skyFile = 'phase_3.5/models/props/BR_sky'
-        self.titleColor = (0.8, 0.6, 0.5, 1.0)
-        self.whiteFogColor = Vec4(0.8, 0.8, 0.8, 1)
+        ToonHood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
+
         self.underwaterFogColor = Vec4(0.0, 0.0, 0.6, 1.0)
-        self.spookySkyFile = 'phase_3.5/models/props/BR_sky'
-
+        
     def load(self):
-        ToonHood.ToonHood.load(self)
-        self.parentFSM.getStateNamed('DDHood').addChild(self.fsm)
-        self.fog = Fog('DDFog')
+        ToonHood.load(self)
 
-    def unload(self):
-        self.parentFSM.getStateNamed('DDHood').removeChild(self.fsm)
-        ToonHood.ToonHood.unload(self)
-        self.fog = None
-        return
-
-    def enter(self, *args):
-        ToonHood.ToonHood.enter(self, *args)
-
-    def exit(self):
-        ToonHood.ToonHood.exit(self)
-
-    def setUnderwaterFog(self):
-        if base.wantFog:
-            self.fog.setColor(self.underwaterFogColor)
-            self.fog.setLinearRange(0.1, 100.0)
-            render.setFog(self.fog)
-            self.sky.setFog(self.fog)
-
-    def setWhiteFog(self):
-        if base.wantFog:
-            self.fog.setColor(self.whiteFogColor)
-            self.fog.setLinearRange(0.0, 400.0)
-            render.clearFog()
-            render.setFog(self.fog)
-            self.sky.clearFog()
-            self.sky.setFog(self.fog)
-
-    def setNoFog(self):
-        if base.wantFog:
-            render.clearFog()
-            self.sky.clearFog()
+       # self.fog = Fog('DDFog')

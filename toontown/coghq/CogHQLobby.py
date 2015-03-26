@@ -6,7 +6,6 @@ from toontown.building import Elevator
 from toontown.toonbase import ToontownGlobals
 from pandac.PandaModules import *
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
-from otp.nametag import NametagGlobals
 
 class CogHQLobby(Place.Place):
     notify = DirectNotifyGlobal.directNotify.newCategory('CogHQLobby')
@@ -50,7 +49,6 @@ class CogHQLobby(Place.Place):
         self.loader.geom.reparentTo(render)
         self.accept('doorDoneEvent', self.handleDoorDoneEvent)
         self.accept('DistributedDoor_doorTrigger', self.handleDoorTrigger)
-        NametagGlobals.setMasterArrowsOn(1)
         how = requestStatus['how']
         self.fsm.request(how, [requestStatus])
         self._telemLimiter = TLGatherAllAvs('CogHQLobby', RotationLimitToH)

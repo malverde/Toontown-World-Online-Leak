@@ -8297,7 +8297,7 @@ FlowerGuiCancel = lCancel
 FlowerGuiOk = 'Sell All'
 FlowerBasketValue = '%(name)s, you have %(num)s flowers in your basket worth a total of %(value)s jellybeans. Do you want to sell them all?'
 
-def GetPossesive(name, place):
+def GetPossesive(name):
     if name[-1:] == 's':
         possesive = name + "'"
     else:
@@ -8421,8 +8421,8 @@ TIP_KARTING = 6
 TIP_GOLF = 7
 TipTitle = 'TOON TIP:'
 TipDict = {TIP_NONE: ('',),
- TIP_GENERAL: ('Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters, but not inside!',
-               'Collect Gag Buff ToonTasks to increase your Gag Accuracy or movement speed.',
+ TIP_GENERAL: ('Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters. They will not work inside Cog Headquarters or Factories!',
+               'Collect and complete Gag Buff ToonTasks to increase your Gag Accuracy or movement speed around Toontown.',
                'Toon Troopers are here to help. If you are being troubled find one and ask for help.',
                'You can report or ignore a Toon if they are troubling you or others.',
                'Quickly check your ToonTask progress by holding down the "End" key.',
@@ -9939,3 +9939,5 @@ def getBuffString(buffId, buffTime):
 def getBuffPosterString(buffId):
     return buffIdStrings[buffId][1]
 
+MoreOptionsPageTitle = 'Other Options'
+ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'

@@ -30,8 +30,7 @@ from toontown.toontowngui import TTDialog
 import copy
 from toontown.toonbase import TTLocalizer
 from toontown.toon import NPCToons
-from otp.nametag.NametagConstants import *
-from otp.nametag import NametagGlobals
+from toontown.chat.ChatGlobals import *
 camPos = Point3(14, 0, 10)
 camHpr = Vec3(89, -30, 0)
 randomBattleTimestamp = config.GetBool('random-battle-timestamp', 0)

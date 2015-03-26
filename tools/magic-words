@@ -1,0 +1,272 @@
+== Unknown ==
+'''Default access:''' 500
+
+{{Magic word|word=showAccess|args=|access=200}}
+
+== Graphical debugging ==
+'''Default access:''' 300
+Magic Words in this category are used to assist developers in locating the cause of graphical glitches.
+{{Magic word|word=oobe|args=|desc=Toggle "out of body experience" view.|access=300}}
+{{Magic word|word=oobeCull|args=|desc=Toggle "out of body experience" view, with culling debugging.|access=300}}
+{{Magic word|word=wire|args=|desc=Toggle wireframe view.|access=300}}
+{{Magic word|word=textures|args=|desc=Toggle textures on and off.|access=300}}
+{{Magic word|word=fps|args=|desc=Toggle frame rate meter on or off.|access=300}}
+{{Magic word|word=reloadTextures|args=[textureName]|desc=
+    Artfart command to reload all of the textures.
+
+    TODO: A panel that says "Reloading textures... Please wait!"
+    ...though it's not important since it's a staff command and
+    only staff will see it.
+
+    Stolen from ToontownStart.py
+    Remount all phase files. This maybe might work? Idk. Lets see
+    if Panda craps itself.
+
+    Place raw files in /resources/non-mf/phase_*/ and they will be
+    mounted without needing to multify!
+    |access=300}}
+
+== GUI debugging ==
+'''Default access:''' 300
+These Magic Words are intended to manipulate the on-screen GUI to assist developers in testing/debugging the GUI system.
+{{Magic word|word=clickNametag|args=avId|desc=Simulate a click on an avatar's nametag, given their ID.|access=300}}
+{{Magic word|word=showAvIds|args=|desc=Show avId in Nametags.|access=300}}
+{{Magic word|word=showNames|args=|desc=Remove avIds in Nametags.|access=300}}
+{{Magic word|word=toga2d|args=|access=300}}
+{{Magic word|word=placer|args=|access=300}}
+{{Magic word|word=explorer|args=|access=300}}
+{{Magic word|word=gardenGame|args=|access=300}}
+
+== Mobility cheats ==
+'''Default access:''' 300
+These Magic Words allow you to move around the area/world more easily, allow you to get to areas more quickly.
+
+== Override cheats ==
+'''Default access:''' 400
+These Magic Words let you override normal game logic.
+{{Magic word|word=abortMinigame|args=|desc=Abort any minigame you are currently in|access=400}}
+{{Magic word|word=winMinigame|args=|desc=Win the current minigame you are in.|access=400}}
+{{Magic word|word=race|args=command|desc=
+    A command set for races.
+    |access=400}}
+{{Magic word|word=truefriend|args=avIdShort|desc=Automagically add a toon as a true friend.|access=400}}
+{{Magic word|word=requestMinigame|args=[minigameName] [minigameKeep] [minigameDiff] [minigamePG]|access=400}}
+{{Magic word|word=minigame|args=command [arg0]|desc=
+    A command set for Trolley minigames.
+    |access=400}}
+{{Magic word|word=setCogIndex|args=indexVal|desc=Transform into a cog/suit. THIS SHOULD ONLY BE USED WHERE NEEDED, E.G. ELECTIONS|access=400}}
+{{Magic word|word=setTrophyScore|args=value|desc=Set the trophy score of target|access=400}}
+{{Magic word|word=givePies|args=pieType [numPies]|desc=Give target Y number of X pies.|access=400}}
+{{Magic word|word=setQP|args=[questId] [progress]|desc=
+    Get current questId in progress via ~setQP.
+    Set questId progress via ~setQP questId value.
+    |access=400}}
+{{Magic word|word=unlimitedGags|args=|desc= Restock avatar's gags at the start of each round. |access=400}}
+{{Magic word|word=immortal|args=|desc= Make target (if 500+) or self (if 499-) immortal. |access=400}}
+{{Magic word|word=summons|args=|desc= Restock all CJ summons. |access=400}}
+{{Magic word|word=pinkslips|args=|desc= Restock (to 255) CEO pink slips. |access=400}}
+{{Magic word|word=questTier|args=tier|desc=
+    Set toon's tier to specified value. Note that this does not give the
+    toon the rewards they would normally require to be in this tier, so
+    use this magic word with caution. This will also reset all of the
+    target's quests, so they will lose any progress on any tasks that
+    they are currently working on.
+    |access=400}}
+{{Magic word|word=merits|args=corp amount|desc= Set the target's merits to the value specified. |access=400}}
+{{Magic word|word=fanfare|args=|desc= Give target toon a fanfare for the lolz. |access=400}}
+{{Magic word|word=catalog|args=|access=400}}
+{{Magic word|word=setBattleSkip|args=bs|access=400}}
+{{Magic word|word=houseType|args=[type]|desc=Set target house type (must be spawned!). Default (if left blank) is 0 (normal house).|access=400}}
+{{Magic word|word=fireworks|args=[showName]|access=400}}
+{{Magic word|word=skipCJ|args=|desc=
+    Skips to the final round of the CJ.
+    |access=400}}
+{{Magic word|word=killCJ|args=|desc=
+    Kills the CJ.
+    |access=400}}
+{{Magic word|word=skipCEO|args=|desc=
+    Skips to the final round of the CEO.
+    |access=400}}
+{{Magic word|word=killCEO|args=|desc=
+    Kills the CEO.
+    |access=400}}
+
+== Character-stats cheats ==
+'''Default access:''' 400
+These Magic Words let you alter the stats (e.g. gags, laff) of Toons.
+{{Magic word|word=setCE|args=CEValue [CEHood] [CEExpire]|desc=Set Cheesy Effect of the target.|access=400}}
+{{Magic word|word=setHp|args=hpVal|desc=Set target's current laff|access=400}}
+{{Magic word|word=setMaxHp|args=hpVal|desc=Set target's laff|access=400}}
+{{Magic word|word=setTrackAccess|args=toonup trap lure sound throw squirt drop|desc=Set target's gag track access.|access=400}}
+{{Magic word|word=maxToon|args=[hasConfirmed]|desc=Max out the toons stats, for end-level gameplay. Should only be (and is restricted to) casting on Administrators only.|access=400}}
+{{Magic word|word=setMaxMoney|args=moneyVal|desc=Set target's money and maxMoney values.|access=400}}
+{{Magic word|word=setFishingRod|args=rodVal|desc=Set target's fishing rod value.|access=400}}
+{{Magic word|word=setMaxFishTank|args=tankVal|desc=Set target's max fish tank value.|access=400}}
+{{Magic word|word=setName|args=nameStr|desc=Set target's name.|access=400}}
+{{Magic word|word=setHat|args=hatId [hatTex]|desc=Set hat of target toon.|access=400}}
+{{Magic word|word=setGlasses|args=glassesId [glassesTex]|desc=Set glasses of target toon.|access=400}}
+{{Magic word|word=setBackpack|args=bpId [bpTex]|desc=Set backpack of target toon.|access=400}}
+{{Magic word|word=setShoes|args=shoesId [shoesTex]|desc=Set shoes of target toon.|access=400}}
+{{Magic word|word=setGM|args=gmId|desc=Set the target's GM level (used for icon).|access=400}}
+{{Magic word|word=setTickets|args=tixVal|desc=Set the target's racing ticket's value.|access=400}}
+{{Magic word|word=dna|args=part value|desc=Set a specific part of DNA for the target toon. Be careful, you don't want to break anyone!|access=400}}
+{{Magic word|word=sostoons|args=|desc=Restock all *good* VP SOS toons.|access=400}}
+{{Magic word|word=unites|args=|desc=Restock all CFO phrases.|access=400}}
+{{Magic word|word=tracks|args=toonup trap lure sound throw squirt drop|desc= Set access for each of the 7 gag tracks. |access=400}}
+{{Magic word|word=exp|args=track amt|desc= Set your experience to the amount specified for a single track. |access=400}}
+{{Magic word|word=disguise|args=corp type [level]|desc= Set disguise type and level. |access=400}}
+{{Magic word|word=pouch|args=amt|desc= Set the target's max gag limit. |access=400}}
+{{Magic word|word=correctlaff|args=|desc=
+    A magic word that attempts to correct a toons laff. This includes any external,
+    admin modifications to the toon (such as setMaxHp).
+    |access=400}}
+{{Magic word|word=nametag|args=styleName|desc=
+    Set the style of the target's nametag to the specified ID.
+    Examples are 100 for basic, 0 for simple.
+    |access=400}}
+{{Magic word|word=emotes|args=|desc=
+    Unlock all of the animations on the target toon.
+    This exclutes the "Toons of the world unite!" phrase. (because it sucks)
+    |access=400}}
+{{Magic word|word=phrase|args=phraseStringOrId|desc=
+    Unlocks a new phrase and adds it to target's list of "My Phrases".
+    If the phrase list is full, the top item will be knocked off and the
+    requested one will be appended to the bottom.
+    |access=400}}
+{{Magic word|word=gloves|args=c1 [c2]|access=400}}
+
+== Debug cheats ==
+'''Default access:''' 300
+These are Magic Words that may be useful in debugging, but have an impact on the fairness of the game if you use them, therefore they are considered cheats.
+{{Magic word|word=invasionstatus|args=|desc= Returns the number of cogs available in an invasion in a pretty way. |access=300}}
+
+== Moderation commands ==
+'''Default access:''' 300
+These are Magic Words focused on allowing moderators to deal with unruly players.
+{{Magic word|word=showTarget|args=|desc=Show the moderators current Magic Word target.|access=300}}
+{{Magic word|word=warp|args=|desc=
+    warp the target to the invoker's current position, and rotation.
+    |access=300}}
+{{Magic word|word=loop|args=anim|desc=
+    animate the target using animation [anim] on the entire actor.
+    |access=300}}
+{{Magic word|word=pose|args=anim frame [part]|desc=
+    freeze the target on frame [frame] of animation [anim] on the entire actor,
+    or optional [part] of the actor.
+    |access=300}}
+{{Magic word|word=pingpong|args=anim [start] [end] [part]|desc=
+    animate the target by bouncing back and forth between the start and end, or
+    the optional frames <start>, and [end] of animation [anim] on the entire
+    actor, or optional <part> of the actor.
+    |access=300}}
+{{Magic word|word=rightHand|args=[prop]|desc=
+    parents the optional <prop> to the target's right hand node.
+    |access=300}}
+{{Magic word|word=leftHand|args=[prop]|desc=
+    parents the optional <prop> to the target's left hand node.
+    |access=300}}
+{{Magic word|word=chatmode|args=[mode]|desc= Set the chat mode of the current avatar. |access=300}}
+{{Magic word|word=globaltp|args=|access=300}}
+{{Magic word|word=sleep|args=|access=300}}
+{{Magic word|word=toonfest|args=|access=300}}
+{{Magic word|word=mute|args=minutes|desc=
+    Mute the target
+    |access=300}}
+{{Magic word|word=unmute|args=|desc=
+    Unmute the target
+    |access=300}}
+{{Magic word|word=suitPaths|args=|access=300}}
+{{Magic word|word=accId|args=|desc=Get the accountId from the target player.|access=300}}
+{{Magic word|word=kick|args=reason|desc=Kick the player from the game server.|access=300}}
+{{Magic word|word=ban|args=[reason] [confirmed] [overrideSelfBan]|desc=Ban the player from the game server.|access=400}}
+{{Magic word|word=togGM|args=|desc=Toggle GM Icon for toon.|access=300}}
+{{Magic word|word=ghost|args=|desc=Set toon to invisible.|access=300}}
+{{Magic word|word=badName|args=|desc=Set target's name to the 'REJECTED' state and rename them to their <COLOR SPECIES> name.|access=300}}
+{{Magic word|word=locate|args=[avIdShort] [returnType]|desc=Locate an avatar anywhere on the [CURRENT] AI.|access=300}}
+{{Magic word|word=online|args=doId|desc= Check if a toon is online. |access=300}}
+{{Magic word|word=goto|args=avIdShort|desc= Teleport to the avId specified. |access=300}}
+{{Magic word|word=bringTheMadness|args=|access=300}}
+{{Magic word|word=resistanceRanger|args=|desc=
+    Applies the Resistance Ranger Clothes
+    |access=300}}
+{{Magic word|word=restartCraneRound|args=|desc=
+    Restarts the crane round in the CFO.
+    |access=300}}
+{{Magic word|word=skipCFO|args=|desc=
+    Skips to the final round of the CFO.
+    |access=300}}
+{{Magic word|word=killCFO|args=|desc=
+    Kills the CFO.
+    |access=300}}
+
+== Camera controls ==
+'''Default access:''' 300
+These Magic Words manually control the camera system, originally implemented with Doomsday.
+
+== Admin commands ==
+'''Default access:''' 400
+These magic words are for executing admin commands
+{{Magic word|word=promote|args=deptIndex|desc=
+    sends a request to promote the invoker's [deptIndex] Cog disguise.
+        |access=400}}
+{{Magic word|word=zone|args=zoneId|desc=
+    Changes the invoker's zone ID.
+    |access=400}}
+{{Magic word|word=tp|args=hood|desc=
+    Teleport to hood.
+    |access=400}}
+{{Magic word|word=factoryWarp|args=zoneNum|desc=
+    Warp to a specific factory zone.
+    |access=400}}
+{{Magic word|word=system|args=message|desc=
+    Broadcasts a message to the server.
+    |access=400}}
+{{Magic word|word=maintenance|args=minutes|desc=
+    Initiate the maintenance message sequence. It will last for the specified
+    amount of <minutes>.
+    |access=400}}
+{{Magic word|word=sos|args=count name|desc=
+    Modifies the invoker's specified SOS card count.
+    |access=400}}
+{{Magic word|word=trackBonus|args=track|desc=
+    Modify the invoker's track bonus level.
+    |access=400}}
+{{Magic word|word=getZone|args=|access=400}}
+{{Magic word|word=fishingRod|args=rod|desc=
+    Modify the target's fishing rod value.
+    |access=400}}
+{{Magic word|word=bank|args=command value|desc=
+    Modifies the target's bank money values.
+    |access=400}}
+{{Magic word|word=money|args=money|desc=
+    Modifies the target's current money value.
+    |access=400}}
+{{Magic word|word=quests|args=command [arg0] [arg1]|access=400}}
+{{Magic word|word=skipMovie|args=|access=400}}
+{{Magic word|word=inventory|args=a [b] [c]|access=400}}
+{{Magic word|word=dnav1|args=part value|desc=Modify a DNA part on the target.|access=400}}
+{{Magic word|word=skipVP|args=|desc=
+    Skips to the final round of the VP.
+    |access=400}}
+{{Magic word|word=killVP|args=|desc=
+    Kills the VP.
+    |access=400}}
+{{Magic word|word=bombVP|args=|desc=
+    Bombs the VP
+    |access=400}}
+
+== Sysadmin commands ==
+'''Default access:''' 500
+These Magic Words are useful for executing/viewing system information. Note that these Magic Words may have an impact on the server's stability and speed, and should be used with caution.
+{{Magic word|word=aigarbage|args=[arg]|desc=Reports the total garbage use for this process.|access=500}}
+{{Magic word|word=aiheap|args=|desc=Counts the number of objects in Python's object memory.|access=500}}
+{{Magic word|word=aiobjects|args=[minimum]|desc=Write the objects down to log.|access=500}}
+{{Magic word|word=aicontainers|args=[limit]|desc=Write the container report to log.|access=500}}
+{{Magic word|word=dump_doId2do|args=|desc=
+    Please note that this MW should NOT be used more than it needs to be on a live
+    cluster. This is very hacked together and is purely so we can get a dump of doId2do
+    to get an idea of where the huge memory usage is coming from.
+
+    This should be removed once we are complete.
+    |access=500}}
+

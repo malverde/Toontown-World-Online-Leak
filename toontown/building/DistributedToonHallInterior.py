@@ -3,6 +3,7 @@ from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.showbase import Audio3DManager
 from toontown.toonbase import ToontownGlobals
+from toontown.dna.DNAParser import DNADoor
 import cPickle
 from DistributedToonInterior import DistributedToonInterior
 from direct.directnotify import DirectNotifyGlobal
@@ -16,6 +17,7 @@ import ToonInteriorColors
 from toontown.hood import ZoneUtil
 from toontown.toon import ToonDNA
 from toontown.toon import ToonHead
+from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 
 class DistributedToonHallInterior(DistributedToonInterior):
 
@@ -87,6 +89,9 @@ class DistributedToonHallInterior(DistributedToonInterior):
         del self.randomGenerator
         self.interior.flattenMedium()
         self.sillyFSM.enterInitialState()
+        for npcToon in self.cr.doFindAllInstances(DistributedNPCToonBase):
+            npcToon.initToonState()
+        self.sillyFSM.request('Phase1', force=1)
 
     def sillyMeterIsRunning(self, isRunning):
         if isRunning:

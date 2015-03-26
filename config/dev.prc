@@ -4,8 +4,8 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-server-version ttw-pre-alpha-dev-build-2.5.0
-sync-video #f
+server-version ttw-pre-alpha-2.5.1
+sync-video #t
 want-dev #f
 preload-avatars #t
 texture-anisotropic-degree 16
@@ -39,6 +39,8 @@ model-path /
 default-model-extension .bam
 
 
+
+
 # Server settings
 want-rpc-server #t
 rpc-server-endpoint http://localhost:8080/
@@ -55,15 +57,16 @@ dc-file config/otp.dc
 
 # Beta Modifications
 # Temporary modifications for unimplemented features go here.
-want-pets #f
+want-pets #t
 want-news-tab #f
 want-news-page #f
-want-accessories #f
-want-parties #f
+want-accessories #t
+want-parties #t
 want-gardening #f
 want-gifting #t
 want-picnic-games #f
 want-chinese-table #f
+want-fishing #t
 want-checkers-table #f
 want-findfour-table #f
 # This is a temporary 'fix' for DistributedSmoothNodes... probably not the permanent solution to our problem, but it works for now.
@@ -88,7 +91,8 @@ force-player-understandable #t
 want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
-want-mega-invasions #f
+want-mega-invasions #t
+mega-invasion-cog-type bs
 
 
 
@@ -97,5 +101,28 @@ want-mega-invasions #f
 base-xp-multiplier 1
 #group merges
 boarding-group-merges #t
-force-skip-tutorial #f
+#other
+
 want-speedhack-fix #t
+want-cogdominiums #f
+want-game-tables #f
+force-skip-tutorial #f
+active-holidays 19
+keep-aspect-ratio 
+enable-pixel-zoom #t
+preload-avatars #f
+want-pets #t
+want-code-redemption #t
+want-pstats #f
+interactive-prop-random-idles #f
+interactive-prop-info #t
+
+# Main Theme Manager
+wantWinterTheme #f
+wantSpookyTheme #f
+wantEventTheme #f
+
+want-cell-debug #f
+keep-aspect-ratio #f
+want-fish-bingo #t
+

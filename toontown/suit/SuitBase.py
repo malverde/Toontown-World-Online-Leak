@@ -1,14 +1,14 @@
-from pandac.PandaModules import *
-from direct.distributed.ClockDelta import *
-import math
-import random
-from pandac.PandaModules import Point3
-from direct.directnotify import DirectNotifyGlobal
-from toontown.battle import SuitBattleGlobals
-import SuitTimings
 import SuitDNA
-from toontown.toonbase import TTLocalizer
 from SuitLegList import *
+import SuitTimings
+from direct.directnotify import DirectNotifyGlobal
+from direct.distributed.ClockDelta import *
+from pandac.PandaModules import *
+from pandac.PandaModules import Point3
+from toontown.battle import SuitBattleGlobals
+from toontown.toonbase import TTLocalizer
+
+
 TIME_BUFFER_PER_WPT = 0.25
 TIME_DIVISOR = 100
 DISTRIBUTE_TASK_CREATION = 0
@@ -22,20 +22,12 @@ class SuitBase:
         self.maxHP = 10
         self.currHP = 10
         self.isSkelecog = 0
-        self.legList = None
-        self.path = None
-        self.suitGraph = None
+        self.isWaiter = 0
         return
 
     def delete(self):
-        if self.legList is not None:
+        if hasattr(self, 'legList'):
             del self.legList
-        # I have no idea if this will fix anything... but it looks like it isn't
-        # deleted, so w/e.
-        if self.path is not None:
-            del self.path
-        if self.suitGraph is not None:
-            del self.suitGraph
 
     def getStyleName(self):
         if hasattr(self, 'dna') and self.dna:
@@ -70,6 +62,9 @@ class SuitBase:
     def setSkelecog(self, flag):
         self.isSkelecog = flag
 
+    def setWaiter(self, flag):
+        self.isWaiter = flag
+
     def getActualLevel(self):
         if hasattr(self, 'dna'):
             return SuitBattleGlobals.getActualFromRelativeLevel(self.getStyleName(), self.level) + 1
@@ -77,17 +72,18 @@ class SuitBase:
             self.notify.warning('called getActualLevel with no DNA, returning 1 for level')
             return 1
 
-    def setPath(self, suitGraph, path):
-        self.suitGraph = suitGraph
+    def setPath(self, path):
         self.path = path
+        self.pathLength = self.path.getNumPoints()
 
     def getPath(self):
         return self.path
 
     def printPath(self):
-        print '%d points in path' % len(self.path)
-        for currPathPt in self.path:
-            print '\t', currPathPt
+        print '%d points in path' % self.pathLength
+        for currPathPt in xrange(self.pathLength):
+            indexVal = self.path.getPointIndex(currPathPt)
+            print '\t', self.sp.dnaStore.getSuitPointWithIndex(indexVal)
 
     def makeLegList(self):
-        self.legList = SuitLegList(self.suitGraph, self.path)
+        self.legList = SuitLegList(self.path, self.sp.dnaStore)

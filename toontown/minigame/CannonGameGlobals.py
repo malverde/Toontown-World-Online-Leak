@@ -1,5 +1,5 @@
 TowerYRange = 200
-GameTime = 90
+GameTime = 120
 MAX_SCORE = 23
 MIN_SCORE = 5
 FUSE_TIME = 0.0
