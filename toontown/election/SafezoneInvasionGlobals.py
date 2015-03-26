@@ -64,7 +64,6 @@ SuitSpawnPoints = [
 ]
 
 suitLevels = [
-    0,
     1,
     2,
     3,
