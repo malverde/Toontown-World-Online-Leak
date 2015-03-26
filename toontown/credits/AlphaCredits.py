@@ -189,6 +189,7 @@ CreditsScenes = [
                 # Special Thanks to:
                 Credits('Disney', 'The owners and creators\nof Toontown.', '11-20-13_donald.jpg', 'left', 2), 
                  Credits('VR Studio', 'For developing Toontown Online.', '11-15-13_grey.jpg'),
+                 Credits('Cool Peaches', 'Original Doomsday Music', '.jpg'),
 #damn i cant spell his name lol
                 Credits('Jeese schelle ', 'For his continued efforts\nto bring Toontown back.', '14-1-22_ohmanohmanOHMAN.jpg', 'left') 
 ]
