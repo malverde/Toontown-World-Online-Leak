@@ -80,7 +80,7 @@ estate-day-night #t
 want-instant-parties #f
 show-total-population #t
 want-toontorial #t
-want-doomsday #f
+want-doomsday #t
 
 # Chat stuff
 want-whitelist #t
