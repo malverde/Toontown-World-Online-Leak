@@ -1,7 +1,8 @@
 from direct.interval.IntervalGlobal import *
-from toontown.nametag.NametagGlobals import *
+from toontown.nametag import NametagGlobals
 from pandac.PandaModules import *
 from random import choice
+from toontown.chat.ChatGlobals import *
 
 ########################
 #        Props         #
