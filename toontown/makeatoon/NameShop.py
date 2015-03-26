@@ -1014,7 +1014,6 @@ class NameShop(StateData.StateData):
 
     def __isFirstTime(self):
         if not self.makeAToon.nameList or self.makeAToon.warp:
-            self.__createAvatar()
             self.promptTutorial()
         else:
             self.promptTutorial()
