@@ -10,7 +10,6 @@ import TownBattleSOSPanel
 import TownBattleSOSPetSearchPanel
 import TownBattleSOSPetInfoPanel
 import TownBattleToonPanel
-import TownBattleCogPanel
 from toontown.toontowngui import TTDialog
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import BattleBase
@@ -20,6 +19,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.pets import PetConstants
 from direct.gui.DirectGui import DGG
 from toontown.battle import FireCogPanel
+import TownBattleCogPanel
 
 class TownBattle(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('TownBattle')
@@ -133,9 +133,10 @@ class TownBattle(StateData.StateData):
         self.cogPanels = (TownBattleCogPanel.TownBattleCogPanel(0),
          TownBattleCogPanel.TownBattleCogPanel(1),
          TownBattleCogPanel.TownBattleCogPanel(2),
-         TownBattleCogPanel.TownBattleCogPanel(3))         
+         TownBattleCogPanel.TownBattleCogPanel(3))                  
         self.timer = ToontownTimer.ToontownTimer()
-        self.timer.posInTopRightCorner()
+        self.timer.reparentTo(base.a2dTopRight)
+        self.timer.setPos(-0.151, 0, -0.158)
         self.timer.setScale(0.4)
         self.timer.hide()
         return
@@ -156,10 +157,8 @@ class TownBattle(StateData.StateData):
         del self.SOSPetInfoPanel
         for toonPanel in self.toonPanels:
             toonPanel.cleanup()
-        
         for cogPanel in self.cogPanels:
             cogPanel.cleanup()
-
         del self.toonPanels
         del self.cogPanels
         self.timer.destroy()
@@ -263,7 +262,6 @@ class TownBattle(StateData.StateData):
         else:
             self.notify.error('Bad number of toons: %s' % num)
         return None
-
     def __enterCogPanels(self, num):
         for cogPanel in self.cogPanels:
             cogPanel.hide()
@@ -295,7 +293,7 @@ class TownBattle(StateData.StateData):
             self.cogPanels[3].setX(self.evenPos[3])
             self.cogPanels[3].show()
         else:
-            self.notify.error('Bad number of toons: %s' % num)
+            self.notify.error('Bad number of cogs: %s' % num)
         return None        
 
     def updateChosenAttacks(self, battleIndices, tracks, levels, targets):
@@ -303,7 +301,7 @@ class TownBattle(StateData.StateData):
          tracks,
          levels,
          targets))
-        for i in xrange(4):
+        for i in range(4):
             if battleIndices[i] == -1:
                 pass
             else:
@@ -352,10 +350,8 @@ class TownBattle(StateData.StateData):
         if self.isLoaded:
             for toonPanel in self.toonPanels:
                 toonPanel.hide()
-                
             for cogPanel in self.cogPanels:
                 cogPanel.hide()
-
         self.toonAttacks = [(-1, 0, 0),
          (-1, 0, 0),
          (-1, 0, 0),
@@ -369,7 +365,7 @@ class TownBattle(StateData.StateData):
         if self.isLoaded:
             self.__enterPanels(self.numToons, self.localNum)
             if base.wantCogLevelGui:
-                self.__enterCogPanels(self.numCogs)
+                self.__enterCogPanels(self.numCogs)            
         self.timer.show()
         self.track = -1
         self.level = -1
@@ -499,7 +495,7 @@ class TownBattle(StateData.StateData):
                             continue
                 else:
                     resetActivateMode = 1
-                    break
+                    break   
         else:
             resetActivateMode = 1
         self.notify.debug('adjustCogsAndToons() resetActivateMode: %s' % resetActivateMode)
@@ -513,14 +509,12 @@ class TownBattle(StateData.StateData):
         currStateName = self.fsm.getCurrentState().getName()
         if resetActivateMode:
             self.__enterPanels(self.numToons, self.localNum)
-            for i in xrange(len(toons)):
+            for i in range(len(toons)):
                 self.toonPanels[i].setLaffMeter(toons[i])
-            
             if base.wantCogLevelGui:    
                 self.__enterCogPanels(self.numCogs)
             for i in xrange(len(cogs)):
                 self.cogPanels[i].setSuit(cogs[i])
-
             if currStateName == 'ChooseCog':
                 self.chooseCogPanel.adjustCogs(self.numCogs, self.luredIndices, self.trappedIndices, self.track)
             elif currStateName == 'ChooseToon':
