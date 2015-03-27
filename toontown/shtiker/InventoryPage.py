@@ -6,7 +6,6 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.shtiker.CogMenu import CogMenu
 
-
 class InventoryPage(ShtikerPage.ShtikerPage):
 
     def __init__(self):
@@ -14,7 +13,7 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         self.currentTrackInfo = None
         self.onscreen = 0
         self.lastInventoryTime = globalClock.getRealTime()
-        return
+
 
     def load(self):
         ShtikerPage.ShtikerPage.load(self)
@@ -34,12 +33,13 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         self.cogMenu.setX(-0.165)
         self.cogMenu.setZ(0.63)
         self.cogMenu.setScale(0.82)
-
+        
     def unload(self):
         del self.title
         self.cogMenu.cleanup()
-        del self.cogMenu
+        del self.cogMenu                    
         ShtikerPage.ShtikerPage.unload(self)
+   
 
     def __moneyChange(self, money):
         self.moneyDisplay['text'] = str(money)
@@ -149,7 +149,7 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         self.accept('enterTrackFrame', self.updateTrackInfo)
         self.accept('exitTrackFrame', self.clearTrackInfo)
         self.accept(localAvatar.uniqueName('moneyChange'), self.__moneyChange)
-        self.cogMenu.update()
+        self.cogMenu.update()        
         self.reparentTo(aspect2d)
         self.title.hide()
         self.show()
@@ -167,4 +167,4 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         self.reparentTo(self.book)
         self.title.show()
         self.hide()
-        self.cogMenu.hide()
+        self.cogMenu.hide()        
