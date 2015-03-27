@@ -36,7 +36,7 @@ class DistributedFireworkShowAI(DistributedObjectAI):
         pass
 
 
-@magicWord(category=CATEGORY_SYSTEM_ADMINISTRATOR, types=[str])
+@magicWord(category=CATEGORY_OVERRIDE, types=[str])
 def fireworks(showName='july4'):
     """
     Starts a fireworks show on the AI server.
