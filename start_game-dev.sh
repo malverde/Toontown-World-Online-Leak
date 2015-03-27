@@ -1,4 +1,3 @@
-cd `dirname $0`
 set +v
 read -p "Username: " ttrUsername
 read -p "Password: " ttrPassword
