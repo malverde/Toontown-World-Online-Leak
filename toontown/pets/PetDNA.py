@@ -85,6 +85,11 @@ PetRarities = {'body': {ToontownGlobals.ToontownCentral: {'threeStripe': 50,
                                              'turtle': 25,
                                              'giraffe': 20,
                                              'leopard': 10},
+          ToontownGlobals.FunnyFarm: {'leopard': 20,
+                                       'giraffe': 20,
+                                       'dots': 10,
+                                       'tigerStripe': 25,
+                                       'turtle': 25}
           
         }}
 BodyTextures = {'dots': 'phase_4/maps/BeanbodyDots6.jpg',
