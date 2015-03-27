@@ -158,7 +158,7 @@ class ToonBase(OTPBase.OTPBase):
         self.oldY = max(1, base.win.getYSize())
         self.aspectRatio = float(self.oldX) / self.oldY
         self.localAvatarStyle = None
-	Settings = Settings.Settings('preferences.json')
+	Settings = Settings.Settings()
 	global Settings
 		# WASD option :D
         self.wantWASD = Settings.get('want-WASD', False)
