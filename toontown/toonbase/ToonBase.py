@@ -12,7 +12,7 @@ from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import Sequence, Func, Wait
 from toontown.margins.MarginManager import MarginManager
 from toontown.nametag import NametagGlobals
-from otp.settings import settings
+from otp.settings.Settings import Settings
 import sys
 import os
 import math
@@ -158,7 +158,7 @@ class ToonBase(OTPBase.OTPBase):
         self.oldY = max(1, base.win.getYSize())
         self.aspectRatio = float(self.oldX) / self.oldY
         self.localAvatarStyle = None
-		self.settings = settings.settings
+
 		# WASD option :D
         self.wantWASD = settings.get('want-WASD', False)
         
@@ -176,7 +176,6 @@ class ToonBase(OTPBase.OTPBase):
             self.JUMP = 'space'
         # Show cog levels on the battle GUI :D
         self.wantCogLevelGui = settings.get('want-ShowCogLevel', True)
-        
     def openMainWindow(self, *args, **kw):
         result = OTPBase.OTPBase.openMainWindow(self, *args, **kw)
         self.setCursorAndIcon()
