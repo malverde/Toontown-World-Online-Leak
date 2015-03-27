@@ -109,9 +109,8 @@ class Nametag3d(Nametag, Clickable3d):
         if distance < self.SCALING_MIN_DISTANCE:
             distance = self.SCALING_MIN_DISTANCE
         elif distance > self.SCALING_MAX_DISTANCE:
+        	extraScale = 2.0
             distance = self.SCALING_MAX_DISTANCE
-            extraScale = 2.0
-
 
         if distance != self.distance:
             self.contents.setScale(math.sqrt(distance) * self.SCALING_FACTOR * extraScale)
