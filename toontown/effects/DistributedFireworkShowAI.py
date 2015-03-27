@@ -53,6 +53,6 @@ def fireworks(showName='july4'):
         if hood.HOOD == ToontownGlobals.GolfZone:
             continue
         fireworksShow = DistributedFireworkShowAI(simbase.air)
-        fireworksShow.generateWithRequired(hood.HOOD)
+        fireworksShow.generateWithRequired(hood.zoneId)
         fireworksShow.b_startShow(showType, showIndex, globalClockDelta.getRealNetworkTime())
     return 'Started fireworks in all playgrounds!'
