@@ -12,7 +12,7 @@ from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import Sequence, Func, Wait
 from toontown.margins.MarginManager import MarginManager
 from toontown.nametag import NametagGlobals
-from otp.otpbase import settings
+from otp.settings import settings
 import sys
 import os
 import math
