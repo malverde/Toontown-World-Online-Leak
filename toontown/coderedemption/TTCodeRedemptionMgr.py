@@ -10,14 +10,14 @@ class TTCodeRedemptionMgr(DistributedObject):
 
     def announceGenerate(self):
         DistributedObject.announceGenerate(self)
-        base.codeRedemptionMgr = self
+        base.cr.codeRedemptionMgr = self
         self._contextGen = SerialMaskedGen(4294967295L)
         self._context2callback = {}
 
     def delete(self):
-        if hasattr(base, 'codeRedemptionMgr'):
-            if base.codeRedemptionMgr is self:
-                del base.codeRedemptionMgr
+        if hasattr(base.cr, 'codeRedemptionMgr'):
+            if base.cr.codeRedemptionMgr is self:
+                del base.cr.codeRedemptionMgr
         self._context2callback = None
         self._contextGen = None
         DistributedObject.delete(self)
