@@ -12,7 +12,7 @@ from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import Sequence, Func, Wait
 from toontown.margins.MarginManager import MarginManager
 from toontown.nametag import NametagGlobals
-from otp.settings import Settings
+from otp.settings.Settings import Settings
 import sys
 import os
 import math
@@ -158,8 +158,7 @@ class ToonBase(OTPBase.OTPBase):
         self.oldY = max(1, base.win.getYSize())
         self.aspectRatio = float(self.oldX) / self.oldY
         self.localAvatarStyle = None
-	Settings = Settings.Settings()
-	global Settings
+		
 		# WASD option :D
         self.wantWASD = Settings.get('want-WASD', False)
         
