@@ -6,7 +6,7 @@
 window-title Toontown World [Pre-Alpha]
 server-version ttw-pre-alpha-2.5.1
 audio-library-name p3openal_audio
-sync-video #t
+sync-video #f
 want-dev #f
 preload-avatars #t
 want-keep-alive #f
@@ -70,7 +70,7 @@ force-player-understandable #t
 
 # Holidays and Events
 force-holiday-decorations 
-active-holidays 25 19 
+active-holidays 19 
 want-arg-manager #f
 show-total-population #t
 
@@ -93,16 +93,13 @@ want-whitelist #t
 want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
-want-mega-invasions #t
+want-mega-invasions #f
 mega-invasion-cog-type bs
 boarding-group-merges #t 
 want-speedhack-fix #t 
 want-cogdominiums #f
 want-game-tables #f
 force-skip-tutorial #f
-keep-aspect-ratio 
-enable-pixel-zoom #t
-preload-avatars #f
 
 
 

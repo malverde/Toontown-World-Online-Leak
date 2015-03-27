@@ -8523,7 +8523,7 @@ TipDict = {TIP_NONE: ('',),
                 'In the Tug-of-War you are awarded more jellybeans if you play against a tougher Cog.',
                 'Trolley Game difficulty varies by neighborhood; ' + lToontownCentral + ' has the easiest and ' + lDonaldsDreamland + ' has the hardest.',
                 'Certain Trolley Games can only be played in a group.'),
- TIP_COGHQ: ('Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters, but not inside!',
+ TIP_COGHQ: ('Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters. They will not work inside Cog Headquarters or Factories!',
              'You must complete your Sellbot Disguise before visiting the V.P.',
              'You must complete your Cashbot Disguise before visiting the C.F.O.',
              'You must complete your Lawbot Disguise before visiting the Chief Justice.',
@@ -9940,4 +9940,5 @@ def getBuffPosterString(buffId):
     return buffIdStrings[buffId][1]
 
 MoreOptionsPageTitle = 'Other Options'
+ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'
 ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'

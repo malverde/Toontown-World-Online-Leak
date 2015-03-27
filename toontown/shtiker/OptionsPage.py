@@ -104,7 +104,7 @@ class OptionsPage(ShtikerPage.ShtikerPage):
         diabledColor = (1.0, 0.98, 0.15, 1)
         gui = loader.loadModel('phase_3.5/models/gui/fishingBook')
         self.optionsTab = DirectButton(parent=self, relief=None, text=TTLocalizer.OptionsPageTitle, text_scale=TTLocalizer.OPoptionsTab, text_align=TextNode.ALeft, text_pos=(0.01, 0.0, 0.0), image=gui.find('**/tabs/polySurface1'), image_pos=(0.55, 1, -0.91), image_hpr=(0, 0, -90), image_scale=(0.033, 0.033, 0.035), image_color=normalColor, image1_color=clickColor, image2_color=rolloverColor, image3_color=diabledColor, text_fg=Vec4(0.2, 0.1, 0, 1), command=self.setMode, extraArgs=[PageMode.Options], pos=(-0.64, 0, 0.77))
-        self.codesTab = DirectButton(parent=self, relief=None, text=TTLocalizer.OptionsPageCodesTab, text_scale=TTLocalizer.OPoptionsTab, text_align=TextNode.ALeft, text_pos=(-0.035, 0.0, 0.0), image=gui.find('**/tabs/polySurface2'), image_pos=(0.12, 1, -0.91), image_hpr=(0, 0, -90), image_scale=(0.033, 0.033, 0.035), image_color=normalColor, image1_color=clickColor, image2_color=rolloverColor, image3_color=diabledColor, text_fg=Vec4(0.2, 0.1, 0, 1), command=self.setMode,            extraArgs=[PageMode.Codes], pos=(-0.12, 0, 0.77))
+        self.codesTab = DirectButton(parent=self, relief=None, text=TTLocalizer.OptionsPageCodesTab, text_scale=TTLocalizer.OPoptionsTab, text_align=TextNode.ALeft, text_pos=(-0.035, 0.0, 0.0), image=gui.find('**/tabs/polySurface2'), image_pos=(0.12, 1, -0.91), image_hpr=(0, 0, -90), image_scale=(0.033, 0.033, 0.035), image_color=normalColor, image1_color=clickColor, image2_color=rolloverColor, image3_color=diabledColor, text_fg=Vec4(0.2, 0.1, 0, 1), command=self.setMode, extraArgs=[PageMode.Codes], pos=(0.12, 0, 0.77))
         self.moreOptionsTab = DirectButton(
             parent=self, relief=None, text=TTLocalizer.MoreOptionsPageTitle,
             text_scale=TTLocalizer.OPmoreOptionsTab, text_align=TextNode.ALeft,
@@ -114,7 +114,7 @@ class OptionsPage(ShtikerPage.ShtikerPage):
             image_color=normalColor, image1_color=clickColor,
             image2_color=rolloverColor, image3_color=diabledColor,
             text_fg=Vec4(0.2, 0.1, 0, 1), command=self.setMode,
-            extraArgs=[PageMode.MoreOptions], pos=(0.42, 0, 0.77))     
+            extraArgs=[PageMode.MoreOptions], pos=(0.42, 0, 0.77))             
         return
 
     def enter(self):
@@ -146,14 +146,14 @@ class OptionsPage(ShtikerPage.ShtikerPage):
             self.codesTab['state'] = DGG.NORMAL
             self.codesTabPage.exit()
             self.moreOptionsTab['state'] = DGG.NORMAL
-            self.moreOptionsTabPage.exit()            
+            self.moreOptionsTabPage.exit()
         elif mode == PageMode.Codes:
             self.mode = PageMode.Codes
             self.title['text'] = TTLocalizer.CdrPageTitle
             self.optionsTab['state'] = DGG.NORMAL
             self.optionsTabPage.exit()
             self.moreOptionsTab['state'] = DGG.NORMAL
-            self.moreOptionsTabPage.exit()                        
+            self.moreOptionsTabPage.exit()                    
             self.codesTab['state'] = DGG.DISABLED
             self.codesTabPage.enter()
         elif mode == PageMode.MoreOptions:
@@ -164,8 +164,7 @@ class OptionsPage(ShtikerPage.ShtikerPage):
             self.codesTabPage.exit()
             self.moreOptionsTab['state'] = DGG.DISABLED
             self.moreOptionsTabPage.enter()            
-
-             
+            
         else:
             raise StandardError, 'OptionsPage::setMode - Invalid Mode %s' % mode
 
@@ -653,7 +652,7 @@ class CodesTabPage(DirectFrame):
         self.codeInput['state'] = DGG.NORMAL
         self.codeInput['focus'] = 1
         self.submitButton['state'] = DGG.NORMAL
-        
+
 class MoreOptionsTabPage(DirectFrame):
     notify = directNotify.newCategory('MoreOptionsTabPage')
 
@@ -686,8 +685,8 @@ class MoreOptionsTabPage(DirectFrame):
         self.speed_chat_scale = 0.055    
         self.WASD_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - textRowHeight))
         self.WASD_toggleButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight), command=self.__doToggleWASD)
-        self.CogLevel_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - textRowHeight * 2))
-        self.CogLevel_toggleButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight * 2), command=self.__doToggleCogLevelGui)
+#        self.CogLevel_Label = DirectLabel(parent=self, relief=None, text='', text_align=TextNode.ALeft, text_scale=options_text_scale, text_wordwrap=16, pos=(leftMargin, 0, textStartHeight - textRowHeight * 2))
+       # self.CogLevel_toggleButton = DirectButton(parent=self, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=button_image_scale, text='', text_scale=options_text_scale, text_pos=button_textpos, pos=(buttonbase_xcoord, 0.0, buttonbase_ycoord - textRowHeight * 2), command=self.__doToggleCogLevelGui)
         gui.removeNode()
         guiButton.removeNode()
         
@@ -695,7 +694,7 @@ class MoreOptionsTabPage(DirectFrame):
         self.show()
         self.settingsChanged = 0
         self.__setWASDButton()
-        self.__setCogLevelGuiButton()
+#        self.__setCogLevelGuiButton()
 
     def exit(self):
         self.ignore('confirmDone')
@@ -706,10 +705,10 @@ class MoreOptionsTabPage(DirectFrame):
         del self.WASD_Label
         self.WASD_toggleButton.destroy()
         del self.WASD_toggleButton
-        self.CogLevel_Label.destroy()
-        del self.CogLevel_Label
-        self.CogLevel_toggleButton.destroy()
-        del self.CogLevel_toggleButton
+       # self.CogLevel_Label.destroy()
+      #  del self.CogLevel_Label
+      #  self.CogLevel_toggleButton.destroy()
+     #   del self.CogLevel_toggleButton
 
 
     def __doToggleWASD(self):
@@ -721,7 +720,7 @@ class MoreOptionsTabPage(DirectFrame):
             base.Move_Left = 'arrow_left'
             base.Move_Right = 'arrow_right'
             base.JUMP = 'control'
-            base.display.settings.updateSetting ('game','want-WASD',  False)
+            base.display.settings.updateSetting('game', 'want-WASD', False)
             base.localAvatar.controlManager.reload()
             base.localAvatar.chatMgr.reloadWASD()
             base.localAvatar.setSystemMessage(0, 'Control mode: Classic.')            
@@ -732,7 +731,7 @@ class MoreOptionsTabPage(DirectFrame):
             base.Move_Left = 'a'
             base.Move_Right = 'd'
             base.JUMP = 'space'
-            base.display.settings.updateSetting ('game','want-WASD',  True)
+            base.display.settings.updateSetting('game', 'want-WASD', True)
             base.localAvatar.controlManager.reload()
             base.localAvatar.chatMgr.reloadWASD()            
             base.localAvatar.setSystemMessage(0, 'Control mode: WASD.\nUse space to jump and T to talk')
@@ -747,21 +746,21 @@ class MoreOptionsTabPage(DirectFrame):
             self.WASD_toggleButton['text'] = 'Classic'
 
             
-    def __doToggleCogLevelGui(self): # TODO: Move this option to battle GUI
-        messenger.send('wakeup')
-        if base.wantCogLevelGui:
-            base.wantCogLevelGui = False
-            base.display.settings.updateSetting ('game', 'want-ShowCogLevel' , False   )     
-        else:
-            base.wantCogLevelGui = True
-            base.display.settings.updateSetting ('game', 'want-ShowCogLevel',  True)
-        self.settingsChanged = 1
-        self.__setCogLevelGuiButton()
+#    def __doToggleCogLevelGui(self): # TODO: Move this option to battle GUI
+ #       messenger.send('wakeup')
+    #    if base.wantCogLevelGui:
+#            base.wantCogLevelGui = False
+ #           settings['want-ShowCogLevel'] = False        
+  #      else:
+   #         base.wantCogLevelGui = True
+    #        settings['want-ShowCogLevel'] = True
+#        self.settingsChanged = 1
+#        self.__setCogLevelGuiButton()
 
-    def __setCogLevelGuiButton(self):
-        if base.wantCogLevelGui:
-            self.CogLevel_Label['text'] = 'Show Cog Levels in Battle'
-            self.CogLevel_toggleButton['text'] = 'YES'
-        else:
-            self.CogLevel_Label['text'] = 'Show Cog Levels in Battle'
-            self.CogLevel_toggleButton['text'] = 'NO'        
+#    def __setCogLevelGuiButton(self):
+ #       if base.wantCogLevelGui:
+  #          self.CogLevel_Label['text'] = 'Show Cog Levels in Battle'
+   #         self.CogLevel_toggleButton['text'] = 'YES'
+    #    else:
+     #       self.CogLevel_Label['text'] = 'Show Cog Levels in Battle'
+      #      self.CogLevel_toggleButton['text'] = 'NO'

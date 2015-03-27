@@ -4,7 +4,7 @@ ARROW_KEYCODE_MAP = {base.Move_Up: 'u',
  base.Move_Down: 'd',
  base.Move_Left: 'l',
  base.Move_Right: 'r'}
-KEYCODE_TIMEOUT_SECONDS = 1.5
+ KEYCODE_TIMEOUT_SECONDS = 1.5
 
 class KeyCodes(DirectObject):
     notify = directNotify.newCategory('KeyCodes')
