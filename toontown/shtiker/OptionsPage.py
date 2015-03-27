@@ -721,7 +721,7 @@ class MoreOptionsTabPage(DirectFrame):
             base.Move_Left = 'arrow_left'
             base.Move_Right = 'arrow_right'
             base.JUMP = 'control'
-            Settings['want-WASD'] = False
+            settings['want-WASD'] = False
             base.localAvatar.controlManager.reload()
             base.localAvatar.chatMgr.reloadWASD()
             base.localAvatar.setSystemMessage(0, 'Control mode: Classic.')            
@@ -732,7 +732,7 @@ class MoreOptionsTabPage(DirectFrame):
             base.Move_Left = 'a'
             base.Move_Right = 'd'
             base.JUMP = 'space'
-            Settings['want-WASD'] = True
+            settings['want-WASD'] = True
             base.localAvatar.controlManager.reload()
             base.localAvatar.chatMgr.reloadWASD()            
             base.localAvatar.setSystemMessage(0, 'Control mode: WASD.\nUse space to jump and T to talk')
@@ -751,10 +751,10 @@ class MoreOptionsTabPage(DirectFrame):
         messenger.send('wakeup')
         if base.wantCogLevelGui:
             base.wantCogLevelGui = False
-            Settings['want-ShowCogLevel'] = False        
+            settings['want-ShowCogLevel'] = False        
         else:
             base.wantCogLevelGui = True
-            Settings['want-ShowCogLevel'] = True
+            settings['want-ShowCogLevel'] = True
         self.settingsChanged = 1
         self.__setCogLevelGuiButton()
 
