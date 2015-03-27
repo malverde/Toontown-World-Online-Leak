@@ -105,3 +105,4 @@ want-speedhack-fix #t
 want-cogdominiums #f
 want-game-tables #f
 force-skip-tutorial #f
+active-holidays 19

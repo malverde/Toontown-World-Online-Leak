@@ -15,7 +15,6 @@ class MMHood(ToonHood):
     SKY_FILE = 'phase_6/models/props/MM_sky'
     SPOOKY_SKY_FILE = 'phase_6/models/props/MM_sky'
     TITLE_COLOR = (1.0, 0.5, 0.5, 1.0)
-    self.loader = ToontownLoader.ToontownLoader(self)
     
 
     HOLIDAY_DNA = {

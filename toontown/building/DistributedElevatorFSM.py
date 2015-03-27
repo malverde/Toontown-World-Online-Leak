@@ -197,7 +197,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
             del self.toonRequests[index]
         if avId == 0:
             pass
-        elif not self.cr.doId2do.has_key(avId):
+        elif avId not in self.cr.doId2do:
             func = PythonUtil.Functor(self.gotToon, index, avId)
             self.toonRequests[index] = self.cr.relatedObjectMgr.requestObjects([avId], allCallback=func)
         elif not self.isSetup:
@@ -271,7 +271,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
                     newSlots.append(slot)
 
             self.deferredSlots = newSlots
-        elif self.cr.doId2do.has_key(avId):
+        elif avId in self.cr.doId2do:
             if bailFlag == 1 and hasattr(self, 'clockNode'):
                 if timestamp < self.countdownTime and timestamp >= 0:
                     self.countdown(self.countdownTime - timestamp)

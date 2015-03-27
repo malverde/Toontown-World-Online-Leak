@@ -70,7 +70,7 @@ force-player-understandable #t
 
 # Holidays and Events
 force-holiday-decorations 
-active-holidays 25
+active-holidays 19 
 want-arg-manager #f
 show-total-population #t
 
@@ -93,7 +93,7 @@ want-whitelist #t
 want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
-want-mega-invasions #t
+want-mega-invasions #f
 mega-invasion-cog-type bs
 boarding-group-merges #t 
 want-speedhack-fix #t 

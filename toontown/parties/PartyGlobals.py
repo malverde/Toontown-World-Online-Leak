@@ -108,7 +108,7 @@ PartyEditorActivityOrder = [ ActivityIds.PartyClock,
  ActivityIds.PartyCatch,
  ActivityIds.PartyWinterCatch,
  ActivityIds.PartyCog,
- ActivityIds.PartyWinterCog,
+ ActivityIds.PartyWinterCog]
 # ActivityIds.PartyFireworks]
 UnreleasedActivityIds = (ActivityIds.PartyCog,
  ActivityIds.PartyWinterCog, ActivityIds.PartyValentineJukebox,

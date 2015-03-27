@@ -33,7 +33,7 @@ class BoardingPartyBase:
         self.maxSize = groupSize
 
     def getGroupLeader(self, avatarId):
-        if self.avIdDict.has_key(avatarId):
+        if avatarId in self.avIdDict:
             leaderId = self.avIdDict[avatarId]
             return leaderId
         else:
@@ -48,7 +48,7 @@ class BoardingPartyBase:
             return False
 
     def getGroupMemberList(self, avatarId):
-        if self.avIdDict.has_key(avatarId):
+        if avatarId in  self.avIdDict:
             leaderId = self.avIdDict[avatarId]
             group = self.groupListDict.get(leaderId)
             if group:
@@ -59,7 +59,7 @@ class BoardingPartyBase:
         return []
 
     def getGroupInviteList(self, avatarId):
-        if self.avIdDict.has_key(avatarId):
+        if avatarId in self.avIdDict:
             leaderId = self.avIdDict[avatarId]
             group = self.groupListDict.get(leaderId)
             if group:
@@ -70,7 +70,7 @@ class BoardingPartyBase:
         return []
 
     def getGroupKickList(self, avatarId):
-        if self.avIdDict.has_key(avatarId):
+        if avatarId in self.avIdDict:
             leaderId = self.avIdDict[avatarId]
             group = self.groupListDict.get(leaderId)
             if group:
@@ -91,7 +91,7 @@ class BoardingPartyBase:
         pendingInvite = False
         if avatarId in self.mergeDict:
             return True        
-        if self.avIdDict.has_key(avatarId):
+        if avatarId in self.avIdDict:
             leaderId = self.avIdDict[avatarId]
             leaderInviteList = self.getGroupInviteList(leaderId)
             if leaderId == avatarId:

@@ -593,7 +593,7 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame, DistributedIce
         taskMgr.remove(self.debugTaskName)
 
     def debugTask(self, task):
-        if self.canDrive and self.tireDict.has_key(localAvatar.doId):
+        if self.canDrive and localAvatar.doId in self.tireDict:
             dt = globalClock.getDt()
             forceMove = 25000
             forceMoveDt = forceMove
