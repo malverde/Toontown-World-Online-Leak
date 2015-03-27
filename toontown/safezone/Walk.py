@@ -39,7 +39,7 @@ class Walk(StateData.StateData):
 
     def exit(self):
         self.fsm.request('off')
-        self.ignore(base.JUMP)
+        self.ignore('control')
         base.localAvatar.disableAvatarControls()
         base.localAvatar.stopUpdateSmartCamera()
         base.localAvatar.stopPosHprBroadcast()

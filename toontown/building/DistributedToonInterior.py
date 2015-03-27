@@ -8,17 +8,16 @@ from direct.distributed import DistributedObject
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from direct.interval.IntervalGlobal import *
-from otp.speedchat import SpeedChatGlobals
-from pandac.PandaModules import *
-from toontown.dna.DNAParser import DNADoor
+import random
+import ToonInteriorColors
+from toontown.dna.DNADoor import DNADoor
 from toontown.hood import ZoneUtil
 from toontown.toon import ToonDNA
 from toontown.toon import ToonHead
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 from toontown.toonbase import ToontownGlobals
+from otp.speedchat import SpeedChatGlobals
 from toontown.toonbase.ToonBaseGlobal import *
-from toontown.toon import Toon
 
 
 SIGN_LEFT = -4
@@ -166,19 +165,20 @@ class DistributedToonInterior(DistributedObject.DistributedObject):
 
         return trophy
 
-    def buildFrame(self, name, dnaTuple): #This now will display the whole toon's body! This is not finished yet. But it looks cool!
+    def buildFrame(self, name, dnaTuple):
         frame = loader.loadModel('phase_3.5/models/modules/trophy_frame')
-        if base.localAvatarStyle:
-            from toontown.toon import Toon
-            toon = Toon.Toon()
-            dna = ToonDNA.ToonDNA()
-            toon.loop('idle', fromFrame=0, toFrame=100)
-            toon.getGeomNode().setDepthWrite(1)
-            toon.getGeomNode().setDepthTest(1)
-            toon.setHpr(180, 0, 0)
-            toon.setScale(0.12)
-            toon.setPosHprScale(0, -0.5, -0.5, 180, 0, 0, 0.55, 1, 0.55)
-            toon.reparentTo(frame)
+        dna = ToonDNA.ToonDNA()
+        apply(dna.newToonFromProperties, dnaTuple)
+        head = ToonHead.ToonHead()
+        head.setupHead(dna)
+        head.setPosHprScale(0, -0.05, -0.05, 180, 0, 0, 0.55, 0.02, 0.55)
+        if dna.head[0] == 'r':
+            head.setZ(-0.15)
+        elif dna.head[0] == 'h':
+            head.setZ(0.05)
+        elif dna.head[0] == 'm':
+            head.setScale(0.45, 0.02, 0.45)
+        head.reparentTo(frame)
         nameText = TextNode('trophy')
         nameText.setFont(ToontownGlobals.getToonFont())
         nameText.setAlign(TextNode.ACenter)

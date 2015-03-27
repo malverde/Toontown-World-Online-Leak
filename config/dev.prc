@@ -5,7 +5,7 @@
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
 server-version ttw-pre-alpha-2.5.1
-sync-video #t
+sync-video #f
 want-dev #f
 preload-avatars #t
 texture-anisotropic-degree 16
@@ -106,21 +106,3 @@ want-cogdominiums #f
 want-game-tables #f
 force-skip-tutorial #f
 active-holidays 19
-keep-aspect-ratio 
-enable-pixel-zoom #t
-preload-avatars #f
-want-pets #t
-want-code-redemption #t
-want-pstats #f
-interactive-prop-random-idles #f
-interactive-prop-info #t
-
-# Main Theme Manager
-wantWinterTheme #f
-wantSpookyTheme #f
-wantEventTheme #f
-
-want-cell-debug #f
-keep-aspect-ratio #f
-want-fish-bingo #t
-

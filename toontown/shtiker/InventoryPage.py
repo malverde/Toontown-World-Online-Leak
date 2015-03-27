@@ -13,7 +13,11 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         self.currentTrackInfo = None
         self.onscreen = 0
         self.lastInventoryTime = globalClock.getRealTime()
-
+        self.cogMenu = CogMenu()
+        self.cogMenu.reparentTo(self)
+        self.cogMenu.setX(-0.165)
+        self.cogMenu.setZ(0.63)
+        self.cogMenu.setScale(0.82)
 
     def load(self):
         ShtikerPage.ShtikerPage.load(self)
@@ -28,18 +32,13 @@ class InventoryPage(ShtikerPage.ShtikerPage):
         jarGui = loader.loadModel('phase_3.5/models/gui/jar_gui')
         self.moneyDisplay = DirectLabel(parent=self, relief=None, pos=(0.55, 0, -0.5), scale=0.8, text=str(base.localAvatar.getMoney()), text_scale=0.18, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_pos=(0, -0.1, 0), image=jarGui.find('**/Jar'), text_font=ToontownGlobals.getSignFont())
         jarGui.removeNode()
-        self.cogMenu = CogMenu()
-        self.cogMenu.reparentTo(self)
-        self.cogMenu.setX(-0.165)
-        self.cogMenu.setZ(0.63)
-        self.cogMenu.setScale(0.82)
-        
+        return
+
     def unload(self):
         del self.title
         self.cogMenu.cleanup()
-        del self.cogMenu                    
+        del self.cogMenu        
         ShtikerPage.ShtikerPage.unload(self)
-   
 
     def __moneyChange(self, money):
         self.moneyDisplay['text'] = str(money)

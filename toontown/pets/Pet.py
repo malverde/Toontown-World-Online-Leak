@@ -9,11 +9,11 @@ from direct.actor import Actor
 from direct.task import Task
 from toontown.pets import PetDNA
 from PetDNA import HeadParts, EarParts, NoseParts, TailParts, BodyTypes, BodyTextures, AllPetColors, getColors, ColorScales, PetEyeColors, EarTextures, TailTextures, getFootTexture, getEarTexture, GiraffeTail, LeopardTail, PetGenders
-from toontown.toonbase.BitmaskGlobals import PieBitmask
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from direct.showbase import PythonUtil
 import random
+from toontown.nametag import NametagGlobals
 import types
 Component2IconDict = {'boredom': 'Bored',
  'restlessness': None,
@@ -27,10 +27,6 @@ Component2IconDict = {'boredom': 'Bored',
  'anger': 'Angry',
  'surprise': 'Surprised',
  'affection': 'Love'}
- 
-from toontown.nametag import *
-from toontown.nametag.NametagGlobals import *
-from toontown.nametag.NametagGroup import *
 
 class Pet(Avatar.Avatar):
     notify = DirectNotifyGlobal.directNotify.newCategory('Pet')
@@ -268,7 +264,7 @@ class Pet(Avatar.Avatar):
     def initializeBodyCollisions(self, collIdStr):
         Avatar.Avatar.initializeBodyCollisions(self, collIdStr)
         if not self.ghostMode:
-            self.collNode.setCollideMask(self.collNode.getIntoCollideMask() | PieBitmask)
+            self.collNode.setCollideMask(self.collNode.getIntoCollideMask() | ToontownGlobals.PieBitmask)
 
     def amplifyColor(self, color, scale):
         color = color * scale
@@ -326,10 +322,10 @@ class Pet(Avatar.Avatar):
     def speakMood(self, mood):
         if self.moodModel:
             self.moodModel.hide()
-        if base.config.GetBool('want-speech-bubble', 1):
-            self.nametag.setChat(random.choice(TTLocalizer.SpokenMoods[mood]), CFSpeech)
+        if config.GetBool('want-speech-bubble', 1):
+            self.nametag.setChatText(random.choice(TTLocalizer.SpokenMoods[mood]))
         else:
-            self.nametag.setChat(random.choice(TTLocalizer.SpokenMoods[mood]), CFThought)
+            self.nametag.setChatText(random.choice(TTLocalizer.SpokenMoods[mood]))
 
     def getGenderString(self):
         if self.style:

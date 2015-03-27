@@ -1,6 +1,5 @@
 PBPTonscreenText = 0.2
 RPdirectFrame = (1.75, 1, 0.75)
-OPmoreOptionsTab = 0.07
 RPtrackLabels = 0.05
 RPmeritBarLabels = 0.165
 RPskipScale = 0.2

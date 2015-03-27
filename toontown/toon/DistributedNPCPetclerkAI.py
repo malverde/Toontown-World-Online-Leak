@@ -25,7 +25,7 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
         if self.isBusy():
             self.freeAvatar(avId)
             return
-        self.petSeeds = self.air.petMgr.getAvailablePets(3, ZoneUtil.getCanonicalHoodId(self.zoneId))
+        self.petSeeds = simbase.air.petMgr.getAvailablePets(3, 2)
         numGenders = len(PetDNA.PetGenders)
         self.petSeeds *= numGenders
         self.petSeeds.sort()
@@ -108,7 +108,6 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
                 self.notify.warning("somebody called petAdopted and didn't have valid nameIndex to adopt! avId: %s" % avId)
                 return
             simbase.air.petMgr.createNewPetFromSeed(avId, self.petSeeds[petNum], nameIndex=nameIndex, gender=gender, safeZoneId=zoneId)
-            self.notify.warning("Created new pet from seed")           
             self.transactionType = 'adopt'
             bankPrice = min(av.getBankMoney(), cost)
             walletPrice = cost - bankPrice
@@ -124,8 +123,8 @@ class DistributedNPCPetclerkAI(DistributedNPCToonBaseAI):
         av = simbase.air.doId2do.get(avId)
         if av:
             simbase.air.petMgr.deleteToonsPet(avId)
-            self.transactionType = 'return'            
-        self.transactionDone() 
+            self.transactionType = 'return'
+
     def transactionDone(self):
         avId = self.air.getAvatarIdFromSender()
         if self.busy != avId:
