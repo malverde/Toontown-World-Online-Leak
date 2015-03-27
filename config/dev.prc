@@ -5,7 +5,10 @@
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
 server-version ttw-pre-alpha-2.5.1
-sync-video #f
+sync-video #t
+keep-aspect-ratio 
+enable-pixel-zoom #t
+preload-avatars #f
 want-dev #f
 preload-avatars #t
 texture-anisotropic-degree 16
