@@ -9,7 +9,9 @@ from direct.fsm import ClassicFSM, State
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase import ToontownGlobals
 from direct.task import Task
-from toontown.pets import PetLookerAI
+from otp.movement import Mover
+from toontown.pets import PetChase, PetFlee, PetWander, PetLeash
+from toontown.pets import PetCollider, PetSphere, PetLookerAI
 from toontown.pets import PetConstants, PetDNA, PetTraits
 from toontown.pets import PetObserve, PetBrain, PetMood
 from toontown.pets import PetActionFSM, PetBase, PetGoal, PetTricks
@@ -21,8 +23,6 @@ import time
 import string
 import copy
 from direct.showbase.PythonUtil import StackTrace
-
-from PetMoverAI import PetMoverAI
 
 class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLookerAI.PetLookerAI, PetBase.PetBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPetAI')
@@ -126,16 +126,18 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
     def handleLogicalZoneChange(self, newZoneId, oldZoneId):
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.handleLogicalZoneChange(self, newZoneId, oldZoneId)
         self.announceZoneChange(newZoneId, oldZoneId)
+        self.destroySphereImpulse()
+        self.createSphereImpulse()
 
     def announceZoneChange(self, newZoneId, oldZoneId):
         DistributedPetAI.notify.debug('%s.announceZoneChange: %s->%s' % (self.doId, oldZoneId, newZoneId))
         broadcastZones = list2dict([newZoneId, oldZoneId])
-        self.estateOwnerId = simbase.air.estateManager.getOwnerFromZone(newZoneId)
+        self.estateOwnerId = simbase.air.estateMgr.getOwnerFromZone(newZoneId)
         if self.estateOwnerId:
             if __dev__:
                 pass
             self.inEstate = 1
-            self.estateZones = simbase.air.estateManager.getEstateZones(self.estateOwnerId)
+            self.estateZones = simbase.air.estateMgr.getEstateZones(self.estateOwnerId)
         else:
             self.inEstate = 0
             self.estateZones = []
@@ -473,8 +475,8 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
             else:
                 self.setTrickAptitudes(aptitudes, local=1)
 
-    def announceGenerate(self):
-        DistributedSmoothNodeAI.DistributedSmoothNodeAI.announceGenerate(self)
+    def generate(self):
+        DistributedSmoothNodeAI.DistributedSmoothNodeAI.generate(self)
         self._hasCleanedUp = False
         self.setHasRequestedDelete(False)
         self.b_setParent(ToontownGlobals.SPHidden)
@@ -515,7 +517,9 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
 
         self.requiredMoodComponents = {}
         self.brain = PetBrain.PetBrain(self)
-        self.mover = PetMoverAI(self)
+        self.mover = Mover.Mover(self)
+        self.lockMover = Mover.Mover(self)
+        self.createImpulses()
         self.enterPetLook()
         self.actionFSM = PetActionFSM.PetActionFSM(self)
         self.teleportIn()
@@ -574,9 +578,10 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
                 myTaskName = task.name
             if hasattr(self, 'destroyDoStackTrace'):
                 myOldStackTrace = self.destroyDoStackTrace.trace
-            simbase.air.writeServerEvent('Pet RequestDelete duplicate', myDoId, 'from task %s' % myTaskName)
-            simbase.air.writeServerEvent('Pet RequestDelete duplicate StackTrace', myDoId, '%s' % myStackTrace)
-            simbase.air.writeServerEvent('Pet RequestDelete duplicate OldStackTrace', myDoId, '%s' % myOldStackTrace)
+            #FIXME TODO I don't know what these are doing ~jjkoletar
+            #simbase.air.writeServerEvent('Pet RequestDelete duplicate', myDoId, 'from task %s' % myTaskName)
+            #simbase.air.writeServerEvent('Pet RequestDelete duplicate StackTrace', myDoId, '%s' % myStackTrace)
+            #simbase.air.writeServerEvent('Pet RequestDelete duplicate OldStackTrace', myDoId, '%s' % myOldStackTrace)
             DistributedPetAI.notify.warning('double requestDelete from task %s' % myTaskName)
         self.setParent(ToontownGlobals.SPHidden)
         if hasattr(self, 'activated'):
@@ -587,8 +592,11 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
                 self.actionFSM.destroy()
                 del self.actionFSM
                 self.exitPetLook()
+                self.destroyImpulses()
                 self.mover.destroy()
                 del self.mover
+                self.lockMover.destroy()
+                del self.lockMover
                 self.stopPosHprBroadcast()
         if hasattr(self, 'mood'):
             self.mood.destroy()
@@ -638,6 +646,37 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         self.ignoreAll()
         return
 
+    def createImpulses(self):
+        self.createSphereImpulse()
+        self.chaseImpulse = CPetChase()
+        self.fleeImpulse = CPetFlee()
+        self.wanderImpulse = PetWander.PetWander()
+        self.lockChaseImpulse = CPetChase()
+
+    def destroyImpulses(self):
+        self.wanderImpulse.destroy()
+        del self.chaseImpulse
+        del self.fleeImpulse
+        del self.wanderImpulse
+        self.destroySphereImpulse()
+        del self.lockChaseImpulse
+
+    def createSphereImpulse(self):
+        petRadius = 1.0
+        collTrav = self.getCollTrav()
+        if collTrav is None:
+            DistributedPetAI.notify.warning('no collision traverser for zone %s' % self.zoneId)
+        else:
+            self.sphereImpulse = PetSphere.PetSphere(petRadius, collTrav)
+            self.mover.addImpulse('sphere', self.sphereImpulse)
+        return
+
+    def destroySphereImpulse(self):
+        self.mover.removeImpulse('sphere')
+        if hasattr(self, 'sphereImpulse'):
+            self.sphereImpulse.destroy()
+            del self.sphereImpulse
+
     def getMoveTaskName(self):
         return 'petMove-%s' % self.doId
 
@@ -646,10 +685,15 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
 
     def move(self, task = None):
         if self.isEmpty():
-            self.air.writeServerEvent('Late Pet Move Call', self.doId, ' ')
+            try:
+                self.air.writeServerEvent('Late Pet Move Call', self.doId, ' ')
+            except:
+                pass
+
             taskMgr.remove(task.name)
             return Task.done
-            
+        if not self.isLockMoverEnabled():
+            self.mover.move()
         numNearby = len(self.brain.nearbyAvs) - 1
         minNearby = 5
         if numNearby > minNearby:
@@ -741,7 +785,6 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
     def lockPet(self):
         DistributedPetAI.notify.debug('%s: lockPet' % self.doId)
         if not self.lockedDown:
-            self.mover.lock()
             self.stopPosHprBroadcast()
         self.lockedDown += 1
 
@@ -798,6 +841,18 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
 
     def unstickEnterOn(self):
         self._collisionTimestamps = []
+        self.accept(self.mover.getCollisionEventName(), self._handleCollided)
+
+    def _handleCollided(self, collEntry):
+        now = globalClock.getFrameTime()
+        self._collisionTimestamps.append(now)
+        while now - self._collisionTimestamps[0] > PetConstants.UnstickSampleWindow:
+            del self._collisionTimestamps[0:1]
+
+        if len(self._collisionTimestamps) > PetConstants.UnstickCollisionThreshold:
+            self._collisionTimestamps = []
+            DistributedPetAI.notify.debug('unsticking pet %s' % self.doId)
+            self.brain._unstick()
 
     def unstickExitOn(self):
         pass
@@ -933,10 +988,14 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
 
     def startLockPetMove(self, avId):
         self.enableLockMover()
+        self.lockChaseImpulse.setTarget(self.air.doId2do.get(avId))
+        self.lockMover.addImpulse('LockTarget', self.lockChaseImpulse)
+        self.lockMover.setFwdSpeed(self.mover.getFwdSpeed())
+        self.lockMover.setRotSpeed(self.mover.getRotSpeed())
         dist_Callable = self.movieDistSwitch.get(self.movieMode)
         dist = dist_Callable(self.air.doId2do.get(avId).getStyle().getLegSize())
+        self.lockChaseImpulse.setMinDist(dist)
         self.distList = [0, 0, 0]
-        self.mover.walkToAvatar(self.air.doId2do[avId], callback=lambda: self.endLockPetMove(avId))
         self.__lockPetMoveTask(avId)
 
     def getAverageDist(self):
@@ -947,12 +1006,33 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         return sum / 3.0
 
     def __lockPetMoveTask(self, avId):
+        if not hasattr(self, 'air') or not self.air.doId2do.has_key(avId):
+            self.notify.warning('avId: %s gone or self deleted!' % avId)
+            return Task.done
+        av = self.air.doId2do.get(avId)
+        dist = av.getDistance(self)
+        self.distList.append(dist)
+        if len(self.distList) > 3:
+            self.distList.pop(0)
+        if self.movieDistSwitch.has_key(self.movieMode):
+            dist_Callable = self.movieDistSwitch.get(self.movieMode)
+            movieDist = dist_Callable(av.getStyle().getLegSize())
+        else:
+            self.notify.warning('movieMode: %s not in movieSwitchDist map!' % self.movieMode)
+            return Task.done
+        avgDist = self.getAverageDist()
+        if dist - movieDist > 0.25 and abs(avgDist - dist) > 0.1:
+            self.lockMover.move()
+            taskMgr.doMethodLater(simbase.petMovePeriod, self.__lockPetMoveTask, self.getLockMoveTaskName(), [avId])
+        else:
+            self.endLockPetMove(avId)
         return Task.done
 
     def endLockPetMove(self, avId):
         del self.distList
         taskMgr.remove(self.getLockMoveTaskName())
         self.lockPet()
+        self.lockMover.removeImpulse('LockTarget')
         self.__petMovieStart(avId)
 
     def enableLockMover(self):
@@ -981,7 +1061,7 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         if self.mood.isComponentActive('fatigue'):
             cutoff *= 0.5
         cutoff *= PetTricks.TrickAccuracies[trickId]
-        DistributedPetAI.notify.info('_willDoTrick: %s / %s' % (randVal, cutoff)) # .debug
+        DistributedPetAI.notify.debug('_willDoTrick: %s / %s' % (randVal, cutoff))
         return randVal < cutoff
 
     def _handleDidTrick(self, trickId):
@@ -1002,9 +1082,13 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
         if self.leashMode:
             self.leashMode = 0
             self.leashAvId = None
+            self.brain.goalMgr.removeGoal(self.leashGoal)
+            del self.leashGoal
             response = 'leash OFF'
         else:
             self.leashMode = 1
             self.leashAvId = avId
+            self.leashGoal = PetGoal.ChaseAvatarLeash(avId)
+            self.brain.goalMgr.addGoal(self.leashGoal)
             response = 'leash ON'
         return response

@@ -54,10 +54,7 @@ import HoodMgr
 import PlayGame
 from toontown.toontowngui import ToontownLoadingBlocker
 from toontown.hood import StreetSign
-# Themes related to certain holidays! More Coming Soon!
-wantWinterTheme = base.config.GetBool('wantWinterTheme', False)
-wantSpookyTheme = base.config.GetBool('wantSpookyTheme', False)
-wantEventTheme = base.config.GetBool ('wantEventTheme', False)
+
 class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     SupportTutorial = 1
     GameGlobalsId = OTP_DO_ID_TOONTOWN

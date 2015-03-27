@@ -20,8 +20,6 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         StateData.StateData.__init__(self, doneEvent)
         self.pages = []
         self.pageTabs = []
-        self.tempLeft = None
-        self.tempRight = None
         self.currPageTabIndex = None
         self.pageTabFrame = DirectFrame(parent=self, relief=None, pos=(0.93, 1, 0.575), scale=1.25)
         self.pageTabFrame.hide()
@@ -73,8 +71,6 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         self.__setButtonVisibility()
         self.show()
         self.showPageArrows()
-        self.tempLeft = 'arrow_left' #base.Move_Left
-        self.tempRight = 'arrow_right'#base.Move_Right        
         if not self.safeMode:
             self.accept('shtiker-page-done', self.__pageDone)
             self.accept(ToontownGlobals.StickerBookHotkey, self.__close)
@@ -115,8 +111,8 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         self.ignore('shtiker-page-done')
         self.ignore(ToontownGlobals.StickerBookHotkey)
         self.ignore(ToontownGlobals.OptionsPageHotkey)
-        self.ignore(self.tempRight)
-        self.ignore(self.tempLeft)
+        self.ignore('arrow_right')
+        self.ignore('arrow_left')
         if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: SHTICKERBOOK: Close')
 
@@ -421,14 +417,15 @@ class ShtikerBook(DirectFrame, StateData.StateData):
 
     def __checkForNewsPage(self):
         from toontown.shtiker import NewsPage
-        self.ignore(self.tempLeft)
-        self.ignore(self.tempRight)
+        self.ignore('arrow_left')
+        self.ignore('arrow_right')
         if isinstance(self.pages[self.currPageIndex], NewsPage.NewsPage):
-            self.ignore(self.tempLeft)
-            self.ignore(self.tempRight)
+            self.ignore('arrow_left')
+            self.ignore('arrow_right')
         else:
-            self.accept(self.tempRight, self.__pageChange, [1])
-            self.accept(self.tempLeft, self.__pageChange, [-1])   
+            self.accept('arrow_right', self.__pageChange, [1])
+            self.accept('arrow_left', self.__pageChange, [-1])
+
     def goToNewsPage(self, page):
         messenger.send('wakeup')
         base.playSfx(self.pageSound)
