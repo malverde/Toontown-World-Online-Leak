@@ -5,7 +5,7 @@ from direct.interval.IntervalGlobal import *
 from direct.showbase.InputStateGlobal import inputState
 from pandac.PandaModules import *
 import Avatar
-from direct.controls import ControlManager
+import ToontownControlManager
 import DistributedAvatar
 from direct.task import Task
 import PositionExaminer
@@ -24,7 +24,6 @@ from direct.controls.ObserverWalker import ObserverWalker
 from direct.controls.PhysicsWalker import PhysicsWalker
 from direct.controls.SwimWalker import SwimWalker
 from direct.controls.TwoDWalker import TwoDWalker
-from otp.nametag.Nametag import Nametag
 from otp.ai.MagicWordGlobal import *
 from toontown.toonbase import ToontownGlobals
 
@@ -52,7 +51,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         base.pushCTrav(self.cTrav)
         self.cTrav.setRespectPrevTransform(1)
         self.avatarControlsEnabled = 0
-        self.controlManager = ControlManager.ControlManager(True, passMessagesThrough)
+        self.controlManager = ToontownControlManager.ToontownControlManager(True, passMessagesThrough)
         self.initializeCollisions()
         self.initializeSmartCamera()
         self.cameraPositions = []
@@ -952,24 +951,24 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         return self.animMultiplier
 
     def enableRun(self):
-        self.accept('arrow_up', self.startRunWatch)
-        self.accept('arrow_up-up', self.stopRunWatch)
-        self.accept('control-arrow_up', self.startRunWatch)
-        self.accept('control-arrow_up-up', self.stopRunWatch)
-        self.accept('alt-arrow_up', self.startRunWatch)
-        self.accept('alt-arrow_up-up', self.stopRunWatch)
-        self.accept('shift-arrow_up', self.startRunWatch)
-        self.accept('shift-arrow_up-up', self.stopRunWatch)
-
+        self.accept(base.Move_Up, self.startRunWatch)
+        self.accept(base.Move_Up + '-up', self.stopRunWatch)
+        self.accept('control-'+ base.Move_Up, self.startRunWatch)
+        self.accept('control-'+ base.Move_Up + '-up', self.stopRunWatch)
+        self.accept('alt-'+ base.Move_Up, self.startRunWatch)
+        self.accept('alt-'+ base.Move_Up + '-up', self.stopRunWatch)
+        self.accept('shift-' + base.Move_Up, self.startRunWatch)
+        self.accept('shift-' + base.Move_Up + '-up', self.stopRunWatch)
+        
     def disableRun(self):
-        self.ignore('arrow_up')
-        self.ignore('arrow_up-up')
-        self.ignore('control-arrow_up')
-        self.ignore('control-arrow_up-up')
-        self.ignore('alt-arrow_up')
-        self.ignore('alt-arrow_up-up')
-        self.ignore('shift-arrow_up')
-        self.ignore('shift-arrow_up-up')
+        self.ignore(base.Move_Up)
+        self.ignore(base.Move_Up + '-up')
+        self.ignore('control-'+ base.Move_Up)
+        self.ignore('control-' + base.Move_Up + '-up')
+        self.ignore('alt-' + base.Move_Up)
+        self.ignore('alt-' + base.Move_Up + '-up')
+        self.ignore('shift-' + base.Move_Up)
+        self.ignore('shift-' + base.Move_Up + '-up')
 
     def startRunWatch(self):
 
@@ -1269,7 +1268,7 @@ def enableAFGravity():
     """Turn on Estate April Fools gravity."""
     if not base.localAvatar:
         return 'No localAvatar!'
-    base.localAvatar.controlManager.currentControls.setGravity(ToontownGlobals.GravityValue * 0.75)
+    base.localAvatar.ToontownControlManager.currentControls.setGravity(ToontownGlobals.GravityValue * 0.75)
 
 @magicWord(category=CATEGORY_MOBILITY, types=[int, bool])
 def setGravity(gravityValue, overrideWarning=False):
@@ -1278,7 +1277,7 @@ def setGravity(gravityValue, overrideWarning=False):
         return 'No localAvatar!'
     if gravityValue < 1 and not overrideWarning:
         return 'A value lower than 1 may crash your client.'
-    base.localAvatar.controlManager.currentControls.setGravity(gravityValue)
+    base.localAvatar.ToontownControlManager.currentControls.setGravity(gravityValue)
 
 @magicWord(category=CATEGORY_MOBILITY)
 def normalGravity():
