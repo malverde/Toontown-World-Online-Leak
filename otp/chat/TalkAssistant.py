@@ -592,7 +592,7 @@ class TalkAssistant(DirectObject.DirectObject):
                 chatFlags = CFThought
         try:
             base.cr.chatAgent.sendChatMessage(message)
-        except:
+        except ValueError:
             print "Unsupported character was sent to chat."
             messenger.send('chatUpdate', [message, chatFlags])
         return error
