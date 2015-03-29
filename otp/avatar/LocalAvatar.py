@@ -17,15 +17,14 @@ import random
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedSmoothNode
 from direct.gui import DirectGuiGlobals
+
 from otp.otpbase import OTPLocalizer
 from direct.controls.GhostWalker import GhostWalker
 from direct.controls.GravityWalker import GravityWalker
 from direct.controls.ObserverWalker import ObserverWalker
 from direct.controls.PhysicsWalker import PhysicsWalker
-from direct.controls import ControlManager
 from direct.controls.SwimWalker import SwimWalker
 from direct.controls.TwoDWalker import TwoDWalker
-from otp.nametag.Nametag import Nametag
 from otp.ai.MagicWordGlobal import *
 from toontown.toonbase import ToontownGlobals
 
@@ -85,7 +84,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.jumpLandAnimFixTask = None
         self.fov = OTPGlobals.DefaultCameraFov
         self.accept('avatarMoving', self.clearPageUpDown)
-        self.nametag2dNormalContents = Nametag.CSpeech
         self.showNametag2d()
         self.setPickable(0)
         self.neverSleep = False
@@ -961,6 +959,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.accept('alt-'+ base.Move_Up + '-up', self.stopRunWatch)
         self.accept('shift-' + base.Move_Up, self.startRunWatch)
         self.accept('shift-' + base.Move_Up + '-up', self.stopRunWatch)
+        
     def disableRun(self):
         self.ignore(base.Move_Up)
         self.ignore(base.Move_Up + '-up')
@@ -1269,7 +1268,7 @@ def enableAFGravity():
     """Turn on Estate April Fools gravity."""
     if not base.localAvatar:
         return 'No localAvatar!'
-    base.localAvatar.controlManager.currentControls.setGravity(ToontownGlobals.GravityValue * 0.75)
+    base.localAvatar.ToontownControlManager.currentControls.setGravity(ToontownGlobals.GravityValue * 0.75)
 
 @magicWord(category=CATEGORY_MOBILITY, types=[int, bool])
 def setGravity(gravityValue, overrideWarning=False):
@@ -1278,7 +1277,7 @@ def setGravity(gravityValue, overrideWarning=False):
         return 'No localAvatar!'
     if gravityValue < 1 and not overrideWarning:
         return 'A value lower than 1 may crash your client.'
-    base.localAvatar.controlManager.currentControls.setGravity(gravityValue)
+    base.localAvatar.ToontownControlManager.currentControls.setGravity(gravityValue)
 
 @magicWord(category=CATEGORY_MOBILITY)
 def normalGravity():

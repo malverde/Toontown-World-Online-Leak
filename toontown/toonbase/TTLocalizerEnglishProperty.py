@@ -1,6 +1,5 @@
 PBPTonscreenText = 0.2
 RPdirectFrame = (1.75, 1, 0.75)
-OPmoreOptionsTab = 0.07
 RPtrackLabels = 0.05
 RPmeritBarLabels = 0.165
 RPskipScale = 0.2
@@ -30,6 +29,7 @@ TCMscButtonPos = (0.204, 0, -0.072)
 TCMscButton = 0.06
 TCMwhisperFrame = 0.06
 TCMwhisperButton = 0.05
+OPmoreOptionsTab = 0.07
 TCMwhisperScButton = 0.05
 TCMunpaidChatWarningWordwrap = 18
 TCMunpaidChatWarning = 0.055

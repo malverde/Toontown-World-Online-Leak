@@ -12,7 +12,6 @@ from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import Sequence, Func, Wait
 from toontown.margins.MarginManager import MarginManager
 from toontown.nametag import NametagGlobals
-from otp.settings import Settings
 import sys
 import os
 import math
@@ -158,10 +157,8 @@ class ToonBase(OTPBase.OTPBase):
         self.oldY = max(1, base.win.getYSize())
         self.aspectRatio = float(self.oldX) / self.oldY
         self.localAvatarStyle = None
-	Settings = Settings.Settings('settings.json')
-	global Settings
 		# WASD option :D
-        self.wantWASD = Settings.get('want-WASD', False)
+        self.wantWASD = self.display.settings.getBool('game', 'want-WASD', False)
         
         self.Move_Up = 'arrow_up'
         self.Move_Left = 'arrow_left'       
@@ -176,8 +173,9 @@ class ToonBase(OTPBase.OTPBase):
             self.Move_Right = 'd'
             self.JUMP = 'space'
         # Show cog levels on the battle GUI :D
-        self.wantCogLevelGui = Settings.get('want-ShowCogLevel', True)
-        
+#        self.wantCogLevelGui = settings.get('want-ShowCogLevel', True)        
+        return
+
     def openMainWindow(self, *args, **kw):
         result = OTPBase.OTPBase.openMainWindow(self, *args, **kw)
         self.setCursorAndIcon()
@@ -283,7 +281,7 @@ class ToonBase(OTPBase.OTPBase):
         if self.flashTrack and self.flashTrack.isPlaying():
             self.flashTrack.finish()
         self.transitions.noFade()
-        coordOnScreen = self.config.GetBool('screenshot-coords', 1)
+        coordOnScreen = self.config.GetBool('screenshot-coords', 0)
         self.localAvatar.stopThisFrame = 1
         ctext = self.localAvatar.getAvPosStr()
         self.screenshotStr = ''

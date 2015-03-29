@@ -135,7 +135,8 @@ class TownBattle(StateData.StateData):
          TownBattleCogPanel.TownBattleCogPanel(2),
          TownBattleCogPanel.TownBattleCogPanel(3))         
         self.timer = ToontownTimer.ToontownTimer()
-        self.timer.posInTopRightCorner()
+        self.timer.reparentTo(base.a2dTopRight)
+        self.timer.setPos(-0.151, 0, -0.158)
         self.timer.setScale(0.4)
         self.timer.hide()
         return
@@ -303,7 +304,7 @@ class TownBattle(StateData.StateData):
          tracks,
          levels,
          targets))
-        for i in xrange(4):
+        for i in range(4):
             if battleIndices[i] == -1:
                 pass
             else:
@@ -513,7 +514,7 @@ class TownBattle(StateData.StateData):
         currStateName = self.fsm.getCurrentState().getName()
         if resetActivateMode:
             self.__enterPanels(self.numToons, self.localNum)
-            for i in xrange(len(toons)):
+            for i in range(len(toons)):
                 self.toonPanels[i].setLaffMeter(toons[i])
             
             if base.wantCogLevelGui:    

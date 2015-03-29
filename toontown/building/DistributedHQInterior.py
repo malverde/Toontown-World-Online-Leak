@@ -25,8 +25,8 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.generate(self)
         self.interior = loader.loadModel('phase_3.5/models/modules/HQ_interior')
         self.interior.reparentTo(render)
-        self.interior.find('**/cream')
-        self.interior.find('**/crashed_piano')
+        self.interior.find('**/cream').hide()
+        self.interior.find('**/crashed_piano').hide()
         self.buildLeaderBoard()
 
     def announceGenerate(self):
@@ -47,8 +47,8 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
             self.interior.find('**/periscope').hide()
             self.interior.find('**/speakers').hide()
         else:
-            self.interior.find('**/periscope').hide()
-            self.interior.find('**/speakers').hide()
+            self.interior.find('**/periscope').show()
+            self.interior.find('**/speakers').show()
 
     def setZoneIdAndBlock(self, zoneId, block):
         self.zoneId = zoneId

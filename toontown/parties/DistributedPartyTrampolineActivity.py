@@ -42,6 +42,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
         self.doTricks = doTricks
         self.texture = texture
         self.toon = None
+        self.toon.doId == base.localAvatar.doId
         self.trampHeight = 3.6
         self.trampK = 400.0
         self.normalTrampB = 2.5
