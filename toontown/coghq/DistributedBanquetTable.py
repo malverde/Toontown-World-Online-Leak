@@ -673,7 +673,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         self.ignore('InputState-turnLeft')
         self.ignore('InputState-turnRight')
         self.ignore('base.Move_Up')
-         self.ignore('base.Move_Down')
+        self.ignore('base.Move_Down')
         self.arrowVert = 0
         self.arrowHorz = 0
         taskMgr.remove(self.watchControlsName)

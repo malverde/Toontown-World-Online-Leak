@@ -17,6 +17,7 @@ import random
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedSmoothNode
 from direct.gui import DirectGuiGlobals
+
 from otp.otpbase import OTPLocalizer
 from direct.controls.GhostWalker import GhostWalker
 from direct.controls.GravityWalker import GravityWalker
@@ -83,7 +84,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.jumpLandAnimFixTask = None
         self.fov = OTPGlobals.DefaultCameraFov
         self.accept('avatarMoving', self.clearPageUpDown)
-        self.nametag2dNormalContents = Nametag.CSpeech
         self.showNametag2d()
         self.setPickable(0)
         self.neverSleep = False

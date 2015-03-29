@@ -3,17 +3,20 @@
 # as well as deployment/server.prc if necessary.
 
 # Client settings
-window-title Toontown World Online [Pre-Alpha]
+window-title Toontown World [Pre-Alpha]
 server-version ttw-pre-alpha-2.5.1
+audio-library-name p3openal_audio
 sync-video #f
 want-dev #f
 preload-avatars #t
+want-keep-alive #f
 texture-anisotropic-degree 16
-# cursor-filename resources/phase_3/etc/toonmono.cur
-# icon-filename resources/phase_3/etc/icon.ico
+cursor-filename resources/phase_3/etc/toonmono.cur
+icon-filename resources/phase_3/etc/icon.ico
 
 # Audio...
 audio-library-name p3fmod_audio
+#audio-library-name p3openal_audio
 
 # Useless Variables
 show-frame-rate-meter #f
@@ -89,9 +92,9 @@ force-player-understandable #t
 want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
-want-mega-invasions #t
+want-mega-invasions #f
 mega-invasion-cog-type bs
-
+want-speedhack-fix #t 
 
 
 # Cog battles :
