@@ -590,7 +590,10 @@ class TalkAssistant(DirectObject.DirectObject):
             #    if not "¬" in message:
             if self.isThought(message):
                 chatFlags = CFThought
+        try:
             base.cr.chatAgent.sendChatMessage(message)
+        except:
+            print "Unsupported character was sent to chat."
             messenger.send('chatUpdate', [message, chatFlags])
         return error
 
