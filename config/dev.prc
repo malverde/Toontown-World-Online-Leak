@@ -11,8 +11,8 @@ want-dev #f
 preload-avatars #t
 want-keep-alive #f
 texture-anisotropic-degree 16
-cursor-filename /phase_3/etc/toonmono.cur
-icon-filename /phase_3/etc/icon.ico
+cursor-filename resources/phase_3/etc/toonmono.cur
+icon-filename resources/phase_3/etc/icon.ico
 
 # Audio...
 audio-library-name p3fmod_audio
@@ -108,4 +108,4 @@ want-speedhack-fix #t
 want-cogdominiums #f
 want-game-tables #f
 force-skip-tutorial #f
-active-holidays 0
+active-holidays 19
