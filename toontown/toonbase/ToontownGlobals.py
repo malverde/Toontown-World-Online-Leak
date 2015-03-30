@@ -1776,4 +1776,4 @@ BMovementSpeedMultiplier = 1.3
 BGagAccuracy = 1
 BGagAccuracyMultiplier = 1.3
 BGagExperience = 2
-BGagExperienceMultiplier = 1.5
+BGagExperienceMultiplier = 2

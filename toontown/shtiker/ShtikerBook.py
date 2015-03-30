@@ -20,12 +20,12 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         StateData.StateData.__init__(self, doneEvent)
         self.pages = []
         self.pageTabs = []
-        self.tempLeft = None
-        self.tempRight = None
         self.currPageTabIndex = None
         self.pageTabFrame = DirectFrame(parent=self, relief=None, pos=(0.93, 1, 0.575), scale=1.25)
         self.pageTabFrame.hide()
         self.currPageIndex = None
+        self.tempLeft = None
+        self.tempRight = None
         self.pageBeforeNews = None
         self.entered = 0
         self.safeMode = 0
@@ -429,6 +429,7 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         else:
             self.accept(self.tempRight, self.__pageChange, [1])
             self.accept(self.tempLeft, self.__pageChange, [-1])   
+            
     def goToNewsPage(self, page):
         messenger.send('wakeup')
         base.playSfx(self.pageSound)

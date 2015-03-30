@@ -39,15 +39,6 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
 
     def redeemCode(self, context, code):
         avId = self.air.getAvatarIdFromSender()
-        if (code == "Beans"):
-            self.requestCodeRedeem(context, CatalogBeanItem.CatalogBeanItem(15000, tagCode = 2).getBlob())
-        elif (code == "NewRod"):
-            self.requestCodeRedeem(context, CatalogPoleItem.CatalogPoleItem(1).getBlob())
-        elif (code == "NewPhraseChat"):
-            self.requestCodeRedeem(context, CatalogChatItem.CatalogChatItem(4130).getBlob())
-
-        else:
-            self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, 1, 0])        
         if not avId:
             self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to redeem a code from an invalid avId')
             return
@@ -148,46 +139,6 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
         self.air.writeServerEvent('code-redeemed', avId=avId, issue='Successfuly redeemed code: %s' % code)
         self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.Success, 0])
 
-    def requestCodeRedeem(self, context, item):
-        avId = self.air.getAvatarIdFromSender()
-        av = self.air.doId2do.get(avId)
-        if not av:
-            return
-        item = CatalogItem.getItem(item)
-        if item.getDeliveryTime():
-            if len(av.onOrder) > 5:
-                self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, 4, 4])
-                return
-            if len(av.mailboxContents) + len(av.onOrder) >= ToontownGlobals.MaxMailboxContents:
-                self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, 4, 3])
-                return
-            if (item in av.onOrder):
-                self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, 4, 13])
-                return
-            if (item.reachedPurchaseLimit(av)):
-                self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, 4, 13])
-                return
-            item.deliveryDate = int(time.time()/60) + 0.01
-            av.onOrder.append(item)
-            av.b_setDeliverySchedule(av.onOrder)
-            self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, 0, 0])
-        else:
-            if len(av.onOrder) > 5:
-                self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, 4, 4])
-                return
-            if len(av.mailboxContents) + len(av.onOrder) >= ToontownGlobals.MaxMailboxContents:
-                self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, 4, 3])
-                return
-            if (item in av.onOrder):
-                self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, 4, 13])
-                return
-            if (item.reachedPurchaseLimit(av)):
-                self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, 4, 13])
-                return
-            item.deliveryDate = int(time.time()/60) + 0.01
-            av.onOrder.append(item)
-            av.b_setDeliverySchedule(av.onOrder)
-            self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, 0, 0])
     def redeemCodeAiToUd(self, todo0, todo1, todo2, todo3, todo4):
         pass
 

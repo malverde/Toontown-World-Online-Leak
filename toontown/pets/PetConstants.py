@@ -58,5 +58,4 @@ ZoneToCostRange = {ToontownGlobals.ToontownCentral: (100, 500),
  ToontownGlobals.DaisyGardens: (1000, 2500),
  ToontownGlobals.MinniesMelodyland: (1500, 3000),
  ToontownGlobals.TheBrrrgh: (2500, 4000),
- ToontownGlobals.DonaldsDreamland: (3000, 5000),
-}
+ ToontownGlobals.DonaldsDreamland: (3000, 5000)}

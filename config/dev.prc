@@ -3,17 +3,20 @@
 # as well as deployment/server.prc if necessary.
 
 # Client settings
-window-title Toontown World Online [Pre-Alpha]
+window-title Toontown World [Pre-Alpha]
 server-version ttw-pre-alpha-2.5.1
-sync-video #t
+audio-library-name p3openal_audio
+sync-video #f
 want-dev #f
 preload-avatars #t
+want-keep-alive #f
 texture-anisotropic-degree 16
-# cursor-filename resources/phase_3/etc/toonmono.cur
-# icon-filename resources/phase_3/etc/icon.ico
+cursor-filename resources/phase_3/etc/toonmono.cur
+icon-filename resources/phase_3/etc/icon.ico
 
 # Audio...
 audio-library-name p3fmod_audio
+#audio-library-name p3openal_audio
 
 # Useless Variables
 show-frame-rate-meter #f
@@ -39,8 +42,6 @@ model-path /
 default-model-extension .bam
 
 
-
-
 # Server settings
 want-rpc-server #t
 rpc-server-endpoint http://localhost:8080/
@@ -57,7 +58,7 @@ dc-file config/otp.dc
 
 # Beta Modifications
 # Temporary modifications for unimplemented features go here.
-want-pets #t
+want-pets #f
 want-news-tab #f
 want-news-page #f
 want-accessories #t
@@ -91,9 +92,9 @@ force-player-understandable #t
 want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
-want-mega-invasions #t
+want-mega-invasions #f
 mega-invasion-cog-type bs
-
+want-speedhack-fix #t 
 
 
 # Cog battles :
@@ -108,21 +109,3 @@ want-cogdominiums #f
 want-game-tables #f
 force-skip-tutorial #f
 active-holidays 19
-keep-aspect-ratio 
-enable-pixel-zoom #t
-preload-avatars #f
-want-pets #t
-want-code-redemption #t
-want-pstats #f
-interactive-prop-random-idles #f
-interactive-prop-info #t
-
-# Main Theme Manager
-wantWinterTheme #f
-wantSpookyTheme #f
-wantEventTheme #f
-
-want-cell-debug #f
-keep-aspect-ratio #f
-want-fish-bingo #t
-
