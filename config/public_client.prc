@@ -1,11 +1,15 @@
-# This is the PRC configuration file for a published TTR client. Note that only
+# This is the PRC configuration file for a published TTW client. Note that only
 # this file and Panda3D's Confauto.prc are included. Any relevant directives in
 # Config.prc should be reproduced here.
 
 # Client settings
 window-title Toontown World [Pre-Alpha]
 server-version ttw-pre-alpha-2.5.1
-audio-library-name p3openal_audio
+
+# Audio
+#audio-library-name p3openal_audio
+audio-library-name p3fmod_audio
+
 sync-video #f
 want-dev #f
 preload-avatars #t
@@ -61,7 +65,7 @@ want-gardening #f
 want-gifting #f
 # This is a temporary 'fix' for DistributedSmoothNodes... probably not the permanent solution to our problem, but it works for now.
 smooth-lag 0.4
-
+ai-sleep 0.04
 
 # Chat Settings
 force-avatar-understandable #t
@@ -70,7 +74,7 @@ force-player-understandable #t
 
 # Holidays and Events
 force-holiday-decorations 
-active-holidays 25 19 
+active-holidays 0
 want-arg-manager #f
 show-total-population #t
 
@@ -93,7 +97,7 @@ want-whitelist #t
 want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
-want-mega-invasions #t
+want-mega-invasions #f
 mega-invasion-cog-type bs
 boarding-group-merges #t 
 want-speedhack-fix #t 

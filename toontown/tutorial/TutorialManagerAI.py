@@ -141,15 +141,18 @@ class TutorialManagerAI(DistributedObjectAI):
 
     def requestSkipTutorial(self):
         avId = self.air.getAvatarIdFromSender()
-        av = self.air.doId2do.get(avId)
-        if av:
+        self.d_skipTutorialResponse(avId, 1)
+
+
+        def handleTutorialSkipped(av):
             av.b_setTutorialAck(1)
-            av.b_setQuestHistory([110, 100])
-            av.addQuest((110, Quests.getQuestFromNpcId(110), Quests.getQuestToNpcId(110), Quests.getQuestReward(110, av), 0), 0)
-            self.air.questManager.toonRodeTrolleyFirstTime(av) #gg hacky
-            self.d_skipTutorialResponse(avId, 1)
-        else:
-            self.d_skipTutorialResponse(avId, 0)
+            av.b_setQuests([[110, 1, 1000, 100, 1]])
+            av.b_setQuestHistory([101])
+            av.b_setRewardHistory(1, [])
+
+
+        # We must wait for the avatar to be generated:
+        self.acceptOnce('generate-%d' % avId, handleTutorialSkipped)
 
     def d_skipTutorialResponse(self, avId, allOk):
         self.sendUpdateToAvatarId(avId, 'skipTutorialResponse', [allOk])

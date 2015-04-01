@@ -8,7 +8,7 @@ from direct.stdpy.file import open
 
 
 class ToontownLoader(Loader.Loader):
-    TickPeriod = 0.2
+    TickPeriod = 0.01
 
     def __init__(self, base):
         Loader.Loader.__init__(self, base)
