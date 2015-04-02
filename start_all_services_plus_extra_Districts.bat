@@ -9,4 +9,4 @@ start_AI_Crazy Grove
 start_AI_Gigglyfield
 start_AI_Goofy Valley
 start_AI_Loopy Harbor
-start_AI_Toon Valley
+start_AI_Nutty River
