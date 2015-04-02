@@ -60,8 +60,6 @@ class RotationLimitToH(TelemetryLimit):
         self._rConst = rConst
 
     def __call__(self, obj):
-        if obj.isEmpty():
-            return
         obj.setHpr(obj.getH(), self._pConst, self._rConst)
 
 
