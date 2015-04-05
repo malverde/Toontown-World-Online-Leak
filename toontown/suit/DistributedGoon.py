@@ -196,8 +196,8 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity, Goo
             Goon.Goon.delete(self)
 
     def enterOff(self, *args):
-        self.nametag.setNametag2d(None)
-        self.nametag.setNametag3d(None)
+        self.hideNametag3d()
+        self.hideNametag2d()
         self.hide()
         self.isStunned = 0
         self.isDead = 0
@@ -207,9 +207,12 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity, Goo
         if self.walkTrack:
             self.walkTrack.pause()
             self.walkTrack = None
+        return
 
     def exitOff(self):
         self.show()
+        self.showNametag3d()
+        self.showNametag2d()
 
     def enterWalk(self, avId = None, ts = 0):
         self.notify.debug('enterWalk, ts = %s' % ts)
