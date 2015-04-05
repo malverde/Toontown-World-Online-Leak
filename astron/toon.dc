@@ -1,3 +1,4 @@
+from toontown.building import DistributedLibraryInterior/AI
 from direct.distributed import DistributedObjectGlobal
 from toontown.ai import WelcomeValleyManager/AI
 from toontown.building import DistributedAnimatedProp/AI
@@ -1740,6 +1741,9 @@ dclass DistributedPetshopInterior : DistributedObject {
 
 dclass DistributedKartShopInterior : DistributedObject {
   setZoneIdAndBlock(uint32 zoneId, uint16 block) required broadcast ram;
+};
+dclass DistributedLibraryInterior : DistributedObject {
+  setZoneIdAndBlock(uint32, uint16) required broadcast ram;
 };
 
 dclass DistributedDoor : DistributedObject {
