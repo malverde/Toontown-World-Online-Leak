@@ -903,7 +903,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 suit.maxPathLen = maxPathLen
                 suit.buildingDestination = p[0]
                 suit.buildingDestinationIsCogdo = cogdoTakeover
-                suit.setPath(self.dnaStore.suitGraph, path)
+                suit.setPath(path)
                 return 1
             retryCount += 1
 
