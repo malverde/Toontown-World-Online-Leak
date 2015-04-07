@@ -758,14 +758,17 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             if self.buildingSideDoors.has_key(bn):
                 for doorPoint in self.buildingSideDoors[bn]:
                     points = self.dnaStore.getAdjacentPoints(doorPoint)
-                    for p in points:
+                    i = points.getNumPoints() - 1
+                    while blockNumber == None and i >= 0:
+                        pi = points.getPointIndex(i)
+                        p = self.pointIndexes[pi]
+                        i -= 1
                         startTime = SuitTimings.fromSuitBuilding
-                        startTime += self.dnaStore.suitGraph.getSuitEdgeTravelTime(doorPoint, p, self.suitWalkSpeed)
+                        startTime += self.dnaStore.getSuitEdgeTravelTime(doorPoint.getIndex(), pi, self.suitWalkSpeed)
                         if not self.pointCollision(p, doorPoint, startTime):
                             startTime = SuitTimings.fromSuitBuilding
                             startPoint = doorPoint
                             blockNumber = bn
-                            break
 
         while startPoint == None and len(streetPoints) > 0:
             p = random.choice(streetPoints)
