@@ -910,16 +910,18 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         return 0
 
     def pathCollision(self, path, elapsedTime):
-        # TODO - determine whether or not I horrible broke this
-        point = path[0]
-        adjacentPoint = path[1]
-        for p in path:
-            if not (p.getPointType() == DNAStoreSuitPoint.FRONTDOORPOINT or p.getPointType() == DNAStoreSuitPoint.SIDEDOORPOINT):
-                break
-            adjacentPoint = path[path.index(p) + 1]
-            point = p
-            elapsedTime += self.dnaStore.suitGraph.getSuitEdgeTravelTime(p, adjacentPoint, self.suitWalkSpeed)
-
+        i = 0
+        pi = path.getPointIndex(i)
+        point = self.pointIndexes[pi]
+        adjacentPoint = self.pointIndexes[path.getPointIndex(i + 1)]
+        while (point.getPointType() == DNASuitPoint.FRONT_DOOR_POINT) or (
+                point.getPointType() == DNASuitPoint.SIDE_DOOR_POINT):
+            i += 1
+            lastPi = pi
+            pi = path.getPointIndex(i)
+            adjacentPoint = point
+            point = self.pointIndexes[pi]
+            elapsedTime += self.dnaStore.getSuitEdgeTravelTime(lastPi, pi, self.suitWalkSpeed)
         result = self.pointCollision(point, adjacentPoint, elapsedTime)
         return result
 
@@ -927,22 +929,23 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         for suit in self.suitList:
             if suit.pointInMyPath(point, elapsedTime):
                 return 1
-
-        if adjacentPoint != None:
+        if adjacentPoint is not None:
             return self.battleCollision(point, adjacentPoint)
         else:
-            points = self.dnaStore.suitGraph.getAdjacentPoints(point)
-            for p in points:
-                assert self.dnaStore.suitGraph.getConnectingEdge(p, point)
+            points = self.dnaStore.getAdjacentPoints(point)
+            i = points.getNumPoints() - 1
+            while i >= 0:
+                pi = points.getPointIndex(i)
+                p = self.pointIndexes[pi]
+                i -= 1
                 if self.battleCollision(point, p):
                     return 1
-
         return 0
 
     def battleCollision(self, point, adjacentPoint):
-        zoneId = self.dnaStore.suitGraph.getEdgeZone(self.dnaStore.suitGraph.getConnectingEdge(point, adjacentPoint))
+        zoneId = self.dnaStore.getSuitEdgeZone(point.getIndex(), adjacentPoint.getIndex())
         return self.battleMgr.cellHasBattle(zoneId)
-
+        
     def removeSuit(self, suit):
         self.zoneChange(suit, suit.zoneId)
         if self.suitList.count(suit) > 0:
