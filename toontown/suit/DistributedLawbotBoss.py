@@ -974,7 +974,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
     def exitBattleThree(self):
         self.notify.debug('----- exitBattleThree')
         DistributedBossCog.DistributedBossCog.exitBattleThree(self)
-        NametagGlobals.setMasterArrowsOn(1)
+        NametagGlobals.setWant2dNametags(True)
         bossDoneEventName = self.uniqueName('DestroyedBoss')
         self.ignore(bossDoneEventName)
         taskMgr.remove(self.uniqueName('StandUp'))
