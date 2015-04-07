@@ -77,7 +77,7 @@ class SuitBase:
             self.notify.warning('called getActualLevel with no DNA, returning 1 for level')
             return 1
 
-    def setPath(self, suitGraph, path):
+    def setPath(self, path):
         self.suitGraph = suitGraph
         self.path = path
 
