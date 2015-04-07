@@ -342,7 +342,7 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         return Task.done
 
     def doPathLeg(self, leg, time):
-        self.fsm.request(Suitleg.getTypeName(), [leg, time])
+        self.fsm.request(leg.getTypeName(), [leg, time])
         return 0
 
 
