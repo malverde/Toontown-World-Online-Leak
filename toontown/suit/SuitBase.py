@@ -89,4 +89,5 @@ class SuitBase:
             print '\t', currPathPt
 
     def makeLegList(self):
-        self.legList = SuitLegList(self.suitGraph, self.path)
+        self.legList = SuitLegList(self.path, self.sp.dnaStore)
+
