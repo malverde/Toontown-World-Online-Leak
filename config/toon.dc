@@ -44,7 +44,7 @@ from toontown.minigame import DistributedMinigameTemplate/AI
 from toontown.minigame import DistributedRaceGame/AI
 from toontown.minigame import DistributedCannonGame/AI
 from toontown.minigame import DistributedPhotoGame/AI
-from toontown.minigame import DistributedPatternGame/AI
+//from toontown.minigame import DistributedPatternGame/AI
 from toontown.minigame import DistributedRingGame/AI
 from toontown.minigame import DistributedTagGame/AI
 from toontown.minigame import DistributedMazeGame/AI

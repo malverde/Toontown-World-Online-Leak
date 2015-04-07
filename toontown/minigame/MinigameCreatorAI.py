@@ -6,7 +6,7 @@ import DistributedMinigameTemplateAI
 import DistributedRaceGameAI
 import DistributedCannonGameAI
 import DistributedTagGameAI
-import DistributedPatternGameAI
+#import DistributedPatternGameAI
 import DistributedRingGameAI
 import DistributedMazeGameAI
 import DistributedTugOfWarGameAI
@@ -73,7 +73,7 @@ def createMinigame(air, playerArray, trolleyZone, minigameZone = None, previousG
     mgCtors = {ToontownGlobals.RaceGameId: DistributedRaceGameAI.DistributedRaceGameAI,
      ToontownGlobals.CannonGameId: DistributedCannonGameAI.DistributedCannonGameAI,
      ToontownGlobals.TagGameId: DistributedTagGameAI.DistributedTagGameAI,
-     ToontownGlobals.PatternGameId: DistributedPatternGameAI.DistributedPatternGameAI,
+     #ToontownGlobals.PatternGameId: DistributedPatternGameAI.DistributedPatternGameAI,
      ToontownGlobals.RingGameId: DistributedRingGameAI.DistributedRingGameAI,
      ToontownGlobals.MazeGameId: DistributedMazeGameAI.DistributedMazeGameAI,
      ToontownGlobals.TugOfWarGameId: DistributedTugOfWarGameAI.DistributedTugOfWarGameAI,
