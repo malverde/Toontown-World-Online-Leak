@@ -78,7 +78,6 @@ class SuitBase:
             return 1
 
     def setPath(self, path):
-        self.suitGraph = suitGraph
         self.path = path
 
     def getPath(self):
