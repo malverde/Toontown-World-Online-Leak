@@ -872,7 +872,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
 
     def parseSendEvent(self, line):
         token, eventName = line
-        return Func(messenger.send, eventName[1:-1])
+        return Func(messenger.send, eventName)
 
     def parseFunction(self, line):
         token, objectName, functionName = line
