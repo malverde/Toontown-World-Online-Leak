@@ -632,7 +632,7 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
             base.playSfx(dialogue, node=self)
         elif chatFlags & CFSpeech != 0:
             if self.nametag.getNumChatPages() > 0:
-                self.playDialogueForString(self.nametag.getChat())
+                self.playDialogueForString(self.nametag.getChatText())
                 if self.soundChatBubble != None:
                     base.playSfx(self.soundChatBubble, node=self)
             elif self.nametag.getChatStomp() > 0:
