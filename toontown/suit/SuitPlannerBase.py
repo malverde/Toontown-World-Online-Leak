@@ -542,50 +542,38 @@ class SuitPlannerBase:
         return groupFullName.split(':', 1)[0]
 
     def initDNAInfo(self):
+        numGraphs = self.dnaStore.discoverContinuity()
+        if numGraphs != 1:
+            self.notify.info('zone %s has %s disconnected suit paths.' % (self.zoneId, numGraphs))
         self.battlePosDict = {}
         self.cellToGagBonusDict = {}
-        vgs = DNAUtil.getVisGroups(self.dnaStore)
-        for vg in vgs:
-            zoneId = int(self.extractGroupName(vg.zone))
-            bcs = DNAUtil.getChildrenOfType(vg, DNABattleCell.DNABattleCell)
-            if len(bcs) == 1:
-                battleCell = bcs[0]
-                self.battlePosDict[zoneId] = bcs[0].getPos()
-            elif len(bcs) > 1:
+        for i in xrange(self.dnaStore.getNumDNAVisGroupsAI()):
+            vg = self.dnaStore.getDNAVisGroupAI(i)
+            zoneId = int(self.extractGroupName(vg.getName()))
+            if vg.getNumBattleCells() == 1:
+                self.battlePosDict[zoneId] = vg.getBattleCell(0).getPos()
+            elif vg.getNumBattleCells() > 1:
                 self.notify.warning('multiple battle cells for zone: %d' % zoneId)
-                self.battlePosDict[zoneId] = bcs[0].getPos()
-            if True:
-                for childDnaGroup in vg.children:
-                    if isinstance(childDnaGroup, DNAInteractiveProp.DNAInteractiveProp):
-                        self.notify.debug('got interactive prop %s' % childDnaGroup)
-                        battleCellId = childDnaGroup.getCellId()
-                        if battleCellId == -1:
-                            self.notify.warning('interactive prop %s  at %s not associated with a a battle' % (childDnaGroup, zoneId))
-                        elif battleCellId == 0:
-                            if self.cellToGagBonusDict.has_key(zoneId):
-                                self.notify.error('FIXME battle cell at zone %s has two props %s %s linked to it' % (zoneId, self.cellToGagBonusDict[zoneId], childDnaGroup))
-                            else:
-                                name = childDnaGroup.getName()
-                                propType = HoodUtil.calcPropType(name)
-                                if propType in ToontownBattleGlobals.PropTypeToTrackBonus:
-                                    trackBonus = ToontownBattleGlobals.PropTypeToTrackBonus[propType]
-                                    self.cellToGagBonusDict[zoneId] = trackBonus
+                self.battlePosDict[zoneId] = vg.getBattleCell(0).getPos()
+        self.dnaStore.resetDNAGroups()
+        self.dnaStore.resetDNAVisGroups()
+        self.dnaStore.resetDNAVisGroupsAI()
         self.streetPointList = []
         self.frontdoorPointList = []
         self.sidedoorPointList = []
         self.cogHQDoorPointList = []
-        for point in self.dnaData.suitPoints:
-            if point.getPointType() == DNAStoreSuitPoint.FRONTDOORPOINT:
+        numPoints = self.dnaStore.getNumSuitPoints()
+        for i in xrange(numPoints):
+            point = self.dnaStore.getSuitPointAtIndex(i)
+            if point.getPointType() == DNASuitPoint.FRONT_DOOR_POINT:
                 self.frontdoorPointList.append(point)
-            elif point.getPointType() == DNAStoreSuitPoint.SIDEDOORPOINT:
+            elif point.getPointType() == DNASuitPoint.SIDE_DOOR_POINT:
                 self.sidedoorPointList.append(point)
-            elif point.getPointType() == DNAStoreSuitPoint.COGHQINPOINT or point.getPointType() == DNAStoreSuitPoint.COGHQOUTPOINT:
+            elif (point.getPointType() == DNASuitPoint.COGHQ_IN_POINT) or (point.getPointType() == DNASuitPoint.COGHQ_OUT_POINT):
                 self.cogHQDoorPointList.append(point)
             else:
                 self.streetPointList.append(point)
             self.pointIndexes[point.getIndex()] = point
-
-        return None
 
     def performPathTest(self):
         if not self.notify.getDebug():
