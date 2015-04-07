@@ -713,18 +713,21 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         return int(len(suitBuildings) * self.SUIT_BUILDING_NUM_SUITS)
 
     def getZoneIdToPointMap(self):
-        if self.zoneIdToPointMap != None:
+        if self.zoneIdToPointMap is not None:
             return self.zoneIdToPointMap
         self.zoneIdToPointMap = {}
         for point in self.streetPointList:
-            points = self.dnaData.suitGraph.getAdjacentPoints(point)
-            for p in points:
-                zoneId = self.dnaData.suitGraph.getEdgeZone(self.dnaData.suitGraph.getConnectingEdge(point, p))
-                if self.zoneIdToPointMap.has_key(zoneId):
+            points = self.dnaStore.getAdjacentPoints(point)
+            i = points.getNumPoints() - 1
+            while i >= 0:
+                pi = points.getPointIndex(i)
+                p = self.pointIndexes[pi]
+                i -= 1
+                zoneId = self.dnaStore.getSuitEdgeZone(point.getIndex(), p.getIndex())
+                if zoneId in self.zoneIdToPointMap:
                     self.zoneIdToPointMap[zoneId].append(point)
-                else:
-                    self.zoneIdToPointMap[zoneId] = [point]
-
+                    continue
+                self.zoneIdToPointMap[zoneId] = [point]
         return self.zoneIdToPointMap
 
     def getStreetPointsForBuilding(self, blockNumber):
