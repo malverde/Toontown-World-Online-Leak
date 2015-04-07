@@ -734,14 +734,14 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         pointList = []
         if self.buildingSideDoors.has_key(blockNumber):
             for doorPoint in self.buildingSideDoors[blockNumber]:
-                points = self.dnaData.suitGraph.getAdjacentPoints(doorPoint)
+                points = self.dnaStore.suitGraph.getAdjacentPoints(doorPoint)
                 for point in points:
                     if point.getPointType() == DNAStoreSuitPoint.STREETPOINT:
                         pointList.append(point)
 
         if self.buildingFrontDoors.has_key(blockNumber):
             doorPoint = self.buildingFrontDoors[blockNumber]
-            points = self.dnaData.suitGraph.getAdjacentPoints(doorPoint)
+            points = self.dnaStore.suitGraph.getAdjacentPoints(doorPoint)
             for point in points:
                 pointList.append(point)
 
@@ -757,10 +757,10 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             blockNumbers.remove(bn)
             if self.buildingSideDoors.has_key(bn):
                 for doorPoint in self.buildingSideDoors[bn]:
-                    points = self.dnaData.suitGraph.getAdjacentPoints(doorPoint)
+                    points = self.dnaStore.suitGraph.getAdjacentPoints(doorPoint)
                     for p in points:
                         startTime = SuitTimings.fromSuitBuilding
-                        startTime += self.dnaData.suitGraph.getSuitEdgeTravelTime(doorPoint, p, self.suitWalkSpeed)
+                        startTime += self.dnaStore.suitGraph.getSuitEdgeTravelTime(doorPoint, p, self.suitWalkSpeed)
                         if not self.pointCollision(p, doorPoint, startTime):
                             startTime = SuitTimings.fromSuitBuilding
                             startPoint = doorPoint
@@ -903,7 +903,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 suit.maxPathLen = maxPathLen
                 suit.buildingDestination = p[0]
                 suit.buildingDestinationIsCogdo = cogdoTakeover
-                suit.setPath(self.dnaData.suitGraph, path)
+                suit.setPath(self.dnaStore.suitGraph, path)
                 return 1
             retryCount += 1
 
@@ -918,7 +918,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 break
             adjacentPoint = path[path.index(p) + 1]
             point = p
-            elapsedTime += self.dnaData.suitGraph.getSuitEdgeTravelTime(p, adjacentPoint, self.suitWalkSpeed)
+            elapsedTime += self.dnaStore.suitGraph.getSuitEdgeTravelTime(p, adjacentPoint, self.suitWalkSpeed)
 
         result = self.pointCollision(point, adjacentPoint, elapsedTime)
         return result
@@ -931,16 +931,16 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         if adjacentPoint != None:
             return self.battleCollision(point, adjacentPoint)
         else:
-            points = self.dnaData.suitGraph.getAdjacentPoints(point)
+            points = self.dnaStore.suitGraph.getAdjacentPoints(point)
             for p in points:
-                assert self.dnaData.suitGraph.getConnectingEdge(p, point)
+                assert self.dnaStore.suitGraph.getConnectingEdge(p, point)
                 if self.battleCollision(point, p):
                     return 1
 
         return 0
 
     def battleCollision(self, point, adjacentPoint):
-        zoneId = self.dnaData.suitGraph.getEdgeZone(self.dnaData.suitGraph.getConnectingEdge(point, adjacentPoint))
+        zoneId = self.dnaStore.suitGraph.getEdgeZone(self.dnaStore.suitGraph.getConnectingEdge(point, adjacentPoint))
         return self.battleMgr.cellHasBattle(zoneId)
 
     def removeSuit(self, suit):

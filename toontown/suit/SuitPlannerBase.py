@@ -510,9 +510,6 @@ class SuitPlannerBase:
 
     def delete(self):
         del self.dnaStore
-        if hasattr(self, 'dnaData'):
-            del self.dnaData
-
     def setupDNA(self):
         if self.dnaStore:
             return None
@@ -590,10 +587,9 @@ class SuitPlannerBase:
             travelTime = self.dnaStore.suitGraph.getSuitEdgeTravelTime(path.getPointIndex(i), path.getPointIndex(i + 1), self.suitWalkSpeed)
             self.notify.debug('edge from point ' + `i` + ' to point ' + `(i + 1)` + ' is in zone: ' + `zone` + ' and will take ' + `travelTime` + ' seconds to walk.')
 
-        return None
 
     def genPath(self, startPoint, endPoint, minPathLen, maxPathLen):
-        return self.dnaData.suitGraph.getSuitPath(startPoint, endPoint, minPathLen, maxPathLen)
+        return self.dnaStore.getSuitPath(startPoint, endPoint, minPathLen, maxPathLen)
 
     def getDnaStore(self):
         return self.dnaStore
