@@ -1595,7 +1595,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         npc.setDNAString(dnaNetString)
         npc.setName(TTLocalizer.WitnessToonName)
         npc.setPickable(0)
-        npc.setPlayerType(NametagGroup.CCNonPlayer)
+        npc.setPlayerType(NametagGlobals.CCNonPlayer)
         npc.animFSM.request('Sit')
         self.witnessToon = npc
         self.witnessToon.setPosHpr(*ToontownGlobals.LawbotBossWitnessStandPosHpr)
