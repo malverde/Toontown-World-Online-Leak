@@ -320,8 +320,9 @@ class FriendInviter(DirectFrame):
         taskMgr.remove('cogFriendship')
         self.bCancel.hide()
 
-    def cogReplies(self, task):
-        self.fsm.request('no')
+    def cogReplies(self, task):'
+    #LOL
+        self.fsm.request('yes')
         return Task.done
 
     def enterAskingPet(self):
