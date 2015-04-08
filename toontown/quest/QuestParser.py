@@ -1098,4 +1098,4 @@ scriptFile = Filename('QuestScripts.txt')
 found = vfs.resolveFilename(scriptFile, searchPath)
 if not found:
     notify.error('Could not find QuestScripts.txt file')
-readFile(scriptFile)
+readFile()
