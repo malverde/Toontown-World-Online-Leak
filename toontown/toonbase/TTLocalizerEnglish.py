@@ -4661,6 +4661,7 @@ PartyDanceActivityInstructions = 'Combine 3 or more ARROW KEY patterns to do dan
 PartyDanceActivity20Title = 'Party Dance Floor'
 PartyDanceActivity20Instructions = 'Combine 3 or more ARROW KEY patterns to do dance moves! There are 20 dance moves available. Can you find them all?'
 DanceAnimRight = 'Right'
+DanceAnimThrow = 'Pie Throw!'
 DanceAnimReelNeutral = 'The Fishertoon'
 DanceAnimConked = 'The Headbob'
 DanceAnimHappyDance = 'The Happy Dance'
@@ -9940,5 +9941,6 @@ def getBuffPosterString(buffId):
     return buffIdStrings[buffId][1]
 
 MoreOptionsPageTitle = 'Other Options'
+
 ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'
 ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'
