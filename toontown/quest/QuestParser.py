@@ -15,8 +15,6 @@ from StringIO import StringIO
 import BlinkingArrows
 from otp.speedchat import SpeedChatGlobals
 from toontown.ai import DistributedBlackCatMgr
-from toontown.char import Char
-from toontown.char import CharDNA
 from toontown.chat.ChatGlobals import *
 from toontown.suit import Suit
 from toontown.suit import SuitDNA
