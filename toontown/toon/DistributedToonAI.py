@@ -5143,14 +5143,13 @@ def setQP(questId=0, progress=0):
     return questIds
 
 @magicWord(category=CATEGORY_MODERATION, types=[int, str])
-def locate(avId=0, returnType=''):
+def locate(avIdShort=0, returnType=''):
     """Locate an avatar anywhere on the [CURRENT] AI."""
     # TODO: Use Astron msgs to get location of avId from anywhere in the Astron cyber-space.
     # NOTE: The avIdShort concept needs changing, especially when we start entering 200000000's for avIds
-    def locate(avId=0, returnType=''):
-        avIdFull = avId
-        else:
-            avIdFull = 400000000 - (300000000 - avId)
+    if avIdShort <= 0:
+        return "Please enter a valid avId to find! Note: You only need to enter the last few digits of the full avId!"
+    avIdFull = 400000000 - (300000000 - avIdShort)
     av = simbase.air.doId2do.get(avIdFull, None)
     if not av:
         return "Could not find the avatar on the current AI."
@@ -5193,11 +5192,7 @@ def locate(avId=0, returnType=''):
 def online(doId):
     """ Check if a toon is online. """
     av = spellbook.getTarget()
-    if len(str(doId)) >= 9:
-        simbase.air.getActivated(doId, lambda x,y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
-        else:
-            doId = 100000000 + doId
-            simbase.air.getActivated(doId, lambda x,y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
+    doId = 100000000 + doId
     simbase.air.getActivated(doId, lambda x,y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
 
 @magicWord(category=CATEGORY_OVERRIDE)
@@ -5388,16 +5383,13 @@ def pouch(amt):
     return "Set %s's pouch size to %d" % (spellbook.getTarget().getName(), amt)
 
 @magicWord(category=CATEGORY_MODERATION, types=[int])
-def goto(avId):
+def goto(avIdShort):
     """ Teleport to the avId specified. """
-    if len(str(avId)) >= 9:
-        targetAvId = avId
-        else:
-            targetAvId = 100000000+avId # To get target doId.
-        toon = simbase.air.doId2do.get(targetAvId)
-        if not toon:
-            return "Unable to teleport to target, they are not currently on this district."
-    spellbook.getInvoker().magicWordTeleportRequests.append(targetAvId)
+    avId = 100000000+avIdShort # To get target doId.
+    toon = simbase.air.doId2do.get(avId)
+    if not toon:
+        return "Unable to teleport to target, they are not currently on this district."
+    spellbook.getInvoker().magicWordTeleportRequests.append(avId)
     toon.sendUpdate('magicTeleportRequest', [spellbook.getInvoker().getDoId()])
 
 @magicWord(category=CATEGORY_SYSADMIN)
