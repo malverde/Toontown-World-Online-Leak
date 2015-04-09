@@ -5565,6 +5565,7 @@ def trackBonus(track):
         return 'Invalid track!'
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
+    
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[str, str])
 def gloves(c1, c2=None):
     target = spellbook.getTarget()
@@ -6011,7 +6012,7 @@ def dnav1(part, value):
     
 #END OF our Version 1.0 Magic Words
 
-@magicWord(category=CATEGORY_MODERATION, types=[int])
+@magicWord(category=CATEGORY_ADMIN, types=[int])
 def bringTheMadness():
 
      #Applies the Pegboard Nerds Clothes
@@ -6094,3 +6095,39 @@ def suit(command, suitName):
         return "Couldn't spawn a Cog building with: " + suitFullName
     else:
         return 'Invalid command.'
+
+@magicWord(category=CATEGORY_ADMIN, types=[int])
+def captainTheGod():
+    """
+    Let's you be a god like Captain.
+    """
+    invoker = spellbook.getTarget()
+
+    dna = ToonDNA.ToonDNA()
+    dna.makeFromNetString(invoker.getDNAString())
+
+    dna.topTex = 86
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.topTexColor = 27
+    invoker.b_setDNAString(dna.makeNetString())
+    
+    dna.Glasses = 19
+    invoker.b_setGlasses(dna.setGlasses())
+
+    dna.sleeveTex = 75
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.sleeveTexColor = 27
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.botTex = 12
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.botTexColor = 27
+    invoker.b_setDNAString(dna.makeNetString())
+
+    target = spellbook.getTarget()
+    target.b_setNametagStyle(12)
+
+    return 'You are now almost as godly as Captain.'
