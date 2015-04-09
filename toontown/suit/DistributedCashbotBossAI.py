@@ -592,3 +592,22 @@ def killCFO():
         return "You aren't in a CFO!"
     boss.b_setState('Victory')
     return 'Killed CFO.'
+
+@magicWord(category=CATEGORY_MODERATION)
+def restartCraneRound():
+    """
+    Restarts the crane round in the CFO.
+    """
+    invoker = spellbook.getInvoker()
+    boss = None
+    for do in simbase.air.doId2do.values():
+        if isinstance(do, DistributedCashbotBossAI):
+            if invoker.doId in do.involvedToons:
+                boss = do
+                break
+    if not boss:
+        return "You aren't in a CFO!"
+    boss.exitIntroduction()
+    boss.b_setState('PrepareBattleThree')
+    boss.b_setState('BattleThree')
+    return 'Restarting the crane round...'
