@@ -1,0 +1,16 @@
+# This file is to clean up some of the party code that says to import all of the activities...
+# Instead of putting them all in each of the files,
+# Make the file import this file
+
+from toontown.parties.DistributedPartyJukeboxActivityAI import DistributedPartyJukeboxActivityAI
+from toontown.parties.DistributedPartyDanceActivityAI import DistributedPartyDanceActivityAI
+from toontown.parties.DistributedPartyJukebox40ActivityAI import DistributedPartyJukebox40ActivityAI
+from toontown.parties.DistributedPartyDance20ActivityAI import DistributedPartyDance20ActivityAI
+from toontown.parties.DistributedPartyCogActivityAI import DistributedPartyCogActivityAI
+from toontown.parties.DistributedPartyTrampolineActivityAI import DistributedPartyTrampolineActivityAI
+from toontown.parties.DistributedPartyVictoryTrampolineActivityAI import DistributedPartyVictoryTrampolineActivityAI
+from toontown.parties.DistributedPartyCatchActivityAI import DistributedPartyCatchActivityAI
+from toontown.parties.DistributedPartyTugOfWarActivityAI import DistributedPartyTugOfWarActivityAI
+from toontown.parties.DistributedPartyCannonActivityAI import DistributedPartyCannonActivityAI
+from toontown.parties.DistributedPartyCannonAI import DistributedPartyCannonAI
+from toontown.parties.DistributedPartyFireworksActivityAI import DistributedPartyFireworksActivityAI
