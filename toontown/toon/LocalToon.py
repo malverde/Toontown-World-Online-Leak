@@ -1888,9 +1888,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
     def setSleepAutoReply(self, fromId):
         av = base.cr.identifyAvatar(fromId)
-        if isinstance(av, DistributedToon.DistributedToon):
+        if isinstance(av, (DistributedToon.DistributedToon, FriendHandle)):
             base.localAvatar.setSystemMessage(0, TTLocalizer.sleep_auto_reply % av.getName(), WTToontownBoardingGroup)
-        elif av is not None:
+        elif av:
             self.notify.warning('setSleepAutoReply from non-toon %s' % fromId)
         return
 
