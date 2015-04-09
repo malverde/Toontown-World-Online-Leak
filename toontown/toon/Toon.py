@@ -26,6 +26,7 @@ from toontown.chat.ChatGlobals import *
 from toontown.nametag.NametagGlobals import *
 import AccessoryGlobals
 import types
+from otp.nametag import NametagGroup
 
 def teleportDebug(requestStatus, msg, onlyIfToAv = True):
     if teleportNotify.getDebug():
