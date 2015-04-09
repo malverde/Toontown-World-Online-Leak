@@ -1055,10 +1055,9 @@ class CatalogScreen(DirectFrame):
         return test
 
     def __makeFFlist(self):
-    	from toontown.nametag import NametagGroup
         for familyMember in base.cr.avList:
             if familyMember.id != base.localAvatar.doId:
-                newFF = (familyMember.id, familyMember.name, NametagGlobals.CCNonPlayer)
+                newFF = (familyMember.id, familyMember.name, NametagGroup.CCNonPlayer)
                 self.ffList.append(newFF)
 
         for friendPair in base.localAvatar.friendsList:
@@ -1066,9 +1065,9 @@ class CatalogScreen(DirectFrame):
             handle = base.cr.identifyFriend(friendId)
             if handle and not self.checkFamily(friendId):
                 if hasattr(handle, 'getName'):
-                    colorCode = NametagGlobals.CCSpeedChat
+                    colorCode = NametagGroup.CCSpeedChat
                     if flags & ToontownGlobals.FriendChat:
-                        colorCode = NametagGlobals.CCFreeChat
+                        colorCode = NametagGroup.CCFreeChat
                     newFF = (friendPair[0], handle.getName(), colorCode)
                     self.ffList.append(newFF)
                 else:
@@ -1083,9 +1082,9 @@ class CatalogScreen(DirectFrame):
                 freeChat = playerInfo.understandableYesNo
                 if handle and not self.checkFamily(avatarId):
                     if hasattr(handle, 'getName'):
-                        colorCode = NametagGlobals.CCSpeedChat
+                        colorCode = NametagGroup.CCSpeedChat
                         if freeChat:
-                            colorCode = NametagGlobals.CCFreeChat
+                            colorCode = NametagGroup.CCFreeChat
                         newFF = (avatarId, handle.getName(), colorCode)
                         self.ffList.append(newFF)
                     else:
