@@ -14,9 +14,8 @@ from direct.actor import Actor
 import random
 from toontown.toon import DistributedToon
 from direct.directnotify import DirectNotifyGlobal
-from toontown.chat.ChatBalloon import ChatBalloon
-from toontown.nametag import NametagGlobals
-from toontown.nametag import NametagGroup
+from otp.nametag.ChatBalloon import ChatBalloon
+from otp.nametag import NametagGroup
 NUM_CATALOG_ROWS = 3
 NUM_CATALOG_COLS = 2
 CatalogPanelCenters = [[Point3(-0.95, 0, 0.91), Point3(-0.275, 0, 0.91)], [Point3(-0.95, 0, 0.275), Point3(-0.275, 0, 0.275)], [Point3(-0.95, 0, -0.4), Point3(-0.275, 0, -0.4)]]
