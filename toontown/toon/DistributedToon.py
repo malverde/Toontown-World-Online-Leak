@@ -526,7 +526,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         pass
 
     def _isValidWhisperSource(self, source):
-        return isinstance(source, FriendHandle.FriendHandle) or isinstance(source, DistributedToon)
+        return isinstance(source, (DistributedToon, FriendHandle.FriendHandle))
 
     def setWhisperSCEmoteFrom(self, fromId, emoteId):
         handle = base.cr.identifyFriend(fromId)
