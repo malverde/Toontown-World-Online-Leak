@@ -1103,10 +1103,11 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         CatalogAtticItem.CatalogAtticItem.encodeDatagram(self, dg, store)
         dg.addInt16(self.furnitureType)
         if FurnitureTypes[self.furnitureType][FTColorOptions]:
-            if self.colorOption == None:
-                     dg.addUint8(0)
-                 else:
-                     dg.addUint8(self.colorOption)
+            if store & CatalogItem.Customization:
+                if self.colorOption == None:
+                    dg.addUint8(0)
+                else:
+                    dg.addUint8(self.colorOption)
 
     def getAcceptItemErrorText(self, retcode):
         if retcode == ToontownGlobals.P_AlreadyOwnBiggerCloset:
