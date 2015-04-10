@@ -1107,7 +1107,10 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
                 if self.colorOption == None:
                     dg.addUint8(0)
                 else:
-                    dg.addUint8(self.colorOption)
+                    if self.colorOption == None:
+                        dg.addUint8(0)
+                    else:
+                        dg.addUint8(self.colorOption)
 
     def getAcceptItemErrorText(self, retcode):
         if retcode == ToontownGlobals.P_AlreadyOwnBiggerCloset:
