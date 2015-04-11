@@ -485,6 +485,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.__holeActors = []
         self.holeClipPath = None
         self.wake = None
+        self.doId = None 
         self.lastWakeTime = 0
         self.forceJumpIdle = False
         self.numPies = 0
