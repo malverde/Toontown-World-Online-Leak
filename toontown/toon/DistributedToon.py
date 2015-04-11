@@ -526,7 +526,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         pass
 
     def _isValidWhisperSource(self, source):
-        return isinstance(source, FriendHandle.FriendHandle) or isinstance(source, DistributedToon)
+        return isinstance(source, (DistributedToon, FriendHandle.FriendHandle))
 
     def setWhisperSCEmoteFrom(self, fromId, emoteId):
         handle = base.cr.identifyFriend(fromId)
@@ -2728,9 +2728,11 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         # TEMP HACK: Currently assume that the whereId is a boss battle if hoodId = cogHQ
         # and zoneId is dynamic.
         if ZoneUtil.isDynamicZone(zoneId) and hoodId in [ToontownGlobals.BossbotHQ, ToontownGlobals.LawbotHQ, ToontownGlobals.CashbotHQ, ToontownGlobals.SellbotHQ]:
-            whereId = 'cogHQBossBattle'
+            #whereId = 'cogHQBossBattle'
+            return 'They are in a boss, you cannot teleport to them!'
         if zoneId in [ToontownGlobals.BossbotLobby, ToontownGlobals.LawbotLobby, ToontownGlobals.CashbotLobby, ToontownGlobals.SellbotLobby, ToontownGlobals.LawbotOfficeExt]:
-            how = 'walk'
+            #how = 'walk'
+            return 'They are in a lobby, you cannot teleport to them!'
         else:
             how = 'teleportIn'
         requestStatus = [{

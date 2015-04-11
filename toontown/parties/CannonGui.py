@@ -75,8 +75,8 @@ class CannonGui(DirectObject):
 
     def enable(self, timer = 0):
         self.__aimPad.show()
-        base.setCellsActive([base.bottomCells[2], base.bottomCells[3]], 0)
-        base.setCellsActive([base.rightCells[1]], 0)
+        base.setCellsActive([base.bottomCells[2], base.bottomCells[3]], 1)
+        base.setCellsActive([base.rightCells[1]], 1)
         if timer > 0:
             self.__timerPad.setTime(timer)
             self.__timerPad.countdown(timer)

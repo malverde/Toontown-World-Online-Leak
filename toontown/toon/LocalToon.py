@@ -1888,9 +1888,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
     def setSleepAutoReply(self, fromId):
         av = base.cr.identifyAvatar(fromId)
-        if isinstance(av, DistributedToon.DistributedToon):
+        if isinstance(av, (DistributedToon.DistributedToon, FriendHandle)):
             base.localAvatar.setSystemMessage(0, TTLocalizer.sleep_auto_reply % av.getName(), WTToontownBoardingGroup)
-        elif av is not None:
+        elif av:
             self.notify.warning('setSleepAutoReply from non-toon %s' % fromId)
         return
 
@@ -1937,7 +1937,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         return result
 
     def doTeleportResponse(self, fromAvatar, toAvatar, avId, available, shardId, hoodId, zoneId, sendToId):
-        localAvatar.d_teleportResponse(avId, available, shardId, hoodId, zoneId, sendToId)
+        self.d_teleportResponse(avId, available, shardId, hoodId, zoneId, sendToId)
 
     def d_teleportResponse(self, avId, available, shardId, hoodId, zoneId, sendToId = None):
         if config.GetBool('want-tptrack', False):

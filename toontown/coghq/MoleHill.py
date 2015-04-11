@@ -35,7 +35,7 @@ class MoleHill(NodePath):
         self.moleHead = loader.loadModel('phase_12/models/bossbotHQ/mole_norm')
         self.moleHead.reparentTo(self.mole)
         moleColName = 'moleCol-%d-%s' % (self.moleField.doId, self.index)
-        moleSphere = CollisionSphere(0, 0, 0, 1.1)
+        moleSphere = CollisionTube(0, 0, 0, 0, 0, 1, 1)
         collNode = CollisionNode(moleColName)
         collNode.setIntoCollideMask(ToontownGlobals.WallBitmask)
         collNode.addSolid(moleSphere)

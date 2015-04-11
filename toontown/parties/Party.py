@@ -18,6 +18,43 @@ from toontown.parties.DistributedParty import DistributedParty
 
 class Party(Place.Place):
     notify = DirectNotifyGlobal.directNotify.newCategory('Party')
+    fsm = ClassicFSM.ClassicFSM('Party', [State.State('init', self.enterInit, self.exitInit, ['final', 'teleportIn', 'walk']),
+         State.State('walk', self.enterWalk, self.exitWalk, ['final',
+          'sit',
+          'stickerBook',
+          'options',
+          'quest',
+          'fishing',
+          'stopped',
+          'DFA',
+          'trialerFA',
+          'push',
+          'activity']),
+         State.State('stopped', self.enterStopped, self.exitStopped, ['walk', 'teleportOut']),
+         State.State('sit', self.enterSit, self.exitSit, ['walk']),
+         State.State('push', self.enterPush, self.exitPush, ['walk']),
+         State.State('partyPlanning', self.enterPartyPlanning, self.exitPartyPlanning, ['DFA', 'teleportOut']),
+         State.State('stickerBook', self.enterStickerBook, self.exitStickerBook, ['walk',
+          'sit',
+          'quest',
+          'fishing',
+          'stopped',
+          'activity',
+          'push',
+          'DFA',
+          'trialerFA']),
+         State.State('teleportIn', self.enterTeleportIn, self.exitTeleportIn, ['walk', 'partyPlanning']),
+         State.State('teleportOut', self.enterTeleportOut, self.exitTeleportOut, ['teleportIn', 'walk', 'final']),
+         State.State('died', self.enterDied, self.exitDied, ['walk', 'final']),
+         State.State('final', self.enterFinal, self.exitFinal, ['teleportIn']),
+         State.State('quest', self.enterQuest, self.exitQuest, ['walk']),
+         State.State('fishing', self.enterFishing, self.exitFishing, ['walk', 'stopped']),
+         State.State('activity', self.enterActivity, self.exitActivity, ['walk', 'stopped']),
+         State.State('stopped', self.enterStopped, self.exitStopped, ['walk']),
+         State.State('trialerFA', self.enterTrialerFA, self.exitTrialerFA, ['trialerFAReject', 'DFA']),
+         State.State('trialerFAReject', self.enterTrialerFAReject, self.exitTrialerFAReject, ['walk']),
+         State.State('DFA', self.enterDFA, self.exitDFA, ['DFAReject', 'teleportOut']),
+         State.State('DFAReject', self.enterDFAReject, self.exitDFAReject, ['walk'])], 'init', 'final')
 
     def __init__(self, loader, avId, zoneId, parentFSMState, doneEvent):
         Place.Place.__init__(self, None, doneEvent)

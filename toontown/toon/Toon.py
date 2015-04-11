@@ -26,6 +26,7 @@ from toontown.chat.ChatGlobals import *
 from toontown.nametag.NametagGlobals import *
 import AccessoryGlobals
 import types
+from otp.nametag import NametagGroup
 
 def teleportDebug(requestStatus, msg, onlyIfToAv = True):
     if teleportNotify.getDebug():
@@ -484,6 +485,7 @@ class Toon(Avatar.Avatar, ToonHead):
         self.__holeActors = []
         self.holeClipPath = None
         self.wake = None
+        self.doId = None 
         self.lastWakeTime = 0
         self.forceJumpIdle = False
         self.numPies = 0

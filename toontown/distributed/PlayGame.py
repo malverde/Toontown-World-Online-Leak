@@ -26,8 +26,8 @@ from toontown.hood import EstateHood
 from toontown.hood import PartyHood
 from toontown.toonbase import TTLocalizer
 from toontown.parties.PartyGlobals import GoToPartyStatus
-from toontown.dna.DNAStorage import DNAStorage
 from toontown.dna.DNAParser import *
+
 class PlayGame(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('PlayGame')
     Hood2ClassDict = {ToontownGlobals.ToontownCentral: TTHood.TTHood,
@@ -36,7 +36,7 @@ class PlayGame(StateData.StateData):
      ToontownGlobals.MinniesMelodyland: MMHood.MMHood,
      ToontownGlobals.DaisyGardens: DGHood.DGHood,
      ToontownGlobals.DonaldsDreamland: DLHood.DLHood,
-     ToontownGlobals.Toonfest: TFHood.TFHood,
+     ToontownGlobals.FunnyFarm: TFHood.TFHood,
      ToontownGlobals.GoofySpeedway: GSHood.GSHood,
      ToontownGlobals.OutdoorZone: OZHood.OZHood,
      ToontownGlobals.Tutorial: TutorialHood.TutorialHood,
@@ -53,7 +53,7 @@ class PlayGame(StateData.StateData):
      ToontownGlobals.MinniesMelodyland: 'MMHood',
      ToontownGlobals.DaisyGardens: 'DGHood',
      ToontownGlobals.DonaldsDreamland: 'DLHood',
-     ToontownGlobals.Toonfest: 'TFHood',                
+     ToontownGlobals.FunnyFarm: 'TFHood',                
      ToontownGlobals.GoofySpeedway: 'GSHood',
      ToontownGlobals.OutdoorZone: 'OZHood',
      ToontownGlobals.Tutorial: 'TutorialHood',
@@ -176,7 +176,7 @@ class PlayGame(StateData.StateData):
             self.hood.exit()
             self.hood.unload()
             self.hood = None
-        return
+        base.cr.cache.flush()
 
     def enterStart(self):
         pass

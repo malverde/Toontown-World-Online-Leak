@@ -80,6 +80,7 @@ lMinniesMelodyland = "Minnie's Melodyland"
 lToontownCentral = 'Toontown Central'
 lToonHQ = 'Toon HQ'
 lSellbotHQ = 'Sellbot HQ'
+lFunnyFarm = 'Funny Farms'
 lGoofySpeedway = 'Goofy Speedway'
 lOutdoorZone = "Chip 'n Dale's Acorn Acres"
 lGolfZone = "Chip 'n Dale's MiniGolf"
@@ -136,7 +137,8 @@ TheBrrrgh = ('to', 'in', lTheBrrrgh)
 MinniesMelodyland = ('to', 'in', lMinniesMelodyland)
 DaisyGardens = ('to', 'in', lDaisyGardens)
 OutdoorZone = ('to', 'in', lOutdoorZone)
-FunnyFarm = ('to the', 'in the', 'Toonfest')
+NewZone = ('to', 'in', 'NEWZONE')
+FunnyFarm = ('to', 'in', lFunnyFarm)
 GoofySpeedway = ('to', 'in', lGoofySpeedway)
 DonaldsDreamland = ('to', 'in', lDonaldsDreamland)
 BossbotHQ = ('to', 'in', 'Bossbot HQ')
@@ -4661,6 +4663,7 @@ PartyDanceActivityInstructions = 'Combine 3 or more ARROW KEY patterns to do dan
 PartyDanceActivity20Title = 'Party Dance Floor'
 PartyDanceActivity20Instructions = 'Combine 3 or more ARROW KEY patterns to do dance moves! There are 20 dance moves available. Can you find them all?'
 DanceAnimRight = 'Right'
+DanceAnimThrow = 'Pie Throw!'
 DanceAnimReelNeutral = 'The Fishertoon'
 DanceAnimConked = 'The Headbob'
 DanceAnimHappyDance = 'The Happy Dance'
@@ -5665,7 +5668,11 @@ LeaderboardTitle = 'Toon Platoon'
 QuestScriptTutorialMickey_1 = 'Toontown has a new citizen! Do you have some extra gags?'
 QuestScriptTutorialMickey_2 = 'Sure, %s!'
 QuestScriptTutorialMickey_3 = 'Tutorial Tom will tell you all about the Cogs.\x07Gotta go!'
-QuestScriptTutorialMickey_4 = "Hello, new citizen! Welcome to Toontown! Come over here so I can tell you what's been going on in town recently. Use the arrow keys to move."
+#if base.wantWASD:
+#	QuestScriptTutorialMickey_4 = "Hello, new citizen! Welcome to Toontown! Come over here so I can tell you what's been going on in town recently. Use wasd keys to move."
+#else:
+	#QuestScriptTutorialMickey_4 = "Hello, new citizen! Welcome to Toontown! Come over here so I can tell you what's been going on in town recently. Use the arrow keys to move."
+QuestScriptTutorialMickey_4 = "Hello, new citizen! Welcome to Toontown! Come over here so I can tell you what's been going on in town recently. Use the arrow keys to move."	
 QuestScriptTutorialMinnie_1 = 'Toontown has a new citizen! Do you have some extra gags?'
 QuestScriptTutorialMinnie_2 = 'Sure, %s!'
 QuestScriptTutorialMinnie_3 = 'Tutorial Tom will tell you all about the Cogs.\x07Gotta go!'
@@ -9940,5 +9947,6 @@ def getBuffPosterString(buffId):
     return buffIdStrings[buffId][1]
 
 MoreOptionsPageTitle = 'Other Options'
+
 ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'
 ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'

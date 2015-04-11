@@ -1,6 +1,7 @@
 from pandac.PandaModules import *
 from otp.margins.WhisperPopup import WhisperPopup
-from otp.nametag.NametagConstants import CFQuicktalker, CFPageButton, CFQuitButton, CFSpeech, CFThought, CFTimeout
+from toontown.chat.ChatGlobals import *
+from toontown.chat.WhisperPopup import WhisperPopup
 from otp.chat import ChatGarbler
 import string
 from direct.task import Task
@@ -131,7 +132,7 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
     def setAccountName(self, accountName):
         self.accountName = accountName
 
-    def setSystemMessage(self, aboutId, chatString, whisperType = WhisperPopup.WTSystem):
+    def setSystemMessage(self, aboutId, chatString, whisperType = WTSystem):
         self.displayWhisper(aboutId, chatString, whisperType)
 
     def displayWhisper(self, fromId, chatString, whisperType):
