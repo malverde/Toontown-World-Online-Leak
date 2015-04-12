@@ -31,6 +31,7 @@ import time
 
 class ToonBase(OTPBase.OTPBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonBase')
+    localavatar = None 
 
     def __init__(self):
     	self.localavatar = None
