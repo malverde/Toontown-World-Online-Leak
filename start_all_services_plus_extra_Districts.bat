@@ -1,0 +1,12 @@
+start start_astron_server
+start start_uberdog_server
+start start_ai_Toontastic_Place_server
+start start_AI_WonkyVille
+start start_AI_Boingy_Acres
+start start_AI_Boingy_Summit
+start start_AI_Boingyboro
+start start_AI_Crazy_Grove
+start start_AI_Gigglyfield
+start start_AI_Goofy_Valley
+start start_AI_Loopy_Harbor
+start start_AI_Nutty_River

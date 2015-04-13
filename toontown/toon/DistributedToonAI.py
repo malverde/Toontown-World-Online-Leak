@@ -5565,6 +5565,7 @@ def trackBonus(track):
         return 'Invalid track!'
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
+    
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[str, str])
 def gloves(c1, c2=None):
     target = spellbook.getTarget()
@@ -5747,7 +5748,7 @@ def skipMovie():
     
 
 @magicWord(category=CATEGORY_ADMIN, types=[str, int, int])
-def inventory(a, b=None, c=None):
+def inventoryv1(a, b=None, c=None):
     invoker = spellbook.getInvoker()
     inventory = invoker.inventory
     if a == 'reset':
@@ -6011,7 +6012,7 @@ def dnav1(part, value):
     
 #END OF our Version 1.0 Magic Words
 
-@magicWord(category=CATEGORY_MODERATION, types=[int])
+@magicWord(category=CATEGORY_ADMIN, types=[int])
 def bringTheMadness():
 
      #Applies the Pegboard Nerds Clothes
@@ -6094,3 +6095,101 @@ def suit(command, suitName):
         return "Couldn't spawn a Cog building with: " + suitFullName
     else:
         return 'Invalid command.'
+
+@magicWord(category=CATEGORY_ADMIN, types=[int])
+def captainTheGod():
+    """
+    Let's you be a god like Captain.
+    """
+    invoker = spellbook.getTarget()
+
+    dna = ToonDNA.ToonDNA()
+    dna.makeFromNetString(invoker.getDNAString())
+
+    dna.topTex = 86
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.topTexColor = 27
+    invoker.b_setDNAString(dna.makeNetString())
+    
+    dna.Glasses = 19
+    invoker.b_setGlasses(dna.setGlasses())
+
+    dna.sleeveTex = 75
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.sleeveTexColor = 27
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.botTex = 12
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.botTexColor = 27
+    invoker.b_setDNAString(dna.makeNetString())
+
+    target = spellbook.getTarget()
+    target.b_setNametagStyle(12)
+
+    return 'You are now almost as godly as Captain.'
+
+@magicWord(category=CATEGORY_MODERATION, types=[str, int, int])
+def inventory(a, b=None, c=None):
+    invoker = spellbook.getInvoker()
+    inventory = invoker.inventory
+    if a == 'reset':
+        maxLevelIndex = b or 5
+        if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
+            return 'Invalid max level index: ' + str(maxLevelIndex)
+        targetTrack = -1 or c
+        if not -1 <= targetTrack < len(ToontownBattleGlobals.Tracks):
+            return 'Invalid target track index: ' + str(targetTrack)
+        for track in xrange(0, len(ToontownBattleGlobals.Tracks)):
+            if (targetTrack == -1) or (track == targetTrack):
+                inventory.inventory[track][:maxLevelIndex + 1] = [0] * (maxLevelIndex+1)
+        invoker.b_setInventory(inventory.makeNetString())
+        if targetTrack == -1:
+            return 'Inventory reset.'
+        else:
+            return 'Inventory reset for target track index: ' + str(targetTrack)
+    elif a == 'restock':
+        maxLevelIndex = b or 5
+        if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
+            return 'Invalid max level index: ' + str(maxLevelIndex)
+        targetTrack = -1 or c
+        if not -1 <= targetTrack < len(ToontownBattleGlobals.Tracks):
+            return 'Invalid target track index: ' + str(targetTrack)
+        if (targetTrack != -1) and (not invoker.hasTrackAccess(targetTrack)):
+            return "You don't have target track index: " + str(targetTrack)
+        inventory.NPCMaxOutInv(targetTrack=targetTrack, maxLevelIndex=maxLevelIndex)
+        invoker.b_setInventory(inventory.makeNetString())
+        if targetTrack == -1:
+            return 'Inventory restocked.'
+        else:
+            return 'Inventory restocked for target track index: ' + str(targetTrack)
+    else:
+        try:
+            targetTrack = int(a)
+        except:
+            return 'Invalid first argument.'
+        if not invoker.hasTrackAccess(targetTrack):
+            return "You don't have target track index: " + str(targetTrack)
+        maxLevelIndex = b or 6
+        if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
+            return 'Invalid max level index: ' + str(maxLevelIndex)
+        for _ in xrange(c):
+            inventory.addItem(targetTrack, maxLevelIndex)
+        invoker.b_setInventory(inventory.makeNetString())
+        return 'Restored %d Gags to: %d, %d' % (c, targetTrack, maxLevelIndex)
+
+@magicWord(category=CATEGORY_MODERATION, types=[str])
+def allSummons():
+    """
+    Max the invoker's summons
+    """
+    invoker = spellbook.getInvoker()
+
+    numSuits = len(SuitDNA.suitHeadTypes)
+    fullSetForSuit = 1 | 2 | 4
+    allSummons = numSuits * [fullSetForSuit]
+    invoker.b_setCogSummonsEarned(allSummons)
+    return 'Lots of summons!'

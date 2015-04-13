@@ -31,8 +31,10 @@ import time
 
 class ToonBase(OTPBase.OTPBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonBase')
+    localavatar = None 
 
     def __init__(self):
+    	self.localavatar = None
         self.display = DisplayOptions()
         OTPBase.OTPBase.__init__(self)
         base.enableMusic(self.display.settings.getBool('game', 'music', True))

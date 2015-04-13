@@ -18,7 +18,6 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         self.zoneId = 0
         self.dna = SuitDNA.SuitDNA()
         self.virtual = 0
-        self.waiter = 0
         self.skeleRevives = 0
         self.maxSkeleRevives = 0
         self.reviveFlag = 0
@@ -31,9 +30,9 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
     def delete(self):
         self.sp = None
         del self.dna
-
         DistributedAvatarAI.DistributedAvatarAI.delete(self)
         SuitBase.SuitBase.delete(self)
+        return
 
     def requestRemoval(self):
         if self.sp != None:
@@ -44,7 +43,7 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
 
     def setLevel(self, lvl = None):
         attributes = SuitBattleGlobals.SuitAttributes[self.dna.name]
-        if lvl:
+        if lvl is not None:
             self.level = lvl - attributes['level'] - 1
         else:
             self.level = SuitBattleGlobals.pickFromFreqList(attributes['freq'])
@@ -183,16 +182,3 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
 
     def isVirtual(self):
         return self.getVirtual()
-
-    def setWaiter(self, flag):
-        SuitBase.SuitBase.setWaiter(self, flag)
-
-    def d_setWaiter(self, flag):
-        self.sendUpdate('setWaiter', [flag])
-
-    def b_setWaiter(self, flag):
-        self.setWaiter(flag)
-        self.d_setWaiter(flag)
-
-    def getWaiter(self):
-        return self.waiter
