@@ -24,9 +24,9 @@ from direct.showbase.PythonUtil import Functor
 from toontown.distributed import DelayDelete
 from toontown.chat.ChatGlobals import *
 from toontown.nametag.NametagGlobals import *
+from otp.nametag.NametagConstants import name
 import AccessoryGlobals
 import types
-from otp.nametag import NametagGroup
 
 def teleportDebug(requestStatus, msg, onlyIfToAv = True):
     if teleportNotify.getDebug():
