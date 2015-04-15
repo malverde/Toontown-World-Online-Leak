@@ -178,8 +178,8 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
         self.cogDead = False
 
     def enterWrapUp(self):
-        taskMgr.doMethodLater(60, self.b_setState, self.uniqueName('restart-election'), extraArgs=['Off'])
-
+        #taskMgr.doMethodLater(60, self.b_setState, self.uniqueName('restart-election'), extraArgs=['Off'])
+        taskMgr.doMethodLater(60, self.noMoreLogins, 'kill-csmud')
 
     '''
      ELETION DAY MISC.
@@ -232,6 +232,13 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
     def getState(self):
         return (self.state, self.stateTime)
 
+    def noMoreLogins(self, task):
+        task.delayTime = 60
+        csm = OTP_DO_ID_CLIENT_SERVICES_MANAGER
+        dg = simbase.air.dclassesByName['ClientServicesManager'].getFieldByName('setClosed').aiFormatUpdate(csm, csm, simbase.air.ourChannel, [True])
+        simbase.air.send(dg)
+        return task.again
+
 @magicWord(category=CATEGORY_ADMIN, types=[str])
 def election(state):
     event = simbase.air.doFind('ElectionEvent')
@@ -245,3 +252,14 @@ def election(state):
     event.b_setState(state)
 
     return 'Election event now in %r state' % state
+
+@magicWord()
+def nologin():
+    """
+    Disable the CSM's login and reject all future connections.
+    This is only a randomly placed MW for doomsday... run along people.
+    """
+    csm = OTP_DO_ID_CLIENT_SERVICES_MANAGER
+    dg = simbase.air.dclassesByName['ClientServicesManager'].getFieldByName('setClosed').aiFormatUpdate(csm, csm, simbase.air.ourChannel, [True])
+    simbase.air.send(dg)
+    return "The CSMUD will reject all logins from now on."
