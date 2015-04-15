@@ -3198,6 +3198,8 @@ struct PotentialToon {
 dclass ClientServicesManager : DistributedObjectGlobal {
   login(string cookie, blob sig) clsend;
   acceptLogin();
+  
+  setClosed(bool closed);
 
   requestAvatars() clsend;
   setAvatars(PotentialToon avatars[]);
