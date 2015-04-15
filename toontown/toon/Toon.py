@@ -24,7 +24,7 @@ from direct.showbase.PythonUtil import Functor
 from toontown.distributed import DelayDelete
 from toontown.chat.ChatGlobals import *
 from toontown.nametag.NametagGlobals import *
-from otp.nametag.NametagConstants import name
+from otp.nametag.NametagConstants import *
 import AccessoryGlobals
 import types
 
