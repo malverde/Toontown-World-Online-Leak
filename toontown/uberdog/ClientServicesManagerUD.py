@@ -889,6 +889,10 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
 
         self.account2fsm[sender] = fsmtype(self, sender)
         self.account2fsm[sender].request('Start', *args)
+	
+    def setClosed(self, closed):
+        self.notify.warning('AI %s has told us to start rejecting logins!' % str(self.air.getMsgSender()))
+        self.closed = closed
 
     def setLoginEnabled(self, enable):
         if not enable:
@@ -899,7 +903,15 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         self.notify.debug('Received login cookie %r from %d' % (cookie, self.air.getMsgSender()))
 
         sender = self.air.getMsgSender()
-
+	
+	if self.closed:
+            # Doomsday is over... no more logging in until beta!
+            dg = PyDatagram()
+            dg.addServerHeader(sender, simbase.air.ourChannel, CLIENTAGENT_EJECT)
+            dg.addUint16(156)
+            dg.addString('Toontown World is now closed and not accepting logins right now. Learn more and check out the updates on our website.!')
+            self.air.send(dg)
+            
         if not self.loginsEnabled:
             # Logins are currently disabled... RIP!
             dg = PyDatagram()
