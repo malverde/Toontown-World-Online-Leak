@@ -75,8 +75,8 @@ if($stmt = $DB_CON -> prepare("SELECT `ID`, `Username`, `Password`, `TOC`, `Veri
                 $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
                 $cookie = $iv . mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $secret, $cookie, MCRYPT_MODE_CBC, $iv);
             $cookie = base64_encode($cookie);
-            $gameserver = "";
-            $loginArray = array('success' => true, 'ttrgameserver' => $gameserver 'token' => $cookie);
+            $gameserver = "54.174.138.210";
+            $loginArray = array('success' => true, 'gameserver' => $gameserver 'token' => $cookie);
             $loginJSON = json_encode($loginArray);
         }
     }
