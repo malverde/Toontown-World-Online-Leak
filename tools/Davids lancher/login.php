@@ -69,14 +69,14 @@ if($stmt = $DB_CON -> prepare("SELECT `ID`, `Username`, `Password`, `TOC`, `Veri
             $stmt -> close();
             $DB_CON -> close();
             $TIME = time();
-            $COOKIE = json_encode(array('userid' => $ID, 'timestamp' => $TIME, 'accesslevel' => $Group));
+            $cookie = json_encode(array('userid' => $ID, 'timestamp' => $TIME, 'accesslevel' => $Group));
             $secret = '18d0d39be1b3fa05';
                 $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
                 $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-                $COOKIE = $iv . mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $secret, $COOKIE, MCRYPT_MODE_CBC, $iv);
-            $COOKIE = base64_encode($COOKIE);
+                $cookie = $iv . mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $secret, $cookie, MCRYPT_MODE_CBC, $iv);
+            $cookie = base64_encode($cookie);
             $gameserver = "";
-            $loginArray = array('success' => true, 'token' => $COOKIE);
+            $loginArray = array('success' => true, 'ttrgameserver' => $gameserver 'token' => $cookie);
             $loginJSON = json_encode($loginArray);
         }
     }
