@@ -82,7 +82,7 @@ class DistributedNPCClerkAI(DistributedNPCToonBaseAI):
                 self.air.writeServerEvent('suspicious', avId=avId, issue='DistributedNPCClerkAI.setInventory busy with %s' % self.busy)
                 self.notify.warning('setInventory from unknown avId: %s busy: %s' % (avId, self.busy))
             return
-        if self.air.doId2do.has_key(avId):
+        if avId in self.air.doId2do:
             av = self.air.doId2do[avId]
             newInventory = av.inventory.makeFromNetString(blob)
             currentMoney = av.getMoney()

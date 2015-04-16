@@ -1,3 +1,4 @@
+from toontown.building import DistributedLibraryInterior/AI
 from direct.distributed import DistributedObjectGlobal
 from toontown.ai import WelcomeValleyManager/AI
 from toontown.building import DistributedAnimatedProp/AI
@@ -43,7 +44,7 @@ from toontown.minigame import DistributedMinigameTemplate/AI
 from toontown.minigame import DistributedRaceGame/AI
 from toontown.minigame import DistributedCannonGame/AI
 from toontown.minigame import DistributedPhotoGame/AI
-from toontown.minigame import DistributedPatternGame/AI
+//from toontown.minigame import DistributedPatternGame/AI
 from toontown.minigame import DistributedRingGame/AI
 from toontown.minigame import DistributedTagGame/AI
 from toontown.minigame import DistributedMazeGame/AI
@@ -640,32 +641,32 @@ dclass DistributedTrolley : DistributedObject {
   requestExit() airecv clsend;
   setMinigameZone(uint32 zoneId, uint16 minigameId);
 };
-
 dclass DistributedSuitPlanner : DistributedObject {
-  setZoneId(uint32 zoneId) required broadcast ram;
+  setZoneId(uint32) required broadcast ram;
   suitListQuery() airecv clsend;
-  suitListResponse(uint8 suitList[]);
+  suitListResponse(uint8[]);
   buildingListQuery() airecv clsend;
-  buildingListResponse(uint8 buildingList[]);
+  buildingListResponse(uint8[]);
 };
 
 dclass DistributedSuitBase : DistributedObject {
   denyBattle();
-  setDNAString(blob dnaString) required broadcast ram;
-  setLevelDist(int16 level) required broadcast ram;
-  setBrushOff(int16 index) broadcast;
-  setSkelecog(uint8 flag) required broadcast ram;
-  setSkeleRevives(uint8 num) required broadcast ram;
-  setHP(int16 hp) required broadcast ram;
+  setDNAString(blob) required broadcast ram;
+  setLevelDist(int16) required broadcast ram;
+  setBrushOff(int16) broadcast;
+  setWaiter(uint8) broadcast ram;
+  setSkelecog(uint8) required broadcast ram;
+  setSkeleRevives(uint8) required broadcast ram;
+  setHP(int16) required broadcast ram;
 };
 
 dclass DistributedSuit : DistributedSuitBase {
-  requestBattle(int16/10 x, int16/10 y, int16/10 z, int16/10 h, int16/10 p, int16/10 r) airecv clsend;
-  setSPDoId(uint32 doId) required broadcast ram;
-  setPathEndpoints(uint16 start, uint16 end, uint16 minPathLen, uint16 maxPathLen) required broadcast ram;
-  setPathPosition(uint16 index, int16 timestamp) required broadcast ram;
-  setPathState(int8 state) required broadcast ram;
-  debugSuitPosition(int16/10 elapsed, int16 currentLeg, int16/10 x, int16/10 y, int16 timestamp) broadcast;
+  requestBattle(int16/10, int16/10, int16/10, int16/10, int16/10, int16/10) airecv clsend;
+  setSPDoId(uint32) required broadcast ram;
+  setPathEndpoints(uint16, uint16, uint16, uint16) required broadcast ram;
+  setPathPosition(uint16, int16) required broadcast ram;
+  setPathState(int8) required broadcast ram;
+  debugSuitPosition(int16/10, int16, int16/10, int16/10, int16) broadcast;
 };
 
 dclass DistributedTutorialSuit : DistributedSuitBase {
@@ -1741,6 +1742,9 @@ dclass DistributedPetshopInterior : DistributedObject {
 
 dclass DistributedKartShopInterior : DistributedObject {
   setZoneIdAndBlock(uint32 zoneId, uint16 block) required broadcast ram;
+};
+dclass DistributedLibraryInterior : DistributedObject {
+  setZoneIdAndBlock(uint32, uint16) required broadcast ram;
 };
 
 dclass DistributedDoor : DistributedObject {

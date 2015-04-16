@@ -8,6 +8,7 @@ lMinniesMelodyland = "Minnie's Melodyland"
 lToontownCentral = 'Toontown Central'
 lGoofySpeedway = 'Goofy Speedway'
 lOutdoorZone = "Chip 'n Dale's Acorn Acres"
+lFunnyFarm = 'Funny Farms'
 lGolfZone = "Chip 'n Dale's MiniGolf"
 lCancel = 'Cancel'
 lClose = 'Close'

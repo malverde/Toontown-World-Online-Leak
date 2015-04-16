@@ -1,12 +1,18 @@
 from pandac.PandaModules import *
-from direct.directnotify.DirectNotifyGlobal import *
+import random
+import string
+from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import ZoneUtil
 from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import ToontownBattleGlobals
+from toontown.hood import HoodUtil
 from toontown.building import SuitBuildingGlobals
 from toontown.dna.DNAParser import DNASuitPoint, DNAStorage, loadDNAFileAI
+from direct.stdpy.file import open
+
 
 class SuitPlannerBase:
-    notify = directNotify.newCategory('SuitPlannerBase')
+    notify = DirectNotifyGlobal.directNotify.newCategory('SuitPlannerBase')
     SuitHoodInfo = [[2100,
       5,
       15,
@@ -372,7 +378,7 @@ class SuitPlannerBase:
        0,
        0),
       (7, 8, 9, 10),
-      []],
+      []],                  
      [11000,
       3,
       15,
@@ -481,7 +487,7 @@ class SuitPlannerBase:
          0]
         for level in levels:
             minFloors, maxFloors = SuitBuildingGlobals.SuitBuildingInfo[level - 1][0]
-            for i in xrange(minFloors - 1, maxFloors):
+            for i in range(minFloors - 1, maxFloors):
                 heights[i] += 1
 
         currHoodInfo[SUIT_HOOD_INFO_HEIGHTS] = heights
@@ -504,7 +510,6 @@ class SuitPlannerBase:
 
     def delete(self):
         del self.dnaStore
-
     def setupDNA(self):
         if self.dnaStore:
             return None
@@ -521,7 +526,7 @@ class SuitPlannerBase:
         if hoodId == zoneId:
             zoneId = 'sz'
         return 'phase_%s/dna/%s_%s.pdna' % (phase, hood, zoneId)
-
+        
     def getZoneId(self):
         return self.zoneId
 
@@ -577,10 +582,11 @@ class SuitPlannerBase:
         endPoint = startAndEnd[1]
         path = self.dnaStore.getSuitPath(startPoint, endPoint)
         numPathPoints = path.getNumPoints()
-        for i in xrange(numPathPoints - 1):
+        for i in range(numPathPoints - 1):
             zone = self.dnaStore.getSuitEdgeZone(path.getPointIndex(i), path.getPointIndex(i + 1))
-            travelTime = self.dnaStore.getSuitEdgeTravelTime(path.getPointIndex(i), path.getPointIndex(i + 1), self.suitWalkSpeed)
+            travelTime = self.dnaStore.suitGraph.getSuitEdgeTravelTime(path.getPointIndex(i), path.getPointIndex(i + 1), self.suitWalkSpeed)
             self.notify.debug('edge from point ' + `i` + ' to point ' + `(i + 1)` + ' is in zone: ' + `zone` + ' and will take ' + `travelTime` + ' seconds to walk.')
+
 
     def genPath(self, startPoint, endPoint, minPathLen, maxPathLen):
         return self.dnaStore.getSuitPath(startPoint, endPoint, minPathLen, maxPathLen)

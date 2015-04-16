@@ -1,33 +1,30 @@
-import copy
-from direct.directnotify import DirectNotifyGlobal
-from direct.directtools.DirectGeometry import CLAMP
+from pandac.PandaModules import *
+from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
+from direct.directtools.DirectGeometry import CLAMP
+from direct.task import Task
+from otp.avatar import DistributedAvatar
+import Suit
+from toontown.toonbase import ToontownGlobals
+from toontown.battle import DistributedBattle
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from direct.interval.IntervalGlobal import *
-from direct.task import Task
-import math
-from pandac.PandaModules import *
-import random
-
-import DistributedSuitBase
-import DistributedSuitPlanner
-import Suit
-import SuitBase
-import SuitDialog
 import SuitTimings
-from otp.avatar import DistributedAvatar
-from otp.otpbase import OTPLocalizer
+import SuitBase
+import DistributedSuitPlanner
+from direct.directnotify import DirectNotifyGlobal
+import SuitDialog
 from toontown.battle import BattleProps
-from toontown.battle import DistributedBattle
-from toontown.chat.ChatGlobals import *
 from toontown.distributed.DelayDeletable import DelayDeletable
+import math
+import copy
+import DistributedSuitBase
+from toontown.chat.ChatGlobals import *
+from otp.otpbase import OTPLocalizer
+import random
+from SuitLegList import *
 from toontown.nametag import NametagGlobals
 from toontown.nametag.NametagGlobals import *
-from toontown.suit.SuitLegList import *
-from toontown.toonbase import ToontownGlobals
-
-
 STAND_OUTSIDE_DOOR = 2.5
 BATTLE_IGNORE_TIME = 6
 BATTLE_WAIT_TIME = 3
@@ -348,6 +345,7 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         self.fsm.request(leg.getTypeName(), [leg, time])
         return 0
 
+
     def stopPathNow(self):
         name = self.taskName('move')
         taskMgr.remove(name)
@@ -637,8 +635,9 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
                 self.playDialogueForString(self.nametag.getChatText())
                 if self.soundChatBubble != None:
                     base.playSfx(self.soundChatBubble, node=self)
-            elif self.nametag.getStompChatText():
-                self.playDialogueForString(self.nametag.getStompChatText(), self.nametag.CHAT_STOMP_DELAY)
+            elif self.nametag.getChatStomp() > 0:
+                self.playDialogueForString(self.nametag.getStompText(), self.nametag.getStompDelay())
+        return
 
     def playDialogueForString(self, chatString, delay = 0.0):
         if len(chatString) == 0:

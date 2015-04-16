@@ -44,7 +44,7 @@ class ChatManager(DirectObject.DirectObject):
     def __init__(self, cr, localAvatar):
         self.cr = cr
         self.localAvatar = localAvatar
-        self.wantBackgroundFocus = 1
+        self.wantBackgroundFocus = not base.wantWASD
         self.__scObscured = 0
         self.__normalObscured = 0
         self.openChatWarning = None
@@ -218,6 +218,8 @@ class ChatManager(DirectObject.DirectObject):
             if self.wantBackgroundFocus:
                 self.chatInputNormal.chatEntry['backgroundFocus'] = 1
             self.acceptOnce('enterNormalChat', self.fsm.request, ['normalChat'])
+            if not self.wantBackgroundFocus:
+                self.accept('t', messenger.send, ['enterNormalChat'])            
 
     def checkObscurred(self):
         if not self.__scObscured:
@@ -401,10 +403,14 @@ class ChatManager(DirectObject.DirectObject):
         self.chatInputSpeedChat.hide()
 
     def enterNormalChat(self):
+        if base.wantWASD:
+            base.localAvatar.controlManager.disableWASD()    
         result = self.chatInputNormal.activateByData()
         return result
 
     def exitNormalChat(self):
+        if base.wantWASD:
+            base.localAvatar.controlManager.enableWASD()    
         self.chatInputNormal.deactivate()
 
     def enterOpenChatWarning(self):
@@ -518,3 +524,10 @@ class ChatManager(DirectObject.DirectObject):
 
     def __privacyPolicyDone(self):
         self.fsm.request('activateChat')
+
+    def reloadWASD(self):
+        self.wantBackgroundFocus = not base.wantWASD
+        if self.wantBackgroundFocus:
+            self.chatInputNormal.chatEntry['backgroundFocus'] = 1
+        else:
+            self.chatInputNormal.chatEntry['backgroundFocus'] = 0

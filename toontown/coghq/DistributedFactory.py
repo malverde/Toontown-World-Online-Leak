@@ -174,7 +174,7 @@ class DistributedFactory(DistributedLevel.DistributedLevel, FactoryBase.FactoryB
     def getBossBattleTaunt(self):
         return TTLocalizer.FactoryBossBattleTaunt
 
-@magicWord(category=CATEGORY_ADMIN, types=[int])
+@magicWord(category=CATEGORY_MODERATION, types=[int])
 def factoryWarp(zoneNum):
     """
     Warp to a specific factory zone.

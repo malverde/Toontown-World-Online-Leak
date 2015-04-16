@@ -33,6 +33,7 @@ class ToonBase(OTPBase.OTPBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonBase')
 
     def __init__(self):
+    	self.localavatar = None
         self.display = DisplayOptions()
         OTPBase.OTPBase.__init__(self)
         base.enableMusic(self.display.settings.getBool('game', 'music', True))
@@ -47,7 +48,7 @@ class ToonBase(OTPBase.OTPBase):
         self.wantDynamicShadows = 0
         self.exitErrorCode = 0
         camera.setPosHpr(0, 0, 0, 0, 0, 0)
-        self.camLens.setMinFov(ToontownGlobals.DefaultCameraFov/(4./3.))
+        self.camLens.setFov(ToontownGlobals.DefaultCameraFov)
         self.camLens.setNearFar(ToontownGlobals.DefaultCameraNear, ToontownGlobals.DefaultCameraFar)
         self.cam2d.node().setCameraMask(BitMask32.bit(1))
         self.musicManager.setVolume(0.65)
@@ -157,6 +158,23 @@ class ToonBase(OTPBase.OTPBase):
         self.oldY = max(1, base.win.getYSize())
         self.aspectRatio = float(self.oldX) / self.oldY
         self.localAvatarStyle = None
+		# WASD option :D
+        self.wantWASD = self.display.settings.getBool('game', 'want-WASD', False)
+        
+        self.Move_Up = 'arrow_up'
+        self.Move_Left = 'arrow_left'       
+        self.Move_Down = 'arrow_down'
+        self.Move_Right = 'arrow_right'
+        self.JUMP = 'control'
+        
+        if self.wantWASD:
+            self.Move_Up = 'w'
+            self.Move_Left = 'a'            
+            self.Move_Down = 's'
+            self.Move_Right = 'd'
+            self.JUMP = 'space'
+        # Show cog levels on the battle GUI :D
+#        self.wantCogLevelGui = settings.get('want-ShowCogLevel', True)        
         return
 
     def openMainWindow(self, *args, **kw):

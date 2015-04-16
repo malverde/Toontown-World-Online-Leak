@@ -11,9 +11,16 @@ class DistributedPartyCannonActivityAI(DistributedPartyActivityAI):
         self.cloudColors = {}
         self.cloudsHit = {}
 
-    def setMovie(self, todo0, todo1):
-        pass
-
+    def setMovie(self, mode, toonId):
+        self.notify.debug('%s setMovie(%s, %s)' % (self.doId, toonId, mode))
+        if toonId != base.localAvatar.doId:
+            return
+        if mode == PartyGlobals.CANNON_MOVIE_CLEAR:
+            self.landToon(toonId)
+        elif mode == PartyGlobals.CANNON_MOVIE_LANDED:
+            self.landToon(toonId)
+        elif mode == PartyGlobals.CANNON_MOVIE_FORCE_EXIT:
+            self.landToon(toonId)
     def setLanded(self, toonId):
         avId = self.air.getAvatarIdFromSender()
         if avId != toonId:
@@ -58,13 +65,22 @@ class DistributedPartyCannonActivityAI(DistributedPartyActivityAI):
     def setToonTrajectoryAi(self, launchTime, x, y, z, h, p, r, vx, vy, vz):
         self.sendUpdate('setToonTrajectory', [self.air.getAvatarIdFromSender(), launchTime, x, y, z, h, p, r, vx, vy, vz])
 
-    def setToonTrajectory(self, todo0, todo1, todo2, todo3, todo4, todo5, todo6, todo7, todo8, todo9, todo10):
-        pass
-
+    def setToonTrajectory(self, avId, launchTime, x, y, z, h, p, r, vx, vy, vz):
+        if avId == localAvatar.doId:
+            return
+        startPos = Vec3(x, y, z)
+        startHpr = Vec3(h, p, r)
+        startVel = Vec3(vx, vy, vz)
+        startT = globalClockDelta.networkToLocalTime(launchTime, bits=31) + 0.2
+        trajectory = Trajectory.Trajectory(0.0, startPos, startVel)
+        self._avId2trajectoryInfo[avId] = ScratchPad(startPos=startPos, startHpr=startHpr, startVel=startVel, startT=startT, trajectory=trajectory)
+   
     def updateToonTrajectoryStartVelAi(self, vx, vy, vz):
         avId = self.air.getAvatarIdFromSender()
         self.sendUpdate('updateToonTrajectoryStartVel', [avId, vx, vy, vz])
 
-    def updateToonTrajectoryStartVel(self, todo0, todo1, todo2, todo3):
-        pass
-
+    def updateToonTrajectoryStartVel(self, avId, vx, vy, vz):
+        if avId == localAvatar.doId:
+            return
+        if avId in self._avId2trajectoryInfo:
+            self._avId2trajectoryInfo[avId].trajectory.setStartVel(Vec3(vx, vy, vz))
