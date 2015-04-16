@@ -1,0 +1,13 @@
+{"phase_3.mf": {"dl": "phase_3.mf", "only": ["win32", "darwin", "linux2"], "hash": "c4e42e7ba2ec29020dadc6dd3d2988412f1d04a8", "compHash": "db1dbf5a65e2a7cf1e8d437e548f8cae6904d967", "patches": {}}, 
+"phase_11.mf": {"dl": "phase_11.mf", "only": ["win32", "darwin", "linux2"], "hash": "660d259f50f66bfc3bd8a7a03701a7dd95eb42a1", "compHash": "f4dfa3bab00d85afc4f045bc44cdfb3333b4eacf"},
+"phase_4.mf": {"dl": "phase_4.mf", "only": ["win32", "darwin", "linux2"], "hash": "660d259f50f66bfc3bd8a7a03701a7dd95eb42a1", "compHash": "f4dfa3bab00d85afc4f045bc44cdfb3333b4eacf"},
+"phase_5.mf": {"dl": "phase_5.mf", "only": ["win32", "darwin", "linux2"], "hash": "660d259f50f66bfc3bd8a7a03701a7dd95eb42a1", "compHash": "f4dfa3bab00d85afc4f045bc44cdfb3333b4eacf"},
+"phase_6.mf": {"dl": "phase_6.mf", "only": ["win32", "darwin", "linux2"], "hash": "660d259f50f66bfc3bd8a7a03701a7dd95eb42a1", "compHash": "f4dfa3bab00d85afc4f045bc44cdfb3333b4eacf"},
+"phase_7.mf": {"dl": "phase_7.mf", "only": ["win32", "darwin", "linux2"], "hash": "660d259f50f66bfc3bd8a7a03701a7dd95eb42a1", "compHash": "f4dfa3bab00d85afc4f045bc44cdfb3333b4eacf"},
+"phase_8.mf": {"dl": "phase_8.mf", "only": ["win32", "darwin", "linux2"], "hash": "660d259f50f66bfc3bd8a7a03701a7dd95eb42a1", "compHash": "f4dfa3bab00d85afc4f045bc44cdfb3333b4eacf"},
+"phase_9.mf": {"dl": "phase_9.mf", "only": ["win32", "darwin", "linux2"], "hash": "660d259f50f66bfc3bd8a7a03701a7dd95eb42a1", "compHash": "f4dfa3bab00d85afc4f045bc44cdfb3333b4eacf"},
+"phase_10.mf": {"dl": "phase_10.mf", "only": ["win32", "darwin", "linux2"], "hash": "660d259f50f66bfc3bd8a7a03701a7dd95eb42a1", "compHash": "f4dfa3bab00d85afc4f045bc44cdfb3333b4eacf"},
+"phase_12.mf": {"dl": "phase_12.mf", "only": ["win32", "darwin", "linux2"], "hash": "660d259f50f66bfc3bd8a7a03701a7dd95eb42a1", "compHash": "f4dfa3bab00d85afc4f045bc44cdfb3333b4eacf"},
+"phase_13.mf": {"dl": "phase_13.mf", "only": ["win32", "darwin", "linux2"], "hash": "660d259f50f66bfc3bd8a7a03701a7dd95eb42a1", "compHash": "f4dfa3bab00d85afc4f045bc44cdfb3333b4eacf"},
+"GameData.pyd": {"dl": "GameData.pyd", "only": ["win32"], "hash": "660d259f50f66bfc3bd8a7a03701a7dd95eb42a1", "compHash": "f4dfa3bab00d85afc4f045bc44cdfb3333b4eacf"},
+"GameData.so": {"dl": "GameData.so", "only": ["darwin", "linux2"], "hash": "660d259f50f66bfc3bd8a7a03701a7dd95eb42a1", "compHash": "f4dfa3bab00d85afc4f045bc44cdfb3333b4eacf"}}
