@@ -56,8 +56,8 @@ dc-file config/otp.dc
 # Beta Modifications
 # Temporary modifications for unimplemented features go here.
 want-pets #f
-want-news-tab #f
-want-news-page #f
+want-news-tab #t
+want-news-page #t
 want-accessories #t
 want-parties #t
 want-gardening #f
