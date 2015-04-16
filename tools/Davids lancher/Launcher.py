@@ -251,7 +251,9 @@ class GoButton(ImageButton):
         os.environ['TTR_PLAYCOOKIE'] = cookie
         os.environ['TTR_GAMESERVER'] = gameserver
         # Start the game...
-        subprocess.Popen('TTWEngine', creationflags=0x08000000)
+        from panda3d.core import *
+        import GameData
+        import toontown.toonbase.ToontownStartDist
         app.Exit()
 
     def Patch(self, callback):
