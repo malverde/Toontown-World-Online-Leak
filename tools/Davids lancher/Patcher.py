@@ -35,7 +35,7 @@ if not MIRRORS:
 # de-unicodify the mirrors, just to keep with convention of all patcher strings are ascii
 MIRRORS = [mirror.encode('ascii') for mirror in MIRRORS]
  
-MANIFEST_URL = 'https://toontownworldonline.com/arhchived%20data/download_ttw-launcher/content/patchmanifest.txt'
+MANIFEST_URL = 'https://toontownworldonline.com/download/patchmanifest.txt'
  
 # Begin by obtaining the manifest
 MANIFEST = urllib2.urlopen(MANIFEST_URL).read()
