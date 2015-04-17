@@ -40,7 +40,7 @@ from toontown.hood import SellbotHQAI
 from toontown.hood import TTHoodAI
 from toontown.hood import ZoneUtil
 from toontown.pets.PetManagerAI import PetManagerAI
-from toontown.safezone.SafeZoneManagerAI import SafeZoneManagerAI
+
 from toontown.suit.SuitInvasionManagerAI import SuitInvasionManagerAI
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownGlobals
@@ -92,8 +92,6 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.magicWordManager.generateWithRequired(2)
         self.newsManager = NewsManagerAI(self)
         self.newsManager.generateWithRequired(2)
-        self.safeZoneManager = SafeZoneManagerAI(self)
-        self.safeZoneManager.generateWithRequired(2)
         self.tutorialManager = TutorialManagerAI(self)
         self.tutorialManager.generateWithRequired(2)
         self.friendManager = FriendManagerAI(self)
