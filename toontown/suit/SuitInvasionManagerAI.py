@@ -2,6 +2,7 @@ import SuitDNA
 from otp.ai.MagicWordGlobal import *
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
+import random 
 from random import randint, choice
 import datetime
 from direct.directnotify import DirectNotifyGlobal
