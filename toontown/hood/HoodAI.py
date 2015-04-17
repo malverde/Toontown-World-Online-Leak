@@ -32,7 +32,7 @@ class HoodAI:
             self.notify.info('Creating zone... ' + self.getLocationName(zoneId))
             dnaFileName = self.air.lookupDNAFileName(zoneId)
             dnaStore = DNAStorage()
-            dnaData = simbase.air.loadDNAAI(dnaStore, dnaFileName)
+            dnaData = simbase.air.loadDNAFileAI(dnaStore, dnaFileName)
             self.air.dnaStoreMap[zoneId] = dnaStore
             self.air.dnaDataMap[zoneId] = dnaData
 
