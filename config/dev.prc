@@ -45,7 +45,7 @@ default-model-extension .bam
 # Server settings
 want-rpc-server #t
 rpc-server-endpoint http://localhost:8080/
-rpc-server-secret 0123456789abcdef    (need a more secure one )
+rpc-server-secret 0123456789abcdef
 eventlog-host 127.0.0.1
 want-cheesy-expirations #t
 
