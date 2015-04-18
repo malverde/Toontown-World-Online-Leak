@@ -1,20 +1,30 @@
+from direct.directnotify.DirectNotifyGlobal import directNotify
+from direct.distributed.ClockDelta import *
+from direct.task import Task
+
 from toontown.toonbase import ToontownGlobals
+from toontown.parties import PartyGlobals
+
+from toontown.effects.DistributedFireworkShowAI import DistributedFireworkShowAI
+from toontown.effects import FireworkShows
+
+import random
+import time
 
 class HolidayManagerAI:
-
     def __init__(self, air):
         self.air = air
         self.currentHolidays = []
         self.xpMultiplier = 1
-        self.setup()
+
 
     def setup(self):
-        holidays = config.GetString('active-holidays','')
+        holidays = config.GetString('active-holidays', '')
         if holidays != '':
             for holiday in holidays.split(","):
                 holiday = int(holiday)
                 self.currentHolidays.append(holiday)
-            simbase.air.newsManager.setHolidayIdList([self.currentHolidays])
+            base.cr.newsManager.setHolidayIdList([self.currentHolidays])
 
     def isHolidayRunning(self, holidayId):
         if holidayId in self.currentHolidays:
