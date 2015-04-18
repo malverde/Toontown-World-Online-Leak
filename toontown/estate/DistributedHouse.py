@@ -19,11 +19,9 @@ from toontown.hood import Place
 import HouseGlobals
 from toontown.building import ToonInteriorColors
 from direct.showbase.MessengerGlobal import messenger
-from toontown.dna.DNADoor import DNADoor
+from toontown.dna.DNAParser import DNADoor
 from toontown.nametag.NametagGroup import NametagGroup
 from toontown.nametag.Nametag import Nametag
- 
-
 
 class DistributedHouse(DistributedObject.DistributedObject):
     notify = directNotify.newCategory('DistributedHouse')
@@ -88,7 +86,7 @@ class DistributedHouse(DistributedObject.DistributedObject):
             self.cr.playGame.hood.loader.houseId2house[self.doId] = self.house
             if self.houseType == HouseGlobals.HOUSE_DEFAULT:
                 self.__setHouseColor()
-            if self.houseType == HouseGlobals.HOUSE_DEFAULT or self.houseType == HouseGlobals.HOUSE_TEST:
+            if self.houseType == HouseGlobals.HOUSE_DEFAULT or self.houseType == HouseGlobals.HOUSE_CABIN:
                 self.__setupDoor()
             else:
                 self.__setupDoorCustom()
@@ -238,13 +236,13 @@ class DistributedHouse(DistributedObject.DistributedObject):
         self.nametag.setFont(ToontownGlobals.getBuildingNametagFont())
         if TTLocalizer.BuildingNametagShadow:
             self.nametag.setShadow(*TTLocalizer.BuildingNametagShadow)
-	    self.nametag.hideChat()
+        self.nametag.hideChat()
         self.nametag.hideThought()
         nametagColor = NametagGlobals.NametagColors[NametagGlobals.CCToonBuilding]
         self.nametag.setNametagColor(nametagColor)
         self.nametag.setActive(False)
         self.nametag.setAvatar(self.house)
-        self.nametag.setText(houseName)		
+        self.nametag.setText(houseName)
         self.nametag.manage(base.marginManager)
         self.nametag.updateAll()
 
@@ -268,6 +266,25 @@ class DistributedHouse(DistributedObject.DistributedObject):
     def setHouseType(self, index):
         self.notify.debug('setHouseType')
         self.houseType = index
+
+        if self.house_loaded:
+            self.unload()
+            self.clearNametag()
+            if self.namePlate:
+                self.namePlate.removeNode()
+                del self.namePlate
+                self.namePlate = None
+            if self.floorMat:
+                self.floorMat.removeNode()
+                del self.floorMat
+                self.floorMat = None
+            if self.house:
+                self.house.removeNode()
+                del self.house
+            self.house_loaded = 0
+            del self.randomGenerator
+
+            self.load()
 
     def setFavoriteNum(self, index):
         self.notify.debug('setFavoriteNum')

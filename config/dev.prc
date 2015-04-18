@@ -92,8 +92,8 @@ force-player-understandable #t
 want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
-want-mega-invasions #f
-mega-invasion-cog-type nc
+want-mega-invasions #t
+mega-invasion-cog-type dt
 want-speedhack-fix #t 
 
 
@@ -108,4 +108,5 @@ want-speedhack-fix #t
 want-cogdominiums #f
 want-game-tables #f
 force-skip-tutorial #f
-active-holidays 19
+active-holidays 96
+force-holiday-decorations 6
