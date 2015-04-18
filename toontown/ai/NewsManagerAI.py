@@ -55,8 +55,8 @@ class NewsManagerAI(DistributedObjectAI):
     def setInvasionStatus(self, msgType, cogType, numRemaining, skeleton):
         self.sendUpdate('setInvasionStatus', args=[msgType, cogType, numRemaining, skeleton])
 
-    def setHolidayIdList(self, holidays):
-        self.sendUpdate('setHolidayIdList', holidays)
+    def setHolidayIdList(self, todo0):
+        pass
 
     def holidayNotify(self):
         pass
