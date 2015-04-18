@@ -78,12 +78,12 @@ force-player-understandable #t
 
 # Holidays and Events
 force-holiday-decorations 
-active-holidays 0
+active-holidays 96 
 want-arg-manager #f
 show-total-population #t
 
 # Server:
-server-timezone BST/EDT/-5
+server-timezone BST
 server-port 7198
 account-server-endpoint https://toontownworldonline.com/api/
 
