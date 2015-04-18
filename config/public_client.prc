@@ -84,7 +84,7 @@ want-arg-manager #f
 show-total-population #t
 
 # Server:
-server-timezone BST
+server-timezone BST/EDT/-5
 server-port 7198
 account-server-endpoint https://toontownworldonline.com/api/
 
