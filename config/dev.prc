@@ -93,7 +93,7 @@ want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
 want-mega-invasions #t
-mega-invasion-cog-type bs
+mega-invasion-cog-type dt
 want-speedhack-fix #t 
 
 
