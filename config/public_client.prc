@@ -78,7 +78,8 @@ force-player-understandable #t
 
 # Holidays and Events
 force-holiday-decorations 
-active-holidays 96 
+active-holidays 96
+force-holiday-decorations 6
 want-arg-manager #f
 show-total-population #t
 
