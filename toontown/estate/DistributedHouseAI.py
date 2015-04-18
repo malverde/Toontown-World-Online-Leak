@@ -310,3 +310,14 @@ class DistributedHouseAI(DistributedObjectAI):
         self.atticWallpaper.append(item)
         self.d_setAtticWallpaper(self.atticWallpaper.getBlob())
         self.interior.furnitureManager.loadFromHouse()
+        
+@magicWord(category=CATEGORY_OVERRIDE, types=[int])
+def houseType(type=0):
+    """Set target house type (must be spawned!). Default (if left blank) is 0 (normal house)."""
+    if not 0 <= type <= 5:
+        return "Invalid house type!"
+    if spellbook.getTarget().getHouseId() in simbase.air.doId2do:
+        house = simbase.air.doId2do[spellbook.getTarget().getHouseId()]
+        house.b_setHouseType(type)
+        return "House type set to %d." % type
+    return "House not loaded. Could not set type."        
