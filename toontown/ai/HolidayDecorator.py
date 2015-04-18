@@ -26,7 +26,7 @@ class HolidayDecorator:
             self.decorate()
             return
         storageFile = base.cr.playGame.hood.storageDNAFile
-        if storageFile:      
+        if storageFile:
             loadDNAFile(self.dnaStore, storageFile, CSDefault)
         self.swapIval = self.getSwapVisibleIval()
         if self.swapIval:
@@ -43,7 +43,7 @@ class HolidayDecorator:
         loader = base.cr.playGame.hood.loader
         npl = render.findAllMatches('**/=DNARoot=holiday_prop;+s')
         p = Parallel()
-        for i in range(npl.getNumPaths()):
+        for i in xrange(npl.getNumPaths()):
             np = npl.getPath(i)
             np.setTransparency(TransparencyAttrib.MDual, 1)
             if not np.hasTag('DNACode'):
