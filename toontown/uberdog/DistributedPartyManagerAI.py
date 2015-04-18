@@ -149,7 +149,7 @@ class DistributedPartyManagerAI(DistributedObjectAI):
         party['inviteeIds'] = inviteeIds
         partyId = party['partyId']
         # This is issued in response to a request for the party to start, essentially. So let's alloc a zone
-        zoneId = self.air.allocateZone(owner=self)
+        zoneId = self.air.allocateZone()
         self.partyId2Zone[partyId] = zoneId
         self.host2PartyId[party['hostId']] = partyId
         
