@@ -101,8 +101,8 @@ want-whitelist #t
 want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
-want-mega-invasions #f
-mega-invasion-cog-type nc
+want-mega-invasions #t
+mega-invasion-cog-type dt
 boarding-group-merges #t 
 want-speedhack-fix #t 
 want-cogdominiums #f
