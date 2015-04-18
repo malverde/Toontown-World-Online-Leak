@@ -2815,44 +2815,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         taskMgr.remove(self.uniqueName('safeZoneToonUp'))
         self.ignore(self.air.getAvatarExitEvent(self.getDoId()))
 
-    def shouldToonUp(self, zoneId):
-        if zoneId == OTPGlobals.QuietZone:
-            return None
-        if ToontownGlobals.safeZoneCountMap.has_key(ZoneUtil.getBranchZone(zoneId)):
-            return True
-        else:
-            zoneOwner = self.air.zoneId2owner.get(zoneId)
-            if not zoneOwner:
-                return False
-            else:
-                from toontown.racing.DistributedRacePadAI import DistributedRacePadAI
-                from toontown.safezone.DistributedGolfKartAI import DistributedGolfKartAI
-                from DistributedNPCPartyPersonAI import DistributedNPCPartyPersonAI
-                if isinstance(zoneOwner, (DistributedRacePadAI, DistributedGolfKartAI, DistributedNPCPartyPersonAI)):
-                    return True
-                elif zoneOwner in [self.air.estateManager, 'MinigameCreatorAI']:
-                    return True
-                elif config.GetBool('want-parties'):
-                    if zoneOwner in [self.air.partyManager]:
-                        return True
-                else:
-                    return False
-        # Incase for whatever reason we even get to this stage...
-        return False
-
-    def considerToonUp(self, zoneId):
-        if zoneId == OTPGlobals.QuietZone:
-            # Don't consider anything, we're in the QuietZone. Shh!
-            return None
-        if self.shouldToonUp(zoneId):
-            if taskMgr.hasTaskNamed(self.uniqueName('safeZoneToonUp')):
-                # Do nothing, we were already in a safezone!
-                return None
-            self.startToonUp(ToontownGlobals.SafezoneToonupFrequency)
-            return True
-        else:
-            self.stopToonUp()
-            return False
 
     def startToonUp(self, healFrequency):
         self.stopToonUp()
