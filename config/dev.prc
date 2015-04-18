@@ -109,3 +109,4 @@ want-cogdominiums #f
 want-game-tables #f
 force-skip-tutorial #f
 active-holidays 96
+force-holiday-decorations 6
