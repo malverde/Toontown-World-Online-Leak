@@ -42,6 +42,12 @@ vfs-mount phase_12.mf /
 vfs-mount phase_13.mf /
 default-model-extension .bam
 
+# Server settings
+want-rpc-server #t
+rpc-server-endpoint http://localhost:8080/
+rpc-server-secret 0123456789abcdef
+eventlog-host 127.0.0.1
+want-cheesy-expirations #t
 
 # Now that we've loaded the phase files, tell panda to trust the TTRCA
 # ssl-certificates /phase_3/etc/TTRCA.crt
@@ -96,7 +102,7 @@ want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
 want-mega-invasions #f
-mega-invasion-cog-type bs
+mega-invasion-cog-type nc
 boarding-group-merges #t 
 want-speedhack-fix #t 
 want-cogdominiums #f

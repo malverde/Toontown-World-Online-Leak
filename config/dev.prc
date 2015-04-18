@@ -45,7 +45,7 @@ default-model-extension .bam
 # Server settings
 want-rpc-server #t
 rpc-server-endpoint http://localhost:8080/
-rpc-server-secret 0123456789abcdef    (need a more secure one )
+rpc-server-secret 0123456789abcdef
 eventlog-host 127.0.0.1
 want-cheesy-expirations #t
 
@@ -93,7 +93,7 @@ want-suit-planners #t
 # Holidays and Events
 want-arg-manager #t
 want-mega-invasions #f
-mega-invasion-cog-type bs
+mega-invasion-cog-type nc
 want-speedhack-fix #t 
 
 
