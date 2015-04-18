@@ -183,9 +183,8 @@ class LoginAccountFSM(OperationFSM):
                         'LAST_LOGIN': time.ctime(),
                         'BETA_KEY_QUEST': self.betaKeyQuest,
                         'ACCOUNT_ID': str(self.databaseId),
-                        'ADMIN_ACCESS': self.adminAccess,
-                        'MONEY': 0}
-
+                        'ADMIN_ACCESS': self.adminAccess
+}
         self.csm.air.dbInterface.createObject(
             self.csm.air.dbId,
             self.csm.air.dclassesByName['AccountUD'],
@@ -740,8 +739,8 @@ class LoadAvatarFSM(AvatarOperationFSM):
         # Activate the avatar on the DBSS:
         self.csm.air.sendActivate(self.avId, 0, 0,
                                   self.csm.air.dclassesByName['DistributedToonUD'],
-                                  {'setAdminAccess': [self.account.get('ADMIN_ACCESS', 0)],
-                                  'setBankMoney': [self.account.get('MONEY', 0)]})
+                                  {'setAdminAccess': [self.account.get('ADMIN_ACCESS', 0)]
+                                  })
 
 
         # Next, add them to the avatar channel:
