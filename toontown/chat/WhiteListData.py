@@ -2217,6 +2217,8 @@ WHITELIST = [
     'aye',
     'ayes',
     'azamaros',
+    'azaria',
+    'aza',
     'azamaru',
     'azapi',
     'azeko',
