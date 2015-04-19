@@ -70,10 +70,8 @@ want-chinese-table #f
 want-fishing #t
 want-checkers-table #f
 want-findfour-table #f
-# This is a temporary 'fix' for DistributedSmoothNodes... probably not the permanent solution to our problem, but it works for now.
-smooth-lag 0.4
 want-keep-alive #f
-ai-sleep 0.04
+
 
 # Developer Modifications
 # A few fun things for our developer build. These shouldn't go in public_client.
@@ -91,10 +89,10 @@ force-player-understandable #t
 
 want-suit-planners #t
 # Holidays and Events
-want-arg-manager #t
-want-mega-invasions #t
+want-arg-manager #f
+want-mega-invasions #f
 mega-invasion-cog-type dt
-want-speedhack-fix #t 
+want-speedhack-fix #f 
 
 
 # Cog battles :
@@ -108,5 +106,3 @@ want-speedhack-fix #t
 want-cogdominiums #f
 want-game-tables #f
 force-skip-tutorial #f
-active-holidays 96
-force-holiday-decorations 6
