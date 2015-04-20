@@ -5,7 +5,6 @@ from toontown.estate.DistributedEstateAI import DistributedEstateAI
 from toontown.estate.DistributedHouseAI import DistributedHouseAI
 import HouseGlobals
 import functools
-from toontown.toon.ToonDNA import ToonDNA
 
 class LoadHouseFSM(FSM):
     def __init__(self, mgr, estate, houseIndex, toon, callback):
@@ -75,19 +74,13 @@ class LoadHouseFSM(FSM):
         self.demand('LoadHouse')
 
     def enterLoadHouse(self):
-        # Quickly parse DNA and get gender.
-        dna = ToonDNA()
-        dna.makeFromNetString(self.toon['setDNAString'][0])
-        gender = 1 if dna.getGender() == 'm' else 0
-
         # Activate the house:
         self.mgr.air.sendActivate(self.houseId, self.mgr.air.districtId, self.estate.zoneId,
                                   self.mgr.air.dclassesByName['DistributedHouseAI'],
                                   {'setHousePos': [self.houseIndex],
                                    'setColor': [self.houseIndex],
                                    'setName': [self.toon['setName'][0]],
-                                   'setAvatarId': [self.toon['ID']],
-                                   'setGender': [gender]})
+                                   'setAvatarId': [self.toon['ID']]})
 
         # Now we wait for the house to show up... We do this by hanging a messenger
         # hook which the DistributedHouseAI throws once it spawns.
@@ -208,7 +201,7 @@ class LoadEstateFSM(FSM):
 
     def __gotEstate(self, estate):
         self.estate = estate
-
+        
         self.estate.toons = self.toonIds
         self.estate.updateToons()
 
@@ -221,7 +214,7 @@ class LoadEstateFSM(FSM):
     def enterLoadHouses(self):
         self.houseFSMs = []
 
-        for houseIndex in range(6):
+        for houseIndex in xrange(6):
             fsm = LoadHouseFSM(self.mgr, self.estate, houseIndex,
                                self.toons[houseIndex], self.__houseDone)
             self.houseFSMs.append(fsm)
@@ -269,7 +262,7 @@ class EstateManagerAI(DistributedObjectAI):
 
         toon = self.air.doId2do.get(senderId)
         if not toon:
-            self.air.writeServerEvent('suspicious', avId=senderId, issue='Sent getEstateZone() but not on district!')
+            self.air.writeServerEvent('suspicious', senderId, 'Sent getEstateZone() but not on district!')
             return
 
         # If there's an avId included, then the Toon is interested in visiting a
@@ -311,7 +304,7 @@ class EstateManagerAI(DistributedObjectAI):
             # finishes anyway.
             return
 
-        zoneId = self.air.allocateZone(owner=self)
+        zoneId = self.air.allocateZone()
 
         def estateLoaded(success):
             if success:
@@ -338,8 +331,9 @@ class EstateManagerAI(DistributedObjectAI):
         toon = self.air.doId2do.get(senderId)
 
         if not toon:
-            self.air.writeServerEvent('suspicious', avId=senderId, issue='Sent exitEstate() but not on district!')
+            self.air.writeServerEvent('suspicious', senderId, 'Sent exitEstate() but not on district!')
             return
+
         self._unmapFromEstate(toon)
         self._unloadEstate(toon)
 

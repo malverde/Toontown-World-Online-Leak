@@ -2,7 +2,8 @@ import SuitDNA
 from otp.ai.MagicWordGlobal import *
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
-from random import random, randint, choice
+import random 
+from random import randint, choice
 import datetime
 from direct.directnotify import DirectNotifyGlobal
 
@@ -62,18 +63,18 @@ class SuitInvasionManagerAI:
             # We're already running an invasion. Don't start a new one.
             self.notify.debug('Invasion tested but already running invasion!')
             return task.again
-        if random() <= self.randomInvasionProbability:
+        if random.random() <= self.randomInvasionProbability:
             # We want an invasion!
             self.notify.debug('Invasion probability hit! Starting invasion.')
             # We want to test if we get a mega invasion or a normal invasion.
             # Take the mega invasion probability and test it. If we get lucky
             # a second time, spawn a mega invasion, otherwise spawn a normal
             # invasion.
-            if config.GetBool('want-mega-invasions', False) and random() <= self.randomInvasionProbability:
+            if config.GetBool('want-mega-invasions', False) and random.random() <= self.randomInvasionProbability:
                 # N.B.: randomInvasionProbability = mega invasion probability.
                 suitName = self.megaInvasionCog
                 numSuits = randint(2000, 15000)
-                specialSuit = random.choice([0, 0, 0, 1, 2])
+                specialSuit = random.random.choice([0, 0, 0, 1, 2])
             else:
                 suitName = choice(SuitDNA.suitHeadTypes)
                 numSuits = randint(1500, 5000)
