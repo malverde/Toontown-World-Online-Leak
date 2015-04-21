@@ -167,7 +167,12 @@ class ToontownAIRepository(ToontownInternalRepository):
             self.districtId, self.getGameDoId(), 2)
         self.notify.info('Claiming ownership of channel ID: %d...' % self.districtId)
         self.claimOwnership(self.districtId)
-
+        
+        # Claim ownership of that district...
+        dg = PyDatagram()
+        dg.addServerHeader(self.districtId, self.ourChannel, STATESERVER_OBJECT_SET_AI)
+        dg.addChannel(self.ourChannel)
+        self.send(dg)
         self.districtStats = ToontownDistrictStatsAI(self)
         self.districtStats.settoontownDistrictId(self.districtId)
         self.districtStats.generateWithRequiredAndId(
