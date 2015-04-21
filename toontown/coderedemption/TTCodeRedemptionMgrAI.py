@@ -94,33 +94,35 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
         items = self.getItemsForCode(code)
 
         # Iterate over these shitty items
-        for item in items:
-            if isinstance(item, CatalogInvalidItem): # Umm, u wot m8?
-                self.air.writeServerEvent('suspicious', avId=avId, issue='Invalid CatalogItem\'s for code: %s' % code)
-                self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.InvalidCode, 0]) # TODO: Come up with a special code for this
-                break
+        if items is not None: 
+        	for item in items:
+            	 if isinstance(item, CatalogInvalidItem): # Umm, u wot m8?
+                	self.air.writeServerEvent('suspicious', avId=avId, issue='Invalid CatalogItem\'s for code: %s' % code)
+                	self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.InvalidCode, 0]) # TODO: Come up with a special code for this
+                	break
 
-            item.deliveryDate = int(time.time() / 60) + 1 # I don't give a shit here, just deliver it now
-            av.onOrder.append(item)
-            av.b_setDeliverySchedule(av.onOrder)
-            delivered = True
+           	 	item.deliveryDate = int(time.time() / 60) + 1 # I don't give a shit here, just deliver it now - lol this comment XD 
+            	av.onOrder.append(item)
+            	av.b_setDeliverySchedule(av.onOrder)
+            	delivered = True
 
-        # Iterate over these shitty items
-        for item in items:
-            if isinstance(item, CatalogInvalidItem): # Umm, u wot m8?
-                self.air.writeServerEvent('suspicious', avId=avId, issue='Invalid CatalogItem\'s for code: %s' % code)
-                self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.InvalidCode, 0]) # TODO: Come up with a special code for this
-                break
+        # Iterate over these shitty items - dang TTR staff had potty mouths XD 
+        if items is not None:
+           for item in items:
+                if isinstance(item, CatalogInvalidItem): # Umm, u wot m8?
+                   self.air.writeServerEvent('suspicious', avId=avId, issue='Invalid CatalogItem\'s for code: %s' % code)
+                   self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.InvalidCode, 0]) # TODO: Come up with a special code for this
+                   break
 
-            if len(av.mailboxContents) + len(av.onGiftOrder) >= ToontownGlobals.MaxMailboxContents:
+                if len(av.mailboxContents) + len(av.onGiftOrder) >= ToontownGlobals.MaxMailboxContents:
                 # Mailbox is full
-                delivered = False
-                break
+                   delivered = False
+                   break
 
-            item.deliveryDate = int(time.time() / 60) + 1 # I don't give a shit here, just deliver it now
-            av.onOrder.append(item)
-            av.b_setDeliverySchedule(av.onOrder)
-            delivered = True
+                item.deliveryDate = int(time.time() / 60) + 1 # I don't give a shit here, just deliver it now
+                av.onOrder.append(item)
+                av.b_setDeliverySchedule(av.onOrder)
+                delivered = True
 
         if not delivered:
             # 0 is Sucess
