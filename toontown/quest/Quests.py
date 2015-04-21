@@ -1100,6 +1100,12 @@ class BuildingQuest(CogQuest):
 
     def doesBuildingCount(self, avId, avList):
         return 1
+        
+	def doesBuildingTypeCount(self, type):
+		buildingTrack = self.getBuildingTrack()
+		if buildingTrack == Any or buildingTrack == type:
+			return True
+		return False 
 
 
 class BuildingNewbieQuest(BuildingQuest, NewbieQuest):
