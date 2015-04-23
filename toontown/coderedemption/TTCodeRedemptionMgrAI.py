@@ -155,24 +155,17 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
     def getItemsForCode(self, code):
         # TODO: Figure out how we want to get the items from the codes
         # I don't know what items are shorts, skirts or shirts... rip
-       # if code == "ALPHA":
-        #    shirt = CatalogClothingItem(1403, 0)
-         #   shorts = CatalogClothingItem(1404, 0)
-          #  return [shirt, shorts] # TODO: Give the correct alpha reward
-		if code == "PreAlpha":
-			shirt = CatalogClothingItem(1763, 0)
-			return [shirt]
-      #  if code == "BETA":
-       #     return CatalogClothingItem(118, 0) # TODO: Give it the correct item
-        #    shirt = CatalogClothingItem(1405, 0)
-         #   shorts = CatalogClothingItem(1406, 0)
-          #  return [shirt, shorts] # TODO: Give the correct beta rewards
-            #reward for participating in storm sellbot (disable after  event) 
-        if code == 'StormSellbot':
-        	shirt = CatalogClothingItem(111, 0)
-        	return [shirt]
-        	
-     	return [CatalogInvalidItem()]	
+        if code == "ALPHA":
+            shirt = CatalogClothingItem(1403, 0)
+            shorts = CatalogClothingItem(1404, 0)
+            return [shirt, shorts] # TODO: Give the correct alpha reward
+
+        if code == "BETA":
+            return CatalogClothingItem(118, 0) # TODO: Give it the correct item
+            shirt = CatalogClothingItem(1405, 0)
+            shorts = CatalogClothingItem(1406, 0)
+            return [shirt, shorts] # TODO: Give the correct beta rewards
+        
         #if code == "TRUNK":
         #    object = CatalogFurnitureItem(4000, 0)
         #    return [object]
