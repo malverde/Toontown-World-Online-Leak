@@ -13,7 +13,7 @@ from toontown.ai import PromotionManagerAI
 from toontown.ai.FishManagerAI import  FishManagerAI
 from toontown.ai.HolidayManagerAI import HolidayManagerAI
 from toontown.ai.NewsManagerAI import NewsManagerAI
-from toontown.ai.QuestManagerAI import QuestManagerAI
+from toontown.quest.QuestManagerAI import QuestManagerAI
 from toontown.building.DistributedTrophyMgrAI import DistributedTrophyMgrAI
 from toontown.catalog.CatalogManagerAI import CatalogManagerAI
 from toontown.coghq import CountryClubManagerAI
