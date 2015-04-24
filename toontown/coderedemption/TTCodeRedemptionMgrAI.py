@@ -168,13 +168,12 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
          #   shorts = CatalogClothingItem(1406, 0)
           #  return [shirt, shorts] # TODO: Give the correct beta rewards
             #reward for participating in storm sellbot (disable after  event) 
-        if code == 'StormSellbot':
-        	shirt = CatalogClothingItem(111, 0)
-        	return [shirt]
+		if code ==  'StormSellbot':
+	         shirt = CatalogClothingItem(111, 0)
+                 return [shirt]
         	
-     	return [CatalogInvalidItem()]	
-        #if code == "TRUNK":
+       # if code == "TRUNK":
         #    object = CatalogFurnitureItem(4000, 0)
-        #    return [object]
+         #   return [object]
         #return [CatalogInvalidItem()]
 
