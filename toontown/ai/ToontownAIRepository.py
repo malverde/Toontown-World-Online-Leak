@@ -239,7 +239,7 @@ def pstats(host='localhost', port=5185):
         return "%s has successfully opened a PStat connection to %s:%d" % (simbase.air.distributedDistrict.getName(), host, port)
     return "%s was unable to open a PStat connection to %s:%d." % (simbase.air.distributedDistrict.getName(), host, port)
 
-@magicWord(category=CATEGORY_SYSADMIN, types=[str], aliases=['cpu-usage'])
+@magicWord(category=CATEGORY_ADMIN, types=[str], aliases=['cpu-usage'])
 def cpu(percpu=''):
     """ Return the current CPU usage of the AI server as a percentage.
     This will return a list if percpu is enabled. (~cpu percpu)
@@ -247,7 +247,7 @@ def cpu(percpu=''):
     try:
         from psutil import cpu_percent
         percpu = percpu == 'percpu'
-        return "Current CPU usage for %s: %s%%" % (simbase.air.distributedDistrict.getName(), str(cpu_percent(interval=None, percpu=percpu)))
+        return "Current CPU usage for %s: %s%%. CPU consistantly 50% is a BAD sign. ~ :D" % (simbase.air.distributedDistrict.getName(), str(cpu_percent(interval=None, percpu=percpu)))
     except ImportError:
         return "psutil is not installed on %s! Unable to fetch CPU usage." % simbase.air.distributedDistrict.getName()
 
