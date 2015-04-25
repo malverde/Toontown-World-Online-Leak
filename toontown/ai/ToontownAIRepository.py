@@ -70,7 +70,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.zoneAllocator = UniqueIdAllocator(ToontownGlobals.DynamicZonesBegin,
                                                ToontownGlobals.DynamicZonesEnd)
         self.zoneDataStore = AIZoneDataStore()
-
+		self.useAllMinigames = self.config.GetBool('want-all-minigames', False)
         self.wantFishing = self.config.GetBool('want-fishing', True)
         self.wantHousing = self.config.GetBool('want-housing', True)
         self.wantPets = self.config.GetBool('want-pets', True)
