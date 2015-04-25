@@ -60,7 +60,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
             self.notify.debug("No Catalogs")
             return
 
-        self.air.questManager.toonUsedPhone(avId)
+        self.air.questManager.toonCalledClarabelle(av)
 
         self.notify.debug("Loading the catalog")
         self.avId = avId
