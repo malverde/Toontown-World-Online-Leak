@@ -248,7 +248,7 @@ def cpu(percpu=''):
     try:
         from psutil import cpu_percent
         percpu = percpu == 'percpu'
-        return "Current CPU usage for %s: %s%%. CPU consistantly 50% is a BAD sign. ~ :D" % (simbase.air.distributedDistrict.getName(), str(cpu_percent(interval=None, percpu=percpu)))
+        return "Current CPU usage for %s: %s%%" % (simbase.air.distributedDistrict.getName(), str(cpu_percent(interval=None, percpu=percpu)))
     except ImportError:
         return "psutil is not installed on %s! Unable to fetch CPU usage." % simbase.air.distributedDistrict.getName()
 
