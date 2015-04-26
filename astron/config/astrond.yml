@@ -1,8 +1,7 @@
 general:
     eventlogger: 127.0.0.1:7197
     dc_files:
-        - ../otp.dc
-        - ../toon.dc
+        - ../toontown.dc
 
 messagedirector:
     bind: 127.0.0.1:7199
@@ -55,7 +54,7 @@ uberdogs:
 roles:
     - type: clientagent
       bind: 0.0.0.0:7198
-      version: "ttw-pre-alpha-2.5.1.5"
+      version: "ttw-pre-alpha-2.5.1.6"
       client:
        relocate: true
        add_interest: enabled
