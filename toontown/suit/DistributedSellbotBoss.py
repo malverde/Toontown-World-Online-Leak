@@ -157,7 +157,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
     def resetMaxDamage(self):
     	if self.nerfed:
-    	    self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamageNerfed
+    	        self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamageNerfed
     	    else:
     	        self.bossMaxDamage = ToontownGlobals.SellbotBossMaxDamage
 
