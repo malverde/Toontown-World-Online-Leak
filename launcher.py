@@ -61,7 +61,7 @@ def update():
 	import gameupdater
 
 ButtonImage = loader.loadModel("phase_2/models/gui/tt_m_gui_mat_nameShop.bam")
-B2 = DirectButton(frameSize=None, text='Update Main Game', image=(ButtonImage.find('**/tt_t_gui_mat_namePanelSquareUp'), \
+B2 = DirectButton(frameSize=None, text='Update Game Data', image=(ButtonImage.find('**/tt_t_gui_mat_namePanelSquareUp'), \
 ButtonImage.find('**/tt_t_gui_mat_namePanelSquareDown'), ButtonImage.find('**/tt_t_gui_mat_namePanelSquareHover')), relief=None, command=update, text_pos=(0, -0.015), \
 geom=None, pad=(0.01, 0.01), suppressKeys=0, pos = (-0.77, 0, -0.93), text_scale=0.050, borderWidth=(0.13, 0.01), scale=.7) 
 

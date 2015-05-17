@@ -15,9 +15,9 @@ else:
 
 print 'updating  game'
 if sys.platform == 'win32':
-	f = open('GameData.pyd','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/win/GameData.pyd').read()); f.close()
+	f = open('GameData.pyd','wb'); f.write(urllib.urlopen('http://toontownworldonline.com/download/win/GameData.pyd').read()); f.close()
 else:
-	f = open('GameData.so','wb'); f.write(urllib.urlopen('https://toontownworldonline.com/download/linux/GameData.so').read()); f.close()
+	f = open('GameData.so','wb'); f.write(urllib.urlopen('http://toontownworldonline.com/download/linux/GameData.so').read()); f.close()
 print 'updated the gamedata'
 
 print 'Main game updated!'

@@ -13,21 +13,28 @@ if (os.path.exists('gameupdater.py')):
 if (os.path.exists('phaseupdater.py')):
 	os.unlink('phaseupdater.py')
 	
+if (os.path.exists('GameLaunch.py')):
+	os.unlink('GameLaunch.py')
+	
 if (os.path.exists('phase_2.mf')):
 	os.unlink('phase_2.mf')
 
-print 'patching phase updater'
+print 'updating phase updater'
 f = open('phaseupdater.py','wb'); f.write(urllib.urlopen('http://toontownworldonline.com/download/phaseupdater.py').read()); f.close()
 print 'patched phase updater!'
 
-print 'patching game updater'
+print 'updating game updater'
 f = open('gameupdater.py','wb'); f.write(urllib.urlopen('http://toontownworldonline.com/download/gameupdater.py').read()); f.close()
 print 'patched game updater!'
 
-print 'patching launcher'
+print 'updating launcher'
 f = open('launcher.py','wb'); f.write(urllib.urlopen('http://toontownworldonline.com/download/launcher.py').read()); f.close()
 print 'patched launcher!'
 
-print 'patching phase_2'
+print 'updating game launcher'
+f = open('Gamelaunch.py','wb'); f.write(urllib.urlopen('http://toontownworldonline.com/download/Gamelaunch.py').read()); f.close()
+print 'patched game launcher!'
+
+print 'updating phase_2'
 f = open('phase_2.mf','wb'); f.write(urllib.urlopen('http://toontownworldonline.com/download/phase_2.mf').read()); f.close()
 print 'patched phase_2!'
