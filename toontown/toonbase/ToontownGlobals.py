@@ -1770,11 +1770,12 @@ hood2Coords = {
  'FRONT': [
     (146.1, 33.228, 0.025),
     (296.844, 0, 0)]}
-# Buffs...
+
+# Gag Buffs variables...
 
 BMovementSpeed = 0
-BMovementSpeedMultiplier = 1.3
+BMovementSpeedMultiplier = 2.3
 BGagAccuracy = 1
-BGagAccuracyMultiplier = 1.3
+BGagAccuracyMultiplier = 2.0
 BGagExperience = 2
 BGagExperienceMultiplier = 2
