@@ -20,15 +20,15 @@ if (os.path.exists('phase_2.mf')):
 	os.unlink('phase_2.mf')
 
 print 'updating phase updater'
-f = open('phaseupdater.py','wb'); f.write(urllib.urlopen('http://toontownworldonline.com/download/phaseupdater.py').read()); f.close()
+f = open('phaseupdater.py','wb'); f.write(urllib.urlopen('https://ttw-live-gamedata.s3.amazonaws.com/syst/phaseupdater.py').read()); f.close()
 print 'patched phase updater!'
 
 print 'updating game updater'
-f = open('gameupdater.py','wb'); f.write(urllib.urlopen('http://toontownworldonline.com/download/gameupdater.py').read()); f.close()
+f = open('gameupdater.py','wb'); f.write(urllib.urlopen('https://ttw-live-gamedata.s3.amazonaws.com/syst/gameupdater.py').read()); f.close()
 print 'patched game updater!'
 
 print 'updating launcher'
-f = open('launcher.py','wb'); f.write(urllib.urlopen('http://toontownworldonline.com/download/launcher.py').read()); f.close()
+f = open('launcher.py','wb'); f.write(urllib.urlopen('https://ttw-live-gamedata.s3.amazonaws.com/syst/launcher.py').read()); f.close()
 print 'patched launcher!'
 
 print 'updating game launcher'
