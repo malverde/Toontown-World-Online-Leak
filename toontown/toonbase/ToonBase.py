@@ -175,7 +175,7 @@ class ToonBase(OTPBase.OTPBase):
             self.Move_Right = 'd'
             self.JUMP = 'space'
         # Show cog levels on the battle GUI :D
-#        self.wantCogLevelGui = settings.get('want-ShowCogLevel', True)        
+        self.wantCogLevelGui = settings.get('want-ShowCogLevel', True)        
         return
 
     def openMainWindow(self, *args, **kw):
