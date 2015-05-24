@@ -87,6 +87,7 @@ force-avatar-understandable #t
 force-player-understandable #t
 
 want-suit-planners #t
+want-cogbuildings #t
 # Holidays and Events
 want-arg-manager #f
 want-mega-invasions #f
