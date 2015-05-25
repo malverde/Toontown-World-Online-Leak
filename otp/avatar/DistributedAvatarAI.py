@@ -5,17 +5,6 @@ from direct.distributed import DistributedNodeAI
 from direct.task import Task
 from otp.ai.MagicWordGlobal import *
 
-class DistributedPlayerAI(DistributedAvatarAI.DistributedAvatarAI, PlayerBase.PlayerBase, ClsendTracker):
- 
-     def __init__(self, air):
-         DistributedAvatarAI.DistributedAvatarAI.__init__(self, air)
-         PlayerBase.PlayerBase.__init__(self)
-         ClsendTracker.__init__(self)
-         self.friendsList = []
-         self.DISLname = ''
-         self.DISLid = 0
-         self.adminAccess = 0
- 
 class DistributedAvatarAI(DistributedNodeAI.DistributedNodeAI):
 
     def __init__(self, air):
