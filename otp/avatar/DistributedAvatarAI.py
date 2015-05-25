@@ -99,6 +99,6 @@ def gwhis(text):
     text = 'ADMIN ' + spellbook.getInvoker().getName() + ': ' + text # Prepend text with Invoker's toon name.
     for doId in simbase.air.doId2do:
         if str(doId)[:2] == '10': # Non-NPC?
-        do = simbase.air.doId2do.get(doId)
+            do = simbase.air.doId2do.get(doId)
         if isinstance(do, DistributedPlayerAI): # Toon?
             do.d_setSystemMessage(0, text)
