@@ -5068,6 +5068,27 @@ def setTrophyScore(value):
         return "Cannot have a trophy score below 0."
     spellbook.getTarget().d_setTrophyScore(value)
 
+#V1 GivePies - allows for -1 (unlimited pies)
+@magicWord(category=CATEGORY_SYSADMIN, types=[int, int])
+def givePies(pieType, numPies=0):
+    """
+    Give the target (numPies) of (pieType) pies.
+    """
+    target = spellbook.getTarget()
+    if pieType == -1:
+        target.b_setNumPies(0)
+        return "Removed {0}'s pies.".format(target.getName())
+        if pieType == 6:
+            return 'Invalid pie type!'
+            if not 0 <= pieType <= 7:
+                return 'Pie type must be in xrange (0-7).'
+                if not -1 <= numPies <= 99:
+                    return 'Pie count out of range (-1-99).'
+                    target.b_setPieType(pieType)
+                    if numPies >= 0:
+                        target.b_setNumPies(numPies)
+                        else:
+                            target.b_setNumPies(ToontownGlobals.FullPies)
 @magicWord(category=CATEGORY_OVERRIDE, types=[int, int])
 def givePies(pieType, numPies=0):
     """Give target Y number of X pies."""
