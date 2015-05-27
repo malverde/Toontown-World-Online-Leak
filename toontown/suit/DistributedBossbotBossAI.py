@@ -38,7 +38,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.numTables = 1
         self.numDinersPerTable = 3
         self.tables = []
-	self.invoker = self.invoker
+	self.invoker = None
         self.numGolfSpots = 4
         self.golfSpots = []
         self.toonFoodStatus = {}
