@@ -17,6 +17,6 @@ astron/database
 backups/blockinfo/
 backups/
 screenshots/
-
+tools/build
 ai-crash.txt
 dev-accounts.db
