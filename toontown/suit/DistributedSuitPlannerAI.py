@@ -588,19 +588,18 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         self.battleList = []
         self.battleMgr = BattleManagerAI.BattleManagerAI(self.air)
         self.setupDNA()
-        if self.notify.getDebug():
+ if self.notify.getDebug():
             self.notify.debug('Creating a building manager AI in zone' + str(self.zoneId))
         self.buildingMgr = self.air.buildingManagers.get(self.zoneId)
         if self.buildingMgr:
-            (blocks, hqBlocks, gagshopBlocks, petshopBlocks, kartshopBlocks, libraryBlocks, animBldgBlocks) = self.buildingMgr.getDNABlockLists()
+            (blocks, hqBlocks, gagshopBlocks, petshopBlocks, kartshopBlocks, animBldgBlocks) = self.buildingMgr.getDNABlockLists()
             for currBlock in blocks:
                 bldg = self.buildingMgr.getBuilding(currBlock)
                 bldg.setSuitPlannerExt(self)
-
             for currBlock in animBldgBlocks:
                 bldg = self.buildingMgr.getBuilding(currBlock)
                 bldg.setSuitPlannerExt(self)
-
+        self.dnaStore.resetBlockNumbers()
         self.initBuildingsAndPoints()
         numSuits = config.GetInt('suit-count', -1)
         if numSuits >= 0:
