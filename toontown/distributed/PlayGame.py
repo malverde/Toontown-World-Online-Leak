@@ -13,7 +13,6 @@ from toontown.hood import MMHood
 from toontown.hood import BRHood
 from toontown.hood import DGHood
 from toontown.hood import DLHood
-from toontown.hood import TFHood
 from toontown.hood import GSHood
 from toontown.hood import OZHood
 from toontown.hood import GZHood
@@ -36,7 +35,6 @@ class PlayGame(StateData.StateData):
      ToontownGlobals.MinniesMelodyland: MMHood.MMHood,
      ToontownGlobals.DaisyGardens: DGHood.DGHood,
      ToontownGlobals.DonaldsDreamland: DLHood.DLHood,
-     ToontownGlobals.Toonfest: TFHood.TFHood,
      ToontownGlobals.GoofySpeedway: GSHood.GSHood,
      ToontownGlobals.OutdoorZone: OZHood.OZHood,
      ToontownGlobals.Tutorial: TutorialHood.TutorialHood,
@@ -52,8 +50,7 @@ class PlayGame(StateData.StateData):
      ToontownGlobals.TheBrrrgh: 'BRHood',
      ToontownGlobals.MinniesMelodyland: 'MMHood',
      ToontownGlobals.DaisyGardens: 'DGHood',
-     ToontownGlobals.DonaldsDreamland: 'DLHood',
-     ToontownGlobals.Toonfest: 'TFHood',                
+     ToontownGlobals.DonaldsDreamland: 'DLHood',                
      ToontownGlobals.GoofySpeedway: 'GSHood',
      ToontownGlobals.OutdoorZone: 'OZHood',
      ToontownGlobals.Tutorial: 'TutorialHood',
@@ -75,7 +72,6 @@ class PlayGame(StateData.StateData):
           'MMHood',
           'DGHood',
           'DLHood',
-          'TFHood',
           'GSHood',
           'OZHood',
           'GZHood',
@@ -91,8 +87,7 @@ class PlayGame(StateData.StateData):
          State.State('BRHood', self.enterBRHood, self.exitBRHood, ['quietZone']),
          State.State('MMHood', self.enterMMHood, self.exitMMHood, ['quietZone']),
          State.State('DGHood', self.enterDGHood, self.exitDGHood, ['quietZone']),
-         State.State('DLHood', self.enterDLHood, self.exitDLHood, ['quietZone']),
-         State.State('TFHood', self.enterTFHood, self.exitTFHood, ['quietZone']),                                                      
+         State.State('DLHood', self.enterDLHood, self.exitDLHood, ['quietZone']),                                                      
          State.State('GSHood', self.enterGSHood, self.exitGSHood, ['quietZone']),
          State.State('OZHood', self.enterOZHood, self.exitOZHood, ['quietZone']),
          State.State('GZHood', self.enterGZHood, self.exitGZHood, ['quietZone']),
@@ -350,13 +345,6 @@ class PlayGame(StateData.StateData):
         self.hood.enter(requestStatus)
 
     def exitDLHood(self):
-        self._destroyHood()
-
-    def enterTFHood(self, requestStatus):
-        self.accept(self.hoodDoneEvent, self.handleHoodDone)
-        self.hood.enter(requestStatus)
-
-    def exitTFHood(self):
         self._destroyHood()
 
     def enterGSHood(self, requestStatus):
