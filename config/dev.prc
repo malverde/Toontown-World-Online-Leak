@@ -3,20 +3,17 @@
 # as well as deployment/server.prc if necessary.
 
 # Client settings
-window-title Toontown World [Pre-Alpha]
-server-version ttw-pre-alpha-2.5.1.7.2
-audio-library-name p3openal_audio
+window-title Toontown World Online [Pre-Alpha]
+server-version ttw-pre-alpha-dev-build-2.4.9
 sync-video #f
 want-dev #f
 preload-avatars #t
-want-keep-alive #f
 texture-anisotropic-degree 16
-cursor-filename resources/phase_3/etc/toonmono.cur
-icon-filename resources/phase_3/etc/icon.ico
+# cursor-filename resources/phase_3/etc/toonmono.cur
+# icon-filename resources/phase_3/etc/icon.ico
 
 # Audio...
 audio-library-name p3fmod_audio
-#audio-library-name p3openal_audio
 
 # Useless Variables
 show-frame-rate-meter #f
@@ -45,14 +42,15 @@ default-model-extension .bam
 # Server settings
 want-rpc-server #t
 rpc-server-endpoint http://localhost:8080/
-rpc-server-secret 0123456789abcdef
+rpc-server-secret 0123456789abcdef    (need a more secure one )
 eventlog-host 127.0.0.1
 want-cheesy-expirations #t
 
 
 # DC Files
 # This is, oddly enough, in *reverse* order of their loading...
-dc-file config/toontown.dc
+dc-file config/toon.dc
+dc-file config/otp.dc
 
 
 # Beta Modifications
@@ -60,24 +58,25 @@ dc-file config/toontown.dc
 want-pets #f
 want-news-tab #f
 want-news-page #f
-want-accessories #t
-want-parties #t
+want-accessories #f
+want-parties #f
 want-gardening #f
 want-gifting #t
 want-picnic-games #f
 want-chinese-table #f
-want-fishing #t
 want-checkers-table #f
 want-findfour-table #f
+# This is a temporary 'fix' for DistributedSmoothNodes... probably not the permanent solution to our problem, but it works for now.
+smooth-lag 0.4
 want-keep-alive #f
-
+ai-sleep 0.04
 
 # Developer Modifications
 # A few fun things for our developer build. These shouldn't go in public_client.
 estate-day-night #t
 want-instant-parties #f
 show-total-population #t
-want-toontorial #t
+want-toontorial #f
 want-doomsday #f
 
 # Chat stuff
@@ -87,12 +86,10 @@ force-avatar-understandable #t
 force-player-understandable #t
 
 want-suit-planners #t
-want-cogbuildings #t
 # Holidays and Events
-want-arg-manager #f
+want-arg-manager #t
 want-mega-invasions #f
-mega-invasion-cog-type dt
-want-speedhack-fix #f 
+
 
 
 # Cog battles :
@@ -100,9 +97,5 @@ want-speedhack-fix #f
 base-xp-multiplier 1
 #group merges
 boarding-group-merges #t
-#other
-
+force-skip-tutorial #t
 want-speedhack-fix #t
-want-cogdominiums #f
-want-game-tables #f
-force-skip-tutorial #f
