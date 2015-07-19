@@ -17,10 +17,10 @@ class EntityTypeDesc:
             self.attribDescDict[attribName] = desc
 
     def isConcrete(self):
-        return 'abstract' not in self.__class__.__dict__
+        return not self.__class__.__dict__.has_key('abstract')
 
     def isPermanent(self):
-        return 'permanent' in self.__class__.__dict__
+        return self.__class__.__dict__.has_key('permanent')
 
     def getOutputType(self):
         return self.output
@@ -41,7 +41,7 @@ class EntityTypeDesc:
 
     @staticmethod
     def privCompileAttribDescs(entTypeClass):
-        if '_attribDescs' in entTypeClass.__dict__:
+        if entTypeClass.__dict__.has_key('_attribDescs'):
             return
         c = entTypeClass
         EntityTypeDesc.notify.debug('compiling attrib descriptors for %s' % c.__name__)
@@ -64,7 +64,7 @@ class EntityTypeDesc:
                     baseADs.append(desc)
 
         attribDescs = []
-        if 'attribs' in c.__dict__:
+        if c.__dict__.has_key('attribs'):
             for attrib in c.attribs:
                 desc = AttribDesc.AttribDesc(*attrib)
                 if desc.getName() == 'type' and entTypeClass.__name__ != 'Entity':

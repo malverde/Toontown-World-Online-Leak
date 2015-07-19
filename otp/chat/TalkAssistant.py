@@ -604,8 +604,6 @@ class TalkAssistant(DirectObject.DirectObject):
         return None
 
 
-        base.cr.ttrFriendsManager.sendUpdate('sendTalkWhisper', [receiverAvId, message])
-
     def sendAccountTalk(self, message, receiverAccount):
         error = None
         base.cr.playerFriendsManager.sendUpdate('setTalkAccount', [receiverAccount,

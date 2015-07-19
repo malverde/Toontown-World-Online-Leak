@@ -6,7 +6,6 @@ import string
 from otp.otpbase import OTPLocalizer
 from otp.otpbase import OTPGlobals
 from otp.uberdog import RejectCode
-from toontown.nametag import NametagGlobals
 globalFriendSecret = None
 AccountSecret = 0
 AvatarSecret = 1
@@ -345,13 +344,13 @@ class FriendSecret(DirectFrame, StateData.StateData):
         self.secretText.hide()
         base.localAvatar.chatMgr.fsm.request('otherDialog')
         self.enterSecret['focus'] = 1
-        NametagGlobals.setForceOnscreenChat(True)
+        NametagGlobals.setOnscreenChatForced(1)
 
     def exit(self):
         if self.isEntered == 0:
             return
         self.isEntered = 0
-        NametagGlobals.setForceOnscreenChat(False)
+        NametagGlobals.setOnscreenChatForced(0)
         self.__cleanupFirstPage()
         self.ignoreAll()
         self.accept('clientCleanup', self.unload)
@@ -395,7 +394,7 @@ class FriendSecret(DirectFrame, StateData.StateData):
                 self.notify.warning('No FriendManager available.')
                 self.exit()
                 return
-            base.cr.ttrFriendsManager.d_requestSecret()
+            base.cr.friendManager.up_requestSecret()
             self.accept('requestSecretResponse', self.__gotAvatarSecret)
         else:
             if base.cr.needParentPasswordForSecretChat():
@@ -463,7 +462,7 @@ class FriendSecret(DirectFrame, StateData.StateData):
                 secret = secret[3:]
                 self.notify.info('### use TT secret')
                 self.accept('submitSecretResponse', self.__enteredSecret)
-                base.cr.ttrFriendsManager.d_submitSecret(secret)
+                base.cr.friendManager.up_submitSecret(secret)
             else:
                 self.accept(OTPGlobals.PlayerFriendUpdateEvent, self.__useAccountSecret)
                 self.accept(OTPGlobals.PlayerFriendRejectUseSecretEvent, self.__rejectUseAccountSecret)
@@ -503,8 +502,6 @@ class FriendSecret(DirectFrame, StateData.StateData):
             self.nextText['text'] = OTPLocalizer.FriendSecretEnteredSecretSelf
         elif result == 4:
             self.nextText['text'] = OTPLocalizer.FriendSecretEnteredSecretWrongProduct % self.prefix
-        elif result == 5:
-            self.nextText['text'] = OTPLocalizer.FriendSecretNotImplemented
         self.nextText.show()
         self.cancel.hide()
         self.ok1.hide()
