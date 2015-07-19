@@ -22,7 +22,7 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
          State.State('final', self.enterFinal, self.exitFinal, ['start'])], 'start', 'final')
         self.musicFile = 'phase_13/audio/bgm/party_original_theme.ogg'
         self.activityMusicFile = 'phase_13/audio/bgm/party_waltz_dance.ogg'
-        self.dnaFile = 'phase_13/dna/party_sz.pdna'
+        self.dnaFile = 'phase_13/dna/party_sz.xml'
         self.safeZoneStorageDNAFile = None
         self.cloudSwitch = 0
         self.id = PartyHood
@@ -113,8 +113,8 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         self.loadSunMoon()
 
     def loadSunMoon(self):
-        self.sun = loader.loadModel('phase_4/models/props/sun.bam')
-        self.moon = loader.loadModel('phase_5.5/models/props/moon.bam')
+        self.sun = loader.loadModel('phase_4/models/props/sun')
+        self.moon = loader.loadModel('phase_5.5/models/props/moon')
         self.sunMoonNode = self.geom.attachNewNode('sunMoon')
         self.sunMoonNode.setPosHpr(0, 0, 0, 0, 0, 0)
         if self.sun:
@@ -207,12 +207,12 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
 
     def debugGeom(self, decomposed):
         print 'numPrimitives = %d' % decomposed.getNumPrimitives()
-        for primIndex in xrange(decomposed.getNumPrimitives()):
+        for primIndex in range(decomposed.getNumPrimitives()):
             prim = decomposed.getPrimitive(primIndex)
             print 'prim = %s' % prim
             print 'isIndexed = %d' % prim.isIndexed()
             print 'prim.getNumPrimitives = %d' % prim.getNumPrimitives()
-            for basicPrim in xrange(prim.getNumPrimitives()):
+            for basicPrim in range(prim.getNumPrimitives()):
                 print '%d start=%d' % (basicPrim, prim.getPrimitiveStart(basicPrim))
                 print '%d end=%d' % (basicPrim, prim.getPrimitiveEnd(basicPrim))
 
@@ -243,13 +243,13 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         self.cloudOrigin.setZ(30)
         self.loadSkyCollision()
         self.numClouds = 12
-        for i in xrange(self.numClouds):
+        for i in range(self.numClouds):
             self.loadCloud(i, 50, 0)
 
-        for i in xrange(self.numClouds):
+        for i in range(self.numClouds):
             self.loadCloud(i, 70, 30)
 
-        for i in xrange(self.numClouds):
+        for i in range(self.numClouds):
             self.loadCloud(i, 30, 60)
 
         self.cloudOrigin.stash()

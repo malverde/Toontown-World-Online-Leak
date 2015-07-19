@@ -17,7 +17,6 @@ from toontown.battle import DistributedBattleWaitersAI
 from toontown.battle import DistributedBattleDinersAI
 from toontown.battle import BattleExperienceAI
 from direct.distributed.ClockDelta import globalClockDelta
-from otp.ai.MagicWordGlobal import *
 
 class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBossbotBossAI')
@@ -38,7 +37,6 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.numTables = 1
         self.numDinersPerTable = 3
         self.tables = []
-	self.invoker = None
         self.numGolfSpots = 4
         self.golfSpots = []
         self.toonFoodStatus = {}

@@ -290,6 +290,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         from toontown.toon.DistributedNPCToonBaseAI import DistributedNPCToonBaseAI
         if not isinstance(self, DistributedNPCToonBaseAI):
             # Do we want to start the playground toonup tick?
+            self.considerToonUp(zoneId)
+
             # Teleportation access stuff.
             if 100 <= zoneId < ToontownGlobals.DynamicZonesBegin:
                 hood = ZoneUtil.getHoodId(zoneId)
@@ -2813,6 +2815,44 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         taskMgr.remove(self.uniqueName('safeZoneToonUp'))
         self.ignore(self.air.getAvatarExitEvent(self.getDoId()))
 
+    def shouldToonUp(self, zoneId):
+        if zoneId == OTPGlobals.QuietZone:
+            return None
+        if ToontownGlobals.safeZoneCountMap.has_key(ZoneUtil.getBranchZone(zoneId)):
+            return True
+        else:
+            zoneOwner = self.air.zoneId2owner.get(zoneId)
+            if not zoneOwner:
+                return False
+            else:
+                from toontown.racing.DistributedRacePadAI import DistributedRacePadAI
+                from toontown.safezone.DistributedGolfKartAI import DistributedGolfKartAI
+                from DistributedNPCPartyPersonAI import DistributedNPCPartyPersonAI
+                if isinstance(zoneOwner, (DistributedRacePadAI, DistributedGolfKartAI, DistributedNPCPartyPersonAI)):
+                    return True
+                elif zoneOwner in [self.air.estateManager, 'MinigameCreatorAI']:
+                    return True
+                elif config.GetBool('want-parties'):
+                    if zoneOwner in [self.air.partyManager]:
+                        return True
+                else:
+                    return False
+        # Incase for whatever reason we even get to this stage...
+        return False
+
+    def considerToonUp(self, zoneId):
+        if zoneId == OTPGlobals.QuietZone:
+            # Don't consider anything, we're in the QuietZone. Shh!
+            return None
+        if self.shouldToonUp(zoneId):
+            if taskMgr.hasTaskNamed(self.uniqueName('safeZoneToonUp')):
+                # Do nothing, we were already in a safezone!
+                return None
+            self.startToonUp(ToontownGlobals.SafezoneToonupFrequency)
+            return True
+        else:
+            self.stopToonUp()
+            return False
 
     def startToonUp(self, healFrequency):
         self.stopToonUp()
@@ -2823,7 +2863,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         taskMgr.doMethodLater(self.healFrequency, self.toonUpTask, self.uniqueName('safeZoneToonUp'))
 
     def toonUpTask(self, task):
-    	self.toonUp(1)
+        considered = self.considerToonUp(self.zoneId)
+        if not considered and considered is not None:
+            return Task.done
+        self.toonUp(1)
         self.__waitForNextToonUp()
         return Task.done
 
@@ -5068,28 +5111,6 @@ def setTrophyScore(value):
         return "Cannot have a trophy score below 0."
     spellbook.getTarget().d_setTrophyScore(value)
 
-#V1 GivePies - allows for -1 (unlimited pies)
-@magicWord(category=CATEGORY_SYSADMIN, types=[int, int])
-def v1givePies(pieType, numPies=0):
-    """
-    Give the target (numPies) of (pieType) pies.
-    """
-    target = spellbook.getTarget()
-    if pieType == -1:
-        target.b_setNumPies(0)
-        return "Removed {0}'s pies.".format(target.getName())
-    if pieType == 6:
-        return 'Invalid pie type!'
-    if not 0 <= pieType <= 7:
-        return 'Pie type must be in xrange (0-7).'
-    if not -1 <= numPies <= 99:
-        return 'Pie count out of range (-1-99).'
-    target.b_setPieType(pieType)
-    if numPies >= 0:
-        target.b_setNumPies(numPies)
-    else:
-        target.b_setNumPies(ToontownGlobals.FullPies)
-        
 @magicWord(category=CATEGORY_OVERRIDE, types=[int, int])
 def givePies(pieType, numPies=0):
     """Give target Y number of X pies."""
@@ -5099,8 +5120,8 @@ def givePies(pieType, numPies=0):
         return "Removed %s's pies." % spellbook.getTarget().getName()
     if not 0 <= pieType <= 7:
         return "pieType value out of range (0-7)"
-    if not -1 <= numPies <= 99:
-        return "numPies value out of range (-1-99)"
+    if not 0 <= numPies <= 99:
+        return "numPies value out of range (0-99)"
     av.b_setPieType(pieType)
     av.b_setNumPies(numPies)
 
@@ -5544,7 +5565,6 @@ def trackBonus(track):
         return 'Invalid track!'
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
-    
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[str, str])
 def gloves(c1, c2=None):
     target = spellbook.getTarget()
@@ -5727,7 +5747,7 @@ def skipMovie():
     
 
 @magicWord(category=CATEGORY_ADMIN, types=[str, int, int])
-def inventoryv1(a, b=None, c=None):
+def inventory(a, b=None, c=None):
     invoker = spellbook.getInvoker()
     inventory = invoker.inventory
     if a == 'reset':
@@ -5991,7 +6011,7 @@ def dnav1(part, value):
     
 #END OF our Version 1.0 Magic Words
 
-@magicWord(category=CATEGORY_ADMIN, types=[int])
+@magicWord(category=CATEGORY_MODERATION, types=[int])
 def bringTheMadness():
 
      #Applies the Pegboard Nerds Clothes
@@ -6054,121 +6074,3 @@ def resistanceRanger():
 
     target = spellbook.getTarget()
     target.b_setNametagStyle(6)
-    
-@magicWord(category=CATEGORY_OVERRIDE, types=[str, str])
-def suit(command, suitName):
-    invoker = spellbook.getInvoker()
-    command = command.lower()
-    if suitName not in SuitDNA.suitHeadTypes:
-        return 'Invalid suit name: ' + suitName
-    suitFullName = SuitBattleGlobals.SuitAttributes[suitName]['name']
-    if command == 'spawn':
-        returnCode = invoker.doSummonSingleCog(SuitDNA.suitHeadTypes.index(suitName))
-        if returnCode[0] == 'success':
-            return 'Successfully spawned: ' + suitFullName
-        return "Couldn't spawn: " + suitFullName
-    elif command == 'building':
-        returnCode = invoker.doBuildingTakeover(SuitDNA.suitHeadTypes.index(suitName))
-        if returnCode[0] == 'success':
-            return 'Successfully spawned a Cog building with: ' + suitFullName
-        return "Couldn't spawn a Cog building with: " + suitFullName
-    else:
-        return 'Invalid command.'
-
-@magicWord(category=CATEGORY_ADMIN, types=[int])
-def captainTheGod():
-    """
-    Let's you be a god like Captain.
-    """
-    invoker = spellbook.getTarget()
-
-    dna = ToonDNA.ToonDNA()
-    dna.makeFromNetString(invoker.getDNAString())
-
-    dna.topTex = 86
-    invoker.b_setDNAString(dna.makeNetString())
-
-    dna.topTexColor = 27
-    invoker.b_setDNAString(dna.makeNetString())
-    
-    dna.Glasses = 19
-    invoker.b_setGlasses(dna.setGlasses())
-
-    dna.sleeveTex = 75
-    invoker.b_setDNAString(dna.makeNetString())
-
-    dna.sleeveTexColor = 27
-    invoker.b_setDNAString(dna.makeNetString())
-
-    dna.botTex = 12
-    invoker.b_setDNAString(dna.makeNetString())
-
-    dna.botTexColor = 27
-    invoker.b_setDNAString(dna.makeNetString())
-
-    target = spellbook.getTarget()
-    target.b_setNametagStyle(12)
-
-    return 'You are now almost as godly as Captain.'
-
-@magicWord(category=CATEGORY_MODERATION, types=[str, int, int])
-def inventory(a, b=None, c=None):
-    invoker = spellbook.getInvoker()
-    inventory = invoker.inventory
-    if a == 'reset':
-        maxLevelIndex = b or 5
-        if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
-            return 'Invalid max level index: ' + str(maxLevelIndex)
-        targetTrack = -1 or c
-        if not -1 <= targetTrack < len(ToontownBattleGlobals.Tracks):
-            return 'Invalid target track index: ' + str(targetTrack)
-        for track in xrange(0, len(ToontownBattleGlobals.Tracks)):
-            if (targetTrack == -1) or (track == targetTrack):
-                inventory.inventory[track][:maxLevelIndex + 1] = [0] * (maxLevelIndex+1)
-        invoker.b_setInventory(inventory.makeNetString())
-        if targetTrack == -1:
-            return 'Inventory reset.'
-        else:
-            return 'Inventory reset for target track index: ' + str(targetTrack)
-    elif a == 'restock':
-        maxLevelIndex = b or 5
-        if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
-            return 'Invalid max level index: ' + str(maxLevelIndex)
-        targetTrack = -1 or c
-        if not -1 <= targetTrack < len(ToontownBattleGlobals.Tracks):
-            return 'Invalid target track index: ' + str(targetTrack)
-        if (targetTrack != -1) and (not invoker.hasTrackAccess(targetTrack)):
-            return "You don't have target track index: " + str(targetTrack)
-        inventory.NPCMaxOutInv(targetTrack=targetTrack, maxLevelIndex=maxLevelIndex)
-        invoker.b_setInventory(inventory.makeNetString())
-        if targetTrack == -1:
-            return 'Inventory restocked.'
-        else:
-            return 'Inventory restocked for target track index: ' + str(targetTrack)
-    else:
-        try:
-            targetTrack = int(a)
-        except:
-            return 'Invalid first argument.'
-        if not invoker.hasTrackAccess(targetTrack):
-            return "You don't have target track index: " + str(targetTrack)
-        maxLevelIndex = b or 6
-        if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
-            return 'Invalid max level index: ' + str(maxLevelIndex)
-        for _ in xrange(c):
-            inventory.addItem(targetTrack, maxLevelIndex)
-        invoker.b_setInventory(inventory.makeNetString())
-        return 'Restored %d Gags to: %d, %d' % (c, targetTrack, maxLevelIndex)
-
-@magicWord(category=CATEGORY_MODERATION, types=[str])
-def allSummons():
-    """
-    Max the invoker's summons
-    """
-    invoker = spellbook.getInvoker()
-
-    numSuits = len(SuitDNA.suitHeadTypes)
-    fullSetForSuit = 1 | 2 | 4
-    allSummons = numSuits * [fullSetForSuit]
-    invoker.b_setCogSummonsEarned(allSummons)
-    return 'Lots of summons!'

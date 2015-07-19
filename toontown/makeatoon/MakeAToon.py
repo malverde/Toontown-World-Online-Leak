@@ -1,9 +1,11 @@
 from pandac.PandaModules import *
 from toontown.distributed.ToontownMsgTypes import *
+from toontown.char import Char
 from otp.avatar import Avatar
 from toontown.toon import Toon
 from toontown.toon import LocalToon
 from toontown.toon import ToonDNA
+from toontown.char import CharDNA
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.fsm import StateData

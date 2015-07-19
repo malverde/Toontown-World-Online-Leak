@@ -13,17 +13,7 @@ from DNAFurnitureReaderAI import DNAFurnitureReaderAI
 from toontown.toonbase import ToontownGlobals
 import HouseGlobals
 import random
-# The house interior DNA files 
-houseInteriors = [
-    'phase_5.5/dna/house_interior3.pdna',
-    'phase_5.5/dna/house_interior4.pdna',
-    'phase_5.5/dna/house_interior5.pdna',
-    'phase_5.5/dna/house_interior7.pdna',
-    'phase_5.5/dna/house_interior8.pdna',
-    'phase_5.5/dna/house_interior10.pdna',
-]
-
-
+# 2?
 defaultWindows = [
     CatalogWindowItem(20, placement=2), CatalogWindowItem(20, placement=4)
 ]
@@ -65,14 +55,16 @@ class DistributedHouseInteriorAI(DistributedObjectAI):
 
     def initialize(self):
         # Get DNA file appropriate to this house...
-        dnaFile = houseInteriors[self.houseIndex]
+        interior = random.choice(HouseGlobals.interiors)
+        
+        dnaFile = interior[0]
+        phonePos = interior[4]
 
         # Load DNA...
-        dnaStorage = DNAStorage()
-        dnaData = loadDNAFileAI(dnaStorage, dnaFile)
+        dnaData = self.air.loadDNA(dnaFile)
 
         # Read it into furniture...
-        furnitureReader = DNAFurnitureReaderAI(dnaData, [-11, 2, 0, 0, 0, 0])
+        furnitureReader = DNAFurnitureReaderAI(dnaData, phonePos)
 
         # Set furniture:
         self.furnitureManager.setItems(furnitureReader.getBlob())

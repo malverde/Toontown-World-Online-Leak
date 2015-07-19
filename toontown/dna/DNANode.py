@@ -1,55 +1,34 @@
-from panda3d.core import LVector3f, PandaNode
-import DNAGroup
+from DNAGroup import DNAGroup
+from DNAParser import *
+from panda3d.core import *
+# For the get* helpers:
+from DNAPos import DNAPos
+from DNAHpr import DNAHpr
+from DNAColor import DNAColor
+from DNAScale import DNAScale
 
-class DNANode(DNAGroup.DNAGroup):
-    COMPONENT_CODE = 3
+class DNANode(DNAGroup):
+    TAG = 'node'
 
-    def __init__(self, name):
-        DNAGroup.DNAGroup.__init__(self, name)
-        self.pos = LVector3f()
-        self.hpr = LVector3f()
-        self.scale = LVector3f(1, 1, 1)
+    DEPTH_OFFSET = 3
+
+    def _getAttribute(self, type, member, default):
+        children = self.findChildren(type)
+        if not children:
+            return default
+        else:
+            return getattr(children[0], member)
 
     def getPos(self):
-        return self.pos
-
-    def setPos(self, pos):
-        self.pos = pos
+        return self._getAttribute(DNAPos, 'pos', (0.0, 0.0, 0.0))
 
     def getHpr(self):
-        return self.hpr
-
-    def setHpr(self, hpr):
-        self.hpr = hpr
+        return self._getAttribute(DNAHpr, 'hpr', (0.0, 0.0, 0.0))
 
     def getScale(self):
-        return self.scale
+        return self._getAttribute(DNAScale, 'scale', (1.0, 1.0, 1.0))
 
-    def setScale(self, scale):
-        self.scale = scale
+    def getColor(self):
+        return self._getAttribute(DNAColor, 'color', (1.0, 1.0, 1.0, 1.0))
 
-    def makeFromDGI(self, dgi):
-        DNAGroup.DNAGroup.makeFromDGI(self, dgi)
-
-        x = dgi.getInt32() / 100.0
-        y = dgi.getInt32() / 100.0
-        z = dgi.getInt32() / 100.0
-        self.pos = LVector3f(x, y, z)
-
-        h = dgi.getInt32() / 100.0
-        p = dgi.getInt32() / 100.0
-        r = dgi.getInt32() / 100.0
-        self.hpr = LVector3f(h, p, r)
-
-        sx = dgi.getInt16() / 100.0
-        sy = dgi.getInt16() / 100.0
-        sz = dgi.getInt16() / 100.0
-        self.scale = LVector3f(sx, sy, sz)
-
-    def traverse(self, nodePath, dnaStorage):
-        node = PandaNode(self.name)
-        node = nodePath.attachNewNode(node, 0)
-        node.setPosHprScale(self.pos, self.hpr, self.scale)
-        for child in self.children:
-            child.traverse(node, dnaStorage)
-        node.flattenMedium()
+registerElement(DNANode)

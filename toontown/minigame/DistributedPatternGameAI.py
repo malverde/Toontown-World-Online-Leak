@@ -1,4 +1,4 @@
-"""from DistributedMinigameAI import *
+from DistributedMinigameAI import *
 from toontown.ai.ToonBarrier import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
@@ -192,4 +192,4 @@ class DistributedPatternGameAI(DistributedMinigameAI):
         self.notify.debug('enterCleanup')
 
     def exitCleanup(self):
-        pass"""
+        pass

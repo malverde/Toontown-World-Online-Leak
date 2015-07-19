@@ -1,46 +1,42 @@
-import random
-
-from direct.directnotify import DirectNotifyGlobal
+from otp.ai.AIBase import *
+from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import ClockDelta
-from direct.interval.IntervalGlobal import *
 from direct.task import Task
-from otp.ai.AIBase import *
-from otp.level import BasicEntities
 from otp.level import DistributedEntityAI
+from otp.level import BasicEntities
+from direct.directnotify import DirectNotifyGlobal
 from toontown.coghq import BattleBlockerAI
 from toontown.coghq import LaserGameMineSweeper
 from toontown.coghq import LaserGameRoll
-
+import random
 
 class DistributedSecurityCameraAI(DistributedEntityAI.DistributedEntityAI, NodePath, BasicEntities.NodePathAttribs):
+
     def __init__(self, level, entId):
         DistributedEntityAI.DistributedEntityAI.__init__(self, level, entId)
         node = hidden.attachNewNode('DistributedSecurityCameraAI')
         NodePath.__init__(self, node)
         if not hasattr(self, 'switchId'):
             self.switchId = 0
-
         if not hasattr(self, 'damPow'):
             self.damPow = 1
-
         self.enabled = 1
         self.detectName = None
+        return
 
     def generate(self):
         DistributedEntityAI.DistributedEntityAI.generate(self)
         if self.switchId != 0:
             self.accept(self.getOutputEventName(self.switchId), self.reactToSwitch)
-
         self.detectName = 'laserField %s' % self.doId
-        taskMgr.doMethodLater(3.0, self._DistributedSecurityCameraAI__detect, self.detectName)
+        taskMgr.doMethodLater(3.0, self.__detect, self.detectName)
         self.setPos(self.pos)
         self.setHpr(self.hpr)
 
     def delete(self):
         if self.detectName:
             taskMgr.remove(self.detectName)
-
         self.ignoreAll()
         DistributedEntityAI.DistributedEntityAI.delete(self)
 
@@ -48,7 +44,7 @@ class DistributedSecurityCameraAI(DistributedEntityAI.DistributedEntityAI, NodeP
         self.notify.info('destroy entity(laserField) %s' % self.entId)
         DistributedEntityAI.DistributedEntityAI.destroy(self)
 
-    def _DistributedSecurityCameraAI__detect(self, task):
+    def __detect(self, task):
         isThereAnyToons = False
         if hasattr(self, 'level'):
             toonInRange = 0
@@ -57,16 +53,12 @@ class DistributedSecurityCameraAI(DistributedEntityAI.DistributedEntityAI, NodeP
                     av = self.air.doId2do[avId]
                     isThereAnyToons = True
                     distance = self.getDistance(av)
-                    continue
 
             if isThereAnyToons:
                 randTime = float(random.randint(1, 6)) * 0.5
-                taskMgr.doMethodLater(randTime, self._DistributedSecurityCameraAI__detect, self.detectName)
+                taskMgr.doMethodLater(randTime, self.__detect, self.detectName)
                 randTarget = random.randint(0, 100)
-                self.sendUpdate('setTarget', [
-                    randTarget])
-
-
+                self.sendUpdate('setTarget', [randTarget])
         return Task.done
 
     def hit(self, hitX, hitY):

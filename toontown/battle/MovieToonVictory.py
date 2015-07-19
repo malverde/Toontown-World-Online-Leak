@@ -5,7 +5,8 @@ from BattleSounds import *
 import MovieCamera
 from direct.directnotify import DirectNotifyGlobal
 import types
-from toontown.nametag import NametagGlobals
+from otp.nametag.NametagConstants import *
+from otp.nametag import NametagGlobals
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieToonVictory')
 
 def __findToonReward(rewards, toon):
@@ -76,7 +77,7 @@ def doToonVictory(localToonActive, toons, rewardToonIds, rewardDicts, deathList,
     track = Sequence()
     if localToonActive == 1:
         track.append(Func(rpanel.show))
-        track.append(Func(NametagGlobals.setForceOnscreenChat, True))
+        track.append(Func(NametagGlobals.setOnscreenChatForced, 1))
     camTrack = Sequence()
     endTrack = Sequence()
     danceSound = globalBattleSoundCache.getSound('ENC_Win.ogg')
@@ -121,7 +122,7 @@ def doToonVictory(localToonActive, toons, rewardToonIds, rewardDicts, deathList,
     track.append(Func(skipper.destroy))
     if localToonActive == 1:
         track.append(Func(rpanel.hide))
-        track.append(Func(NametagGlobals.setForceOnscreenChat, False))
+        track.append(Func(NametagGlobals.setOnscreenChatForced, 0))
     track.append(endTrack)
     trackdur = track.getDuration()
     soundTrack = SoundInterval(danceSound, duration=trackdur, loop=1)

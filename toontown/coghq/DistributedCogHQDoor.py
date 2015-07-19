@@ -81,7 +81,7 @@ class DistributedCogHQDoor(DistributedDoor.DistributedDoor):
             self.doorX = 1.0
 
     def enterDoor(self):
-        if self.allowedToEnter():
+        if self.allowedToEnter(self.zoneId):
             messenger.send('DistributedDoor_doorTrigger')
             self.sendUpdate('requestEnter')
         else:

@@ -2,10 +2,8 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.catalog.CatalogItemList import CatalogItemList
 from toontown.catalog import CatalogItem
-from toontown.catalog.CatalogFurnitureItem import CatalogFurnitureItem, FLCloset, FLBank, FLPhone, FLTrunk, FLIsTable
+from toontown.catalog.CatalogFurnitureItem import CatalogFurnitureItem, FLCloset, FLBank, FLPhone #, FLTrunk
 from toontown.catalog.CatalogWallpaperItem import CatalogWallpaperItem
-from toontown.catalog.CatalogAccessoryItem import CatalogAccessoryItem
-from toontown.catalog.CatalogClothingItem import CatalogClothingItem
 from toontown.catalog.CatalogMouldingItem import CatalogMouldingItem
 from toontown.catalog.CatalogFlooringItem import CatalogFlooringItem
 from toontown.catalog.CatalogWainscotingItem import CatalogWainscotingItem
@@ -15,8 +13,6 @@ from DistributedBankAI import DistributedBankAI
 from DistributedPhoneAI import DistributedPhoneAI
 from DistributedClosetAI import DistributedClosetAI
 from DistributedTrunkAI import DistributedTrunkAI
-from otp.ai.MagicWordGlobal import *
-import time
 
 class FurnitureError(Exception):
     def __init__(self, code):
@@ -102,15 +98,7 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
         self.items = []
 
         for item in items:
-            if item.getFlags() & FLTrunk:
-                if self.house.gender is 0:
-                    if item.furnitureType - 4000 < 10:
-                        item.furnitureType += 10
-                elif item.furnitureType - 4000 > 10:
-                    item.furnitureType -= 10
-                do = DistributedTrunkAI(self.air, self, item)
-        
-            elif item.getFlags() & FLCloset:
+            if item.getFlags() & FLCloset:
                 if self.house.gender is 0:
                     # If they have a male closet, we need to make it a female closet.
                     if item.furnitureType - 500 < 10:
@@ -123,7 +111,13 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
                 do = DistributedBankAI(self.air, self, item)
             elif item.getFlags() & FLPhone:
                 do = DistributedPhoneAI(self.air, self, item)
-
+          #  elif item.getFlags() & FLTrunk:
+           #     if self.house.gender is 0:
+            #        if item.furnitureType - 500 > 10:
+             #           item.furnitureType += 10
+              #  elif item.furnitureType - 500 > 10:
+               #     item.furnitureType -=10
+                #do = DistributedTrunkAI(self.air, self, item)
             else:
                 do = DistributedFurnitureItemAI(self.air, self, item)
 
@@ -281,15 +275,8 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
         self.d_setAtticItems(self.getAtticItems())
 
         item.posHpr = (x, y, z, h, p, r)
-        if item.getFlags() & FLTrunk:
-            if self.house.gender is 0:
-                if item.furnitureType - 4000 < 10:
-                    item.furnitureType += 10
-            elif item.furnitureType - 4000 > 10:
-                item.furnitureType -= 10
-            do = DistributedTrunkAI(self.air, self, item)
 
-        elif item.getFlags() & FLCloset:
+        if item.getFlags() & FLCloset:
             if self.house.gender is 0:
                 # If they have a male closet, we need to make it a female closet.
                 if item.furnitureType - 500 < 10:
@@ -298,13 +285,13 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
                 # If they have a female closet, we need to make it a male closet.
                 item.furnitureType -= 10
             do = DistributedClosetAI(self.air, self, item)
-        elif item.getFlags() & FLTrunk:
-            if self.house.gender is 0:
-                if item.furnitureType - 4000 < 10:
-                    item.furnitureType += 10
-            elif item.furnitureType - 4000 > 10:
-                item.furnitureType -= 10
-            do = DistributedTrunkAI(self.air, self, item)
+       # elif item.getFlags() & FLTrunk:
+        #    if self.house.gender is 0:
+         #       if item.furnitureType - 4000 < 10:
+          #          item.furnitureType += 10
+           # elif item.furnitureType - 4000 > 10:
+            #    item.furnitureType -= 10
+            #do = DistributedTrunkAI(self.air, self, item)
         
         elif item.getFlags() & FLBank:
             do = DistributedBankAI(self.air, self, item)
@@ -363,7 +350,7 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
         return retcode
 
     def deleteWallpaperFromAttic(self, blob, index):
-        wallpaper = self.getAtticFurniture(self.atticWallpaper, index)
+        wallpaper = self.getAtticFurniture(blob, index)
         self.atticWallpaper.remove(wallpaper)
         self.b_setAtticWallpaper(self.getAtticWallpaper())
 
@@ -531,66 +518,3 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
                 return window
 
         return None
-
-@magicWord(category=CATEGORY_ADMIN, types=[int])
-def furniture(value):
-    """
-    ship any furniture item from your catalog
-    """
-
-    value = int(value)
-
-    target = spellbook.getTarget()
-    if not target:
-        target = spellbook.getInvoker()
-    if not target:
-        return "Strange.. who are we talking about?"
-
-    item = CatalogFurnitureItem(value)  # the Item...
-    item.deliveryDate = int(time.time()/60) + item.getDeliveryTime()
-    target.onOrder.append(item)
-    target.b_setDeliverySchedule(target.onOrder)
-
-    return "Its on its way..."
-    
-@magicWord(category=CATEGORY_ADMIN, types=[int])
-def accessory(value):
-    """
-    ship any accessory item from your catalog
-    """
-
-    value = int(value)
-
-    target = spellbook.getTarget()
-    if not target:
-        target = spellbook.getInvoker()
-    if not target:
-        return "Strange.. who are we talking about?"
-
-    item = CatalogAccessoryItem(value)  # the Item...
-    item.deliveryDate = int(time.time()/60) + item.getDeliveryTime()
-    target.onOrder.append(item)
-    target.b_setDeliverySchedule(target.onOrder)
-
-    return "Its on its way..."
-    
-@magicWord(category=CATEGORY_ADMIN, types=[int])
-def clothing(value):
-    """
-    ship any clothing item from your catalog
-    """
-
-    value = int(value)
-
-    target = spellbook.getTarget()
-    if not target:
-        target = spellbook.getInvoker()
-    if not target:
-        return "Strange.. who are we talking about?"
-
-    item = CatalogClothingItem(value, 0)  # the Item...
-    item.deliveryDate = int(time.time()/60) + item.getDeliveryTime()
-    target.onOrder.append(item)
-    target.b_setDeliverySchedule(target.onOrder)
-
-    return "Its on its way..."

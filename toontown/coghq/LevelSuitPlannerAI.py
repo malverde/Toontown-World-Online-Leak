@@ -14,7 +14,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
         self.level = level
         self.cogCtor = cogCtor
         self.cogSpecs = cogSpecs
-        if simbase.config.GetBool('level-reserve-suits', 0):
+        if config.GetBool('level-reserve-suits', 0):
             self.reserveCogSpecs = reserveCogSpecs
         else:
             self.reserveCogSpecs = []
@@ -37,7 +37,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
 
     def __genJoinChances(self, num):
         joinChances = []
-        for currChance in xrange(num):
+        for currChance in range(num):
             joinChances.append(random.randint(1, 100))
 
         joinChances.sort(cmp)
@@ -58,14 +58,14 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
 
         self.suitInfos = {}
         self.suitInfos['activeSuits'] = []
-        for i in xrange(len(self.cogSpecs)):
+        for i in range(len(self.cogSpecs)):
             spec = self.cogSpecs[i]
             self.suitInfos['activeSuits'].append(getSuitDict(spec, i))
 
         numReserve = len(self.reserveCogSpecs)
         joinChances = self.__genJoinChances(numReserve)
         self.suitInfos['reserveSuits'] = []
-        for i in xrange(len(self.reserveCogSpecs)):
+        for i in range(len(self.reserveCogSpecs)):
             spec = self.reserveCogSpecs[i]
             suitDict = getSuitDict(spec, i)
             suitDict['joinChance'] = joinChances[i]

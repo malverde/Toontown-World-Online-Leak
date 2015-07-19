@@ -23,7 +23,7 @@ class DistributedPartyCogActivity(DistributedPartyTeamActivity):
 
     def announceGenerate(self):
         DistributedPartyTeamActivity.announceGenerate(self)
-        for i in xrange(len(self.toonIds)):
+        for i in range(len(self.toonIds)):
             for toonId in self.toonIds[i]:
                 toon = base.cr.doId2do.get(toonId, None)
                 if toon:

@@ -50,7 +50,7 @@ class CatalogGardenItem(CatalogItem.CatalogItem):
 
     def getPicture(self, avatar):
         photoModel = GardenGlobals.Specials[self.gardenIndex]['photoModel']
-        if 'photoAnimation' in GardenGlobals.Specials[self.gardenIndex]:
+        if GardenGlobals.Specials[self.gardenIndex].has_key('photoAnimation'):
             modelPath = photoModel + GardenGlobals.Specials[self.gardenIndex]['photoAnimation'][0]
             animationName = GardenGlobals.Specials[self.gardenIndex]['photoAnimation'][1]
             animationPath = photoModel + animationName
@@ -160,7 +160,7 @@ class CatalogGardenItem(CatalogItem.CatalogItem):
         result = False
         if canPlant < numBeansRequired:
             result = True
-        if not result and self.gardenIndex in GardenGlobals.Specials and 'minSkill' in GardenGlobals.Specials[self.gardenIndex]:
+        if not result and GardenGlobals.Specials.has_key(self.gardenIndex) and GardenGlobals.Specials[self.gardenIndex].has_key('minSkill'):
             minSkill = GardenGlobals.Specials[self.gardenIndex]['minSkill']
             if avatar.shovelSkill < minSkill:
                 result = True

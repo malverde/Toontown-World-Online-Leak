@@ -15,6 +15,8 @@ from StringIO import StringIO
 import BlinkingArrows
 from otp.speedchat import SpeedChatGlobals
 from toontown.ai import DistributedBlackCatMgr
+from toontown.char import Char
+from toontown.char import CharDNA
 from toontown.chat.ChatGlobals import *
 from toontown.suit import Suit
 from toontown.suit import SuitDNA
@@ -1090,10 +1092,5 @@ class NPCMoviePlayer(DirectObject.DirectObject):
 
         else:
             return Wait(0.0)
-searchPath = DSearchPath()
-searchPath.appendDirectory(Filename('/phase_3/etc'))
-scriptFile = Filename('QuestScripts.txt')
-found = vfs.resolveFilename(scriptFile, searchPath)
-if not found:
-    notify.error('Could not find QuestScripts.txt file')
+
 readFile()

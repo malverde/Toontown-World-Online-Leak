@@ -5,9 +5,6 @@ from direct.gui.DirectGui import DirectFrame, DirectLabel, DirectButton, DirectS
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.parties.CalendarGuiDay import CalendarGuiDay
-TTLocalizer.CalendarShowAll = str(TTLocalizer.CalendarShowAll)
-TTLocalizer.CalendarShowOnlyHolidays = str(TTLocalizer.CalendarShowOnlyHolidays)
-TTLocalizer.CalendarShowOnlyParties = str(TTLocalizer.CalendarShowOnlyParties)
 
 class CalendarGuiMonth(DirectFrame):
     notify = directNotify.newCategory('CalendarGuiMonth')
@@ -21,7 +18,7 @@ class CalendarGuiMonth(DirectFrame):
         if self.onlyFutureDaysClickable:
             self.onlyFutureMonthsClickable = True
         DirectFrame.__init__(self, parent=parent, scale=scale, pos=pos)
-        self.showMarkers = base.config.GetBool('show-calendar-markers', 0)
+        self.showMarkers = config.GetBool('show-calendar-markers', 0)
         self.load()
         self.createGuiObjects()
         self.lastSelectedDate = None
@@ -134,15 +131,10 @@ class CalendarGuiMonth(DirectFrame):
         self.filterList = DirectScrolledList(parent=self.filterLocator, relief=None, pos=(0, 0, 0), image=None, text_scale=0.025, incButton_image=(arrowUp,
          arrowDown,
          arrowHover,
-         arrowUp), incButton_relief=None, incButton_pos=filterLocatorDownPos, incButton_image3_color=Vec4(1, 1, 1, 0.2),
-         incButtonCallback=self.filterChanged, decButton_image=(arrowUp,
+         arrowUp), incButton_relief=None, incButton_pos=filterLocatorDownPos, incButton_image3_color=Vec4(1, 1, 1, 0.2), incButtonCallback=self.filterChanged, decButton_image=(arrowUp,
          arrowDown,
          arrowHover,
-         arrowUp), decButton_relief=None, decButton_pos=filterLocatorUpPos, decButton_scale=(1, 1, -1), decButton_image3_color=Vec4(1, 1, 1, 0.2),
-         decButtonCallback=self.filterChanged, numItemsVisible=1, itemMakeFunction=makeLabel,
-         items=[TTLocalizer.CalendarShowAll, TTLocalizer.CalendarShowOnlyHolidays, TTLocalizer.CalendarShowOnlyParties],
-         itemFrame_frameSize=(-.2, 0.2, -.02, 0.05), itemFrame_frameColor=(0, 0, 0, 0))
-        
+         arrowUp), decButton_relief=None, decButton_pos=filterLocatorUpPos, decButton_scale=(1, 1, -1), decButton_image3_color=Vec4(1, 1, 1, 0.2), decButtonCallback=self.filterChanged, numItemsVisible=1, itemMakeFunction=makeLabel, items=[TTLocalizer.CalendarShowAll, TTLocalizer.CalendarShowOnlyHolidays, TTLocalizer.CalendarShowOnlyParties], itemFrame_frameSize=(-.2, 0.2, -.02, 0.05), itemFrame_frameColor=(0, 0, 0, 0))
         gui.removeNode()
         return
 

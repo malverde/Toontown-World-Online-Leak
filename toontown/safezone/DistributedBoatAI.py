@@ -1,86 +1,65 @@
-from direct.distributed import DistributedObjectAI
+from direct.directnotify import DirectNotifyGlobal
+from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
-from otp.ai.AIBase import *
-from toontown.toonbase.ToontownGlobals import *
 
-
-class DistributedBoatAI(DistributedObjectAI.DistributedObjectAI):
-
+class DistributedBoatAI(DistributedObjectAI):
+    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedBoatAI")
+    PIER_TIME = 5.0
+    TRAVEL_TIME = 20.0
     def __init__(self, air):
-        DistributedObjectAI.DistributedObjectAI.__init__(self, air)
-        self.fsm = ClassicFSM.ClassicFSM(
-            'DistributedBoatAI',
-            [
-                State.State('off', self.enterOff, self.exitOff,
-                            ['DockedEast']),
-                State.State('DockedEast', self.enterDockedEast, self.exitDockedEast,
-                            ['SailingWest']),
-                State.State('SailingWest', self.enterSailingWest, self.exitSailingWest,
-                            ['DockedWest']),
-                State.State('DockedWest', self.enterDockedWest, self.exitDockedWest,
-                            ['SailingEast']),
-                State.State('SailingEast', self.enterSailingEast, self.exitSailingEast,
-                            ['DockedEast'])
-            ], 'off', 'off')
+        DistributedObjectAI.__init__(self, air)
+        self.state = ''
+        self.stateTime = globalClockDelta.getRealNetworkTime()
+        self.fsm = ClassicFSM.ClassicFSM('DistributedBoat', [
+          State.State('DockedEast', self.enterDockedEast, self.exitDockedEast, ['SailingWest', 'SailingEast', 'DockedWest']),
+          State.State('SailingWest', self.enterSailingWest, self.exitSailingWest, ['DockedWest', 'SailingEast', 'DockedEast']),
+          State.State('DockedWest', self.enterDockedWest, self.exitDockedWest, ['SailingEast', 'SailingWest', 'DockedEast']),
+          State.State('SailingEast', self.enterSailingEast, self.exitSailingEast, ['DockedEast', 'DockedWest', 'SailingWest'])
+        ], 'DockedEast', 'DockedEast')
         self.fsm.enterInitialState()
 
-    def delete(self):
-        self.fsm.request('off')
-        DistributedObjectAI.DistributedObjectAI.delete(self)
-
-    def b_setState(self, state):
-        self.sendUpdate('setState', [state, globalClockDelta.getRealNetworkTime()])
-        self.fsm.request(state)
-
-    def getState(self):
-        return [self.fsm.getCurrentState().getName(), globalClockDelta.getRealNetworkTime()]
-
-    def start(self):
-        self.b_setState('DockedEast')
-
-    def enterOff(self):
-        pass
-
-    def exitOff(self):
-        pass
-
     def enterDockedEast(self):
-        taskMgr.doMethodLater(10.0, self.__departEast, 'depart-east')
-
+        self.setState('DockedEast')
+        self.sailWestTask = taskMgr.doMethodLater(self.PIER_TIME, self.__sailWest, 'boatSailingTask')
     def exitDockedEast(self):
-        taskMgr.remove('depart-east')
-
-    def __departEast(self, task):
-        self.b_setState('SailingWest')
-        return Task.done
+        taskMgr.remove(self.sailWestTask)
+    def __sailWest(self, task):
+        self.fsm.request('SailingWest')
+        return task.done
 
     def enterSailingWest(self):
-        taskMgr.doMethodLater(20.0, self.__dockWest, 'dock-west')
-
+        self.setState('SailingWest')
+        self.dockWestTask = taskMgr.doMethodLater(self.TRAVEL_TIME, self.__dockWest, 'boatDockingTask')
     def exitSailingWest(self):
-        taskMgr.remove('dock-west')
-
+        taskMgr.remove(self.dockWestTask)
     def __dockWest(self, task):
-        self.b_setState('DockedWest')
-        return Task.done
+        self.fsm.request('DockedWest')
+        return task.done
 
     def enterDockedWest(self):
-        taskMgr.doMethodLater(10.0, self.__departWest, 'depart-west')
-
+        self.setState('DockedWest')
+        self.sailEastTask = taskMgr.doMethodLater(self.PIER_TIME, self.__sailEast, 'boatSailingTask')
     def exitDockedWest(self):
-        taskMgr.remove('depart-west')
-
-    def __departWest(self, task):
-        self.b_setState('SailingEast')
-        return Task.done
+        taskMgr.remove(self.sailEastTask)
+    def __sailEast(self, task):
+        self.fsm.request('SailingEast')
+        return task.done
 
     def enterSailingEast(self):
-        taskMgr.doMethodLater(20.0, self.__dockEast, 'dock-east')
-
+        self.setState('SailingEast')
+        self.dockEastTask = taskMgr.doMethodLater(self.TRAVEL_TIME, self.__dockEast, 'boatDockingTask')
     def exitSailingEast(self):
-        taskMgr.remove('dock-east')
-
+        taskMgr.remove(self.dockEastTask)
     def __dockEast(self, task):
-        self.b_setState('DockedEast')
-        return Task.done
+        self.fsm.request('DockedEast')
+        return task.done
+
+    def setState(self, state):
+        self.state = state
+        self.stateTime = globalClockDelta.getRealNetworkTime()
+        if hasattr(self, 'doId') and not self.doId is None:
+            self.sendUpdate('setState', [self.state, self.stateTime])
+
+    def getState(self):
+        return (self.state, self.stateTime)

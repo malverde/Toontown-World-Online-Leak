@@ -141,18 +141,15 @@ class TutorialManagerAI(DistributedObjectAI):
 
     def requestSkipTutorial(self):
         avId = self.air.getAvatarIdFromSender()
-        self.d_skipTutorialResponse(avId, 1)
-
-
-        def handleTutorialSkipped(av):
+        av = self.air.doId2do.get(avId)
+        if av:
             av.b_setTutorialAck(1)
-            av.b_setQuests([[110, 1, 1000, 100, 1]])
-            av.b_setQuestHistory([101])
-            av.b_setRewardHistory(1, [])
-
-
-        # We must wait for the avatar to be generated:
-        self.acceptOnce('generate-%d' % avId, handleTutorialSkipped)
+            av.b_setQuestHistory([110, 100])
+            av.addQuest((110, Quests.getQuestFromNpcId(110), Quests.getQuestToNpcId(110), Quests.getQuestReward(110, av), 0), 0)
+            self.air.questManager.toonRodeTrolleyFirstTime(av) #gg hacky
+            self.d_skipTutorialResponse(avId, 1)
+        else:
+            self.d_skipTutorialResponse(avId, 0)
 
     def d_skipTutorialResponse(self, avId, allOk):
         self.sendUpdateToAvatarId(avId, 'skipTutorialResponse', [allOk])
@@ -182,12 +179,13 @@ class TutorialManagerAI(DistributedObjectAI):
             self.air.writeServerEvent('suspicious', avId=avId, issue='Attempted to request Toontorial when it would be impossible to do so')
             return
 
-"""# Reset Toon to be appropriate for the tutorial:
+        # Reset Toon to be appropriate for the tutorial:
         av.b_setQuests([])
         av.b_setQuestHistory([])
         av.b_setRewardHistory(0, [])
-        av.b_setHp(15)
-        av.b_setMaxHp(15)
+        #i want max hp to be 138 , 137 seems too odd lol
+        av.b_setHp(16)
+        av.b_setMaxHp(16)
 
         av.inventory.zeroInv()
         if av.inventory.numItem(ToontownBattleGlobals.THROW_TRACK, 0) == 0:
@@ -198,4 +196,3 @@ class TutorialManagerAI(DistributedObjectAI):
 
         av.experience.zeroOutExp()
         av.d_setExperience(av.experience.makeNetString())
-        """

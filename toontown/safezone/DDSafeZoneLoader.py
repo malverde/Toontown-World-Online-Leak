@@ -1,5 +1,10 @@
-from toontown.safezone import SafeZoneLoader
-from toontown.safezone import DDPlayground
+from pandac.PandaModules import *
+import SafeZoneLoader
+import DDPlayground
+from direct.fsm import State
+from toontown.char import CharDNA
+from toontown.char import Char
+from toontown.toonbase import ToontownGlobals
 
 class DDSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
 
@@ -8,8 +13,8 @@ class DDSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         self.playgroundClass = DDPlayground.DDPlayground
         self.musicFile = 'phase_6/audio/bgm/DD_nbrhood.ogg'
         self.activityMusicFile = 'phase_6/audio/bgm/DD_SZ_activity.ogg'
-        self.dnaFile = 'phase_6/dna/donalds_dock_sz.pdna'
-        self.safeZoneStorageDNAFile = 'phase_6/dna/storage_DD_sz.pdna'
+        self.dnaFile = 'phase_6/dna/donalds_dock_sz.xml'
+        self.safeZoneStorageDNAFile = 'phase_6/dna/storage_DD_sz.xml'
 
     def load(self):
         SafeZoneLoader.SafeZoneLoader.load(self)
@@ -46,3 +51,9 @@ class DDSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         del self.waterSound
         del self.submergeSound
         del self.boat
+
+    def enter(self, requestStatus):
+        SafeZoneLoader.SafeZoneLoader.enter(self, requestStatus)
+
+    def exit(self):
+        SafeZoneLoader.SafeZoneLoader.exit(self)

@@ -26,7 +26,7 @@ class PartyCogTrackerGui:
         i = 0
         self.cogTracker.find('**/shadow').setBin('fixed', 0)
         self.cogTracker.find('**/plane').setBin('fixed', 1)
-        for i in xrange(3):
+        for i in range(3):
             layers = [self.cogTracker.find('**/cog%d_blue' % i), self.cogTracker.find('**/cog%d_orange' % i), self.cogTracker.find('**/cog%d_white' % i)]
             self.cogs.append(self.cogTracker.find('**/cog%d' % i))
             self.cogLayers.append(layers)
@@ -254,12 +254,12 @@ class PartyCogActivityGui(DirectObject):
     def disableToontownHUD(self):
         base.localAvatar.hideName()
         base.localAvatar.laffMeter.hide()
-        base.setCellsActive(base.bottomCells + [base.rightCells[1]], False)
+        base.setCellsAvailable(base.bottomCells + [base.rightCells[1]], False)
 
     def enableToontownHUD(self):
         base.localAvatar.showName()
         base.localAvatar.laffMeter.show()
-        base.setCellsActive(base.bottomCells + [base.rightCells[1]], True)
+        base.setCellsAvailable(base.bottomCells + [base.rightCells[1]], True)
 
     def setTeam(self, team):
         self.team = team

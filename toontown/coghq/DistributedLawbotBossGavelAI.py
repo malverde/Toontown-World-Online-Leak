@@ -1,15 +1,15 @@
 from direct.directnotify import DirectNotifyGlobal
 from pandac.PandaModules import *
-from direct.distributed.DistributedObjectAI import DistributedObjectAI
+from direct.distributed import DistributedObjectAI
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
 from direct.fsm import FSM
 
-class DistributedLawbotBossGavelAI(DistributedObjectAI, FSM.FSM):
+class DistributedLawbotBossGavelAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedLawbotBossGavelAI')
 
     def __init__(self, air, boss, index):
-        DistributedObjectAI.__init__(self, air)
+        DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         FSM.FSM.__init__(self, 'DistributedLawbotBossGavelAI')
         self.boss = boss
         self.index = index

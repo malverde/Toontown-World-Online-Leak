@@ -112,11 +112,11 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             if self.removeHeadFloor:
                 floorHeadNp.stash()
             else:
-                for i in xrange(floorHead.getNumSolids()):
+                for i in range(floorHead.getNumSolids()):
                     floorHead.modifySolid(i).setEffectiveNormal(Vec3(0.0, -1.0, 0.0))
 
             floorShaft = model.find('**/shaft_collisions/**/collDownFloor').node()
-            for i in xrange(floorShaft.getNumSolids()):
+            for i in range(floorShaft.getNumSolids()):
                 floorShaft.modifySolid(i).setEffectiveNormal(Vec3(0.0, -1.0, 0.0))
 
             self.accept(self.crushMsg, self.checkSquashedToon)

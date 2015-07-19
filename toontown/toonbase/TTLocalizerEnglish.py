@@ -80,7 +80,6 @@ lMinniesMelodyland = "Minnie's Melodyland"
 lToontownCentral = 'Toontown Central'
 lToonHQ = 'Toon HQ'
 lSellbotHQ = 'Sellbot HQ'
-lFunnyFarm = 'Funny Farms'
 lGoofySpeedway = 'Goofy Speedway'
 lOutdoorZone = "Chip 'n Dale's Acorn Acres"
 lGolfZone = "Chip 'n Dale's MiniGolf"
@@ -137,8 +136,7 @@ TheBrrrgh = ('to', 'in', lTheBrrrgh)
 MinniesMelodyland = ('to', 'in', lMinniesMelodyland)
 DaisyGardens = ('to', 'in', lDaisyGardens)
 OutdoorZone = ('to', 'in', lOutdoorZone)
-NewZone = ('to', 'in', 'NEWZONE')
-FunnyFarm = ('to', 'in', lFunnyFarm)
+FunnyFarm = ('to the', 'in the', 'Toonfest')
 GoofySpeedway = ('to', 'in', lGoofySpeedway)
 DonaldsDreamland = ('to', 'in', lDonaldsDreamland)
 BossbotHQ = ('to', 'in', 'Bossbot HQ')
@@ -4663,7 +4661,6 @@ PartyDanceActivityInstructions = 'Combine 3 or more ARROW KEY patterns to do dan
 PartyDanceActivity20Title = 'Party Dance Floor'
 PartyDanceActivity20Instructions = 'Combine 3 or more ARROW KEY patterns to do dance moves! There are 20 dance moves available. Can you find them all?'
 DanceAnimRight = 'Right'
-DanceAnimThrow = 'Pie Throw!'
 DanceAnimReelNeutral = 'The Fishertoon'
 DanceAnimConked = 'The Headbob'
 DanceAnimHappyDance = 'The Happy Dance'
@@ -5668,11 +5665,7 @@ LeaderboardTitle = 'Toon Platoon'
 QuestScriptTutorialMickey_1 = 'Toontown has a new citizen! Do you have some extra gags?'
 QuestScriptTutorialMickey_2 = 'Sure, %s!'
 QuestScriptTutorialMickey_3 = 'Tutorial Tom will tell you all about the Cogs.\x07Gotta go!'
-#if base.wantWASD:
-#	QuestScriptTutorialMickey_4 = "Hello, new citizen! Welcome to Toontown! Come over here so I can tell you what's been going on in town recently. Use wasd keys to move."
-#else:
-	#QuestScriptTutorialMickey_4 = "Hello, new citizen! Welcome to Toontown! Come over here so I can tell you what's been going on in town recently. Use the arrow keys to move."
-QuestScriptTutorialMickey_4 = "Hello, new citizen! Welcome to Toontown! Come over here so I can tell you what's been going on in town recently. Use the arrow keys to move."	
+QuestScriptTutorialMickey_4 = "Hello, new citizen! Welcome to Toontown! Come over here so I can tell you what's been going on in town recently. Use the arrow keys to move."
 QuestScriptTutorialMinnie_1 = 'Toontown has a new citizen! Do you have some extra gags?'
 QuestScriptTutorialMinnie_2 = 'Sure, %s!'
 QuestScriptTutorialMinnie_3 = 'Tutorial Tom will tell you all about the Cogs.\x07Gotta go!'
@@ -8304,7 +8297,7 @@ FlowerGuiCancel = lCancel
 FlowerGuiOk = 'Sell All'
 FlowerBasketValue = '%(name)s, you have %(num)s flowers in your basket worth a total of %(value)s jellybeans. Do you want to sell them all?'
 
-def GetPossesive(name):
+def GetPossesive(name, place):
     if name[-1:] == 's':
         possesive = name + "'"
     else:
@@ -8428,17 +8421,12 @@ TIP_KARTING = 6
 TIP_GOLF = 7
 TipTitle = 'TOON TIP:'
 TipDict = {TIP_NONE: ('',),
- TIP_GENERAL: ('Struggling to train your Drop Gag Track? Gag Buffs can boost your Accuracy by up to 3 times without. Collect and complete Gag Buffs to get boost Accuracy around Toontown.',
- 	       'Watch out for Version 2.0 Cogs! They can be found at Bossbot HQ Factories, or rarely invading a District. Fight alongside your friends and receive more XP.',
- 	       'Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters. They will not work inside Cog Headquarters or Factories!',
- 	       'Keep an eye on the News and Announcements for information about Global XP boosters on every District and make every HIT on the Cogs count.',
-               'Collect and complete Gag Buff ToonTasks to increase your Gag Accuracy or movement speed around Toontown.',
+ TIP_GENERAL: ('Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters, but not inside!',
+               'Collect Gag Buff ToonTasks to increase your Gag Accuracy or movement speed.',
                'Toon Troopers are here to help. If you are being troubled find one and ask for help.',
-               'You can have up to 20 Toons in your Party! Let your friends know you are having a Party and invite them.',
-               'Parties only cost 50 Jellybeans to plan a Party. You can get that back by using the Cannons or other games in your Party!',
                'You can report or ignore a Toon if they are troubling you or others.',
                'Quickly check your ToonTask progress by holding down the "End" key.',
-               'Quickly check your Gags and Merits by holding down the "Home" key.',
+               'Quickly check your Gag page by holding down the "Home" key.',
                'Open your Friends List by pressing the "F7" key.',
                'Open or close your Shticker Book by pressing the "F8" key.',
                'You can look up by pressing the "Page Up" key and look down by pressing the "Page Down" key.',
@@ -8448,6 +8436,7 @@ TipDict = {TIP_NONE: ('',),
                "Try on your friend's clothing at the closet in their house.",
                'You can go to your house using the "Go Home" button on your map.',
                'Every time you turn in a completed ToonTask your Laff points are automatically refilled.',
+               'You can browse the selection at Clothing Stores even without a clothing ticket.',
                'Rewards for some ToonTasks allow you to carry more gags and jellybeans.',
                'You can have up to 50 friends on your Friends List.',
                'Some ToonTask rewards let you teleport to playgrounds in Toontown by using the Map Page in the Shticker Book.',
@@ -8489,9 +8478,7 @@ TipDict = {TIP_NONE: ('',),
                'Enter Goofy Speedway through the tire-shaped tunnel in Toontown Central Playground.',
                'Earn Laff points at Goofy Speedway.',
                'Goofy Speedway has six different race tracks. '),
- TIP_STREET: ('Struggling to train your Drop Gag Track? Gag Buffs can boost your Accuracy by up to 3 times without. Collect and complete Gag Buffs to get boost Accuracy around Toontown.',
- 	      'There are four types of Cogs: Lawbots, Cashbots, Sellbots, and Bossbots.',
- 	      'Collect and complete Gag Buff ToonTasks to increase your Gag Accuracy or movement speed around Toontown.',	
+ TIP_STREET: ('There are four types of Cogs: Lawbots, Cashbots, Sellbots, and Bossbots.',
               'Each Gag Track has different amounts of accuracy and damage.',
               'Sound gags will affect all Cogs but will wake up any lured Cogs.',
               'Defeating Cogs in strategic order can greatly increase your chances of winning battles.',
@@ -8536,9 +8523,8 @@ TipDict = {TIP_NONE: ('',),
                 'In the Tug-of-War you are awarded more jellybeans if you play against a tougher Cog.',
                 'Trolley Game difficulty varies by neighborhood; ' + lToontownCentral + ' has the easiest and ' + lDonaldsDreamland + ' has the hardest.',
                 'Certain Trolley Games can only be played in a group.'),
- TIP_COGHQ: ('Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters. They will not work inside Cog Headquarters or Factories!',
+ TIP_COGHQ: ('Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters, but not inside!',
              'You must complete your Sellbot Disguise before visiting the V.P.',
-             'By defeating the VP you can get two SOS cards.',
              'You must complete your Cashbot Disguise before visiting the C.F.O.',
              'You must complete your Lawbot Disguise before visiting the Chief Justice.',
              'You can jump on Cog Goons to temporarily disable them.',
@@ -9953,7 +9939,3 @@ def getBuffString(buffId, buffTime):
 def getBuffPosterString(buffId):
     return buffIdStrings[buffId][1]
 
-MoreOptionsPageTitle = 'Other Options'
-
-ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'
-ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'

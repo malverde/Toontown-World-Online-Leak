@@ -17,9 +17,8 @@ from otp.login import LeaveToPayDialog
 from otp.avatar import PositionExaminer
 from otp.otpbase import OTPGlobals
 from otp.avatar import DistributedPlayer
-from toontown.chat.ChatGlobals import *
-from toontown.chat.WhisperPopup import *
-from toontown.nametag.NametagGlobals import *
+from otp.nametag.NametagConstants import *
+from otp.margins.WhisperPopup import *
 from toontown.shtiker import ShtikerBook
 from toontown.shtiker import InventoryPage
 from toontown.shtiker import MapPage
@@ -398,7 +397,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         if not base.cr.isPaid():
             guiButton = loader.loadModel('phase_3/models/gui/quit_button')
             self.purchaseButton = DirectButton(parent=aspect2d, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=0.9, text=TTLocalizer.OptionsPagePurchase, text_scale=0.05, text_pos=(0, -0.01), textMayChange=0, pos=(0.885, 0, -0.94), sortOrder=100, command=self.__handlePurchase)
-            base.setCellsActive([base.bottomCells[4]], 0)
+            base.setCellsAvailable([base.bottomCells[4]], 0)
         self.accept('time-insert', self.__beginTossPie)
         self.accept('time-insert-up', self.__endTossPie)
         self.accept('time-delete', self.__beginTossPie)
@@ -509,7 +508,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         sender = self
         sfx = self.soundWhisper
         chatString = avatarName + ': ' + chatString
-        whisper = WhisperPopup(chatString, OTPGlobals.getInterfaceFont(), WTNormal)
+        whisper = WhisperPopup(chatString, OTPGlobals.getInterfaceFont(), WhisperPopup.WTNormal)
         whisper.setClickable(avatarName, fromId)
         whisper.manage(base.marginManager)
         base.playSfx(sfx)
@@ -530,7 +529,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         else:
             chatString, scrubbed = self.scrubTalk(rawString, mods)
         chatString = senderName + ': ' + chatString
-        whisper = WhisperPopup(chatString, OTPGlobals.getInterfaceFont(), WTNormal)
+        whisper = WhisperPopup(chatString, OTPGlobals.getInterfaceFont(), WhisperPopup.WTNormal)
         if playerInfo != None:
             whisper.setClickable(senderName, fromId, 1)
         whisper.manage(base.marginManager)
@@ -916,11 +915,11 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             sfx = self.soundPhoneRing
         elif fromId != 0:
             sender = base.cr.identifyAvatar(fromId)
-        if whisperType == WTNormal or whisperType == WTQuickTalker:
+        if whisperType == WhisperPopup.WTNormal or whisperType == WhisperPopup.WTQuickTalker:
             if sender == None:
                 return
             chatString = sender.getName() + ': ' + chatString
-        elif whisperType == WTSystem:
+        elif whisperType == WhisperPopup.WTSystem:
             sfx = self.soundSystemMessage
         whisper = WhisperPopup(chatString, OTPGlobals.getInterfaceFont(), whisperType)
         if sender != None:
@@ -937,11 +936,11 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             sfx = self.soundPhoneRing
         elif fromId != 0:
             sender = base.cr.identifyAvatar(fromId)
-        if whisperType == WTNormal or whisperType == WTQuickTalker:
+        if whisperType == WhisperPopup.WTNormal or whisperType == WhisperPopup.WTQuickTalker:
             if sender == None:
                 return
             chatString = sender.getName() + ': ' + chatString
-        elif whisperType == WTSystem:
+        elif whisperType == WhisperPopup.WTSystem:
             sfx = self.soundSystemMessage
         whisper = WhisperPopup(chatString, OTPGlobals.getInterfaceFont(), whisperType)
         whisper.setClickable('', fromId)
@@ -1365,12 +1364,12 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
     def showGardeningGui(self):
         self.loadGardeningGui()
         self.__gardeningGui.show()
-        base.setCellsActive([base.leftCells[2]], 0)
+        base.setCellsAvailable([base.leftCells[2]], 0)
 
     def hideGardeningGui(self):
         if self.__gardeningGui:
             self.__gardeningGui.hide()
-            base.setCellsActive([base.leftCells[2]], 1)
+            base.setCellsAvailable([base.leftCells[2]], 1)
 
     def showShovelButton(self, add = 0):
         if add:
@@ -1888,9 +1887,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
     def setSleepAutoReply(self, fromId):
         av = base.cr.identifyAvatar(fromId)
-        if isinstance(av, (DistributedToon.DistributedToon, FriendHandle)):
-            base.localAvatar.setSystemMessage(0, TTLocalizer.sleep_auto_reply % av.getName(), WTToontownBoardingGroup)
-        elif av:
+        if isinstance(av, DistributedToon.DistributedToon):
+            base.localAvatar.setSystemMessage(0, TTLocalizer.sleep_auto_reply % av.getName(), WhisperPopup.WTToontownBoardingGroup)
+        elif av is not None:
             self.notify.warning('setSleepAutoReply from non-toon %s' % fromId)
         return
 
@@ -1937,7 +1936,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         return result
 
     def doTeleportResponse(self, fromAvatar, toAvatar, avId, available, shardId, hoodId, zoneId, sendToId):
-        self.d_teleportResponse(avId, available, shardId, hoodId, zoneId, sendToId)
+        localAvatar.d_teleportResponse(avId, available, shardId, hoodId, zoneId, sendToId)
 
     def d_teleportResponse(self, avId, available, shardId, hoodId, zoneId, sendToId = None):
         if config.GetBool('want-tptrack', False):

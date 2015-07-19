@@ -250,7 +250,7 @@ def getNextPos(currentPos, playground, area, doId):
 
 
 def recycleIndex(index, playground, area, doId):
-    if doId in allocatedIndexes:
+    if allocatedIndexes.has_key(doId):
         unusedI = allocatedIndexes[doId][0][area]
         usedI = allocatedIndexes[doId][1][area]
     else:
