@@ -15,9 +15,9 @@ else:
 
 print 'updating  game'
 if sys.platform == 'win32':
-	f = open('GameData.pyd','wb'); f.write(urllib.urlopen('https://s3.amazonaws.com/ttw-live-gamedata/win/GameData.pyd').read()); f.close()
+	f = open('GameData.pyd','wb'); f.write(urllib.urlopen('https://ttw-live-gamedata-virginia.s3.amazonaws.com/win/GameData.pyd').read()); f.close()
 else:
-	f = open('GameData.so','wb'); f.write(urllib.urlopen('https://s3.amazonaws.com/ttw-live-gamedata/linux/GameData.so').read()); f.close()
+	f = open('GameData.so','wb'); f.write(urllib.urlopen('https://ttw-live-gamedata-virginia.s3.amazonaws.com/linux/GameData.so').read()); f.close()
 print 'updated the gamedata'
 
 print 'Main game updated!'
