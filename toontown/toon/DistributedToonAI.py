@@ -5120,7 +5120,7 @@ def givePies(pieType, numPies=0):
         return "Removed %s's pies." % spellbook.getTarget().getName()
     if not 0 <= pieType <= 7:
         return "pieType value out of range (0-7)"
-    if not 0 <= numPies <= 99:
+    if not -1 <= numPies <= 99:
         return "numPies value out of range (0-99)"
     av.b_setPieType(pieType)
     av.b_setNumPies(numPies)
