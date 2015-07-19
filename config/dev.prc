@@ -66,6 +66,7 @@ want-picnic-games #f
 want-chinese-table #f
 want-checkers-table #f
 want-findfour-table #f
+want-cogbuildings #t 
 # This is a temporary 'fix' for DistributedSmoothNodes... probably not the permanent solution to our problem, but it works for now.
 smooth-lag 0.4
 want-keep-alive #f
