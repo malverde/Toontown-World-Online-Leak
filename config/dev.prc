@@ -49,8 +49,8 @@ want-cheesy-expirations #t
 
 # DC Files
 # This is, oddly enough, in *reverse* order of their loading...
-dc-file config/toon.dc
-dc-file config/otp.dc
+dc-file config/toontown.dc
+
 
 
 # Beta Modifications
