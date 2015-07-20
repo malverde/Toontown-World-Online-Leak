@@ -104,8 +104,7 @@ class DistributedBuildingMgrAI:
 			elif buildingType == 'gagshop':
 				gagshopBlocks.append(blockNumber)
 			elif buildingType == 'petshop':
-				if self.air.wantPets:
-					petshopBlocks.append(blockNumber)
+				petshopBlocks.append(blockNumber)
 			elif buildingType == 'kartshop':
 				kartshopBlocks.append(blockNumber)
 			elif buildingType == 'library':
