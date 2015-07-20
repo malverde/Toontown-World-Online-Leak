@@ -4599,16 +4599,32 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def magicFanfare(self):
         self.sendUpdate('magicFanfare', [])
 
-    def magicTeleportResponse(self, requesterId, hoodId):
-        toon = self.air.doId2do.get(requesterId)
-        if toon:
-            toon.magicTeleportInitiate(self.getDoId(), hoodId, self.getLocation()[1])
+    def magicTeleportRequest(self, requesterId):
+        self.sendUpdate('magicTeleportResponse', [requesterId, base.cr.playGame.getPlaceId()])
 
-    def magicTeleportInitiate(self, targetId, hoodId, zoneId):
-        if targetId not in self.magicWordTeleportRequests:
-            return
-        self.magicWordTeleportRequests.remove(targetId)
-        self.sendUpdate('magicTeleportInitiate', [hoodId, zoneId])
+    def magicTeleportInitiate(self, hoodId, zoneId):
+        loaderId = ZoneUtil.getBranchLoaderName(zoneId)
+        whereId = ZoneUtil.getToonWhereName(zoneId)
+        # TEMP HACK: Currently assume that the whereId is a boss battle if hoodId = cogHQ
+        # and zoneId is dynamic.
+        if ZoneUtil.isDynamicZone(zoneId) and hoodId in [ToontownGlobals.BossbotHQ, ToontownGlobals.LawbotHQ, ToontownGlobals.CashbotHQ, ToontownGlobals.SellbotHQ]:
+            #whereId = 'cogHQBossBattle'
+            return 'They are in a boss, you cannot teleport to them!'
+        if zoneId in [ToontownGlobals.BossbotLobby, ToontownGlobals.LawbotLobby, ToontownGlobals.CashbotLobby, ToontownGlobals.SellbotLobby, ToontownGlobals.LawbotOfficeExt]:
+            #how = 'walk'
+            return 'They are in a lobby, you cannot teleport to them!'
+        else:
+            how = 'teleportIn'
+        requestStatus = [{
+            'loader': loaderId,
+            'where': whereId,
+            'how': how,
+            'hoodId': hoodId,
+            'zoneId': zoneId,
+            'shardId': None,
+            'avId': -1
+        }]
+        base.cr.playGame.getPlace().fsm.forceTransition('teleportOut', requestStatus)
 
     def setWebAccountId(self, webId):
         self.webAccountId = webId
@@ -6074,3 +6090,122 @@ def resistanceRanger():
 
     target = spellbook.getTarget()
     target.b_setNametagStyle(6)
+    
+@magicWord(category=CATEGORY_OVERRIDE, types=[str, str])
+def suit(command, suitName):
+    invoker = spellbook.getInvoker()
+    command = command.lower()
+    if suitName not in SuitDNA.suitHeadTypes:
+        return 'Invalid suit name: ' + suitName
+    suitFullName = SuitBattleGlobals.SuitAttributes[suitName]['name']
+    if command == 'spawn':
+        returnCode = invoker.doSummonSingleCog(SuitDNA.suitHeadTypes.index(suitName))
+        if returnCode[0] == 'success':
+            return 'Successfully spawned: ' + suitFullName
+        return "Couldn't spawn: " + suitFullName
+    elif command == 'building':
+        returnCode = invoker.doBuildingTakeover(SuitDNA.suitHeadTypes.index(suitName))
+        if returnCode[0] == 'success':
+            return 'Successfully spawned a Cog building with: ' + suitFullName
+        return "Couldn't spawn a Cog building with: " + suitFullName
+    else:
+        return 'Invalid command.'
+
+@magicWord(category=CATEGORY_ADMIN, types=[int])
+def captainTheGod():
+    """
+    Let's you be a god like Captain.
+    """
+    invoker = spellbook.getTarget()
+
+    dna = ToonDNA.ToonDNA()
+    dna.makeFromNetString(invoker.getDNAString())
+
+    dna.topTex = 86
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.topTexColor = 27
+    invoker.b_setDNAString(dna.makeNetString())
+    
+    dna.Glasses = 19
+    invoker.b_setGlasses(dna.setGlasses())
+
+    dna.sleeveTex = 75
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.sleeveTexColor = 27
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.botTex = 12
+    invoker.b_setDNAString(dna.makeNetString())
+
+    dna.botTexColor = 27
+    invoker.b_setDNAString(dna.makeNetString())
+
+    target = spellbook.getTarget()
+    target.b_setNametagStyle(12)
+
+    return 'You are now almost as godly as Captain.'
+
+@magicWord(category=CATEGORY_MODERATION, types=[str, int, int])
+def inventory(a, b=None, c=None):
+    invoker = spellbook.getInvoker()
+    inventory = invoker.inventory
+    if a == 'reset':
+        maxLevelIndex = b or 5
+        if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
+            return 'Invalid max level index: ' + str(maxLevelIndex)
+        targetTrack = -1 or c
+        if not -1 <= targetTrack < len(ToontownBattleGlobals.Tracks):
+            return 'Invalid target track index: ' + str(targetTrack)
+        for track in xrange(0, len(ToontownBattleGlobals.Tracks)):
+            if (targetTrack == -1) or (track == targetTrack):
+                inventory.inventory[track][:maxLevelIndex + 1] = [0] * (maxLevelIndex+1)
+        invoker.b_setInventory(inventory.makeNetString())
+        if targetTrack == -1:
+            return 'Inventory reset.'
+        else:
+            return 'Inventory reset for target track index: ' + str(targetTrack)
+    elif a == 'restock':
+        maxLevelIndex = b or 5
+        if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
+            return 'Invalid max level index: ' + str(maxLevelIndex)
+        targetTrack = -1 or c
+        if not -1 <= targetTrack < len(ToontownBattleGlobals.Tracks):
+            return 'Invalid target track index: ' + str(targetTrack)
+        if (targetTrack != -1) and (not invoker.hasTrackAccess(targetTrack)):
+            return "You don't have target track index: " + str(targetTrack)
+        inventory.NPCMaxOutInv(targetTrack=targetTrack, maxLevelIndex=maxLevelIndex)
+        invoker.b_setInventory(inventory.makeNetString())
+        if targetTrack == -1:
+            return 'Inventory restocked.'
+        else:
+            return 'Inventory restocked for target track index: ' + str(targetTrack)
+    else:
+        try:
+            targetTrack = int(a)
+        except:
+            return 'Invalid first argument.'
+        if not invoker.hasTrackAccess(targetTrack):
+            return "You don't have target track index: " + str(targetTrack)
+        maxLevelIndex = b or 6
+        if not 0 <= maxLevelIndex < len(ToontownBattleGlobals.Levels[0]):
+            return 'Invalid max level index: ' + str(maxLevelIndex)
+        for _ in xrange(c):
+            inventory.addItem(targetTrack, maxLevelIndex)
+        invoker.b_setInventory(inventory.makeNetString())
+        return 'Restored %d Gags to: %d, %d' % (c, targetTrack, maxLevelIndex)
+
+@magicWord(category=CATEGORY_MODERATION, types=[str])
+def allSummons():
+    """
+    Max the invoker's summons
+    """
+    invoker = spellbook.getInvoker()
+
+    numSuits = len(SuitDNA.suitHeadTypes)
+    fullSetForSuit = 1 | 2 | 4
+    allSummons = numSuits * [fullSetForSuit]
+    invoker.b_setCogSummonsEarned(allSummons)
+    return 'Lots of summons!'
+

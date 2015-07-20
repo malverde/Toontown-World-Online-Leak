@@ -111,27 +111,41 @@ class ToontownAIRepository(ToontownInternalRepository):
         return False
 
 
-    def handleConnected(self):
-        ToontownInternalRepository.handleConnected(self)
-        self.districtId = self.allocateChannel()
-        self.distributedDistrict = ToontownDistrictAI(self)
-        self.distributedDistrict.setName(self.districtName)
-        self.distributedDistrict.generateWithRequiredAndId(self.districtId,
-                                                           self.getGameDoId(), 2)
+	def handleConnected(self):
+		self.districtId = self.allocateChannel()
+		self.notify.info('Creating ToontownDistrictAI(%d)...' % self.districtId)
+		self.distributedDistrict = ToontownDistrictAI(self)
+		self.distributedDistrict.setName(self.districtName)
+		self.distributedDistrict.generateWithRequiredAndId(
+			self.districtId, self.getGameDoId(), 2)
+		self.notify.info('Claiming ownership of channel ID: %d...' % self.districtId)
+		self.claimOwnership(self.districtId)
 
-        # Claim ownership of that district...
-        dg = PyDatagram()
-        dg.addServerHeader(self.districtId, self.ourChannel, STATESERVER_OBJECT_SET_AI)
-        dg.addChannel(self.ourChannel)
-        self.send(dg)
+		self.districtStats = ToontownDistrictStatsAI(self)
+		self.districtStats.settoontownDistrictId(self.districtId)
+		self.districtStats.generateWithRequiredAndId(
+			self.allocateChannel(), self.getGameDoId(), 3)
+		self.notify.info('Created ToontownDistrictStats(%d)' % self.districtStats.doId)
 
-        self.createGlobals()
-        self.createZones()
+		self.notify.info('Creating managers...')
+		self.createManagers()
 
-        self.statusSender.start()
+		self.notify.info('Creating playgrounds..')
+		self.createSafeZones()
 
-        self.distributedDistrict.b_setAvailable(1)
-        self.notify.info('District is now ready.')
+		self.notify.info('Creating Coghqs...')
+		self.createCogHeadquarters()
+
+		self.notify.info('Making district available...')
+		self.distributedDistrict.b_setAvailable(1)
+		self.notify.info('Done.')
+
+
+    def claimOwnership(self, channelId):
+        datagram = PyDatagram()
+        datagram.addServerHeader(channelId, self.ourChannel, STATESERVER_OBJECT_SET_AI)
+        datagram.addChannel(self.ourChannel)
+        self.send(datagram)
 
     def incrementPopulation(self):
         self.districtStats.b_setAvatarCount(self.districtStats.getAvatarCount() + 1)
@@ -201,50 +215,49 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
         self.codeRedemptionManager.generateWithRequired(2)
 
-    def createZones(self):
-        """
-        Spawn safezone objects, streets, doors, NPCs, etc.
-        """
-        start = time.clock()
-        def clearQueue():
-            '''So the TCP window doesn't fill up and we get the axe'''
-            while self.readerPollOnce():
-                pass
+	def createZones(self):
+		"""
+		Spawn safezone objects, streets, doors, NPCs, etc.
+		"""
+		start = time.clock()
+		def clearQueue():
+			'''So the TCP window doesn't fill up and we get the axe'''
+			while self.readerPollOnce():
+				pass
 
-        self.hoods.append(TTHoodAI.TTHoodAI(self))
-        clearQueue()
-        self.hoods.append(DDHoodAI.DDHoodAI(self))
-        clearQueue()
-        self.hoods.append(DGHoodAI.DGHoodAI(self))
-        clearQueue()
-        self.hoods.append(BRHoodAI.BRHoodAI(self))
-        clearQueue()
-        self.hoods.append(MMHoodAI.MMHoodAI(self))
-        clearQueue()
-        self.hoods.append(DLHoodAI.DLHoodAI(self))
-        clearQueue()
-        self.hoods.append(GSHoodAI.GSHoodAI(self))
-        clearQueue()
-        self.hoods.append(OZHoodAI.OZHoodAI(self))
-        clearQueue()
-        self.hoods.append(GZHoodAI.GZHoodAI(self))
-        clearQueue()
+		self.hoods.append(TTHoodAI.TTHoodAI(self))
+		clearQueue()
+		self.hoods.append(DDHoodAI.DDHoodAI(self))
+		clearQueue()
+		self.hoods.append(DGHoodAI.DGHoodAI(self))
+		clearQueue()
+		self.hoods.append(BRHoodAI.BRHoodAI(self))
+		clearQueue()
+		self.hoods.append(MMHoodAI.MMHoodAI(self))
+		clearQueue()
+		self.hoods.append(DLHoodAI.DLHoodAI(self))
+		clearQueue()
+		self.hoods.append(GSHoodAI.GSHoodAI(self))
+		clearQueue()
+		self.hoods.append(OZHoodAI.OZHoodAI(self))
+		clearQueue()
+		self.hoods.append(GZHoodAI.GZHoodAI(self))
+		clearQueue()
 
-        if config.GetBool('want-sbhq', True):
-            self.hoods.append(SellbotHQAI.SellbotHQAI(self))
-            clearQueue()
 
-        if config.GetBool('want-cbhq', True):
-            self.hoods.append(CashbotHQAI.CashbotHQAI(self))
-            clearQueue()
+		self.hoods.append(SellbotHQAI.SellbotHQAI(self))
+		clearQueue()
 
-        if config.GetBool('want-lbhq', True):
-            self.hoods.append(LawbotHQAI.LawbotHQAI(self))
-            clearQueue()
+		self.hoods.append(CashbotHQAI.CashbotHQAI(self))
+		clearQueue()
 
-        if config.GetBool('want-bbhq', True):
-            self.hoods.append(BossbotHQAI.BossbotHQAI(self))
-            clearQueue()
+
+		self.hoods.append(LawbotHQAI.LawbotHQAI(self))
+		clearQueue()
+
+
+		self.hoods.append(BossbotHQAI.BossbotHQAI(self))
+		clearQueue()
 
         for sp in self.suitPlanners.values():
             sp.assignInitialSuitBuildings()

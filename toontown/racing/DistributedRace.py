@@ -1239,7 +1239,7 @@ class DistributedRace(DistributedObject.DistributedObject):
         base.cr.playGame.hood.loader.fsm.request('quietZone', [out])
         return
         
-@magicWord(category=CATEGORY_OVERRIDE)
+@magicWord(category=CATEGORY_MODERATION, types=[str])
 def leaveRace():
     """Leave the current race you are in."""
     messenger.send('leaveRace')
