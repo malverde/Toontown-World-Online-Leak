@@ -5399,7 +5399,7 @@ def pouch(amt):
     spellbook.getTarget().b_setMaxCarry(amt)
     return "Set %s's pouch size to %d" % (spellbook.getTarget().getName(), amt)
 
-@@magicWord(category=CATEGORY_MODERATION, types=[int])
+@magicWord(category=CATEGORY_MODERATION, types=[int])
 def goto(avIdShort):
     """ Teleport to the avId specified. """
     avId = 100000000+avIdShort # To get target doId.
