@@ -112,10 +112,10 @@ class DistributedBuildingMgrAI:
 				libraryBlocks.append(blockNumber)    
 			elif buildingType == 'animbldg':
 				animBldgBlocks.append(blockNumber)
-            else:
-                blocks.append(blockNumber)
-        return (blocks, hqBlocks, gagshopBlocks, petshopBlocks, kartshopBlocks, libraryBlocks,
-                animBldgBlocks)
+			else:
+				blocks.append(blockNumber)
+		return (blocks, hqBlocks, gagshopBlocks, petshopBlocks, kartshopBlocks, libraryBlocks,
+			animBldgBlocks)
 
     def findAllLandmarkBuildings(self):
         backups = simbase.backups.load('blockinfo', (self.air.districtId, self.branchID), default={})
