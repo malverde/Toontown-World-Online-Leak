@@ -131,10 +131,10 @@ class ToontownAIRepository(ToontownInternalRepository):
 		self.createManagers()
 
 		print 'Creating playgrounds..'
-		self.createZones()
+		self.createSafeZones()
 
 		print 'Creating Coghqs...'
-		self.createCogHQ()
+		self.createCogHeadquarters()
 
 		print 'Making district available...'
 		self.distributedDistrict.b_setAvailable(1)
@@ -172,7 +172,7 @@ class ToontownAIRepository(ToontownInternalRepository):
     def getAvatarExitEvent(self, avId):
         return 'distObjDelete-%d' % avId
 
-    def createManagers(self):
+    def createGlobals(self):
         """
         Create "global" objects, e.g. TimeManager et al.
         """
@@ -244,7 +244,7 @@ class ToontownAIRepository(ToontownInternalRepository):
 		self.hoods.append(GZHoodAI.GZHoodAI(self))
 		clearQueue()
 
-	def createCogHq(self):
+
 		self.hoods.append(SellbotHQAI.SellbotHQAI(self))
 		clearQueue()
 
@@ -259,8 +259,8 @@ class ToontownAIRepository(ToontownInternalRepository):
 		self.hoods.append(BossbotHQAI.BossbotHQAI(self))
 		clearQueue()
 
-		for sp in self.suitPlanners.values():
-			sp.assignInitialSuitBuildings()
+        for sp in self.suitPlanners.values():
+            sp.assignInitialSuitBuildings()
 
     def genDNAFileName(self, zoneId):
         zoneId = ZoneUtil.getCanonicalZoneId(zoneId)
