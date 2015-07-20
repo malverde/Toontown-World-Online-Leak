@@ -8,7 +8,8 @@ from toontown.toonbase import TTLocalizer
 from toontown.effects import DistributedFireworkShow
 from toontown.parties import DistributedPartyFireworksActivity
 from direct.directnotify import DirectNotifyGlobal
-from otp.nametag import NametagGlobals
+from toontown.nametag import NametagGlobals
+
 
 class ShtikerBook(DirectFrame, StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('ShtikerBook')
@@ -23,9 +24,9 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         self.pageTabFrame = DirectFrame(parent=self, relief=None, pos=(0.93, 1, 0.575), scale=1.25)
         self.pageTabFrame.hide()
         self.currPageIndex = None
+        self.tempLeft = None
+        self.tempRight = None
         self.pageBeforeNews = None
-        self.tempLeft = None 
-        self.tempRight = None 
         self.entered = 0
         self.safeMode = 0
         self.__obscured = 0
@@ -66,17 +67,14 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         base.disableMouse()
         base.render.hide()
         base.setBackgroundColor(0.05, 0.15, 0.4)
-        base.setCellsAvailable([base.rightCells[0]], 0)
-        self.oldMin2dAlpha = NametagGlobals.getMin2dAlpha()
-        self.oldMax2dAlpha = NametagGlobals.getMax2dAlpha()
-        NametagGlobals.setMin2dAlpha(0.8)
-        NametagGlobals.setMax2dAlpha(1.0)
+        base.setCellsActive([base.rightCells[0]], 0)
+        NametagGlobals.setForce2dNametags(True)
         self.__isOpen = 1
         self.__setButtonVisibility()
-        self.tempLeft = 'arrow_left' #base.Move_Left 
-        self.tempRight = 'arrow_right'#base.Move_Right 
         self.show()
         self.showPageArrows()
+        self.tempLeft = 'arrow_left' #base.Move_Left
+        self.tempRight = 'arrow_right'#base.Move_Right        
         if not self.safeMode:
             self.accept('shtiker-page-done', self.__pageDone)
             self.accept(ToontownGlobals.StickerBookHotkey, self.__close)
@@ -106,9 +104,9 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         gsg = base.win.getGsg()
         if gsg:
             base.render.prepareScene(gsg)
-        NametagGlobals.setMin2dAlpha(self.oldMin2dAlpha)
-        NametagGlobals.setMax2dAlpha(self.oldMax2dAlpha)
-        base.setCellsAvailable([base.rightCells[0]], 1)
+
+        base.setCellsActive([base.rightCells[0]], 1)
+        NametagGlobals.setForce2dNametags(False)
         self.__isOpen = 0
         self.hide()
         self.hideButton()
@@ -117,7 +115,7 @@ class ShtikerBook(DirectFrame, StateData.StateData):
         self.ignore('shtiker-page-done')
         self.ignore(ToontownGlobals.StickerBookHotkey)
         self.ignore(ToontownGlobals.OptionsPageHotkey)
-        self.ignore(self.tempRight) 
+        self.ignore(self.tempRight)
         self.ignore(self.tempLeft)
         if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: SHTICKERBOOK: Close')
@@ -423,15 +421,15 @@ class ShtikerBook(DirectFrame, StateData.StateData):
 
     def __checkForNewsPage(self):
         from toontown.shtiker import NewsPage
-        self.ignore(self.tempLeft) 
-        self.ignore(self.tempRight) 
+        self.ignore(self.tempLeft)
+        self.ignore(self.tempRight)
         if isinstance(self.pages[self.currPageIndex], NewsPage.NewsPage):
-        self.ignore(self.tempLeft) 
-        self.ignore(self.tempRight) 
+            self.ignore(self.tempLeft)
+            self.ignore(self.tempRight)
         else:
             self.accept(self.tempRight, self.__pageChange, [1])
-            self.accept(self.tempLeft, self.__pageChange, [-1])
-
+            self.accept(self.tempLeft, self.__pageChange, [-1])   
+            
     def goToNewsPage(self, page):
         messenger.send('wakeup')
         base.playSfx(self.pageSound)
@@ -460,3 +458,4 @@ class ShtikerBook(DirectFrame, StateData.StateData):
     def enableAllPageTabs(self):
         for button in self.pageTabs:
             button['state'] = DGG.NORMAL
+
