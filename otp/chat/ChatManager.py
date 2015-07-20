@@ -408,7 +408,7 @@ class ChatManager(DirectObject.DirectObject):
     def exitNormalChat(self):
 		if base.wantWASD:
 			base.localAvatar.controlManager.enableWASD()
-			self.chatInputNormal.deactivate()
+        self.chatInputNormal.deactivate()
 
     def enterOpenChatWarning(self):
         self.notify.error('called enterOpenChatWarning() on parent class')
