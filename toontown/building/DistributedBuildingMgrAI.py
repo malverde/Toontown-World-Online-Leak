@@ -103,7 +103,6 @@ class DistributedBuildingMgrAI:
 				hqBlocks.append(blockNumber)
 			elif buildingType == 'library':  
 				libraryBlocks.append(blockNumber)  
-
             elif buildingType == 'gagshop':
                 gagshopBlocks.append(blockNumber)
             elif buildingType == 'petshop':
