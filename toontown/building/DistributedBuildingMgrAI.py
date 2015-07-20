@@ -116,11 +116,11 @@ class DistributedBuildingMgrAI:
 				blocks.append(blockNumber)
 			return (blocks, hqBlocks, gagshopBlocks, petshopBlocks, kartshopBlocks, libraryBlocks, animBldgBlocks)
 
-    def findAllLandmarkBuildings(self):
-        backups = simbase.backups.load('blockinfo', (self.air.districtId, self.branchID), default={})
-        (blocks, hqBlocks, libraryBlocks, gagshopBlocks, petshopBlocks, kartshopBlocks, animBldgBlocks) = self.getDNABlockLists()
-        for block in blocks:
-            self.newBuilding(block, backup=backups.get(block, None))
+	def findAllLandmarkBuildings(self):
+		backups = simbase.backups.load('blockinfo', (self.air.districtId, self.branchID), default={})
+		(blocks, hqBlocks, libraryBlocks, gagshopBlocks, petshopBlocks, kartshopBlocks, animBldgBlocks) = self.getDNABlockLists()
+		for block in blocks:
+			self.newBuilding(block, backup=backups.get(block, None))
 		
 		for block in libraryBlocks:
 			self.newLibrary(block)
