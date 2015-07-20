@@ -5158,7 +5158,7 @@ def setQP(questId=0, progress=0):
     av.b_setQuests(av.quests)
     return questIds
 
-@magicWord(category=CATEGORY_MODERATION, types=[int, str])  
+@magicWord(category=CATEGORY_MODERATION, types=[int, str])
 def locate(avIdShort=0, returnType=''):
     """Locate an avatar anywhere on the [CURRENT] AI."""
     # TODO: Use Astron msgs to get location of avId from anywhere in the Astron cyber-space.
