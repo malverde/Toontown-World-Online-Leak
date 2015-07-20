@@ -6,7 +6,7 @@ from toontown.dna import DNAParser
 from direct.stdpy.file import open
 
 class ToontownLoader(Loader.Loader):
-    TickPeriod = 0.01
+    TickPeriod = 0.2
 
     def __init__(self, base):
         Loader.Loader.__init__(self, base)

@@ -74,4 +74,5 @@ class SuitAvatarPanel(AvatarPanel.AvatarPanel):
     def __handleClose(self):
         self.cleanup()
         AvatarPanel.currentAvatarPanel = None
+        base.showFriendMargins()
         return

@@ -277,7 +277,7 @@ class DistributedCogThiefGame(DistributedMinigame):
         self.pieHandler.setInPattern('pieHit-%fn')
 
     def exitPlay(self):
-        self.ignore('base.JUMP')
+        self.ignore('control')
         if self.resultIval and self.resultIval.isPlaying():
             self.resultIval.finish()
             self.resultIval = None

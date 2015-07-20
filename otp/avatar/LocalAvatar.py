@@ -5,7 +5,7 @@ from direct.interval.IntervalGlobal import *
 from direct.showbase.InputStateGlobal import inputState
 from pandac.PandaModules import *
 import Avatar
-import ToontownControlManager
+from direct.controls import ControlManager
 import DistributedAvatar
 from direct.task import Task
 import PositionExaminer
@@ -52,7 +52,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         base.pushCTrav(self.cTrav)
         self.cTrav.setRespectPrevTransform(1)
         self.avatarControlsEnabled = 0
-        self.controlManager = ToontownControlManager.ToontownControlManager(True, passMessagesThrough)
+        self.controlManager = ControlManager.ControlManager(True, passMessagesThrough)
         self.initializeCollisions()
         self.initializeSmartCamera()
         self.cameraPositions = []
@@ -952,25 +952,24 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         return self.animMultiplier
 
     def enableRun(self):
-        self.accept(base.Move_Up, self.startRunWatch)
-        self.accept(base.Move_Up + '-up', self.stopRunWatch)
-        self.accept('control-'+ base.Move_Up, self.startRunWatch)
-        self.accept('control-'+ base.Move_Up + '-up', self.stopRunWatch)
-        self.accept('alt-'+ base.Move_Up, self.startRunWatch)
-        self.accept('alt-'+ base.Move_Up + '-up', self.stopRunWatch)
-        self.accept('shift-' + base.Move_Up, self.startRunWatch)
-        self.accept('shift-' + base.Move_Up + '-up', self.stopRunWatch)
-        
-    def disableRun(self):
-        self.ignore(base.Move_Up)
-        self.ignore(base.Move_Up + '-up')
-        self.ignore('control-'+ base.Move_Up)
-        self.ignore('control-' + base.Move_Up + '-up')
-        self.ignore('alt-' + base.Move_Up)
-        self.ignore('alt-' + base.Move_Up + '-up')
-        self.ignore('shift-' + base.Move_Up)
-        self.ignore('shift-' + base.Move_Up + '-up')
+        self.accept('arrow_up', self.startRunWatch)
+        self.accept('arrow_up-up', self.stopRunWatch)
+        self.accept('control-arrow_up', self.startRunWatch)
+        self.accept('control-arrow_up-up', self.stopRunWatch)
+        self.accept('alt-arrow_up', self.startRunWatch)
+        self.accept('alt-arrow_up-up', self.stopRunWatch)
+        self.accept('shift-arrow_up', self.startRunWatch)
+        self.accept('shift-arrow_up-up', self.stopRunWatch)
 
+    def disableRun(self):
+        self.ignore('arrow_up')
+        self.ignore('arrow_up-up')
+        self.ignore('control-arrow_up')
+        self.ignore('control-arrow_up-up')
+        self.ignore('alt-arrow_up')
+        self.ignore('alt-arrow_up-up')
+        self.ignore('shift-arrow_up')
+        self.ignore('shift-arrow_up-up')
 
     def startRunWatch(self):
 
