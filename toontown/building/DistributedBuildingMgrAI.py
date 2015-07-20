@@ -93,34 +93,29 @@ class DistributedBuildingMgrAI:
         hqBlocks = []
         gagshopBlocks = []
         petshopBlocks = []
-        libraryBlocks = [] 
         kartshopBlocks = []
+        libraryBlocks = []
         animBldgBlocks = []
         for blockId, block in self.dnaStore.getBlocks():
 			blockNumber = blockId
 			buildingType = block.buildingType
-			if buildingType == 'hq':
-				hqBlocks.append(blockNumber)
-			elif buildingType == 'library':  
-				libraryBlocks.append(blockNumber)  
+            if buildingType == 'hq':
+                hqBlocks.append(blockNumber)
             elif buildingType == 'gagshop':
                 gagshopBlocks.append(blockNumber)
             elif buildingType == 'petshop':
-                petshopBlocks.append(blockNumber)
+                if self.air.wantPets:
+                    petshopBlocks.append(blockNumber)
             elif buildingType == 'kartshop':
                 kartshopBlocks.append(blockNumber)
+            elif buildingType == 'library':
+                libraryBlocks.append(blockNumber)    
             elif buildingType == 'animbldg':
                 animBldgBlocks.append(blockNumber)
             else:
                 blocks.append(blockNumber)
-
-        return (blocks,
-         hqBlocks,
-         libraryBlocks, 
-         gagshopBlocks,
-         petshopBlocks,
-         kartshopBlocks,
-         animBldgBlocks)
+        return (blocks, hqBlocks, gagshopBlocks, petshopBlocks, kartshopBlocks, libraryBlocks,
+                animBldgBlocks)
 
     def findAllLandmarkBuildings(self):
         backups = simbase.backups.load('blockinfo', (self.air.districtId, self.branchID), default={})
