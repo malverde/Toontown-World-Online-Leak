@@ -159,6 +159,21 @@ class ToonBase(OTPBase.OTPBase):
         self.aspectRatio = float(self.oldX) / self.oldY
         self.localAvatarStyle = None
         return
+        
+        # WASD option :D 
+        self.wantWASD = self.display.settings.getBool('game', 'want-WASD', False) 
+        self.Move_Up = 'arrow_up' 
+        self.Move_Left = 'arrow_left'
+        self.Move_Down = 'arrow_down'
+        self.Move_Right = 'arrow_right' 
+        self.JUMP = 'control' 
+        
+        if self.wantWASD: 
+			self.Move_Up = 'w' 
+			self.Move_Left = 'a'
+			self.Move_Down = 's' 
+			self.Move_Right = 'd'
+			self.JUMP = 'space'
 
     def openMainWindow(self, *args, **kw):
         result = OTPBase.OTPBase.openMainWindow(self, *args, **kw)
