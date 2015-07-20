@@ -525,6 +525,6 @@ class ChatManager(DirectObject.DirectObject):
 	def reloadWASD(self):
 		self.wantBacgroundFocus = not base.wantWASD
 		if self.wantBackgroundFocus:
-			self.chatInputNormal.chatEntry['backgroundFocus'] = 1
+			self.chatInputNormal.chatEntry{'backgroundFocus'] = 1
 		else:
-			self.chatInputNormal.chatEntry['backgroundFocus'] = 0
+			self.chatInputNormal.chatEntry{'backgroundFocus'] = 0
