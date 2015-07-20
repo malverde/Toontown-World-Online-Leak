@@ -116,33 +116,25 @@ class DistributedBuildingMgrAI:
 				blocks.append(blockNumber)
 			return (blocks, hqBlocks, gagshopBlocks, petshopBlocks, kartshopBlocks, libraryBlocks, animBldgBlocks)
 
-	def findAllLandmarkBuildings(self):
-		backups = simbase.backups.load('blockinfo', (self.air.districtId, self.branchID), default={})
-		(blocks, hqBlocks, libraryBlocks, gagshopBlocks, petshopBlocks, kartshopBlocks, animBldgBlocks) = self.getDNABlockLists()
-		for block in blocks:
-			self.newBuilding(block, backup=backups.get(block, None))
-		
-		for block in libraryBlocks:
-			self.newLibrary(block)
-			
-        for block in animBldgBlocks:
-            self.newAnimBuilding(block, buildings.get(block, None))
+    def findAllLandmarkBuildings(self):
+        backups = simbase.backups.load('block-info', (self.air.districtId, self.branchId), default={})
+        (blocks, hqBlocks, gagshopBlocks, petshopBlocks, kartshopBlocks, libraryBlocks,
+        animBldgBlocks) = self.getDNABlockLists()
+        for blockNumber in blocks:
+            self.newBuilding(blockNumber, backup=backups.get(blockNumber, None))
+        for blockNumber in animBldgBlocks:
+            self.newAnimBuilding(blockNumber, backup=backups.get(blockNumber, None))
+        for blockNumber in hqBlocks:
+            self.newHQBuilding(blockNumber)
+        for blockNumber in gagshopBlocks:
+            self.newGagshopBuilding(blockNumber)
+        for block in petshopBlocks:
+            self.newPetshopBuilding(block)
+        for block in kartshopBlocks:
+            self.newKartShopBuilding(block)
+        for block in libraryBlocks:
+            self.newLibraryBuilding(block)    
 
-        for block in hqBlocks:
-            self.newHQBuilding(block)
-
-        for block in gagshopBlocks:
-            self.newGagshopBuilding(block)
-
-        if simbase.wantPets:
-            for block in petshopBlocks:
-                self.newPetshopBuilding(block)
-
-        if simbase.wantKarts:
-            for block in kartshopBlocks:
-                self.newKartShopBuilding(block)
-
-        return
 
     def newBuilding(self, blockNumber, backup=None):
         building = DistributedBuildingAI.DistributedBuildingAI(
