@@ -127,18 +127,18 @@ class ToontownAIRepository(ToontownInternalRepository):
 			self.allocateChannel(), self.getGameDoId(), 3)
 		self.notify.info('Created ToontownDistrictStats(%d)' % self.districtStats.doId)
 
-		print 'Creating managers...' 
+		self.notify.info('Creating managers...')
 		self.createManagers()
 
-		print 'Creating playgrounds..'
+		self.notify.info('Creating playgrounds..')
 		self.createSafeZones()
 
-		print 'Creating Coghqs...'
+		self.notify.info('Creating Coghqs...')
 		self.createCogHeadquarters()
 
-		print 'Making district available...'
+		self.notify.info('Making district available...')
 		self.distributedDistrict.b_setAvailable(1)
-		print 'Done.'
+		self.notify.info('Done.')
 
 
     def claimOwnership(self, channelId):
