@@ -5160,7 +5160,7 @@ def setQP(questId=0, progress=0):
 
 @magicWord(category=CATEGORY_MODERATION, types=[int, str])
 def locate(avIdt=0, returnType=''):
-    """Locate an avatar anywhere on the [CURRENT] AI."""
+	"""Locate an avatar anywhere on the [CURRENT] AI."""
     # TODO: Use Astron msgs to get location of avId from anywhere in the Astron cyber-space.
     # NOTE: The avIdShort contcept needs changing, especially when we start entering 200000000's for avIds
 	def locate(avId=0, returnType=''):
