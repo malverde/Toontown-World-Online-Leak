@@ -5399,19 +5399,16 @@ def pouch(amt):
     spellbook.getTarget().b_setMaxCarry(amt)
     return "Set %s's pouch size to %d" % (spellbook.getTarget().getName(), amt)
 
-@magicWord(category=CATEGORY_MODERATION, types=[int])
-def goto(avId):
+@@magicWord(category=CATEGORY_MODERATION, types=[int])
+def goto(avIdShort):
     """ Teleport to the avId specified. """
-    if len(str(avId)) >= 9:  
-        targetAvId = avId  
-        else:  
-            targetAvId = 100000000+avId # To get target doId.  
-        toon = simbase.air.doId2do.get(targetAvId)  
-        if not toon:  
-            return "Unable to teleport to target, they are not currently on this district."  
-    spellbook.getInvoker().magicWordTeleportRequests.append(targetAvId)  
+    avId = 100000000+avIdShort # To get target doId.
+    toon = simbase.air.doId2do.get(avId)
+    if not toon:
+        return "Unable to teleport to target, they are not currently on this district."
+    spellbook.getInvoker().magicWordTeleportRequests.append(avId)
     toon.sendUpdate('magicTeleportRequest', [spellbook.getInvoker().getDoId()])
-
+    
 @magicWord(category=CATEGORY_SYSADMIN)
 def dump_doId2do():
     """
