@@ -5159,14 +5159,13 @@ def setQP(questId=0, progress=0):
     return questIds
 
 @magicWord(category=CATEGORY_MODERATION, types=[int, str])
-def locate(avIdt=0, returnType=''):
-	"""Locate an avatar anywhere on the [CURRENT] AI."""
+def locate(avIdShort=0, returnType=''):
+    """Locate an avatar anywhere on the [CURRENT] AI."""
     # TODO: Use Astron msgs to get location of avId from anywhere in the Astron cyber-space.
-    # NOTE: The avIdShort contcept needs changing, especially when we start entering 200000000's for avIds
-	def locate(avId=0, returnType=''):
-		avIdFull = avId
-		else:
-			 avIdFull = 400000000 - (300000000 - avId) 
+    # NOTE: The avIdShort concept needs changing, especially when we start entering 200000000's for avIds
+    if avIdShort <= 0:
+        return "Please enter a valid avId to find! Note: You only need to enter the last few digits of the full avId!"
+    avIdFull = 400000000 - (300000000 - avIdShort)
     av = simbase.air.doId2do.get(avIdFull, None)
     if not av:
         return "Could not find the avatar on the current AI."
@@ -5204,6 +5203,7 @@ def locate(avIdt=0, returnType=''):
     if interior:
         return "%s has been located %s %s, inside a building." % (av.getName(), where[1], where[2])
     return "%s has been located %s %s." % (av.getName(), where[1], where[2])
+
 
 @magicWord(category=CATEGORY_MODERATION, types=[int])
 def online(doId):
