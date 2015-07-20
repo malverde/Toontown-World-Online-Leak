@@ -20,3 +20,4 @@ class ToontownDistrictAI(DistributedDistrictAI):
 
     def rpcSetAvailable(self, available):
         self.b_setAvailable(available)
+

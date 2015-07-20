@@ -111,6 +111,27 @@ class ToontownAIRepository(ToontownInternalRepository):
         return False
 
 
+    def handleConnected(self):
+        ToontownInternalRepository.handleConnected(self)
+        self.districtId = self.allocateChannel()
+        self.distributedDistrict = ToontownDistrictAI(self)
+        self.distributedDistrict.setName(self.districtName)
+        self.distributedDistrict.generateWithRequiredAndId(self.districtId,
+                                                           self.getGameDoId(), 2)
+
+        # Claim ownership of that district...
+        dg = PyDatagram()
+        dg.addServerHeader(self.districtId, self.ourChannel, STATESERVER_OBJECT_SET_AI)
+        dg.addChannel(self.ourChannel)
+        self.send(dg)
+
+        self.createGlobals()
+        self.createZones()
+
+        self.statusSender.start()
+
+        self.distributedDistrict.b_setAvailable(1)
+        self.notify.info('District is now ready.')
 
     def incrementPopulation(self):
         self.districtStats.b_setAvatarCount(self.districtStats.getAvatarCount() + 1)
@@ -137,116 +158,97 @@ class ToontownAIRepository(ToontownInternalRepository):
     def getAvatarExitEvent(self, avId):
         return 'distObjDelete-%d' % avId
 
-    def createManagers(self):
-        self.timeManager = TimeManagerAI(self)
-        self.timeManager.generateWithRequired(2)
-        self.magicWordManager = MagicWordManagerAI(self)
-        self.magicWordManager.generateWithRequired(2)
-        self.newsManager = NewsManagerAI(self)
-        self.newsManager.generateWithRequired(2)
-        self.tutorialManager = TutorialManagerAI(self)
-        self.tutorialManager.generateWithRequired(2)
-        self.friendManager = FriendManagerAI(self)
-        self.friendManager.generateWithRequired(2)
-        self.questManager = QuestManagerAI(self)
-       # self.banManager = BanManagerAI.BanManagerAI(self)
-        self.suitInvasionManager = SuitInvasionManagerAI(self)
-        self.trophyMgr = DistributedTrophyMgrAI(self)
-        self.trophyMgr.generateWithRequired(2)
-        self.cogSuitMgr = CogSuitManagerAI.CogSuitManagerAI(self)
-        self.promotionMgr = PromotionManagerAI.PromotionManagerAI(self)
-        self.cogPageManager = CogPageManagerAI.CogPageManagerAI()
-        self.holidayManager = HolidayManagerAI(self)
-        if self.wantFishing:
-            self.fishManager = FishManagerAI(self)
-        if self.wantHousing:
-            self.estateManager = EstateManagerAI(self)
-            self.estateManager.generateWithRequired(2)
-            self.catalogManager = CatalogManagerAI(self)
-            self.catalogManager.generateWithRequired(2)
-            self.deliveryManager = self.generateGlobalObject(
-                OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER, 'DistributedDeliveryManager')
-        if self.wantPets:
-            self.petMgr = PetManagerAI(self)
-        if self.wantParties:
-            self.partyManager = DistributedPartyManagerAI(self)
-            self.partyManager.generateWithRequired(2)
-            self.globalPartyMgr = self.generateGlobalObject(
-                OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
-
-    def createSafeZones(self):
-        NPCToons.generateZone2NpcDict()
-        if self.config.GetBool('want-toontown-central', True):
-            self.hoods.append(TTHoodAI.TTHoodAI(self))
-        if self.config.GetBool('want-donalds-dock', True):
-            self.hoods.append(DDHoodAI.DDHoodAI(self))
-        if self.config.GetBool('want-daisys-garden', True):
-            self.hoods.append(DGHoodAI.DGHoodAI(self))
-        if self.config.GetBool('want-minnies-melodyland', True):
-            self.hoods.append(MMHoodAI.MMHoodAI(self))
-        if self.config.GetBool('want-the-burrrgh', True):
-            self.hoods.append(BRHoodAI.BRHoodAI(self))
-        if self.config.GetBool('want-donalds-dreamland', True):
-            self.hoods.append(DLHoodAI.DLHoodAI(self))
-        if self.config.GetBool('want-goofy-speedway', True):
-            self.hoods.append(GSHoodAI.GSHoodAI(self))
-        if self.config.GetBool('want-outdoor-zone', True):
-            self.hoods.append(OZHoodAI.OZHoodAI(self))
-        if self.config.GetBool('want-golf-zone', True):
-            self.hoods.append(GZHoodAI.GZHoodAI(self))
-
-    def createCogHeadquarters(self):
-		NPCToons.generateZone2NpcDict()
-		if self.config.GetBool('want-sellbot-headquarters', True):
-			self.factoryMgr = FactoryManagerAI.FactoryManagerAI(self)
-			self.cogHeadquarters.append(SellbotHQAI.SellbotHQAI(self))
-		if self.config.GetBool('want-cashbot-headquarters', True):
-			self.mintMgr = MintManagerAI.MintManagerAI(self)
-			self.cogHeadquarters.append(CashbotHQAI.CashbotHQAI(self))
-		if self.config.GetBool('want-lawbot-headquarters', True):
-			self.lawOfficeMgr = LawOfficeManagerAI.LawOfficeManagerAI(self)
-			self.cogHeadquarters.append(LawbotHQAI.LawbotHQAI(self))
-		if self.config.GetBool('want-bossbot-headquarters', True):
-			self.countryClubMgr = CountryClubManagerAI.CountryClubManagerAI(self)
-			self.cogHeadquarters.append(BossbotHQAI.BossbotHQAI(self))
-            
-		for sp in self.suitPlanners.values():
-			sp.assignInitialSuitBuildings()
-
-    def handleConnected(self):
-        self.districtId = self.allocateChannel()
-        self.notify.info('Creating ToontownDistrictAI(%d)...' % self.districtId)
-        self.distributedDistrict = ToontownDistrictAI(self)
-        self.distributedDistrict.setName(self.districtName)
-        self.distributedDistrict.generateWithRequiredAndId(
-            self.districtId, self.getGameDoId(), 2)
-        self.notify.info('Claiming ownership of channel ID: %d...' % self.districtId)
-        self.claimOwnership(self.districtId)
-
+    def createGlobals(self):
+        """
+        Create "global" objects, e.g. TimeManager et al.
+        """
         self.districtStats = ToontownDistrictStatsAI(self)
         self.districtStats.settoontownDistrictId(self.districtId)
-        self.districtStats.generateWithRequiredAndId(
-            self.allocateChannel(), self.getGameDoId(), 3)
-        self.notify.info('Created ToontownDistrictStats(%d)' % self.districtStats.doId)
+        self.districtStats.generateWithRequiredAndId(self.allocateChannel(),
+                                                     self.getGameDoId(), 3)
 
-        self.notify.info('Creating managers...')
-        self.createManagers()
-        if self.config.GetBool('want-safe-zones', True):
-            self.notify.info('Creating playgrounds..')
-            self.createSafeZones()
-        if self.config.GetBool('want-cog-headquarters', True):
-            self.notify.info('Creating Coghqs...')
-            self.createCogHeadquarters()
+        self.timeManager = TimeManagerAI(self)
+        self.timeManager.generateWithRequired(2)
 
-        self.notify.info('Making district available...')
-        self.distributedDistrict.b_setAvailable(1)
-        self.notify.info('Done.')
+        self.newsManager = NewsManagerAI(self)
+        self.newsManager.generateWithRequired(2)
 
-    def claimOwnership(self, channelId):
-        datagram = PyDatagram()
-        datagram.addServerHeader(channelId, self.ourChannel, STATESERVER_OBJECT_SET_AI)
-        datagram.addChannel(self.ourChannel)
-        self.send(datagram)
+        self.magicWordManager = MagicWordManagerAI(self)
+        self.magicWordManager.generateWithRequired(2)
+
+        self.friendManager = FriendManagerAI(self)
+        self.friendManager.generateWithRequired(2)
+
+        if config.GetBool('want-parties', True):
+            self.partyManager = DistributedPartyManagerAI(self)
+            self.partyManager.generateWithRequired(2)
+
+            # setup our view of the global party manager ud
+            self.globalPartyMgr = self.generateGlobalObject(OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
+
+        self.estateManager = EstateManagerAI(self)
+        self.estateManager.generateWithRequired(2)
+
+        self.trophyMgr = DistributedTrophyMgrAI(self)
+        self.trophyMgr.generateWithRequired(2)
+
+        self.tutorialManager = TutorialManagerAI(self)
+        self.tutorialManager.generateWithRequired(2)
+
+        self.catalogManager = CatalogManagerAI(self)
+        self.catalogManager.generateWithRequired(2)
+
+        self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
+        self.codeRedemptionManager.generateWithRequired(2)
+
+    def createZones(self):
+        """
+        Spawn safezone objects, streets, doors, NPCs, etc.
+        """
+        start = time.clock()
+        def clearQueue():
+            '''So the TCP window doesn't fill up and we get the axe'''
+            while self.readerPollOnce():
+                pass
+
+        self.hoods.append(TTHoodAI.TTHoodAI(self))
+        clearQueue()
+        self.hoods.append(DDHoodAI.DDHoodAI(self))
+        clearQueue()
+        self.hoods.append(DGHoodAI.DGHoodAI(self))
+        clearQueue()
+        self.hoods.append(BRHoodAI.BRHoodAI(self))
+        clearQueue()
+        self.hoods.append(MMHoodAI.MMHoodAI(self))
+        clearQueue()
+        self.hoods.append(DLHoodAI.DLHoodAI(self))
+        clearQueue()
+        self.hoods.append(GSHoodAI.GSHoodAI(self))
+        clearQueue()
+        self.hoods.append(OZHoodAI.OZHoodAI(self))
+        clearQueue()
+        self.hoods.append(GZHoodAI.GZHoodAI(self))
+        clearQueue()
+
+
+        if config.GetBool('want-sbhq', True):
+            self.hoods.append(SellbotHQAI.SellbotHQAI(self))
+            clearQueue()
+
+        if config.GetBool('want-cbhq', True):
+            self.hoods.append(CashbotHQAI.CashbotHQAI(self))
+            clearQueue()
+
+        if config.GetBool('want-lbhq', True):
+            self.hoods.append(LawbotHQAI.LawbotHQAI(self))
+            clearQueue()
+
+        if config.GetBool('want-bbhq', True):
+            self.hoods.append(BossbotHQAI.BossbotHQAI(self))
+            clearQueue()
+
+        for sp in self.suitPlanners.values():
+            sp.assignInitialSuitBuildings()
 
     def genDNAFileName(self, zoneId):
         zoneId = ZoneUtil.getCanonicalZoneId(zoneId)
