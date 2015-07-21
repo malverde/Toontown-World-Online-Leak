@@ -96,7 +96,7 @@ PartyEditorActivityOrder = [ ActivityIds.PartyClock,
  ActivityIds.PartyValentineJukebox,
  ActivityIds.PartyValentineJukebox40,
  ActivityIds.PartyCannon,
- ActivityIds.PartyTrampoline,
+# ActivityIds.PartyTrampoline,
  ActivityIds.PartyValentineTrampoline,
  ActivityIds.PartyVictoryTrampoline,
  ActivityIds.PartyWinterTrampoline,
@@ -108,18 +108,17 @@ PartyEditorActivityOrder = [ ActivityIds.PartyClock,
  ActivityIds.PartyCatch,
  ActivityIds.PartyWinterCatch,
  ActivityIds.PartyCog,
- ActivityIds.PartyWinterCog,
- ActivityIds.PartyFireworks]
+ ActivityIds.PartyWinterCog]
+# ActivityIds.PartyFireworks]
 UnreleasedActivityIds = (ActivityIds.PartyCog,
- ActivityIds.PartyWinterCog,
- ActivityIds.PartyValentineJukebox,
+ ActivityIds.PartyWinterCog, ActivityIds.PartyValentineJukebox,
  ActivityIds.PartyValentineJukebox40,
  ActivityIds.PartyValentineTrampoline,
  ActivityIds.PartyWinterTrampoline,
  ActivityIds.PartyWinterCatch,
  ActivityIds.PartyValentineDance,
  ActivityIds.PartyValentineDance20,
- ActivityIds.PartyTugOfWar)
+ ActivityIds.PartyTugOfWar) 
 MutuallyExclusiveActivities = ((ActivityIds.PartyJukebox, ActivityIds.PartyJukebox40),
  (ActivityIds.PartyValentineJukebox, ActivityIds.PartyValentineJukebox40),
  (ActivityIds.PartyDance, ActivityIds.PartyDance20),
@@ -233,8 +232,8 @@ PlayGroundToPartyClockColors = {'the_burrrgh': (53.0 / 255.0,
 PartyGridUnitLength = [14.4, 14.6]
 PartyGridHeadingConverter = 15.0
 PartyGridToPandaOffset = (-PartyGridUnitLength[0] * PartyEditorGridSize[0] / 2.0, -PartyGridUnitLength[1] * PartyEditorGridSize[1] / 2.0)
-PartyCostMultiplier = 1 # NO PRICE IS 0, DEFAULT IS 1 NIGGAS
-MinimumPartyCost = 100 * PartyCostMultiplier
+PartyCostMultiplier = 1 # For testing, set to 0, for actual parties, set to 1
+MinimumPartyCost = 50 * PartyCostMultiplier
 ActivityInformationDict = {ActivityIds.PartyJukebox: {'cost': int(50 * PartyCostMultiplier),
                             'gridsize': (1, 1),
                             'numberPerPurchase': 1,
@@ -262,13 +261,13 @@ ActivityInformationDict = {ActivityIds.PartyJukebox: {'cost': int(50 * PartyCost
  ActivityIds.PartyCannon: {'cost': int(50 * PartyCostMultiplier),
                            'gridsize': (1, 1),
                            'numberPerPurchase': 5,
-                           'limitPerParty': 10,
+                           'limitPerParty': 20,
                            'paidOnly': False,
                            'gridAsset': 'PartyCannon_activity_1x1'},
  ActivityIds.PartyTrampoline: {'cost': int(50 * PartyCostMultiplier),
                                'gridsize': (2, 2),
                                'numberPerPurchase': 1,
-                               'limitPerParty': 8,
+                               'limitPerParty': 16,
                                'paidOnly': False,
                                'gridAsset': 'PartyTrampoline_activity_2x2'},
  ActivityIds.PartyValentineTrampoline: {'cost': int(50 * PartyCostMultiplier),
@@ -292,7 +291,7 @@ ActivityInformationDict = {ActivityIds.PartyJukebox: {'cost': int(50 * PartyCost
  ActivityIds.PartyCatch: {'cost': int(300 * PartyCostMultiplier),
                           'gridsize': (5, 5),
                           'numberPerPurchase': 1,
-                          'limitPerParty': 1,
+                          'limitPerParty': 2,
                           'paidOnly': True,
                           'gridAsset': 'PartyCatch_activity_5x5'},
  ActivityIds.PartyWinterCatch: {'cost': int(300 * PartyCostMultiplier),
@@ -316,13 +315,13 @@ ActivityInformationDict = {ActivityIds.PartyJukebox: {'cost': int(50 * PartyCost
  ActivityIds.PartyDance: {'cost': int(100 * PartyCostMultiplier),
                           'gridsize': (3, 3),
                           'numberPerPurchase': 1,
-                          'limitPerParty': 1,
+                          'limitPerParty': 2,
                           'paidOnly': True,
                           'gridAsset': 'PartyDance_activity_3x3'},
  ActivityIds.PartyDance20: {'cost': int(200 * PartyCostMultiplier),
                             'gridsize': (3, 3),
                             'numberPerPurchase': 1,
-                            'limitPerParty': 1,
+                            'limitPerParty': 2,
                             'paidOnly': True,
                             'gridAsset': 'PartyDance_activity_3x3'},
  ActivityIds.PartyValentineDance: {'cost': int(100 * PartyCostMultiplier),
@@ -669,7 +668,7 @@ for type in DropObjectTypes:
 Name2DOTypeId = {}
 names = Name2DropObjectType.keys()
 names.sort()
-for i in range(len(names)):
+for i in xrange(len(names)):
     Name2DOTypeId[names[i]] = i
 
 DOTypeId2Name = names
@@ -711,6 +710,7 @@ DancePatternToAnims20 = {'ddd': 'down',
  'dduu': 'slip-backward',
  'drul': 'sad-walk',
  'ldr': 'push',
+ 'uduu': 'throw',
  'ldddud': 'happy-dance',
  'ldu': 'sprinkle-dust',
  'lll': 'left',
@@ -738,6 +738,7 @@ DanceAnimToName = {'right': TTLocalizer.DanceAnimRight,
  'shrug': TTLocalizer.DanceAnimShrug,
  'slip-forward': TTLocalizer.DanceAnimSlipForward,
  'sad-walk': TTLocalizer.DanceAnimSadWalk,
+ 'throw': TTLocalizer.DanceAnimThrow,
  'wave': TTLocalizer.DanceAnimWave,
  'struggle': TTLocalizer.DanceAnimStruggle,
  'running-jump': TTLocalizer.DanceAnimRunningJump,
@@ -764,7 +765,7 @@ MUSIC_MIN_LENGTH_SECONDS = 50.0
 MUSIC_GAP = 2.5
 PhaseToMusicData = {3.5: {'TC_SZ.ogg': [TTLocalizer.MusicTcSz, 57]},
  3: {'create_a_toon.ogg': [TTLocalizer.MusicCreateAToon, 175],
-     'tt_theme.ogg': [TTLocalizer.MusicTtTheme, 51]},
+     'ttw_theme.ogg': [TTLocalizer.MusicttwTheme, 51]},
  4: {'TC_nbrhood.ogg': [TTLocalizer.MusicTcNbrhood, 59],
      'MG_TwoDGame.ogg': [TTLocalizer.MusicMgTwodgame, 60],
      'MG_Vine.ogg': [TTLocalizer.MusicMgVine, 32],
@@ -785,7 +786,7 @@ PhaseToMusicData = {3.5: {'TC_SZ.ogg': [TTLocalizer.MusicTcSz, 57]},
 PhaseToMusicData40 = {3.5: {'encntr_general_bg.ogg': [TTLocalizer.MusicEncntrGeneralBg, 30],
        'TC_SZ.ogg': [TTLocalizer.MusicTcSz, 57]},
  3: {'create_a_toon.ogg': [TTLocalizer.MusicCreateAToon, 175],
-     'ttr_theme.ogg': [TTLocalizer.MusicttwTheme, 51]},
+     'ttw_theme.ogg': [TTLocalizer.MusicttwTheme, 51]},
  4: {'minigame_race.ogg': [TTLocalizer.MusicMinigameRace, 77],
      'TC_nbrhood.ogg': [TTLocalizer.MusicTcNbrhood, 59],
      'MG_TwoDGame.ogg': [TTLocalizer.MusicMgTwodgame, 60],

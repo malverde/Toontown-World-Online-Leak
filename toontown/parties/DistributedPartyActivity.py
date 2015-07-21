@@ -16,7 +16,6 @@ from toontown.parties.JellybeanRewardGui import JellybeanRewardGui
 from toontown.parties.PartyUtils import getPartyActivityIcon, getCenterPosFromGridSize
 
 class DistributedPartyActivity(DistributedObject.DistributedObject):
-    deferFor = 1 # We need to defer the generation of activities 1 frame, as the party must generate first
     def __init__(self, cr, activityId, activityType, wantLever = False, wantRewardGui = False):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.activityId = activityId
@@ -464,7 +463,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
                     avatar.stopLookAround()
 
     def getAvatar(self, toonId):
-        if self.cr.doId2do.has_key(toonId):
+        if toonId in self.cr.doId2do:
             return self.cr.doId2do[toonId]
         else:
             self.notify.warning('BASE: getAvatar: No avatar in doId2do with id: ' + str(toonId))
@@ -492,7 +491,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         self.notify.debug('BASE: startRules')
         self.accept(self.rulesDoneEvent, self.handleRulesDone)
         self.rulesPanel = MinigameRulesPanel('PartyRulesPanel', self.getTitle(), self.getInstructions(), self.rulesDoneEvent, timeout)
-        base.setCellsAvailable(base.bottomCells + [base.leftCells[0], base.rightCells[1]], False)
+        base.setCellsActive(base.bottomCells + [base.leftCells[0], base.rightCells[1]], False)
         self.rulesPanel.load()
         self.rulesPanel.enter()
 
@@ -503,7 +502,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
             self.rulesPanel.exit()
             self.rulesPanel.unload()
             del self.rulesPanel
-            base.setCellsAvailable(base.bottomCells + [base.leftCells[0], base.rightCells[1]], True)
+            base.setCellsActive(base.bottomCells + [base.leftCells[0], base.rightCells[1]], True)
 
     def handleRulesDone(self):
         self.notify.error('BASE: handleRulesDone should be overridden')

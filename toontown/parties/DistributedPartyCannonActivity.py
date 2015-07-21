@@ -19,6 +19,9 @@ from toontown.parties.PartyGlobals import PartyCannonCollisions
 from toontown.parties.DistributedPartyActivity import DistributedPartyActivity
 from toontown.parties.CannonGui import CannonGui
 from toontown.parties.PartyUtils import toRadians, toDegrees
+from direct.distributed.ClockDelta import *
+from toontown.minigame import Trajectory
+from toontown.minigame import CannonGameGlobals
 CANNON_ROTATION_VEL = 15.0
 CANNON_ANGLE_VEL = 15.0
 GROUND_PLANE_MIN = -15
@@ -949,5 +952,5 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
 
     def handleToonExited(self, toonId):
         self.notify.debug('DistributedPartyCannonActivity handleToonExited( toonId=%s ) ' % toonId)
-        if self.cr.doId2do.has_key(toonId):
+        if toonId in self.cr.doId2do:
             self.notify.warning('handleToonExited is not defined')

@@ -15,10 +15,9 @@ from toontown.hood import Place
 from toontown.hood import SkyUtil
 from toontown.parties import PartyPlanner
 from toontown.parties.DistributedParty import DistributedParty
-
+fsm = None 
 class Party(Place.Place):
     notify = DirectNotifyGlobal.directNotify.newCategory('Party')
-
     def __init__(self, loader, avId, zoneId, parentFSMState, doneEvent):
         Place.Place.__init__(self, None, doneEvent)
         self.id = PartyHood
@@ -204,18 +203,18 @@ class Party(Place.Place):
 
     def __setPartyHat(self, doId = None):
         if hasattr(base, 'distributedParty'):
-            if base.cr.doId2do.has_key(base.distributedParty.partyInfo.hostId):
+            if base.distributedParty.partyInfo.hostId in base.cr.doId2do:
                 host = base.cr.doId2do[base.distributedParty.partyInfo.hostId]
                 if hasattr(host, 'gmIcon') and host.gmIcon:
                     host.removeGMIcon()
                     host.setGMPartyIcon()
                 else:
-                    np = NodePath(host.nametag.getNameIcon())
+                    np = NodePath(host.nametag.getIcon())
                     base.distributedParty.partyHat.reparentTo(np)
 
     def __removePartyHat(self):
         if hasattr(base, 'distributedParty'):
-            if base.cr.doId2do.has_key(base.distributedParty.partyInfo.hostId):
+            if base.distributedParty.partyInfo.hostId in base.cr.doId2do:
                 host = base.cr.doId2do[base.distributedParty.partyInfo.hostId]
                 if hasattr(host, 'gmIcon') and host.gmIcon:
                     host.removeGMIcon()
@@ -276,7 +275,7 @@ class Party(Place.Place):
         if self.isPartyEnding:
             teleportNotify.debug('party ending, sending teleportResponse')
             fromAvatar.d_teleportResponse(toAvatar.doId, 0, toAvatar.defaultShard, base.cr.playGame.getPlaceId(), self.getZoneId())
-        elif config.GetBool('want-tptrack', False):
+        elif base.config.GetBool('want-tptrack', False):
             if toAvatar == localAvatar:
                 localAvatar.doTeleportResponse(fromAvatar, toAvatar, toAvatar.doId, 1, toAvatar.defaultShard, base.cr.playGame.getPlaceId(), self.getZoneId(), fromAvatar.doId)
             else:
