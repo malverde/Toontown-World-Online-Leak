@@ -1640,8 +1640,8 @@ hood2Id = {
  'OFFICE': (LawbotHQ,),
  'BACK': (BossbotHQ,),
  'MIDDLE': (BossbotHQ,),
- 'FRONT': (BossbotHQ,),
-hood2Coords = {
+ 'FRONT': (BossbotHQ,)
+ hood2Coords = {
  'CEO': [
     (61.044, 119.014, 0.025),
     (-4.680, 0, 0)
