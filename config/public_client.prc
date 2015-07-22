@@ -65,6 +65,7 @@ want-pets #f
 want-news-tab #f
 want-news-page #f
 want-gardening #f
+want-parties #t
 want-gifting #f
 want-cogbuildings #t 
 # This is a temporary 'fix' for DistributedSmoothNodes... probably not the permanent solution to our problem, but it works for now.
@@ -77,7 +78,7 @@ force-player-understandable #t
 
 
 # Holidays and Events
-force-holiday-decorations 6
+force-holiday-decorations 0
 want-arg-manager #f
 show-total-population #t
 
