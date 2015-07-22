@@ -1,4 +1,3 @@
-#Embedded file name: toontown.building.DistributedDoor
 from toontown.toonbase.ToonBaseGlobal import *
 from pandac.PandaModules import *
 from otp.nametag.NametagGroup import NametagGroup
