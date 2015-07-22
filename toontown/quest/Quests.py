@@ -1447,7 +1447,7 @@ class DeliverGagQuest(Quest):
 		gag = self.getGagType()
 		inventory = av.inventory
 		taknegags = 0
-		for i in eange(self.getNumGags())
+		for i in range(self.getNumGags()):
 			if inventory.useItem(gag[0], gag[1]):
 				takengags += 1
 		av.b_setInventory(inventory.makeNetString())
