@@ -1,10 +1,11 @@
-from direct.distributed.DistributedObjectAI import DistributedObjectAI
+from direct.distributed import DistributedObjectAI
+from direct.directnotify import DirectNotifyGlobal
 import cPickle
 
-class DistributedHQInteriorAI(DistributedObjectAI):
-    notify = directNotify.newCategory('DistributedHQInteriorAI')
+class DistributedHQInteriorAI(DistributedObjectAI.DistributedObjectAI):
+
     def __init__(self, block, air, zoneId):
-        DistributedObjectAI.__init__(self, air)
+        DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         self.block = block
         self.zoneId = zoneId
         self.tutorial = 0
@@ -17,9 +18,12 @@ class DistributedHQInteriorAI(DistributedObjectAI):
         self.ignore('leaderboardFlush')
         self.ignore('setLeaderBoard')
         self.ignore('AIStarted')
-        DistributedObjectAI.delete(self)
+        DistributedObjectAI.DistributedObjectAI.delete(self)
+
     def getZoneIdAndBlock(self):
-        return [self.zoneId, self.block]
+        r = [self.zoneId, self.block]
+        return r
+
     def leaderboardChanged(self):
         self.isDirty = True
 
@@ -30,9 +34,7 @@ class DistributedHQInteriorAI(DistributedObjectAI):
     def sendNewLeaderBoard(self):
         if self.air:
             self.isDirty = False
-            self.sendUpdate('setLeaderBoard',
-                [cPickle.dumps(self.air.trophyMgr.getLeaderInfo(), 1)]
-            )
+            self.sendUpdate('setLeaderBoard', [cPickle.dumps(self.air.trophyMgr.getLeaderInfo(), 1)])
 
     def getLeaderBoard(self):
         return cPickle.dumps(self.air.trophyMgr.getLeaderInfo(), 1)
