@@ -97,7 +97,7 @@ for closetId, maxClothes in ClosetToClothes.items():
         ClothesToCloset[maxClothes] += (closetId,)
 
 MaxClosetIds = (508, 518)
-#MaxTrunkIds = (4000, 4010)
+MaxTrunkIds = (4000, 4010)
 FurnitureTypes = {100: ('phase_5.5/models/estate/chairA',
        None,
        None,
