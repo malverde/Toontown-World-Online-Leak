@@ -212,7 +212,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         self.setTriggerName()
         # Check if we are dealing with a HQ door...
         if self.doorType == DoorTypes.EXT_HQ and \
-           ZoneUtil.getHoodId(self.zoneId) = ToontownGlobals.DonaldsDreamland, ToontownGlobals.ToontownCentral, ToontownGlobals.DonaldsDock:
+           ZoneUtil.getHoodId(self.zoneId) = ToontownGlobals.DonaldsDreamland, ToontownGlobals.ToontownCentral:
 
             # Get the doorTrigger...
             building = self.getBuilding()
