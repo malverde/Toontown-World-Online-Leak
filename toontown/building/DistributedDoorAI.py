@@ -38,6 +38,7 @@ class DistributedDoorAI(DistributedObjectAI.DistributedObjectAI):
         self.exitDoorDoLaterTask = None
         self.avatarsWhoAreEntering = {}
         self.avatarsWhoAreExiting = {}
+        return
 
     def delete(self):
         taskMgr.remove(self.uniqueName('door_opening-timer'))
@@ -167,6 +168,7 @@ class DistributedDoorAI(DistributedObjectAI.DistributedObjectAI):
         if self.doLaterTask:
             taskMgr.remove(self.doLaterTask)
             self.doLaterTask = None
+        return
 
     def closingTask(self, task):
         self.fsm.request('closed')
@@ -186,6 +188,7 @@ class DistributedDoorAI(DistributedObjectAI.DistributedObjectAI):
         if self.doLaterTask:
             taskMgr.remove(self.doLaterTask)
             self.doLaterTask = None
+        return
 
     def openingTask(self, task):
         self.fsm.request('open')
@@ -200,6 +203,7 @@ class DistributedDoorAI(DistributedObjectAI.DistributedObjectAI):
         if self.doLaterTask:
             taskMgr.remove(self.doLaterTask)
             self.doLaterTask = None
+        return
 
     def exitDoorEnterOff(self):
         pass
@@ -219,6 +223,7 @@ class DistributedDoorAI(DistributedObjectAI.DistributedObjectAI):
         if self.exitDoorDoLaterTask:
             taskMgr.remove(self.exitDoorDoLaterTask)
             self.exitDoorDoLaterTask = None
+        return
 
     def exitDoorClosingTask(self, task):
         self.exitDoorFSM.request('closed')
@@ -231,6 +236,7 @@ class DistributedDoorAI(DistributedObjectAI.DistributedObjectAI):
         if self.exitDoorDoLaterTask:
             taskMgr.remove(self.exitDoorDoLaterTask)
             self.exitDoorDoLaterTask = None
+        return
 
     def exitDoorEnterOpening(self):
         self.d_setExitDoorState('opening')
@@ -240,6 +246,7 @@ class DistributedDoorAI(DistributedObjectAI.DistributedObjectAI):
         if self.exitDoorDoLaterTask:
             taskMgr.remove(self.exitDoorDoLaterTask)
             self.exitDoorDoLaterTask = None
+        return
 
     def exitDoorOpeningTask(self, task):
         self.exitDoorFSM.request('open')
@@ -254,3 +261,4 @@ class DistributedDoorAI(DistributedObjectAI.DistributedObjectAI):
         if self.exitDoorDoLaterTask:
             taskMgr.remove(self.exitDoorDoLaterTask)
             self.exitDoorDoLaterTask = None
+        return
