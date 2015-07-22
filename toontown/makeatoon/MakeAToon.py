@@ -1,11 +1,9 @@
 from pandac.PandaModules import *
 from toontown.distributed.ToontownMsgTypes import *
-from toontown.char import Char
 from otp.avatar import Avatar
 from toontown.toon import Toon
 from toontown.toon import LocalToon
 from toontown.toon import ToonDNA
-from toontown.char import CharDNA
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.fsm import StateData
@@ -396,11 +394,6 @@ class MakeAToon(StateData.StateData):
             self.fsm.request('ColorShop')
         else:
             self.fsm.request('ClothesShop')
-
-    def charSez(self, char, statement, dialogue = None):
-        import pdb
-        pdb.set_trace()
-        char.setChatAbsolute(statement, CFSpeech, dialogue)
 
     def enterInit(self):
         pass
