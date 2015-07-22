@@ -103,8 +103,6 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
                 self.nametag.setShadow(*TTLocalizer.BuildingNametagShadow)
             self.nametag.hideChat()
             self.nametag.hideThought()
-            nametagColor = NametagGlobals.NametagColors[NametagGlobals.CCToonBuilding]
-            self.nametag.setNametagColor(nametagColor)
             self.nametag.setActive(False)
             self.nametag.setAvatar(self.getDoorNodePath())
             
