@@ -1,8 +1,8 @@
 from toontown.toonbase.ToonBaseGlobal import *
 from pandac.PandaModules import *
+from otp.nametag.NametagGroup import NametagGroup
+from otp.nametag.Nametag import Nametag
 from direct.interval.IntervalGlobal import *
-from toontown.nametag.NametagGroup import NametagGroup
-from toontown.nametag.Nametag import Nametag
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
@@ -19,6 +19,8 @@ from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TeaserPanel
 from toontown.distributed.DelayDeletable import DelayDeletable
 
+if (__debug__):
+    import pdb
 
 class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
     deferFor = 1
@@ -97,20 +99,18 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             return
         if self.nametag == None:
             self.nametag = NametagGroup()
-            self.nametag.setNametag3d(None)
             self.nametag.setFont(ToontownGlobals.getBuildingNametagFont())
             if TTLocalizer.BuildingNametagShadow:
                 self.nametag.setShadow(*TTLocalizer.BuildingNametagShadow)
-            self.nametag.hideChat()
-            self.nametag.hideThought()
-            self.nametag.setActive(False)
+            self.nametag.setContents(Nametag.CName)
+            self.nametag.setColorCode(NametagGroup.CCToonBuilding)
+            self.nametag.setActive(0)
             self.nametag.setAvatar(self.getDoorNodePath())
-            
-            name = self.cr.playGame.dnaStore.getTitleFromBlockNumber(self.block)
-            self.nametag.setText(name)
+            self.nametag.setObjectCode(self.block)
+            name = self.cr.playGame.dnaData.getBlock(self.block).title
+            self.nametag.setName(name)
             self.nametag.manage(base.marginManager)
-            self.nametag.updateAll()
-        
+        return
 
     def clearNametag(self):
         if self.nametag != None:
