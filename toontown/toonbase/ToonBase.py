@@ -331,36 +331,24 @@ class ToonBase(OTPBase.OTPBase):
             NametagGlobals.setClickSound(clickSound)
         NametagGlobals.setToon(self.cam)
 
-
-        def addCell(self, x, y, a2dMarker):
-            cell = MarginCell()
-            cell.reparentTo(a2dMarker)
-            cell.setPos(x, 0, y)
-            cell.setScale(0.2)
-            cell.setActive(True)
-    
-            self.cells.add(cell)
-            self.reorganize()
-    
-            return cell
         self.marginManager = MarginManager()
         self.margins = self.aspect2d.attachNewNode(
             self.marginManager, DirectGuiGlobals.MIDGROUND_SORT_INDEX + 1)
         self.leftCells = [
-            .addCell(0.1, -0.6, self.a2dTopLeft),
-            addCell(0.1, -1.0, self.a2dTopLeft),
-            addCell(0.1, -1.4, self.a2dTopLeft)
+            self.marginManager.addCell(0.1, -0.6, self.a2dTopLeft),
+            self.marginManager.addCell(0.1, -1.0, self.a2dTopLeft),
+            self.marginManager.addCell(0.1, -1.4, self.a2dTopLeft)
         ]
         self.bottomCells = [
-            addCell(0.4, 0.1, self.a2dBottomCenter),
-            addCell(-0.4, 0.1, self.a2dBottomCenter),
-            addCell(-1.0, 0.1, self.a2dBottomCenter),
-            addCell(1.0, 0.1, self.a2dBottomCenter)
+            self.marginManager.addCell(0.4, 0.1, self.a2dBottomCenter),
+            self.marginManager.addCell(-0.4, 0.1, self.a2dBottomCenter),
+            self.marginManager.addCell(-1.0, 0.1, self.a2dBottomCenter),
+            self.marginManager.addCell(1.0, 0.1, self.a2dBottomCenter)
         ]
         self.rightCells = [
-            addCell(-0.1, -0.6, self.a2dTopRight),
-            addCell(-0.1, -1.0, self.a2dTopRight),
-            addCell(-0.1, -1.4, self.a2dTopRight)
+            self.marginManager.addCell(-0.1, -0.6, self.a2dTopRight),
+            self.marginManager.addCell(-0.1, -1.0, self.a2dTopRight),
+            self.marginManager.addCell(-0.1, -1.4, self.a2dTopRight)
         ]
         
     def setCellsActive(self, cells, active):
