@@ -332,30 +332,34 @@ class ToonBase(OTPBase.OTPBase):
         NametagGlobals.setToon(self.cam)
 
         self.marginManager = MarginManager()
-        self.margins = self.aspect2d.attachNewNode(
-            self.marginManager, DirectGuiGlobals.MIDGROUND_SORT_INDEX + 1)
+        self.margins = self.aspect2d.attachNewNode(self.marginManager, DirectGuiGlobals.MIDGROUND_SORT_INDEX + 1)
+        mm = self.marginManager
+
+        # TODO: Dynamicaly add more and reposition cells
+        padding = 0.0225
+
+        # Order: Top to bottom
         self.leftCells = [
-            self.marginManager.addCell(0.1, -0.6, self.a2dTopLeft),
-            self.marginManager.addCell(0.1, -1.0, self.a2dTopLeft),
-            self.marginManager.addCell(0.1, -1.4, self.a2dTopLeft)
+            mm.addGridCell(0.2 + padding, -0.45, base.a2dTopLeft), # Above boarding groups
+            mm.addGridCell(0.2 + padding, -0.9, base.a2dTopLeft),  # 1
+            mm.addGridCell(0.2 + padding, -1.35, base.a2dTopLeft)  # Below Boarding Groups
         ]
+
+        # Order: Left to right
         self.bottomCells = [
-            self.marginManager.addCell(0.4, 0.1, self.a2dBottomCenter),
-            self.marginManager.addCell(-0.4, 0.1, self.a2dBottomCenter),
-            self.marginManager.addCell(-1.0, 0.1, self.a2dBottomCenter),
-            self.marginManager.addCell(1.0, 0.1, self.a2dBottomCenter)
+            mm.addGridCell(-0.87, 0.2 + padding, base.a2dBottomCenter), # To the right of the laff meter
+            mm.addGridCell(-0.43, 0.2 + padding, base.a2dBottomCenter), # 1
+            mm.addGridCell(0.01, 0.2 + padding, base.a2dBottomCenter),  # 2
+            mm.addGridCell(0.45, 0.2 + padding, base.a2dBottomCenter),  # 3
+            mm.addGridCell(0.89, 0.2 + padding, base.a2dBottomCenter)   # To the left of the shtiker book
         ]
+
+        # Order: Bottom to top
         self.rightCells = [
-            self.marginManager.addCell(-0.1, -0.6, self.a2dTopRight),
-            self.marginManager.addCell(-0.1, -1.0, self.a2dTopRight),
-            self.marginManager.addCell(-0.1, -1.4, self.a2dTopRight)
+            mm.addGridCell(-0.2 - padding, -1.35, base.a2dTopRight), # Above the street map
+            mm.addGridCell(-0.2 - padding, -0.9, base.a2dTopRight),  # Below the friends list
+            mm.addGridCell(-0.2 - padding, -0.45, base.a2dTopRight)  # Behind the friends list
         ]
-        
-    def setCellsActive(self, cells, active):
-        for cell in cells:
-            cell.setActive(active)
-        self.marginManager.reorganize()
-        
 
     def hideFriendMargins(self):
         middleCell = self.rightCells[1]
