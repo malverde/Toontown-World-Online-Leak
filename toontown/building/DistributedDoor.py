@@ -203,6 +203,40 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         self.ignore('hqInternalDone')
 
         self.doPostAnnounceGenerate()
+        self.dottcPostAnnounceGenerate()
+   
+    def dottcPostAnnounceGenerate(self):
+        if self.doorType == DoorTypes.INT_STANDARD:
+            self.bHasFlat = True
+        else:
+            self.bHasFlat = not self.findDoorNode('door*flat', True).isEmpty()
+        self.hideDoorParts()
+        self.setTriggerName()
+        # Check if we are dealing with a HQ door...
+        if self.doorType == DoorTypes.EXT_HQ and \
+           ZoneUtil.getHoodId(self.zoneId) == ToontownGlobals.ToontownCentral:
+
+            # Get the doorTrigger...
+            building = self.getBuilding()
+            doorTrigger = building.find('**/%s' % self.getTriggerName())
+
+            # Check if the doorTrigger hasn't been 'fixed' already...
+            if not doorTrigger.getTag('fixed'):
+
+                # Reposition the doorTrigger based on its index...
+                if self.doorIndex == 0:
+                    doorTrigger.setY(doorTrigger, 0.25)
+                else:
+                    doorTrigger.setY(doorTrigger, -0.25)
+
+                # We are done :) Tag the door as fixed.
+                doorTrigger.setTag('fixed', 'true')
+        
+        self.accept(self.getEnterTriggerEvent(), self.doorTrigger)
+        self.acceptOnce('clearOutToonInterior', self.doorTrigger)
+        self.setupNametag()
+   
+   
     def doPostAnnounceGenerate(self):
         if self.doorType == DoorTypes.INT_STANDARD:
             self.bHasFlat = True
@@ -212,7 +246,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         self.setTriggerName()
         # Check if we are dealing with a HQ door...
         if self.doorType == DoorTypes.EXT_HQ and \
-           ZoneUtil.getHoodId(self.zoneId) = ToontownGlobals.DonaldsDreamland, ToontownGlobals.ToontownCentral:
+           ZoneUtil.getHoodId(self.zoneId) == ToontownGlobals.DonaldsDreamland:
 
             # Get the doorTrigger...
             building = self.getBuilding()
