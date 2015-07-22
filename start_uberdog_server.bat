@@ -19,8 +19,9 @@ echo Message Director IP: %ASTRON_IP%
 echo Event Logger IP: %EVENT_LOGGER_IP%
 echo ===============================
 
+:main
 %PPYTHON_PATH% -m toontown.uberdog.ServiceStart --base-channel %BASE_CHANNEL% ^
                --max-channels %MAX_CHANNELS% --stateserver %STATE_SERVER% ^
                --astron-ip %ASTRON_IP% --eventlogger-ip %EVENT_LOGGER_IP%
 
-pause
+goto main
