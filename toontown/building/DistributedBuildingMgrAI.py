@@ -68,7 +68,7 @@ class DistributedBuildingMgrAI:
         for i in self.__buildings.values():
             if isinstance(i, HQBuildingAI.HQBuildingAI):
                 continue
-            if isinstance(building, LibraryBuildingAI.LibraryBuildingAI):
+            if isinstance(i, LibraryBuildingAI.LibraryBuildingAI):
                 continue    
             if not i.isSuitBlock():
                 blocks.append(i.getBlock()[0])
