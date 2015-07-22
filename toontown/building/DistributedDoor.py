@@ -1,8 +1,8 @@
 from toontown.toonbase.ToonBaseGlobal import *
 from pandac.PandaModules import *
-from otp.nametag.NametagGroup import NametagGroup
-from otp.nametag.Nametag import Nametag
 from direct.interval.IntervalGlobal import *
+from toontown.nametag.NametagGroup import NametagGroup
+from toontown.nametag.Nametag import Nametag
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
@@ -18,8 +18,7 @@ from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TeaserPanel
 from toontown.distributed.DelayDeletable import DelayDeletable
-from toontown.election import SafezoneInvasionGlobals
-import pdb
+
 
 class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
     deferFor = 1
@@ -53,6 +52,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
          DoorTypes.EXT_KS: 0,
          DoorTypes.INT_KS: 0}
         self.doorX = 1.5
+        return
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
@@ -62,6 +62,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         self.avatarExitIDList = []
         self.doorTrack = None
         self.doorExitTrack = None
+        return
 
     def disable(self):
         self.clearNametag()
@@ -96,17 +97,22 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             return
         if self.nametag == None:
             self.nametag = NametagGroup()
+            self.nametag.setNametag3d(None)
             self.nametag.setFont(ToontownGlobals.getBuildingNametagFont())
             if TTLocalizer.BuildingNametagShadow:
                 self.nametag.setShadow(*TTLocalizer.BuildingNametagShadow)
-            self.nametag.setContents(Nametag.CName)
-            self.nametag.setColorCode(NametagGroup.CCToonBuilding)
-            self.nametag.setActive(0)
+            self.nametag.hideChat()
+            self.nametag.hideThought()
+            nametagColor = NametagGlobals.NametagColors[NametagGlobals.CCToonBuilding]
+            self.nametag.setNametagColor(nametagColor)
+            self.nametag.setActive(False)
             self.nametag.setAvatar(self.getDoorNodePath())
-            self.nametag.setObjectCode(self.block)
-            name = self.cr.playGame.dnaData.getBlock(self.block).title
-            self.nametag.setName(name)
+            
+            name = self.cr.playGame.dnaStore.getTitleFromBlockNumber(self.block)
+            self.nametag.setText(name)
             self.nametag.manage(base.marginManager)
+            self.nametag.updateAll()
+        
 
     def clearNametag(self):
         if self.nametag != None:
@@ -114,6 +120,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             self.nametag.setAvatar(NodePath())
             self.nametag.destroy()
             self.nametag = None
+        return
 
     def getTriggerName(self):
         if self.doorType == DoorTypes.INT_HQ or self.specialDoorTypes.has_key(self.doorType):
@@ -147,19 +154,6 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             doorTrigger.node().setName(self.getTriggerName())
         else:
             return
-
-    def hqTrigger(self):
-        if self.doorType in [DoorTypes.EXT_STANDARD, DoorTypes.EXT_COGHQ]:
-            building = self.getBuilding()
-            doorTrigger = building.find('**/' + self.getTriggerName())
-            if not doorTrigger.isEmpty():
-                TRIGGER_SHIFT_Y = 0.25
-                TRIGGER_SHIFT_Z = 1.0
-                if '_gag_shop_' in building.getName():
-                    doorTrigger.setY(doorTrigger.getY() + TRIGGER_SHIFT_Y)
-                else:
-                    doorTrigger.setY(doorTrigger.getY() - TRIGGER_SHIFT_Y)
-                doorTrigger.setZ(doorTrigger.getZ() + TRIGGER_SHIFT_Z)
 
     def setTriggerName_wip(self):
         building = self.getBuilding()
@@ -209,8 +203,8 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
 
     def __doPostAnnounceGenerate(self):
         self.ignore('hqInternalDone')
-        self.doPostAnnounceGenerate()
 
+        self.doPostAnnounceGenerate()
     def doPostAnnounceGenerate(self):
         if self.doorType == DoorTypes.INT_STANDARD:
             self.bHasFlat = True
@@ -218,7 +212,26 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             self.bHasFlat = not self.findDoorNode('door*flat', True).isEmpty()
         self.hideDoorParts()
         self.setTriggerName()
-        self.hqTrigger()
+        # Check if we are dealing with a DDL HQ door...
+        if self.doorType == DoorTypes.EXT_HQ and \
+           ZoneUtil.getHoodId(self.zoneId) == ToontownGlobals.DonaldsDreamland:
+
+            # Get the doorTrigger...
+            building = self.getBuilding()
+            doorTrigger = building.find('**/%s' % self.getTriggerName())
+
+            # Check if the doorTrigger hasn't been 'fixed' already...
+            if not doorTrigger.getTag('fixed'):
+
+                # Reposition the doorTrigger based on its index...
+                if self.doorIndex == 0:
+                    doorTrigger.setY(doorTrigger, 0.25)
+                else:
+                    doorTrigger.setY(doorTrigger, -0.25)
+
+                # We are done :) Tag the door as fixed.
+                doorTrigger.setTag('fixed', 'true')
+        
         self.accept(self.getEnterTriggerEvent(), self.doorTrigger)
         self.acceptOnce('clearOutToonInterior', self.doorTrigger)
         self.setupNametag()
@@ -301,12 +314,6 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         return yToTest < -0.5
 
     def enterDoor(self):
-        if base.config.GetBool('want-doomsday', True):
-            base.localAvatar.disableAvatarControls()
-            self.confirm = TTDialog.TTGlobalDialog(doneEvent='confirmDone', message=SafezoneInvasionGlobals.LeaveToontownCentralAlert, style=TTDialog.Acknowledge)
-            self.confirm.show()
-            self.accept('confirmDone', self.handleConfirm)
-            return
         if self.allowedToEnter():
             messenger.send('DistributedDoor_doorTrigger')
             self.sendUpdate('requestEnter')
@@ -323,7 +330,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         del self.confirm
         if status == 'ok':
             base.localAvatar.enableAvatarControls()
-            self.accept(self.getExitTriggerEvent(), self.cancelCheckIsDoorHitTask)
+            self.accept(self.getExitTriggerEvent(), self.cancelCheckIsDoorHitTask) # Incase people want to try again
 
     def handleOkTeaser(self):
         self.accept(self.getEnterTriggerEvent(), self.doorTrigger)
@@ -372,6 +379,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             else:
                 self.accept(self.getExitTriggerEvent(), self.cancelCheckIsDoorHitTask)
                 taskMgr.add(self.checkIsDoorHitTask, self.checkIsDoorHitTaskName())
+        return
 
     def avatarEnter(self, avatarID):
         avatar = self.cr.doId2do.get(avatarID, None)
@@ -381,6 +389,7 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             track.start()
             self.avatarTracks.append(track)
             self.avatarIDList.append(avatarID)
+        return
 
     def rejectEnter(self, reason):
         message = FADoorCodes.reasonDict[reason]
@@ -482,11 +491,13 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         if self.doorTrack:
             self.doorTrack.finish()
         self.doorTrack = None
+        return
 
     def finishDoorExitTrack(self):
         if self.doorExitTrack:
             self.doorExitTrack.finish()
         self.doorExitTrack = None
+        return
 
     def finishAllTracks(self):
         self.finishDoorTrack()
