@@ -210,9 +210,9 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             self.bHasFlat = not self.findDoorNode('door*flat', True).isEmpty()
         self.hideDoorParts()
         self.setTriggerName()
-        # Check if we are dealing with a DDL HQ door...
+        # Check if we are dealing with a HQ door...
         if self.doorType == DoorTypes.EXT_HQ and \
-           ZoneUtil.getHoodId(self.zoneId) == ToontownGlobals.DonaldsDreamland:
+           ZoneUtil.getHoodId(self.zoneId) == ToontownGlobals.DonaldsDreamland, ToontownGlobals.ToontownCentral, ToontownGlobals.DonaldsDock:
 
             # Get the doorTrigger...
             building = self.getBuilding()
