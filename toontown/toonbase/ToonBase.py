@@ -347,7 +347,7 @@ class ToonBase(OTPBase.OTPBase):
         self.margins = self.aspect2d.attachNewNode(
             self.marginManager, DirectGuiGlobals.MIDGROUND_SORT_INDEX + 1)
         self.leftCells = [
-            addCell(0.1, -0.6, self.a2dTopLeft),
+            .addCell(0.1, -0.6, self.a2dTopLeft),
             addCell(0.1, -1.0, self.a2dTopLeft),
             addCell(0.1, -1.4, self.a2dTopLeft)
         ]
