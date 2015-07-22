@@ -35,14 +35,13 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
         self.interior.flattenMedium()
         emptyBoard = self.interior.find('**/empty_board')
         self.leaderBoard.reparentTo(emptyBoard.getChild(0))
-        base.cr.hqLoaded = True #hack while a real fix is in the work
+        base.cr.hqLoaded = True
         messenger.send('hqInternalDone')
 
     def setTutorial(self, flag):
         if self.tutorial == flag:
             return
-        else:
-            self.tutorial = flag
+        self.tutorial = flag
         if self.tutorial:
             self.interior.find('**/periscope').hide()
             self.interior.find('**/speakers').hide()
@@ -98,123 +97,3 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
         namePath = row.attachNewNode(nameText)
         namePath.setPos(0, 0, 0)
         return row
-
-    def buildLeaderRow(self):
-        row = hidden.attachNewNode('leaderRow')
-        nameText = TextNode('nameText')
-        nameText.setFont(ToontownGlobals.getToonFont())
-        nameText.setAlign(TextNode.ALeft)
-        nameText.setTextColor(1, 1, 1, 0.7)
-        nameText.setText('-')
-        namePath = row.attachNewNode(nameText)
-        namePath.setPos(*TTLocalizer.DHQInamePathPos)
-        namePath.setScale(TTLocalizer.DHQInamePath)
-        scoreText = TextNode('scoreText')
-        scoreText.setFont(ToontownGlobals.getToonFont())
-        scoreText.setAlign(TextNode.ARight)
-        scoreText.setTextColor(1, 1, 0.1, 0.7)
-        scoreText.setText('-')
-        scorePath = row.attachNewNode(scoreText)
-        scorePath.setPos(*TTLocalizer.DHQIscorePathPos)
-        trophyStar = self.buildTrophyStar()
-        trophyStar.reparentTo(row)
-        return (row,
-         nameText,
-         scoreText,
-         trophyStar)
-
-    def setLeaderBoard(self, leaderData):
-        avIds, names, scores = cPickle.loads(leaderData)
-        self.notify.debug('setLeaderBoard: avIds: %s, names: %s, scores: %s' % (avIds, names, scores))
-        self.leaderAvIds = avIds
-        self.leaderNames = names
-        self.leaderScores = scores
-        self.updateLeaderBoard()
-
-    def chooseDoor(self):
-        doorModelName = 'door_double_round_ur'
-        if doorModelName[-1:] == 'l':
-            doorModelName = doorModelName[:-1] + 'l'
-        else:
-            doorModelName = doorModelName[:-1] + 'r'
-        door = self.dnaStore.findNode(doorModelName)
-        return door
-
-    def setupDoors(self):
-        self.randomGenerator = random.Random()
-        self.randomGenerator.seed(self.zoneId)
-        self.colors = ToonInteriorColors.colors[ToontownCentral]
-        door = self.chooseDoor()
-        doorOrigins = render.findAllMatches('**/door_origin*')
-        numDoorOrigins = doorOrigins.getNumPaths()
-        for npIndex in range(numDoorOrigins):
-            doorOrigin = doorOrigins[npIndex]
-            doorOriginNPName = doorOrigin.getName()
-            doorOriginIndexStr = doorOriginNPName[len('door_origin_'):]
-            newNode = ModelNode('door_' + doorOriginIndexStr)
-            newNodePath = NodePath(newNode)
-            newNodePath.reparentTo(self.interior)
-            doorNP = door.copyTo(newNodePath)
-            doorOrigin.setScale(0.8, 0.8, 0.8)
-            doorOrigin.setPos(doorOrigin, 0, -0.025, 0)
-            doorColor = self.randomGenerator.choice(self.colors['TI_door'])
-            triggerId = str(self.block) + '_' + doorOriginIndexStr
-            DNADoor.setupDoor(doorNP, newNodePath, doorOrigin, self.dnaStore, triggerId, doorColor)
-            doorFrame = doorNP.find('door_*_flat')
-            doorFrame.setColor(doorColor)
-
-        del self.dnaStore
-        del self.randomGenerator
-
-    def disable(self):
-        self.leaderBoard.removeNode()
-        del self.leaderBoard
-        self.interior.removeNode()
-        del self.interior
-        del self.nameTextNodes
-        del self.scoreTextNodes
-        del self.trophyStars
-        del base.cr.hqLoaded
-        taskMgr.remove(self.uniqueName('starSpinHQ'))
-        DistributedObject.DistributedObject.disable(self)
-
-    def buildTrophyStar(self):
-        trophyStar = loader.loadModel('phase_3.5/models/gui/name_star')
-        trophyStar.hide()
-        trophyStar.setPos(*TTLocalizer.DHQItrophyStarPos)
-        return trophyStar
-
-    def updateTrophyStar(self, trophyStar, score):
-        scale = 0.8
-        if score >= ToontownGlobals.TrophyStarLevels[4]:
-            trophyStar.show()
-            trophyStar.setScale(scale)
-            trophyStar.setColor(ToontownGlobals.TrophyStarColors[4])
-            if score >= ToontownGlobals.TrophyStarLevels[5]:
-                task = taskMgr.add(self.__starSpin, self.uniqueName('starSpinHQ'))
-                task.trophyStarSpeed = 15
-                task.trophyStar = trophyStar
-        elif score >= ToontownGlobals.TrophyStarLevels[2]:
-            trophyStar.show()
-            trophyStar.setScale(0.75 * scale)
-            trophyStar.setColor(ToontownGlobals.TrophyStarColors[2])
-            if score >= ToontownGlobals.TrophyStarLevels[3]:
-                task = taskMgr.add(self.__starSpin, self.uniqueName('starSpinHQ'))
-                task.trophyStarSpeed = 10
-                task.trophyStar = trophyStar
-        elif score >= ToontownGlobals.TrophyStarLevels[0]:
-            trophyStar.show()
-            trophyStar.setScale(0.75 * scale)
-            trophyStar.setColor(ToontownGlobals.TrophyStarColors[0])
-            if score >= ToontownGlobals.TrophyStarLevels[1]:
-                task = taskMgr.add(self.__starSpin, self.uniqueName('starSpinHQ'))
-                task.trophyStarSpeed = 8
-                task.trophyStar = trophyStar
-        else:
-            trophyStar.hide()
-
-    def __starSpin(self, task):
-        now = globalClock.getFrameTime()
-        r = now * task.trophyStarSpeed % 360.0
-        task.trophyStar.setR(r)
-        return Task.cont
