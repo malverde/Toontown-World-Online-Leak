@@ -236,7 +236,7 @@ class DistributedBuildingMgrAI:
         
         
     def newLibraryBuilding(self, blockNumber):
-        dnaStore = self.air.dnaStoreMap[self.canonicalBranchId]
+        dnaStore = self.air.dnaStoreMap[self.canonicalBranchID]
         exteriorZoneId = dnaStore.getBlock(blockNumber).zone
         exteriorZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.branchID)
         interiorZoneId = self.branchID - self.branchID % 100 + 500 + blockNumber
