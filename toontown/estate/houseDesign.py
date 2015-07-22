@@ -510,8 +510,7 @@ class ObjectManager(NodePath, DirectObject):
             if config.GetBool('want-permanent-interactables', False):
                 if selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLCloset or \
                     selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLPhone or \
-                    selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLBank or \
-                    #selectedObject.dfitem.item.getFlags() &CatalogFurnitureItem.FLTrunk:
+                    selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLBank
                     self.sendToAtticButton.hide()
                     self.atticRoof.show()
                 else:
