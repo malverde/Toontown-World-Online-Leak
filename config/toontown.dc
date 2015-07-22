@@ -1554,14 +1554,6 @@ dclass DistributedPhotoGame : DistributedMinigame {
   filmOut() airecv clsend;
 };
 
-dclass DistributedPatternGame : DistributedMinigame {
-  reportPlayerReady() airecv clsend;
-  setPattern(uint8 pattern[]) broadcast;
-  reportPlayerPattern(uint8 pattern[], uint16/1000 totalTime) airecv clsend;
-  setPlayerPatterns(uint8 pattern1[], uint8 pattern2[], uint8 pattern3[], uint8 pattern4[], uint32 fastestAvId) broadcast;
-  reportButtonPress(uint8 index, uint8 wrong) airecv clsend;
-  remoteButtonPressed(uint32 avId, uint8 index, uint8 wrong) broadcast;
-};
 
 dclass DistributedRingGame : DistributedMinigame {
   setTimeBase(int16 timestamp) broadcast ram required;
