@@ -382,7 +382,7 @@ class ObjectManager(NodePath, DirectObject):
         self.__updateDeleteButtons()
         self.showAtticPicker()
         base.localAvatar.laffMeter.stop()
-        base.setCellsAvailable(base.leftCells + [base.bottomCells[0]], 0)
+        base.setCellsActive(base.leftCells + [base.bottomCells[0]], 0)
         if self.guiInterval:
             self.guiInterval.finish()
         self.guiInterval = self.furnitureGui.posHprScaleInterval(1.0, Point3(0.155, -0.6, -1.045), Vec3(0), Vec3(0.06), startPos=Point3(0.115, 0.0, -0.66), startHpr=Vec3(0), startScale=Vec3(0.04), blendType='easeInOut', name='lerpFurnitureButton')
@@ -418,7 +418,7 @@ class ObjectManager(NodePath, DirectObject):
             self.inTrashPicker = None
         self.__cleanupVerifyDelete()
         self.furnitureGui.hide()
-        base.setCellsAvailable(base.leftCells + [base.bottomCells[0]], 1)
+        base.setCellsActive(base.leftCells + [base.bottomCells[0]], 1)
         base.localAvatar.laffMeter.start()
         taskMgr.remove('recenterButtonFrameTask')
         self.cleanupDialog()
@@ -510,7 +510,8 @@ class ObjectManager(NodePath, DirectObject):
             if config.GetBool('want-permanent-interactables', False):
                 if selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLCloset or \
                     selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLPhone or \
-                    selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLBank
+                    selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLBank or \
+                    selectedObject.dfitem.item.getFlags() &CatalogFurnitureItem.FLTrunk:
                     self.sendToAtticButton.hide()
                     self.atticRoof.show()
                 else:
@@ -1557,8 +1558,8 @@ class ObjectManager(NodePath, DirectObject):
                 message = TTLocalizer.HDNonDeletableCloset
             elif item.getFlags() & CatalogFurnitureItem.FLPhone:
                 message = TTLocalizer.HDNonDeletablePhone
-            #elif item.getFlags() & CatalogFurnitureItem.FLTrunk:
-             #   message = TTLocalizer.HDNonDeletableTrunk
+            elif item.getFlags() & CatalogFurnitureItem.FLTrunk:
+                message = TTLocalizer.HDNonDeletableTrunk
         if self.furnitureManager.ownerId != base.localAvatar.doId:
             message = TTLocalizer.HDNonDeletableNotOwner % self.furnitureManager.ownerName
         self.nonDeletableItem = TTDialog.TTDialog(text=message, style=TTDialog.Acknowledge, fadeScreen=0, command=self.__resetAndCleanup)
