@@ -67,9 +67,6 @@ import otp.ai.DiagnosticMagicWords
 # Code Redemption
 from toontown.coderedemption.TTCodeRedemptionMgrAI import TTCodeRedemptionMgrAI
 
-#pets!
-from toontown.pets.PetManagerAI import PetManagerAI
-
 class ToontownAIRepository(ToontownInternalRepository):
     def __init__(self, baseChannel, serverId, districtName):
         ToontownInternalRepository.__init__(self, baseChannel, serverId, dcSuffix='AI')
@@ -194,8 +191,6 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         self.trophyMgr = DistributedTrophyMgrAI(self)
         self.trophyMgr.generateWithRequired(2)
-
-        self.petMgr = PetManagerAI(self)
 
         self.tutorialManager = TutorialManagerAI(self)
         self.tutorialManager.generateWithRequired(2)
