@@ -2,9 +2,11 @@
 *.pyc
 *.ini
 *.orig
+*.mf
 .orig
 .ini 
 .pyc
+.mf
 settings.json
 Thumbs.db
 .DS_Store
@@ -18,6 +20,8 @@ backups/blockinfo/
 backups/
 screenshots/
 tools/build
-tools/ttw-dev-launcher
+tools/ttw-dev-launcher/resources/
+tools/ttw-dev-launcher/resources/logs/
+tools/ttw-dev-launcher/GameData.pyd
 ai-crash.txt
 dev-accounts.db
