@@ -1,5 +1,5 @@
 from pandac.PandaModules import *
-import CMover
+from CMover import CMover
 from direct.directnotify import DirectNotifyGlobal
 from otp.movement.PyVec3 import PyVec3
 from direct.showbase import PythonUtil
