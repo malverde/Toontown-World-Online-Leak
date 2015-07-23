@@ -316,7 +316,6 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         self.accept('updateGroupStatus', self.__checkGroupStatus)
 
         self.frame.show()
-        base.hideFriendMargins() 
         messenger.send('avPanelDone')
 
     def disableAll(self):
@@ -374,7 +373,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
         self.ignoreAll()
         if hasattr(self.avatar, 'bFake') and self.avatar.bFake:
             self.avatar.delete()
-        base.setCellsAvailable([base.rightCells[0]], 1)
+        base.setCellsActive([base.rightCells[0]], 1)
         AvatarPanelBase.AvatarPanelBase.cleanup(self)
         return
 
@@ -455,12 +454,10 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
 
     def __handleClose(self):
         self.cleanup()
-        base.showFriendMargins()
         AvatarPanelBase.currentAvatarPanel = None
         if self.friendsListShown:
             self.FriendsListPanel.showFriendsList()
-        else:
-            base.showFriendMargins()
+        
         return
 
     def getAvId(self):
@@ -541,7 +538,7 @@ class ToonAvatarPanel(AvatarPanelBase.AvatarPanelBase):
                             self.groupButton['image'] = self.inviteImageList
                             self.groupButton['state'] = DGG.NORMAL                            
                     if config.GetBool('want-boarding-groups', 1):
-                        base.setCellsAvailable([base.rightCells[0]], 0)
+                        base.setCellsActive([base.rightCells[0]], 0)
                         self.groupFrame.show()
         return
 
