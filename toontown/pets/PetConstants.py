@@ -1,3 +1,4 @@
+#Embedded file name: toontown.pets.PetConstants
 from pandac.PandaModules import *
 from direct.showbase.PythonUtil import Enum, invertDictLossless
 import math

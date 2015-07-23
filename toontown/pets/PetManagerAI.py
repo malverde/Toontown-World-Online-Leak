@@ -1,3 +1,4 @@
+#Embedded file name: toontown.pets.PetManagerAI
 from toontown.pets import PetTraits
 from toontown.pets import PetUtil
 from toontown.hood import ZoneUtil

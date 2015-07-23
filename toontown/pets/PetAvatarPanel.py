@@ -1,3 +1,4 @@
+#Embedded file name: toontown.pets.PetAvatarPanel
 from pandac.PandaModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.gui.DirectGui import *
@@ -33,8 +34,8 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         base.panel = self
         gui = loader.loadModel('phase_3.5/models/gui/PetControlPannel')
         guiScale = 0.116
-        guiPos = (1.12, 0, 0.3)
-        self.frame = DirectFrame(parent=aspect2dp, image=gui, scale=guiScale, pos=guiPos, relief=None)
+        guiPos = (-0.213, 0, -0.7)
+        self.frame = DirectFrame(parent=base.a2dTopRight, image=gui, scale=guiScale, pos=guiPos, relief=None)
         disabledImageColor = Vec4(0.6, 0.6, 0.6, 1)
         text0Color = Vec4(1, 1, 1, 1)
         text1Color = Vec4(0.5, 1, 0.5, 1)
@@ -103,7 +104,6 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
 
                 self.avatar.updateMoodFromServer(refresh)
         base.hideFriendMargins()
-        return
 
     def __checkPetProximity(self, task = None):
         if self.petIsLocal:
@@ -179,7 +179,6 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             self.avatar.delete()
         AvatarPanel.AvatarPanel.cleanup(self)
         base.panel = None
-        return
 
     def disableAll(self):
         self.disableInteractionButtons()
@@ -192,7 +191,6 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             self.petDetailPanel.cleanup()
             self.petDetailPanel = None
         self.detailButton['state'] = DGG.NORMAL
-        return
 
     def __handleDetail(self):
         self.petDetailPanel = PetDetailPanel.PetDetailPanel(pet=self.avatar, closeCallback=self.__handleDetailDone, parent=self.frame)
@@ -208,17 +206,15 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             self.disableAll()
             from toontown.toon import ToonDetail
             self.toonDetail = ToonDetail.ToonDetail(self.avatar.ownerId, self.__ownerDetailsLoaded)
-        return
 
     def __ownerDetailsLoaded(self, avatar):
         self.notify.debug('__ownerDetailsLoaded(): doId=%s' % self.avatar.doId)
         self.cleanup()
         if avatar is not None:
             messenger.send('clickedNametag', [avatar])
-        return
 
     def __handleCall(self):
-        if config.GetBool('want-qa-regression', 0):
+        if base.config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: PET: Call')
         self.notify.debug('__handleCall(): doId=%s' % self.avatar.doId)
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_CALL)
@@ -227,10 +223,9 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             self.avatar.trickIval.finish()
         base.cr.playGame.getPlace().setState('pet')
         base.localAvatar.lock()
-        return
 
     def __handleFeed(self):
-        if config.GetBool('want-qa-regression', 0):
+        if base.config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: PET: Feed')
         self.notify.debug('__handleFeed(): doId=%s' % self.avatar.doId)
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_FEED)
@@ -239,10 +234,9 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             self.avatar.trickIval.finish()
         base.cr.playGame.getPlace().setState('pet')
         base.localAvatar.lock()
-        return
 
     def __handleScratch(self):
-        if config.GetBool('want-qa-regression', 1):
+        if base.config.GetBool('want-qa-regression', 1):
             self.notify.info('QA-REGRESSION: PET: Scratch')
         self.notify.debug('__handleScratch(): doId=%s' % self.avatar.doId)
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_SCRATCH)
@@ -251,13 +245,11 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             self.avatar.trickIval.finish()
         base.cr.playGame.getPlace().setState('pet')
         base.localAvatar.lock()
-        return
 
     def __handleDisableAvatar(self):
         self.notify.debug('__handleDisableAvatar(): doId=%s' % self.avatar.doId)
         self.cleanup()
         AvatarPanel.currentAvatarPanel = None
-        return
 
     def __handleGenerateAvatar(self, avatar):
         pass
@@ -270,12 +262,13 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             self.FriendsListPanel.showFriendsList()
         else:
             base.showFriendMargins()
-        return
 
     def __fillPetInfo(self, avatar):
         self.notify.debug('__fillPetInfo(): doId=%s' % avatar.doId)
         self.petView = self.frame.attachNewNode('petView')
         self.petView.setPos(0, 0, 5.4)
+        if hasattr(avatar, 'announceGenerate'):
+            avatar.announceGenerate()
         self.petModel = Pet.Pet(forGui=1)
         self.petModel.setDNA(avatar.getDNA())
         self.petModel.fitAndCenterHead(3.575, forGui=1)
@@ -285,7 +278,6 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         self.nameLabel = DirectLabel(parent=self.frame, pos=(0, 0, 5.2), relief=None, text=avatar.getName(), text_font=avatar.getFont(), text_fg=Vec4(0, 0, 0, 1), text_pos=(0, 0), text_scale=0.4, text_wordwrap=7.5, text_shadow=(1, 1, 1, 1))
         self.stateLabel = DirectLabel(parent=self.frame, pos=TTLocalizer.PAPstateLabelPos, relief=None, text='', text_font=avatar.getFont(), text_fg=Vec4(0, 0, 0, 1), text_scale=TTLocalizer.PAPstateLabel, text_wordwrap=TTLocalizer.PAPstateLabelWordwrap, text_shadow=(1, 1, 1, 1))
         self.__refreshPetInfo(avatar)
-        return
 
     def __refreshPetInfo(self, avatar):
         self.notify.debug('__refreshPetInfo(): doId=%s' % avatar.doId)
@@ -301,4 +293,3 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         self.nameLabel['text'] = avatar.getName()
         if self.petDetailPanel != None:
             self.petDetailPanel.update(avatar)
-        return
