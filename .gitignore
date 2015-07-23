@@ -18,5 +18,6 @@ backups/blockinfo/
 backups/
 screenshots/
 tools/build
+tools/ttw-dev-launcher
 ai-crash.txt
 dev-accounts.db
