@@ -1,3 +1,4 @@
+#Embedded file name: toontown.pets.PetTutorial
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from direct.fsm import FSM
@@ -37,7 +38,6 @@ class PetTutorial(DirectFrame, FSM.FSM):
         buttons.removeNode()
         gui.removeNode()
         self.request('Page1')
-        return
 
     def enterPage1(self, *args):
         self.title['text'] = (TTLocalizer.PetTutorialTitle1,)

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.pets.PetManager
 from pandac.PandaModules import *
 from toontown.toonbase import ToontownGlobals
 from direct.task import Task

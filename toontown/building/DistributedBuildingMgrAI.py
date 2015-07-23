@@ -5,7 +5,7 @@ from otp.ai.AIBaseGlobal import *
 import DistributedBuildingAI
 import HQBuildingAI
 import GagshopBuildingAI
-#import PetshopBuildingAI
+import PetshopBuildingAI
 from toontown.building.KartShopBuildingAI import KartShopBuildingAI
 #from toontown.building import DistributedAnimBuildingAI
 from direct.directnotify import DirectNotifyGlobal

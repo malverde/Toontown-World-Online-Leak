@@ -1,3 +1,4 @@
+#Embedded file name: toontown.pets.PetBase
 from toontown.pets.PetConstants import AnimMoods
 from toontown.pets import PetMood
 

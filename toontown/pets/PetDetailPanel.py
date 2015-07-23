@@ -1,3 +1,4 @@
+#Embedded file name: toontown.pets.PetDetailPanel
 from pandac.PandaModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.gui.DirectGui import *
@@ -36,7 +37,6 @@ class PetDetailPanel(DirectFrame):
         self.update(pet)
         buttons.removeNode()
         gui.removeNode()
-        return
 
     def cleanup(self):
         del self.labels
@@ -67,12 +67,7 @@ class PetDetailPanel(DirectFrame):
                     else:
                         label['text'] = trickText
                     if not bar:
-                        self.bars[trickId] = DirectWaitBar(parent=self, pos=(0, 0, 0.43 - trickId * 0.155), relief=DGG.SUNKEN, frameSize=(-0.5,
-                         0.9,
-                         -0.1,
-                         0.1), borderWidth=(0.025, 0.025), scale=0.7, frameColor=(0.4, 0.6, 0.4, 1), barColor=barColor, range=1.0 + FUDGE_FACTOR, value=length + FUDGE_FACTOR, text=str(int(hp)) + ' ' + TTLocalizer.Laff, text_scale=TTLocalizer.PDPlaff, text_fg=(0.05, 0.14, 0.4, 1), text_align=TextNode.ALeft, text_pos=TTLocalizer.PDPlaffPos)
+                        self.bars[trickId] = DirectWaitBar(parent=self, pos=(0, 0, 0.43 - trickId * 0.155), relief=DGG.SUNKEN, frameSize=(-0.5, 0.9, -0.1, 0.1), borderWidth=(0.025, 0.025), scale=0.7, frameColor=(0.4, 0.6, 0.4, 1), barColor=barColor, range=1.0 + FUDGE_FACTOR, value=length + FUDGE_FACTOR, text=str(int(hp)) + ' ' + TTLocalizer.Laff, text_scale=TTLocalizer.PDPlaff, text_fg=(0.05, 0.14, 0.4, 1), text_align=TextNode.ALeft, text_pos=TTLocalizer.PDPlaffPos)
                     else:
                         bar['value'] = length + FUDGE_FACTOR
                         bar['text'] = (str(int(hp)) + ' ' + TTLocalizer.Laff,)
-
-        return
