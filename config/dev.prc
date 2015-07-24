@@ -57,7 +57,7 @@ dc-file config/toontown.dc
 
 # Beta Modifications
 # Temporary modifications for unimplemented features go here.
-want-pets #t
+want-pets #f
 want-news-tab #f
 want-news-page #f
 want-accessories #t
