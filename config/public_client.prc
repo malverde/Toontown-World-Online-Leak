@@ -89,7 +89,7 @@ account-server-endpoint https://toontownworldonline.com/api/
 # Cog battles:
 base-xp-multiplier 1.0
 want-accessories #t
-want-parties #t 
+want-parties #f
 want-picnic-games #f 
 want-fishing #t
 estate-day-night #t 
