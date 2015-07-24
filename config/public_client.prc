@@ -1,19 +1,22 @@
-# This is the PRC configuration file for a published TTR client. Note that only
+# This is the PRC configuration file for a published TTW client. Note that only
 # this file and Panda3D's Confauto.prc are included. Any relevant directives in
 # Config.prc should be reproduced here.
 
 # Client settings
-window-title Toontown World[Pre-Alpha]
+window-title Toontown World [Pre-Alpha]
 server-version ttw-pre-alpha-2.5.1.7.2
-audio-library-name p3openal_audio
+
+# Audio
+#audio-library-name p3openal_audio
+audio-library-name p3fmod_audio
+
 sync-video #f
 want-dev #f
 preload-avatars #t
 want-keep-alive #f
 texture-anisotropic-degree 16
-language LANGUAGE_HERE
-cursor-filename resources/phase_3/etc/toonmono.cur
-icon-filename resources/phase_3/etc/icon.ico
+cursor-filename /phase_3/etc/toonmono.cur
+icon-filename /phase_3/etc/icon.ico
 
 # Useless Variables
 show-frame-rate-meter #f
@@ -39,25 +42,25 @@ vfs-mount phase_12.mf /
 vfs-mount phase_13.mf /
 default-model-extension .bam
 
+# Server settings
+want-rpc-server #t
+rpc-server-endpoint http://localhost:8080/
+rpc-server-secret 0123456789abcdef
+eventlog-host 127.0.0.1
+want-cheesy-expirations #t
 
 # Now that we've loaded the phase files, tell panda to trust the TTRCA
-ssl-certificates /phase_3/etc/TTRCA.crt
+# ssl-certificates /phase_3/etc/TTRCA.crt
 #<dev>
-ssl-certificates /phase_3/etc/TTRDev.crt
-want-dev-certificate-trust #t
+# ssl-certificates /phase_3/etc/TTRDev.crt
+# want-dev-certificate-trust #t
 #</dev>
-server-force-ssl #f
+# server-force-ssl #f
 
-
-
-# This is the shared secret for CSMUD login
-# ##### NB! Update deployment/server.prc too! #####
-csmud-secret Yv1JrpTUdkX6M86h44Z9q4AUaQYdFnectDgl2I5HOQf8CBh7LUZWpzKB9FBD
 
 
 # DC files are NOT configured.
 # They're wrapped up into the code automatically.
-
 
 # Beta Modifications
 # Temporary modifications for unimplemented features go here.
@@ -66,9 +69,6 @@ want-news-tab #f
 want-news-page #f
 want-gardening #f
 want-gifting #f
-want-cogbuildings #t 
-# This is a temporary 'fix' for DistributedSmoothNodes... probably not the permanent solution to our problem, but it works for now.
-smooth-lag 0.4
 
 
 # Chat Settings
@@ -77,7 +77,7 @@ force-player-understandable #t
 
 
 # Holidays and Events
-force-holiday-decorations 6
+force-holiday-decorations 
 want-arg-manager #f
 show-total-population #t
 
@@ -85,7 +85,28 @@ show-total-population #t
 server-timezone BST/EDT/-5
 server-port 7198
 account-server-endpoint https://toontownworldonline.com/api/
-account-bridge-filename astron/databases/account-bridge.db
 
 # Cog battles:
 base-xp-multiplier 1.0
+want-accessories #t
+want-parties #t 
+want-picnic-games #f 
+want-fishing #t
+estate-day-night #t 
+show-total-population #t
+want-toontorial #t
+want-doomsday #f
+want-whitelist #t
+want-suit-planners #t
+# Holidays and Events
+want-mega-invasions #f
+mega-invasion-cog-type dt
+boarding-group-merges #t 
+want-speedhack-fix #t 
+want-cogdominiums #f
+want-game-tables #f
+force-skip-tutorial #t
+want-cogbuildings #t
+
+
+

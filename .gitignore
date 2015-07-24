@@ -25,3 +25,4 @@ tools/ttw-dev-launcher/resources/logs/
 tools/ttw-dev-launcher/GameData.pyd
 ai-crash.txt
 dev-accounts.db
+*.yaml
