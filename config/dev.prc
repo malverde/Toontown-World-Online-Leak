@@ -61,7 +61,7 @@ want-pets #f
 want-news-tab #f
 want-news-page #f
 want-accessories #t
-want-parties #t
+want-parties #f
 want-gardening #f
 want-gifting #t
 want-picnic-games #f
