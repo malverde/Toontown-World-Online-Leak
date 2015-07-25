@@ -903,11 +903,11 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         sender = self.air.getMsgSender()
 	
 	if self.closed:
-		dg = PyDatagram()
-		dg.addServerHeader(sender, simbase.air.ourChannel, CLIENTAGENT_EJECT)
-		dg.addUint16(156)
-		dg.addString('Toontown World is now closed and not accepting logins right now. Learn more and check out the updates on our website.!')
-		self.air.send(dg)
+			dg = PyDatagram()
+			dg.addServerHeader(sender, simbase.air.ourChannel, CLIENTAGENT_EJECT)
+			dg.addUint16(156)
+			dg.addString('Toontown World is now closed and not accepting logins right now. Learn more and check out the updates on our website.!')
+			self.air.send(dg)
 
 
         if not self.loginsEnabled:
