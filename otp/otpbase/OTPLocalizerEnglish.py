@@ -194,7 +194,6 @@ CRBootedReasons = {1: 'Yikes - An unexpected problem occured.  Your connection h
  153: 'The district you were playing on has been reset.  Everyone who was playing on that district has also been disconnected, however, you should be able to connect again and go right back into Toontown.',
  154: 'Toontown World is now temporarily closed for maintenance. Everyone who was playing has been disconnected from the game.\n\nFor more information, please visit the Toontown World website.',
  155: 'You\'ve been warned for %(dc_reason)s. Try to behave next time!',
- 156: 'Toontown World is currently closed and not accepting logins.',
  200: 'Logins are currently disabled. Please try again later.',
  288: 'Sorry, you have used up all of your available minutes this month.',
  349: 'Sorry, you have used up all of your available minutes this month.',

@@ -4707,16 +4707,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def b_setBuffs(self, buffs):
         self.setBuffs(buffs)
         self.d_setBuffs(buffs)
-    
-	def enterWrapUp(self): 
-		 taskMgr.doMethodLater(60, self.noMoreLogins, 'kill-csmud') 
-		 
-	def noMoreLogins(self, task): 
-		task.delayTime = 60
-		csm = OTP_DO_ID_CLIENT_SERVICES_MANAGER
-		dg = simbase.air.dclassesByName['ClientServicesManager'].getFieldByName('setClosed').aiFormatUpdate(csm, csm, simbase.air.ourChannel, [True])
-		simbase.air.send(dg)
-		return task.again 
+        
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int])
 def setCE(CEValue, CEHood=0, CEExpire=0):
@@ -6218,16 +6209,4 @@ def allSummons():
     allSummons = numSuits * [fullSetForSuit]
     invoker.b_setCogSummonsEarned(allSummons)
     return 'Lots of summons!'
-	
-@magicWord()
-def nologin():
-	"""  
- Disable the CSM's login and reject all future connections.  
- This is only a randomly placed MW for doomsday... run along people.  
-	"""  
- 	csm = OTP_DO_ID_CLIENT_SERVICES_MANAGER  
- 	dg = simbase.air.dclassesByName['ClientServicesManager'].getFieldByName('setClosed').aiFormatUpdate(csm, csm, simbase.air.ourChannel, [True])  
- 	simbase.air.send(dg)  
- 	return "The CSMUD will reject all logins from now on."  
-
 
