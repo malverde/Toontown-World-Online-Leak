@@ -893,9 +893,9 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
     	self.closed = closed
 		
 	def setLoginEnabled(self, enable):
-        if not enable:
-            self.notify.warning('The CSMUD has been told to reject logins! All future logins will now be rejected.')
-        self.loginsEnabled = enable
+	        if not enable:
+	            self.notify.warning('The CSMUD has been told to reject logins! All future logins will now be rejected.')
+	        self.loginsEnabled = enable
 
     def login(self, cookie, sig):
         self.notify.debug('Received login cookie %r from %d' % (cookie, self.air.getMsgSender()))
