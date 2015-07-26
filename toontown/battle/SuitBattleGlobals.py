@@ -2944,7 +2944,7 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
         'singularname': TTLocalizer.SuitAmushMarketingS,
         'pluralname': TTLocalizer.SuitAmbushMarketingP,
         'level': 13,
-        'hp': (,
+        'hp': (
                210,
                240,
                272,
