@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.Ripples
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleProps import globalPropPool
@@ -17,7 +18,6 @@ class Ripples(NodePath):
         Ripples.rippleCount += 1
         self.setBin('fixed', 100, 1)
         self.hide()
-        return
 
     def createTrack(self, rate = 1):
         tflipDuration = self.seqNode.getNumChildren() / (float(rate) * 24)
@@ -42,4 +42,3 @@ class Ripples(NodePath):
         self.track = None
         del self.seqNode
         self.removeNode()
-        return

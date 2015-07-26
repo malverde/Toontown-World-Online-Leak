@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.DistributedFireworkShow
 from direct.distributed import DistributedObject
 from toontown.effects.FireworkShowMixin import FireworkShowMixin
 

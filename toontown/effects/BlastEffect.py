@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.BlastEffect
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from EffectController import EffectController
