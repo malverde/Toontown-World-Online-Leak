@@ -2941,7 +2941,7 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
                       50,
                       50))),
  'md': {'name': TTLocalizer.SuitAmbushMarketing,
-        'singularname': TTLocalizer.SuitAmushMarketingS,
+        'singularname': TTLocalizer.SuitAmbushMarketingS,
         'pluralname': TTLocalizer.SuitAmbushMarketingP,
         'level': 13,
         'hp': (
@@ -3027,7 +3027,7 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
                       15,
                       15,
                       15,
-                      15)))}}
+                      15)))}}}
                       
 ATK_TGT_UNKNOWN = 1
 ATK_TGT_SINGLE = 2
