@@ -1,6 +1,7 @@
 # SuitGlobals are used to set the appearance of Cogs.
 from toontown.suit import SuitDNA
 from pandac.PandaModules import VBase4
+from toontown.election.DistributedInvasionSuitAI import DistributedInvasionSuitAI
 
 SCALE_INDEX = 0 # The scale of the cog
 HAND_COLOR_INDEX = 1 # The hand color
@@ -11,6 +12,7 @@ HEIGHT_INDEX = 4 # The height of the cog
 aSize = 6.06 # Size of body type 'a'
 bSize = 5.29 # Size of body type 'b'
 cSize = 4.14 # Size of body type 'c'
+suit = DistributedInvasionSuitAI(self.air, self)
 
 ColdCallerHead = VBase4(0.25, 0.35, 1.0, 1.0) # Head used by Cold Caller
 
@@ -50,5 +52,8 @@ suitProperties = {'f': (4.0 / cSize, SuitDNA.corpPolyColor, ['flunky', 'glasses'
                   'tf': (5.25 / aSize, SuitDNA.salesPolyColor, ['twoface'], '', 6.95),
                   'm': (5.75 / aSize, SuitDNA.salesPolyColor, ['twoface'], 'mingler.jpg', 7.61),
                   'mh': (7.0 / aSize, SuitDNA.salesPolyColor, ['yesman'], '', 8.95),
+                  #MD
+                  'md':(6.5 / bSize, VBase4(0.5, 0.85, 0.75, 1.0), ['Director of Ambush Marketing'], '', 8.58,
+                  suit.d_makeSkelecog()),
                   }
 
