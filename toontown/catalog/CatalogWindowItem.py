@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogWindowItem
 from pandac.PandaModules import *
 import CatalogAtticItem
 import CatalogItem
@@ -111,7 +112,6 @@ class CatalogWindowItem(CatalogAtticItem.CatalogAtticItem):
             self.placement = di.getUint8()
         self.windowType = di.getUint8()
         wvtype = WindowViewTypes[self.windowType]
-        return
 
     def encodeDatagram(self, dg, store):
         CatalogAtticItem.CatalogAtticItem.encodeDatagram(self, dg, store)

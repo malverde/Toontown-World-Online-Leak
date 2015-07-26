@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogScreen
 from pandac.PandaModules import *
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
@@ -71,7 +72,6 @@ class CatalogScreen(DirectFrame):
         self.gifting = -1
         self.createdGiftGui = None
         self.viewing = None
-        return
 
     def show(self):
         self.accept('CatalogItemPurchaseRequest', self.__handlePurchaseRequest)
@@ -81,7 +81,7 @@ class CatalogScreen(DirectFrame):
         self.accept(localAvatar.uniqueName('emblemsChange'), self.__emblemChange)
         deliveryText = 'setDeliverySchedule-%s' % base.localAvatar.doId
         self.accept(deliveryText, self.remoteUpdate)
-        base.setBackgroundColor(Vec4(0.529, 0.290, 0.286, 1))
+        base.setBackgroundColor(Vec4(0.529, 0.29, 0.286, 1))
         render.hide()
         DirectFrame.show(self)
 
@@ -195,7 +195,6 @@ class CatalogScreen(DirectFrame):
         else:
             self.setPageIndex(0)
         self.showPageItems()
-        return
 
     def showBackorderItems(self, index = None):
         if config.GetBool('want-qa-regression', 0):
@@ -212,7 +211,6 @@ class CatalogScreen(DirectFrame):
         else:
             self.setPageIndex(0)
         self.showPageItems()
-        return
 
     def showLoyaltyItems(self, index = None):
         if config.GetBool('want-qa-regression', 0):
@@ -229,7 +227,6 @@ class CatalogScreen(DirectFrame):
         else:
             self.setPageIndex(0)
         self.showPageItems()
-        return
 
     def showEmblemItems(self, index = None):
         if config.GetBool('want-qa-regression', 0):
@@ -246,7 +243,6 @@ class CatalogScreen(DirectFrame):
         else:
             self.setPageIndex(0)
         self.showPageItems()
-        return
 
     def showNextPage(self):
         taskMgr.remove('clarabelleHelpText1')
@@ -266,7 +262,6 @@ class CatalogScreen(DirectFrame):
         else:
             self.pageIndex = min(self.pageIndex, self.maxPageIndex)
             self.showPageItems()
-        return
 
     def showBackPage(self):
         taskMgr.remove('clarabelleHelpText1')
@@ -348,7 +343,6 @@ class CatalogScreen(DirectFrame):
                 self.nextPageButton.hide()
             self.adjustForSound()
             self.update()
-        return
 
     def adjustForSound(self):
         numEmoteItems = 0
@@ -498,57 +492,33 @@ class CatalogScreen(DirectFrame):
         base.goldLabel = self.goldLabel
         if not base.cr.wantEmblems:
             self.hideEmblems()
-        self.newCatalogButton = DirectButton(self.base, relief=None, pos=(0, 0, 0.17), frameSize=(-0.2,
-         0.25,
-         0.45,
-         1.2), image=[newDown,
+        self.newCatalogButton = DirectButton(self.base, relief=None, pos=(0, 0, 0.17), frameSize=(-0.2, 0.25, 0.45, 1.2), image=[newDown,
          newDown,
          newDown,
          newUp], image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, lift), pressEffect=0, command=self.showNewItems, text=TTLocalizer.CatalogNew, text_font=ToontownGlobals.getSignFont(), text_pos=(-0.4 - lift, 0.13), text3_pos=(-0.4 - lift, 0.1), text_scale=0.08, text_fg=(0.353, 0.627, 0.627, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0))
         self.newCatalogButton.hide()
-        self.newCatalogButton2 = DirectButton(self.base, relief=None, pos=(0, 0, 0.17), frameSize=(-0.2,
-         0.25,
-         0.45,
-         1.2), image=newDown, image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, lift), pressEffect=0, command=self.showNewItems, text=TTLocalizer.CatalogNew, text_font=ToontownGlobals.getSignFont(), text_pos=(-0.4 - lift, 0.13), text_scale=0.08, text_fg=(0.353, 0.627, 0.627, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0))
+        self.newCatalogButton2 = DirectButton(self.base, relief=None, pos=(0, 0, 0.17), frameSize=(-0.2, 0.25, 0.45, 1.2), image=newDown, image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, lift), pressEffect=0, command=self.showNewItems, text=TTLocalizer.CatalogNew, text_font=ToontownGlobals.getSignFont(), text_pos=(-0.4 - lift, 0.13), text_scale=0.08, text_fg=(0.353, 0.627, 0.627, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0))
         self.newCatalogButton2.hide()
-        self.backCatalogButton = DirectButton(self.base, relief=None, pos=(0, 0, 0.269), frameSize=(-0.2,
-         0.25,
-         -0.2,
-         0.4), image=[backDown,
+        self.backCatalogButton = DirectButton(self.base, relief=None, pos=(0, 0, 0.269), frameSize=(-0.2, 0.25, -0.2, 0.4), image=[backDown,
          backDown,
          backDown,
          backUp], image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, lift), pressEffect=0, command=self.showBackorderItems, text=TTLocalizer.CatalogBackorder, text_font=ToontownGlobals.getSignFont(), text_pos=(0.25 - lift, 0.132), text3_pos=(0.25 - lift, 0.112), text_scale=TTLocalizer.CSbackCatalogButton, text_fg=(0.392, 0.549, 0.627, 1.0), text2_fg=(0.392, 0.349, 0.427, 1.0))
         self.backCatalogButton.hide()
-        self.backCatalogButton2 = DirectButton(self.base, relief=None, pos=(0, 0, 0.269), frameSize=(-0.2,
-         0.25,
-         -0.2,
-         0.4), image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, lift), image=backDown, pressEffect=0, command=self.showBackorderItems, text=TTLocalizer.CatalogBackorder, text_font=ToontownGlobals.getSignFont(), text_pos=(0.25 - lift, 0.132), text_scale=TTLocalizer.CSbackCatalogButton, text_fg=(0.392, 0.549, 0.627, 1.0), text2_fg=(0.392, 0.349, 0.427, 1.0))
+        self.backCatalogButton2 = DirectButton(self.base, relief=None, pos=(0, 0, 0.269), frameSize=(-0.2, 0.25, -0.2, 0.4), image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, lift), image=backDown, pressEffect=0, command=self.showBackorderItems, text=TTLocalizer.CatalogBackorder, text_font=ToontownGlobals.getSignFont(), text_pos=(0.25 - lift, 0.132), text_scale=TTLocalizer.CSbackCatalogButton, text_fg=(0.392, 0.549, 0.627, 1.0), text2_fg=(0.392, 0.349, 0.427, 1.0))
         self.backCatalogButton2.hide()
-        self.loyaltyCatalogButton = DirectButton(self.base, relief=None, pos=(0, 0, 0.469), frameSize=(-0.2,
-         0.25,
-         -0.85,
-         -0.3), image=[newDown,
+        self.loyaltyCatalogButton = DirectButton(self.base, relief=None, pos=(0, 0, 0.469), frameSize=(-0.2, 0.25, -0.85, -0.3), image=[newDown,
          newDown,
          newDown,
          newUp], image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, -1.4 + lift), pressEffect=0, command=self.showLoyaltyItems, text=TTLocalizer.CatalogLoyalty, text_font=ToontownGlobals.getSignFont(), text_pos=(1.0 - lift, 0.132), text3_pos=(1.0 - lift, 0.112), text_scale=0.065, text_fg=(0.353, 0.627, 0.627, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0))
         self.loyaltyCatalogButton.hide()
-        self.loyaltyCatalogButton2 = DirectButton(self.base, relief=None, pos=(0, 0, 0.469), frameSize=(-0.2,
-         0.25,
-         -0.85,
-         -0.3), image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, -1.4 + lift), image=newDown, pressEffect=0, command=self.showLoyaltyItems, text=TTLocalizer.CatalogLoyalty, text_font=ToontownGlobals.getSignFont(), text_pos=(1.0 - lift, 0.132), text_scale=0.065, text_fg=(0.353, 0.627, 0.627, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0))
+        self.loyaltyCatalogButton2 = DirectButton(self.base, relief=None, pos=(0, 0, 0.469), frameSize=(-0.2, 0.25, -0.85, -0.3), image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, -1.4 + lift), image=newDown, pressEffect=0, command=self.showLoyaltyItems, text=TTLocalizer.CatalogLoyalty, text_font=ToontownGlobals.getSignFont(), text_pos=(1.0 - lift, 0.132), text_scale=0.065, text_fg=(0.353, 0.627, 0.627, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0))
         self.loyaltyCatalogButton2.hide()
-        self.emblemCatalogButton = DirectButton(self.base, relief=None, pos=(0, 0, 1.05), frameSize=(-0.2,
-         0.25,
-         -2.0,
-         -1.45), image=[backDown,
+        self.emblemCatalogButton = DirectButton(self.base, relief=None, pos=(0, 0, 1.05), frameSize=(-0.2, 0.25, -2.0, -1.45), image=[backDown,
          backDown,
          backDown,
          backUp], image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, -1.9 + lift), pressEffect=0, command=self.showEmblemItems, text=TTLocalizer.CatalogEmblem, text_font=ToontownGlobals.getSignFont(), text_pos=(1.75, 0.132), text3_pos=(1.75, 0.112), text_scale=0.065, text_fg=(0.353, 0.627, 0.627, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0))
         self.emblemCatalogButton.hide()
-        self.emblemCatalogButton2 = DirectButton(self.base, relief=None, pos=(0, 0, 1.05), frameSize=(-0.2,
-         0.25,
-         -2.0,
-         -1.45), image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, -1.9 + lift), image=backDown, pressEffect=0, command=self.showEmblemItems, text=TTLocalizer.CatalogEmblem, text_font=ToontownGlobals.getSignFont(), text_pos=(1.75, 0.132), text_scale=0.065, text_fg=(0.353, 0.627, 0.627, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0))
+        self.emblemCatalogButton2 = DirectButton(self.base, relief=None, pos=(0, 0, 1.05), frameSize=(-0.2, 0.25, -2.0, -1.45), image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, -1.9 + lift), image=backDown, pressEffect=0, command=self.showEmblemItems, text=TTLocalizer.CatalogEmblem, text_font=ToontownGlobals.getSignFont(), text_pos=(1.75, 0.132), text_scale=0.065, text_fg=(0.353, 0.627, 0.627, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0))
         self.emblemCatalogButton2.hide()
         self.__makeFFlist()
         if len(self.ffList) > 0:
@@ -696,7 +666,6 @@ class CatalogScreen(DirectFrame):
          hangupRolloverGui,
          hangupRolloverGui,
          hangupGui], text=['', TTLocalizer.CatalogHangUp, TTLocalizer.CatalogHangUp], text_fg=Vec4(1), text_scale=0.07, text_pos=(0.0, 0.14), command=self.hangUp)
-
         self.beanBank = DirectLabel(self, relief=None, image=guiItems.find('**/bean_bank'), text=str(base.localAvatar.getMoney() + base.localAvatar.getBankMoney()), text_align=TextNode.ARight, text_scale=0.11, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_pos=(0.75, -0.81), text_font=ToontownGlobals.getSignFont())
         nextUp = guiItems.find('**/arrow_up')
         nextRollover = guiItems.find('**/arrow_Rollover')
@@ -715,52 +684,86 @@ class CatalogScreen(DirectFrame):
         self.backPageButton.hide()
         self.pageLabel = DirectLabel(self.base, relief=None, pos=(-1.33, 0, -0.9), scale=0.06, text=TTLocalizer.CatalogPagePrefix, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_font=ToontownGlobals.getSignFont(), text_align=TextNode.ALeft)
         self.loadClarabelle()
-        return
 
-    def loadClarabelle(self):
-        self.cRender = NodePath('cRender')
-        self.cCamera = self.cRender.attachNewNode('cCamera')
-        self.cCamNode = Camera('cCam')
-        self.cLens = PerspectiveLens()
-        self.cLens.setFov(40, 40)
-        self.cLens.setNear(0.1)
-        self.cLens.setFar(100.0)
-        self.cCamNode.setLens(self.cLens)
-        self.cCamNode.setScene(self.cRender)
-        self.cCam = self.cCamera.attachNewNode(self.cCamNode)
-        self.cDr = base.win.makeDisplayRegion(0.56, 0.81, 0.52, 0.85)
-        self.cDr.setSort(1)
-        self.cDr.setClearDepthActive(1)
-        self.cDr.setClearColorActive(1)
-        self.cDr.setClearColor(Vec4(0.3, 0.3, 0.3, 1))
-        self.cDr.setCamera(self.cCam)
-        self.clarabelle = Actor.Actor('phase_5.5/models/char/Clarabelle-zero', {'listen': 'phase_5.5/models/char/Clarabelle-listens'})
-        self.clarabelle.loop('listen')
-        self.clarabelle.find('**/eyes').setBin('fixed', 0)
-        self.clarabelle.find('**/pupilL').setBin('fixed', 1)
-        self.clarabelle.find('**/pupilR').setBin('fixed', 1)
-        self.clarabelle.find('**/glassL').setBin('fixed', 2)
-        self.clarabelle.find('**/glassR').setBin('fixed', 2)
-        switchboard = loader.loadModel('phase_5.5/models/estate/switchboard')
-        switchboard.reparentTo(self.clarabelle)
-        switchboard.setPos(1, -1.6, 0)
-        switchboard.setH(30)
-        room = loader.loadModel('phase_3/models/makeatoon/tt_m_ara_mat_room.bam')
-        room.reparentTo(self.clarabelle)
-        room.find('**/genderProps').removeNode()
-        room.find('**/bodyWalls').removeNode()
-        room.find('**/bodyProps').removeNode()
-        room.find('**/colorWalls').removeNode()
-        room.find('**/colorProps').removeNode()
-        room.find('**/clothWalls').removeNode()
-        room.find('**/nameWalls').removeNode()
-        room.find('**/nameProps').removeNode()
-        room.find('**/spotlight').removeNode()
-        room.setPos(5.5, 1.25, 0)
-        room.setH(330)
-        self.clarabelle.reparentTo(self.cRender)
-        self.clarabelle.setPosHprScale(-0.52, 6.13, -3.81, 85, 0.0, 0.0, 1.0, 1.0, 1.0)
-        self.clarabelleFrame.setPosHprScale(-0.01, 0.0, -0.01, 0.0, 0.0, 0.0, 1.02, 1.0, 1.02)
+    if config.GetBool('want-tto-catalog', False):
+
+        def loadClarabelle(self):
+            self.cRender = NodePath('cRender')
+            self.cCamera = self.cRender.attachNewNode('cCamera')
+            self.cCamNode = Camera('cCam')
+            self.cLens = PerspectiveLens()
+            self.cLens.setFov(40, 40)
+            self.cLens.setNear(0.1)
+            self.cLens.setFar(100.0)
+            self.cCamNode.setLens(self.cLens)
+            self.cCamNode.setScene(self.cRender)
+            self.cCam = self.cCamera.attachNewNode(self.cCamNode)
+            self.cDr = base.win.makeDisplayRegion(0.56, 0.81, 0.52, 0.85)
+            self.cDr.setSort(1)
+            self.cDr.setClearDepthActive(1)
+            self.cDr.setClearColorActive(1)
+            self.cDr.setClearColor(Vec4(0.3, 0.3, 0.3, 1))
+            self.cDr.setCamera(self.cCam)
+            self.clarabelle = Actor.Actor('phase_5.5/models/char/Clarabelle-zero', {'listen': 'phase_5.5/models/char/Clarabelle-listens'})
+            self.clarabelle.loop('listen')
+            self.clarabelle.find('**/eyes').setBin('fixed', 0)
+            self.clarabelle.find('**/pupilL').setBin('fixed', 1)
+            self.clarabelle.find('**/pupilR').setBin('fixed', 1)
+            self.clarabelle.find('**/glassL').setBin('fixed', 2)
+            self.clarabelle.find('**/glassR').setBin('fixed', 2)
+            switchboard = loader.loadModel('phase_5.5/models/estate/switchboard')
+            switchboard.reparentTo(self.clarabelle)
+            switchboard.setPos(0, -2, 0)
+            self.clarabelle.reparentTo(self.cRender)
+            self.clarabelle.setPosHprScale(-0.56, 6.43, -3.81, 121.61, 0.0, 0.0, 1.0, 1.0, 1.0)
+            self.clarabelleFrame.setPosHprScale(-0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0)
+
+    else:
+
+        def loadClarabelle(self):
+            self.cRender = NodePath('cRender')
+            self.cCamera = self.cRender.attachNewNode('cCamera')
+            self.cCamNode = Camera('cCam')
+            self.cLens = PerspectiveLens()
+            self.cLens.setFov(40, 40)
+            self.cLens.setNear(0.1)
+            self.cLens.setFar(100.0)
+            self.cCamNode.setLens(self.cLens)
+            self.cCamNode.setScene(self.cRender)
+            self.cCam = self.cCamera.attachNewNode(self.cCamNode)
+            self.cDr = base.win.makeDisplayRegion(0.56, 0.81, 0.52, 0.85)
+            self.cDr.setSort(1)
+            self.cDr.setClearDepthActive(1)
+            self.cDr.setClearColorActive(1)
+            self.cDr.setClearColor(Vec4(0.3, 0.3, 0.3, 1))
+            self.cDr.setCamera(self.cCam)
+            self.clarabelle = Actor.Actor('phase_5.5/models/char/Clarabelle-zero', {'listen': 'phase_5.5/models/char/Clarabelle-listens'})
+            self.clarabelle.loop('listen')
+            self.clarabelle.find('**/eyes').setBin('fixed', 0)
+            self.clarabelle.find('**/pupilL').setBin('fixed', 1)
+            self.clarabelle.find('**/pupilR').setBin('fixed', 1)
+            self.clarabelle.find('**/glassL').setBin('fixed', 2)
+            self.clarabelle.find('**/glassR').setBin('fixed', 2)
+            switchboard = loader.loadModel('phase_5.5/models/estate/switchboard')
+            switchboard.reparentTo(self.clarabelle)
+            switchboard.setPos(1, -1.6, 0)
+            switchboard.setH(30)
+            room = loader.loadModel('phase_3/models/makeatoon/tt_m_ara_mat_room.bam')
+            room.reparentTo(self.clarabelle)
+            room.find('**/genderProps').removeNode()
+            room.find('**/bodyWalls').removeNode()
+            room.find('**/bodyProps').removeNode()
+            room.find('**/colorWalls').removeNode()
+            room.find('**/colorProps').removeNode()
+            room.find('**/clothWalls').removeNode()
+            room.find('**/nameWalls').removeNode()
+            room.find('**/nameProps').removeNode()
+            room.find('**/spotlight').removeNode()
+            room.setPos(5.5, 1.25, 0)
+            room.setH(330)
+            self.clarabelle.reparentTo(self.cRender)
+            self.clarabelle.setPosHprScale(-0.52, 6.13, -3.81, 85, 0.0, 0.0, 1.0, 1.0, 1.0)
+            self.clarabelleFrame.setPosHprScale(-0.01, 0.0, -0.01, 0.0, 0.0, 0.0, 1.02, 1.0, 1.02)
 
     def reload(self):
         for panel in self.panelList + self.backPanelList + self.loyaltyPanelList + self.emblemPanelList:
@@ -867,7 +870,6 @@ class CatalogScreen(DirectFrame):
                 self.giftAvatar.delete()
             else:
                 self.giftAvatar = None
-        return
 
     def unloadClarabelle(self):
         base.win.removeDisplayRegion(self.cDr)
@@ -879,25 +881,28 @@ class CatalogScreen(DirectFrame):
         del self.cDr
         self.clarabelle.cleanup()
         del self.clarabelle
-
         if self.clarabelleChatBalloon:
             self.clarabelleChatBalloon.removeNode()
             del self.clarabelleChatBalloon
         if self.clarabelleGreetingSfx:
             for sound in self.clarabelleGreetingSfx:
                 del sound
+
             del self.clarabelleGreetingSfx
         if self.clarabelleGoodbyeSfx:
             for sound in self.clarabelleGoodbyeSfx:
                 del sound
+
             del self.clarabelleGoodbyeSfx
         if self.clarabelleErrorSfx:
             for sound in self.clarabelleGoodbyeSfx:
                 del sound
+
             del self.clarabelleGoodbyeSfx
         if self.clarabelleChatterSfx:
             for sound in self.clarabelleChatterSfx:
                 del sound
+
             del self.clarabelleChatterSfx
 
     def hangUp(self):
@@ -972,38 +977,35 @@ class CatalogScreen(DirectFrame):
     def __clearDialog(self, event):
         self.responseDialog.cleanup()
         self.responseDialog = None
-        return
 
     def setClarabelleChat(self, str, timeout = 6, type = None):
         self.clearClarabelleChat()
-
-        # Clarabelle can talk now! Let's give her some variation.
-        if type == 'greeting':
-            if not self.clarabelleGreetingSfx:
-                clarabelleGreeting1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_1.ogg')
-                clarabelleGreeting2 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_2.ogg')
-                self.clarabelleGreetingSfx = [clarabelleGreeting1, clarabelleGreeting2]
-            base.playSfx(random.choice(self.clarabelleGreetingSfx))
-        elif type == 'goodbye':
-            if not self.clarabelleGoodbyeSfx:
-                clarabelleGoodbye1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_wa_2.ogg')
-                clarabelleGoodbye2 = base.loadSfx('phase_5.5/audio/dial/clarabelle_wa_3.ogg')
-                clarabelleGoodbye3 = base.loadSfx('phase_5.5/audio/dial/clarabelle_wa_4.ogg')
-                self.clarabelleGoodbyeSfx = [clarabelleGoodbye1, clarabelleGoodbye2, clarabelleGoodbye3]
-            base.playSfx(random.choice(self.clarabelleGoodbyeSfx))
-        elif type == 'error':
-            if not self.clarabelleErrorSfx:
-                clarabelleError1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_2.ogg')
-                self.clarabelleChatterSfx = [clarabelleError1]
-            base.playSfx(random.choice(self.clarabelleErrorSfx))
-        else:
-            # These are currently placeholders.
-            if not self.clarabelleChatterSfx:
-                clarabelleChatter1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_2.ogg')
-                clarabelleChatter2 = base.loadSfx('phase_5.5/audio/dial/clarabelle_gen_2.ogg')
-                self.clarabelleChatterSfx = [clarabelleChatter1, clarabelleChatter2]
-            base.playSfx(random.choice(self.clarabelleChatterSfx))
-
+        if config.GetBool('want-clarabelle-voice', True):
+            if not config.GetBool('want-tto-catalog', True):
+                if type == 'greeting':
+                    if not self.clarabelleGreetingSfx:
+                        clarabelleGreeting1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_1.ogg')
+                        clarabelleGreeting2 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_2.ogg')
+                        self.clarabelleGreetingSfx = [clarabelleGreeting1, clarabelleGreeting2]
+                    base.playSfx(random.choice(self.clarabelleGreetingSfx))
+                elif type == 'goodbye':
+                    if not self.clarabelleGoodbyeSfx:
+                        clarabelleGoodbye1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_wa_2.ogg')
+                        clarabelleGoodbye2 = base.loadSfx('phase_5.5/audio/dial/clarabelle_wa_3.ogg')
+                        clarabelleGoodbye3 = base.loadSfx('phase_5.5/audio/dial/clarabelle_wa_4.ogg')
+                        self.clarabelleGoodbyeSfx = [clarabelleGoodbye1, clarabelleGoodbye2, clarabelleGoodbye3]
+                    base.playSfx(random.choice(self.clarabelleGoodbyeSfx))
+                elif type == 'error':
+                    if not self.clarabelleErrorSfx:
+                        clarabelleError1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_2.ogg')
+                        self.clarabelleChatterSfx = [clarabelleError1]
+                    base.playSfx(random.choice(self.clarabelleErrorSfx))
+                else:
+                    if not self.clarabelleChatterSfx:
+                        clarabelleChatter1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_2.ogg')
+                        clarabelleChatter2 = base.loadSfx('phase_5.5/audio/dial/clarabelle_gen_2.ogg')
+                        self.clarabelleChatterSfx = [clarabelleChatter1, clarabelleChatter2]
+                    base.playSfx(random.choice(self.clarabelleChatterSfx))
         if not self.clarabelleChatBalloon:
             self.clarabelleChatBalloon = loader.loadModel('phase_3/models/props/chatbox')
         self.clarabelleChat = ChatBalloon(self.clarabelleChatBalloon)
@@ -1020,7 +1022,6 @@ class CatalogScreen(DirectFrame):
             self.clarabelleChatNP.removeNode()
             self.clarabelleChatNP = None
             del self.clarabelleChat
-        return
 
     def __moneyChange(self, money):
         if self.gifting > 0:
@@ -1101,20 +1102,7 @@ class CatalogScreen(DirectFrame):
         self.scrollList.refresh()
 
     def makeFamilyButton(self, familyId, familyName, colorCode):
-        # fg = NametagGlobals.getNameFg(colorCode, PGButton.SInactive)
-        return DirectButton(
-            relief=None,
-            text=familyName,
-            text_scale=0.04,
-            text_align=TextNode.ALeft,
-            # text_fg=fg,
-            text1_bg=self.textDownColor,
-            text2_bg=self.textRolloverColor,
-            text3_fg=self.textDisabledColor,
-            textMayChange=0,
-            command=self.__chooseFriend,
-            extraArgs=[familyId, familyName]
-            )
+        return DirectButton(relief=None, text=familyName, text_scale=0.04, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=0, command=self.__chooseFriend, extraArgs=[familyId, familyName])
 
     def __chooseFriend(self, friendId, friendName):
         messenger.send('wakeup')
@@ -1140,17 +1128,15 @@ class CatalogScreen(DirectFrame):
             self.gotAvatar = 0
             self.allowGetDetails = 0
             self.scrollList['state'] = DGG.DISABLED
-        return
 
     def __handleAvatarDetails(self, gotData, avatar, dclass):
         if self.giftAvatar.doId != avatar.doId or gotData == 0:
             CatalogScreen.notify.error('Get Gift Avatar Failed')
             self.gotAvatar = 0
             return
-        else:
-            self.gotAvatar = 1
-            self.giftAvatar = avatar
-            self.scrollList['state'] = DGG.NORMAL
+        self.gotAvatar = 1
+        self.giftAvatar = avatar
+        self.scrollList['state'] = DGG.NORMAL
         self.allowGetDetails = 1
         self.update()
 

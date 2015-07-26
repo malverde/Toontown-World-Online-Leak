@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogPetTrickItem
 import CatalogItem
 from toontown.pets import PetTricks
 from toontown.toonbase import ToontownGlobals
@@ -17,7 +18,7 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
         return 1
 
     def reachedPurchaseLimit(self, avatar):
-        return 1 # until we have pets
+        return 1
         if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
             return 1
         return self.trickId in avatar.petTrickPhrases
@@ -45,9 +46,8 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
     def getPicture(self, avatar):
         from toontown.pets import PetDNA, Pet
         pet = Pet.Pet(forGui=1)
-        #dna = avatar.petDNA
-        i#f dna == None:
-        dna = PetDNA.getRandomPetDNA() # another temphack
+        i
+        dna = PetDNA.getRandomPetDNA()
         pet.setDNA(dna)
         pet.setH(180)
         model, ival = self.makeFrameModel(pet, 0)
@@ -69,7 +69,6 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
         CatalogItem.CatalogItem.cleanupPicture(self)
         self.petPicture.delete()
         self.petPicture = None
-        return
 
     def output(self, store = -1):
         return 'CatalogPetTrickItem(%s%s)' % (self.trickId, self.formatOptionalData(store))
@@ -89,7 +88,6 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
         self.dna = None
         if self.trickId not in PetTricks.TrickId2scIds:
             raise ValueError
-        return
 
     def encodeDatagram(self, dg, store):
         CatalogItem.CatalogItem.encodeDatagram(self, dg, store)

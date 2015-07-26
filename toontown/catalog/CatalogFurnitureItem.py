@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogFurnitureItem
 import CatalogAtticItem
 import CatalogItem
 import random
@@ -20,37 +21,30 @@ FLBillboard = 128
 FLTrunk = 256
 FLBoysOnly = 512
 FLGirlsOnly = 1024
-furnitureColors = [
-  (0.792, 0.353, 0.29, 1.0),
-  (0.176, 0.592, 0.439, 1.0),
-  (0.439, 0.424, 0.682, 1.0),
-  (0.325, 0.58, 0.835, 1.0),
-  (0.753, 0.345, 0.557, 1.0),
-  (0.992, 0.843, 0.392, 1.0)
-]
-woodColors = [
-  (0.933, 0.773, 0.569, 1.0),
-  (0.9333, 0.6785, 0.055, 1.0),
-  (0.545, 0.451, 0.333, 1.0),
-  (0.541, 0.0, 0.0, 1.0),
-  (0.5451, 0.2706, 0.0745, 1.0),
-  (0.5451, 0.4118, 0.4118, 1.0)
-]
-BankToMoney = {
- 1300: 15000,
+furnitureColors = [(0.792, 0.353, 0.29, 1.0),
+ (0.176, 0.592, 0.439, 1.0),
+ (0.439, 0.424, 0.682, 1.0),
+ (0.325, 0.58, 0.835, 1.0),
+ (0.753, 0.345, 0.557, 1.0),
+ (0.992, 0.843, 0.392, 1.0)]
+woodColors = [(0.933, 0.773, 0.569, 1.0),
+ (0.9333, 0.6785, 0.055, 1.0),
+ (0.545, 0.451, 0.333, 1.0),
+ (0.541, 0.0, 0.0, 1.0),
+ (0.5451, 0.2706, 0.0745, 1.0),
+ (0.5451, 0.4118, 0.4118, 1.0)]
+BankToMoney = {1300: 15000,
  1310: 15000,
  1320: 15000,
  1330: 15000,
  1340: 15000,
- 1350: 15000
-}
+ 1350: 15000}
 MoneyToBank = {}
 for bankId, maxMoney in BankToMoney.items():
     MoneyToBank[maxMoney] = bankId
 
 MaxBankId = 1350
-ClosetToClothes = {
- 500: 10,
+ClosetToClothes = {500: 10,
  502: 15,
  504: 20,
  506: 25,
@@ -59,8 +53,7 @@ ClosetToClothes = {
  512: 15,
  514: 20,
  516: 25,
- 518: 50
-}
+ 518: 50}
 ClothesToCloset = {}
 for closetId, maxClothes in ClosetToClothes.items():
     if not ClothesToCloset.has_key(maxClothes):
@@ -70,13 +63,7 @@ for closetId, maxClothes in ClosetToClothes.items():
 
 MaxClosetIds = (508, 518)
 MaxTrunkIds = (4000, 4010)
-FurnitureTypes = {
- 100: ('phase_5.5/models/estate/chairA',  # Model
-       None,                              # Color
-       None,                              # Color Options
-       80),                               # Base Price
-                                          # Flags
-                                          # Scale
+FurnitureTypes = {100: ('phase_5.5/models/estate/chairA', None, None, 80),
  105: ('phase_5.5/models/estate/chairAdesat',
        None,
        {0: (('**/cushion*', furnitureColors[0]), ('**/arm*', furnitureColors[0])),
@@ -86,42 +73,15 @@ FurnitureTypes = {
         4: (('**/cushion*', furnitureColors[4]), ('**/arm*', furnitureColors[4])),
         5: (('**/cushion*', furnitureColors[5]), ('**/arm*', furnitureColors[5]))},
        160),
- 110: ('phase_3.5/models/modules/chair',
-       None,
-       None,
-       40),
- 120: ('phase_5.5/models/estate/deskChair',
-       None,
-       None,
-       60),
- 130: ('phase_5.5/models/estate/BugRoomChair',
-       None,
-       None,
-       160),
- 140: ('phase_5.5/models/estate/UWlobsterChair',
-       None,
-       None,
-       200),
- 145: ('phase_5.5/models/estate/UWlifeSaverChair',
-       None,
-       None,
-       200),
- 150: ('phase_5.5/models/estate/West_saddleStool2',
-       None,
-       None,
-       160),
- 160: ('phase_5.5/models/estate/West_nativeChair',
-       None,
-       None,
-       160),
- 170: ('phase_5.5/models/estate/cupcakeChair',
-       None,
-       None,
-       240),
- 200: ('phase_5.5/models/estate/regular_bed',
-       None,
-       None,
-       400),
+ 110: ('phase_3.5/models/modules/chair', None, None, 40),
+ 120: ('phase_5.5/models/estate/deskChair', None, None, 60),
+ 130: ('phase_5.5/models/estate/BugRoomChair', None, None, 160),
+ 140: ('phase_5.5/models/estate/UWlobsterChair', None, None, 200),
+ 145: ('phase_5.5/models/estate/UWlifeSaverChair', None, None, 200),
+ 150: ('phase_5.5/models/estate/West_saddleStool2', None, None, 160),
+ 160: ('phase_5.5/models/estate/West_nativeChair', None, None, 160),
+ 170: ('phase_5.5/models/estate/cupcakeChair', None, None, 240),
+ 200: ('phase_5.5/models/estate/regular_bed', None, None, 400),
  205: ('phase_5.5/models/estate/regular_bed_desat',
        None,
        {0: (('**/bar*', woodColors[0]),
@@ -166,88 +126,31 @@ FurnitureTypes = {
        None,
        450,
        FLGirlsOnly),
- 220: ('phase_5.5/models/estate/bathtub_bed',
-       None,
-       None,
-       550),
- 230: ('phase_5.5/models/estate/bugRoomBed',
-       None,
-       None,
-       600),
- 240: ('phase_5.5/models/estate/UWBoatBed',
-       None,
-       None,
-       600),
- 250: ('phase_5.5/models/estate/West_cactusHammoc',
-       None,
-       None,
-       550),
- 260: ('phase_5.5/models/estate/icecreamBed',
-       None,
-       None,
-       700),
- 270: ('phase_5.5/models/estate/trolley_bed',
-       None,
-       None,
-       1200,
-       None,
-       None,
-       0.25),
+ 220: ('phase_5.5/models/estate/bathtub_bed', None, None, 550),
+ 230: ('phase_5.5/models/estate/bugRoomBed', None, None, 600),
+ 240: ('phase_5.5/models/estate/UWBoatBed', None, None, 600),
+ 250: ('phase_5.5/models/estate/West_cactusHammoc', None, None, 550),
+ 260: ('phase_5.5/models/estate/icecreamBed', None, None, 700),
+ 270: ('phase_5.5/models/estate/trolley_bed', None, None, 1200, None, None, 0.25),
  300: ('phase_5.5/models/estate/Piano',
        None,
        None,
        1000,
        FLIsTable),
- 310: ('phase_5.5/models/estate/Organ',
-       None,
-       None,
-       2500),
- 400: ('phase_5.5/models/estate/FireplaceSq',
-       None,
-       None,
-       800),
+ 310: ('phase_5.5/models/estate/Organ', None, None, 2500),
+ 400: ('phase_5.5/models/estate/FireplaceSq', None, None, 800),
  410: ('phase_5.5/models/estate/FireplaceGirlee',
        None,
        None,
        800,
        FLGirlsOnly),
- 420: ('phase_5.5/models/estate/FireplaceRound',
-       None,
-       None,
-       800),
- 430: ('phase_5.5/models/estate/bugRoomFireplace',
-       None,
-       None,
-       800),
- 440: ('phase_5.5/models/estate/CarmelAppleFireplace',
-       None,
-       None,
-       800),
- 450: ('phase_5.5/models/estate/fireplace_coral',
-       None,
-       None,
-       950),
- 460: ('phase_5.5/models/estate/tt_m_prp_int_fireplace_coral',
-       None,
-       None,
-       1250,
-       None,
-       None,
-       0.5),
- 470: ('phase_5.5/models/estate/tt_m_prp_int_fireplace_square',
-       None,
-       None,
-       1100,
-       None,
-       None,
-       0.5),
- 480: ('phase_5.5/models/estate/tt_m_prp_int_fireplace_round',
-       None,
-       None,
-       1100,
-       None,
-       None,
-       0.5),
+ 420: ('phase_5.5/models/estate/FireplaceRound', None, None, 800),
+ 430: ('phase_5.5/models/estate/bugRoomFireplace', None, None, 800),
+ 440: ('phase_5.5/models/estate/CarmelAppleFireplace', None, None, 800),
+ 450: ('phase_5.5/models/estate/fireplace_coral', None, None, 950),
+ 460: ('phase_5.5/models/estate/tt_m_prp_int_fireplace_coral', None, None, 1250, None, None, 0.5),
+ 470: ('phase_5.5/models/estate/tt_m_prp_int_fireplace_square', None, None, 1100, None, None, 0.5),
+ 480: ('phase_5.5/models/estate/tt_m_prp_int_fireplace_round', None, None, 1100, None, None, 0.5),
  490: ('phase_5.5/models/estate/tt_m_prp_int_fireplace_girlee',
        None,
        None,
@@ -255,20 +158,8 @@ FurnitureTypes = {
        FLGirlsOnly,
        None,
        0.5),
- 491: ('phase_5.5/models/estate/tt_m_prp_int_fireplace_bugRoom',
-       None,
-       None,
-       1100,
-       None,
-       None,
-       0.5),
- 492: ('phase_5.5/models/estate/tt_m_prp_int_fireplace_caramelApple',
-       None,
-       None,
-       1100,
-       None,
-       None,
-       0.5),
+ 491: ('phase_5.5/models/estate/tt_m_prp_int_fireplace_bugRoom', None, None, 1100, None, None, 0.5),
+ 492: ('phase_5.5/models/estate/tt_m_prp_int_fireplace_caramelApple', None, None, 1100, None, None, 0.5),
  500: ('phase_5.5/models/estate/closetBoy',
        None,
        None,
@@ -334,10 +225,7 @@ FurnitureTypes = {
        None,
        45,
        FLOnTable),
- 610: ('phase_3.5/models/modules/lamp_tall',
-       None,
-       None,
-       45),
+ 610: ('phase_3.5/models/modules/lamp_tall', None, None, 45),
  620: ('phase_5.5/models/estate/lampA',
        None,
        None,
@@ -353,14 +241,8 @@ FurnitureTypes = {
         5: (('**/top', furnitureColors[5]),)},
        70,
        FLOnTable),
- 630: ('phase_5.5/models/estate/bugRoomDaisyLamp1',
-       None,
-       None,
-       55),
- 640: ('phase_5.5/models/estate/bugRoomDaisyLamp2',
-       None,
-       None,
-       55),
+ 630: ('phase_5.5/models/estate/bugRoomDaisyLamp1', None, None, 55),
+ 640: ('phase_5.5/models/estate/bugRoomDaisyLamp2', None, None, 55),
  650: ('phase_5.5/models/estate/UWlamp_jellyfish',
        None,
        None,
@@ -378,10 +260,7 @@ FurnitureTypes = {
        FLOnTable),
  680: ('phase_5.5/models/estate/tt_m_ara_int_candlestick',
        None,
-       {0: (('**/candlestick/candlestick', (1.0,
-              1.0,
-              1.0,
-              1.0)),),
+       {0: (('**/candlestick/candlestick', (1.0, 1.0, 1.0, 1.0)),),
         1: (('**/candlestick/candlestick', furnitureColors[1]),),
         2: (('**/candlestick/candlestick', furnitureColors[2]),),
         3: (('**/candlestick/candlestick', furnitureColors[3]),),
@@ -392,10 +271,7 @@ FurnitureTypes = {
        FLOnTable),
  681: ('phase_5.5/models/estate/tt_m_ara_int_candlestickLit',
        None,
-       {0: (('**/candlestick/candlestick', (1.0,
-              1.0,
-              1.0,
-              1.0)),),
+       {0: (('**/candlestick/candlestick', (1.0, 1.0, 1.0, 1.0)),),
         1: (('**/candlestickLit/candlestick', furnitureColors[1]),),
         2: (('**/candlestickLit/candlestick', furnitureColors[2]),),
         3: (('**/candlestickLit/candlestick', furnitureColors[3]),),
@@ -404,10 +280,7 @@ FurnitureTypes = {
         6: (('**/candlestickLit/candlestick', furnitureColors[0]),)},
        25,
        FLOnTable),
- 700: ('phase_3.5/models/modules/couch_1person',
-       None,
-       None,
-       230),
+ 700: ('phase_3.5/models/modules/couch_1person', None, None, 230),
  705: ('phase_5.5/models/estate/couch_1personDesat',
        None,
        {0: (('**/*couch', furnitureColors[0]),),
@@ -417,10 +290,7 @@ FurnitureTypes = {
         4: (('**/*couch', furnitureColors[4]),),
         5: (('**/*couch', furnitureColors[5]),)},
        460),
- 710: ('phase_3.5/models/modules/couch_2person',
-       None,
-       None,
-       230),
+ 710: ('phase_3.5/models/modules/couch_2person', None, None, 230),
  715: ('phase_5.5/models/estate/couch_2personDesat',
        None,
        {0: (('**/*couch', furnitureColors[0]),),
@@ -430,14 +300,8 @@ FurnitureTypes = {
         4: (('**/*couch', furnitureColors[4]),),
         5: (('**/*couch', furnitureColors[5]),)},
        460),
- 720: ('phase_5.5/models/estate/West_HayCouch',
-       None,
-       None,
-       420),
- 730: ('phase_5.5/models/estate/twinkieCouch',
-       None,
-       None,
-       480),
+ 720: ('phase_5.5/models/estate/West_HayCouch', None, None, 420),
+ 730: ('phase_5.5/models/estate/twinkieCouch', None, None, 480),
  800: ('phase_3.5/models/modules/desk_only_wo_phone',
        None,
        None,
@@ -448,49 +312,16 @@ FurnitureTypes = {
        None,
        125,
        FLIsTable),
- 900: ('phase_3.5/models/modules/umbrella_stand',
-       None,
-       None,
-       30),
- 910: ('phase_3.5/models/modules/coatrack',
-       None,
-       None,
-       75),
- 920: ('phase_3.5/models/modules/paper_trashcan',
-       None,
-       None,
-       30),
- 930: ('phase_5.5/models/estate/BugRoomRedMushroomPot',
-       None,
-       None,
-       60),
- 940: ('phase_5.5/models/estate/BugRoomYellowMushroomPot',
-       None,
-       None,
-       60),
- 950: ('phase_5.5/models/estate/UWcoralClothRack',
-       None,
-       None,
-       75),
- 960: ('phase_5.5/models/estate/west_barrelStand',
-       None,
-       None,
-       75),
- 970: ('phase_5.5/models/estate/West_fatCactus',
-       None,
-       None,
-       75),
- 980: ('phase_5.5/models/estate/West_Tepee',
-       None,
-       None,
-       150),
- 990: ('phase_5.5/models/estate/gag_fan',
-       None,
-       None,
-       500,
-       None,
-       None,
-       0.5),
+ 900: ('phase_3.5/models/modules/umbrella_stand', None, None, 30),
+ 910: ('phase_3.5/models/modules/coatrack', None, None, 75),
+ 920: ('phase_3.5/models/modules/paper_trashcan', None, None, 30),
+ 930: ('phase_5.5/models/estate/BugRoomRedMushroomPot', None, None, 60),
+ 940: ('phase_5.5/models/estate/BugRoomYellowMushroomPot', None, None, 60),
+ 950: ('phase_5.5/models/estate/UWcoralClothRack', None, None, 75),
+ 960: ('phase_5.5/models/estate/west_barrelStand', None, None, 75),
+ 970: ('phase_5.5/models/estate/West_fatCactus', None, None, 75),
+ 980: ('phase_5.5/models/estate/West_Tepee', None, None, 150),
+ 990: ('phase_5.5/models/estate/gag_fan', None, None, 500, None, None, 0.5),
  1000: ('phase_3.5/models/modules/rug',
         None,
         None,
@@ -522,22 +353,10 @@ FurnitureTypes = {
         None,
         75,
         FLRug),
- 1040: ('phase_5.5/models/estate/tt_m_ara_int_presents',
-        None,
-        None,
-        300),
- 1050: ('phase_5.5/models/estate/tt_m_ara_int_sled',
-        None,
-        None,
-        400),
- 1100: ('phase_5.5/models/estate/cabinetRwood',
-        None,
-        None,
-        825),
- 1110: ('phase_5.5/models/estate/cabinetYwood',
-        None,
-        None,
-        825),
+ 1040: ('phase_5.5/models/estate/tt_m_ara_int_presents', None, None, 300),
+ 1050: ('phase_5.5/models/estate/tt_m_ara_int_sled', None, None, 400),
+ 1100: ('phase_5.5/models/estate/cabinetRwood', None, None, 825),
+ 1110: ('phase_5.5/models/estate/cabinetYwood', None, None, 825),
  1120: ('phase_3.5/models/modules/bookcase',
         None,
         None,
@@ -548,10 +367,7 @@ FurnitureTypes = {
         None,
         650,
         FLIsTable),
- 1140: ('phase_5.5/models/estate/icecreamChest',
-        None,
-        None,
-        750),
+ 1140: ('phase_5.5/models/estate/icecreamChest', None, None, 750),
  1200: ('phase_3.5/models/modules/ending_table',
         None,
         None,
@@ -716,10 +532,7 @@ FurnitureTypes = {
         25,
         FLOnTable,
         15.0),
- 1530: ('phase_5.5/models/estate/bugRoomTV',
-        None,
-        None,
-        675),
+ 1530: ('phase_5.5/models/estate/bugRoomTV', None, None, 675),
  1600: ('phase_5.5/models/estate/vaseA_short',
         None,
         None,
@@ -770,22 +583,10 @@ FurnitureTypes = {
         None,
         200,
         FLOnTable),
- 1700: ('phase_5.5/models/estate/popcornCart',
-        None,
-        None,
-        400),
- 1710: ('phase_5.5/models/estate/bugRoomLadyBug',
-        None,
-        None,
-        260),
- 1720: ('phase_5.5/models/estate/UWfountain',
-        None,
-        None,
-        450),
- 1725: ('phase_5.5/models/estate/UWOceanDryer',
-        None,
-        None,
-        400),
+ 1700: ('phase_5.5/models/estate/popcornCart', None, None, 400),
+ 1710: ('phase_5.5/models/estate/bugRoomLadyBug', None, None, 260),
+ 1720: ('phase_5.5/models/estate/UWfountain', None, None, 450),
+ 1725: ('phase_5.5/models/estate/UWOceanDryer', None, None, 400),
  1800: ('phase_5.5/models/estate/UWskullBowl',
         None,
         None,
@@ -837,18 +638,9 @@ FurnitureTypes = {
         None,
         475,
         FLPainting),
- 2000: ('phase_5.5/models/estate/candySwingSet',
-        None,
-        None,
-        300),
- 2010: ('phase_5.5/models/estate/cakeSlide',
-        None,
-        None,
-        200),
- 3000: ('phase_5.5/models/estate/BanannaSplitShower',
-        None,
-        None,
-        400),
+ 2000: ('phase_5.5/models/estate/candySwingSet', None, None, 300),
+ 2010: ('phase_5.5/models/estate/cakeSlide', None, None, 200),
+ 3000: ('phase_5.5/models/estate/BanannaSplitShower', None, None, 400),
  4000: ('phase_5.5/models/estate/tt_m_ara_est_accessoryTrunkBoy',
         None,
         None,
@@ -871,19 +663,12 @@ FurnitureTypes = {
          None,
          250,
          FLOnTable),
- 10020: ('phase_5.5/models/estate/tt_m_prp_int_winter_tree',
-         None,
-         None,
-         500,
-         None,
-         None,
-         0.1),
+ 10020: ('phase_5.5/models/estate/tt_m_prp_int_winter_tree', None, None, 500, None, None, 0.1),
  10030: ('phase_5.5/models/estate/tt_m_prp_int_winter_wreath',
          None,
          None,
          200,
-         FLPainting)
-}
+         FLPainting)}
 
 class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
 
@@ -914,12 +699,11 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
             return TTLocalizer.FurnitureYourOldTrunk
         else:
             return None
-        return None
 
     def notOfferedTo(self, avatar):
         if self.getFlags() & FLCloset or self.getFlags() & FLTrunk:
             decade = self.furnitureType - self.furnitureType % 10
-            forBoys = (decade == 500 or decade == 4000)
+            forBoys = decade == 500 or decade == 4000
             if avatar.getStyle().getGender() == 'm':
                 return not forBoys
             else:
@@ -965,7 +749,6 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
             return 50
         else:
             return None
-        return None
 
     def reachedPurchaseLimit(self, avatar):
         if self.getFlags() & FLBank:
@@ -1005,12 +788,11 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
                 return flag
         else:
             return 0
-        return
 
     def isGift(self):
         if self.getEmblemPrices():
             return 0
-        if self.getFlags() & (FLCloset | FLBank | FLTrunk):
+        elif self.getFlags() & (FLCloset | FLBank | FLTrunk):
             return 0
         else:
             return 1
@@ -1062,7 +844,7 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         return self.furnitureType
 
     def getSalePrice(self):
-        if self.furnitureType in [508, 518]:
+        if self.furnitureType in (508, 518):
             return 50
         else:
             return CatalogItem.CatalogItem.getSalePrice(self)
@@ -1096,7 +878,6 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
             if store & CatalogItem.Customization:
                 self.colorOption = di.getUint8()
                 option = type[FTColorOptions][self.colorOption]
-        return
 
     def encodeDatagram(self, dg, store):
         CatalogAtticItem.CatalogAtticItem.encodeDatagram(self, dg, store)
@@ -1117,7 +898,7 @@ def nextAvailableCloset(avatar, duplicateItems):
     else:
         index = 1
     if not hasattr(avatar, 'maxClothes'):
-        return None
+        return
     closetIds = ClothesToCloset.get(avatar.getMaxClothes())
     closetIds = list(closetIds)
     closetIds.sort()
@@ -1174,8 +955,6 @@ def get50ItemTrunk(avatar, duplicateItems):
         if item in avatar.onOrder or item in avatar.mailboxContents:
             return None
         return item
-    # If we get here, we probably don't want accessories yet.
-    return None
 
 
 def getMaxTrunks():

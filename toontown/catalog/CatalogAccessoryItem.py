@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogAccessoryItem
 import CatalogItem
 from CatalogAccessoryItemGlobals import *
 from toontown.toonbase import ToontownGlobals
@@ -26,15 +27,14 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
              ABackpack,
              AShoes]:
                 return 0
-            forBoys = article in [ABoysHat,
-             ABoysGlasses,
-             ABoysBackpack,
-             ABoysShoes]
-            if avatar.getStyle().getGender() == 'm':
-                return not forBoys
             else:
+                forBoys = article in [ABoysHat,
+                 ABoysGlasses,
+                 ABoysBackpack,
+                 ABoysShoes]
+                if avatar.getStyle().getGender() == 'm':
+                    return not forBoys
                 return forBoys
-        # If we get here, we probably don't want accessories yet.
         return 1
 
     def forBoysOnly(self):
@@ -139,13 +139,13 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
                  defn[2]))
                 return ToontownGlobals.P_ItemAvailable
             hat = avatar.getHat()
-            added = avatar.addToAccessoriesList(ToonDNA.HAT, defn[0], defn[1], defn[2])
+            added = avatar.addToAccessoriesList(ToonDNA.HAT, hat[0], hat[1], hat[2])
             if added:
                 avatar.b_setHatList(avatar.getHatList())
                 self.notify.info('Avatar %s put hat %d,%d,%d in trunk.' % (avatar.doId,
-                 defn[0],
-                 defn[1],
-                 defn[2]))
+                 hat[0],
+                 hat[1],
+                 hat[2]))
             else:
                 self.notify.warning('Avatar %s lost current hat %d %d %d; trunk full.' % (avatar.doId,
                  hat[0],
@@ -161,18 +161,18 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
                  defn[2]))
                 return ToontownGlobals.P_ItemAvailable
             glasses = avatar.getGlasses()
-            added = avatar.addToAccessoriesList(ToonDNA.GLASSES, defn[0], defn[1], defn[2])
+            added = avatar.addToAccessoriesList(ToonDNA.GLASSES, glasses[0], glasses[1], glasses[2])
             if added:
                 avatar.b_setGlassesList(avatar.getGlassesList())
                 self.notify.info('Avatar %s put glasses %d,%d,%d in trunk.' % (avatar.doId,
-                 defn[0],
-                 defn[1],
-                 defn[2]))
+                 glasses[0],
+                 glasses[1],
+                 glasses[2]))
             else:
                 self.notify.warning('Avatar %s lost current glasses %d %d %d; trunk full.' % (avatar.doId,
-                 defn[0],
-                 defn[1],
-                 defn[2]))
+                 glasses[0],
+                 glasses[1],
+                 glasses[2]))
             avatar.b_setGlasses(defn[0], defn[1], defn[2])
         elif self.isBackpack():
             defn = ToonDNA.BackpackStyles[str]
@@ -183,18 +183,18 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
                  defn[2]))
                 return ToontownGlobals.P_ItemAvailable
             backpack = avatar.getBackpack()
-            added = avatar.addToAccessoriesList(ToonDNA.BACKPACK, defn[0], defn[1], defn[2])
+            added = avatar.addToAccessoriesList(ToonDNA.BACKPACK, backpack[0], backpack[1], backpack[2])
             if added:
                 avatar.b_setBackpackList(avatar.getBackpackList())
                 self.notify.info('Avatar %s put backpack %d,%d,%d in trunk.' % (avatar.doId,
-                 defn[0],
-                 defn[1],
-                 defn[2]))
+                 backpack[0],
+                 backpack[1],
+                 backpack[2]))
             else:
                 self.notify.warning('Avatar %s lost current backpack %d %d %d; trunk full.' % (avatar.doId,
-                 defn[0],
-                 defn[1],
-                 defn[2]))
+                 backpack[0],
+                 backpack[1],
+                 backpack[2]))
             avatar.b_setBackpack(defn[0], defn[1], defn[2])
         else:
             defn = ToonDNA.ShoesStyles[str]
@@ -205,18 +205,18 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
                  defn[2]))
                 return ToontownGlobals.P_ItemAvailable
             shoes = avatar.getShoes()
-            added = avatar.addToAccessoriesList(ToonDNA.SHOES, defn[0], defn[1], defn[2])
+            added = avatar.addToAccessoriesList(ToonDNA.SHOES, shoes[0], shoes[1], shoes[2])
             if added:
                 avatar.b_setShoesList(avatar.getShoesList())
                 self.notify.info('Avatar %s put shoes %d,%d,%d in trunk.' % (avatar.doId,
-                 defn[0],
-                 defn[1],
-                 defn[2]))
+                 shoes[0],
+                 shoes[1],
+                 shoes[2]))
             else:
                 self.notify.warning('Avatar %s lost current shoes %d %d %d; trunk full.' % (avatar.doId,
-                 defn[0],
-                 defn[1],
-                 defn[2]))
+                 shoes[0],
+                 shoes[1],
+                 shoes[2]))
             avatar.b_setShoes(defn[0], defn[1], defn[2])
         avatar.d_catalogGenAccessories()
         return ToontownGlobals.P_ItemAvailable
@@ -245,7 +245,6 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
             model.setColorScale(color, 1)
             if needsAlpha:
                 model.setTransparency(1)
-        return
 
     def loadModel(self):
         modelPath = self.getFilename()
@@ -309,10 +308,11 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
                 return TTLocalizer.CatalogAcceptBackpack
             else:
                 return TTLocalizer.CatalogAcceptShoes
-        elif retcode == ToontownGlobals.P_NoRoomForItem:
-            return TTLocalizer.CatalogAcceptTrunkFull
-        elif retcode == ToontownGlobals.P_NoTrunk:
-            return TTLocalizer.CatalogAcceptNoTrunk
+        else:
+            if retcode == ToontownGlobals.P_NoRoomForItem:
+                return TTLocalizer.CatalogAcceptTrunkFull
+            if retcode == ToontownGlobals.P_NoTrunk:
+                return TTLocalizer.CatalogAcceptNoTrunk
         return CatalogItem.CatalogItem.getAcceptItemErrorText(self, retcode)
 
     def isHat(self):
@@ -411,7 +411,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
     def isGift(self):
         if self.getEmblemPrices():
             return 0
-        if self.loyaltyRequirement() > 0:
+        elif self.loyaltyRequirement() > 0:
             return 0
         elif self.accessoryType in LoyaltyAccessoryItems:
             return 0

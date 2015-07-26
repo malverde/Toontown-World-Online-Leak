@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogAccessoryItemGlobals
 ATArticle = 0
 ATString = 1
 ATBasePrice = 2

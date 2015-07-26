@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogChatItem
 from pandac.PandaModules import *
 import CatalogItem
 from toontown.toonbase import ToontownGlobals
@@ -107,7 +108,6 @@ class CatalogChatItem(CatalogItem.CatalogItem):
         del self.messagePicker
         del self.callback
         del self.mailbox
-        return
 
     def __handlePickerDone(self, status, pickedMessage = None):
         if status == 'pick':

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogGardenStarterItem
 import CatalogItem
 import time
 from toontown.toonbase import ToontownGlobals
@@ -33,7 +34,7 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
         print 'rental-- record purchase'
         if avatar:
             print 'starter garden-- has avater'
-            estate = simbase.air.estateManager.estate.get(avatar.doId)
+            estate = simbase.air.estateManager.toon2estate.get(avatar)
             if estate:
                 print 'starter garden-- has estate'
                 estate.placeStarterGarden(avatar)
@@ -92,7 +93,6 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
             def handleTutorialDone():
                 self.gardenTutorial.destroy()
                 self.gardenTutorial = None
-                return
 
             self.gardenTutorial = GardenTutorial.GardenTutorial(callback=handleTutorialDone)
             if hasattr(mailbox, 'mailboxGui') and mailbox.mailboxGui:
@@ -103,4 +103,3 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
         if self.confirmGarden:
             self.confirmGarden.cleanup()
             self.confirmGarden = None
-        return

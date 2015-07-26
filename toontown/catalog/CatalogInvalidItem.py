@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogInvalidItem
 import CatalogItem
 from toontown.toonbase import TTLocalizer
 from direct.showbase import PythonUtil

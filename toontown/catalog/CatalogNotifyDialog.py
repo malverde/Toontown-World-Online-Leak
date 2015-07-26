@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogNotifyDialog
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -25,7 +26,6 @@ class CatalogNotifyDialog:
             self.nextButton.hide()
         else:
             self.doneButton.hide()
-        return
 
     def handleButton(self):
         self.messageIndex += 1
@@ -47,7 +47,6 @@ class CatalogNotifyDialog:
         if self.doneButton:
             self.doneButton.destroy()
         self.doneButton = None
-        return
 
     def __handleButton(self, value):
         self.cleanup()
