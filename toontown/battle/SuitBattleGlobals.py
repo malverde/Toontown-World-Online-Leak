@@ -77,7 +77,7 @@ def pickSuitAttack(attacks, suitLevel):
         return attackNum
     elif configAttackName == 'sequence':
         for i in range(len(attacks)):
-            if not debugAttackSequence.has_key(attacks[i]):
+            if attacks[i] not in debugAttackSequence:
                 debugAttackSequence[attacks[i]] = 1
                 return i
 
@@ -142,6 +142,7 @@ SuitSizes = {
     'tf': 5.25,
     'm': 5.75,
     'mh': 7.0,
+    'md': 6.5,
 }
 
 SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
@@ -2938,7 +2939,96 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky,
                       50,
                       50,
                       50,
-                      50)))}}
+                      50)))}
+ 'ls': {'name': TTLocalizer.SuitAmbushMarketing,
+        'singularname': TTLocalizer.SuitAmushMarketingS,
+        'pluralname': TTLocalizer.SuitAmbushMarketingP,
+        'level': 13,
+        'hp': (,
+               210,
+               240,
+               272,
+               306),
+        'def': (30,
+                35,
+                40,
+                45,
+                50),
+        'freq': (50,
+                 30,
+                 10,
+                 5,
+                 5),
+        'acc': (35,
+                40,
+                45,
+                50,
+                55),
+        'attacks': (('Bite',
+                     (20,
+                      21,
+                      23,
+                      25,
+                      26),
+                     (60,
+                      75,
+                      80,
+                      85,
+                      90),
+                     (30,
+                      30,
+                      30,
+                      30,
+                      30)),
+                    ('Chomp',
+                     (22,
+                      25,
+                      28,
+                      31,
+                      34),
+                     (60,
+                      70,
+                      75,
+                      80,
+                      90),
+                     (35,
+                      35,
+                      35,
+                      35,
+                      35)),
+                    ('PlayHardball',
+                     (19,
+                      21,
+                      22,
+                      23,
+                      25),
+                     (55,
+                      65,
+                      75,
+                      85,
+                      95),
+                     (20,
+                      20,
+                      20,
+                      20,
+                      20)),
+                    ('WriteOff',
+                     (16,
+                      18,
+                      20,
+                      22,
+                      24),
+                     (70,
+                      75,
+                      80,
+                      85,
+                      95),
+                     (15,
+                      15,
+                      15,
+                      15,
+                      15)))}}
+                      
 ATK_TGT_UNKNOWN = 1
 ATK_TGT_SINGLE = 2
 ATK_TGT_GROUP = 3
@@ -3078,7 +3168,7 @@ WITHDRAWAL = SuitAttacks.keys().index('Withdrawal')
 WRITE_OFF = SuitAttacks.keys().index('WriteOff')
 
 def getFaceoffTaunt(suitName, doId, randomChoice = False):
-    if SuitFaceoffTaunts.has_key(suitName):
+    if suitName in SuitFaceoffTaunts:
         taunts = SuitFaceoffTaunts[suitName]
     else:
         taunts = TTLocalizer.SuitFaceoffDefaultTaunts
@@ -3095,7 +3185,7 @@ def getAttackTauntIndexFromIndex(suit, attackIndex):
 
 
 def getAttackTauntIndex(attackName):
-    if SuitAttackTaunts.has_key(attackName):
+    if attackName in SuitAttackTaunts:
         taunts = SuitAttackTaunts[attackName]
         return random.randint(0, len(taunts) - 1)
     else:
@@ -3103,7 +3193,7 @@ def getAttackTauntIndex(attackName):
 
 
 def getAttackTaunt(attackName, index = None):
-    if SuitAttackTaunts.has_key(attackName):
+    if attackName in SuitAttackTaunts:
         taunts = SuitAttackTaunts[attackName]
     else:
         taunts = TTLocalizer.SuitAttackDefaultTaunts
