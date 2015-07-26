@@ -2359,7 +2359,8 @@ SuitDoubleTalker = 'Double Talker'
 SuitAmbulanceChaser = 'Ambulance Chaser'
 SuitBackStabber = 'Back Stabber'
 SuitSpinDoctor = 'Spin Doctor'
-SuitLegalEagle = 'Legal Eagle'
+SuitLegalEagle = 'Legal Eagle
+SuitAmbushMarketing = "Director of Ambush Marketing"
 SuitBigWig = 'Big Wig'
 SuitFlunkyS = 'a Flunky'
 SuitPencilPusherS = 'a Pencil Pusher'
@@ -2385,6 +2386,7 @@ SuitNumberCruncherS = 'a Number Cruncher'
 SuitMoneyBagsS = 'a Money Bags'
 SuitLoanSharkS = 'a Loan Shark'
 SuitRobberBaronS = 'a Robber Baron'
+SuitAmbushMarketingS= "a Director of Ambush Marketing"
 SuitBottomFeederS = 'a Bottom Feeder'
 SuitBloodsuckerS = 'a Bloodsucker'
 SuitDoubleTalkerS = 'a Double Talker'
@@ -9849,7 +9851,8 @@ HolidayNamesInCalendar = {1: ('Summer Fireworks', 'Celebrate Summer with a firew
  98: ('Double Bean Days - Fishing', ''),
  99: ('Jellybean Week', 'Celebrate Jellybean Week with double Jellybean rewards!'),
  101: ("Top Toons New Year's Day Marathon", "Chances to win every hour! See the What's New Blog for details!"),
- 105: ('Toons go GREEN!', 'Toons make a green scene at Green Bean Jeans on Oak Street in Daisy Gardens!')}
+ 105: ('Toons go GREEN!', 'Toons make a green scene at Green Bean Jeans on Oak Street in Daisy Gardens!'),
+ 106: ("Director of Ambush Marketing Invasion", 'The Director of Ambush Marketing is invading toontown stop him!')}
 UnknownHoliday = 'Unknown Holiday %d'
 HolidayFormat = '%b %d '
 TimeZone = 'US/Pacific'
