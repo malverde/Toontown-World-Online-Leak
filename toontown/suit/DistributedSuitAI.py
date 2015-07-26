@@ -281,9 +281,9 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
             self.openToonDoor()
         elif legType == SuitLeg.TToSuitBuilding:
             self.openSuitDoor()
-        elif legType == SuitLeg.TToCogHQ:
+        elif legType == SuitLeg.TToCoghq:
             self.openCogHQDoor(1)
-        elif legType == SuitLeg.TFromCogHQ:
+        elif legType == SuitLeg.TFromCoghq:
             self.openCogHQDoor(0)
 
     def resume(self):

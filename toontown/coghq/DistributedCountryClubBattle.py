@@ -1,19 +1,17 @@
-import random
-
-from direct.directnotify import DirectNotifyGlobal
-from direct.fsm import ClassicFSM, State
-from direct.fsm import State
-from direct.interval.IntervalGlobal import *
-from otp.avatar import Emote
-from toontown.nametag import NametagGlobals
 from pandac.PandaModules import *
-from toontown.battle import SuitBattleGlobals
+from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleBase import *
 from toontown.coghq import DistributedLevelBattle
-from toontown.suit import SuitDNA
+from direct.directnotify import DirectNotifyGlobal
 from toontown.toon import TTEmote
+from otp.avatar import Emote
+from otp.nametag import NametagGlobals
+from toontown.battle import SuitBattleGlobals
+import random
+from toontown.suit import SuitDNA
+from direct.fsm import State
+from direct.fsm import ClassicFSM, State
 from toontown.toonbase import ToontownGlobals
-
 
 class DistributedCountryClubBattle(DistributedLevelBattle.DistributedLevelBattle):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCountryClubBattle')
@@ -31,10 +29,10 @@ class DistributedCountryClubBattle(DistributedLevelBattle.DistributedLevelBattle
         self.disableCollision()
         self.delayDeleteMembers()
         if self.hasLocalToon():
-            NametagGlobals.setWant2dNametags(False)
+            NametagGlobals.setMasterArrowsOn(0)
             if self.bossBattle:
                 messenger.send('localToonConfrontedCountryClubBoss')
-        self.movie.playReward(ts, self.uniqueName('building-reward'), self.__handleCountryClubRewardDone, noSkip=True)
+        self.movie.playReward(ts, self.uniqueName('building-reward'), self.__handleCountryClubRewardDone)
 
     def __handleCountryClubRewardDone(self):
         self.notify.debug('countryClub reward done')
@@ -47,4 +45,4 @@ class DistributedCountryClubBattle(DistributedLevelBattle.DistributedLevelBattle
         self.notify.debug('exitCountryClubReward()')
         self.movie.resetReward(finish=1)
         self._removeMembersKeep()
-        NametagGlobals.setWant2dNametags(True)
+        NametagGlobals.setMasterArrowsOn(1)

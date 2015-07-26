@@ -29,7 +29,6 @@ TCMscButtonPos = (0.204, 0, -0.072)
 TCMscButton = 0.06
 TCMwhisperFrame = 0.06
 TCMwhisperButton = 0.05
-OPmoreOptionsTab = 0.07
 TCMwhisperScButton = 0.05
 TCMunpaidChatWarningWordwrap = 18
 TCMunpaidChatWarning = 0.055

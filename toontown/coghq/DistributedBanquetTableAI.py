@@ -1,9 +1,10 @@
-import random
+from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObjectAI
-from direct.fsm import FSM
 from direct.directnotify import DirectNotifyGlobal
 from toontown.coghq import BanquetTableBase
 from toontown.toonbase import ToontownGlobals
+from direct.fsm import FSM
+import random
 
 class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM, BanquetTableBase.BanquetTableBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBanquetTableAI')
@@ -17,6 +18,7 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
         self.numChairs = 8
         self.dinerStatus = {}
         self.dinerInfo = {}
+        
         for i in xrange(self.numDiners):
             self.dinerStatus[i] = self.INACTIVE
             diffSettings = ToontownGlobals.BossbotBossDifficultySettings[self.boss.battleDifficulty]

@@ -1,60 +1,25 @@
-from panda3d.core import LVector4f, LVector3f, DecalEffect
-import DNAGroup
-import DNAError
-import DNAUtil
+from DNANode import DNANode
+from DNAParser import *
+from panda3d.core import *
 
-class DNACornice(DNAGroup.DNAGroup):
-    COMPONENT_CODE = 12
+class DNACornice(DNANode):
+    TAG = 'cornice'
+    PARENTS = ['wall']
 
-    def __init__(self, name):
-        DNAGroup.DNAGroup.__init__(self, name)
-        self.code = ''
-        self.color = LVector4f(1, 1, 1, 1)
+    def __init__(self, code):
+        DNANode.__init__(self, 'cornice')
 
-    def setCode(self, code):
         self.code = code
 
-    def getCode(self):
-        return self.code
-
-    def setColor(self, color):
-        self.color = color
-
-    def getColor(self):
-        return self.color
-
-    def makeFromDGI(self, dgi):
-        DNAGroup.DNAGroup.makeFromDGI(self, dgi)
-        self.code = DNAUtil.dgiExtractString8(dgi)
-        self.color = DNAUtil.dgiExtractColor(dgi)
-
-    def traverse(self, nodePath, dnaStorage):
-        pParentXScale = nodePath.getParent().getScale().getX()
-        parentZScale = nodePath.getScale().getZ()
-        node = dnaStorage.findNode(self.code)
+    def _makeNode(self, storage, parent):
+        node = storage.findNode(self.code)
         if node is None:
-            raise DNAError.DNAError('DNACornice code %d not found in DNAStorage' % self.code)
-        nodePathA = nodePath.attachNewNode('cornice-internal', 0)
-        node = node.find('**/*_d')
-        np = node.copyTo(nodePathA, 0)
-        np.setPosHprScale(
-            LVector3f(0, 0, 0),
-            LVector3f(0, 0, 0),
-            LVector3f(1, pParentXScale/parentZScale,
-                      pParentXScale/parentZScale))
-        np.setEffect(DecalEffect.make())
-        np.flattenStrong()
-        node = node.getParent().find('**/*_nd')
-        np = node.copyTo(nodePathA, 1)
-        np.setPosHprScale(
-            LVector3f(0, 0, 0),
-            LVector3f(0, 0, 0),
-            LVector3f(1, pParentXScale/parentZScale,
-                      pParentXScale/parentZScale))
-        np.flattenStrong()
-        nodePathA.setPosHprScale(
-            LVector3f(0, 0, node.getScale().getZ()),
-            LVector3f(0, 0, 0),
-            LVector3f(1, 1, 1))
-        nodePathA.setColor(self.color)
-        nodePathA.flattenStrong()
+            raise DNAError('DNACornice uses unknown code %s' % self.code)
+
+        np = node.copyTo(parent)
+        np.setZ(1)
+        np.setDepthOffset(self.DEPTH_OFFSET) # Appear on top of the wall.
+
+        return np
+
+registerElement(DNACornice)

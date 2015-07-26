@@ -10,7 +10,7 @@ from CatalogFlooringItem import getAllFloorings
 from CatalogMouldingItem import getAllMouldings
 from CatalogWainscotingItem import getAllWainscotings
 from CatalogFurnitureItem import getAllFurnitures
-from CatalogFurnitureItem import FLTrunk
+#from CatalogFurnitureItem import FLTrunk
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from otp.otpbase import OTPGlobals
 from direct.directnotify import DirectNotifyGlobal
@@ -349,10 +349,10 @@ class CatalogItemPanel(DirectFrame):
 
     def __handlePurchaseRequest(self):
         if self['item'].replacesExisting() and self['item'].hasExisting():
-            if self['item'].getFlags() & FLTrunk:
-                message = TTLocalizer.CatalogVerifyPurchase % {'item': self['item'].getName(),
-                 'price': self['item'].getPrice(self['type'])}
-            else:
+            #if self['item'].getFlags() & FLTrunk:
+               # message = TTLocalizer.CatalogVerifyPurchase % {'item': self['item'].getName(),
+                # 'price': self['item'].getPrice(self['type'])}
+            #else:
                 message = TTLocalizer.CatalogOnlyOnePurchase % {'old': self['item'].getYourOldDesc(),
                  'item': self['item'].getName(),
                  'price': self['item'].getPrice(self['type'])}

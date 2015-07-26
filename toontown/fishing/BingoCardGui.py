@@ -351,7 +351,7 @@ class BingoCardGui(DirectFrame):
 
     def makeJackpotLights(self, parent):
         self.jpLights = []
-        for nLight in xrange(self.NumLights):
+        for nLight in range(self.NumLights):
             lightName = self.getLightName(nLight, self.Off)
             light = DirectFrame(parent=parent, relief=None, image=self.model.find(lightName), image_hpr=(0, 90, 0))
             self.jpLights.append(light)
@@ -365,7 +365,7 @@ class BingoCardGui(DirectFrame):
 
     def lightSwitch(self, bOn, lightIndex = -1):
         if lightIndex == -1:
-            for nLight in xrange(self.NumLights):
+            for nLight in range(self.NumLights):
                 self.lightSwitch(bOn, nLight)
 
         else:
@@ -391,7 +391,7 @@ class BingoCardGui(DirectFrame):
             nTimeIndex = not nTimeIndex
             delay = 0.5
         elif flashMode == 0:
-            for nLight in xrange(self.NumLights):
+            for nLight in range(self.NumLights):
                 if nLight % 2 == nTimeIndex:
                     self.lightSwitch(self.On, nLight)
                 else:

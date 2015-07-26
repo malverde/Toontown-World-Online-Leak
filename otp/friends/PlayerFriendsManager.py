@@ -98,7 +98,7 @@ class PlayerFriendsManager(DistributedObjectGlobal):
             self.playerFriendsList.add(id)
             self.playerId2Info[id] = info
             messenger.send(OTPGlobals.PlayerFriendAddEvent, [id, info, isNewFriend])
-        elif id in self.playerId2Info:
+        elif self.playerId2Info.has_key(id):
             if not self.playerId2Info[id].onlineYesNo and info.onlineYesNo:
                 self.playerId2Info[id] = info
                 messenger.send('playerOnline', [id])
@@ -175,11 +175,11 @@ class PlayerFriendsManager(DistributedObjectGlobal):
 
     def askAvatarOnline(self, avId):
         returnValue = 0
-        if avId in self.cr.doId2do:
+        if self.cr.doId2do.has_key(avId):
             returnValue = 1
-        if avId in self.playerAvId2avInfo:
+        if self.playerAvId2avInfo.has_key(avId):
             playerId = self.findPlayerIdFromAvId(avId)
-            if playerId in self.playerId2Info:
+            if self.playerId2Info.has_key(playerId):
                 playerInfo = self.playerId2Info[playerId]
                 if playerInfo.onlineYesNo:
                     returnValue = 1
@@ -194,7 +194,7 @@ class PlayerFriendsManager(DistributedObjectGlobal):
         return count
 
     def askTransientFriend(self, avId):
-        if (avId in self.playerAvId2avInfo) and (not base.cr.isAvatarFriend(avId)):
+        if self.playerAvId2avInfo.has_key(avId) and not base.cr.isAvatarFriend(avId):
             return 1
         else:
             return 0
@@ -212,7 +212,7 @@ class PlayerFriendsManager(DistributedObjectGlobal):
         return 0
 
     def askAvatarKnownHere(self, avId):
-        if avId in self.playerAvId2avInfo:
+        if self.playerAvId2avInfo.has_key(avId):
             return 1
         else:
             return 0
@@ -228,8 +228,11 @@ class PlayerFriendsManager(DistributedObjectGlobal):
         messenger.send('friendsListChanged')
 
     def getAvHandleFromId(self, avId):
-        if avId in self.playerAvId2avInfo:
+        if self.playerAvId2avInfo.has_key(avId):
             return self.playerAvId2avInfo[avId]
+        else:
+            return None
+        return None
 
     def identifyFriend(self, avId):
         handle = None
@@ -251,7 +254,7 @@ class PlayerFriendsManager(DistributedObjectGlobal):
         return returnList
 
     def identifyAvatar(self, doId):
-        if doId in base.cr.doId2do:
+        if base.cr.doId2do.has_key(doId):
             return base.cr.doId2do[doId]
         else:
             return self.identifyFriend(doId)

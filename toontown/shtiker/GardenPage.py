@@ -197,7 +197,7 @@ class GardenPage(ShtikerPage.ShtikerPage):
         self.specialsInfo['text'] = GardenGlobals.Specials[entry[0]]['description']
         self.selectedSpecial = type
         specialInfo = GardenGlobals.Specials[entry[0]]
-        if 'useFromShtiker' in specialInfo and specialInfo['useFromShtiker']:
+        if specialInfo.has_key('useFromShtiker') and specialInfo['useFromShtiker']:
             self.useSpecialButton.show()
         else:
             self.useSpecialButton.hide()

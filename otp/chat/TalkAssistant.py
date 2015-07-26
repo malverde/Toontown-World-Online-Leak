@@ -598,13 +598,11 @@ class TalkAssistant(DirectObject.DirectObject):
         # Check if we are a true friend
         if (receiverAvId, True) in base.localAvatar.friendsList:
             base.cr.chatAgent.sendSFWhisperMessage(receiverAvId, message)
-            return None
+            return 
 
         base.cr.chatAgent.sendWhisperMessage(receiverAvId, message)
-        return None
+        return 
 
-
-        base.cr.ttrFriendsManager.sendUpdate('sendTalkWhisper', [receiverAvId, message])
 
     def sendAccountTalk(self, message, receiverAccount):
         error = None

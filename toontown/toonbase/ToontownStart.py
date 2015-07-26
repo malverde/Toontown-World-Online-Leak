@@ -142,3 +142,4 @@ if autoRun:
         from direct.showbase import PythonUtil
         print PythonUtil.describeException()
         raise
+

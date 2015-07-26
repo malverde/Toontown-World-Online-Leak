@@ -20,7 +20,6 @@ class ChatInputTyped(DirectObject.DirectObject):
         self.history = ['']
         self.historySize = config.GetInt('chat-history-size', 10)
         self.historyIndex = 0
-        return
 
     def typeCallback(self, extraArgs):
         self.activate()
@@ -60,7 +59,6 @@ class ChatInputTyped(DirectObject.DirectObject):
         if self.wantHistory:
             self.accept('arrow_up-up', self.getPrevHistory)
             self.accept('arrow_down-up', self.getNextHistory)
-        return
 
     def hide(self):
         self.chatEntry.set('')
@@ -111,11 +109,11 @@ class ChatInputTyped(DirectObject.DirectObject):
                     pass
             elif self.whisperId:
                 pass
-            elif config.GetBool('exec-chat', 0) and text[0] == '>':
-                text = self.__execMessage(text[1:])
-                base.localAvatar.setChatAbsolute(text, CFSpeech | CFTimeout)
-                return
             else:
+                if config.GetBool('exec-chat', 0) and text[0] == '>':
+                    text = self.__execMessage(text[1:])
+                    base.localAvatar.setChatAbsolute(text, CFSpeech | CFTimeout)
+                    return
                 base.talkAssistant.sendOpenTalk(text)
             if self.wantHistory:
                 self.addToHistory(text)

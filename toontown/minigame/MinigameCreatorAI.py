@@ -6,7 +6,6 @@ import DistributedMinigameTemplateAI
 import DistributedRaceGameAI
 import DistributedCannonGameAI
 import DistributedTagGameAI
-#import DistributedPatternGameAI
 import DistributedRingGameAI
 import DistributedMazeGameAI
 import DistributedTugOfWarGameAI
@@ -31,7 +30,7 @@ MinigameZoneRefs = {}
 
 def createMinigame(air, playerArray, trolleyZone, minigameZone = None, previousGameId = ToontownGlobals.NoPreviousGameId, newbieIds = [], startingVotes = None, metagameRound = -1, desiredNextGame = None):
     if minigameZone == None:
-        minigameZone = air.allocateZone()
+        minigameZone = air.allocateZone(owner='MinigameCreatorAI')
     acquireMinigameZone(minigameZone)
     mgId = None
     mgDiff = None
@@ -73,7 +72,6 @@ def createMinigame(air, playerArray, trolleyZone, minigameZone = None, previousG
     mgCtors = {ToontownGlobals.RaceGameId: DistributedRaceGameAI.DistributedRaceGameAI,
      ToontownGlobals.CannonGameId: DistributedCannonGameAI.DistributedCannonGameAI,
      ToontownGlobals.TagGameId: DistributedTagGameAI.DistributedTagGameAI,
-     #ToontownGlobals.PatternGameId: DistributedPatternGameAI.DistributedPatternGameAI,
      ToontownGlobals.RingGameId: DistributedRingGameAI.DistributedRingGameAI,
      ToontownGlobals.MazeGameId: DistributedMazeGameAI.DistributedMazeGameAI,
      ToontownGlobals.TugOfWarGameId: DistributedTugOfWarGameAI.DistributedTugOfWarGameAI,

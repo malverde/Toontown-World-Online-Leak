@@ -290,6 +290,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         from toontown.toon.DistributedNPCToonBaseAI import DistributedNPCToonBaseAI
         if not isinstance(self, DistributedNPCToonBaseAI):
             # Do we want to start the playground toonup tick?
+            self.considerToonUp(zoneId)
+
             # Teleportation access stuff.
             if 100 <= zoneId < ToontownGlobals.DynamicZonesBegin:
                 hood = ZoneUtil.getHoodId(zoneId)
@@ -2813,6 +2815,44 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         taskMgr.remove(self.uniqueName('safeZoneToonUp'))
         self.ignore(self.air.getAvatarExitEvent(self.getDoId()))
 
+    def shouldToonUp(self, zoneId):
+        if zoneId == OTPGlobals.QuietZone:
+            return None
+        if ToontownGlobals.safeZoneCountMap.has_key(ZoneUtil.getBranchZone(zoneId)):
+            return True
+        else:
+            zoneOwner = self.air.zoneId2owner.get(zoneId)
+            if not zoneOwner:
+                return False
+            else:
+                from toontown.racing.DistributedRacePadAI import DistributedRacePadAI
+                from toontown.safezone.DistributedGolfKartAI import DistributedGolfKartAI
+                from DistributedNPCPartyPersonAI import DistributedNPCPartyPersonAI
+                if isinstance(zoneOwner, (DistributedRacePadAI, DistributedGolfKartAI, DistributedNPCPartyPersonAI)):
+                    return True
+                elif zoneOwner in [self.air.estateManager, 'MinigameCreatorAI']:
+                    return True
+                elif config.GetBool('want-parties'):
+                    if zoneOwner in [self.air.partyManager]:
+                        return True
+                else:
+                    return False
+        # Incase for whatever reason we even get to this stage...
+        return False
+
+    def considerToonUp(self, zoneId):
+        if zoneId == OTPGlobals.QuietZone:
+            # Don't consider anything, we're in the QuietZone. Shh!
+            return None
+        if self.shouldToonUp(zoneId):
+            if taskMgr.hasTaskNamed(self.uniqueName('safeZoneToonUp')):
+                # Do nothing, we were already in a safezone!
+                return None
+            self.startToonUp(ToontownGlobals.SafezoneToonupFrequency)
+            return True
+        else:
+            self.stopToonUp()
+            return False
 
     def startToonUp(self, healFrequency):
         self.stopToonUp()
@@ -2823,7 +2863,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         taskMgr.doMethodLater(self.healFrequency, self.toonUpTask, self.uniqueName('safeZoneToonUp'))
 
     def toonUpTask(self, task):
-    	self.toonUp(1)
+        considered = self.considerToonUp(self.zoneId)
+        if not considered and considered is not None:
+            return Task.done
+        self.toonUp(1)
         self.__waitForNextToonUp()
         return Task.done
 
@@ -4556,16 +4599,32 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def magicFanfare(self):
         self.sendUpdate('magicFanfare', [])
 
-    def magicTeleportResponse(self, requesterId, hoodId):
-        toon = self.air.doId2do.get(requesterId)
-        if toon:
-            toon.magicTeleportInitiate(self.getDoId(), hoodId, self.getLocation()[1])
+    def magicTeleportRequest(self, requesterId):
+        self.sendUpdate('magicTeleportResponse', [requesterId, base.cr.playGame.getPlaceId()])
 
-    def magicTeleportInitiate(self, targetId, hoodId, zoneId):
-        if targetId not in self.magicWordTeleportRequests:
-            return
-        self.magicWordTeleportRequests.remove(targetId)
-        self.sendUpdate('magicTeleportInitiate', [hoodId, zoneId])
+    def magicTeleportInitiate(self, hoodId, zoneId):
+        loaderId = ZoneUtil.getBranchLoaderName(zoneId)
+        whereId = ZoneUtil.getToonWhereName(zoneId)
+        # TEMP HACK: Currently assume that the whereId is a boss battle if hoodId = cogHQ
+        # and zoneId is dynamic.
+        if ZoneUtil.isDynamicZone(zoneId) and hoodId in [ToontownGlobals.BossbotHQ, ToontownGlobals.LawbotHQ, ToontownGlobals.CashbotHQ, ToontownGlobals.SellbotHQ]:
+            #whereId = 'cogHQBossBattle'
+            return 'They are in a boss, you cannot teleport to them!'
+        if zoneId in [ToontownGlobals.BossbotLobby, ToontownGlobals.LawbotLobby, ToontownGlobals.CashbotLobby, ToontownGlobals.SellbotLobby, ToontownGlobals.LawbotOfficeExt]:
+            #how = 'walk'
+            return 'They are in a lobby, you cannot teleport to them!'
+        else:
+            how = 'teleportIn'
+        requestStatus = [{
+            'loader': loaderId,
+            'where': whereId,
+            'how': how,
+            'hoodId': hoodId,
+            'zoneId': zoneId,
+            'shardId': None,
+            'avId': -1
+        }]
+        base.cr.playGame.getPlace().fsm.forceTransition('teleportOut', requestStatus)
 
     def setWebAccountId(self, webId):
         self.webAccountId = webId
@@ -5068,28 +5127,6 @@ def setTrophyScore(value):
         return "Cannot have a trophy score below 0."
     spellbook.getTarget().d_setTrophyScore(value)
 
-#V1 GivePies - allows for -1 (unlimited pies)
-@magicWord(category=CATEGORY_SYSADMIN, types=[int, int])
-def v1givePies(pieType, numPies=0):
-    """
-    Give the target (numPies) of (pieType) pies.
-    """
-    target = spellbook.getTarget()
-    if pieType == -1:
-        target.b_setNumPies(0)
-        return "Removed {0}'s pies.".format(target.getName())
-    if pieType == 6:
-        return 'Invalid pie type!'
-    if not 0 <= pieType <= 7:
-        return 'Pie type must be in xrange (0-7).'
-    if not -1 <= numPies <= 99:
-        return 'Pie count out of range (-1-99).'
-    target.b_setPieType(pieType)
-    if numPies >= 0:
-        target.b_setNumPies(numPies)
-    else:
-        target.b_setNumPies(ToontownGlobals.FullPies)
-        
 @magicWord(category=CATEGORY_OVERRIDE, types=[int, int])
 def givePies(pieType, numPies=0):
     """Give target Y number of X pies."""
@@ -5100,7 +5137,7 @@ def givePies(pieType, numPies=0):
     if not 0 <= pieType <= 7:
         return "pieType value out of range (0-7)"
     if not -1 <= numPies <= 99:
-        return "numPies value out of range (-1-99)"
+        return "numPies value out of range (0-99)"
     av.b_setPieType(pieType)
     av.b_setNumPies(numPies)
 
@@ -5166,6 +5203,7 @@ def locate(avIdShort=0, returnType=''):
     if interior:
         return "%s has been located %s %s, inside a building." % (av.getName(), where[1], where[2])
     return "%s has been located %s %s." % (av.getName(), where[1], where[2])
+
 
 @magicWord(category=CATEGORY_MODERATION, types=[int])
 def online(doId):
@@ -5370,7 +5408,7 @@ def goto(avIdShort):
         return "Unable to teleport to target, they are not currently on this district."
     spellbook.getInvoker().magicWordTeleportRequests.append(avId)
     toon.sendUpdate('magicTeleportRequest', [spellbook.getInvoker().getDoId()])
-
+    
 @magicWord(category=CATEGORY_SYSADMIN)
 def dump_doId2do():
     """
@@ -5544,7 +5582,6 @@ def trackBonus(track):
         return 'Invalid track!'
     invoker.b_setTrackBonusLevel(trackBonusLevel)
     return 'Your track bonus level has been set!'
-    
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[str, str])
 def gloves(c1, c2=None):
     target = spellbook.getTarget()
@@ -5727,7 +5764,7 @@ def skipMovie():
     
 
 @magicWord(category=CATEGORY_ADMIN, types=[str, int, int])
-def inventoryv1(a, b=None, c=None):
+def inventory(a, b=None, c=None):
     invoker = spellbook.getInvoker()
     inventory = invoker.inventory
     if a == 'reset':
@@ -5991,7 +6028,7 @@ def dnav1(part, value):
     
 #END OF our Version 1.0 Magic Words
 
-@magicWord(category=CATEGORY_ADMIN, types=[int])
+@magicWord(category=CATEGORY_MODERATION, types=[int])
 def bringTheMadness():
 
      #Applies the Pegboard Nerds Clothes
@@ -6172,3 +6209,4 @@ def allSummons():
     allSummons = numSuits * [fullSetForSuit]
     invoker.b_setCogSummonsEarned(allSummons)
     return 'Lots of summons!'
+

@@ -186,7 +186,7 @@ class DistributedCrate(DistributedCrushableEntity.DistributedCrushableEntity):
             return Task.cont
 
     def getCrateSide(self, crateNormal):
-        for i in xrange(len(CrateNormals)):
+        for i in range(len(CrateNormals)):
             dotP = CrateNormals[i].dot(crateNormal)
             if dotP > 0.9:
                 self.crateSide = i

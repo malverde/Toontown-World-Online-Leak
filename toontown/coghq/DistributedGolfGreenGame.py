@@ -164,9 +164,9 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.controlOffsetX = 0.0
         self.controlOffsetZ = 0.0
         self.grid = []
-        for countX in xrange(0, self.gridDimX):
+        for countX in range(0, self.gridDimX):
             newRow = []
-            for countZ in xrange(self.gridDimZ):
+            for countZ in range(self.gridDimZ):
                 offset = 0
                 margin = self.cellSizeX * 0.4375
                 if countZ % 2 == 0:
@@ -226,19 +226,19 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
 
     def printGrid(self):
         printout = '       '
-        for columnIndex in xrange(self.gridDimX - 1, -1, -1):
+        for columnIndex in range(self.gridDimX - 1, -1, -1):
             if columnIndex < 10:
                 printout += '%s  ' % columnIndex
             else:
                 printout += '%s ' % columnIndex
 
         print printout
-        for rowIndex in xrange(self.gridDimZ - 1, -1, -1):
+        for rowIndex in range(self.gridDimZ - 1, -1, -1):
             if rowIndex < 10:
                 printout = 'row  %s ' % rowIndex
             else:
                 printout = 'row %s ' % rowIndex
-            for columnIndex in xrange(self.gridDimX - 1, -1, -1):
+            for columnIndex in range(self.gridDimX - 1, -1, -1):
                 hasSprite = '_'
                 if self.grid[columnIndex][rowIndex][0]:
                     hasSprite = 'X'
@@ -355,7 +355,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.arrangeToonHeadPanels()
 
     def removeToonHeadPanel(self, avId):
-        if avId in self.toonPanels:
+        if self.toonPanels.has_key(avId):
             self.toonPanels[avId].destroy()
             del self.toonPanels[avId]
             self.arrangeToonHeadPanels()
@@ -428,7 +428,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.isActive = 1
         self.__setCamera()
         self.spriteNode.show()
-        base.setCellsActive([base.bottomCells[1], base.bottomCells[2], base.bottomCells[3]], 0)
+        base.setCellsAvailable([base.bottomCells[1], base.bottomCells[2], base.bottomCells[3]], 0)
         self.setupFlag = 1
 
     def startBoard(self, board, attackPattern):
@@ -553,7 +553,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             sprite.delete()
 
         self.sprites = []
-        if self.spriteNode:
+        if not self.spriteNode.isEmpty():
             self.spriteNode.hide()
         self.controlSprite = None
         self.running = 0
@@ -568,15 +568,15 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.isActive = 0
         if self.standbySprite:
             self.standbySprite.nodeObj.hide()
-        base.setCellsActive([base.bottomCells[1], base.bottomCells[2], base.bottomCells[3]], 1)
+        base.setCellsAvailable([base.bottomCells[1], base.bottomCells[2], base.bottomCells[3]], 1)
         self.sendUpdate('leaveGame', [])
         return
 
     def findGrid(self, x, z, force = 0):
         currentClosest = None
         currentDist = 10000000
-        for countX in xrange(self.gridDimX):
-            for countZ in xrange(self.gridDimZ):
+        for countX in range(self.gridDimX):
+            for countZ in range(self.gridDimZ):
                 testDist = self.testPointDistanceSquare(x, z, self.grid[countX][countZ][1], self.grid[countX][countZ][2])
                 if self.grid[countX][countZ][0] == None and testDist < currentDist and (force or self.hasNeighbor(countX, countZ) != None):
                     currentClosest = self.grid[countX][countZ]
@@ -619,7 +619,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         self.grounded = []
         self.unknown = []
         groundZ = self.gridDimZ - 1
-        for indexX in xrange(0, self.gridDimX):
+        for indexX in range(0, self.gridDimX):
             gridCell = self.grid[indexX][groundZ]
             if gridCell[0]:
                 self.grounded.append((indexX, groundZ))
@@ -1166,8 +1166,8 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         if self.tick > 5:
             self.tick = 0
         sizeSprites = len(self.sprites)
-        for movingSpriteIndex in xrange(len(self.sprites)):
-            for testSpriteIndex in xrange(movingSpriteIndex, len(self.sprites)):
+        for movingSpriteIndex in range(len(self.sprites)):
+            for testSpriteIndex in range(movingSpriteIndex, len(self.sprites)):
                 movingSprite = self.getSprite(movingSpriteIndex)
                 testSprite = self.getSprite(testSpriteIndex)
                 if testSprite and movingSprite:
@@ -1308,7 +1308,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         camera.setH(0)
         camera.setP(-70)
         camera.reparentTo(self.focusPoint)
-        base.camLens.setMinFov(60/(4./3.))
+        base.camLens.setFov(60, 46.8265)
         self.focusPoint.setPos(0, 12, 27)
         self.focusPoint.setH(180)
 
@@ -1415,9 +1415,9 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             panel = self.toonPanels[panelIndex]
             panel.extraData['text'] = TTLocalizer.GolfGreenGamePlayerScore % 0
 
-        for entryIndex in xrange(len(scoreList)):
+        for entryIndex in range(len(scoreList)):
             entry = scoreList[entryIndex]
-            if entry[0] in self.toonPanels:
+            if self.toonPanels.has_key(entry[0]):
                 panel = self.toonPanels[entry[0]]
                 panel.extraData['text'] = TTLocalizer.GolfGreenGamePlayerScore % entry[1]
 
@@ -1470,5 +1470,5 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
             keyList.append(key)
 
         for key in keyList:
-            if key in self.__toonTracks:
+            if self.__toonTracks.has_key(key):
                 self.clearToonTrack(key)

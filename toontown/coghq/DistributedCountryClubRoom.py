@@ -10,7 +10,6 @@ import FactoryEntityCreator
 import CountryClubRoomSpecs
 from otp.level import LevelSpec, LevelConstants
 from toontown.toonbase import TTLocalizer
-from toontown.nametag.NametagGlobals import *
 if __dev__:
     from otp.level import EditorGlobals
 

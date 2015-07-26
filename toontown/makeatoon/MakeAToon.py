@@ -395,11 +395,6 @@ class MakeAToon(StateData.StateData):
         else:
             self.fsm.request('ClothesShop')
 
-    def charSez(self, char, statement, dialogue = None):
-        import pdb
-        pdb.set_trace()
-        char.setChatAbsolute(statement, CFSpeech, dialogue)
-
     def enterInit(self):
         pass
 

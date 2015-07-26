@@ -3,7 +3,7 @@ from direct.distributed import DistributedObject
 import SuitPlannerBase
 from toontown.toonbase import ToontownGlobals
 from otp.ai.MagicWordGlobal import *
-from toontown.dna.DNAParser import DNASuitPoint
+from toontown.dna import *
 
 class DistributedSuitPlanner(DistributedObject.DistributedObject, SuitPlannerBase.SuitPlannerBase):
 

@@ -1,23 +1,21 @@
-from direct.directnotify.DirectNotifyGlobal import directNotify
+from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.toonbase import ToontownGlobals
 from otp.ai.MagicWordGlobal import *
 
-
 class NewsManagerAI(DistributedObjectAI):
-    notify = directNotify.newCategory('NewsManagerAI')
+    notify = DirectNotifyGlobal.directNotify.newCategory("NewsManagerAI")
 
-    def announceGenerate(self):
-        DistributedObjectAI.announceGenerate(self)
+    def __init__(self, air):
+        DistributedObjectAI.__init__(self, air)
+        self.accept('avatarEntered', self.__announceIfInvasion)
 
-        self.accept('avatarEntered', self.__handleAvatarEntered)
-
-    def __handleAvatarEntered(self, avatar):
+    def __announceIfInvasion(self, avatar):
         if self.air.suitInvasionManager.getInvading():
             self.sendUpdateToAvatarId(avatar.getDoId(), 'setInvasionStatus', [
                 ToontownGlobals.SuitInvasionBulletin, self.air.suitInvasionManager.suitName,
                 self.air.suitInvasionManager.numSuits, self.air.suitInvasionManager.specialSuit
-                ])
+            ])
 
     def setPopulation(self, todo0):
         pass
@@ -55,8 +53,8 @@ class NewsManagerAI(DistributedObjectAI):
     def setRoamingTrialerWeekendEnd(self):
         pass
 
-    def setInvasionStatus(self, msgType, cogType, numRemaining, skeleton):
-        self.sendUpdate('setInvasionStatus', args=[msgType, cogType, numRemaining, skeleton])
+    def setInvasionStatus(self, todo0, todo1, todo2, todo3):
+        pass
 
     def setHolidayIdList(self, todo0):
         pass
