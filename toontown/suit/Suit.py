@@ -153,7 +153,9 @@ bw = (('finger-wag', 'fingerwag', 5),
  ('gavel', 'gavel', 8),
  ('magic1', 'magic1', 5),
  ('throw-object', 'throw-object', 5),
- ('throw-paper', 'throw-paper', 5))
+ ('throw-paper', 'throw-paper', 5)),
+ 
+md = (('throw-paper', 'throw-paper', 5), ('throw-object', 'throw-object', 5), ('hold-pencil', 'hold-pencil', 5))
 if not base.config.GetBool('want-new-cogs', 0):
     ModelDict = {'a': ('/models/char/suitA-', 4),
      'b': ('/models/char/suitB-', 4),
