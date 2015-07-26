@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogToonStatueItem
 import CatalogGardenItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -31,7 +32,6 @@ class CatalogToonStatueItem(CatalogGardenItem.CatalogGardenItem):
         self.pictureToonStatue.deleteToon()
         self.pictureToonStatue = None
         CatalogGardenItem.CatalogGardenItem.cleanupPicture(self)
-        return
 
     def decodeDatagram(self, di, versionNumber, store):
         CatalogGardenItem.CatalogGardenItem.decodeDatagram(self, di, versionNumber, store)

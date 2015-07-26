@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogItemTypes
 import CatalogFurnitureItem
 import CatalogChatItem
 import CatalogClothingItem

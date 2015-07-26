@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogWainscotingItem
 from CatalogSurfaceItem import *
 WSTTextureName = 0
 WSTColor = 1
@@ -80,7 +81,6 @@ class CatalogWainscotingItem(CatalogSurfaceItem):
                 return CT_WHITE
         else:
             return CT_WHITE
-        return
 
     def decodeDatagram(self, di, versionNumber, store):
         CatalogAtticItem.CatalogAtticItem.decodeDatagram(self, di, versionNumber, store)

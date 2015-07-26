@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogGardenItem
 import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -45,8 +46,7 @@ class CatalogGardenItem(CatalogItem.CatalogItem):
     def recordPurchase(self, avatar, optional):
         if avatar:
             avatar.addGardenItem(self.gardenIndex, self.numItems)
-        if 1:
-            return ToontownGlobals.P_ItemAvailable
+        return ToontownGlobals.P_ItemAvailable
 
     def getPicture(self, avatar):
         photoModel = GardenGlobals.Specials[self.gardenIndex]['photoModel']
@@ -75,13 +75,11 @@ class CatalogGardenItem(CatalogItem.CatalogItem):
             self.model.setScale(photoScale)
             self.hasPicture = True
             return (frame, None)
-        return None
 
     def cleanupPicture(self):
         CatalogItem.CatalogItem.cleanupPicture(self)
         self.model.detachNode()
         self.model = None
-        return
 
     def output(self, store = -1):
         return 'CatalogGardenItem(%s%s)' % (self.gardenIndex, self.formatOptionalData(store))
@@ -125,7 +123,7 @@ class CatalogGardenItem(CatalogItem.CatalogItem):
 
     def getDeliveryTime(self):
         if self.gardenIndex == GardenGlobals.GardenAcceleratorSpecial:
-            return 24 * 60
+            return 1
         else:
             return 0
 

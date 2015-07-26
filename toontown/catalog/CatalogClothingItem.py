@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogClothingItem
 import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -17,8 +18,7 @@ ABoysShorts = 3
 AGirlsShorts = 4
 AGirlsSkirt = 5
 AShorts = 6
-ClothingTypes = {
- 101: (ABoysShirt, 'bss1', 40),
+ClothingTypes = {101: (ABoysShirt, 'bss1', 40),
  102: (ABoysShirt, 'bss2', 40),
  103: (ABoysShirt, 'bss3', 40),
  105: (ABoysShirt, 'bss4', 40),
@@ -291,7 +291,12 @@ ClothingTypes = {
  1817: (AGirlsSkirt, 'sa_gs19', 5000),
  1818: (AGirlsSkirt, 'sa_gs20', 5000),
  1819: (AGirlsSkirt, 'sa_gs21', 5000),
- 1820: (AShirt, 'sa_ss55', 5000)}
+ 1820: (AShirt, 'sa_ss55', 5000),
+ 2001: (AShirt, 'ttr_a_fl', 5000),
+ 2002: (AShirt, 'ttr_a_sl', 5000),
+ 2003: (AShirt, 'toonfest', 5000),
+ 2004: (ABoysShorts, 'toonfest_b', 5000),
+ 2005: (AGirlsSkirt, 'toonfest_g', 5000)}
 LoyaltyClothingItems = (1600,
  1601,
  1602,
@@ -317,10 +322,10 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         article = ClothingTypes[self.clothingType][CTArticle]
         if article == AShirt or article == AShorts:
             return 0
-        forBoys = (article == ABoysShirt or article == ABoysShorts)
-        if avatar.getStyle().getGender() == 'm':
-            return not forBoys
         else:
+            forBoys = article == ABoysShirt or article == ABoysShorts
+            if avatar.getStyle().getGender() == 'm':
+                return not forBoys
             return forBoys
 
     def forBoysOnly(self):
@@ -523,14 +528,13 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
             defn = ToonDNA.ShirtStyles[str]
             topTex = defn[0]
             return ToonDNA.Shirts[topTex]
+        defn = ToonDNA.BottomStyles[str]
+        botTex = defn[0]
+        article = ClothingTypes[self.clothingType][CTArticle]
+        if article == ABoysShorts:
+            return ToonDNA.BoyShorts[botTex]
         else:
-            defn = ToonDNA.BottomStyles[str]
-            botTex = defn[0]
-            article = ClothingTypes[self.clothingType][CTArticle]
-            if article == ABoysShorts:
-                return ToonDNA.BoyShorts[botTex]
-            else:
-                return ToonDNA.GirlBottoms[botTex][0]
+            return ToonDNA.GirlBottoms[botTex][0]
 
     def getColor(self):
         str = ClothingTypes[self.clothingType][CTString]
@@ -584,7 +588,7 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
     def isGift(self):
         if self.getEmblemPrices():
             return 0
-        if self.loyaltyRequirement() > 0:
+        elif self.loyaltyRequirement() > 0:
             return 0
         elif self.clothingType in LoyaltyClothingItems:
             return 0

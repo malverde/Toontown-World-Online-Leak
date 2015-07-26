@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogChatItemPicker
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from direct.showbase import DirectObject
@@ -25,10 +26,7 @@ class CatalogChatItemPicker(DirectObject.DirectObject):
          gui.find('**/FndsLst_ScrollUp')), incButton_relief=None, incButton_scale=(1.3, 1.3, -1.3), incButton_pos=(0, 0, -0.5), incButton_image3_color=Vec4(1, 1, 1, 0.2), decButton_image=(gui.find('**/FndsLst_ScrollUp'),
          gui.find('**/FndsLst_ScrollDN'),
          gui.find('**/FndsLst_ScrollUp_Rllvr'),
-         gui.find('**/FndsLst_ScrollUp')), decButton_relief=None, decButton_scale=(1.3, 1.3, 1.3), decButton_pos=(0, 0, 0.5), decButton_image3_color=Vec4(1, 1, 1, 0.2), itemFrame_pos=(0, 0, 0.39), itemFrame_scale=1.0, itemFrame_relief=DGG.SUNKEN, itemFrame_frameSize=(-0.55,
-         0.55,
-         -0.85,
-         0.06), itemFrame_frameColor=(0.85, 0.95, 1, 1), itemFrame_borderWidth=(0.01, 0.01), itemMakeFunction=self.makeMessageButton, itemMakeExtraArgs=[base.localAvatar.customMessages], numItemsVisible=NUM_ITEMS_SHOWN, items=msgStrings)
+         gui.find('**/FndsLst_ScrollUp')), decButton_relief=None, decButton_scale=(1.3, 1.3, 1.3), decButton_pos=(0, 0, 0.5), decButton_image3_color=Vec4(1, 1, 1, 0.2), itemFrame_pos=(0, 0, 0.39), itemFrame_scale=1.0, itemFrame_relief=DGG.SUNKEN, itemFrame_frameSize=(-0.55, 0.55, -0.85, 0.06), itemFrame_frameColor=(0.85, 0.95, 1, 1), itemFrame_borderWidth=(0.01, 0.01), itemMakeFunction=self.makeMessageButton, itemMakeExtraArgs=[base.localAvatar.customMessages], numItemsVisible=NUM_ITEMS_SHOWN, items=msgStrings)
         clipper = PlaneNode('clipper')
         clipper.setPlane(Plane(Vec3(-1, 0, 0), Point3(0.55, 0, 0)))
         clipNP = self.picker.attachNewNode(clipper)
@@ -40,7 +38,6 @@ class CatalogChatItemPicker(DirectObject.DirectObject):
         rolloverButton = buttonModels.find('**/InventoryButtonRollover')
         exitButton = DirectButton(parent=self.panel, relief=None, pos=(0, 0, -0.7), text=TTLocalizer.MessagePickerCancel, text_scale=TTLocalizer.CCIPexitButton, text_pos=(-0.005, -0.01), text_fg=Vec4(1, 1, 1, 1), textMayChange=0, image=(upButton, downButton, rolloverButton), image_scale=1.1, image_color=(0, 0.6, 1, 1), command=self.__handleCancel)
         buttonModels.removeNode()
-        return
 
     def hide(self):
         base.transitions.noTransitions()
@@ -61,7 +58,6 @@ class CatalogChatItemPicker(DirectObject.DirectObject):
             self.confirmDelete.cleanup()
             del self.confirmDelete
             self.confirmDelete = None
-        return
 
     def makeMessageButton(self, name, number, *extraArgs):
         msg = extraArgs[0][0][number]
@@ -88,4 +84,3 @@ class CatalogChatItemPicker(DirectObject.DirectObject):
             self.doneCallback('pick', base.localAvatar.customMessages.index(msg))
         else:
             self.show()
-        return
