@@ -1,3 +1,4 @@
+#Embedded file name: toontown.pets.DistributedPetProxy
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.pets import PetTraits

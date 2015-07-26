@@ -13,7 +13,6 @@ from toontown.hood import MMHood
 from toontown.hood import BRHood
 from toontown.hood import DGHood
 from toontown.hood import DLHood
-from toontown.hood import TFHood
 from toontown.hood import GSHood
 from toontown.hood import OZHood
 from toontown.hood import GZHood
@@ -26,7 +25,7 @@ from toontown.hood import EstateHood
 from toontown.hood import PartyHood
 from toontown.toonbase import TTLocalizer
 from toontown.parties.PartyGlobals import GoToPartyStatus
-from toontown.dna.DNAParser import *
+from toontown.dna.DNAStorage import DNAStorage
 
 class PlayGame(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('PlayGame')
@@ -36,7 +35,6 @@ class PlayGame(StateData.StateData):
      ToontownGlobals.MinniesMelodyland: MMHood.MMHood,
      ToontownGlobals.DaisyGardens: DGHood.DGHood,
      ToontownGlobals.DonaldsDreamland: DLHood.DLHood,
-     ToontownGlobals.FunnyFarm: TFHood.TFHood,
      ToontownGlobals.GoofySpeedway: GSHood.GSHood,
      ToontownGlobals.OutdoorZone: OZHood.OZHood,
      ToontownGlobals.Tutorial: TutorialHood.TutorialHood,
@@ -52,8 +50,7 @@ class PlayGame(StateData.StateData):
      ToontownGlobals.TheBrrrgh: 'BRHood',
      ToontownGlobals.MinniesMelodyland: 'MMHood',
      ToontownGlobals.DaisyGardens: 'DGHood',
-     ToontownGlobals.DonaldsDreamland: 'DLHood',
-     ToontownGlobals.FunnyFarm: 'TFHood',                
+     ToontownGlobals.DonaldsDreamland: 'DLHood',                
      ToontownGlobals.GoofySpeedway: 'GSHood',
      ToontownGlobals.OutdoorZone: 'OZHood',
      ToontownGlobals.Tutorial: 'TutorialHood',
@@ -75,7 +72,6 @@ class PlayGame(StateData.StateData):
           'MMHood',
           'DGHood',
           'DLHood',
-          'TFHood',
           'GSHood',
           'OZHood',
           'GZHood',
@@ -91,8 +87,7 @@ class PlayGame(StateData.StateData):
          State.State('BRHood', self.enterBRHood, self.exitBRHood, ['quietZone']),
          State.State('MMHood', self.enterMMHood, self.exitMMHood, ['quietZone']),
          State.State('DGHood', self.enterDGHood, self.exitDGHood, ['quietZone']),
-         State.State('DLHood', self.enterDLHood, self.exitDLHood, ['quietZone']),
-         State.State('TFHood', self.enterTFHood, self.exitTFHood, ['quietZone']),                                                      
+         State.State('DLHood', self.enterDLHood, self.exitDLHood, ['quietZone']),                                                      
          State.State('GSHood', self.enterGSHood, self.exitGSHood, ['quietZone']),
          State.State('OZHood', self.enterOZHood, self.exitOZHood, ['quietZone']),
          State.State('GZHood', self.enterGZHood, self.exitGZHood, ['quietZone']),
@@ -148,23 +143,27 @@ class PlayGame(StateData.StateData):
 
     def loadDnaStoreTutorial(self):
         self.dnaStore = DNAStorage()
-        files = ('phase_3.5/dna/storage_tutorial.pdna', 'phase_3.5/dna/storage_interior.pdna')
-        dnaBulk = DNABulkLoader(self.dnaStore, files)
-        dnaBulk.loadDNAFiles()
+
+        tree = loader.loadDNA('phase_3.5/dna/storage_tutorial.xml').store(self.dnaStore)
+
+        tree = loader.loadDNA('phase_3.5/dna/storage_interior.xml').store(self.dnaStore)
 
     def loadDnaStore(self):
         if not hasattr(self, 'dnaStore'):
             self.dnaStore = DNAStorage()
-            files = ('phase_4/dna/storage.pdna', 'phase_3.5/dna/storage_interior.pdna')
-            dnaBulk = DNABulkLoader(self.dnaStore, files)
-            dnaBulk.loadDNAFiles()
-            self.dnaStore.storeFont('humanist', ToontownGlobals.getInterfaceFont())
-            self.dnaStore.storeFont('mickey', ToontownGlobals.getSignFont())
-            self.dnaStore.storeFont('suit', ToontownGlobals.getSuitFont())
+
+            loader.loadDNA('phase_4/dna/storage.xml').store(self.dnaStore)
+
+            self.dnaStore.storeFont(ToontownGlobals.getInterfaceFont(), 'humanist')
+            self.dnaStore.storeFont(ToontownGlobals.getSignFont(), 'mickey')
+            self.dnaStore.storeFont(ToontownGlobals.getSuitFont(), 'suit')
+
+            loader.loadDNA('phase_3.5/dna/storage_interior.xml').store(self.dnaStore)
 
     def unloadDnaStore(self):
         if hasattr(self, 'dnaStore'):
-            self.dnaStore.cleanup()
+            #self.dnaStore.resetNodes()
+            #self.dnaStore.resetTextures()
             del self.dnaStore
             ModelPool.garbageCollect()
             TexturePool.garbageCollect()
@@ -176,7 +175,7 @@ class PlayGame(StateData.StateData):
             self.hood.exit()
             self.hood.unload()
             self.hood = None
-        base.cr.cache.flush()
+        return
 
     def enterStart(self):
         pass
@@ -346,13 +345,6 @@ class PlayGame(StateData.StateData):
         self.hood.enter(requestStatus)
 
     def exitDLHood(self):
-        self._destroyHood()
-
-    def enterTFHood(self, requestStatus):
-        self.accept(self.hoodDoneEvent, self.handleHoodDone)
-        self.hood.enter(requestStatus)
-
-    def exitTFHood(self):
         self._destroyHood()
 
     def enterGSHood(self, requestStatus):

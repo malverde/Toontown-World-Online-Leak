@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.Wake
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleProps import globalPropPool
@@ -19,7 +20,6 @@ class Wake(NodePath):
         self.doLaters = [None] * 20
         self.trackId = Wake.wakeCount
         Wake.wakeCount += 1
-        return
 
     def createRipple(self, zPos, rate = 1.0, startFrame = 0):
         ripple = self.ripples.copyTo(self)
@@ -33,7 +33,6 @@ class Wake(NodePath):
 
         def clearDoLaterList(rippleCount):
             self.doLaters[rippleCount] = None
-            return
 
         def destroyRipple(task):
             ripple.removeNode()
@@ -47,8 +46,6 @@ class Wake(NodePath):
             if self.doLaters[i]:
                 taskMgr.remove(self.doLaters[i])
                 self.doLaters[i] = None
-
-        return
 
     def destroy(self):
         self.stop()
@@ -89,7 +86,6 @@ class WakeSequence(NodePath):
         Wake.wakeCount += 1
         self.setBin('fixed', 10, 1)
         self.hide()
-        return
 
     def createTracks(self, rate = 1):
         self.stop()
@@ -134,4 +130,3 @@ class WakeSequence(NodePath):
         self.stop()
         self.tracks = None
         self.removeNode()
-        return

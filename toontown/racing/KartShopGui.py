@@ -256,7 +256,7 @@ class KartShopGuiMgr(object, DirectObject.DirectObject):
                 pressEffect=False,
                 command=lambda : messenger.send(doneEvent, [RK_OPTIONS.ReturnKart]))
             oldDNA = list(base.localAvatar.getKartDNA())
-            for d in xrange(len(oldDNA)):
+            for d in range(len(oldDNA)):
                 if d == KartDNA.bodyType:
                     continue
                 else:
@@ -610,7 +610,7 @@ class KartShopGuiMgr(object, DirectObject.DirectObject):
                     self.arrowLeftButton['state'] = DGG.NORMAL
                 curDNA = None
                 curDNA = list(base.localAvatar.getKartDNA())
-                for d in xrange(len(curDNA)):
+                for d in range(len(curDNA)):
                     if d == KartDNA.bodyType or d == KartDNA.accColor or d == KartDNA.bodyColor:
                         continue
                     else:

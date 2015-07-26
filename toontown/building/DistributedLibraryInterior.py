@@ -1,8 +1,7 @@
 from direct.distributed.DistributedObject import DistributedObject
 import random
-
 from toontown.building import  ToonInteriorColors
-from toontown.dna.DNAParser import DNADoor
+from toontown.dna import DNADoor
 from toontown.hood import ZoneUtil
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 
@@ -71,3 +70,4 @@ class DistributedLibraryInterior(DistributedObject):
                 hoodId = ZoneUtil.getCanonicalHoodId(self.zoneId)
                 colors = ToonInteriorColors.colors[hoodId]
                 _nodePath.setColorScale(generator.choice(colors[category]))
+

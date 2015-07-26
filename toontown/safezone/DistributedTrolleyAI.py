@@ -1,298 +1,188 @@
-from TrolleyConstants import *
-from direct.directnotify.DirectNotifyGlobal import *
-from direct.distributed import DistributedObjectAI
+from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
-from direct.fsm import ClassicFSM, State
-from direct.fsm import State
-from direct.task import Task
-from otp.ai.AIBase import *
-from toontown.minigame import MinigameCreatorAI
-from toontown.minigame import TrolleyHolidayMgrAI
-from toontown.minigame import TrolleyWeekendMgrAI
+from direct.fsm.FSM import FSM
+from direct.distributed.DistributedObjectAI import DistributedObjectAI
+from TrolleyConstants import *
+from toontown.minigame.MinigameCreatorAI import *
 from toontown.quest import Quests
-from toontown.toonbase.ToontownGlobals import *
+from otp.ai.MagicWordGlobal import *
 
+doesntWantTrolleyTracks = {}
 
-class DistributedTrolleyAI(DistributedObjectAI.DistributedObjectAI):
-    notify = directNotify.newCategory('DistributedTrolleyAI')
+class DistributedTrolleyAI(DistributedObjectAI, FSM):
+    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedTrolleyAI")
 
     def __init__(self, air):
-        DistributedObjectAI.DistributedObjectAI.__init__(self, air)
-        self.seats = [None, None, None, None]
-        self.accepting = 0
-        self.trolleyCountdownTime = simbase.config.GetFloat('trolley-countdown-time', TROLLEY_COUNTDOWN_TIME)
-        self.fsm = ClassicFSM.ClassicFSM(
-            'DistributedTrolleyAI',
-            [
-                State.State('off', self.enterOff, self.exitOff,
-                            ['entering']),
-                State.State('entering', self.enterEntering, self.exitEntering,
-                            ['waitEmpty']),
-                State.State('waitEmpty', self.enterWaitEmpty, self.exitWaitEmpty,
-                            ['waitCountdown']),
-                State.State('waitCountdown', self.enterWaitCountdown, self.exitWaitCountdown,
-                            ['waitEmpty', 'allAboard']),
-                State.State('allAboard', self.enterAllAboard, self.exitAllAboard,
-                            ['leaving', 'waitEmpty']),
-                State.State('leaving', self.enterLeaving, self.exitLeaving,
-                            ['entering'])
-            ], 'off', 'off')
-        self.fsm.enterInitialState()
+        DistributedObjectAI.__init__(self, air)
+        FSM.__init__(self, 'DistributedTrolleyAI')
 
-    def delete(self):
-        self.fsm.requestFinalState()
-        del self.fsm
-        DistributedObjectAI.DistributedObjectAI.delete(self)
+        self.trolleyCountdownTime = config.GetFloat('trolley-countdown-time', TROLLEY_COUNTDOWN_TIME)
 
-    def findAvailableSeat(self):
-        for i in xrange(len(self.seats)):
-            if self.seats[i] is None:
-                return i
+        self.slots = [None, None, None, None]
+        self.boardable = False
 
-    def findAvatar(self, avId):
-        for i in xrange(len(self.seats)):
-            if self.seats[i] == avId:
-                return i
+    def announceGenerate(self):
+        self.b_setState('WaitEmpty')
 
-    def countFullSeats(self):
-        avCounter = 0
-        for i in self.seats:
-            if i:
-                avCounter += 1
-        return avCounter
-
-    def rejectingBoardersHandler(self, avId):
-        self.rejectBoarder(avId)
-
-    def rejectBoarder(self, avId):
-        self.sendUpdateToAvatarId(avId, 'rejectBoard', [avId])
-
-    def acceptingBoardersHandler(self, avId):
-        self.notify.debug('acceptingBoardersHandler')
-        seatIndex = self.findAvailableSeat()
-        if seatIndex == None:
-            self.rejectBoarder(avId)
-        else:
-            self.acceptBoarder(avId, seatIndex)
-
-    def acceptBoarder(self, avId, seatIndex):
-        self.notify.debug('acceptBoarder')
-        if self.findAvatar(avId) is not None:
-            return
-        self.seats[seatIndex] = avId
-        self.acceptOnce(self.air.getAvatarExitEvent(avId), self.__handleUnexpectedExit, extraArgs=[avId])
-        self.timeOfBoarding = globalClock.getRealTime()
-        self.sendUpdate('fillSlot' + str(seatIndex), [avId])
-        self.waitCountdown()
-
-    def __handleUnexpectedExit(self, avId):
-        self.notify.warning('Avatar: ' + str(avId) + ' has exited unexpectedly')
-        seatIndex = self.findAvatar(avId)
-        if seatIndex is None:
-            return
-        self.clearFullNow(seatIndex)
-        self.clearEmptyNow(seatIndex)
-        if self.countFullSeats() == 0:
-            self.waitEmpty()
-
-    def rejectingExitersHandler(self, avId):
-        self.rejectExiter(avId)
-
-    def rejectExiter(self, avId):
-        pass
-
-    def acceptingExitersHandler(self, avId):
-        self.acceptExiter(avId)
-
-    def acceptExiter(self, avId):
-        seatIndex = self.findAvatar(avId)
-        if seatIndex is None:
-            return
-        self.clearFullNow(seatIndex)
-        self.sendUpdate('emptySlot' + str(seatIndex), [
-            avId,
-            globalClockDelta.getRealNetworkTime()])
-        if self.countFullSeats() == 0:
-            self.waitEmpty()
-        taskMgr.doMethodLater(TOON_EXIT_TIME, self.clearEmptyNow, self.uniqueName('clearEmpty-%s' % seatIndex), extraArgs = (seatIndex,))
-
-    def clearEmptyNow(self, seatIndex):
-        self.sendUpdate('emptySlot' + str(seatIndex), [0, globalClockDelta.getRealNetworkTime()])
-
-    def clearFullNow(self, seatIndex):
-        avId = self.seats[seatIndex]
-        if avId == 0:
-            self.notify.warning('Clearing an empty seat index: ' + str(seatIndex) + ' ... Strange...')
-        else:
-            self.seats[seatIndex] = None
-            self.sendUpdate('fillSlot' + str(seatIndex), [0])
-            self.ignore(self.air.getAvatarExitEvent(avId))
+    def setState(self, state):
+        self.request(state)
 
     def d_setState(self, state):
+        state = state[:1].lower() + state[1:]
         self.sendUpdate('setState', [state, globalClockDelta.getRealNetworkTime()])
 
-    def getState(self):
-        return self.fsm.getCurrentState().getName()
-
-    def requestBoard(self, *args):
-        self.notify.debug('requestBoard')
-        avId = self.air.getAvatarIdFromSender()
-        if self.findAvatar(avId) != None:
-            self.notify.warning('Ignoring multiple requests from %s to board.' % avId)
-            return
-        av = self.air.doId2do.get(avId)
-        if av:
-            newArgs = (avId,) + args
-            if (av.hp > 0) and self.accepting:
-                self.acceptingBoardersHandler(*newArgs)
-            else:
-                self.rejectingBoardersHandler(*newArgs)
-        else:
-            self.notify.warning('avid: %s does not exist, but tried to board a trolley' % avId)
-
-    def requestExit(self, *args):
-        self.notify.debug('requestExit')
-        avId = self.air.getAvatarIdFromSender()
-        av = self.air.doId2do.get(avId)
-        if av:
-            newArgs = (avId,) + args
-            if self.accepting:
-                self.acceptingExitersHandler(*newArgs)
-            else:
-                self.rejectingExitersHandler(*newArgs)
-        else:
-            self.notify.warning('avId: %s does not exist, but tried to exit a trolley' % avId)
-
-    def start(self):
-        self.enter()
-
-    def enterOff(self):
-        self.accepting = 0
-        if hasattr(self, 'doId'):
-            for seatIndex in xrange(4):
-                taskMgr.remove(self.uniqueName('clearEmpty-' + str(seatIndex)))
-
-    def exitOff(self):
-        self.accepting = 0
-
-    def enter(self):
-        self.fsm.request('entering')
-
-    def enterEntering(self):
-        self.d_setState('entering')
-        self.accepting = 0
-        self.seats = [None, None, None, None]
-        taskMgr.doMethodLater(TROLLEY_ENTER_TIME, self.waitEmptyTask, self.uniqueName('entering-timer'))
-
-    def exitEntering(self):
-        self.accepting = 0
-        taskMgr.remove(self.uniqueName('entering-timer'))
-
-    def waitEmptyTask(self, task):
-        self.waitEmpty()
-        return Task.done
-
-    def waitEmpty(self):
-        self.fsm.request('waitEmpty')
+    def b_setState(self, state):
+        self.setState(state)
+        self.d_setState(state)
 
     def enterWaitEmpty(self):
-        self.d_setState('waitEmpty')
-        self.accepting = 1
+        self.boardable = True
 
     def exitWaitEmpty(self):
-        self.accepting = 0
-
-    def waitCountdown(self):
-        self.fsm.request('waitCountdown')
+        self.boardable = False
 
     def enterWaitCountdown(self):
-        self.d_setState('waitCountdown')
-        self.accepting = 1
-        taskMgr.doMethodLater(self.trolleyCountdownTime, self.timeToGoTask, self.uniqueName('countdown-timer'))
+        self.boardable = True
+        self.departureTask = taskMgr.doMethodLater(self.trolleyCountdownTime, self.__depart, 'trolleyDepartureTask')
 
-    def timeToGoTask(self, task):
-        if self.countFullSeats() > 0:
-            self.allAboard()
-        else:
-            self.waitEmpty()
-        return Task.done
+    def __depart(self, task):
+        self.b_setState('Leaving')
+        return task.done
 
     def exitWaitCountdown(self):
-        self.accepting = 0
-        taskMgr.remove(self.uniqueName('countdown-timer'))
-
-    def allAboard(self):
-        self.fsm.request('allAboard')
-
-    def enterAllAboard(self):
-        self.accepting = 0
-        currentTime = globalClock.getRealTime()
-        elapsedTime = currentTime - self.timeOfBoarding
-        self.notify.debug('elapsed time: ' + str(elapsedTime))
-        waitTime = max(TOON_BOARD_TIME - elapsedTime, 0)
-        taskMgr.doMethodLater(waitTime, self.leaveTask, self.uniqueName('waitForAllAboard'))
-
-    def exitAllAboard(self):
-        self.accepting = 0
-        taskMgr.remove(self.uniqueName('waitForAllAboard'))
-
-    def leaveTask(self, task):
-        if self.countFullSeats() > 0:
-            self.leave()
-        else:
-            self.waitEmpty()
-        return Task.done
-
-    def leave(self):
-        self.fsm.request('leaving')
+        taskMgr.remove(self.departureTask)
+        self.boardable = False
 
     def enterLeaving(self):
-        self.d_setState('leaving')
-        self.accepting = 0
-        taskMgr.doMethodLater(TROLLEY_EXIT_TIME, self.trolleyLeftTask, self.uniqueName('leaving-timer'))
+        self.leavingTask = taskMgr.doMethodLater(TROLLEY_EXIT_TIME, self.__activateMinigame, 'trolleyLeaveTask')
 
-    def trolleyLeftTask(self, task):
-        self.trolleyLeft()
-        return Task.done
+    def isNewbie(self, avId):
+        # Does avId have the "ride the Trolley" quest?
+        toon = self.air.doId2do.get(avId)
+        if not toon:
+            return False
 
-    def trolleyLeft(self):
-        numPlayers = self.countFullSeats()
-        if numPlayers > 0:
+        return Quests.avatarHasTrolleyQuest(toon)
+
+    def __activateMinigame(self, task):
+        players = [player for player in self.slots if player is not None]
+
+        if players:
+            # If all players disconnected while the trolley was departing, the
+            # players array would be empty. Therefore, we should only attempt
+            # to create a minigame if there are still players.
+
             newbieIds = []
-            for avId in self.seats:
-                if avId:
-                    toon = self.air.doId2do.get(avId)
-                    if toon:
-                        if Quests.avatarHasTrolleyQuest(toon):
-                            if not Quests.avatarHasCompletedTrolleyQuest(toon):
-                                newbieIds.append(avId)
-            playerArray = []
-            for i in self.seats:
-                if i not in [None, 0]:
-                    playerArray.append(i)
-            startingVotes = None
-            metagameRound = -1
-            trolleyGoesToMetagame = simbase.config.GetBool('want-travel-game', 0)
-            trolleyHoliday = bboard.get(TrolleyHolidayMgrAI.TrolleyHolidayMgrAI.PostName)
-            trolleyWeekend = bboard.get(TrolleyWeekendMgrAI.TrolleyWeekendMgrAI.PostName)
-            if trolleyGoesToMetagame and (trolleyHoliday or trolleyWeekend):
-                metagameRound = 0
-                if len(playerArray) == 1:
-                    metagameRound = -1
-            mgDict = MinigameCreatorAI.createMinigame(
-                self.air, playerArray, self.zoneId, newbieIds=newbieIds,
-                startingVotes=startingVotes, metagameRound=metagameRound)
-            minigameZone = mgDict['minigameZone']
-            minigameId = mgDict['minigameId']
-            for seatIndex in xrange(len(self.seats)):
-                avId = self.seats[seatIndex]
-                if avId:
-                    self.sendUpdateToAvatarId(avId, 'setMinigameZone', [minigameZone, minigameId])
-                    self.clearFullNow(seatIndex)
-        else:
-            self.notify.warning('The trolley left, but was empty.')
-        self.enter()
+
+            for avId in players:
+            #    noTravel = doesntWantTrolleyTracks.get(avId)
+            #    aiNoTravel = doesntWantTrolleyTracks.get('everyone')
+
+                if self.isNewbie(avId):
+                    newbieIds.append(avId)
+
+            #if len(players) > 1 and not noTravel and not aiNoTravel:
+            #    mg = createMinigame(self.air, players, self.zoneId, metagameRound=0) #TODO: use holiday manager instead of this hardcoded shit
+            #else:
+                mg = createMinigame(self.air, players, self.zoneId, newbieIds=newbieIds)
+            for player in players:
+                self.sendUpdateToAvatarId(player, 'setMinigameZone', [mg['minigameZone'], mg['minigameId']])
+                self.removeFromTrolley(player)
+
+        self.b_setState('Entering')
+        return task.done
 
     def exitLeaving(self):
-        self.accepting = 0
-        taskMgr.remove(self.uniqueName('leaving-timer'))
+        taskMgr.remove(self.leavingTask)
+
+    def enterEntering(self):
+        self.enteringTask = taskMgr.doMethodLater(TROLLEY_ENTER_TIME, self.__doneEntering, 'trolleyEnterTask')
+
+    def __doneEntering(self, task):
+        self.b_setState('WaitEmpty')
+        return task.done
+
+    def exitEntering(self):
+        taskMgr.remove(self.enteringTask)
+
+    def getBoardingSlot(self):
+        if not self.boardable:
+            return -1
+
+        if None not in self.slots:
+            return -1
+
+        return self.slots.index(None)
+
+    def requestBoard(self):
+        avId = self.air.getAvatarIdFromSender()
+
+        if avId in self.slots:
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Toon requested to board a trolley twice!')
+            self.sendUpdateToAvatarId(avId, 'rejectBoard', [avId])
+            return
+
+        slot = self.getBoardingSlot()
+        if slot == -1:
+            self.sendUpdateToAvatarId(avId, 'rejectBoard', [avId])
+            return
+
+        self.acceptOnce(self.air.getAvatarExitEvent(avId), self.removeFromTrolley, extraArgs=[avId])
+
+        self.sendUpdate('emptySlot%d' % slot, [0, globalClockDelta.getRealNetworkTime()])
+        self.sendUpdate('fillSlot%d' % slot, [avId])
+        self.slots[slot] = avId
+
+        if self.state == 'WaitEmpty':
+            self.b_setState('WaitCountdown')
+
+    def requestExit(self):
+        avId = self.air.getAvatarIdFromSender()
+
+        if avId not in self.slots:
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Toon requested to exit a trolley they are not on!')
+            return
+
+        if not self.boardable:
+            # Trolley's leaving, can't hop off!
+            return
+
+        self.removeFromTrolley(avId, True)
+
+    def removeFromTrolley(self, avId, hopOff=False):
+        if avId not in self.slots:
+            return
+
+        self.ignore(self.air.getAvatarExitEvent(avId))
+
+        slot = self.slots.index(avId)
+        self.sendUpdate('fillSlot%d' % slot, [0])
+        if hopOff:
+            # FIXME: Is this the correct way to make sure that the emptySlot
+            # doesn't persist, yet still animate the avId hopping off? There
+            # should probably be a timer that sets the slot to 0 after the
+            # hopoff animation finishes playing. (And such a timer will have to
+            # be canceled if another Toon occpuies the same slot in that time.)
+            self.sendUpdate('emptySlot%d' % slot, [avId, globalClockDelta.getRealNetworkTime()])
+        self.sendUpdate('emptySlot%d' % slot, [0, globalClockDelta.getRealNetworkTime()])
+        self.slots[slot] = None
+
+        if self.state == 'WaitCountdown' and self.slots.count(None) == 4:
+            self.b_setState('WaitEmpty')
+
+@magicWord(category=CATEGORY_OVERRIDE, types=[str])
+def travel(target='self'):
+    if target=='everyone':
+        if 'everyone' in doesntWantTrolleyTracks:
+            del doesntWantTrolleyTracks['everyone']
+            return "Re-enabled Trolley Tracks in the current district."
+        else:
+            doesntWantTrolleyTracks['everyone'] = True
+            return "Disabled Trolley Tracks in the current district."
+    else:
+        if spellbook.getTarget().doId in doesntWantTrolleyTracks:
+            del doesntWantTrolleyTracks[spellbook.getTarget().doId]
+            return "Re-enabled Trolley Tracks."
+        else:
+            doesntWantTrolleyTracks[spellbook.getTarget().doId] = True
+            return "Disabled Trolley Tracks."

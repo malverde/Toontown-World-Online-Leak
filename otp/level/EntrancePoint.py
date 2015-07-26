@@ -29,7 +29,7 @@ class EntrancePoint(BasicEntities.NodePathEntity):
 
     def destroyEntrancePoint(self):
         if self.entranceId >= 0:
-            if self.entranceId in self.level.entranceId2entity:
+            if self.level.entranceId2entity.has_key(self.entranceId):
                 del self.level.entranceId2entity[self.entranceId]
 
     if __dev__:

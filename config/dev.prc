@@ -4,7 +4,7 @@
 
 # Client settings
 window-title Toontown World [Pre-Alpha]
-server-version ttw-pre-alpha-2.5.1.7.2
+server-version ttw-pre-alpha-2.5.2
 audio-library-name p3openal_audio
 sync-video #f
 want-dev #f
@@ -61,7 +61,7 @@ want-pets #f
 want-news-tab #f
 want-news-page #f
 want-accessories #t
-want-parties #t
+want-parties #f
 want-gardening #f
 want-gifting #t
 want-picnic-games #f
@@ -105,4 +105,4 @@ boarding-group-merges #t
 want-speedhack-fix #t
 want-cogdominiums #f
 want-game-tables #f
-force-skip-tutorial #f
+force-skip-tutorial #t

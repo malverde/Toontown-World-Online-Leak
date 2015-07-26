@@ -1,39 +1,47 @@
-from direct.distributed import DistributedObjectAI
-from direct.distributed.ClockDelta import *
-from otp.ai.AIBase import *
-from toontown.toonbase.ToontownGlobals import *
+from direct.directnotify import DirectNotifyGlobal
+from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
+class DistributedDGFlowerAI(DistributedObjectAI):
+    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedDGFlowerAI")
+    BASE_HEIGHT = 2.0
+    MAX_HEIGHT = 10.0
+    HEIGHT_PER_AV = 0.5
 
-HEIGHT_DELTA = 0.5
-MAX_HEIGHT = 10.0
-MIN_HEIGHT = 2.0
-
-
-class DistributedDGFlowerAI(DistributedObjectAI.DistributedObjectAI):
     def __init__(self, air):
-        DistributedObjectAI.DistributedObjectAI.__init__(self, air)
-
-        self.height = MIN_HEIGHT
-        self.avList = []
-
-    def delete(self):
-        DistributedObjectAI.DistributedObjectAI.delete(self)
-
-    def start(self):
-        pass
+        DistributedObjectAI.__init__(self, air)
+        self.avatars = set()
+        self.height = 2.0
 
     def avatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
-        if avId not in self.avList:
-            self.avList.append(avId)
-            if self.height + HEIGHT_DELTA <= MAX_HEIGHT:
-                self.height += HEIGHT_DELTA
-                self.sendUpdate('setHeight', [self.height])
+        self.avatars.add(avId)
+        self.acceptOnce(self.air.getAvatarExitEvent(avId), self.handleAvatarLeave, extraArgs=[avId])
+        self.adjustHeight()
 
     def avatarExit(self):
         avId = self.air.getAvatarIdFromSender()
-        if avId in self.avList:
-            self.avList.remove(avId)
-            if self.height - HEIGHT_DELTA >= MIN_HEIGHT:
-                self.height -= HEIGHT_DELTA
-                self.sendUpdate('setHeight', [self.height])
+        self.handleAvatarLeave(avId)
+
+    def handleAvatarLeave(self, avId):
+        self.ignore(self.air.getAvatarExitEvent(avId))
+        if avId in self.avatars:
+            self.avatars.remove(avId)
+        self.adjustHeight()
+
+    def adjustHeight(self):
+        height = self.BASE_HEIGHT + self.HEIGHT_PER_AV*len(self.avatars)
+        height = min(height, self.MAX_HEIGHT)
+        self.b_setHeight(height)
+
+    def setHeight(self, height):
+        self.height = height
+
+    def d_setHeight(self, height):
+        self.sendUpdate('setHeight', [height])
+
+    def b_setHeight(self, height):
+        self.setHeight(height)
+        self.d_setHeight(height)
+
+    def getHeight(self):
+        return self.height

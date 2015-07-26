@@ -21,7 +21,6 @@ from direct.gui import DirectLabel
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.quest import Quests
 from toontown.battle import BattleParticles
-from toontown.dna.DNAParser import DNABulkLoader
 
 class Playground(Place.Place):
     notify = DirectNotifyGlobal.directNotify.newCategory('Playground')
@@ -53,7 +52,8 @@ class Playground(Place.Place):
                             'quest',
                             'purchase',
                             'stopped',
-                            'fishing']),
+                            'fishing',
+                            'died']),
             State.State('stickerBook',
                         self.enterStickerBook,
                         self.exitStickerBook, [
@@ -160,7 +160,8 @@ class Playground(Place.Place):
             State.State('died',
                         self.enterDied,
                         self.exitDied, [
-                            'final']),
+                            'final',
+                            'walk']),
             State.State('tunnelIn',
                         self.enterTunnelIn,
                         self.exitTunnelIn, [
@@ -259,7 +260,7 @@ class Playground(Place.Place):
             self.loader.hood.startSky()
             lightsOn = LerpColorScaleInterval(base.cr.playGame.hood.loader.geom, 0.1, Vec4(1, 1, 1, 1))
             lightsOn.start()
-        NametagGlobals.setWant2dNametags(True)
+        NametagGlobals.setMasterArrowsOn(1)
         self.zoneId = requestStatus['zoneId']
         self.tunnelOriginList = base.cr.hoodMgr.addLinkTunnelHooks(self, self.loader.nodeList, self.zoneId)
         how = requestStatus['how']
@@ -283,7 +284,7 @@ class Playground(Place.Place):
                 light.reparentTo(hidden)
 
         newsManager = base.cr.newsManager
-        NametagGlobals.setWant2dNametags(False)
+        NametagGlobals.setMasterArrowsOn(0)
         for i in self.loader.nodeList:
             self.loader.exitAnimatedProps(i)
 
@@ -311,13 +312,13 @@ class Playground(Place.Place):
 
     def showTreasurePoints(self, points):
         self.hideDebugPointText()
-        for i in xrange(len(points)):
+        for i in range(len(points)):
             p = points[i]
             self.showDebugPointText(str(i), p)
 
     def showDropPoints(self, points):
         self.hideDebugPointText()
-        for i in xrange(len(points)):
+        for i in range(len(points)):
             p = points[i]
             self.showDebugPointText(str(i), p)
 
@@ -327,11 +328,31 @@ class Playground(Place.Place):
     def hidePaths(self):
         self.hideDebugPointText()
 
+    def showPathPoints(self, paths, waypoints = None):
+        self.hideDebugPointText()
+        lines = LineSegs()
+        lines.setColor(1, 0, 0, 1)
+        from toontown.classicchars import CCharPaths
+        for name, pointDef in paths.items():
+            self.showDebugPointText(name, pointDef[0])
+            for connectTo in pointDef[1]:
+                toDef = paths[connectTo]
+                fromP = pointDef[0]
+                toP = toDef[0]
+                lines.moveTo(fromP[0], fromP[1], fromP[2] + 2.0)
+                wpList = CCharPaths.getWayPoints(name, connectTo, paths, waypoints)
+                for wp in wpList:
+                    lines.drawTo(wp[0], wp[1], wp[2] + 2.0)
+                    self.showDebugPointText('*', wp)
+
+                lines.drawTo(toP[0], toP[1], toP[2] + 2.0)
+
+        self.debugText.attachNewNode(lines.create())
 
     def hideDebugPointText(self):
         if hasattr(self, 'debugText'):
             children = self.debugText.getChildren()
-            for i in xrange(children.getNumPaths()):
+            for i in range(children.getNumPaths()):
                 children[i].removeNode()
 
     def showDebugPointText(self, text, point):
@@ -626,8 +647,7 @@ class Playground(Place.Place):
         Place.Place.exitTeleportOut(self)
 
     def createPlayground(self, dnaFile):
-        dnaBulk = DNABulkLoader(self.loader.dnaStore, (self.safeZoneStorageDNAFile,))
-        dnaBulk.loadDNAFiles()
+        loader.loadDNAFile(self.loader.dnaStore, self.safeZoneStorageDNAFile)
         node = loader.loadDNAFile(self.loader.dnaStore, dnaFile)
         if node.getNumParents() == 1:
             self.geom = NodePath(node.getParent(0))
@@ -643,7 +663,7 @@ class Playground(Place.Place):
 
     def makeDictionaries(self, dnaStore):
         self.nodeList = []
-        for i in xrange(dnaStore.getNumDNAVisGroups()):
+        for i in range(dnaStore.getNumDNAVisGroups()):
             groupFullName = dnaStore.getDNAVisGroupName(i)
             groupName = base.cr.hoodMgr.extractGroupName(groupFullName)
             groupNode = self.geom.find('**/' + groupFullName)
@@ -659,7 +679,7 @@ class Playground(Place.Place):
 
     def removeLandmarkBlockNodes(self):
         npc = self.geom.findAllMatches('**/suit_building_origin')
-        for i in xrange(npc.getNumPaths()):
+        for i in range(npc.getNumPaths()):
             npc.getPath(i).removeNode()
 
     def enterTFA(self, requestStatus):

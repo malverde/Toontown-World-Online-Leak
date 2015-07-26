@@ -183,8 +183,6 @@ class DistributedCogThiefGame(DistributedMinigame):
             pos = self.cogInfo[cogIndex]['pos']
             suit.reparentTo(self.gameBoard)
             suit.setPos(pos)
-            suit.nametag.setNametag2d(None)
-            suit.nametag.setNametag3d(None)
 
         for avId in self.avIdList:
             self.toonHitTracks[avId] = Wait(0.1)
@@ -279,7 +277,7 @@ class DistributedCogThiefGame(DistributedMinigame):
         self.pieHandler.setInPattern('pieHit-%fn')
 
     def exitPlay(self):
-        self.ignore(base.JUMP)
+        self.ignore('control')
         if self.resultIval and self.resultIval.isPlaying():
             self.resultIval.finish()
             self.resultIval = None

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scene zone="10000">
+    <store_suit_point id="1" type="STREET_POINT" x="18"  y="-82" z="0.025" />
+    <store_suit_point id="2" type="STREET_POINT" x="62"  y="-95" z="0.025" />
+    <store_suit_point id="3" type="STREET_POINT" x="112" y="-72" z="0.025" />
+    <store_suit_point id="4" type="STREET_POINT" x="128" y="-23" z="0.025" />
+    <store_suit_point id="5" type="STREET_POINT" x="120" y="75" z="0.025" />
+    <store_suit_point id="6" type="STREET_POINT" x="-9" y="84" z="0.025" />
+    <store_suit_point id="7" type="STREET_POINT" x="-7" y="23" z="0.025" />
+    <store_suit_point id="8" type="STREET_POINT" x=" 106" y="11" z=" 0.025" />
+    <store_suit_point id="9" type="STREET_POINT" x="80" y="-33" z="0.025" />
+    <store_suit_point id="10" type="STREET_POINT" x="56" y="-5" z="0.025" />
+    <store_suit_point id="11" type="STREET_POINT" x=" 14" y="2" z="0.025" />
+    <store_suit_point id="12" type="STREET_POINT" x="-23" y="-56" z="0.025" />
+	<group name="bossbotHQ">
+		<visgroup zone="10000" vis="10001 10002 10003 10004 10005">
+			<suit_edge a="2" b="3" />
+			<suit_edge a="3" b="4" />
+            <battle_cell width="20" height="20" x="40" y="-88.5" z="0" />
+		</visgroup>
+        <visgroup zone="10001" vis="10001 10002 10003 10004 10005">
+            <suit_edge a="4" b="5" />
+            <suit_edge a="5" b="6" />
+            <suit_edge a="6" b="7" />
+            <battle_cell width="20" height="20" x="124" y="26" z="0" />
+		</visgroup>
+        <visgroup zone="10002" vis="10001 10002 10003 10004 10005">
+            <suit_edge a="7" b="8" />
+            <suit_edge a="8" b="9" />
+            <suit_edge a="9" b="10" />
+            <suit_edge a="10" b="11" />     
+            <battle_cell width="20" height="20" x="49.5" y="17" z="0" />
+		</visgroup>
+
+        <visgroup zone="10003" vis="10001 10002 10003 10004 10005">
+            <suit_edge a="11" b="12" />
+            <suit_edge a="12" b="1" />          
+            <battle_cell width="20" height="20" x="-18.5" y="-27" z="0" />
+		</visgroup>
+        <visgroup zone="10004" vis="10001 10002 10003 10004 10005">
+            <suit_edge a="1" b="2" />
+            <battle_cell width="20" height="20" x="-5" y="-71" z="0" />
+        </visgroup>
+	</group>
+</scene>	
+

@@ -10,7 +10,7 @@ class SpellbookLoader(object):
     initialized.
     """
 
-    DC_FILES = ['config/otp.dc', 'config/toon.dc']
+    DC_FILES = ['config/toontown.dc']
 
     def __init__(self, root):
         self.root = root

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.pets.Pet
 from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
@@ -13,7 +14,6 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from direct.showbase import PythonUtil
 import random
-from toontown.nametag import NametagGlobals
 import types
 Component2IconDict = {'boredom': 'Bored',
  'restlessness': None,
@@ -27,6 +27,9 @@ Component2IconDict = {'boredom': 'Bored',
  'anger': 'Angry',
  'surprise': 'Surprised',
  'affection': 'Love'}
+from otp.nametag import *
+from otp.nametag.NametagConstants import *
+from otp.nametag.NametagGroup import *
 
 class Pet(Avatar.Avatar):
     notify = DirectNotifyGlobal.directNotify.newCategory('Pet')
@@ -43,7 +46,7 @@ class Pet(Avatar.Avatar):
         Pet.SerialNum += 1
         self.lockedDown = 0
         self.setPickable(1)
-        self.setPlayerType(NametagGlobals.CCNonPlayer)
+        self.setPlayerType(NametagGroup.CCNonPlayer)
         self.animFSM = ClassicFSM('petAnimFSM', [State('off', self.enterOff, self.exitOff),
          State('neutral', self.enterNeutral, self.exitNeutral),
          State('neutralHappy', self.enterNeutralHappy, self.exitNeutralHappy),
@@ -66,7 +69,6 @@ class Pet(Avatar.Avatar):
         self.soundTeleportIn = None
         self.soundTeleportOut = None
         self.teleportHole = None
-        return
 
     def isPet(self):
         return True
@@ -100,7 +102,6 @@ class Pet(Avatar.Avatar):
         self.leftBrow = None
         self.color = None
         Avatar.Avatar.delete(self)
-        return
 
     def getDNA(self):
         return self.style
@@ -259,7 +260,6 @@ class Pet(Avatar.Avatar):
         self.eyesClosedTexture.setMinfilter(Texture.FTLinear)
         self.eyesClosedTexture.setMagfilter(Texture.FTLinear)
         self.eyesOpen()
-        return None
 
     def initializeBodyCollisions(self, collIdStr):
         Avatar.Avatar.initializeBodyCollisions(self, collIdStr)
@@ -290,7 +290,6 @@ class Pet(Avatar.Avatar):
         if self.moodModel:
             self.moodModel.hide()
         self.moodModel = None
-        return
 
     def showMood(self, mood):
         if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
@@ -298,8 +297,7 @@ class Pet(Avatar.Avatar):
             if (ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds or ToontownGlobals.SILLYMETER_EXT_HOLIDAY in holidayIds) and not mood == 'confusion':
                 self.speakMood(mood)
                 return
-            else:
-                self.clearChat()
+            self.clearChat()
         else:
             self.clearChat()
         mood = Component2IconDict[mood]
@@ -317,15 +315,14 @@ class Pet(Avatar.Avatar):
         self.moodModel = moodModel
         if self.moodModel:
             self.moodModel.show()
-        return
 
     def speakMood(self, mood):
         if self.moodModel:
             self.moodModel.hide()
-        if config.GetBool('want-speech-bubble', 1):
-            self.nametag.setChatText(random.choice(TTLocalizer.SpokenMoods[mood]))
+        if base.config.GetBool('want-speech-bubble', 1):
+            self.nametag.setChat(random.choice(TTLocalizer.SpokenMoods[mood]), CFSpeech)
         else:
-            self.nametag.setChatText(random.choice(TTLocalizer.SpokenMoods[mood]))
+            self.nametag.setChat(random.choice(TTLocalizer.SpokenMoods[mood]), CFThought)
 
     def getGenderString(self):
         if self.style:
@@ -630,7 +627,6 @@ class Pet(Avatar.Avatar):
         if not self.lockedDown:
             self.animFSM.request(self.prevAnimState)
             self.prevAnimState = None
-        return
 
     def getInteractIval(self, interactId):
         anims = self.InteractAnims[interactId]

@@ -144,7 +144,6 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         self.npc = npc
         self.privateVarDict = {}
         self.toonHeads = {}
-        self.chars = []
         self.uniqueId = 'scriptMovie_' + str(self.scriptId) + '_' + str(toon.getDoId()) + '_' + str(npc.getDoId())
         self.setVar('toon', self.toon)
         self.setVar('npc', self.npc)
@@ -185,8 +184,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         for toonHeadFrame in self.toonHeads.values():
             toonHeadFrame.destroy()
 
-        while self.chars:
-            self.__unloadChar(self.chars[0])
+
 
         del self.toonHeads
         del self.privateVarDict
@@ -196,12 +194,6 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         del self.timeoutTrack
         return
 
-    def __unloadChar(self, char):
-        char.removeActive()
-        if char.style.name == 'mk' or char.style.name == 'mn':
-            char.stopEarTask()
-        char.delete()
-        self.chars.remove(char)
 
     def timeout(self, fFinish = 0):
         if self.timeoutTrack:
@@ -334,12 +326,6 @@ class NPCMoviePlayer(DirectObject.DirectObject):
                     self.parseLoadDialogue(line)
                 elif command == 'LOAD_CC_DIALOGUE':
                     self.parseLoadCCDialogue(line)
-                elif command == 'LOAD_CHAR':
-                    self.parseLoadChar(line)
-                elif command == 'LOAD_CLASSIC_CHAR':
-                    self.parseLoadClassicChar(line)
-                elif command == 'UNLOAD_CHAR':
-                    iList.append(self.parseUnloadChar(line))
                 elif command == 'LOAD_SUIT':
                     self.parseLoadSuit(line)
                 elif command == 'SET':
@@ -511,57 +497,6 @@ class NPCMoviePlayer(DirectObject.DirectObject):
         self.setVar(varName, dialogue)
         return
 
-    def parseLoadCCDialogue(self, line):
-        token, varName, filenameTemplate = line
-        if self.toon.getStyle().gender == 'm':
-            classicChar = 'mickey'
-        else:
-            classicChar = 'minnie'
-        filename = filenameTemplate % classicChar
-        if base.config.GetString('language', 'english') == 'japanese':
-            dialogue = base.loadSfx(filename)
-        else:
-            dialogue = None
-        self.setVar(varName, dialogue)
-        return
-
-    def parseLoadChar(self, line):
-        token, name, charType = line
-        char = Char.Char()
-        dna = CharDNA.CharDNA()
-        dna.newChar(charType)
-        char.setDNA(dna)
-        if charType == 'mk' or charType == 'mn':
-            char.startEarTask()
-        char.nametag.manage(base.marginManager)
-        char.addActive()
-        char.hideName()
-        self.setVar(name, char)
-
-    def parseLoadClassicChar(self, line):
-        token, name = line
-        char = Char.Char()
-        dna = CharDNA.CharDNA()
-        if self.toon.getStyle().gender == 'm':
-            charType = 'mk'
-        else:
-            charType = 'mn'
-        dna.newChar(charType)
-        char.setDNA(dna)
-        char.startEarTask()
-        char.nametag.manage(base.marginManager)
-        char.addActive()
-        char.hideName()
-        self.setVar(name, char)
-        self.chars.append(char)
-
-    def parseUnloadChar(self, line):
-        token, name = line
-        char = self.getVar(name)
-        track = Sequence()
-        track.append(Func(self.__unloadChar, char))
-        track.append(Func(self.delVar, name))
-        return track
 
     def parseLoadSuit(self, line):
         token, name, suitType = line
@@ -1090,10 +1025,5 @@ class NPCMoviePlayer(DirectObject.DirectObject):
 
         else:
             return Wait(0.0)
-searchPath = DSearchPath()
-searchPath.appendDirectory(Filename('/phase_3/etc'))
-scriptFile = Filename('QuestScripts.txt')
-found = vfs.resolveFilename(scriptFile, searchPath)
-if not found:
-    notify.error('Could not find QuestScripts.txt file')
+
 readFile()

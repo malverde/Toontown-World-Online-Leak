@@ -38,7 +38,7 @@ class OZPlayground(Playground.Playground):
         Playground.Playground.exit(self)
         taskMgr.remove('oz-check-toon-underwater')
         taskMgr.remove('oz-check-cam-underwater')
-
+        self.loader.hood.setNoFog()
 
     def doRequestLeave(self, requestStatus):
         self.fsm.request('trialerFA', [requestStatus])
@@ -75,7 +75,7 @@ class OZPlayground(Playground.Playground):
     def __submergeCamera(self):
         if self.cameraSubmerged == 1:
             return
-
+        self.loader.hood.setUnderwaterFog()
         base.playSfx(self.loader.underwaterSound, looping=1, volume=0.8)
         self.cameraSubmerged = 1
         self.walkStateData.setSwimSoundAudible(1)
@@ -83,7 +83,7 @@ class OZPlayground(Playground.Playground):
     def __emergeCamera(self):
         if self.cameraSubmerged == 0:
             return
-  
+        self.loader.hood.setNoFog()
         self.loader.underwaterSound.stop()
         self.cameraSubmerged = 0
         self.walkStateData.setSwimSoundAudible(0)

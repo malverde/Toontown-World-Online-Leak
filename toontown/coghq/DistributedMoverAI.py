@@ -1,19 +1,18 @@
-import random
-
-from direct.directnotify import DirectNotifyGlobal
+from otp.ai.AIBase import *
+from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import ClockDelta
-from direct.interval.IntervalGlobal import *
 from direct.task import Task
-from otp.ai.AIBase import *
-from otp.level import BasicEntities
 from otp.level import DistributedEntityAI
+from otp.level import BasicEntities
+from direct.directnotify import DirectNotifyGlobal
 from toontown.coghq import BattleBlockerAI
 from toontown.coghq import LaserGameMineSweeper
 from toontown.coghq import LaserGameRoll
-
+import random
 
 class DistributedMoverAI(DistributedEntityAI.DistributedEntityAI, NodePath, BasicEntities.NodePathAttribs):
+
     def __init__(self, level, entId):
         DistributedEntityAI.DistributedEntityAI.__init__(self, level, entId)
         node = hidden.attachNewNode('DistributedMoverAI')
@@ -40,7 +39,6 @@ class DistributedMoverAI(DistributedEntityAI.DistributedEntityAI, NodePath, Basi
         DistributedEntityAI.DistributedEntityAI.generate(self)
         if self.switchId != 0:
             self.accept(self.getOutputEventName(self.switchId), self.reactToSwitch)
-
         self.timerName = 'mover %s' % self.doId
         self.setPos(self.pos)
         self.setHpr(self.hpr)
@@ -78,7 +76,7 @@ class DistributedMoverAI(DistributedEntityAI.DistributedEntityAI, NodePath, Basi
         self.setTimes()
 
     def setTimes(self):
-        self.moveTime = { }
+        self.moveTime = {}
         self.moveTime['return'] = self.pos0Move + self.pos1Wait + self.pos1Move
         self.moveTime['loop'] = self.pos0Wait + self.pos0Move + self.pos1Wait + self.pos1Move
         self.moveTime['oneWay'] = self.pos0Move
@@ -96,10 +94,10 @@ class DistributedMoverAI(DistributedEntityAI.DistributedEntityAI, NodePath, Basi
         timeStamp = ClockDelta.globalClockDelta.getRealNetworkTime()
         if self.oK2Play:
             self.sendUpdate('startMove', [timeStamp])
-            taskMgr.doMethodLater(self.moveTime[self.cycleType], self._DistributedMoverAI__resetTimer, self.timerName)
+            taskMgr.doMethodLater(self.moveTime[self.cycleType], self.__resetTimer, self.timerName)
         self.oK2Play = 0
 
-    def _DistributedMoverAI__resetTimer(self, taskMgrFooler = 1):
+    def __resetTimer(self, taskMgrFooler = 1):
         if not self.cycleType == 'oneWay':
             self.oK2Play = 1
             if self.cycleType in ('loop', 'linear') or self.startOn:

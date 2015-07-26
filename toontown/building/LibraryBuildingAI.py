@@ -43,3 +43,4 @@ class LibraryBuildingAI:
         insideDoor.generateWithRequired(self.interiorZone)
         self.door = door
         self.insideDoor = insideDoor
+

@@ -18,7 +18,7 @@ import random
 from toontown.toonbase import ToontownGlobals
 import string
 from toontown.toonbase import TTLocalizer
-from toontown.nametag.NametagGlobals import *
+from otp.nametag.NametagConstants import *
 
 class DistributedPatternGame(DistributedMinigame):
     phase4snd = 'phase_4/audio/sfx/'
@@ -210,7 +210,7 @@ class DistributedPatternGame(DistributedMinigame):
         camera.setPosHpr(0.0, -14.59, 10.56, 0.0, -16.39, 0.0)
         base.camLens.setMinFov(24.66/(4./3.))
         base.setBackgroundColor(Vec4(0.984, 0.984, 0.584, 1))
-        
+        NametagGlobals.setGlobalNametagScale(0.6)
         self.arrowKeys = ArrowKeys.ArrowKeys()
         self.room.reparentTo(render)
         self.room.setPosHpr(0.0, 18.39, -ToontownGlobals.FloorOffset, 0.0, 0.0, 0.0)
@@ -265,7 +265,7 @@ class DistributedPatternGame(DistributedMinigame):
         self.minnie.nametag.manage(base.marginManager)
         self.minnie.startEarTask()
         self.minnie.setPickable(0)
-        self.minnie.nametag.getNametag3d().setChatWordWrap(8)
+        self.minnie.nametag.getNametag3d().setChatWordwrap(8)
         self.arrowDict['m'] = [self.arrows.pop(), self.xs.pop()]
         jj = self.minnie.nametag3d
         for k in range(0, 2):
@@ -284,7 +284,7 @@ class DistributedPatternGame(DistributedMinigame):
         self.music.stop()
         base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov/(4./3.))
         base.setBackgroundColor(ToontownGlobals.DefaultBackgroundColor)
-        
+        NametagGlobals.setGlobalNametagScale(1.0)
         self.arrowKeys.destroy()
         del self.arrowKeys
         self.room.reparentTo(hidden)

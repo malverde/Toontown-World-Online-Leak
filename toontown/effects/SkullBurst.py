@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.SkullBurst
 from pandac.PandaModules import *
 from direct.showbase.DirectObject import *
 from direct.interval.IntervalGlobal import *

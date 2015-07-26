@@ -17,6 +17,7 @@ from toontown.toonbase.ToontownTimer import ToontownTimer
 from toontown.toonbase import ToontownGlobals
 from direct.showbase import PythonUtil
 from otp.otpbase import OTPGlobals
+from otp.margins import WhisperPopup
 
 class DistributedPicnicTable(DistributedNode.DistributedNode):
 
@@ -636,7 +637,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         oldTrack = self.__toonTracks.get(avId)
         if oldTrack:
             oldTrack.pause()
-            cleanupDelayDeletes(oldTrack)
+            DelayDelete.cleanupDelayDeletes(oldTrack)
 
     def clearToonTracks(self):
         keyList = []

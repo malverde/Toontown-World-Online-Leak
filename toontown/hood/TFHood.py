@@ -13,7 +13,7 @@ class TFHood(ToonHood):
         self.id = ToontownGlobals.Toonfest
         self.townLoaderClass = TTTownLoader # Temporary
         self.safeZoneLoaderClass = TFSafeZoneLoader
-        self.storageDNAFile = 'phase_6/dna/storage_TF.pdna'
+        self.storageDNAFile = 'phase_6/dna/storage_TF.xml'
         self.skyFile = 'phase_3.5/models/props/TT_sky'
         self.titleColor = (1.0, 0.5, 0.4, 1.0)
 

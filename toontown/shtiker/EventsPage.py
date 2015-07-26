@@ -22,11 +22,11 @@ EventsPage_News = 3
 
 class EventsPage(ShtikerPage.ShtikerPage):
     notify = DirectNotifyGlobal.directNotify.newCategory('EventsPage')
-    UseNewsTab = base.config.GetBool('want-news-tab', 0)
+    UseNewsTab = config.GetBool('want-news-tab', 0)
     DefaultNewsUrl = '/news/news_urls.txt'
-    NewsUrl = base.config.GetString('news-url', DefaultNewsUrl)
+    NewsUrl = config.GetString('news-url', DefaultNewsUrl)
     DownloadArticlesTaskName = 'downloadArticlesTask'
-    NonblockingDownload = base.config.GetBool('news-nonblocking', 1)
+    NonblockingDownload = config.GetBool('news-nonblocking', 1)
 
     def __init__(self):
         ShtikerPage.ShtikerPage.__init__(self)
@@ -155,7 +155,7 @@ class EventsPage(ShtikerPage.ShtikerPage):
 
     def loadNewsTab(self):
         self.newsDisplay = self.attachNewNode('news')
-        newspaper = loader.loadModel('phase_4/models/parties/tt_m_gui_sbk_newspaper.bam')
+        newspaper = loader.loadModel('phase_4/models/parties/tt_m_gui_sbk_newspaper')
         self.newsFrame = DirectLabel(relief=None, parent=self.newsDisplay, pos=(0, 0, -0.1))
         newspaper.reparentTo(self.newsFrame)
         self.createArticleTextList()

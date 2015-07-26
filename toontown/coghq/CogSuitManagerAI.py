@@ -25,3 +25,4 @@ class CogSuitManagerAI:
         parts = toon.getCogParts()
         if CogDisguiseGlobals.isSuitComplete(parts, suitDept):
             toon.loseCogParts(suitDept)      
+

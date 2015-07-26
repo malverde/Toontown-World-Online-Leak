@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.Sparks
 from pandac.PandaModules import *
 from direct.particles import ParticleEffect
 from direct.directnotify import DirectNotifyGlobal

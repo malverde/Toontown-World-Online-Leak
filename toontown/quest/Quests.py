@@ -1100,12 +1100,6 @@ class BuildingQuest(CogQuest):
 
     def doesBuildingCount(self, avId, avList):
         return 1
-        
-	def doesBuildingTypeCount(self, type):
-		buildingTrack = self.getBuildingTrack()
-		if buildingTrack == Any or buildingTrack == type:
-			return True
-		return False 
 
 
 class BuildingNewbieQuest(BuildingQuest, NewbieQuest):
@@ -1448,16 +1442,16 @@ class DeliverGagQuest(Quest):
 
     def getHeadlineString(self):
         return TTLocalizer.QuestsDeliverGagQuestHeadline
-        
-	def removeGags(self, av): 
+
+	def removeGags(self, av):
 		gag = self.getGagType()
 		inventory = av.inventory
-		takengags = 0
+		taknegags = 0
 		for i in range(self.getNumGags()):
 			if inventory.useItem(gag[0], gag[1]):
-				takengags += 1 
+				takengags += 1
 		av.b_setInventory(inventory.makeNetString())
-		return takengags		
+		return takengags
 
 class DeliverItemQuest(Quest):
     def __init__(self, id, quest):
@@ -2046,7 +2040,14 @@ QuestDict = {
        NA,
        110,
        DefaultDialog),
-    110: (TT_TIER, Cont, (TrolleyQuest,), Any, ToonHQ, NA, 145, DefaultDialog),
+ 110: (TT_TIER,
+       Cont,
+       (TrolleyQuest,),
+       Any,
+       ToonHQ,
+       NA,
+       145,
+       DefaultDialog),
  120: (TT_TIER,
        OBSOLETE,
        (DeliverItemQuest, 5),

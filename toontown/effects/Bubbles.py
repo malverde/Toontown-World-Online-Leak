@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.Bubbles
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.particles import ParticleEffect

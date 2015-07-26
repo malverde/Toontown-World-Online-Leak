@@ -1,3 +1,4 @@
+#Embedded file name: toontown.pets.PetTricks
 from direct.showbase.PythonUtil import Enum, invertDictLossless
 from direct.interval.IntervalGlobal import *
 import types
@@ -7,7 +8,7 @@ NonHappyMinActualTrickAptitude = 0.1
 NonHappyMaxActualTrickAptitude = 0.6
 MinActualTrickAptitude = 0.5
 MaxActualTrickAptitude = 0.97
-AptitudeIncrementDidTrick = 0.0005
+AptitudeIncrementDidTrick = 0.0005 * config.GetFloat('pet-trick-aptitude-mult', 4)
 MaxAptitudeIncrementGotPraise = 0.0003
 MaxTrickFatigue = 0.65
 MinTrickFatigue = 0.1
@@ -72,7 +73,6 @@ def getSoundIval(trickId):
                 soundIval.append(SoundInterval(sound))
 
             return soundIval
-    return
 
 
 def getTrickIval(pet, trickId):

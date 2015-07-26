@@ -6,6 +6,10 @@ from direct.fsm.FSM import FSM
 from direct.distributed.ClockDelta import *
 from direct.task import *
 from toontown.racing.KartShopGlobals import KartGlobals
+from toontown.dna.DNASpawnerAI import *
+from toontown.dna.DNANode import DNANode
+from toontown.dna.DNAProp import DNAProp
+from toontown.racing.DistributedStartingBlockAI import DistributedStartingBlockAI
 
 #TODO - change race type
 
@@ -114,7 +118,7 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
         self.b_setState('AllAboard', globalClockDelta.getRealNetworkTime())
         
     def createRace(self):
-        self.raceZone = self.air.allocateZone()
+        self.raceZone = self.air.allocateZone(owner=self)
         avatars = []
         for block in self.startingBlocks:
             if block.avId != 0:
@@ -134,7 +138,7 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
                 av = self.air.doId2do[avId]
                 entryFee = RaceGlobals.getEntryFee(self.trackId, self.trackType)
                 if av.getTickets() < entryFee:
-                    self.air.writeServerEvent('suspicious', avId, 'Toon somehow lost tickets between entering a race and it leaving!')
+                    self.air.writeServerEvent('suspicious', avId=avId, issue='Toon somehow lost tickets between entering a race and it leaving!')
                     av.b_setTickets(0)
                 else:
                     av.b_setTickets(av.getTickets() - entryFee)
@@ -170,3 +174,26 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
         self.setTrackInfo(trackInfo)
         self.d_setTrackInfo(trackInfo)
 
+@dnaSpawn(DNANode, 'racing_pad_([0-9]+)_(.*)')
+def spawn(air, zone, element, match):
+    index = int(match.group(1))
+    dest = match.group(2)
+    pad = DistributedRacePadAI(air)
+    pad.setArea(zone)
+    pad.nameType = dest
+    pad.index = index
+    nri = RaceGlobals.getNextRaceInfo(-1, dest, index)
+    pad.setTrackInfo(nri[:2])
+    pad.generateWithRequired(zone)
+    for child in element.children:
+        if isinstance(child, DNAProp) and child.code == 'gs_parkingspot':
+            index = int(child.name[15:])
+            x, y, z = child.getPos()
+            h, p, r = child.getHpr()
+            startingBlock = DistributedStartingBlockAI(air)
+            startingBlock.setPosHpr(x, y, z, h, p, r)
+            startingBlock.setPadDoId(pad.getDoId())
+            startingBlock.setPadLocationId(index)
+            startingBlock.generateWithRequired(zone)
+            pad.addStartingBlock(startingBlock)
+    

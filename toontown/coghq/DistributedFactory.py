@@ -13,8 +13,6 @@ from otp.level import LevelConstants
 from toontown.toonbase import TTLocalizer
 from toontown.coghq import FactoryCameraViews
 from direct.controls.ControlManager import CollisionHandlerRayStart
-from otp.ai.MagicWordGlobal import *
-from toontown.nametag.NametagGlobals import *
 if __dev__:
     from otp.level import EditorGlobals
 
@@ -93,7 +91,7 @@ class DistributedFactory(DistributedLevel.DistributedLevel, FactoryBase.FactoryB
 
         self.acceptOnce(firstSetZoneDoneEvent, handleFirstSetZoneDone)
         modelCount = len(levelSpec.getAllEntIds())
-        loader.beginBulkLoad('factory', TTLocalizer.HeadingToFactoryTitle % TTLocalizer.FactoryNames[self.factoryId], modelCount, 1, TTLocalizer.TIP_COGHQ, SellbotFactoryInt)
+        loader.beginBulkLoad('factory', TTLocalizer.HeadingToFactoryTitle % TTLocalizer.FactoryNames[self.factoryId], modelCount, 1, TTLocalizer.TIP_COGHQ, self.factoryId)
         DistributedLevel.DistributedLevel.privGotSpec(self, levelSpec)
         loader.endBulkLoad('factory')
 
@@ -173,14 +171,3 @@ class DistributedFactory(DistributedLevel.DistributedLevel, FactoryBase.FactoryB
 
     def getBossBattleTaunt(self):
         return TTLocalizer.FactoryBossBattleTaunt
-
-@magicWord(category=CATEGORY_MODERATION, types=[int])
-def factoryWarp(zoneNum):
-    """
-    Warp to a specific factory zone.
-    """
-    factory = base.cr.doFind('DistributedFactory')
-    if (not factory) or (not isinstance(factory, DistributedFactory)):
-        return 'You must be in a factory.'
-    factory.warpToZone(zoneNum)
-    return 'Warped to zone: %d' % zoneNum

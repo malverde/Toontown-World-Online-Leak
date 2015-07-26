@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.FireworkShows
 from FireworkGlobals import *
 from toontown.toonbase import ToontownGlobals
 from toontown.parties import PartyGlobals
@@ -3390,7 +3391,7 @@ shows = {ToontownGlobals.JULY4_FIREWORKS: [((2,
                                      CYAN,
                                      BLUE,
                                      20,
-                                     -.5,
+                                     -0.5,
                                      0.5,
                                      90),
                                     (0.2,
@@ -3414,7 +3415,7 @@ shows = {ToontownGlobals.JULY4_FIREWORKS: [((2,
                                      BLUE,
                                      WHITE,
                                      22,
-                                     -.5,
+                                     -0.5,
                                      10,
                                      90),
                                     (0.2,
@@ -13864,7 +13865,6 @@ def getShow(holidayId, index):
         return showList[index]
     else:
         return None
-    return None
 
 
 def getShowDuration(eventId, index):

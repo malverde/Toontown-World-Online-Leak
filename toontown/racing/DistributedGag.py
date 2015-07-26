@@ -48,8 +48,7 @@ class DistributedGag(DistributedObject.DistributedObject):
         bs = CollisionSphere(0, 0, 0, 2)
         bn = CollisionNode(self.name)
         self.bnp = NodePath(bn)
-        if not self.nodePath.isEmpty():
-            self.bnp.reparentTo(self.nodePath)
+        self.bnp.reparentTo(self.nodePath)
         self.bnp.node().addSolid(bs)
         self.bnp.node().setIntoCollideMask(BitMask32(32768))
         self.bnp.node().setFromCollideMask(BitMask32(32768))

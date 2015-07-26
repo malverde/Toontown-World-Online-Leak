@@ -9,7 +9,7 @@ class EntityCreatorBase:
 
     def createEntity(self, entId):
         entType = self.level.getEntityType(entId)
-        if entType not in self.entType2Ctor:
+        if not self.entType2Ctor.has_key(entType):
             self.notify.error('unknown entity type: %s (ent%s)' % (entType, entId))
         ent = self.doCreateEntity(self.entType2Ctor[entType], entId)
         return ent
@@ -18,7 +18,7 @@ class EntityCreatorBase:
         return self.entType2Ctor.keys()
 
     def privRegisterType(self, entType, ctor):
-        if entType in self.entType2Ctor:
+        if self.entType2Ctor.has_key(entType):
             self.notify.debug('replacing %s ctor %s with %s' % (entType, self.entType2Ctor[entType], ctor))
         self.entType2Ctor[entType] = ctor
 

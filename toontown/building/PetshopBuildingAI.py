@@ -1,14 +1,16 @@
+from pandac.PandaModules import *
+from direct.directnotify import DirectNotifyGlobal
 import DistributedDoorAI
 import DistributedPetshopInteriorAI
+import FADoorCodes
 import DoorTypes
-from pandac.PandaModules import *
-from toontown.hood import ZoneUtil
-# from toontown.pets import DistributedPetAI, PetTraits, PetUtil
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownGlobals
-
+from toontown.quest import Quests
+from toontown.hood import ZoneUtil
 
 class PetshopBuildingAI:
+
     def __init__(self, air, exteriorZone, interiorZone, blockNumber):
         self.air = air
         self.exteriorZone = exteriorZone
@@ -18,6 +20,7 @@ class PetshopBuildingAI:
     def cleanup(self):
         for npc in self.npcs:
             npc.requestDelete()
+
         del self.npcs
         self.door.requestDelete()
         del self.door
@@ -27,16 +30,11 @@ class PetshopBuildingAI:
         del self.interior
 
     def setup(self, blockNumber):
-        self.interior = DistributedPetshopInteriorAI.DistributedPetshopInteriorAI(
-            blockNumber, self.air, self.interiorZone)
-        self.interior.generateWithRequired(self.interiorZone)
-
+        self.interior = DistributedPetshopInteriorAI.DistributedPetshopInteriorAI(blockNumber, self.air, self.interiorZone)
         self.npcs = NPCToons.createNpcsInZone(self.air, self.interiorZone)
-
-        door = DistributedDoorAI.DistributedDoorAI(
-            self.air, blockNumber, DoorTypes.EXT_STANDARD)
-        insideDoor = DistributedDoorAI.DistributedDoorAI(
-            self.air, blockNumber, DoorTypes.INT_STANDARD)
+        self.interior.generateWithRequired(self.interiorZone)
+        door = DistributedDoorAI.DistributedDoorAI(self.air, blockNumber, DoorTypes.EXT_STANDARD)
+        insideDoor = DistributedDoorAI.DistributedDoorAI(self.air, blockNumber, DoorTypes.INT_STANDARD)
         door.setOtherDoor(insideDoor)
         insideDoor.setOtherDoor(door)
         door.zoneId = self.exteriorZone
@@ -47,9 +45,10 @@ class PetshopBuildingAI:
         self.insideDoor = insideDoor
 
     def createPet(self, ownerId, seed):
+        return
         zoneId = self.interiorZone
         safeZoneId = ZoneUtil.getCanonicalSafeZoneId(zoneId)
-        (name, dna, traitSeed) = PetUtil.getPetInfoFromSeed(seed, safeZoneId)
+        name, dna, traitSeed = PetUtil.getPetInfoFromSeed(seed, safeZoneId)
         pet = DistributedPetAI.DistributedPetAI(self.air, dna=dna)
         pet.setOwnerId(ownerId)
         pet.setPetName(name)
