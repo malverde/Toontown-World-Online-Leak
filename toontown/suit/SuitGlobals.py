@@ -53,7 +53,7 @@ suitProperties = {'f': (4.0 / cSize, SuitDNA.corpPolyColor, ['flunky', 'glasses'
                   'm': (5.75 / aSize, SuitDNA.salesPolyColor, ['twoface'], 'mingler.jpg', 7.61),
                   'mh': (7.0 / aSize, SuitDNA.salesPolyColor, ['yesman'], '', 8.95),
                   #MD
-                  'md':(6.5 / bSize, VBase4(0.5, 0.85, 0.75, 1.0), ['Director of Ambush Marketing'], '', 8.58,
+                  'md':(6.5 / bSize, VBase4(0.5, 0.85, 0.75, 1.0), ['loanshark'], '', 8.58),
                   suit.d_makeSkelecog()),
                   }
 
