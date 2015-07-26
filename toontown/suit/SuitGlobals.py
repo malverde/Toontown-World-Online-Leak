@@ -54,6 +54,6 @@ suitProperties = {'f': (4.0 / cSize, SuitDNA.corpPolyColor, ['flunky', 'glasses'
                   'mh': (7.0 / aSize, SuitDNA.salesPolyColor, ['yesman'], '', 8.95),
                   #MD
                   'md':(6.5 / bSize, VBase4(0.5, 0.85, 0.75, 1.0), ['loanshark'], '', 8.58),
-                  suit.d_makeSkelecog()),
+                   suit.d_makeSkelecog(),
                   }
 
