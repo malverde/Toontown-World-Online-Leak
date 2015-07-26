@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.FireworkGlobals
 FW_T = 0
 FW_STYLE = 1
 FW_COLOR1 = 2

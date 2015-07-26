@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.Firework
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.effects.FireworkGlobals import *
@@ -18,7 +19,6 @@ class Firework(NodePath):
         self.burstDelay = burstDelay
         self.fireworkIval = None
         self.fireworkEffects = []
-        return
 
     def play(self):
         if not self.fireworkIval:
@@ -146,4 +146,3 @@ class Firework(NodePath):
             effect.cleanupEffect()
 
         self.fireworkEffects = []
-        return

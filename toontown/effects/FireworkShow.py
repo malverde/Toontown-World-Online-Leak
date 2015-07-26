@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.FireworkShow
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.effects.FireworkGlobals import *
@@ -1097,7 +1098,6 @@ class FireworkShow(NodePath):
         self.delaySectionStart = None
         self.curSection = None
         self.curOffset = 0.0
-        return
 
     def beginSection(self, startIndex, endIndex, offset):
         taskMgr.remove('beginSection' + str(startIndex) + str(endIndex))
@@ -1201,4 +1201,3 @@ class FireworkShow(NodePath):
             firework = None
 
         self.fireworks = []
-        return

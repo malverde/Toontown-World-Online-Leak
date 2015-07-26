@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.RingEffect
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.particles import ParticleEffect, Particles, ForceGroup

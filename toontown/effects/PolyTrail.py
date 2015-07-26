@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.PolyTrail
 from pandac.PandaModules import *
 from direct.motiontrail.MotionTrail import *
 import random
@@ -25,7 +26,6 @@ class PolyTrail(NodePath):
         self.setVertexColors(self.color_list)
         self.setTimeWindow(self.time_window)
         self.motion_trail.attach_motion_trail()
-        return
 
     def destroy(self):
         self.removeMotionTrail()
@@ -34,7 +34,6 @@ class PolyTrail(NodePath):
         self.motion_trail = None
         self.vertex_list = None
         self.motion_trail_vertex = None
-        return
 
     def beginTrail(self):
         if self.motion_trail:
@@ -53,7 +52,6 @@ class PolyTrail(NodePath):
             self.motion_trail = None
         if self.motion_trail_vertex:
             self.motion_trail_vertex = None
-        return
 
     def addMotionTrail(self):
         if not self.motion_trail:
@@ -120,7 +118,6 @@ class PolyTrail(NodePath):
                 angle = (1.0 - time) * 90.0
                 matrix = Mat4.rotateMat(angle, axis)
                 self.motion_trail.update_motion_trail(time, matrix)
-        return
 
     def setVertexColors(self, color_list):
         if self.motion_trail:

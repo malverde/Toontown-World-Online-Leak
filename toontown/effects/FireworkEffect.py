@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.FireworkEffect
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 import random
@@ -61,8 +62,6 @@ class FireworkEffect(NodePath):
             audio.setVolume(0.8)
             self.burstSfx.append(audio)
 
-        return
-
     def play(self):
         self.getFireworkMainIval().start()
 
@@ -99,8 +98,16 @@ class FireworkEffect(NodePath):
             elif self.trailTypeId == FireworkTrailType.Polygonal:
                 r = 0.75
                 mColor = Vec4(1, 1, 1, 1)
-                vertex_list = [Vec4(r, 0.0, r, 1.0), Vec4(r, 0.0, -r, 1.0), Vec4(-r, 0.0, -r, 1.0), Vec4(-r, 0.0, r, 1.0), Vec4(r, 0.0, r, 1.0)]
-                motion_color = [mColor, mColor, mColor, mColor, mColor]
+                vertex_list = [Vec4(r, 0.0, r, 1.0),
+                 Vec4(r, 0.0, -r, 1.0),
+                 Vec4(-r, 0.0, -r, 1.0),
+                 Vec4(-r, 0.0, r, 1.0),
+                 Vec4(r, 0.0, r, 1.0)]
+                motion_color = [mColor,
+                 mColor,
+                 mColor,
+                 mColor,
+                 mColor]
             elif self.trailTypeId == FireworkTrailType.Glow:
                 trailEffect = GlowTrail.getEffect()
                 if trailEffect:
@@ -409,7 +416,6 @@ class FireworkEffect(NodePath):
                 effect = None
 
         self.trailEffects = []
-        return
 
     def cleanupBurstEffects(self):
         if self.burstEffectsIval:
@@ -420,7 +426,6 @@ class FireworkEffect(NodePath):
             effect = None
 
         self.burstEffects = []
-        return
 
     def cleanupEffect(self):
         if self.fireworkMainIval:
@@ -428,4 +433,3 @@ class FireworkEffect(NodePath):
             self.fireworkMainIval = None
         self.cleanupTrailEffects()
         self.cleanupBurstEffects()
-        return

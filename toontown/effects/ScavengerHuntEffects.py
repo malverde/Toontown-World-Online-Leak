@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.ScavengerHuntEffects
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase import ToontownGlobals
@@ -18,7 +19,10 @@ class ScavengerHuntEffect:
             self.jar.hide()
             self.eventImage = NodePath('EventImage')
             self.eventImage.reparentTo(self.npRoot)
-            self.countLabel = DirectLabel(parent=self.jar, relief=None, text='+0', text_pos=(0.02, -0.2), text_scale=0.25, text_fg=(0.95, 0.0, 0, 1), text_font=ToontownGlobals.getSignFont())
+            self.countLabel = DirectLabel(parent=self.jar, relief=None, text='+0', text_pos=(0.02, -0.2), text_scale=0.25, text_fg=(0.95,
+             0.0,
+             0,
+             1), text_font=ToontownGlobals.getSignFont())
 
             def countUp(t, startVal, endVal):
                 beanCountStr = startVal + t * (endVal - startVal)
@@ -32,7 +36,6 @@ class ScavengerHuntEffect:
             self.npRoot.setColorScale(VBase4(1, 1, 1, 0))
             self.attemptFailedMsg()
             self.track = Sequence(LerpColorScaleInterval(self.npRoot, 1, colorScale=VBase4(1, 1, 1, 1), startColorScale=VBase4(1, 1, 1, 0)), Wait(5), LerpColorScaleInterval(self.npRoot, 1, colorScale=VBase4(1, 1, 1, 0), startColorScale=VBase4(1, 1, 1, 1)), Func(self.destroy))
-        return
 
     def play(self):
         if self.npRoot:
@@ -42,7 +45,6 @@ class ScavengerHuntEffect:
         if self.track != None:
             if self.track.isPlaying():
                 self.track.finish()
-        return
 
     def cleanupIntervals(self, interval):
         while len(interval) > 0:
@@ -67,7 +69,6 @@ class ScavengerHuntEffect:
         if hasattr(self, 'npRoot') and self.npRoot:
             self.npRoot.destroy()
             del self.npRoot
-        return
 
 
 class TrickOrTreatTargetEffect(ScavengerHuntEffect):
@@ -76,11 +77,9 @@ class TrickOrTreatTargetEffect(ScavengerHuntEffect):
         ScavengerHuntEffect.__init__(self, beanAmount)
         if beanAmount > 0:
             self.pumpkin = DirectFrame(parent=self.eventImage, relief=None, image=ScavengerHuntEffect.images.find('**/tot_pumpkin_tall'))
-        return
 
     def attemptFailedMsg(self):
         pLabel = DirectLabel(parent=self.npRoot, relief=None, pos=(0.0, 0.0, -0.15), text=TTLocalizer.TrickOrTreatMsg, text_fg=(0.95, 0.5, 0.0, 1.0), text_scale=0.12, text_font=ToontownGlobals.getSignFont())
-        return
 
     def destroy(self):
         if hasattr(self, 'pumpkin') and self.pumpkin:
@@ -95,11 +94,9 @@ class WinterCarolingEffect(ScavengerHuntEffect):
         if beanAmount > 0:
             sm = loader.loadModel('phase_5.5/models/estate/tt_m_prp_ext_snowman_icon')
             self.snowman = DirectFrame(parent=self.eventImage, relief=None, image=sm, scale=20.0)
-        return
 
     def attemptFailedMsg(self):
         pLabel = DirectLabel(parent=self.npRoot, relief=None, pos=(0.0, 0.0, -0.15), text=TTLocalizer.WinterCarolingMsg, text_fg=(0.9, 0.9, 1.0, 1.0), text_scale=0.12, text_font=ToontownGlobals.getSignFont())
-        return
 
     def destroy(self):
         if hasattr(self, 'snowman') and self.snowman:
