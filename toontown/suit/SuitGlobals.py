@@ -12,7 +12,7 @@ HEIGHT_INDEX = 4 # The height of the cog
 aSize = 6.06 # Size of body type 'a'
 bSize = 5.29 # Size of body type 'b'
 cSize = 4.14 # Size of body type 'c'
-suit = DistributedInvasionSuitAI(self.air, self)
+suit = DistributedInvasionSuitAI()
 
 ColdCallerHead = VBase4(0.25, 0.35, 1.0, 1.0) # Head used by Cold Caller
 
