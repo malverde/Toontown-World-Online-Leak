@@ -1,3 +1,4 @@
+#Embedded file name: toontown.toon.ToonAvatarDetailPanel
 from pandac.PandaModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.gui.DirectGui import *
@@ -21,7 +22,6 @@ def showAvatarDetail(avId, avName, playerId = None):
         globalAvatarDetail = None
     playerId = base.cr.playerFriendsManager.findPlayerIdFromAvId(avId)
     globalAvatarDetail = ToonAvatarDetailPanel(avId, avName, playerId)
-    return
 
 
 def hideAvatarDetail():
@@ -29,7 +29,6 @@ def hideAvatarDetail():
     if globalAvatarDetail != None:
         globalAvatarDetail.cleanup()
         globalAvatarDetail = None
-    return
 
 
 def unloadAvatarDetail():
@@ -37,13 +36,13 @@ def unloadAvatarDetail():
     if globalAvatarDetail != None:
         globalAvatarDetail.cleanup()
         globalAvatarDetail = None
-    return
 
 
 class ToonAvatarDetailPanel(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonAvatarDetailPanel')
 
     def __init__(self, avId, avName, playerId = None, parent = base.a2dTopRight, **kw):
+        print 'ToonAvatarDetailPanel %s' % playerId
         buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         gui = loader.loadModel('phase_3.5/models/gui/avatar_panel_gui')
         detailPanel = gui.find('**/avatarInfoPanel')
@@ -53,7 +52,7 @@ class ToonAvatarDetailPanel(DirectFrame):
         self.playerInfo = None
         if self.playerId:
             self.playerInfo = base.cr.playerFriendsManager.playerId2Info.get(playerId)
-        optiondefs = (('pos', (-0.79, 0.0, -0.47), None),
+        optiondefs = (('pos', (-0.807, 0.0, -0.475), None),
          ('scale', 0.5, None),
          ('relief', None, None),
          ('image', detailPanel, None),
@@ -83,7 +82,6 @@ class ToonAvatarDetailPanel(DirectFrame):
         self.fsm.request('begin')
         buttons.removeNode()
         gui.removeNode()
-        return
 
     def cleanup(self):
         if self.fsm:
@@ -94,7 +92,6 @@ class ToonAvatarDetailPanel(DirectFrame):
             self.avatar.delete()
             self.createdAvatar = None
         self.destroy()
-        return
 
     def enterOff(self):
         pass
@@ -127,7 +124,6 @@ class ToonAvatarDetailPanel(DirectFrame):
             self.avatar.doId = self.avId
             self.avatar.forceAllowDelayDelete()
         base.cr.getAvatarDetails(self.avatar, self.__handleAvatarDetails, 'DistributedToon')
-        return
 
     def exitQuery(self):
         self.bCancel.hide()
@@ -183,7 +179,6 @@ class ToonAvatarDetailPanel(DirectFrame):
         self.__updateTrackInfo()
         self.__updateTrophyInfo()
         self.__updateLaffInfo()
-        return
 
     def __showAvatar(self):
         messenger.send('wakeup')
@@ -194,7 +189,6 @@ class ToonAvatarDetailPanel(DirectFrame):
         if handle != None:
             self.notify.info("Clicked on name in friend's list. doId = %s" % handle.doId)
             messenger.send('clickedNametagPlayer', [handle, self.playerId, 1])
-        return
 
     def __updateLaffInfo(self):
         avatar = self.avatar
@@ -208,11 +202,11 @@ class ToonAvatarDetailPanel(DirectFrame):
         inventory = self.avatar.inventory
         inventoryModels = loader.loadModel('phase_3.5/models/gui/inventory_gui')
         buttonModel = inventoryModels.find('**/InventoryButtonUp')
-        for track in xrange(0, len(Tracks)):
+        for track in range(0, len(Tracks)):
             DirectLabel(parent=self, relief=None, text=TextEncoder.upper(TTLocalizer.BattleGlobalTracks[track]), text_scale=TTLocalizer.TADPtrackLabel, text_align=TextNode.ALeft, pos=(-0.9, 0, TTLocalizer.TADtrackLabelPosZ + track * ySpacing))
             if self.avatar.hasTrackAccess(track):
                 curExp, nextExp = inventory.getCurAndNextExpValues(track)
-                for item in xrange(0, len(Levels[track])):
+                for item in range(0, len(Levels[track])):
                     level = Levels[track][item]
                     if curExp >= level:
                         numItems = inventory.numItem(track, item)
@@ -225,8 +219,6 @@ class ToonAvatarDetailPanel(DirectFrame):
                         DirectLabel(parent=self, image=buttonModel, image_scale=(0.92, 1, 1), image_color=image_color, geom=inventory.invModels[track][item], geom_color=geom_color, geom_scale=0.6, relief=None, pos=(xOffset + item * xSpacing, 0, yOffset + track * ySpacing))
                     else:
                         break
-
-        return
 
     def __updateTrophyInfo(self):
         if self.createdAvatar:
@@ -244,4 +236,3 @@ class ToonAvatarDetailPanel(DirectFrame):
             star = gui.find('**/avatarStar')
             self.star = DirectLabel(parent=self, image=star, image_color=color, pos=(0.610165, 0, -0.760678), scale=0.9, relief=None)
             gui.removeNode()
-        return
