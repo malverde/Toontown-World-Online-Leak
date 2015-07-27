@@ -6289,3 +6289,36 @@ def freeBldg(f = None, l = None):
         if any((bldg for bldg in foundAnyCogBldgs)):
             return 'Recovering: {0}'.format(foundAnyCogBldgs)
         return 'Not a Cog building!'
+
+#V1 Suit Spawn MW #
+@magicWord(category=CATEGORY_ADMIN, types=[str, int, int, int, int, int])
+def suitv1(command, suitIndex, cogType=0, isSkelecog=0, isV2=0, isWaiter=0):
+    invoker = spellbook.getInvoker()
+    command = command.lower()
+    if command == 'spawn':
+        returnCode = invoker.doSummonSingleCog(int(suitIndex))
+        if returnCode[0] == 'success':
+            return 'Successfully spawned suit with index {0}!'.format(suitIndex)
+        return "Couldn't spawn suit with index {0}.".format(suitIndex)
+    elif command == 'building':
+        returnCode = invoker.doBuildingTakeover(suitIndex)
+        if returnCode[0] == 'success':
+            return 'Successfully spawned building with index {0}!'.format(suitIndex)
+        return "Couldn't spawn building with index {0}.".format(suitIndex)
+    elif command == 'do':
+        returnCode = invoker.doCogdoTakeOver(suitIndex, 1)
+        if returnCode[0] == 'success':
+            return 'Successfully spawned Cogdo with difficulty {0}!'.format(suitIndex)
+        return "Couldn't spawn Cogdo with difficulty {0}.".format(suitIndex)
+    elif command == 'invasion':
+        returnCode = invoker.doCogInvasion(suitIndex, cogType, isSkelecog, isV2, isWaiter)
+        return returnCode
+    elif command == 'invasionend':
+        returnCode = 'Ending Invasion..'
+        simbase.air.suitInvasionManager.cleanupTasks()
+        simbase.air.suitInvasionManager.cleanupInvasion()
+        return returnCode
+    else:
+        return 'Invalid command.'
+        
+        #Envd of V 1 #
