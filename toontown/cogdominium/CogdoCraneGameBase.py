@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoCraneGameBase
 from toontown.cogdominium import CogdoCraneGameSpec
 from toontown.cogdominium import CogdoCraneGameConsts as Consts
 

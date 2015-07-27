@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.DistCogdoCraneCog
 from pandac import PandaModules as PM
 from direct.distributed.ClockDelta import globalClockDelta
 from direct.distributed.DistributedObject import DistributedObject
@@ -11,7 +12,6 @@ class DistCogdoCraneCog(Suit, DistributedObject):
         DistributedObject.__init__(self, cr)
         Suit.__init__(self)
         self._moveIval = None
-        return
 
     def setGameId(self, gameId):
         self._gameId = gameId
@@ -47,7 +47,6 @@ class DistCogdoCraneCog(Suit, DistributedObject):
         if self._moveIval:
             self._moveIval.finish()
             self._moveIval = None
-        return
 
     def disable(self):
         self._stopMoveIval()

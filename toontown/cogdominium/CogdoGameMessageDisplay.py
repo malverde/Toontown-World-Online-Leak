@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoGameMessageDisplay
 from direct.interval.FunctionInterval import Func
 from direct.interval.LerpInterval import LerpFunc
 from direct.interval.MetaInterval import Sequence
@@ -35,7 +36,6 @@ class CogdoGameMessageDisplay:
         del self.messageLabel
         if self._displaySfx != None:
             del self._displaySfx
-        return
 
     def updateMessage(self, message = '', color = None, transition = 'fade'):
         taskMgr.remove(CogdoGameMessageDisplay.UpdateMessageTaskName)
@@ -69,7 +69,6 @@ class CogdoGameMessageDisplay:
             else:
                 self.transitionInterval.append(Func(self.messageLabel.setAlphaScale, 1.0))
         self.transitionInterval.start()
-        return
 
     def showMessageTemporarily(self, message = '', duration = 3.0, color = None):
         self.updateMessage(message, color)

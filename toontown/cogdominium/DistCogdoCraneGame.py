@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.DistCogdoCraneGame
 from pandac import PandaModules as PM
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.task.Task import Task
@@ -35,15 +36,14 @@ class DistCogdoCraneGame(CogdoCraneGameBase, DistCogdoLevelGame):
         self.timer.destroy()
         self.timer = None
         DistCogdoLevelGame.disable(self)
-        return
 
     def enterLoaded(self):
         DistCogdoLevelGame.enterLoaded(self)
-        self.lightning = loader.loadModel('phase_10/models/cogHQ/CBLightning')
-        self.magnet = loader.loadModel('phase_10/models/cogHQ/CBMagnet')
-        self.craneArm = loader.loadModel('phase_10/models/cogHQ/CBCraneArm')
-        self.controls = loader.loadModel('phase_10/models/cogHQ/CBCraneControls')
-        self.stick = loader.loadModel('phase_10/models/cogHQ/CBCraneStick')
+        self.lightning = loader.loadModel('phase_10/models/cogHQ/CBLightning.bam')
+        self.magnet = loader.loadModel('phase_10/models/cogHQ/CBMagnet.bam')
+        self.craneArm = loader.loadModel('phase_10/models/cogHQ/CBCraneArm.bam')
+        self.controls = loader.loadModel('phase_10/models/cogHQ/CBCraneControls.bam')
+        self.stick = loader.loadModel('phase_10/models/cogHQ/CBCraneStick.bam')
         self.cableTex = self.craneArm.findTexture('MagnetControl')
         self.moneyBag = loader.loadModel('phase_10/models/cashbotHQ/MoneyBag')
         self.geomRoot = PM.NodePath('geom')
@@ -130,7 +130,6 @@ class DistCogdoCraneGame(CogdoCraneGameBase, DistCogdoLevelGame):
         self._gravityForce = None
         self._gravityForceNode = None
         DistCogdoLevelGame.exitLoaded(self)
-        return
 
     def toCraneMode(self):
         if self.cr:

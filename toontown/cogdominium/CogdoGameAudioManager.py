@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoGameAudioManager
 from pandac.PandaModules import AudioSound
 from direct.interval.SoundInterval import SoundInterval
 
@@ -21,13 +22,11 @@ class CogdoGameSfx:
         if source is None:
             source = self._source
         self._audioMgr.playSound(self._audioSound, loop=loop, source=source, playRate=playRate, volume=volume)
-        return
 
     def loop(self, playRate = 1.0, volume = 1.0, source = None):
         if source is None:
             source = self._source
         self.play(loop=True, source=source, playRate=playRate, volume=volume)
-        return
 
     def stop(self):
         self._audioMgr.stopSound(self._audioSound)
@@ -48,7 +47,6 @@ class CogdoGameAudioManager:
         self._audioSounds = []
         self._soundIvals = {}
         base.cogdoGameAudioMgr = self
-        return
 
     def destroy(self):
         del base.cogdoGameAudioMgr
@@ -58,12 +56,10 @@ class CogdoGameAudioManager:
         self._music.clear()
         del self._sfxFiles
         del self._audioSounds
-        return
 
     def stopMusic(self):
         if self.currentMusic is not None:
             self.currentMusic.stop()
-        return
 
     def playMusic(self, name, loop = True, swap = False):
         time = 0.0
@@ -75,7 +71,6 @@ class CogdoGameAudioManager:
         self.currentMusic.setTime(time)
         self.currentMusic.setLoop(loop)
         self.currentMusic.play()
-        return
 
     def createSfx(self, name, source = None):
         sound = loader.loadSfx(self._sfxFiles[name])
@@ -113,7 +108,6 @@ class CogdoGameAudioManager:
             ival.loop()
         else:
             base.playSfx(audioSound, looping=loop, node=source, volume=volume, listener=self._listener, cutoff=self._cutoff)
-        return
 
     def stopSound(self, audioSound):
         if audioSound in self._soundIvals:

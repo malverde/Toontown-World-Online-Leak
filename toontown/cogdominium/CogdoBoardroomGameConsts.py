@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoBoardroomGameConsts
 from direct.fsm.StatePush import StateVar
 from otp.level.EntityStateVarSet import EntityStateVarSet
 from toontown.cogdominium.CogdoEntityTypes import CogdoBoardroomGameSettings

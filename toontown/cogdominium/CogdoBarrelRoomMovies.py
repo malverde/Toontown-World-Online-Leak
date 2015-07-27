@@ -1,4 +1,4 @@
-#Embedded file name: toontown.cogdominium.CogdoElevatorMovie
+#Embedded file name: toontown.cogdominium.CogdoBarrelRoomMovies
 from pandac.PandaModules import NodePath, Point3, PlaneNode, TextNode
 from direct.interval.IntervalGlobal import *
 from direct.showbase.ShowBase import Plane
@@ -13,11 +13,10 @@ from toontown.suit import Suit, SuitDNA
 from toontown.toon import Toon, ToonHead, ToonDNA
 from DistributedCogdoInterior import *
 from CogdoUtil import CogdoGameMovie
-import CogdoUtil
+import CogdoBarrelRoomConsts, CogdoUtil
 
-class CogdoElevatorMovie(CogdoGameMovie):
+class CogdoBarrelRoomIntro(CogdoGameMovie):
     notify = DirectNotifyGlobal.directNotify.newCategory('CogdoElevatorMovie')
-    elevatorDuration = 5
 
     def __init__(self):
         CogdoGameMovie.__init__(self)
@@ -28,6 +27,7 @@ class CogdoElevatorMovie(CogdoGameMovie):
     def displayLine(self, text):
         self.notify.debug('displayLine')
         self._dialogueLabel.node().setText(text)
+        self._dialogueLabel.setPos(0.32, 0, -0.72)
         self.toonHead.reparentTo(aspect2d)
         self._toonDialogueSfx.play()
         self.toonHead.setClipPlane(self.clipPlane)
@@ -60,7 +60,7 @@ class CogdoElevatorMovie(CogdoGameMovie):
         self.chatBubble.reparentTo(aspect2d)
         self.frame = DirectFrame(geom=self.bg, relief=None, pos=(0.2, 0, -0.6667))
         self.bg.wrtReparentTo(self.frame)
-        self.gameTitleText = DirectLabel(parent=self.frame, text=TTLocalizer.CogdoExecutiveSuiteTitle, scale=TTLocalizer.MRPgameTitleText * 0.8, text_align=TextNode.ACenter, text_font=getSignFont(), text_fg=(1.0, 0.33, 0.33, 1.0), pos=TTLocalizer.MRgameTitleTextPos, relief=None)
+        self.gameTitleText = DirectLabel(parent=self.frame, text=TTLocalizer.CogdoBarrelRoomTitle, scale=TTLocalizer.MRPgameTitleText * 0.8, text_align=TextNode.ACenter, text_font=getSignFont(), text_fg=(1.0, 0.33, 0.33, 1.0), pos=TTLocalizer.MRgameTitleTextPos, relief=None)
         self.chatBubble.wrtReparentTo(self.frame)
         self.frame.hide()
         backgroundGui.removeNode()
@@ -81,7 +81,7 @@ class CogdoElevatorMovie(CogdoGameMovie):
         self._toonDialogueSfx = loader.loadSfx('phase_3.5/audio/dial/AV_dog_long.ogg')
         self._camHelperNode = NodePath('CamHelperNode')
         self._camHelperNode.reparentTo(render)
-        dialogue = TTLocalizer.CogdoElevatorRewardLaff
+        dialogue = TTLocalizer.CogdoBarrelIntroMovieDialogue
 
         def start():
             self.frame.show()
@@ -94,7 +94,7 @@ class CogdoElevatorMovie(CogdoGameMovie):
             base.setCellsAvailable(base.bottomCells + base.leftCells + base.rightCells, 1)
             self._stopUpdateTask()
 
-        self._ival = Sequence(Func(start), Func(self.displayLine, dialogue), Wait(self.elevatorDuration), Func(end))
+        self._ival = Sequence(Func(start), Func(self.displayLine, dialogue), Wait(CogdoBarrelRoomConsts.BarrelRoomIntroTimeout), Func(end))
         self._startUpdateTask()
 
     def _updateTask(self, task):

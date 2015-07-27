@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoFlyingShadowPlacer
 from direct.controls.ControlManager import CollisionHandlerRayStart
 from direct.directnotify import DirectNotifyGlobal
 from pandac.PandaModules import *

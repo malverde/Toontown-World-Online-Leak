@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoMazeCameraManager
 from direct.showbase.PythonUtil import bound as clamp
 import CogdoMazeGameGlobals as Globals
 import math

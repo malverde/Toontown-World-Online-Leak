@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.DistributedCogdoBattleBldg
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
 from toontown.battle import DistributedBattleBldg
