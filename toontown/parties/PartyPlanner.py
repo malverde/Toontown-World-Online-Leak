@@ -1,35 +1,32 @@
+#Embedded file name: toontown.parties.PartyPlanner
 import calendar
 from datetime import datetime
 from datetime import timedelta
-from direct.directnotify import DirectNotifyGlobal
-from direct.fsm.FSM import FSM
-from direct.gui import DirectGuiGlobals
+from pandac.PandaModules import Vec3, Vec4, Point3, TextNode, VBase4
+from otp.otpbase import OTPLocalizer
 from direct.gui.DirectGui import DirectFrame, DirectButton, DirectLabel, DirectScrolledList, DirectCheckButton
+from direct.gui import DirectGuiGlobals
 from direct.showbase import DirectObject
 from direct.showbase import PythonUtil
-from pandac.PandaModules import *
-from pandac.PandaModules import Vec3, Vec4, Point3, TextNode, VBase4
-
-from otp.otpbase import OTPGlobals
-from otp.otpbase import OTPLocalizer
-from toontown.friends.FriendsListPanel import determineFriendName
-from toontown.nametag.Nametag import Nametag
-from toontown.nametag.NametagFloat2d import *
-from toontown.nametag.NametagGlobals import *
-from toontown.nametag.NametagGroup import *
-from toontown.parties import PartyGlobals
-from toontown.parties import PartyUtils
-from toontown.parties.CalendarGuiMonth import CalendarGuiMonth
-from toontown.parties.InviteVisual import InviteVisual
-from toontown.parties.PartyEditor import PartyEditor
-from toontown.parties.PartyInfo import PartyInfo
-from toontown.parties.ScrolledFriendList import ScrolledFriendList
-from toontown.toon import ToonHead
-from toontown.toonbase import TTLocalizer
+from direct.fsm.FSM import FSM
 from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TTDialog
 from toontown.toontowngui.TeaserPanel import TeaserPanel
-
+from toontown.toon import ToonHead
+from toontown.parties import PartyGlobals
+from toontown.friends.FriendsListPanel import determineFriendName
+from toontown.parties.ScrolledFriendList import ScrolledFriendList
+from toontown.parties.CalendarGuiMonth import CalendarGuiMonth
+from toontown.parties.InviteVisual import InviteVisual
+from toontown.parties.PartyInfo import PartyInfo
+from toontown.parties import PartyUtils
+from toontown.parties.PartyEditor import PartyEditor
+from pandac.PandaModules import *
+from direct.directnotify import DirectNotifyGlobal
+from otp.nametag.NametagGroup import NametagGroup
+from otp.nametag.Nametag import Nametag
+from otp.nametag.NametagFloat2d import *
 
 class PartyPlanner(DirectFrame, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('PartyPlanner')
@@ -40,7 +37,7 @@ class PartyPlanner(DirectFrame, FSM):
         self.doneEvent = doneEvent
         self.stateArray = ['Off',
          'Welcome',
-         'PartyEditor', # 'Guests',  skip over the Guests state.
+         'PartyEditor',
          'Date',
          'Time',
          'Invitation',
@@ -61,10 +58,9 @@ class PartyPlanner(DirectFrame, FSM):
          'minute': (15, -15),
          'ampm': (1, -1)}
         self.partyInfo = None
-        self.asapMinuteRounding = base.config.GetInt('party-asap-minute-rounding', PartyGlobals.PartyPlannerAsapMinuteRounding)
+        self.asapMinuteRounding = config.GetInt('party-asap-minute-rounding', PartyGlobals.PartyPlannerAsapMinuteRounding)
         self.load()
         self.request('Welcome')
-        return
 
     def enterWelcome(self, *args):
         self.prevButton['state'] = DirectGuiGlobals.DISABLED
@@ -117,7 +113,6 @@ class PartyPlanner(DirectFrame, FSM):
             self.nextButton.hide()
             self.makePartyNowButton.show()
         self.datePage.show()
-        return
 
     def exitDate(self):
         self.datePage.hide()
@@ -128,7 +123,6 @@ class PartyPlanner(DirectFrame, FSM):
         else:
             self.partyNowTime = self.calcAsapTime()
             self.partyTime = self.partyNowTime
-        return
 
     def calcAsapTime(self):
         curServerTime = base.cr.toontownTimeManager.getCurServerDateTime()
@@ -189,7 +183,6 @@ class PartyPlanner(DirectFrame, FSM):
             self.setInviteTheme(defaultInviteTheme)
         self.inviteVisual.updateInvitation(base.localAvatar.getName(), self.partyInfo)
         self.invitationPage.show()
-        return
 
     def __prevTheme(self):
         self.nextThemeButton.show()
@@ -268,53 +261,43 @@ class PartyPlanner(DirectFrame, FSM):
         self.invitationPage.hide()
         self.farewellPage = self._createFarewellPage()
         self.farewellPage.hide()
-        return
 
     def _createNavButtons(self):
         self.quitButton = DirectButton(parent=self.frame, relief=None, geom=(self.gui.find('**/cancelButton_up'), self.gui.find('**/cancelButton_down'), self.gui.find('**/cancelButton_rollover')), command=self.__acceptExit)
         self.nextButton = DirectButton(parent=self.frame, relief=None, geom=(self.gui.find('**/bottomNext_button/nextButton_up'), self.gui.find('**/bottomNext_button/nextButton_down'), self.gui.find('**/bottomNext_button/nextButton_rollover')), command=self.__nextItem, state=DirectGuiGlobals.DISABLED)
         self.prevButton = DirectButton(parent=self.frame, relief=None, geom=(self.gui.find('**/bottomPrevious_button/previousButton_up'), self.gui.find('**/bottomPrevious_button/previousButton_down'), self.gui.find('**/bottomPrevious_button/previousButton_rollover')), command=self.__prevItem, state=DirectGuiGlobals.DISABLED)
         self.currentItem = None
-        return
 
     def __createNametag(self, parent):
         if self.nametagGroup == None:
             self.nametagGroup = NametagGroup()
-            interfaceFont = OTPGlobals.getInterfaceFont()
-            self.nametagGroup.setFont(interfaceFont)
-            self.nametagGroup.setChatFont(interfaceFont)
-            self.nametagGroup.setActive(False)
+            self.nametagGroup.setFont(ToontownGlobals.getToonFont())
+            self.nametagGroup.setSpeechFont(ToontownGlobals.getToonFont())
+            self.nametagGroup.setActive(0)
             self.nametagGroup.setAvatar(self.partyPlannerHead)
             self.nametagGroup.manage(base.marginManager)
-            nametagColor = NametagGlobals.NametagColors[NametagGlobals.CCNonPlayer]
-            self.nametagGroup.setNametagColor(nametagColor)
-            chatColor = NametagGlobals.ChatColors[NametagGlobals.CCNonPlayer]
-            self.nametagGroup.setChatColor(chatColor)
-            nametag2d = self.nametagGroup.getNametag2d()
-            nametag2d.hideNametag()
-            nametag2d.hideChat()
+            self.nametagGroup.setColorCode(self.nametagGroup.CCNonPlayer)
+            self.nametagGroup.getNametag2d().setContents(0)
             self.nametagNode = NametagFloat2d()
-            self.nametagNode.hideChat()
-            self.nametagGroup.add(self.nametagNode)
-            self.nametagGroup.setText(base.cr.partyManager.getPartyPlannerName())
+            self.nametagNode.setContents(Nametag.CName)
+            self.nametagGroup.addNametag(self.nametagNode)
+            self.nametagGroup.setName(base.cr.partyManager.getPartyPlannerName())
             self.nametagNP = parent.attachNewNode(self.nametagNode)
             nametagPos = self.gui.find('**/step_01_partymanPeteNametag_locator').getPos()
             self.nametagNP.setPosHprScale(nametagPos[0], 0, nametagPos[2], 0, 0, 0, 0.1, 1, 0.1)
             self.chatNode = NametagFloat2d()
-            self.chatNode.hideNametag()
-            self.chatNode.showThought()
-            self.nametagGroup.add(self.chatNode)
-            self.nametagGroup.setChatText(TTLocalizer.PartyPlannerInstructions)
+            self.chatNode.setContents(Nametag.CSpeech | Nametag.CThought)
+            self.nametagGroup.addNametag(self.chatNode)
+            self.nametagGroup.setChat(TTLocalizer.PartyPlannerInstructions, CFSpeech)
             self.chatNP = parent.attachNewNode(self.chatNode)
             chatPos = self.gui.find('**/step_01_partymanPeteText_locator').getPos()
             self.chatNP.setPosHprScale(chatPos[0], 0, chatPos[2], 0, 0, 0, 0.08, 1, 0.08)
-            self.nametagGroup.updateAll()
 
     def clearNametag(self):
         if self.nametagGroup != None:
             self.nametagGroup.unmanage(base.marginManager)
-            self.nametagGroup.remove(self.nametagNode)
-            self.nametagGroup.remove(self.chatNode)
+            self.nametagGroup.removeNametag(self.nametagNode)
+            self.nametagGroup.removeNametag(self.chatNode)
             self.nametagNP.removeNode()
             self.chatNP.removeNode()
             del self.nametagNP
@@ -324,7 +307,6 @@ class PartyPlanner(DirectFrame, FSM):
             self.nametagGroup.setAvatar(NodePath())
             self.nametagGroup.destroy()
             self.nametagGroup = None
-        return
 
     def _createWelcomePage(self):
         self.nametagGroup = None
@@ -378,7 +360,7 @@ class PartyPlanner(DirectFrame, FSM):
         if type == 'hour' or type == 'minute':
             if amount < 0:
                 return self.timeTypeToMaxValue[type] + 1 + self.timeTypeToChangeAmount[type][1]
-            elif amount > self.timeTypeToMaxValue[type]:
+            if amount > self.timeTypeToMaxValue[type]:
                 return 0
         return amount
 
@@ -651,7 +633,6 @@ class PartyPlanner(DirectFrame, FSM):
         self.partyEditor = None
         self.destroy()
         del self
-        return
 
     def __handleComplete(self):
         self.inviteButton['state'] = DirectGuiGlobals.DISABLED
@@ -692,7 +673,7 @@ class PartyPlanner(DirectFrame, FSM):
             goingBackAllowed = False
             self.confirmTitleLabel['text'] = TTLocalizer.PartyPlannerConfirmationErrorTitle
             confirmRecapText = TTLocalizer.PartyPlannerConfirmationTooManyText
-        self.nametagGroup.setChatText(confirmRecapText)
+        self.nametagGroup.setChat(confirmRecapText, CFSpeech)
         self.request('Farewell', goingBackAllowed)
 
     def __acceptExit(self):
@@ -722,7 +703,6 @@ class PartyPlanner(DirectFrame, FSM):
                 self.chooseFutureTimeDialog.show()
                 return
         self.requestNext()
-        return
 
     def okChooseFutureTime(self):
         if hasattr(self, 'chooseFutureTimeDialog'):
@@ -740,7 +720,6 @@ class PartyPlanner(DirectFrame, FSM):
             self.request('Guests')
             return
         self.requestPrev()
-        return
 
     def __moneyChange(self, newMoney):
         if hasattr(self, 'totalMoney'):

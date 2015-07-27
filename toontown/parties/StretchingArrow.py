@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.StretchingArrow
 import math
 from direct.gui.DirectGui import DirectFrame
 from pandac.PandaModules import Point3
@@ -37,7 +38,6 @@ class StretchingArrow(DirectFrame):
         if self.head is not None:
             self.body.removeNode()
             self.body = None
-        return
 
     def reset(self):
         self.ratioDrawn = 0.0
@@ -91,4 +91,3 @@ class StretchingArrow(DirectFrame):
             self.setAlphaScale(abs(self.ratioDrawn) - (downTime - fadeOutTime))
         else:
             self.setAlphaScale(1.0)
-        return

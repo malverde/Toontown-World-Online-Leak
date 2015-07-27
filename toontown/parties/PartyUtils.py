@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.PartyUtils
 import math
 import time
 import datetime
@@ -104,7 +105,7 @@ def formatTime(hour, minute):
     return TTLocalizer.PartyTimeFormat % (hour, minute, meridiemString)
 
 
-SecondsInOneDay = 60 * 60 * 24
+SecondsInOneDay = 86400
 
 def getTimeDeltaInSeconds(td):
     result = td.days * SecondsInOneDay + td.seconds + td.microseconds / 1000000.0
@@ -123,7 +124,6 @@ def formatDateTime(dateTimeToShow, inLocalTime = False):
         return '%s %s' % (formatDate(dateTimeToShow.year, dateTimeToShow.month, dateTimeToShow.day), formatTime(dateTimeToShow.hour, dateTimeToShow.minute))
     else:
         return '%s %s' % (formatDate(dateTimeToShow.year, dateTimeToShow.month, dateTimeToShow.day), formatTime(dateTimeToShow.hour, dateTimeToShow.minute))
-    return
 
 
 def convertDistanceToPartyGrid(d, index):
@@ -198,10 +198,9 @@ class LineSegment:
         u2 = top2 / bot
         if compare is None:
             return 0 <= u1 and u1 <= 1 and 0 <= u2 and u2 <= 1
-        elif compare == 'segment-ray':
+        if compare == 'segment-ray':
             return 0 <= u1 and u1 <= 1 and 0 <= u2
-        elif compare == 'ray-ray':
+        if compare == 'ray-ray':
             return 0 <= u1 and 0 <= u2
-        elif compare == 'ray-segment':
+        if compare == 'ray-segment':
             return 0 <= u1 and 0 <= u2 and u2 <= 1
-        return

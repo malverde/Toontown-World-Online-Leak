@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.PartyCogActivityPlayer
 import math
 from direct.showbase.PythonUtil import bound, lerp
 from direct.task.Task import Task
@@ -41,7 +42,6 @@ class PartyCogActivityPlayer:
         self.splat.setBillboardPointEye()
         self.splatType = globalPropPool.getPropType(splatName)
         self.pieHitSound = globalBattleSoundCache.getSound('AA_wholepie_only.ogg')
-        return
 
     def destroy(self):
         self.cleanUpIvals()
@@ -50,13 +50,11 @@ class PartyCogActivityPlayer:
         self.position = None
         self.pieHitSound = None
         self.splat = None
-        return
 
     def cleanUpIvals(self):
         if self.kaboomTrack is not None and self.kaboomTrack.isPlaying():
             self.kaboomTrack.finish()
         self.kaboomTrack = None
-        return
 
     def faceForward(self):
         self.toon.setH(0)
@@ -84,7 +82,6 @@ class PartyCogActivityPlayer:
         self.toon.setPos(self.locator, offset, -35.0, 0.0)
         self.toon.setH(self.activity.root, 0.0)
         self.locator = None
-        return
 
     def enable(self):
         if self.enabled:
@@ -140,7 +137,6 @@ class PartyCogActivityPlayer:
 
         self.kaboomTrack = Parallel(SoundInterval(self.pieHitSound, node=self.toon, volume=1.0, cutOff=PartyGlobals.PARTY_COG_CUTOFF), Sequence(Func(self.splat.showThrough), Parallel(Sequence(LerpScaleInterval(self.splat, duration=0.175, scale=targetscale, startScale=Point3(0.1, 0.1, 0.1), blendType='easeOut'), Wait(0.175)), Sequence(Wait(0.1), LerpFunc(setSplatAlpha, duration=1.0, fromData=1.0, toData=0.0, blendType='easeOut'))), Func(self.splat.cleanup), Func(self.splat.removeNode)))
         self.kaboomTrack.start()
-        return
 
 
 class PartyCogActivityLocalPlayer(PartyCogActivityPlayer):
@@ -156,7 +152,6 @@ class PartyCogActivityLocalPlayer(PartyCogActivityPlayer):
         self.cameraManager = None
         self.control = None
         self.consecutiveShortThrows = 0
-        return
 
     def destroy(self):
         if self.enabled:
@@ -171,7 +166,6 @@ class PartyCogActivityLocalPlayer(PartyCogActivityPlayer):
             self.control.destroy()
         del self.control
         PartyCogActivityPlayer.destroy(self)
-        return
 
     def _initOrthoWalk(self):
         orthoDrive = OrthoDrive(9.778, customCollisionCallback=self.activity.view.checkOrthoDriveCollision)
@@ -264,7 +258,6 @@ class PartyCogActivityLocalPlayer(PartyCogActivityPlayer):
             base.cr.playGame.getPlace().setState('walk')
         else:
             self.toon.startPosHprBroadcast()
-        return
 
     def getRunToStartPositionIval(self):
         targetH = self.locator.getH()

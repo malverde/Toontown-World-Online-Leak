@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.InviteInfo
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.parties.PartyGlobals import InviteStatus

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.PartyGlobals
 from pandac.PandaModules import BitMask32
 from pandac.PandaModules import Point3, VBase4
 from direct.showbase import PythonUtil
@@ -19,14 +20,8 @@ PartyPlannerAsapMinuteRounding = 5
 UberdogCheckPartyStartFrequency = 5.0
 UberdogPurgePartyPeriod = 24.0
 UberdogPartiesSanityCheckFrequency = 60
-JarLabelTextColor = (0.95,
- 0.95,
- 0.0,
- 1.0)
-JarLabelMaxedTextColor = (1.0,
- 0.0,
- 0.0,
- 1.0)
+JarLabelTextColor = (0.95, 0.95, 0.0, 1.0)
+JarLabelMaxedTextColor = (1.0, 0.0, 0.0, 1.0)
 TuftsOfGrass = 75
 MaxToonsAtAParty = 20
 DefaultPartyDuration = 0.5
@@ -42,61 +37,21 @@ TrashCanPosition = (-0.24, 0.0, -0.65)
 TrashCanScale = 0.7
 PartyEditorTrashBounds = ((-0.16, -0.38), (-0.05, -0.56))
 ActivityRequestStatus = PythonUtil.Enum(('Joining', 'Exiting'))
-InviteStatus = PythonUtil.Enum(('NotRead',
- 'ReadButNotReplied',
- 'Accepted',
- 'Rejected'))
-InviteTheme = PythonUtil.Enum(('Birthday',
- 'GenericMale',
- 'GenericFemale',
- 'Racing',
- 'Valentoons',
- 'VictoryParty',
- 'Winter'))
-PartyStatus = PythonUtil.Enum(('Pending',
- 'Cancelled',
- 'Finished',
- 'CanStart',
- 'Started',
- 'NeverStarted'))
-AddPartyErrorCode = PythonUtil.Enum(('AllOk',
- 'ValidationError',
- 'DatabaseError',
- 'TooManyHostedParties'))
-ChangePartyFieldErrorCode = PythonUtil.Enum(('AllOk',
- 'ValidationError',
- 'DatabaseError',
- 'AlreadyStarted',
- 'AlreadyRefunded'))
+InviteStatus = PythonUtil.Enum(('NotRead', 'ReadButNotReplied', 'Accepted', 'Rejected'))
+InviteTheme = PythonUtil.Enum(('Birthday', 'GenericMale', 'GenericFemale', 'Racing', 'Valentoons', 'VictoryParty', 'Winter'))
+PartyStatus = PythonUtil.Enum(('Pending', 'Cancelled', 'Finished', 'CanStart', 'Started', 'NeverStarted'))
+AddPartyErrorCode = PythonUtil.Enum(('AllOk', 'ValidationError', 'DatabaseError', 'TooManyHostedParties'))
+ChangePartyFieldErrorCode = PythonUtil.Enum(('AllOk', 'ValidationError', 'DatabaseError', 'AlreadyStarted', 'AlreadyRefunded'))
 ActivityTypes = PythonUtil.Enum(('HostInitiated', 'GuestInitiated', 'Continuous'))
 PartyGateDenialReasons = PythonUtil.Enum(('Unavailable', 'Full'))
-ActivityIds = PythonUtil.Enum(('PartyJukebox',
- 'PartyCannon',
- 'PartyTrampoline',
- 'PartyCatch',
- 'PartyDance',
- 'PartyTugOfWar',
- 'PartyFireworks',
- 'PartyClock',
- 'PartyJukebox40',
- 'PartyDance20',
- 'PartyCog',
- 'PartyVictoryTrampoline',
- 'PartyWinterCatch',
- 'PartyWinterTrampoline',
- 'PartyWinterCog',
- 'PartyValentineDance',
- 'PartyValentineDance20',
- 'PartyValentineJukebox',
- 'PartyValentineJukebox40',
- 'PartyValentineTrampoline'))
-PartyEditorActivityOrder = [ ActivityIds.PartyClock,
+ActivityIds = PythonUtil.Enum(('PartyJukebox', 'PartyCannon', 'PartyTrampoline', 'PartyCatch', 'PartyDance', 'PartyTugOfWar', 'PartyFireworks', 'PartyClock', 'PartyJukebox40', 'PartyDance20', 'PartyCog', 'PartyVictoryTrampoline', 'PartyWinterCatch', 'PartyWinterTrampoline', 'PartyWinterCog', 'PartyValentineDance', 'PartyValentineDance20', 'PartyValentineJukebox', 'PartyValentineJukebox40', 'PartyValentineTrampoline'))
+PartyEditorActivityOrder = [ActivityIds.PartyClock,
  ActivityIds.PartyJukebox,
  ActivityIds.PartyJukebox40,
  ActivityIds.PartyValentineJukebox,
  ActivityIds.PartyValentineJukebox40,
  ActivityIds.PartyCannon,
-# ActivityIds.PartyTrampoline,
+ ActivityIds.PartyTrampoline,
  ActivityIds.PartyValentineTrampoline,
  ActivityIds.PartyVictoryTrampoline,
  ActivityIds.PartyWinterTrampoline,
@@ -108,17 +63,18 @@ PartyEditorActivityOrder = [ ActivityIds.PartyClock,
  ActivityIds.PartyCatch,
  ActivityIds.PartyWinterCatch,
  ActivityIds.PartyCog,
- ActivityIds.PartyWinterCog]
-# ActivityIds.PartyFireworks]
+ ActivityIds.PartyWinterCog,
+ ActivityIds.PartyFireworks]
 UnreleasedActivityIds = (ActivityIds.PartyCog,
- ActivityIds.PartyWinterCog, ActivityIds.PartyValentineJukebox,
+ ActivityIds.PartyWinterCog,
+ ActivityIds.PartyValentineJukebox,
  ActivityIds.PartyValentineJukebox40,
  ActivityIds.PartyValentineTrampoline,
  ActivityIds.PartyWinterTrampoline,
  ActivityIds.PartyWinterCatch,
  ActivityIds.PartyValentineDance,
  ActivityIds.PartyValentineDance20,
- ActivityIds.PartyTugOfWar) 
+ ActivityIds.PartyTugOfWar)
 MutuallyExclusiveActivities = ((ActivityIds.PartyJukebox, ActivityIds.PartyJukebox40),
  (ActivityIds.PartyValentineJukebox, ActivityIds.PartyValentineJukebox40),
  (ActivityIds.PartyDance, ActivityIds.PartyDance20),
@@ -137,34 +93,7 @@ ValentinePartyReplacementActivityIds = frozenset([ActivityIds.PartyDance,
  ActivityIds.PartyJukebox,
  ActivityIds.PartyJukebox40,
  ActivityIds.PartyTrampoline])
-DecorationIds = PythonUtil.Enum(('BalloonAnvil',
- 'BalloonStage',
- 'Bow',
- 'Cake',
- 'Castle',
- 'GiftPile',
- 'Horn',
- 'MardiGras',
- 'NoiseMakers',
- 'Pinwheel',
- 'GagGlobe',
- 'BannerJellyBean',
- 'CakeTower',
- 'HeartTarget',
- 'HeartBanner',
- 'FlyingHeart',
- 'Hydra',
- 'BannerVictory',
- 'CannonVictory',
- 'CogStatueVictory',
- 'TubeCogVictory',
- 'CogIceCreamVictory',
- 'cogIceCreamWinter',
- 'StageWinter',
- 'CogStatueWinter',
- 'snowman',
- 'snowDoodle',
- 'BalloonAnvilValentine'))
+DecorationIds = PythonUtil.Enum(('BalloonAnvil', 'BalloonStage', 'Bow', 'Cake', 'Castle', 'GiftPile', 'Horn', 'MardiGras', 'NoiseMakers', 'Pinwheel', 'GagGlobe', 'BannerJellyBean', 'CakeTower', 'HeartTarget', 'HeartBanner', 'FlyingHeart', 'Hydra', 'BannerVictory', 'CannonVictory', 'CogStatueVictory', 'TubeCogVictory', 'CogIceCreamVictory', 'cogIceCreamWinter', 'StageWinter', 'CogStatueWinter', 'snowman', 'snowDoodle', 'BalloonAnvilValentine'))
 TTRUnreleasedDecor = [DecorationIds.HeartTarget,
  DecorationIds.HeartBanner,
  DecorationIds.FlyingHeart,
@@ -200,11 +129,7 @@ ValentinePartyDecorationIds = frozenset([DecorationIds.BalloonAnvilValentine,
  DecorationIds.FlyingHeart])
 ValentinePartyReplacementDecorationIds = frozenset([DecorationIds.BalloonAnvil, DecorationIds.BannerJellyBean])
 UnreleasedDecorationIds = ()
-GoToPartyStatus = PythonUtil.Enum(('AllowedToGo',
- 'PartyFull',
- 'PrivateParty',
- 'PartyOver',
- 'PartyNotActive'))
+GoToPartyStatus = PythonUtil.Enum(('AllowedToGo', 'PartyFull', 'PrivateParty', 'PartyOver', 'PartyNotActive'))
 PlayGroundToPartyClockColors = {'the_burrrgh': (53.0 / 255.0,
                  116.0 / 255.0,
                  148.0 / 255.0,
@@ -232,8 +157,8 @@ PlayGroundToPartyClockColors = {'the_burrrgh': (53.0 / 255.0,
 PartyGridUnitLength = [14.4, 14.6]
 PartyGridHeadingConverter = 15.0
 PartyGridToPandaOffset = (-PartyGridUnitLength[0] * PartyEditorGridSize[0] / 2.0, -PartyGridUnitLength[1] * PartyEditorGridSize[1] / 2.0)
-PartyCostMultiplier = 1 # For testing, set to 0, for actual parties, set to 1
-MinimumPartyCost = 50 * PartyCostMultiplier
+PartyCostMultiplier = 1
+MinimumPartyCost = 100 * PartyCostMultiplier
 ActivityInformationDict = {ActivityIds.PartyJukebox: {'cost': int(50 * PartyCostMultiplier),
                             'gridsize': (1, 1),
                             'numberPerPurchase': 1,
@@ -261,13 +186,13 @@ ActivityInformationDict = {ActivityIds.PartyJukebox: {'cost': int(50 * PartyCost
  ActivityIds.PartyCannon: {'cost': int(50 * PartyCostMultiplier),
                            'gridsize': (1, 1),
                            'numberPerPurchase': 5,
-                           'limitPerParty': 20,
+                           'limitPerParty': 10,
                            'paidOnly': False,
                            'gridAsset': 'PartyCannon_activity_1x1'},
  ActivityIds.PartyTrampoline: {'cost': int(50 * PartyCostMultiplier),
                                'gridsize': (2, 2),
                                'numberPerPurchase': 1,
-                               'limitPerParty': 16,
+                               'limitPerParty': 8,
                                'paidOnly': False,
                                'gridAsset': 'PartyTrampoline_activity_2x2'},
  ActivityIds.PartyValentineTrampoline: {'cost': int(50 * PartyCostMultiplier),
@@ -291,7 +216,7 @@ ActivityInformationDict = {ActivityIds.PartyJukebox: {'cost': int(50 * PartyCost
  ActivityIds.PartyCatch: {'cost': int(300 * PartyCostMultiplier),
                           'gridsize': (5, 5),
                           'numberPerPurchase': 1,
-                          'limitPerParty': 2,
+                          'limitPerParty': 1,
                           'paidOnly': True,
                           'gridAsset': 'PartyCatch_activity_5x5'},
  ActivityIds.PartyWinterCatch: {'cost': int(300 * PartyCostMultiplier),
@@ -315,13 +240,13 @@ ActivityInformationDict = {ActivityIds.PartyJukebox: {'cost': int(50 * PartyCost
  ActivityIds.PartyDance: {'cost': int(100 * PartyCostMultiplier),
                           'gridsize': (3, 3),
                           'numberPerPurchase': 1,
-                          'limitPerParty': 2,
+                          'limitPerParty': 1,
                           'paidOnly': True,
                           'gridAsset': 'PartyDance_activity_3x3'},
  ActivityIds.PartyDance20: {'cost': int(200 * PartyCostMultiplier),
                             'gridsize': (3, 3),
                             'numberPerPurchase': 1,
-                            'limitPerParty': 2,
+                            'limitPerParty': 1,
                             'paidOnly': True,
                             'gridAsset': 'PartyDance_activity_3x3'},
  ActivityIds.PartyValentineDance: {'cost': int(100 * PartyCostMultiplier),
@@ -668,7 +593,7 @@ for type in DropObjectTypes:
 Name2DOTypeId = {}
 names = Name2DropObjectType.keys()
 names.sort()
-for i in xrange(len(names)):
+for i in range(len(names)):
     Name2DOTypeId[names[i]] = i
 
 DOTypeId2Name = names
@@ -710,7 +635,6 @@ DancePatternToAnims20 = {'ddd': 'down',
  'dduu': 'slip-backward',
  'drul': 'sad-walk',
  'ldr': 'push',
- 'uduu': 'throw',
  'ldddud': 'happy-dance',
  'ldu': 'sprinkle-dust',
  'lll': 'left',
@@ -738,7 +662,6 @@ DanceAnimToName = {'right': TTLocalizer.DanceAnimRight,
  'shrug': TTLocalizer.DanceAnimShrug,
  'slip-forward': TTLocalizer.DanceAnimSlipForward,
  'sad-walk': TTLocalizer.DanceAnimSadWalk,
- 'throw': TTLocalizer.DanceAnimThrow,
  'wave': TTLocalizer.DanceAnimWave,
  'struggle': TTLocalizer.DanceAnimStruggle,
  'running-jump': TTLocalizer.DanceAnimRunningJump,
@@ -755,17 +678,14 @@ DanceReverseLoopAnims = ['left',
  'up',
  'down',
  'good-putt']
-ToonDancingStates = PythonUtil.Enum(('Init',
- 'DanceMove',
- 'Run',
- 'Cleanup'))
+ToonDancingStates = PythonUtil.Enum(('Init', 'DanceMove', 'Run', 'Cleanup'))
 JUKEBOX_TIMEOUT = 30.0
 MUSIC_PATH = 'phase_%s/audio/bgm/'
 MUSIC_MIN_LENGTH_SECONDS = 50.0
 MUSIC_GAP = 2.5
 PhaseToMusicData = {3.5: {'TC_SZ.ogg': [TTLocalizer.MusicTcSz, 57]},
  3: {'create_a_toon.ogg': [TTLocalizer.MusicCreateAToon, 175],
-     'ttw_theme.ogg': [TTLocalizer.MusicttwTheme, 51]},
+     'tt_theme.ogg': [TTLocalizer.MusicTtTheme, 51]},
  4: {'TC_nbrhood.ogg': [TTLocalizer.MusicTcNbrhood, 59],
      'MG_TwoDGame.ogg': [TTLocalizer.MusicMgTwodgame, 60],
      'MG_Vine.ogg': [TTLocalizer.MusicMgVine, 32],
@@ -786,7 +706,7 @@ PhaseToMusicData = {3.5: {'TC_SZ.ogg': [TTLocalizer.MusicTcSz, 57]},
 PhaseToMusicData40 = {3.5: {'encntr_general_bg.ogg': [TTLocalizer.MusicEncntrGeneralBg, 30],
        'TC_SZ.ogg': [TTLocalizer.MusicTcSz, 57]},
  3: {'create_a_toon.ogg': [TTLocalizer.MusicCreateAToon, 175],
-     'ttw_theme.ogg': [TTLocalizer.MusicttwTheme, 51]},
+     'ttr_theme.ogg': [TTLocalizer.MusicTtrTheme, 84]},
  4: {'minigame_race.ogg': [TTLocalizer.MusicMinigameRace, 77],
      'TC_nbrhood.ogg': [TTLocalizer.MusicTcNbrhood, 59],
      'MG_TwoDGame.ogg': [TTLocalizer.MusicMgTwodgame, 60],

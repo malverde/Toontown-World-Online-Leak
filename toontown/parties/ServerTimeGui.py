@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.ServerTimeGui
 from pandac.PandaModules import TextNode
 from direct.gui.DirectGui import DirectFrame, DirectLabel
 from direct.interval.IntervalGlobal import Func, Sequence, Wait
@@ -22,22 +23,20 @@ class ServerTimeGui(DirectFrame):
         self.amLabel = DirectLabel(relief=None, parent=self, pos=(0.14, 0, 0), text='', text_scale=textScale, text_align=TextNode.ALeft, text_font=timeFont)
         self.ival = Sequence(Func(self.colonLabel.show), Wait(0.75), Func(self.colonLabel.hide), Wait(0.25), Func(self.updateTime))
         self.ival.loop()
-        return
 
     def destroy(self):
         self.ival.finish()
         self.ival = None
         DirectFrame.destroy(self)
-        return
 
     def updateTime(self):
         curServerDate = base.cr.toontownTimeManager.getCurServerDateTime()
         if TTLocalizer.HourFormat == '24':
-        	self.hour = '%H'
-        	self.ampm = ''
+            self.hour = '%H'
+            self.ampm = ''
         else:
-        	self.hour = '%I'
-        	self.ampm = '%p'
+            self.hour = '%I'
+            self.ampm = '%p'
         if self.hourCallback is not None:
             if curServerDate.hour != self.lastHour and self.lastHour != -1:
                 self.lastHour = curServerDate.hour
@@ -49,4 +48,3 @@ class ServerTimeGui(DirectFrame):
                 self.hourLabel['text'] = self.hourLabel['text'][1:]
             self.minutesLabel['text'] = curServerDate.strftime('%M')
             self.amLabel['text'] = curServerDate.strftime(self.ampm)
-        return
