@@ -70,6 +70,8 @@ want-fishing #t
 want-checkers-table #f
 want-findfour-table #f
 want-keep-alive #f
+want-hourly-fireworks #t
+want-hourly-fireworks-type summer
 
 
 # Developer Modifications
