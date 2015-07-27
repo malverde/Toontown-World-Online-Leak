@@ -6210,3 +6210,82 @@ def allSummons():
     invoker.b_setCogSummonsEarned(allSummons)
     return 'Lots of summons!'
 
+@magicWord(category=CATEGORY_OVERRIDE, types=[str, int])
+def spawnFO(track, difficulty = 0):
+    tracks = ['s', 'l']
+    if track not in tracks:
+        return 'Invalid Field Office type! Supported types are "s" and "l"'
+    av = spellbook.getInvoker()
+    try:
+        building = av.findClosestDoor()
+    except KeyError:
+        return "You're not on a street!"
+
+    if building == None:
+        return 'Unable to spawn "%s" Field Office with difficulty %d.' % (track, difficulty)
+    building.cogdoTakeOver(difficulty, 2, track)
+    return 'Successfully spawned "%s" Field Office with difficulty %d!' % (track, difficulty)
+    
+@magicWord(category=CATEGORY_SYSADMIN, types=[str, str])
+def freeBldg(f = None, l = None):
+    """
+    Given a shopkeepr's firstname (f) and lastname (l), free
+    the shop associated with their id.
+    
+    Examples:
+    ~freeBldg Connie Ferris
+    ~freeBldg Bootsy
+    """
+
+    def _freeBldg(shopkeeperId, sp):
+        suitBuildings = sp.buildingMgr.getEstablishedSuitBlocks()
+        bldgInteriorZone = None
+        for zone, ids in NPCToons.zone2NpcDict.items():
+            if shopkeeperId in ids:
+                bldgInteriorZone = zone
+                break
+
+        for b in suitBuildings:
+            building = sp.buildingMgr.getBuilding(b)
+            if bldgInteriorZone == building.zoneId + 500 + building.block:
+                if hasattr(building, 'elevator'):
+                    building.toonTakeOver()
+                    return NPCToons.getBuildingTitle(bldgInteriorZone)
+                else:
+                    return False
+
+    if f:
+        shopkeeper = f.title() + ' ' + l.title() if l else f.title()
+    else:
+        shopkeeper = None
+    av = spellbook.getInvoker()
+    zoneId = av.getLocation()[1]
+    streetId = ZoneUtil.getBranchZone(zoneId)
+    try:
+        sp = simbase.air.suitPlanners[streetId]
+    except KeyError:
+        return "You're not on a street!"
+
+    shopkeepers = []
+    foundAnyCogBldgs = []
+    if shopkeeper:
+        for id, npcDesc in NPCToons.NPCToonDict.items():
+            if npcDesc[1] == shopkeeper:
+                shopkeepers.append(id)
+                break
+
+    else:
+        for index in range(len(av.quests)):
+            toNpcId = av.quests[index][2]
+            if zoneId == NPCToons.getNPCZone(toNpcId):
+                shopkeepers.append(toNpcId)
+
+    if not shopkeepers:
+        return 'Unable to find Building!'
+    else:
+        for id in shopkeepers:
+            foundAnyCogBldgs.append(_freeBldg(id, sp))
+
+        if any((bldg for bldg in foundAnyCogBldgs)):
+            return 'Recovering: {0}'.format(foundAnyCogBldgs)
+        return 'Not a Cog building!'
