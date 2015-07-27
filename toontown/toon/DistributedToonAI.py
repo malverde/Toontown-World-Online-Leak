@@ -6235,7 +6235,7 @@ def spawnFO(track, difficulty = 0):
 
     if building == None:
         return 'Unable to spawn "%s" Field Office with difficulty %d.' % (track, difficulty)
-    building.cogdoTakeOver(difficulty, 2, track)
+    building.cogdoTakeOver(6, 2, track)
     return 'Successfully spawned "%s" Field Office with difficulty %d!' % (track, difficulty)
     
 @magicWord(category=CATEGORY_SYSADMIN, types=[str, str])
