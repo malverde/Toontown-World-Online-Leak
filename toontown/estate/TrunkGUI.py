@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.TrunkGUI
 from direct.showbase.PythonUtil import Functor
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
@@ -31,7 +32,6 @@ class TrunkGUI(StateData.StateData):
         self.cancelEvent = cancelEvent
         self.genderChange = 0
         self.verify = None
-        return
 
     def load(self):
         self.gui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_mainGui')
@@ -92,7 +92,7 @@ class TrunkGUI(StateData.StateData):
         if self.isOwner:
             trashcanGui = loader.loadModel('phase_3/models/gui/trashcan_gui')
             trashImage = (trashcanGui.find('**/TrashCan_CLSD'), trashcanGui.find('**/TrashCan_OPEN'), trashcanGui.find('**/TrashCan_RLVR'))
-            self.trashPanel = DirectFrame(parent=aspect2d, image=DGG.getDefaultDialogGeom(), image_color=(1, 1, 0.75, 0.8), image_scale=(0.36, 0, 1.2), pos=(-.86, 0, 0.1), relief=None)
+            self.trashPanel = DirectFrame(parent=aspect2d, image=DGG.getDefaultDialogGeom(), image_color=(1, 1, 0.75, 0.8), image_scale=(0.36, 0, 1.2), pos=(-0.86, 0, 0.1), relief=None)
 
             def addTrashButton(posZ, text, extraArg):
                 return DirectButton(parent=self.trashPanel, image=trashImage, relief=None, pos=(-0.09, 0, posZ), command=self.__handleDelete, text=text, extraArgs=[extraArg], scale=(0.5, 0.5, 0.5), text_font=ToontownGlobals.getInterfaceFont(), text_scale=0.12, text_pos=(0.3, 0), text_fg=(0.8, 0.2, 0.2, 1), text_shadow=(0, 0, 0, 1), textMayChange=0)
@@ -103,7 +103,6 @@ class TrunkGUI(StateData.StateData):
             self.shoesTrashButton = addTrashButton(-0.4, TTLocalizer.TrunkDeleteShoes, ToonDNA.SHOES)
             self.button = DirectButton(relief=None, image=(self.gui.find('**/CrtAtoon_Btn1_UP'), self.gui.find('**/CrtAtoon_Btn1_DOWN'), self.gui.find('**/CrtAtoon_Btn1_RLLVR')), pos=(-0.15, 0, -0.85), command=self.__handleButton, text=('', TTLocalizer.MakeAToonDone, TTLocalizer.MakeAToonDone), text_font=ToontownGlobals.getInterfaceFont(), text_scale=0.08, text_pos=(0, -0.03), text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1))
             trashcanGui.removeNode()
-        return
 
     def unload(self):
         taskMgr.remove(self.taskName('rotateL'))
@@ -226,7 +225,6 @@ class TrunkGUI(StateData.StateData):
     def setupButtons(self):
         self.acceptOnce('last', self.__handleBackward)
         self.acceptOnce('next', self.__handleForward)
-        return None
 
     def setupScrollInterface(self):
         self.notify.debug('setupScrollInterface')
@@ -276,7 +274,6 @@ class TrunkGUI(StateData.StateData):
         self.swapShoes(0)
         self.updateTrashButtons()
         self.setupButtons()
-        return
 
     def updateTrashButtons(self):
         if not self.isOwner:
@@ -336,7 +333,7 @@ class TrunkGUI(StateData.StateData):
         self.updateScrollButtons(self.hatChoice, length, 0, self.hatLButton, self.hatRButton)
         if self.hatChoice < 0 or self.hatChoice >= len(self.hats) or len(self.hats[self.hatChoice]) != 3:
             self.notify.warning('hatChoice index is out of range!')
-            return None
+            return
         hat = self.hats[self.hatChoice]
         self.toon.setHat(hat[0], hat[1], hat[2])
         if self.swapHatEvent != None:
@@ -351,7 +348,7 @@ class TrunkGUI(StateData.StateData):
         self.updateScrollButtons(self.glassesChoice, length, 0, self.glassesLButton, self.glassesRButton)
         if self.glassesChoice < 0 or self.glassesChoice >= len(self.glasses) or len(self.glasses[self.glassesChoice]) != 3:
             self.notify.warning('glassesChoice index is out of range!')
-            return None
+            return
         glasses = self.glasses[self.glassesChoice]
         self.toon.setGlasses(glasses[0], glasses[1], glasses[2])
         if self.swapGlassesEvent != None:
@@ -366,7 +363,7 @@ class TrunkGUI(StateData.StateData):
         self.updateScrollButtons(self.backpackChoice, length, 0, self.backpackLButton, self.backpackRButton)
         if self.backpackChoice < 0 or self.backpackChoice >= len(self.backpacks) or len(self.backpacks[self.backpackChoice]) != 3:
             self.notify.warning('backpackChoice index is out of range!')
-            return None
+            return
         backpack = self.backpacks[self.backpackChoice]
         self.toon.setBackpack(backpack[0], backpack[1], backpack[2])
         if self.swapBackpackEvent != None:
@@ -381,7 +378,7 @@ class TrunkGUI(StateData.StateData):
         self.updateScrollButtons(self.shoesChoice, length, 0, self.shoesLButton, self.shoesRButton)
         if self.shoesChoice < 0 or self.shoesChoice >= len(self.shoes) or len(self.shoes[self.shoesChoice]) != 3:
             self.notify.warning('shoesChoice index is out of range!')
-            return None
+            return
         shoes = self.shoes[self.shoesChoice]
         self.toon.setShoes(shoes[0], shoes[1], shoes[2])
         if self.swapShoesEvent != None:
@@ -530,7 +527,6 @@ class TrunkGUI(StateData.StateData):
         if status == 'ok':
             messenger.send(self.deleteEvent, [which])
         messenger.send('wakeup')
-        return
 
     def taskName(self, idString):
         return idString + '-TrunkGUI'

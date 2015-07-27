@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.PlantTreeGUI
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
 from toontown.toonbase import TTLocalizer
@@ -17,7 +18,6 @@ class PlantTreeGUI(StateData.StateData):
         base.localAvatar.inventory.show()
         self.accept('inventory-selection', self.__handleInventory)
         self.accept('inventory-pass', self.__handleCancel)
-        return
 
     def destroy(self):
         self.ignore('inventory-selection')
@@ -27,7 +27,6 @@ class PlantTreeGUI(StateData.StateData):
         if self._teaserPanel:
             self._teaserPanel.destroy()
             self._teaserPanel = None
-        return
 
     def __handleInventory(self, track, level):
         if gagIsPaidOnly(track, level) and not base.cr.isPaid():
@@ -40,4 +39,3 @@ class PlantTreeGUI(StateData.StateData):
 
     def __handleCancel(self):
         messenger.send(self.doneEvent, [False, None, None])
-        return

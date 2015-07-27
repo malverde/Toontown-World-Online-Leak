@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.DistributedFurnitureManager
 from direct.distributed import DistributedObject
 from toontown.catalog import CatalogItem
 from toontown.catalog import CatalogItemList
@@ -23,7 +24,6 @@ class DistributedFurnitureManager(DistributedObject.DistributedObject):
         self.director = 0
         self.notify.debug('disable')
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def delete(self):
         self.notify.debug('delete')
@@ -36,7 +36,6 @@ class DistributedFurnitureManager(DistributedObject.DistributedObject):
             if self.cr.objectManager == None:
                 import houseDesign
                 self.cr.objectManager = houseDesign.ObjectManager()
-        return
 
     def setOwnerName(self, name):
         self.ownerName = name
@@ -143,7 +142,6 @@ class DistributedFurnitureManager(DistributedObject.DistributedObject):
         else:
             dfitem = None
         self.doCallbackContext(context, [retcode, dfitem])
-        return
 
     def deleteItemFromAtticResponse(self, retcode, context):
         self.doCallbackContext(context, [retcode])

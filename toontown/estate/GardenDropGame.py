@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.GardenDropGame
 from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
@@ -95,7 +96,6 @@ class GardenDropGame(DirectObject.DirectObject):
         self.cogX = 0
         self.cogZ = 0
         self.__run()
-        return
 
     def findGrid(self, x, z, force = 0):
         currentClosest = None
@@ -147,8 +147,6 @@ class GardenDropGame(DirectObject.DirectObject):
             gridEntry[0] = None
             sprite.markedForDeath = 1
 
-        return
-
     def createMatchList(self, x, z):
         self.matchList = []
         self.fillMatchList(x, z)
@@ -192,7 +190,6 @@ class GardenDropGame(DirectObject.DirectObject):
             return 1
         else:
             return 0
-        return
 
     def getValidGrid(self, x, z):
         if x < 0 or x >= self.gridDimX:
@@ -201,7 +198,6 @@ class GardenDropGame(DirectObject.DirectObject):
             return None
         else:
             return self.grid[x][z]
-        return None
 
     def getColorType(self, x, z):
         if x < 0 or x >= self.gridDimX:
@@ -212,7 +208,6 @@ class GardenDropGame(DirectObject.DirectObject):
             return -1
         else:
             return self.grid[x][z][0].colorType
-        return
 
     def findGridCog(self):
         self.cogX = 0
@@ -232,7 +227,6 @@ class GardenDropGame(DirectObject.DirectObject):
             self.cogSprite.setZ(self.cogZ)
         else:
             self.doOnClearGrid()
-        return
 
     def doOnClearGrid(self):
         secondSprite = self.addSprite(self.block, posX=self.newBallX, posZ=0.0, found=1)
@@ -271,7 +265,6 @@ class GardenDropGame(DirectObject.DirectObject):
             print 'Setting Final Pos X%s Z%s' % (newX, newZ)
         else:
             self.placeIntoGrid(sprite, x + 1, z - 1)
-        return
 
     def stickInGrid(self, sprite, force = 0):
         if sprite.isActive and not sprite.isQue:
@@ -299,15 +292,11 @@ class GardenDropGame(DirectObject.DirectObject):
         self.model1 = model1
         background = model.find('**/bg')
         itemBoard = model.find('**/item_board')
-        self.frame = DirectFrame(scale=1.1, relief=DGG.FLAT, frameSize=(-0.5,
-         0.5,
-         -0.45,
-         -0.05), frameColor=(0.737, 0.573, 0.345, 1.0))
+        self.frame = DirectFrame(scale=1.1, relief=DGG.FLAT, frameSize=(-0.5, 0.5, -0.45, -0.05), frameColor=(0.737, 0.573, 0.345, 1.0))
         self.background = DirectFrame(self.frame, image=background, image_scale=0.05, relief=None, pos=(0, 1, 0))
         self.itemBoard = DirectFrame(parent=self.frame, image=itemBoard, image_scale=0.05, image_color=(0.922, 0.922, 0.753, 1), relief=None, pos=(0, 1, 0))
         gui2 = loader.loadModel('phase_3/models/gui/quit_button')
         self.quitButton = DirectButton(parent=self.frame, relief=None, image=(gui2.find('**/QuitBtn_UP'), gui2.find('**/QuitBtn_DN'), gui2.find('**/QuitBtn_RLVR')), pos=(0.5, 1.0, -0.42), scale=0.9, text='Exit Mini Game', text_font=ToontownGlobals.getSignFont(), text0_fg=(1, 1, 1, 1), text1_fg=(1, 1, 1, 1), text2_fg=(1, 1, 1, 1), text_scale=0.045, text_pos=(0, -0.01), command=self.__handleExit)
-        return
 
     def unload(self):
         self.frame.destroy()
@@ -317,7 +306,6 @@ class GardenDropGame(DirectObject.DirectObject):
             self.acceptErrorDialog = None
         taskMgr.remove('gameTask')
         self.ignoreAll()
-        return
 
     def show(self):
         self.frame.show()
@@ -436,7 +424,6 @@ class GardenDropGame(DirectObject.DirectObject):
             return None
         else:
             return self.sprites[spriteIndex]
-        return None
 
     def testDistance(self, nodeA, nodeB):
         distX = nodeA.getX() - nodeB.getX()

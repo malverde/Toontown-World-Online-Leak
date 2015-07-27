@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.GardenGlobals
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
 import random
@@ -307,7 +308,7 @@ def getTreeTypeIndex(track, level):
     return track * 7 + level
 
 
-NUM_GAGS = 7 * 7
+NUM_GAGS = 49
 for i in range(NUM_GAGS):
     track, level = getTreeTrackAndLevel(i)
     if level <= 6:
