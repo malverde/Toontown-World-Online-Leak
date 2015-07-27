@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.Fireworks
 from direct.interval.IntervalGlobal import *
 from direct.particles import ParticleEffect
 from direct.particles import Particles

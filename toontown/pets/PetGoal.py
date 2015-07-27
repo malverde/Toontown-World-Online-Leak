@@ -1,3 +1,4 @@
+#Embedded file name: toontown.pets.PetGoal
 from direct.task import Task
 from direct.fsm import FSM, ClassicFSM, State
 from direct.showbase.PythonUtil import randFloat, Functor
@@ -19,7 +20,6 @@ class PetGoal(FSM.FSM):
         PetGoal.SerialNum += 1
         self.fsm = ClassicFSM.ClassicFSM('PetGoalFSM', [State.State('off', self.enterOff, self.exitOff, ['background']), State.State('background', self.enterBackground, self.exitBackground, ['foreground']), State.State('foreground', self.enterForeground, self.exitForeground, ['background'])], 'off', 'off')
         self.fsm.enterInitialState()
-        return
 
     def destroy(self):
         if hasattr(self, 'fsm'):
@@ -51,7 +51,6 @@ class PetGoal(FSM.FSM):
         self.pet = None
         self.brain = None
         self.fsm.requestFinalState()
-        return
 
     def getPriority(self):
         return PetConstants.PriorityDefault
@@ -114,7 +113,6 @@ class InteractWithAvatar(PetGoal):
         else:
             self.accept(self.brain.getObserveEventAttendingAvStart(self.avatar.doId), Functor(self.request, 'Interact'))
             self.brain._chase(self.avatar)
-        return
 
     def exitChase(self):
         self.ignore(self.brain.getObserveEventAttendingAvStart(self.avatar.doId))

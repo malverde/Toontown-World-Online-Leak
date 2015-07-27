@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.PooledEffect
 from pandac.PandaModules import *
 from direct.showbase import Pool
 from direct.showbase.DirectObject import DirectObject
@@ -18,16 +19,13 @@ class PooledEffect(DirectObject, NodePath):
             if free + used < cls.poolLimit:
                 cls.pool.add(cls())
                 return cls.pool.checkout()
-            else:
-                return
-        return
+            return
 
     @classmethod
     def cleanup(cls):
         if cls.pool:
             cls.pool.cleanup(cls.destroy)
             cls.pool = None
-        return
 
     def __init__(self):
         NodePath.__init__(self, self.__class__.__name__)

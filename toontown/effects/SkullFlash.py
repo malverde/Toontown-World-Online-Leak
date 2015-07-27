@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.SkullFlash
 from pandac.PandaModules import *
 from direct.showbase.DirectObject import *
 from direct.interval.IntervalGlobal import *

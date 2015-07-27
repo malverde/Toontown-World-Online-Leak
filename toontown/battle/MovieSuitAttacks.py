@@ -13,9 +13,8 @@ from direct.particles import ParticleEffect
 import BattleParticles
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-from toontown.chat.ChatGlobals import *
-from toontown.nametag import NametagGlobals
-from toontown.nametag.NametagGlobals import *
+from otp.nametag.NametagConstants import *
+from otp.nametag import NametagGlobals
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieSuitAttacks')
 
 def __doDamage(toon, dmg, died):

@@ -1,4 +1,5 @@
 from toontown.toonbase import ToontownGlobals
+import random
 
 TreasureTT = 0
 TreasureDD = 1
@@ -12,35 +13,35 @@ TreasureRandom = 8
 
 TreasureModels = {
     TreasureTT: (
-        'phase_4/models/props/icecream',
+        ['phase_4/models/props/icecream'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureDD: (
-        'phase_6/models/props/starfish_treasure',
+        ['phase_6/models/props/starfish_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureDG: (
-        'phase_8/models/props/flower_treasure',
+        ['phase_8/models/props/flower_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureBR: (
-        'phase_8/models/props/snowflake_treasure',
+        ['phase_8/models/props/snowflake_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureMM: (
-        'phase_6/models/props/music_treasure',
+        ['phase_6/models/props/music_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureDL: (
-        'phase_8/models/props/zzz_treasure',
+        ['phase_8/models/props/zzz_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureOZ: (
-        'phase_6/models/props/acorn_treasure',
+        ['phase_6/models/props/acorn_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureE: (
-        'phase_5.5/models/props/popsicle_treasure',
+        ['phase_5.5/models/props/popsicle_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureRandom: (
@@ -53,8 +54,7 @@ TreasureModels = {
         'phase_6/models/props/acorn_treasure',
         'phase_5.5/models/props/popsicle_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
-    ),    
-    
+    ),
 }
 
 SafeZoneTreasureSpawns = {
@@ -265,27 +265,4 @@ SafeZoneTreasureSpawns = {
         10, # Rate
         4 # Maximum
     ),
-    ToontownGlobals.FunnyFarm: (
-        TreasureRandom, 3, # +3 laff
-        [
-            # TODO - real positions
-            (-156.9, -118.9, 0.025),
-            (-35.6, 86.0, 1.25),
-            (116.8, 10.8, 0.104),
-            (-35, 145.7, 0.025),
-            (-198.8, -45.1, 0.025),
-            (-47.1, -25.5, 0.809),
-            (59.15, 34.8, 1.767),
-            (-81.02, -72.2, 0.026),
-            (-167.9, 124.5, 0.025),
-            (-226.7, -27.6, 0.025),
-            (-16.0, -108.9, 0.025),
-            (18.0, 58.5, 5.919),
-            (91.4, 127.8, 0.025),
-            (-86.5, -75.9, 0.025),
-            (-48.751, -32.3, 1.143),
-        ],
-        10, # Rate
-        5 # Maximum
-    ),    
 }

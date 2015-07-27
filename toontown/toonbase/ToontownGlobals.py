@@ -150,7 +150,6 @@ TheBrrrgh = 3000
 MinniesMelodyland = 4000
 DaisyGardens = 5000
 OutdoorZone = 6000
-FunnyFarm = 7000
 GoofySpeedway = 8000
 DonaldsDreamland = 9000
 BarnacleBoulevard = 1100
@@ -305,9 +304,7 @@ Hoods = (DonaldsDock,
  TheBrrrgh,
  MinniesMelodyland,
  DaisyGardens,
- OutdoorZone,
- FunnyFarm,
- FunnyFarm, 
+ OutdoorZone, 
  GoofySpeedway,
  DonaldsDreamland,
  BossbotHQ,
@@ -408,7 +405,6 @@ phaseMap = {Tutorial: 4,
  GoofySpeedway: 6,
  TheBrrrgh: 8,
  DaisyGardens: 8,
- FunnyFarm: 14,
  DonaldsDreamland: 8,
  OutdoorZone: 6,
  BossbotHQ: 12,
@@ -423,7 +419,6 @@ streetPhaseMap = {ToontownCentral: 5,
  GoofySpeedway: 6,
  TheBrrrgh: 8,
  DaisyGardens: 8,
- FunnyFarm: 14,
  DonaldsDreamland: 8,
  OutdoorZone: 8,
  BossbotHQ: 12,
@@ -438,7 +433,6 @@ dnaMap = {Tutorial: 'toontown_central',
  GoofySpeedway: 'goofy_speedway',
  TheBrrrgh: 'the_burrrgh',
  DaisyGardens: 'daisys_garden',
- FunnyFarm: 'funny_farms',
  DonaldsDreamland: 'donalds_dreamland',
  OutdoorZone: 'outdoor_zone',
  BossbotHQ: 'cog_hq_bossbot',
@@ -452,7 +446,6 @@ hoodNameMap = {DonaldsDock: TTLocalizer.DonaldsDock,
  MinniesMelodyland: TTLocalizer.MinniesMelodyland,
  DaisyGardens: TTLocalizer.DaisyGardens,
  OutdoorZone: TTLocalizer.OutdoorZone,
- FunnyFarm: TTLocalizer.FunnyFarm,
  GoofySpeedway: TTLocalizer.GoofySpeedway,
  DonaldsDreamland: TTLocalizer.DonaldsDreamland,
  BossbotHQ: TTLocalizer.BossbotHQ,
@@ -471,7 +464,6 @@ safeZoneCountMap = {MyEstate: 8,
  GoofySpeedway: 500,
  TheBrrrgh: 8,
  DaisyGardens: 9,
-FunnyFarm: 500,
  DonaldsDreamland: 5,
  OutdoorZone: 500,
  GolfZone: 500,
@@ -484,7 +476,6 @@ townCountMap = {MyEstate: 8,
  GoofySpeedway: 40,
  TheBrrrgh: 40,
  DaisyGardens: 40,
- FunnyFarm: 40,
  DonaldsDreamland: 40,
  OutdoorZone: 40,
  PartyHood: 20}
@@ -496,7 +487,7 @@ hoodCountMap = {MyEstate: 2,
  GoofySpeedway: 2,
  TheBrrrgh: 2,
  DaisyGardens: 2,
- FunnyFarm: 2,
+ 
  DonaldsDreamland: 2,
  OutdoorZone: 2,
  BossbotHQ: 2,
@@ -569,7 +560,7 @@ BossCogGavelHandle = 14
 BossCogLawyerAttack = 15
 BossCogMoveAttack = 16
 BossCogGolfAttack = 24
-BossCogGolfAreaAttack = 18
+BossCogGolfAreaAttack = 24
 BossCogGearDirectedAttack = 19
 BossCogOvertimeAttack = 20
 BossCogAttackTimes = {BossCogElectricFence: 0,
@@ -1649,8 +1640,7 @@ hood2Id = {
  'OFFICE': (LawbotHQ,),
  'BACK': (BossbotHQ,),
  'MIDDLE': (BossbotHQ,),
- 'FRONT': (BossbotHQ,),
- 'FF' : (FunnyFarm,)}
+ 'FRONT': (BossbotHQ,)}
 hood2Coords = {
  'CEO': [
     (61.044, 119.014, 0.025),
@@ -1771,6 +1761,7 @@ hood2Coords = {
     (146.1, 33.228, 0.025),
     (296.844, 0, 0)]}
 
+
 # Gag Buffs variables...
 
 BMovementSpeed = 0
@@ -1779,3 +1770,4 @@ BGagAccuracy = 1
 BGagAccuracyMultiplier = 2.0
 BGagExperience = 2
 BGagExperienceMultiplier = 2
+

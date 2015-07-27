@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogItemPanel
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from toontown.toonbase import ToontownGlobals
@@ -28,7 +29,6 @@ class CatalogItemPanel(DirectFrame):
         DirectFrame.__init__(self, parent)
         self.loaded = 0
         self.initialiseoptions(CatalogItemPanel)
-        return
 
     def load(self):
         if self.loaded:
@@ -97,10 +97,10 @@ class CatalogItemPanel(DirectFrame):
             nameScale = 0.063
         elif self['item'].getTypeCode() == CatalogItemTypes.ACCESSORY_ITEM:
             self.nameLabel['text_wordwrap'] = CATALOG_PANEL_ACCESSORY_WORDWRAP
-            namePos = (0, 0, -.22)
+            namePos = (0, 0, -0.22)
             nameScale = 0.06
         else:
-            namePos = (0, 0, -.22)
+            namePos = (0, 0, -0.22)
             nameScale = 0.06
         self.nameLabel.setPos(*namePos)
         self.nameLabel.setScale(nameScale)
@@ -150,7 +150,6 @@ class CatalogItemPanel(DirectFrame):
          rolloverButton,
          upButton), image_color=(1.0, 0.2, 0.2, 1), image0_color=Vec4(1.0, 0.4, 0.4, 1), image3_color=Vec4(1.0, 0.4, 0.4, 0.4), command=self.__handleGiftRequest)
         self.updateButtons()
-        return
 
     def createEmblemPrices(self, numericBeanPrice):
         priceScale = 0.07
@@ -197,7 +196,6 @@ class CatalogItemPanel(DirectFrame):
                 self.silverPriceLabel.setX(-0.2)
                 self.goldPriceLabel.setX(0)
                 self.beanPriceLabel.setX(0.15)
-        return
 
     def showNextVariant(self):
         messenger.send('wakeup')
@@ -272,19 +270,17 @@ class CatalogItemPanel(DirectFrame):
         if self.verify:
             self.verify.cleanup()
         DirectFrame.destroy(self)
-        return
 
     def destroy(self):
         self.parentCatalogScreen = None
         self.unload()
-        return
 
     def getTeaserPanel(self):
         typeName = self['item'].getTypeName()
         if typeName == TTLocalizer.EmoteTypeName or typeName == TTLocalizer.ChatTypeName:
             page = 'emotions'
-        #elif typeName == TTLocalizer.GardenTypeName or typeName == TTLocalizer.GardenStarterTypeName:
-            #page = 'gardening'
+        elif typeName == TTLocalizer.GardenTypeName or typeName == TTLocalizer.GardenStarterTypeName:
+            page = 'gardening'
         else:
             page = 'clothing'
 
@@ -418,7 +414,6 @@ class CatalogItemPanel(DirectFrame):
             item = self.items[self.itemIndex]
             messenger.send('CatalogItemPurchaseRequest', [item])
             self.buyButton['state'] = DGG.DISABLED
-        return
 
     def __handleGiftRequest(self):
         if self['item'].replacesExisting() and self['item'].hasExisting():
@@ -450,7 +445,6 @@ class CatalogItemPanel(DirectFrame):
             self.giftButton['state'] = DGG.DISABLED
             item = self.items[self.itemIndex]
             messenger.send('CatalogItemGiftPurchaseRequest', [item])
-        return
 
     def updateButtons(self, giftActivate = 0):
         if self.parentCatalogScreen.gifting == -1:
@@ -482,7 +476,7 @@ class CatalogItemPanel(DirectFrame):
                 auxText = TTLocalizer.CatalogNotAGift
                 self.auxText['text'] = auxText
                 return
-            elif self.parentCatalogScreen.gotAvatar == 1:
+            if self.parentCatalogScreen.gotAvatar == 1:
                 avatar = self.parentCatalogScreen.giftAvatar
                 if self['item'].forBoysOnly() and avatar.getStyle().getGender() == 'f' or self['item'].forGirlsOnly() and avatar.getStyle().getGender() == 'm':
                     self.giftButton.show()
@@ -490,19 +484,19 @@ class CatalogItemPanel(DirectFrame):
                     auxText = TTLocalizer.CatalogNoFit
                     self.auxText['text'] = auxText
                     return
-                elif self['item'].reachedPurchaseLimit(avatar):
+                if self['item'].reachedPurchaseLimit(avatar):
                     self.giftButton.show()
                     self.giftButton['state'] = DGG.DISABLED
                     auxText = TTLocalizer.CatalogPurchasedGiftText
                     self.auxText['text'] = auxText
                     return
-                elif len(avatar.mailboxContents) + len(avatar.onGiftOrder) >= ToontownGlobals.MaxMailboxContents:
+                if len(avatar.mailboxContents) + len(avatar.onGiftOrder) >= ToontownGlobals.MaxMailboxContents:
                     self.giftButton.show()
                     self.giftButton['state'] = DGG.DISABLED
                     auxText = TTLocalizer.CatalogMailboxFull
                     self.auxText['text'] = auxText
                     return
-                elif self['item'].getPrice(self['type']) <= base.localAvatar.getMoney() + base.localAvatar.getBankMoney():
+                if self['item'].getPrice(self['type']) <= base.localAvatar.getMoney() + base.localAvatar.getBankMoney():
                     self.giftButton['state'] = DGG.NORMAL
                     self.giftButton.show()
 
@@ -516,7 +510,6 @@ class CatalogItemPanel(DirectFrame):
                 self.ival = None
             self.ival = item.changeIval(volume=1)
             self.ival.loop()
-        return
 
     def handleSoundOffButton(self):
         item = self.items[self.itemIndex]
@@ -528,4 +521,3 @@ class CatalogItemPanel(DirectFrame):
                 self.ival = None
             self.ival = item.changeIval(volume=0)
             self.ival.loop()
-        return

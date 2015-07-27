@@ -106,7 +106,7 @@ class DistributedFishingPond(DistributedObject.DistributedObject):
 
     def setLocalToonSpot(self, spot = None):
         self.localToonSpot = spot
-        if spot is not None and spot.getDoId() not in self.visitedSpots:
+        if spot is not None and not self.visitedSpots.has_key(spot.getDoId()):
             self.visitedSpots[spot.getDoId()] = spot
         return
 

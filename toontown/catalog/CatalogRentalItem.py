@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogRentalItem
 import CatalogItem
 import time
 from toontown.toonbase import ToontownGlobals
@@ -124,7 +125,6 @@ class CatalogRentalItem(CatalogItem.CatalogItem):
         if self.confirmRent:
             self.confirmRent.cleanup()
             self.confirmRent = None
-        return
 
 
 def getAllRentalItems():

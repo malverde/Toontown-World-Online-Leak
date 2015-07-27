@@ -80,3 +80,4 @@ class DistributedGolfSpotAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM):
 
     def exitFree(self):
         pass
+

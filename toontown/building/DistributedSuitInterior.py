@@ -82,7 +82,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
 
     def setElevatorLights(self, elevatorModel):
         npc = elevatorModel.findAllMatches('**/floor_light_?;+s')
-        for i in xrange(npc.getNumPaths()):
+        for i in range(npc.getNumPaths()):
             np = npc.getPath(i)
             floor = int(np.getName()[-1:]) - 1
             if floor == self.currentFloor:
@@ -142,7 +142,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         self.ignore(toon.uniqueName('disable'))
 
     def __finishInterval(self, name):
-        if name in self.activeIntervals:
+        if self.activeIntervals.has_key(name):
             interval = self.activeIntervals[name]
             if interval.isPlaying():
                 interval.finish()
@@ -184,7 +184,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         self.toons = []
         for toonId in toonIds:
             if toonId != 0:
-                if toonId in self.cr.doId2do:
+                if self.cr.doId2do.has_key(toonId):
                     toon = self.cr.doId2do[toonId]
                     toon.stopSmooth()
                     self.toons.append(toon)
@@ -202,7 +202,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         self.suits = []
         self.joiningReserves = []
         for suitId in suitIds:
-            if suitId in self.cr.doId2do:
+            if self.cr.doId2do.has_key(suitId):
                 suit = self.cr.doId2do[suitId]
                 self.suits.append(suit)
                 suit.fsm.request('Battle')
@@ -214,9 +214,9 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
                 self.notify.warning('setSuits() - no suit: %d' % suitId)
 
         self.reserveSuits = []
-        for index in xrange(len(reserveIds)):
+        for index in range(len(reserveIds)):
             suitId = reserveIds[index]
-            if suitId in self.cr.doId2do:
+            if self.cr.doId2do.has_key(suitId):
                 suit = self.cr.doId2do[suitId]
                 self.reserveSuits.append((suit, values[index]))
             else:
@@ -266,7 +266,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
         self.floorModel.reparentTo(render)
         elevIn = self.floorModel.find('**/elevator-in')
         elevOut = self.floorModel.find('**/elevator-out')
-        for index in xrange(len(self.suits)):
+        for index in range(len(self.suits)):
             self.suits[index].setPos(SuitPositions[index])
             if len(self.suits) > 2:
                 self.suits[index].setH(SuitHs[index])
@@ -376,7 +376,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
          'hoodId': ZoneUtil.getHoodId(self.extZoneId),
          'zoneId': self.extZoneId,
          'shardId': None,
-         'avId': base.localAvatar.doId,
+         'avId': -1,
          'bldgDoId': self.distBldgDoId}
         messenger.send('DSIDoneEvent', [request])
         return

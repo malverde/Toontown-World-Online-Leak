@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogEmoteItem
 import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -98,7 +99,6 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         self.pictureToon.emote = None
         self.pictureToon.delete()
         self.pictureToon = None
-        return
 
     def output(self, store = -1):
         return 'CatalogEmoteItem(%s%s)' % (self.emoteIndex, self.formatOptionalData(store))
@@ -130,7 +130,7 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
     def isGift(self):
         if self.getEmblemPrices():
             return 0
-        if self.loyaltyRequirement() > 0:
+        elif self.loyaltyRequirement() > 0:
             return 0
         elif self.emoteIndex in LoyaltyEmoteItems:
             return 0

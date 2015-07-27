@@ -1,3 +1,5 @@
+#Embedded file name: toontown.catalog.CatalogItem
+from direct.directnotify import DirectNotifyGlobal
 from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
@@ -6,8 +8,6 @@ from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
 import types
 import sys
-
-
 CatalogReverseType = None
 CatalogItemVersion = 8
 CatalogBackorderMarkup = 1.2
@@ -23,9 +23,8 @@ CatalogTypeBackorder = 2
 CatalogTypeMonthly = 3
 CatalogTypeLoyalty = 4
 
-
-class CatalogItem:
-    notify = directNotify.newCategory('CatalogItem')
+class CatalogItem():
+    notify = DirectNotifyGlobal.directNotify.newCategory('CatalogItem')
 
     def __init__(self, *args, **kw):
         self.saleItem = 0
@@ -40,7 +39,6 @@ class CatalogItem:
             self.decodeDatagram(*args, **kw)
         else:
             self.makeNewItem(*args, **kw)
-        return
 
     def isAward(self):
         result = self.specialEventId != 0
@@ -153,7 +151,7 @@ class CatalogItem:
         return int(self.getBasePrice() * CatalogSaleMarkdown)
 
     def getDeliveryTime(self):
-        return 1
+        return 0
 
     def getPicture(self, avatar):
         self.hasPicture = True
@@ -208,6 +206,7 @@ class CatalogItem:
         mailbox.acceptItem(self, index, callback)
 
     def discardItem(self, mailbox, index, callback):
+        print 'Item discardItem'
         mailbox.discardItem(self, index, callback)
 
     def acceptItemCleanup(self):
@@ -335,18 +334,16 @@ class CatalogItem:
                 tex = loader.loadTexture(color)
                 tex.setMinfilter(Texture.FTLinearMipmapLinear)
                 tex.setMagfilter(Texture.FTLinear)
-                for i in xrange(matches.getNumPaths()):
+                for i in range(matches.getNumPaths()):
                     matches.getPath(i).setTexture(tex, 1)
 
             else:
                 needsAlpha = color[3] != 1
                 color = VBase4(color[0], color[1], color[2], color[3])
-                for i in xrange(matches.getNumPaths()):
+                for i in range(matches.getNumPaths()):
                     matches.getPath(i).setColorScale(color, 1)
                     if needsAlpha:
                         matches.getPath(i).setTransparency(1)
-
-        return
 
     def makeFrame(self):
         from direct.gui.DirectGui import DirectFrame
@@ -415,7 +412,6 @@ def encodeCatalogItem(dg, item, store):
             item.giftCode = 0
         dg.addUint8(item.giftCode)
     item.encodeDatagram(dg, store)
-    return
 
 
 def decodeCatalogItem(di, versionNumber, store):
@@ -437,7 +433,7 @@ def decodeCatalogItem(di, versionNumber, store):
             code = di.getUint8()
         itemClass = CatalogReverseType[typeIndex]
         item = itemClass(di, versionNumber, store=store)
-    except Exception, e:
+    except Exception as e:
         CatalogItem.notify.warning('Invalid catalog item in stream: %s, %s' % (sys.exc_info()[0], e))
         d = Datagram(di.getDatagram().getMessage()[startIndex:])
         d.dumpHex(Notify.out())
@@ -457,7 +453,7 @@ def getItem(blob, store = 0):
     try:
         versionNumber = di.getUint8()
         return decodeCatalogItem(di, versionNumber, store)
-    except Exception, e:
+    except Exception as e:
         CatalogItem.notify.warning('Invalid catalog item: %s, %s' % (sys.exc_info()[0], e))
         dg.dumpHex(Notify.out())
         import CatalogInvalidItem

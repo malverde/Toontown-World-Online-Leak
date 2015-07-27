@@ -1,4 +1,3 @@
-# Embedded file name: otp\nametag\NametagFloat2d.py
 from Nametag3d import *
 
 class NametagFloat2d(Nametag3d):

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogMouldingItem
 from CatalogSurfaceItem import *
 MTTextureName = 0
 MTColor = 1
@@ -89,7 +90,6 @@ class CatalogMouldingItem(CatalogSurfaceItem):
                 return CT_WHITE
         else:
             return CT_WHITE
-        return
 
     def decodeDatagram(self, di, versionNumber, store):
         CatalogAtticItem.CatalogAtticItem.decodeDatagram(self, di, versionNumber, store)

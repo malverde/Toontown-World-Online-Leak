@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogWallpaperItem
 from CatalogSurfaceItem import *
 WTTextureName = 0
 WTColor = 1
@@ -5,14 +6,7 @@ WTBorderList = 2
 WTBasePrice = 3
 BDTextureName = 0
 BDColor = 1
-All = (1000,
- 1010,
- 1020,
- 1030,
- 1040,
- 1050,
- 1060,
- 1070)
+All = (1000, 1010, 1020, 1030, 1040, 1050, 1060, 1070)
 WallpaperTypes = {1000: ('phase_5.5/maps/flat_wallpaper1.jpg',
         CTFlatColor,
         (0, 1000),
@@ -418,31 +412,19 @@ WallpaperTypes = {1000: ('phase_5.5/maps/flat_wallpaper1.jpg',
          400),
  12000: ('phase_5.5/maps/VdayWall1.jpg',
          CTWhite,
-         (0,
-          12000,
-          12010,
-          12020),
+         (0, 12000, 12010, 12020),
          400),
  12100: ('phase_5.5/maps/VdayWall2.jpg',
          CTWhite,
-         (0,
-          12000,
-          12010,
-          12020),
+         (0, 12000, 12010, 12020),
          400),
  12200: ('phase_5.5/maps/VdayWall3.jpg',
          CTWhite,
-         (0,
-          12000,
-          12010,
-          12020),
+         (0, 12000, 12010, 12020),
          400),
  12300: ('phase_5.5/maps/VdayWall4.jpg',
          CTWhite,
-         (0,
-          12000,
-          12010,
-          12020),
+         (0, 12000, 12010, 12020),
          400),
  13000: ('phase_5.5/maps/StPatWallpaper1.jpg',
          CTWhite,
@@ -460,65 +442,17 @@ WallpaperTypes = {1000: ('phase_5.5/maps/flat_wallpaper1.jpg',
          CTWhite,
          (0, 13000),
          400)}
-WallpaperGroups = {1100: (1100,
-        1110,
-        1120,
-        1130,
-        1140,
-        1150),
- 1200: (1200,
-        1210,
-        1220,
-        1230,
-        1240,
-        1250,
-        1260),
- 1300: (1300,
-        1310,
-        1320,
-        1330,
-        1340,
-        1350),
- 1400: (1400,
-        1410,
-        1420,
-        1430,
-        1440,
-        1450),
+WallpaperGroups = {1100: (1100, 1110, 1120, 1130, 1140, 1150),
+ 1200: (1200, 1210, 1220, 1230, 1240, 1250, 1260),
+ 1300: (1300, 1310, 1320, 1330, 1340, 1350),
+ 1400: (1400, 1410, 1420, 1430, 1440, 1450),
  1500: (1500, 1510, 1520),
- 1600: (1600,
-        1610,
-        1620,
-        1630,
-        1640,
-        1650,
-        1660),
- 1700: (1700,
-        1710,
-        1720,
-        1730,
-        1740,
-        1750,
-        1760),
- 1800: (1800,
-        1810,
-        1820,
-        1830,
-        1840,
-        1850,
-        1860),
- 1900: (1900,
-        1910,
-        1920,
-        1930,
-        1940,
-        1950),
+ 1600: (1600, 1610, 1620, 1630, 1640, 1650, 1660),
+ 1700: (1700, 1710, 1720, 1730, 1740, 1750, 1760),
+ 1800: (1800, 1810, 1820, 1830, 1840, 1850, 1860),
+ 1900: (1900, 1910, 1920, 1930, 1940, 1950),
  2000: (2000, 2010, 2020),
- 2100: (2100,
-        2110,
-        2120,
-        2130,
-        2140),
+ 2100: (2100, 2110, 2120, 2130, 2140),
  2200: (2200, 2210),
  2600: (2600, 2610),
  2700: (2700, 2710),
@@ -638,7 +572,6 @@ class CatalogWallpaperItem(CatalogSurfaceItem):
         else:
             print 'Warning: colorIndex > len(colors). Returning white.'
             return CT_WHITE
-        return
 
     def loadBorderTexture(self):
         from pandac.PandaModules import Texture
@@ -656,11 +589,9 @@ class CatalogWallpaperItem(CatalogSurfaceItem):
             return self.getColor()
         else:
             colors = BorderTypes[self.borderIndex][BDColor]
-        if self.borderColorIndex < len(colors):
-            return colors[self.borderColorIndex]
-        else:
+            if self.borderColorIndex < len(colors):
+                return colors[self.borderColorIndex]
             return CT_WHITE
-        return
 
     def decodeDatagram(self, di, versionNumber, store):
         CatalogAtticItem.CatalogAtticItem.decodeDatagram(self, di, versionNumber, store)
@@ -683,7 +614,6 @@ class CatalogWallpaperItem(CatalogSurfaceItem):
                 self.borderIndex = di.getUint16()
                 self.borderColorIndex = di.getUint8()
         wtype = WallpaperTypes[self.patternIndex]
-        return
 
     def encodeDatagram(self, dg, store):
         CatalogAtticItem.CatalogAtticItem.encodeDatagram(self, dg, store)

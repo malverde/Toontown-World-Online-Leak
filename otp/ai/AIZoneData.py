@@ -117,7 +117,7 @@ class AIZoneDataObj:
         return self._collTravs[name]
 
     def removeCollTrav(self, name):
-        if name in self._collTravs:
+        if self._collTravs.has_key(name):
             del self._collTravs[name]
 
     def _getCTravTaskName(self, name = None):

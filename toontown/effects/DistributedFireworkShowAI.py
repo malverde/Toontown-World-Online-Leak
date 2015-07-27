@@ -1,19 +1,17 @@
+#Embedded file name: toontown.effects.DistributedFireworkShowAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
-
 from direct.distributed.ClockDelta import *
 from direct.task import Task
-
 from otp.ai.MagicWordGlobal import *
-
 from toontown.toonbase import ToontownGlobals
 from toontown.parties import PartyGlobals
-
 import FireworkShows
 import random
+import time
 
 class DistributedFireworkShowAI(DistributedObjectAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedFireworkShowAI")
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedFireworkShowAI')
 
     def __init__(self, air):
         DistributedObjectAI.__init__(self, air)
@@ -23,7 +21,10 @@ class DistributedFireworkShowAI(DistributedObjectAI):
         taskMgr.doMethodLater(FireworkShows.getShowDuration(eventId, style), self.requestDelete, 'delete%i' % self.doId, [])
 
     def d_startShow(self, eventId, style, timeStamp):
-        self.sendUpdate('startShow', [eventId, style, random.randint(0,1), timeStamp])
+        self.sendUpdate('startShow', [eventId,
+         style,
+         random.randint(0, 1),
+         timeStamp])
 
     def b_startShow(self, eventId, style, timeStamp):
         self.startShow(eventId, style, timeStamp)
@@ -37,11 +38,7 @@ class DistributedFireworkShowAI(DistributedObjectAI):
 
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[str])
-def fireworks(showName='july4'):
-    """
-    Starts a fireworks show on the AI server.
-    """
-    showName = showName.lower()
+def fireworks(showName = 'july4'):
     if showName == 'july4':
         showType = ToontownGlobals.JULY4_FIREWORKS
     elif showName == 'newyears':
@@ -49,15 +46,14 @@ def fireworks(showName='july4'):
     elif showName == 'summer':
         showType = PartyGlobals.FireworkShows.Summer
     else:
-        return 'Invalid fireworks show name!'
+        return 'Invalid firework show type!'
     numShows = len(FireworkShows.shows.get(showType, []))
     showIndex = random.randint(0, numShows - 1)
-    # TODO: Start the fireworks show in all districts.
     for hood in simbase.air.hoods:
-        if hood.safezone == ToontownGlobals.GolfZone:
+        if hood.HOOD == ToontownGlobals.GolfZone:
             continue
-        fireworkShow = DistributedFireworkShowAI(simbase.air)
-        fireworkShow.generateWithRequired(hood.zoneId)
-        fireworkShow.b_startShow(showType, showIndex,
-                                 globalClockDelta.getRealNetworkTime())
-    return 'A %s fireworks show was started!' % showName
+        fireworksShow = DistributedFireworkShowAI(simbase.air)
+        fireworksShow.generateWithRequired(hood.HOOD)
+        fireworksShow.b_startShow(showType, showIndex, globalClockDelta.getRealNetworkTime())
+
+    return 'Started fireworks in all playgrounds!'

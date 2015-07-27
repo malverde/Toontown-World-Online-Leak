@@ -3,7 +3,7 @@ from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm.FSM import FSM
 from direct.task.Task import Task
-from toontown.chat.ChatGlobals import *
+from otp.nametag.NametagConstants import *
 from toontown.suit.DistributedSuitBase import DistributedSuitBase
 from toontown.toonbase import ToontownGlobals
 import SafezoneInvasionGlobals
@@ -188,6 +188,7 @@ class DistributedInvasionSuit(DistributedSuitBase, InvasionSuitBase, FSM, DelayD
         self.attackDamage = attackDamage
 
     def makeAttackTrack(self):
+        # TODO: Add more props than the tie. Possibly more animations.
         prop = BattleProps.globalPropPool.getProp(self.attackProp)
         propIsActor = True
         animName = 'throw-paper'

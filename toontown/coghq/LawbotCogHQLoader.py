@@ -1,17 +1,15 @@
-import CogHQLoader
-import LawbotHQBossBattle
-import LawbotHQExterior
-import LawbotOfficeExterior
-import StageInterior
 from direct.directnotify import DirectNotifyGlobal
-from direct.fsm import State
 from direct.fsm import StateData
-from direct.gui import DirectGui
-from toontown.toon import Toon
-from toontown.toonbase import TTLocalizer
+import CogHQLoader
 from toontown.toonbase import ToontownGlobals
-
-
+from direct.gui import DirectGui
+from toontown.toonbase import TTLocalizer
+from toontown.toon import Toon
+from direct.fsm import State
+import StageInterior
+import LawbotHQExterior
+import LawbotHQBossBattle
+import LawbotOfficeExterior
 aspectSF = 0.7227
 
 class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
@@ -34,6 +32,7 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.factoryExteriorModelPath = 'phase_11/models/lawbotHQ/LB_DA_Lobby'
         self.cogHQLobbyModelPath = 'phase_11/models/lawbotHQ/LB_CH_Lobby'
         self.geom = None
+        return
 
     def load(self, zoneId):
         CogHQLoader.CogHQLoader.load(self, zoneId)
@@ -44,6 +43,7 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             self.geom.removeNode()
             self.geom = None
         CogHQLoader.CogHQLoader.unloadPlaceGeom(self)
+        return
 
     def loadPlaceGeom(self, zoneId):
         self.notify.info('loadPlaceGeom: %s' % zoneId)
@@ -59,9 +59,8 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
             self.geom = loader.loadModel(self.factoryExteriorModelPath)
             ug = self.geom.find('**/underground')
             ug.setBin('ground', -10)
-            self.geom.flattenMedium()
         elif zoneId == ToontownGlobals.LawbotLobby:
-            if base.config.GetBool('want-qa-regression', 0):
+            if config.GetBool('want-qa-regression', 0):
                 self.notify.info('QA-REGRESSION: COGHQ: Visit LawbotLobby')
             self.notify.debug('cogHQLobbyModelPath = %s' % self.cogHQLobbyModelPath)
             self.geom = loader.loadModel(self.cogHQLobbyModelPath)

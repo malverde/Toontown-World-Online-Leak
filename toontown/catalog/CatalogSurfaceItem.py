@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogSurfaceItem
 import CatalogItem
 import CatalogAtticItem
 from toontown.toonbase import ToontownGlobals
@@ -32,4 +33,3 @@ class CatalogSurfaceItem(CatalogAtticItem.CatalogAtticItem):
 
     def getDeliveryTime(self):
         return 1
- 

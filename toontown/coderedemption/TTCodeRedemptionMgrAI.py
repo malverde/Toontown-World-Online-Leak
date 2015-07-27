@@ -94,35 +94,33 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
         items = self.getItemsForCode(code)
 
         # Iterate over these shitty items
-        if items is not None: 
-        	for item in items:
-            	 if isinstance(item, CatalogInvalidItem): # Umm, u wot m8?
-                	self.air.writeServerEvent('suspicious', avId=avId, issue='Invalid CatalogItem\'s for code: %s' % code)
-                	self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.InvalidCode, 0]) # TODO: Come up with a special code for this
-                	break
+        for item in items:
+            if isinstance(item, CatalogInvalidItem): # Umm, u wot m8?
+                self.air.writeServerEvent('suspicious', avId=avId, issue='Invalid CatalogItem\'s for code: %s' % code)
+                self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.InvalidCode, 0]) # TODO: Come up with a special code for this
+                break
 
-           	 	item.deliveryDate = int(time.time() / 60) + 1 # I don't give a shit here, just deliver it now - lol this comment XD 
-            	av.onOrder.append(item)
-            	av.b_setDeliverySchedule(av.onOrder)
-            	delivered = True
+            item.deliveryDate = int(time.time() / 60) + 1 # I don't give a shit here, just deliver it now
+            av.onOrder.append(item)
+            av.b_setDeliverySchedule(av.onOrder)
+            delivered = True
 
-        # Iterate over these shitty items - dang TTR staff had potty mouths XD 
-        if items is not None:
-           for item in items:
-                if isinstance(item, CatalogInvalidItem): # Umm, u wot m8?
-                   self.air.writeServerEvent('suspicious', avId=avId, issue='Invalid CatalogItem\'s for code: %s' % code)
-                   self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.InvalidCode, 0]) # TODO: Come up with a special code for this
-                   break
+        # Iterate over these shitty items
+        for item in items:
+            if isinstance(item, CatalogInvalidItem): # Umm, u wot m8?
+                self.air.writeServerEvent('suspicious', avId=avId, issue='Invalid CatalogItem\'s for code: %s' % code)
+                self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.InvalidCode, 0]) # TODO: Come up with a special code for this
+                break
 
-                if len(av.mailboxContents) + len(av.onGiftOrder) >= ToontownGlobals.MaxMailboxContents:
+            if len(av.mailboxContents) + len(av.onGiftOrder) >= ToontownGlobals.MaxMailboxContents:
                 # Mailbox is full
-                   delivered = False
-                   break
+                delivered = False
+                break
 
-                item.deliveryDate = int(time.time() / 60) + 1 # I don't give a shit here, just deliver it now
-                av.onOrder.append(item)
-                av.b_setDeliverySchedule(av.onOrder)
-                delivered = True
+            item.deliveryDate = int(time.time() / 60) + 1 # I don't give a shit here, just deliver it now
+            av.onOrder.append(item)
+            av.b_setDeliverySchedule(av.onOrder)
+            delivered = True
 
         if not delivered:
             # 0 is Sucess
@@ -155,25 +153,18 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
     def getItemsForCode(self, code):
         # TODO: Figure out how we want to get the items from the codes
         # I don't know what items are shorts, skirts or shirts... rip
-       # if code == "ALPHA":
-        #    shirt = CatalogClothingItem(1403, 0)
-         #   shorts = CatalogClothingItem(1404, 0)
-          #  return [shirt, shorts] # TODO: Give the correct alpha reward
-		if code == "PreAlpha":
-			shirt = CatalogClothingItem(1763, 0)
-			return [shirt]
-      #  if code == "BETA":
-       #     return CatalogClothingItem(118, 0) # TODO: Give it the correct item
-        #    shirt = CatalogClothingItem(1405, 0)
-         #   shorts = CatalogClothingItem(1406, 0)
-          #  return [shirt, shorts] # TODO: Give the correct beta rewards
-            #reward for participating in storm sellbot (disable after  event) 
-		if code ==  'StormSellbot':
-	         shirt = CatalogClothingItem(111, 0)
-                 return [shirt]
-        	
-       # if code == "TRUNK":
-        #    object = CatalogFurnitureItem(4000, 0)
-         #   return [object]
-        #return [CatalogInvalidItem()]
+        if code == "ALPHA":
+            shirt = CatalogClothingItem(1403, 0)
+            shorts = CatalogClothingItem(1404, 0)
+            return [shirt, shorts] # TODO: Give the correct alpha reward
+
+        if code == "BETA":
+            return CatalogClothingItem(118, 0) # TODO: Give it the correct item
+            shirt = CatalogClothingItem(1405, 0)
+            shorts = CatalogClothingItem(1406, 0)
+            return [shirt, shorts] # TODO: Give the correct beta rewards
+        
+        if code == "TRUNK":
+            return CatalogFurnitureItem(4000, 0) # TODO: Give it the correct item
+        return [CatalogInvalidItem()]
 

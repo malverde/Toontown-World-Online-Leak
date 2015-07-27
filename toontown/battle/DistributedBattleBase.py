@@ -20,7 +20,8 @@ from toontown.hood import ZoneUtil
 from toontown.distributed import DelayDelete
 from toontown.toon import TTEmote
 from otp.avatar import Emote
-from toontown.nametag import NametagGlobals
+from otp.nametag.NametagConstants import *
+from otp.nametag import NametagGlobals
 
 class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleBase')
@@ -107,13 +108,13 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.activeIntervals = {}
 
     def clearInterval(self, name, finish = 0):
-        if name in self.activeIntervals:
+        if self.activeIntervals.has_key(name):
             ival = self.activeIntervals[name]
             if finish:
                 ival.finish()
             else:
                 ival.pause()
-            if name in self.activeIntervals:
+            if self.activeIntervals.has_key(name):
                 DelayDelete.cleanupDelayDeletes(ival)
                 if self.activeIntervals.has_key(name):
                     del self.activeIntervals[name]
@@ -121,7 +122,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
             self.notify.debug('interval: %s already cleared' % name)
 
     def finishInterval(self, name):
-        if name in self.activeIntervals:
+        if self.activeIntervals.has_key(name):
             interval = self.activeIntervals[name]
             interval.finish()
 
@@ -362,7 +363,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.suits = []
         suitGone = 0
         for s in suits:
-            if s in self.cr.doId2do:
+            if self.cr.doId2do.has_key(s):
                 suit = self.cr.doId2do[s]
                 suit.setState('Battle')
                 self.suits.append(suit)
@@ -941,7 +942,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.storeInterval(runMTrack, runName)
 
     def getToon(self, toonId):
-        if toonId in self.cr.doId2do:
+        if self.cr.doId2do.has_key(toonId):
             return self.cr.doId2do[toonId]
         else:
             self.notify.warning('getToon() - toon: %d not in repository!' % toonId)
@@ -1016,7 +1017,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.notify.debug('enterLocalToonWaitForInput()')
         camera.setPosHpr(self.camPos, self.camHpr)
         base.camLens.setMinFov(self.camMenuFov/(4./3.))
-        NametagGlobals.setWant2dNametags(False)
+        NametagGlobals.setMasterArrowsOn(0)
         self.townBattle.setState('Attack')
         self.accept(self.localToonBattleEvent, self.__handleLocalToonBattleEvent)
 
@@ -1136,7 +1137,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         elif mode == 'PETSOSINFO':
             petProxyId = response['id']
             self.notify.debug('got a PETSOSINFO for pet: %d' % petProxyId)
-            if petProxyId in base.cr.doId2do:
+            if base.cr.doId2do.has_key(petProxyId):
                 self.notify.debug('pet: %d was already in the repository' % petProxyId)
                 proxyGenerateMessage = 'petProxy-%d-generated' % petProxyId
                 messenger.send(proxyGenerateMessage)
@@ -1181,7 +1182,7 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         self.notify.debug('enterPlayMovie()')
         self.delayDeleteMembers()
         if self.hasLocalToon():
-            NametagGlobals.setWant2dNametags(False)
+            NametagGlobals.setMasterArrowsOn(0)
         if ToontownBattleGlobals.SkipMovie:
             self.movie.play(ts, self.__handleMovieDone)
             self.movie.finish()

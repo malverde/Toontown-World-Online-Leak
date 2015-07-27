@@ -226,7 +226,8 @@ def dept2deptIndex(dept):
     if type(dept) == types.StringType:
         dept = SuitDNA.suitDepts.index(dept)
     return dept
-    
+
+
 def getPartCountAsString(cogParts, deptIndex):
     totalParts = getTotalParts(cogParts[deptIndex])
     return '%s/%s' % (totalParts, PartsPerSuit[deptIndex])

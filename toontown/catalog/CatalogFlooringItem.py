@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogFlooringItem
 from CatalogSurfaceItem import *
 FTTextureName = 0
 FTColor = 1
@@ -25,8 +26,7 @@ FlooringTypes = {1000: ('phase_5.5/maps/floor_wood_neutral.jpg', CTBasicWoodColo
  10000: ('phase_5.5/maps/floor_icecube.jpg', CTWhite, 225),
  10010: ('phase_5.5/maps/floor_snow.jpg', CTWhite, 225),
  11000: ('phase_5.5/maps/StPatsFloor1.jpg', CTWhite, 225),
- 11010: ('phase_5.5/maps/StPatsFloor2.jpg', CTWhite, 225),
- }
+ 11010: ('phase_5.5/maps/StPatsFloor2.jpg', CTWhite, 225)}
 
 class CatalogFlooringItem(CatalogSurfaceItem):
 
@@ -105,7 +105,6 @@ class CatalogFlooringItem(CatalogSurfaceItem):
                 return CT_WHITE
         else:
             return CT_WHITE
-        return
 
     def decodeDatagram(self, di, versionNumber, store):
         CatalogAtticItem.CatalogAtticItem.decodeDatagram(self, di, versionNumber, store)
@@ -118,7 +117,6 @@ class CatalogFlooringItem(CatalogSurfaceItem):
         else:
             self.colorIndex = 0
         wtype = FlooringTypes[self.patternIndex]
-        return
 
     def encodeDatagram(self, dg, store):
         CatalogAtticItem.CatalogAtticItem.encodeDatagram(self, dg, store)

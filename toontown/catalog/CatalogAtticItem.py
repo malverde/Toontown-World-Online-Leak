@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogAtticItem
 import CatalogItem
 from toontown.toonbase import TTLocalizer
 from direct.showbase import PythonUtil
@@ -60,6 +61,6 @@ class CatalogAtticItem(CatalogItem.CatalogItem):
     def getAcceptItemErrorText(self, retcode):
         if retcode == ToontownGlobals.P_ItemAvailable:
             return TTLocalizer.CatalogAcceptInAttic
-        elif retcode == ToontownGlobals.P_NoRoomForItem:
+        if retcode == ToontownGlobals.P_NoRoomForItem:
             return TTLocalizer.CatalogAcceptHouseFull
         return CatalogItem.CatalogItem.getAcceptItemErrorText(self, retcode)

@@ -61,7 +61,7 @@ class DatabaseObject:
         if fields != None:
             values = {}
             for field in fields:
-                if field in self.values:
+                if self.values.has_key(field):
                     values[field] = self.values[field]
                 else:
                     self.notify.warning('Field %s not defined.' % field)

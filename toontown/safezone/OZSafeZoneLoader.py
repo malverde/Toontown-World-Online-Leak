@@ -25,8 +25,8 @@ class OZSafeZoneLoader(SafeZoneLoader):
         SafeZoneLoader.__init__(self, hood, parentFSM, doneEvent)
         self.musicFile = 'phase_6/audio/bgm/OZ_SZ.ogg'
         self.activityMusicFile = 'phase_6/audio/bgm/GS_KartShop.ogg'
-        self.dnaFile = 'phase_6/dna/outdoor_zone_sz.pdna'
-        self.safeZoneStorageDNAFile = 'phase_6/dna/storage_OZ_sz.pdna'
+        self.dnaFile = 'phase_6/dna/outdoor_zone_sz.xml'
+        self.safeZoneStorageDNAFile = 'phase_6/dna/storage_OZ_sz.xml'
         self.__toonTracks = {}
         del self.fsm
         self.fsm = ClassicFSM.ClassicFSM('SafeZoneLoader', [State.State('start', self.enterStart, self.exitStart, ['quietZone', 'playground', 'toonInterior']),
@@ -48,11 +48,10 @@ class OZSafeZoneLoader(SafeZoneLoader):
         waterfallPlacer = self.geom.find('**/waterfall*')
         binMgr = CullBinManager.getGlobalPtr()
         binMgr.addBin('water', CullBinManager.BTFixed, 29)
-        binMgr = CullBinManager.getGlobalPtr()
-        self.water = self.geom.find('**/water1*')
-        self.water.setTransparency(1)
-        self.water.setColorScale(1.0, 1.0, 1.0, 1.0)
-        self.water.setBin('water', 51, 1)
+        water = self.geom.find('**/water1*')
+        water.setTransparency(1)
+        water.setColorScale(1.0, 1.0, 1.0, 1.0)
+        water.setBin('water', 51, 1)
         pool = self.geom.find('**/pPlane5*')
         pool.setTransparency(1)
         pool.setColorScale(1.0, 1.0, 1.0, 1.0)

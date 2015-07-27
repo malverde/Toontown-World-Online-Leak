@@ -71,8 +71,11 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         setInterfaceFont(TTLocalizer.InterfaceFont)
         setSignFont(TTLocalizer.SignFont)
         setFancyFont(TTLocalizer.FancyFont)
-        for i in xrange(len(TTLocalizer.NametagFonts)):
-            setNametagFont(i, TTLocalizer.NametagFonts[i])
+        nameTagFontIndex = 0
+        for font in TTLocalizer.NametagFonts:
+            setNametagFont(nameTagFontIndex, TTLocalizer.NametagFonts[nameTagFontIndex])
+            nameTagFontIndex += 1
+
         self.toons = {}
         if self.http.getVerifySsl() != HTTPClient.VSNoVerify:
             self.http.setVerifySsl(HTTPClient.VSNoDateCheck)
@@ -347,13 +350,13 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     def handleAvatarResponseMsg(self, avatarId, di):
         self.cleanupWaitingForDatabase()
         dclass = self.dclassesByName['DistributedToon']
-        NametagGlobals.setWant2dNametags(False)
+        NametagGlobals.setMasterArrowsOn(0)
         loader.beginBulkLoad('localAvatarPlayGame', OTPLocalizer.CREnteringToontown, 400, 1, TTLocalizer.TIP_GENERAL, 0)
         localAvatar = LocalToon.LocalToon(self)
         localAvatar.dclass = dclass
         base.localAvatar = localAvatar
         __builtins__['localAvatar'] = base.localAvatar
-        NametagGlobals.setMe(base.localAvatar)
+        NametagGlobals.setToon(base.localAvatar)
         localAvatar.doId = avatarId
         self.localAvatarDoId = avatarId
         parentId = None
@@ -370,22 +373,36 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.loginFSM.request('playingGame')
 
     def getAvatarDetails(self, avatar, func, *args):
+        avId = avatar.doId
+        if avId in self.doId2do:
+            func(1, self.doId2do[avId], *args)
+            return
+
         pad = ScratchPad()
         pad.func = func
         pad.args = args
         pad.avatar = avatar
         pad.delayDelete = DelayDelete.DelayDelete(avatar, 'getAvatarDetails')
-        self.__queryAvatarMap[avatar.doId] = pad
-        self.__sendGetAvatarDetails(avatar.doId)
+        self.__queryAvatarMap[avId] = pad
+        self.__sendGetAvatarDetails(avId)
 
     def cancelAvatarDetailsRequest(self, avatar):
         avId = avatar.doId
-        if avId in self.__queryAvatarMap:
+        if self.__queryAvatarMap.has_key(avId):
             pad = self.__queryAvatarMap.pop(avId)
             pad.delayDelete.destroy()
 
     def __sendGetAvatarDetails(self, avId):
+        #return
+
         self.ttrFriendsManager.d_getAvatarDetails(avId)
+
+        return
+        datagram = PyDatagram()
+        avatar = self.__queryAvatarMap[avId].avatar
+        datagram.addUint16(avatar.getRequestID())
+        datagram.addUint32(avId)
+        self.send(datagram)
 
     def n_handleGetAvatarDetailsResp(self, avId, fields):
         self.notify.info('Query reponse for avId %d' % avId)
@@ -478,7 +495,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                 self.notify.error('could not delete localAvatar, delayDeletes=%s' % (base.localAvatar.getDelayDeleteNames(),))
             base.localAvatar.deleteOrDelay()
             base.localAvatar.detectLeaks()
-            NametagGlobals.setMe(base.cam)
+            NametagGlobals.setToon(base.cam)
             del base.localAvatar
             del __builtins__['localAvatar']
         base.localAvatarStyle = None

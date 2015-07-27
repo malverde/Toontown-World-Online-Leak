@@ -1003,6 +1003,7 @@ def skipCEO(battle='next'):
     
 @magicWord(category=CATEGORY_ADMIN, types=[])
 def feedCogs():
+    invoker = spellbook.getInvoker()
     boss = None
     for do in simbase.air.doId2do.values():
         if isinstance(do, DistributedBossbotBossAI):

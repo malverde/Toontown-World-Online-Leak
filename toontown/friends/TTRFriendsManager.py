@@ -171,4 +171,3 @@ class TTRFriendsManager(DistributedObjectGlobal):
 
     def setSleepAutoReply(self, fromId):
         base.localAvatar.setSleepAutoReply(fromId)
-

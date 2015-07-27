@@ -18,9 +18,6 @@ class DistributedNPCSpecialQuestGiverAI(DistributedNPCToonBaseAI):
     def setTutorial(self, val):
         self.tutorial = val
 
-    def setHq(self, hq):
-        self.hq = hq
-        
     def getHq(self):
         return self.hq
 

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.catalog.CatalogPoleItem
 import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.fishing import FishGlobals
@@ -61,7 +62,7 @@ class CatalogPoleItem(CatalogItem.CatalogItem):
     def getAcceptItemErrorText(self, retcode):
         if retcode == ToontownGlobals.P_ItemAvailable:
             return TTLocalizer.CatalogAcceptPole
-        elif retcode == ToontownGlobals.P_ItemUnneeded:
+        if retcode == ToontownGlobals.P_ItemUnneeded:
             return TTLocalizer.CatalogAcceptPoleUnneeded
         return CatalogItem.CatalogItem.getAcceptItemErrorText(self, retcode)
 
