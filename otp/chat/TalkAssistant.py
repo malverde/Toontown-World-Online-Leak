@@ -347,11 +347,6 @@ class TalkAssistant(DirectObject.DirectObject):
 
     def receiveWhisperTalk(self, avatarId, avatarName, accountId, accountName, toId, toName, message, scrubbed = 0):
         error = None
-        self.notify.debug('receiveWhisperTalk %s %s %s %s %s' % (avatarId,
-         avatarName,
-         accountId,
-         accountName,
-         message))
         if not avatarName and avatarId:
             avatarName = self.findAvatarName(avatarId)
         if not accountName and accountId:
@@ -600,10 +595,10 @@ class TalkAssistant(DirectObject.DirectObject):
         return error
 
     def sendWhisperTalk(self, message, receiverAvId):
+        # Check if we are a true friend
         if (receiverAvId, True) in base.localAvatar.friendsList:
             base.cr.chatAgent.sendSFWhisperMessage(receiverAvId, message)
-            return None
-        base.cr.chatAgent.sendWhisperMessage(receiverAvId, message)
+            return 
 
         base.cr.chatAgent.sendWhisperMessage(receiverAvId, message)
         return 
