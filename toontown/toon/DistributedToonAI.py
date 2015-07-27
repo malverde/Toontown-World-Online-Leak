@@ -3534,7 +3534,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
          building.block,
          self.zoneId))
         return ['success', suitIndex, building.doId]
-
+    
+    def doCogdoTakeOver(self, difficulty, buildingHeight, track):
+        streetId = ZoneUtil.getBranchZone(self.zoneId)
+        if streetId not in self.air.suitPlanners:
+            self.notify.warning('Street %d is not known.' % streetId)
+            return ['badlocation', difficulty, 0]
+        building = self.findClosestDoor()
+        if building is None:
+            return ['badlocation', difficulty, 0]
+        building.cogdoTakeOver(difficulty, buildingHeight, track)
+        self.notify.info('cogdoTakeOver {0}, {1}, {2}'.format(difficulty, buildingHeight, track))
+        return ['success', difficulty, building.doId]
+        
     def doCogInvasion(self, suitIndex):
         invMgr = self.air.suitInvasionManager
         if invMgr.getInvading():
