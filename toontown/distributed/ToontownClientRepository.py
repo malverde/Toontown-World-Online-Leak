@@ -473,7 +473,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self._userLoggingOut = False
         if not self.streetSign:
             self.streetSign = StreetSign.StreetSign()
-        return
 
     def exitPlayingGame(self):
         ivalMgr.interrupt()
@@ -504,8 +503,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         base.transitions.noTransitions()
         if self._userLoggingOut:
             self.detectLeaks(okTasks=[], okEvents=['destroy-ToontownLoadingScreenTitle', 'destroy-ToontownLoadingScreenTip', 'destroy-ToontownLoadingScreenWaitBar'])
-        return
-
+        
     def enterCredits(self):
         self.credits.enter()
 
