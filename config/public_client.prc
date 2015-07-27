@@ -80,6 +80,8 @@ force-player-understandable #t
 force-holiday-decorations 
 want-arg-manager #f
 show-total-population #t
+want-hourly-fireworks #t
+want-hourly-fireworks-type summer
 
 # Server:
 server-timezone BST/EDT/-5
