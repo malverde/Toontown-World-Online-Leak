@@ -8431,11 +8431,11 @@ TIP_KARTING = 6
 TIP_GOLF = 7
 TipTitle = 'TOON TIP:'
 TipDict = {TIP_NONE: ('',),
- TIP_GENERAL: ('Struggling to train your Drop Gag Track? Gag Buffs can boost your Accuracy by up to 3 times without. Collect and complete Gag Buffs to get boost Accuracy around Toontown.',
+ TIP_GENERAL: ('Struggling to train your Drop Gag Track? Gag Buffs can boost your Accuracy by up to 3 times without. Collect and complete Gag Buffs to get boosted Accuracy around Toontown.',
  	       'Watch out for Version 2.0 Cogs! They can be found at Bossbot HQ Factories, or rarely invading a District. Fight alongside your friends and receive more XP.',
  	       'Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters. They will not work inside Cog Headquarters or Factories!',
- 	       'Keep an eye on the News and Announcements for information about Global XP boosters on every District and make every HIT on the Cogs count.',
-               'Collect and complete Gag Buff ToonTasks to increase your Gag Accuracy or movement speed around Toontown.',
+ 	       'Keep an eye on the News and Announcements for information about Global XP Boosters on every District and make every HIT on the Cogs count.',
+               'Collect and complete Gag Buff ToonTasks to increase your Gag Accuracy or Movement Speed around Toontown.',
                'Toon Troopers are here to help. If you are being troubled find one and ask for help.',
                'You can have up to 20 Toons in your Party! Let your friends know you are having a Party and invite them.',
                'Parties only cost 50 Jellybeans to plan a Party. You can get that back by using the Cannons or other games in your Party!',
