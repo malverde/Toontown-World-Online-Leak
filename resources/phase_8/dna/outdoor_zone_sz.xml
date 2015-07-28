@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scene zone="6000">
+	<group name="daisysGarden">
+		<visgroup zone="6000:safe_zone" vis="6000:safe_zone">
+			<group name="props">
+				<prop name="outdoor_zone_DNARoot" code="outdoor_zone">
+					<pos x="-60" y="-20" z="0" />
+					<nhpr h="0" p="0" r="0" />
+				</prop>
+				<flat_building id="tb0:random_DNARoot" width="10">
+					<pos x="94.71" y="174.42" z="10.54" />
+					<nhpr h="-143" p="0" r="0" />
+					<wall height="3" code="wall_basement_rock_ur">
+						<color r="0.57" g="1" b="0.65" a="1" />
+						<windows code="window_sm_pointed_ur" count="0">
+							<color r="0.27" g="1" b="0.42" a="1" />
+						</windows>
+					</wall>
+					<wall height="13" code="wall_md_board_ur">
+						<color r="0.48" g="1" b="0.7" a="1" />
+						<windows code="window_sm_pointed_DG_ur" count="1">
+							<color r="1" g="1" b="1" a="1" />
+						</windows>
+					</wall>
+					<wall height="9" code="wall_md_board_ur">
+						<color r="0.48" g="1" b="0.7" a="1" />
+						<windows code="window_sm_pointed_DG_ur" count="1">
+							<color r="1" g="1" b="1" a="1" />
+						</windows>
+					</wall>
+				</flat_building>
+				<!--  chineseCheckers1 -->
+				<node name="game_table_1">
+					<prop name="prop_game_table_DNARoot" code="prop_game_table">
+						<pos x="91.7" y="5.68547" z="1.2" />
+						<nhpr h="30" p="1.45363" r="0" />
+					</prop>
+				</node>
+				<!-- chineseCheckers2 -->
+				<node name="game_table_2">
+					<prop name="prop_game_table_DNARoot" code="prop_game_table">
+						<pos x="-75.439" y="62.507" z="0.55" />
+						<nhpr h="90" p="-1.45363" r="0" />
+					</prop>
+				</node>
+				<!-- chineseCheckers3 -->
+				<node name="game_table_3">
+					<prop name="prop_game_table_DNARoot" code="prop_game_table">
+						<pos x="7.156" y="116.564" z="0.79" />
+						<nhpr h="0" p="-1.45363" r="0" />
+					</prop>
+				</node>
+				<!--  right -->
+				<node name="picnic_table_1">
+					<prop name="prop_picnic_table_DNARoot" code="prop_picnic_table">
+						<!-- pos [ -22.0614 -23.779 1.34649 ] -->
+						<pos x="-22.0614" y="-23.779" z="1.45" />
+						<nhpr h="0" p="0" r="0" />
+					</prop>
+				</node>
+				<!--  middle -->
+				<node name="picnic_table_2">
+					<prop name="prop_picnic_table_DNARoot" code="prop_picnic_table">
+						<pos x="35.4114" y="-35.0274" z="0.5" />
+						<nhpr h="0" p="1.10906" r="0" />
+					</prop>
+				</node>
+			</group>
+			<group name="fishing_pond_1">
+				<prop name="npc_fisherman_origin_0" code="DCS">
+					<pos x="-111" y="-42" z="0.025" />
+					<nhpr h="-3" p="0" r="0" />
+				</prop>
+				<!--  Dock 3 -->				
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="-102.5" y="-4" z="0.025" /> 
+					<nhpr h="93" p="0" r="0" />
+				</prop>
+				<!--  Dock 2 -->				
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="-102.5" y="-13" z="0.025" />
+					<nhpr h="77" p="0" r="0" />
+				</prop>
+				<!--  Dock 1 -->				
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="-106" y="-23" z="0.025" />
+					<nhpr h="-299" p="0" r="0" />
+				</prop>
+				<!--  Dock 4 -->				
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="-103" y="4" z="0.025" />
+					<nhpr h="-264" p="0" r="0" />
+				</prop>
+			</group>			
+			<node name="buildings">
+				<prop name="linktunnel_gz_17000_DNARoot" code="prop_chip_dale_enterance">
+					<pos x="-264.137" y="-15.4392" z="0.227776" />
+					<nhpr h="105" p="-0.422594" r="0.309814" />
+					<scale x="1.0546" y="1.0546" z="1.0546" />
+				</prop>
+				<prop name="linktunnel_tf_7000_DNARoot" code="prop_outdoor_zone_entrance">
+					<pos x="-47.8387" y="-143.259" z="0.1" />
+					<nhpr h="180" p="0" r="0.1" />
+					<scale x="1.0546" y="1.0546" z="1.0546" />
+				</prop>
+				<prop name="toonfest_banner_DNARoot" code="toonfest_banner">
+					<pos x="-47.8387" y="-143.259" z="0.1" />
+					<nhpr h="180" p="0" r="0.1" />
+					<scale x="1.0546" y="1.0546" z="1.0546" />
+				</prop>
+				<prop name="linktunnel_dd_1000_DNARoot" code="prop_outdoor_zone_entrance">
+					<pos x="86.7098" y="148.899" z="0.0205739" />
+					<nhpr h="321.091" p="0" r="0" />
+					<sign code="DD_sign2">
+						<pos x="0" y="0" z="0" />
+						<nhpr h="0" p="0" r="-3.0" />
+						<scale x="1.85" y="1" z="1.35" />
+						<baseline code="TT_Comedy" wiggle="7" stumble="0.1">
+							<color r="0.439216" g="0.247059" b="0.184314" a="1" />
+							<pos x="0" y="0" z="-0.2" />
+							<scale x="1.6" y="1" z="1.7" />
+							<text>Playground</text>
+						</baseline>
+						<baseline code="TT_Comedy" wiggle="3" stomp="0.0367716">
+							<color r="0.439216" g="0.247059" b="0.184314" a="1" />
+							<pos x="0" y="0" z="-1.4" />
+							<scale x="1.2" y="1" z="1.2" />
+							<text>Donald's Dock</text>
+						</baseline>
+					</sign>
+				</prop>
+			</node>
+		</visgroup>
+	</group>
+</scene>
