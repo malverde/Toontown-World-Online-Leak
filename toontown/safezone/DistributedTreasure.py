@@ -59,19 +59,22 @@ class DistributedTreasure(DistributedObject.DistributedObject):
 
     def loadModel(self):
         modelPath, grabSoundPath = TreasureGlobals.TreasureModels[self.treasureType]
+
         self.grabSound = base.loadSfx(grabSoundPath)
         self.rejectSound = base.loadSfx(self.rejectSoundPath)
+        
         if self.nodePath == None:
             self.makeNodePath()
         else:
             self.treasure.getChildren().detach()
+        
         # Determine the model to use. Sometimes we'll have more than one.
         modelList = []
         for model in modelPath:
             modelList.append(model)
             modelChoice = choice(modelList)
             self.loadedModel = loader.loadModel(modelChoice)
-			
+
         self.loadedModel.instanceTo(self.treasure)
         return
 
