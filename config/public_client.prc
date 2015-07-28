@@ -69,6 +69,7 @@ want-news-tab #f
 want-news-page #f
 want-gardening #f
 want-gifting #f
+default-directnotify-level info
 
 
 # Chat Settings

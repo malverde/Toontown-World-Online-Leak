@@ -72,7 +72,7 @@ want-findfour-table #f
 want-keep-alive #f
 want-hourly-fireworks #t
 want-hourly-fireworks-type summer
-
+default-directnotify-level info
 
 # Developer Modifications
 # A few fun things for our developer build. These shouldn't go in public_client.
