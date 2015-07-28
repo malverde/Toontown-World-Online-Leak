@@ -5,7 +5,7 @@ from toontown.safezone.DistributedPicnicBasketAI import DistributedPicnicBasketA
 from toontown.safezone.DistributedPicnicTableAI import DistributedPicnicTableAI
 
 class TFHoodAI(SZHoodAI):
-    HOOD = ToontownGlobals.Toonfest
+    HOOD = ToontownGlobals.Funnyfarm
     
     def createZone(self):
         SZHoodAI.createTreasurePlanner(self)
