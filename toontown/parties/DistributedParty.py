@@ -563,7 +563,7 @@ class DistributedParty(DistributedObject.DistributedObject):
     def spawnTitleText(self):
         if not self.hostName:
             return
-        partyText = TTLocalizer.PartyTitleText % TTLocalizer.GetPossesive(self.hostName, 'party')
+        partyText = TTLocalizer.PartyTitleText % TTLocalizer.GetPossesive(self.hostName)
         self.doSpawnTitleText(partyText)
 
     def doSpawnTitleText(self, text):
