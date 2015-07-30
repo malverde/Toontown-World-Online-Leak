@@ -244,7 +244,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.notify.info('Creating GZ')
         self.hoods.append(GSHoodAI.GSHoodAI(self))
         clearQueue()
-        self.notify.info('Creating OZ)
+        self.notify.info('Creating OZ')
         self.hoods.append(OZHoodAI.OZHoodAI(self))
         clearQueue()
         self.notify.info('Creating GZ')
