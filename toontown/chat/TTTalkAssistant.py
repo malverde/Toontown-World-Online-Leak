@@ -1,4 +1,3 @@
-#Embedded file name: toontown.chat.TTTalkAssistant
 import string
 import sys
 from direct.showbase import DirectObject

@@ -1,4 +1,4 @@
-#Embedded file name: otp.chat.TalkMessage
+ 
 
 
 class TalkMessage:

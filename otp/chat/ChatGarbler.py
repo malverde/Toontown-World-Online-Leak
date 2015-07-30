@@ -1,4 +1,3 @@
-#Embedded file name: otp.chat.ChatGarbler
 import string
 import random
 from otp.otpbase import OTPLocalizer

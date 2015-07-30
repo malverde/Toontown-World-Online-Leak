@@ -1,4 +1,3 @@
-#Embedded file name: otp.chat.ChatInputWhiteListFrame
 from direct.fsm import FSM
 from otp.otpbase import OTPGlobals
 import sys
@@ -21,7 +20,10 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
         optiondefs = {'parent': self,
          'relief': DGG.SUNKEN,
          'scale': 0.05,
-         'frameSize': (-0.2, 25.3, -0.5, 1.2),
+         'frameSize': (-0.2,
+                       25.3,
+                       -0.5,
+                       1.2),
          'borderWidth': (0.1, 0.1),
          'frameColor': (0.9, 0.9, 0.85, 0.8),
          'pos': (-0.2, 0, 0.11),
@@ -64,6 +66,7 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
         tpMgr.setProperties('WLRed', Red)
         del tpMgr
         self.origFrameColor = self.chatEntry['frameColor']
+        return
 
     def destroy(self):
         from direct.gui import DirectGuiGlobals
@@ -133,6 +136,7 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
     def exitPlayerWhisper(self):
         self.chatEntry.set(self.tempText)
         self.whisperId = None
+        return
 
     def enterAvatarWhisper(self):
         self.tempText = self.chatEntry.get()
@@ -141,6 +145,7 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
     def exitAvatarWhisper(self):
         self.chatEntry.set(self.tempText)
         self.whisperId = None
+        return
 
     def activateByData(self, receiverId = None, toPlayer = 0):
         self.receiverId = receiverId
@@ -172,7 +177,7 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
         return self.active
 
     def sendChat(self, text, overflow = False):
-        if not (len(text) > 0 and text[0] in ('~', '>')):
+        if not (len(text) > 0 and text[0] in ['~', '>']):
             if self.prefilter:
                 words = text.split(' ')
                 newwords = []
@@ -185,21 +190,25 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
                 text = ' '.join(newwords)
             else:
                 text = self.chatEntry.get(plain=True)
+
         if text:
             self.chatEntry.set('')
             if config.GetBool('exec-chat', 0) and text[0] == '>':
                 text = self.__execMessage(text[1:])
                 base.localAvatar.setChatAbsolute(text, CFSpeech | CFTimeout)
                 return
-            self.sendChatBySwitch(text)
+            else:
+                self.sendChatBySwitch(text)
             if self.wantHistory:
                 self.addToHistory(text)
         else:
             localAvatar.chatMgr.deactivateChat()
+
         if not overflow:
             self.hide()
             if self.autoOff:
                 self.requestMode('Off')
+
             localAvatar.chatMgr.messageSent()
 
     def sendChatBySwitch(self, text):
@@ -250,6 +259,7 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
         self.applyFilter(keyArgs=None, strict=True)
         self.okayToSubmit = True
         self.chatEntry.guiItem.setAcceptEnabled(True)
+        return
 
     def chatOverflow(self, overflowText):
         self.notify.debug('chatOverflow')
@@ -301,7 +311,7 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
 
     def applyFilter(self, keyArgs, strict = False):
         text = self.chatEntry.get(plain=True)
-        if len(text) > 0 and text[0] in ('~', '>'):
+        if len(text) > 0 and text[0] in ['~', '>']:
             self.okayToSubmit = True
         else:
             words = text.split(' ')

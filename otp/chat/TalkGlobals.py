@@ -1,4 +1,3 @@
-#Embedded file name: otp.chat.TalkGlobals
 TALK_NONE = 0
 TALK_OPEN = 1
 TALK_WHISPER = 2

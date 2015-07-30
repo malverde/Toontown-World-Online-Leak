@@ -1,24 +1,27 @@
-#Embedded file name: otp.chat.TalkAssistant
-import string
-import sys
-from direct.showbase import DirectObject
-from otp.otpbase import OTPLocalizer
+# -*- coding: utf-8 -*-
 from direct.directnotify import DirectNotifyGlobal
-from otp.otpbase import OTPGlobals
-from otp.speedchat import SCDecoders
+from direct.showbase import DirectObject
 from pandac.PandaModules import *
-from otp.chat.TalkMessage import TalkMessage
-from otp.chat.TalkHandle import TalkHandle
+import sys
 import time
-from otp.chat.TalkGlobals import *
+import re
+
 from otp.chat.ChatGlobals import *
-from otp.nametag.NametagConstants import CFSpeech, CFTimeout, CFThought
+from otp.chat.TalkGlobals import *
+from otp.chat.TalkHandle import TalkHandle
+from otp.chat.TalkMessage import TalkMessage
+from otp.otpbase import OTPGlobals
+from otp.otpbase import OTPLocalizer
+from otp.speedchat import SCDecoders
+from toontown.chat.ChatGlobals import *
+from toontown.chat.TTWhiteList import TTWhiteList
+
+
 ThoughtPrefix = '.'
 
+
 class TalkAssistant(DirectObject.DirectObject):
-    ExecNamespace = None
     notify = DirectNotifyGlobal.directNotify.newCategory('TalkAssistant')
-    execChat = config.GetBool('exec-chat', 0)
 
     def __init__(self):
         self.logWhispers = 1
@@ -27,11 +30,13 @@ class TalkAssistant(DirectObject.DirectObject):
         self.zeroTimeDay = time.time()
         self.zeroTimeGame = globalClock.getRealTime()
         self.floodThreshold = 10.0
-        self.useWhiteListFilter = config.GetBool('white-list-filter-openchat', 0)
+        self.useWhiteListFilter = base.config.GetBool('white-list-filter-openchat', 0)
         self.lastWhisperDoId = None
         self.lastWhisperPlayerId = None
         self.lastWhisper = None
         self.SCDecoder = SCDecoders
+        self.whiteList = TTWhiteList()
+        return
 
     def clearHistory(self):
         self.historyComplete = []
@@ -98,13 +103,13 @@ class TalkAssistant(DirectObject.DirectObject):
         if message.getTalkType() == TALK_WHISPER and doId != localAvatar.doId:
             self.lastWhisperDoId = doId
             self.lastWhisper = self.lastWhisperDoId
-        if not self.historyByDoId.has_key(doId):
+        if doId not in self.historyByDoId:
             self.historyByDoId[doId] = []
         self.historyByDoId[doId].append(message)
         if not self.shownWhiteListWarning and scrubbed and doId == localAvatar.doId:
             self.doWhiteListWarning()
             self.shownWhiteListWarning = 1
-        if not self.floodDataByDoId.has_key(doId):
+        if doId not in self.floodDataByDoId:
             self.floodDataByDoId[doId] = [0.0, self.stampTime(), message]
         else:
             oldTime = self.floodDataByDoId[doId][1]
@@ -131,7 +136,7 @@ class TalkAssistant(DirectObject.DirectObject):
         if message.getTalkType() == TALK_ACCOUNT:
             self.lastWhisperPlayerId = dISLId
             self.lastWhisper = self.lastWhisperPlayerId
-        if not self.historyByDISLId.has_key(dISLId):
+        if dISLId not in self.historyByDISLId:
             self.historyByDISLId[dISLId] = []
         self.historyByDISLId[dISLId].append(message)
 
@@ -171,7 +176,7 @@ class TalkAssistant(DirectObject.DirectObject):
     def whiteListFilterMessage(self, text):
         if not self.useWhiteListFilter:
             return text
-        if not base.whiteList:
+        elif not base.whiteList:
             return 'no list'
         words = text.split(' ')
         newwords = []
@@ -197,12 +202,6 @@ class TalkAssistant(DirectObject.DirectObject):
 
         newText = ' '.join(newwords)
         return newText
-
-    def executeSlashCommand(self, text):
-        pass
-
-    def executeGMCommand(self, text):
-        pass
 
     def isThought(self, message):
         if not message:
@@ -233,6 +232,7 @@ class TalkAssistant(DirectObject.DirectObject):
         self.receiveOpenTalk(localAvatar.doId, localAvatar.getName, None, None, "Okay I won't call tech support, because I am cool")
         self.receiveGMTalk(1003, 'God of Text', None, None, 'Good because I have seen it already')
         self.floodThreshold = hold
+        return
 
     def printHistoryComplete(self):
         print 'HISTORY COMPLETE'
@@ -241,37 +241,6 @@ class TalkAssistant(DirectObject.DirectObject):
              message.getSenderAvatarName(),
              message.getSenderAccountName(),
              message.getBody())
-
-    def importExecNamespace(self):
-        pass
-
-    def execMessage(self, message):
-        print 'execMessage %s' % message
-        if not TalkAssistant.ExecNamespace:
-            TalkAssistant.ExecNamespace = {}
-            exec 'from pandac.PandaModules import *' in globals(), self.ExecNamespace
-            self.importExecNamespace()
-        try:
-            return str(eval(message, globals(), TalkAssistant.ExecNamespace))
-        except SyntaxError:
-            try:
-                exec message in globals(), TalkAssistant.ExecNamespace
-                return 'ok'
-            except:
-                exception = sys.exc_info()[0]
-                extraInfo = sys.exc_info()[1]
-                if extraInfo:
-                    return str(extraInfo)
-                else:
-                    return str(exception)
-
-        except:
-            exception = sys.exc_info()[0]
-            extraInfo = sys.exc_info()[1]
-            if extraInfo:
-                return str(extraInfo)
-            else:
-                return str(exception)
 
     def checkOpenTypedChat(self):
         if base.localAvatar.commonChatFlags & OTPGlobals.CommonChat:
@@ -378,11 +347,6 @@ class TalkAssistant(DirectObject.DirectObject):
 
     def receiveWhisperTalk(self, avatarId, avatarName, accountId, accountName, toId, toName, message, scrubbed = 0):
         error = None
-        self.notify.debug('receiveWhisperTalk %s %s %s %s %s' % (avatarId,
-         avatarName,
-         accountId,
-         accountName,
-         message))
         if not avatarName and avatarId:
             avatarName = self.findAvatarName(avatarId)
         if not accountName and accountId:
@@ -529,6 +493,7 @@ class TalkAssistant(DirectObject.DirectObject):
         self.historyComplete.append(newMessage)
         self.historyUpdates.append(newMessage)
         messenger.send('NewOpenMessage', [newMessage])
+        return
 
     def receiveFriendAccountUpdate(self, friendId, friendName, isOnline):
         if isOnline:
@@ -539,6 +504,7 @@ class TalkAssistant(DirectObject.DirectObject):
         self.historyComplete.append(newMessage)
         self.historyUpdates.append(newMessage)
         messenger.send('NewOpenMessage', [newMessage])
+        return
 
     def receiveGuildUpdate(self, memberId, memberName, isOnline):
         if base.cr.identifyFriend(memberId) is None:
@@ -552,6 +518,7 @@ class TalkAssistant(DirectObject.DirectObject):
             self.historyUpdates.append(newMessage)
             self.historyGuild.append(newMessage)
             messenger.send('NewOpenMessage', [newMessage])
+        return
 
     def receiveOpenSpeedChat(self, type, messageIndex, senderAvId, name = None):
         error = None
@@ -608,11 +575,19 @@ class TalkAssistant(DirectObject.DirectObject):
 
     def sendOpenTalk(self, message):
         error = None
+        doId = base.localAvatar.doId
+        if base.config.GetBool('want-talkative-tyler', False):
+            if base.localAvatar.zoneId == 2000:
+                tyler = base.cr.doFind('Talkative Tyler')
+                if tyler:
+                    tyler.sendUpdate('talkMessage', [doId, message])
         if base.cr.wantMagicWords and len(message) > 0 and message[0] == '~':
             messenger.send('magicWord', [message])
             self.receiveDeveloperMessage(message)
-        else:
+        else:       
             chatFlags = CFSpeech | CFTimeout
+           # if re.search(r'[a-zA-Z\d]', message):
+            #    if not "¬" in message:
             if self.isThought(message):
                 chatFlags = CFThought
             base.cr.chatAgent.sendChatMessage(message)
@@ -620,25 +595,31 @@ class TalkAssistant(DirectObject.DirectObject):
         return error
 
     def sendWhisperTalk(self, message, receiverAvId):
+        # Check if we are a true friend
         if (receiverAvId, True) in base.localAvatar.friendsList:
             base.cr.chatAgent.sendSFWhisperMessage(receiverAvId, message)
-            return None
+            return 
+
         base.cr.chatAgent.sendWhisperMessage(receiverAvId, message)
+        return 
+
 
     def sendAccountTalk(self, message, receiverAccount):
+        error = None
         base.cr.playerFriendsManager.sendUpdate('setTalkAccount', [receiverAccount,
          0,
          '',
          message,
          [],
          0])
+        return error
 
     def sendGuildTalk(self, message):
         error = None
         if self.checkGuildTypedChat():
             base.cr.guildManager.sendTalk(message)
         else:
-            self.notify.warning('Guild chat error')
+            print 'Guild chat error'
             error = ERROR_NO_GUILD_CHAT
         return error
 
@@ -686,14 +667,13 @@ class TalkAssistant(DirectObject.DirectObject):
         if type == SPEEDCHAT_NORMAL:
             base.cr.speedchatRelay.sendSpeedchat(receiverId, messageIndex)
             message = self.SCDecoder.decodeSCStaticTextMsg(messageIndex)
-        else:
-            if type == SPEEDCHAT_EMOTE:
-                base.cr.speedchatRelay.sendSpeedchatEmote(receiverId, messageIndex)
-                message = self.SCDecoder.decodeSCEmoteWhisperMsg(messageIndex, localAvatar.getName())
-                return
-            if type == SPEEDCHAT_CUSTOM:
-                base.cr.speedchatRelay.sendSpeedchatCustom(receiverId, messageIndex)
-                message = self.SCDecoder.decodeSCCustomMsg(messageIndex)
+        elif type == SPEEDCHAT_EMOTE:
+            base.cr.speedchatRelay.sendSpeedchatEmote(receiverId, messageIndex)
+            message = self.SCDecoder.decodeSCEmoteWhisperMsg(messageIndex, localAvatar.getName())
+            return
+        elif type == SPEEDCHAT_CUSTOM:
+            base.cr.speedchatRelay.sendSpeedchatCustom(receiverId, messageIndex)
+            message = self.SCDecoder.decodeSCCustomMsg(messageIndex)
         if self.logWhispers:
             receiverName = self.findName(receiverId, 1)
             newMessage = TalkMessage(self.countMessage(), self.stampTime(), message, localAvatar.doId, localAvatar.getName(), localAvatar.DISLid, localAvatar.DISLname, None, None, receiverId, receiverName, TALK_ACCOUNT, None)
@@ -707,7 +687,7 @@ class TalkAssistant(DirectObject.DirectObject):
         if self.checkGuildSpeedChat():
             base.cr.guildManager.sendSC(msgIndex)
         else:
-            self.notify.warning('Guild Speedchat error')
+            print 'Guild Speedchat error'
             error = ERROR_NO_GUILD_CHAT
         return error
 

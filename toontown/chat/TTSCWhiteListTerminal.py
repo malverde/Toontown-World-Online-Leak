@@ -1,4 +1,3 @@
-#Embedded file name: toontown.chat.TTSCWhiteListTerminal
 from otp.speedchat.SCTerminal import SCTerminal
 from otp.otpbase.OTPLocalizer import SpeedChatStaticText
 SCStaticTextMsgEvent = 'SCStaticTextMsg'
