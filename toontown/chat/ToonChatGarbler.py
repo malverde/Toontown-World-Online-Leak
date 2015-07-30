@@ -1,3 +1,4 @@
+#Embedded file name: toontown.chat.ToonChatGarbler
 import string
 import random
 from toontown.toonbase import TTLocalizer

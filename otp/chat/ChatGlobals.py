@@ -1,3 +1,4 @@
+#Embedded file name: otp.chat.ChatGlobals
 import string
 NORMAL_CHAT = 1
 WHISPER_CHAT = 2

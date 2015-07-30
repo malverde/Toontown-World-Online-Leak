@@ -1,3 +1,4 @@
+#Embedded file name: otp.chat.ChatInputNormal
 from direct.showbase import DirectObject
 from otp.otpbase import OTPGlobals
 import sys
@@ -22,7 +23,6 @@ class ChatInputNormal(DirectObject.DirectObject):
         self.history = ['']
         self.historySize = config.GetInt('chat-history-size', 10)
         self.historyIndex = 0
-        return
 
     def typeCallback(self, extraArgs):
         messenger.send('enterNormalChat')
@@ -93,7 +93,6 @@ class ChatInputNormal(DirectObject.DirectObject):
                 base.talkAssistant.sendOpenTalk(text)
                 if self.wantHistory:
                     self.addToHistory(text)
-        return
 
     def chatOverflow(self, overflowText):
         self.sendChat(self.chatEntry.get())
