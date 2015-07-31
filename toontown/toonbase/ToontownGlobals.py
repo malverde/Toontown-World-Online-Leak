@@ -99,6 +99,7 @@ FM_RecoveredItem = 4
 SPDonaldsBoat = 3
 SPMinniesPiano = 4
 SPBuddysBalloon = 5
+SPToonfestBalloon = 6
 CEVirtual = 14
 MaxHpLimit = 156
 MaxCarryLimit = 240
