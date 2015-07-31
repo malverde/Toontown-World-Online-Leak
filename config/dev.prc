@@ -64,11 +64,11 @@ want-accessories #t
 want-parties #f
 want-gardening #f
 want-gifting #t
-want-picnic-games #t
-want-chinese-table #t
+want-picnic-games #f
+want-chinese-table #f
 want-fishing #t
-want-checkers-table #t
-want-findfour-table #t
+want-checkers-table #f
+want-findfour-table #f
 want-keep-alive #f
 want-hourly-fireworks #t
 want-hourly-fireworks-type summer
@@ -106,5 +106,5 @@ boarding-group-merges #t
 
 want-speedhack-fix #t
 want-cogdominiums #f
-want-game-tables #t
-force-skip-tutorial #f
+want-game-tables #f
+force-skip-tutorial #t

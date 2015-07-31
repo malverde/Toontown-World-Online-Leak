@@ -90,10 +90,10 @@ server-port 7198
 account-server-endpoint https://toontownworldonline.com/api/
 
 # Cog battles:
-base-xp-multiplier 1.0
+base-xp-multiplier 4.0
 want-accessories #t
 want-parties #f
-want-picnic-games #f 
+want-picnic-games #t
 want-fishing #t
 estate-day-night #t 
 show-total-population #t
@@ -107,7 +107,7 @@ mega-invasion-cog-type dt
 boarding-group-merges #t 
 want-speedhack-fix #t 
 want-cogdominiums #f
-want-game-tables #f
+want-game-tables #t
 force-skip-tutorial #f
 want-cogbuildings #t
 
