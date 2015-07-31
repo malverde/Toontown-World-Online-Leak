@@ -8,7 +8,6 @@ from toontown.election import DistributedToonfestBalloonAI
 class TFHoodAI(HoodAI.HoodAI):
     def __init__(self, air):
         HoodAI.HoodAI.__init__(self, air,
-                               ToontownGlobals.FunnyFarm,
                                ToontownGlobals.FunnyFarm)
         
         self.balloon = DistributedToonfestBalloonAI.DistributedToonfestBalloonAI(self.air)
