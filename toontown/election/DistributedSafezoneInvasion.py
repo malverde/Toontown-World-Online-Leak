@@ -1,3 +1,4 @@
+#Embedded file name: toontown.election.DistributedSafezoneInvasion
 from pandac.PandaModules import *
 from direct.distributed.DistributedObject import DistributedObject
 from direct.interval.IntervalGlobal import *
@@ -12,18 +13,12 @@ class DistributedSafezoneInvasion(DistributedObject):
 
     def __init__(self, cr):
         DistributedObject.__init__(self, cr)
-        
-        # Extra stuff...
         cr.invasion = self
         self.invasionOn = False
-        
         self.accept('localPieSplat', self.__localPieSplat)
         self.accept('enterSuitAttack', self.__localToonHit)
-
         self.showFloor = base.render.find('**/ShowFloor')
         self.geom = base.cr.playGame.hood.loader.geom
-
-        # Let's load some models
         self.sky = loader.loadModel(SafezoneInvasionGlobals.CogSkyFile)
         self.sky.setBin('background', 100)
         self.sky.setColor(0.3, 0.3, 0.28, 1)
@@ -34,31 +29,21 @@ class DistributedSafezoneInvasion(DistributedObject):
         self.sky.setZ(-20.0)
         ce = CompassEffect.make(NodePath(), CompassEffect.PRot | CompassEffect.PZ)
         self.sky.node().setEffect(ce)
-
         self.fadeIn = self.sky.colorScaleInterval(5.0, Vec4(1, 1, 1, 1), startColorScale=Vec4(1, 1, 1, 0), blendType='easeInOut')
         self.cogSkyBegin = LerpColorScaleInterval(self.geom, 6.0, Vec4(0.4, 0.4, 0.4, 1), blendType='easeInOut')
         self.cogSkyBeginStage = LerpColorScaleInterval(self.showFloor, 6.0, Vec4(0.4, 0.4, 0.4, 1), blendType='easeInOut')
         self.beginSkySequence = Sequence(Func(self.fadeIn.start), Func(self.cogSkyBegin.start), Func(self.cogSkyBeginStage.start))
-
         self.fadeOut = self.sky.colorScaleInterval(6.0, Vec4(1, 1, 1, 0), startColorScale=Vec4(1, 1, 1, 1), blendType='easeInOut')
-        self.cogSkyEnd = LerpColorScaleInterval(self.geom, 7.0, Vec4(1, 1, 1, 1), blendType='easeInOut') 
-        self.cogSkyEndStage = LerpColorScaleInterval(self.showFloor, 7.0, Vec4(1, 1, 1, 1), blendType='easeInOut') 
+        self.cogSkyEnd = LerpColorScaleInterval(self.geom, 7.0, Vec4(1, 1, 1, 1), blendType='easeInOut')
+        self.cogSkyEndStage = LerpColorScaleInterval(self.showFloor, 7.0, Vec4(1, 1, 1, 1), blendType='easeInOut')
         self.endSkySequence = Sequence(Func(self.fadeOut.start), Func(self.cogSkyEnd.start), Func(self.cogSkyEndStage.start), Wait(7), Func(self.sky.removeNode))
-
-        # Stop the music in case it wasn't already.
         base.cr.playGame.hood.loader.music.stop()
-
-        # Define the invasion music we'll need
         self.musicEnter = base.loadMusic(SafezoneInvasionGlobals.InvasionMusicEnter)
-
-        # Victory Music
         self.victoryMusic = base.loadMusic('phase_9/audio/bgm/CogHQ_finale.ogg')
 
     def delete(self):
         self.cr.invasion = None
-
         if self.invasionOn:
-            # These are only called if the sky is loaded
             del self.fadeIn
             del self.fadeOut
             del self.cogSkyBegin
@@ -68,44 +53,24 @@ class DistributedSafezoneInvasion(DistributedObject):
             del self.musicEnter
             del self.beginSkySequence
             del self.endSkySequence
-
         DistributedObject.delete(self)
-
         self.ignoreAll()
 
-
-    '''
-     INVASION-RELATED
-       We don't really have much to do here except for cueing the music and setting the stage.
-       Most of the invasion itself is handled in the DSafezoneInvasionAI.
-    '''
     def setInvasionStarted(self, started):
         if started and not self.invasionOn:
-            # self.startCogSky()
             self.sky.reparentTo(camera)
             self.beginSkySequence.start()
             base.playMusic(self.musicEnter, looping=1, volume=1.0)
         elif not started and self.invasionOn:
             self.endInvasion()
         else:
-            return # We don't care about this change...
+            return
         self.invasionOn = started
 
     def endInvasion(self):
-        self.endSkySequence.start() # Done with the cog sky, we're all done with that
-        base.playMusic(self.victoryMusic, looping=0, volume=0.9) # Cue the music
-        # Dance the night away
-        # victoryDanceDuration = (2 * 5.15)
-        self.victoryIval = Sequence(
-            Func(Emote.globalEmote.disableAll, base.localAvatar, 'dbattle, enterReward'),
-            Func(base.localAvatar.disableAvatarControls),
-            Func(base.localAvatar.b_setEmoteState, 6, 1.0),
-            Wait(5.15),
-            Func(Emote.globalEmote.releaseAll, base.localAvatar, 'dbattle, enterReward'),
-            Func(base.localAvatar.enableAvatarControls),
-            # Func(self.showThanks)
-            # Func(self.delete) # Might as well clean up
-            )
+        self.endSkySequence.start()
+        base.playMusic(self.victoryMusic, looping=0, volume=0.9)
+        self.victoryIval = Sequence(Func(Emote.globalEmote.disableAll, base.localAvatar, 'dbattle, enterReward'), Func(base.localAvatar.disableAvatarControls), Func(base.localAvatar.b_setEmoteState, 6, 1.0), Wait(5.15), Func(Emote.globalEmote.releaseAll, base.localAvatar, 'dbattle, enterReward'), Func(base.localAvatar.enableAvatarControls))
         self.victoryIval.start()
 
     def startCogSky(self):
@@ -115,20 +80,13 @@ class DistributedSafezoneInvasion(DistributedObject):
 
     def stopCogSky(self):
         if self.invasionOn:
-            cogSkySequence = Sequence(
-                Func(self.cogSkyEnd.start),
-                Func(self.cogSkyEndStage.start),
-                Func(self.fadeOut.start),
-                Wait(7),
-                Func(self.sky.removeNode) # Remove the sky node after the fade out
-                )
+            cogSkySequence = Sequence(Func(self.cogSkyEnd.start), Func(self.cogSkyEndStage.start), Func(self.fadeOut.start), Wait(7), Func(self.sky.removeNode))
 
     def stopMusic(self):
         self.musicEnter.stop()
 
     def showThanks(self):
-        self.confirm = TTDialog.TTGlobalDialog(doneEvent='confirmDone', message=SafezoneInvasionGlobals.Thanks, style=TTDialog.Acknowledge,
-            suppressKeys=True)
+        self.confirm = TTDialog.TTGlobalDialog(doneEvent='confirmDone', message=SafezoneInvasionGlobals.Thanks, style=TTDialog.Acknowledge, suppressKeys=True)
         self.confirm.show()
         self.accept('confirmDone', self.handleConfirm)
 
@@ -139,7 +97,7 @@ class DistributedSafezoneInvasion(DistributedObject):
         del self.confirm
         if status == 'ok':
             webbrowser.open('http://toontownrewritten.com')
-            abort() # Crash bam boom!
+            abort()
 
     def __localPieSplat(self, pieCode, entry):
         if pieCode == ToontownGlobals.PieCodeToon:

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.election.DistributedElectionCamera
 from direct.distributed.DistributedNode import DistributedNode
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
@@ -10,7 +11,7 @@ class DistributedElectionCamera(DistributedNode):
     def __init__(self, cr):
         DistributedNode.__init__(self, cr)
         NodePath.__init__(self)
-        
+
     def generate(self):
         self.assign(render.attachNewNode('DistributedElectionCamera'))
         DistributedNode.generate(self)
@@ -24,12 +25,11 @@ class DistributedElectionCamera(DistributedNode):
         prop.setZ(1)
         prop.loop('propeller', fromFrame=0, toFrame=8)
         self.idleInterval = None
-        
+
     def delete(self):
         self.camera.removeNode()
         DistributedNode.delete(self)
 
-                
     def setState(self, state, ts, x, y, z, h, p, target):
         if self.idleInterval and self.idleInterval.isPlaying():
             self.idleInterval.pause()
@@ -40,7 +40,7 @@ class DistributedElectionCamera(DistributedNode):
             testNode = render.attachNewNode('test')
             testNode.setPosHpr(x, y, z, h, p, 0)
             cH, cP, cR = testNode.getHpr(self.camera)
-            cH += + 180
+            cH += +180
             testNode.removeNode()
         elif state == 'Follow' and target in base.cr.doId2do:
             object = base.cr.doId2do[target]
@@ -56,22 +56,10 @@ class DistributedElectionCamera(DistributedNode):
             testNode.removeNode()
         else:
             return
-        dist = math.sqrt( (self.getX() - x)**2 + (self.getY() - y)**2 + (self.getZ() - z)**2)
-        time = dist/10.0
-        self.idleInterval = Parallel(
-            Sequence(
-                self.posInterval(2.5, (x, y, z + 0.5), startPos=(x, y, z), blendType='easeInOut'),
-                self.posInterval(2.5, (x, y, z), blendType='easeInOut'),
-            ),
-            Sequence(
-                self.camera.posInterval(2.5, (x, y, z + 0.5), startPos=(x, y, z), blendType='easeInOut'),
-                self.camera.posInterval(2.5, (x, y, z), blendType='easeInOut'),
-            )
-        )
-
-
+        dist = math.sqrt((self.getX() - x) ** 2 + (self.getY() - y) ** 2 + (self.getZ() - z) ** 2)
+        time = dist / 10.0
+        self.idleInterval = Parallel(Sequence(self.posInterval(2.5, (x, y, z + 0.5), startPos=(x, y, z), blendType='easeInOut'), self.posInterval(2.5, (x, y, z), blendType='easeInOut')), Sequence(self.camera.posInterval(2.5, (x, y, z + 0.5), startPos=(x, y, z), blendType='easeInOut'), self.camera.posInterval(2.5, (x, y, z), blendType='easeInOut')))
         elapsed = globalClockDelta.localElapsedTime(ts)
-        movement = Sequence(Parallel(self.camera.posInterval(time, Point3(x, y, z)), self.camBody.hprInterval(time, Vec3(cH, cP, 0)), self.posHprInterval(time, Point3(x, y, z), Vec3(h, p, 0))),
-            Func(self.idleInterval.loop))
+        movement = Sequence(Parallel(self.camera.posInterval(time, Point3(x, y, z)), self.camBody.hprInterval(time, Vec3(cH, cP, 0)), self.posHprInterval(time, Point3(x, y, z), Vec3(h, p, 0))), Func(self.idleInterval.loop))
         movement.start()
         movement.setT(elapsed)
