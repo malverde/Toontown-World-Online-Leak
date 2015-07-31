@@ -36,12 +36,12 @@ class TFSafeZoneLoader(SafeZoneLoader):
         self.flippyBlatherSequence.loop()
 
         def unload(self):
-        self.flippyBlatherSequence.finish()
-        if self.flippy:
-            self.flippy.stopBlink()
-            self.flippy.removeActive()
-            self.flippy.cleanup()
-            self.flippy.removeNode()
+            self.flippyBlatherSequence.finish()
+            if self.flippy:
+                self.flippy.stopBlink()
+                self.flippy.removeActive()
+                self.flippy.cleanup()
+                self.flippy.removeNode()
 
 
     def enter(self, requestStatus):
