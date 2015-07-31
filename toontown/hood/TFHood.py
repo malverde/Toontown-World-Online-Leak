@@ -1,8 +1,9 @@
+#Embedded file name: toontown.hood.TFHood
 from ToonHood import ToonHood
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from toontown.toonbase import ToontownGlobals
 from toontown.safezone.TFSafeZoneLoader import TFSafeZoneLoader
-from toontown.town.TTTownLoader import TTTownLoader # Temporary
+from toontown.town.TTTownLoader import TTTownLoader
 import SkyUtil
 
 class TFHood(ToonHood):
@@ -10,8 +11,8 @@ class TFHood(ToonHood):
 
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
         ToonHood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
-        self.id = ToontownGlobals.FunnyFarm
-        self.townLoaderClass = TTTownLoader # Temporary
+        self.id = ToontownGlobals.ToonFest
+        self.townLoaderClass = TTTownLoader
         self.safeZoneLoaderClass = TFSafeZoneLoader
         self.storageDNAFile = 'phase_6/dna/storage_TF.xml'
         self.skyFile = 'phase_3.5/models/props/TT_sky'
