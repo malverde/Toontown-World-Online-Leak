@@ -265,7 +265,7 @@ SafeZoneTreasureSpawns = {
         10, # Rate
         4 # Maximum
     ),
-    ToontownGlobals.ToonFest: (
+    ToontownGlobals.FunnyFarm: (
         TreasureRandom, 3, # +3 laff
         [
             # TODO - real positions
