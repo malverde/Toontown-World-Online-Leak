@@ -1,4 +1,4 @@
-#from direct.directnotify.DirectNotifyGlobal import directNotify
+from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.ClockDelta import *
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
@@ -10,7 +10,7 @@ import random
 import time
 
 class HolidayManagerAI:
-    # notify = directNotify.newCategory('HolidayManagerAI')
+     notify = directNotify.newCategory('HolidayManagerAI')
     def __init__(self, air):
         self.air = air
         self.currentHolidays = []
