@@ -15,11 +15,10 @@ from pandac.PandaModules import *
 class TFHoodAI(SZHoodAI):
     notify = directNotify.newCategory('SZHoodAI')
     notify.setInfo(True)
-    HOOD = ToontownGlobals.ToonFest
+    HOOD = ToontownGlobals.FunnyFarm
 
     def createZone(self):
-        self.notify.info('Creating zone... ToonFest')
-        SZHoodAI.createZone(self, False)
+        SZHoodAI.createZone(self)
         self.spawnObjects()
         self.timer = DistributedTimerAI(self.air)
         self.timer.generateWithRequired(self.HOOD)
