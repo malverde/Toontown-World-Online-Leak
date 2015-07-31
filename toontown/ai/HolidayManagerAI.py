@@ -10,7 +10,7 @@ import random
 import time
 
 class HolidayManagerAI:
-notify = directNotify.newCategory('HolidayManagerAI')
+    notify = directNotify.newCategory('HolidayManagerAI')
     def __init__(self, air):
         self.air = air
         self.currentHolidays = []
