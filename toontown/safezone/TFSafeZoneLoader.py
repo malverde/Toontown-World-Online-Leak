@@ -36,7 +36,6 @@ class TFSafeZoneLoader(SafeZoneLoader):
         self.flippyBlatherSequence.loop()
 
         def unload(self):
-        SafeZoneLoader.unload(self)
         self.flippyBlatherSequence.finish()
         if self.flippy:
             self.flippy.stopBlink()
