@@ -797,6 +797,7 @@ def getPondInfo():
     return __pondInfoDict
 
 
+
 def getSimplePondInfo():
     info = {}
     for pondId, pondInfo in __pondInfoDict.items():
@@ -811,7 +812,6 @@ def getSimplePondInfo():
         info[pondId] = pondFishList
 
     return info
-
 
 def getPondGeneraList(pondId):
     tmpList = []
