@@ -8,6 +8,10 @@ from toontown.toon import NPCToons
 from otp.nametag.NametagConstants import *
 from toontown.election import DistributedFlippyStand
 from toontown.safezone.TFPlayground import TFPlayground
+from direct.actor import Actor
+from direct.interval.IntervalGlobal import *
+from direct.distributed.DistributedObject import DistributedObject
+
 
 class TFSafeZoneLoader(SafeZoneLoader):
 
