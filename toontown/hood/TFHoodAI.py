@@ -7,7 +7,7 @@ from toontown.election import DistributedToonfestBalloonAI
 
 class TFHoodAI(HoodAI.HoodAI):
     def __init__(self, air):
-        HoodAI.HoodAI.__init__(air,
+        HoodAI.HoodAI.__init__(self,
                                ToontownGlobals.FunnyFarm)
         
         self.balloon = DistributedToonfestBalloonAI.DistributedToonfestBalloonAI(self.air)
