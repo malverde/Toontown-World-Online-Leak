@@ -78,6 +78,38 @@
 					</prop>
 				</node>
 			</group>
+
+			<group name="fishing_pond_1">
+				<prop name="npc_fisherman_origin_0" code="DCS">
+					<pos x="311" y="-509" z="0.9" />
+					<nhpr h="100" p="0" r="0" />
+				</prop>
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="239" y="-551" z="0.9" />
+					<nhpr h="0" p="0" r="0" />
+				</prop>
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="262" y="-543" z="0.9" />
+					<nhpr h="40" p="0" r="0" />
+				</prop>
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="275" y="-524" z="0.9" />
+					<nhpr h="75" p="0" r="0" />
+				</prop>
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="273" y="-503" z="0.9" />
+					<nhpr h="120" p="0" r="0" />
+				</prop>
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="260" y="-494" z="0.9" />
+					<nhpr h="170" p="0" r="0" />
+				</prop>
+				<prop name="fishing_spot_DNARoot" code="fishing_spot">
+					<pos x="245" y="-493" z="0.9" />
+					<nhpr h="170" p="0" r="0" />
+				</prop>
+			</group>
+
       <node name="buildings">
         <prop name="prop_outdoor_zone_entrance_DNARoot" code="prop_outdoor_zone_entrance">
 					<pos x=" -83.9" y="-303.4" z="18.3" />
