@@ -27,7 +27,6 @@ class HolidayManagerAI:
         ts = time.time()
         nextHour = 3600 - (ts % 3600)
         taskMgr.doMethodLater(nextHour, self.__fireworksTick, 'hourly-fireworks')
-        self.notify.info('Oh! A fireworks show has started in this District - next one in exactly 1 hours time!') 
         
     def __fireworksTick(self, task):
         # The next tick will occur in exactly an hour.
@@ -59,6 +58,7 @@ class HolidayManagerAI:
             fireworksShow = DistributedFireworkShowAI(self.air)
             fireworksShow.generateWithRequired(hood.HOOD)
             fireworksShow.b_startShow(showType, showIndex, globalClockDelta.getRealNetworkTime())
+            self.notify.info('Oh! A fireworks show has started in this District - next one in exactly 1 hours time!')
         return task.again
 
     def isHolidayRunning(self, *args):
