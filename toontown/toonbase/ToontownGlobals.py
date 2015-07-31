@@ -1,4 +1,3 @@
-#Embedded file name: toontown.toonbase.ToontownGlobals
 import TTLocalizer
 from otp.otpbase.OTPGlobals import *
 from direct.showbase.PythonUtil import Enum, invertDict
@@ -13,8 +12,10 @@ DefaultDatabaseChannelId = AccountDatabaseChannelId
 DatabaseIdFromClassName = {'Account': AccountDatabaseChannelId}
 CogHQCameraFov = 60.0
 BossBattleCameraFov = 72.0
-MakeAToonCameraFov = 48.0
-CogdoFov = 56.9
+MakeAToonCameraFov = 52.0
+WantPromotion = 0
+PendingPromotion = 1
+
 CeilingBitmask = BitMask32(256)
 FloorEventBitmask = BitMask32(16)
 PieBitmask = BitMask32(256)
@@ -42,7 +43,7 @@ MaxMailboxContents = 30
 MaxHouseItems = 45
 MaxAccessories = 50
 ExtraDeletedItems = 5
-DeletedItemLifetime = 10080
+DeletedItemLifetime = 7 * 24 * 60
 CatalogNumWeeksPerSeries = 13
 CatalogNumWeeks = 78
 PetFloorCollPriority = 5
@@ -97,22 +98,15 @@ FM_DeletedItem = 3
 FM_RecoveredItem = 4
 SPDonaldsBoat = 3
 SPMinniesPiano = 4
-SPSlappysBalloon = 5
-SPToonfestBalloon = 6
-SPToonfestTowerSmall = 7
-SPToonfestTowerMed = 8
-SPToonfestTowerLarge = 9
+SPBuddysBalloon = 5
 CEVirtual = 14
-MaxHpLimit = 137
-MaxCarryLimit = 80
+MaxHpLimit = 156
+MaxCarryLimit = 240
 MaxQuestCarryLimit = 4
 GravityValue = 32.174
-MaxCogSuitLevel = 49
-CogSuitHPLevels = (14,
- 19,
- 29,
- 39,
- 49)
+MaxCogSuitLevel = 12 - 1
+
+
 setInterfaceFont(TTLocalizer.InterfaceFont)
 setSignFont(TTLocalizer.SignFont)
 from toontown.toontowngui import TTDialog
@@ -149,7 +143,6 @@ def getSuitFont():
         SuitFont = loader.loadFont(TTLocalizer.SuitFont, pixelsPerUnit=40, spaceAdvance=0.25, lineHeight=1.0)
     return SuitFont
 
-
 SafezoneToonupFrequency = 30
 DonaldsDock = 1000
 ToontownCentral = 2000
@@ -157,7 +150,7 @@ TheBrrrgh = 3000
 MinniesMelodyland = 4000
 DaisyGardens = 5000
 OutdoorZone = 6000
-ToonFest = 7000
+FunnyFarm = 7000
 GoofySpeedway = 8000
 DonaldsDreamland = 9000
 BarnacleBoulevard = 1100
@@ -184,7 +177,6 @@ HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace),
  MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace),
  DaisyGardens: (ElmStreet, MapleStreet, OakStreet),
  DonaldsDreamland: (LullabyLane, PajamaPlace),
- ToonFest: (),
  GoofySpeedway: ()}
 WelcomeValleyToken = 0
 BossbotHQ = 10000
@@ -209,6 +201,7 @@ LawbotStageIntA = 13300
 LawbotStageIntB = 13400
 LawbotStageIntC = 13500
 LawbotStageIntD = 13600
+CogNation = 14000
 Tutorial = 15000
 MyEstate = 16000
 GolfZone = 17000
@@ -217,7 +210,7 @@ HoodsAlwaysVisited = [17000, 18000]
 WelcomeValleyBegin = 22000
 WelcomeValleyEnd = 61000
 DynamicZonesBegin = 61000
-DynamicZonesEnd = 1048576
+DynamicZonesEnd = 1 << 20
 cogDept2index = {'c': 0,
  'l': 1,
  'm': 2,
@@ -313,7 +306,8 @@ Hoods = (DonaldsDock,
  MinniesMelodyland,
  DaisyGardens,
  OutdoorZone,
- ToonFest,
+ FunnyFarm,
+ FunnyFarm,
  GoofySpeedway,
  DonaldsDreamland,
  BossbotHQ,
@@ -335,10 +329,10 @@ HoodsForTeleportAll = (DonaldsDock,
  LawbotHQ,
  GolfZone)
 BingoCardNames = {'normal': 0,
- 'corners': 1,
- 'diagonal': 2,
- 'threeway': 3,
- 'blockout': 4}
+'corners': 1,
+'diagonal': 2,
+'threeway': 3,
+'blockout': 4}
 NoPreviousGameId = 0
 RaceGameId = 1
 CannonGameId = 2
@@ -395,65 +389,12 @@ MinigameIDs = (RaceGameId,
  TwoDGameId,
  PhotoGameId,
  TravelGameId)
-MinigamePlayerMatrix = {1: (CannonGameId,
-     MazeGameId,
-     TugOfWarGameId,
-     RingGameId,
-     VineGameId,
-     CogThiefGameId,
-     TwoDGameId,
-     DivingGameId,
-     PairingGameId,
-     CatchGameId,
-     TargetGameId,
-     PhotoGameId),
- 2: (CannonGameId,
-     MazeGameId,
-     TugOfWarGameId,
-     PatternGameId,
-     TagGameId,
-     RingGameId,
-     VineGameId,
-     IceGameId,
-     CogThiefGameId,
-     TwoDGameId,
-     DivingGameId,
-     PairingGameId,
-     CatchGameId,
-     TargetGameId,
-     PhotoGameId),
- 3: (CannonGameId,
-     MazeGameId,
-     TugOfWarGameId,
-     PatternGameId,
-     RaceGameId,
-     TagGameId,
-     VineGameId,
-     RingGameId,
-     IceGameId,
-     CogThiefGameId,
-     TwoDGameId,
-     DivingGameId,
-     PairingGameId,
-     CatchGameId,
-     TargetGameId,
-     PhotoGameId),
- 4: (CannonGameId,
-     MazeGameId,
-     TugOfWarGameId,
-     PatternGameId,
-     RaceGameId,
-     TagGameId,
-     VineGameId,
-     RingGameId,
-     IceGameId,
-     CogThiefGameId,
-     TwoDGameId,
-     DivingGameId,
-     PairingGameId,
-     CatchGameId,
-     TargetGameId,
-     PhotoGameId)}
+MinigamePlayerMatrix = {
+    1: (CannonGameId, MazeGameId, TugOfWarGameId, RingGameId, VineGameId, CogThiefGameId, TwoDGameId, DivingGameId, PairingGameId, CatchGameId, TargetGameId, PhotoGameId),
+    2: (CannonGameId, MazeGameId, TugOfWarGameId, PatternGameId, TagGameId, RingGameId, VineGameId, IceGameId, CogThiefGameId, TwoDGameId, DivingGameId, PairingGameId, CatchGameId, TargetGameId, PhotoGameId),
+    3: (CannonGameId, MazeGameId, TugOfWarGameId, PatternGameId, RaceGameId, TagGameId, VineGameId, RingGameId, IceGameId, CogThiefGameId, TwoDGameId, DivingGameId, PairingGameId, CatchGameId, TargetGameId, PhotoGameId),
+    4: (CannonGameId, MazeGameId, TugOfWarGameId, PatternGameId, RaceGameId, TagGameId, VineGameId, RingGameId, IceGameId, CogThiefGameId, TwoDGameId, DivingGameId, PairingGameId, CatchGameId, TargetGameId, PhotoGameId),
+}
 MinigameReleaseDates = {IceGameId: (2008, 8, 5),
  PhotoGameId: (2008, 8, 13),
  TwoDGameId: (2008, 8, 20),
@@ -467,9 +408,9 @@ phaseMap = {Tutorial: 4,
  GoofySpeedway: 6,
  TheBrrrgh: 8,
  DaisyGardens: 8,
- ToonFest: 6,
+ FunnyFarm: 14,
  DonaldsDreamland: 8,
- OutdoorZone: 8,
+ OutdoorZone: 6,
  BossbotHQ: 12,
  SellbotHQ: 9,
  CashbotHQ: 10,
@@ -482,7 +423,7 @@ streetPhaseMap = {ToontownCentral: 5,
  GoofySpeedway: 6,
  TheBrrrgh: 8,
  DaisyGardens: 8,
- ToonFest: 6,
+ FunnyFarm: 14,
  DonaldsDreamland: 8,
  OutdoorZone: 8,
  BossbotHQ: 12,
@@ -497,7 +438,7 @@ dnaMap = {Tutorial: 'toontown_central',
  GoofySpeedway: 'goofy_speedway',
  TheBrrrgh: 'the_burrrgh',
  DaisyGardens: 'daisys_garden',
- ToonFest: 'toonfest',
+ FunnyFarm: 'funny_farms',
  DonaldsDreamland: 'donalds_dreamland',
  OutdoorZone: 'outdoor_zone',
  BossbotHQ: 'cog_hq_bossbot',
@@ -511,7 +452,7 @@ hoodNameMap = {DonaldsDock: TTLocalizer.DonaldsDock,
  MinniesMelodyland: TTLocalizer.MinniesMelodyland,
  DaisyGardens: TTLocalizer.DaisyGardens,
  OutdoorZone: TTLocalizer.OutdoorZone,
- ToonFest: TTLocalizer.ToonFest,
+ FunnyFarm: TTLocalizer.FunnyFarm,
  GoofySpeedway: TTLocalizer.GoofySpeedway,
  DonaldsDreamland: TTLocalizer.DonaldsDreamland,
  BossbotHQ: TTLocalizer.BossbotHQ,
@@ -530,7 +471,7 @@ safeZoneCountMap = {MyEstate: 8,
  GoofySpeedway: 500,
  TheBrrrgh: 8,
  DaisyGardens: 9,
- ToonFest: 500,
+ FunnyFarm: 500,
  DonaldsDreamland: 5,
  OutdoorZone: 500,
  GolfZone: 500,
@@ -543,7 +484,7 @@ townCountMap = {MyEstate: 8,
  GoofySpeedway: 40,
  TheBrrrgh: 40,
  DaisyGardens: 40,
- ToonFest: 40,
+ FunnyFarm: 40,
  DonaldsDreamland: 40,
  OutdoorZone: 40,
  PartyHood: 20}
@@ -555,7 +496,7 @@ hoodCountMap = {MyEstate: 2,
  GoofySpeedway: 2,
  TheBrrrgh: 2,
  DaisyGardens: 2,
- ToonFest: 2,
+ FunnyFarm: 2,
  DonaldsDreamland: 2,
  OutdoorZone: 2,
  BossbotHQ: 2,
@@ -564,7 +505,12 @@ hoodCountMap = {MyEstate: 2,
  LawbotHQ: 2,
  GolfZone: 2,
  PartyHood: 2}
-TrophyStarLevels = (10, 20, 30, 50, 75, 100)
+TrophyStarLevels = (10,
+ 20,
+ 30,
+ 50,
+ 75,
+ 100)
 TrophyStarColors = (Vec4(0.9, 0.6, 0.2, 1),
  Vec4(0.9, 0.6, 0.2, 1),
  Vec4(0.8, 0.8, 0.8, 1),
@@ -597,7 +543,10 @@ PieCodeProsecutionPan = 6
 PieCodeLawyer = 7
 PieCodeInvasionSuit = 8
 PieCodeColors = {PieCodeBossCog: None,
- PieCodeNotBossCog: (0.8, 0.8, 0.8, 1),
+ PieCodeNotBossCog: (0.8,
+                     0.8,
+                     0.8,
+                     1),
  PieCodeToon: None}
 BossCogRollSpeed = 7.5
 BossCogTurnSpeed = 20
@@ -619,8 +568,8 @@ BossCogGavelStomp = 13
 BossCogGavelHandle = 14
 BossCogLawyerAttack = 15
 BossCogMoveAttack = 16
-BossCogGolfAttack = 17
-BossCogGolfAreaAttack = 18
+BossCogGolfAttack = 24
+BossCogGolfAreaAttack = 24
 BossCogGearDirectedAttack = 19
 BossCogOvertimeAttack = 20
 BossCogAttackTimes = {BossCogElectricFence: 0,
@@ -651,19 +600,36 @@ BossCogDamageLevels = {BossCogElectricFence: 1,
  BossCogGavelHandle: 2,
  BossCogLawyerAttack: 5,
  BossCogMoveAttack: 20,
- BossCogGolfAttack: 15,
- BossCogGolfAreaAttack: 15,
+ BossCogGolfAttack: 24,
+ BossCogGolfAreaAttack: 24,
  BossCogGearDirectedAttack: 15,
  BossCogOvertimeAttack: 10}
-BossCogBattleAPosHpr = (0, -25, 0, 0, 0, 0)
-BossCogBattleBPosHpr = (0, 25, 0, 180, 0, 0)
-if config.GetBool('want-nerfs', False):
-    SellbotBossMaxDamage = 50
-else:
-    SellbotBossMaxDamage = 100
+BossCogBattleAPosHpr = (0,
+ -25,
+ 0,
+ 0,
+ 0,
+ 0)
+BossCogBattleBPosHpr = (0,
+ 25,
+ 0,
+ 180,
+ 0,
+ 0)
+SellbotBossMaxDamage = 100
 SellbotBossMaxDamageNerfed = 100
-SellbotBossBattleOnePosHpr = (0, -35, 0, -90, 0, 0)
-SellbotBossBattleTwoPosHpr = (0, 60, 18, -90, 0, 0)
+SellbotBossBattleOnePosHpr = (0,
+ -35,
+ 0,
+ -90,
+ 0,
+ 0)
+SellbotBossBattleTwoPosHpr = (0,
+ 60,
+ 18,
+ -90,
+ 0,
+ 0)
 SellbotBossBattleThreeHpr = (180, 0, 0)
 SellbotBossBottomPos = (0, -110, -6.5)
 SellbotBossDeathPos = (0, -175, -6.5)
@@ -677,47 +643,166 @@ SellbotBossP3PosA = (-50, 40, 18)
 SellbotBossTopRampPosB = (80, -35, 18)
 SellbotBossTopRampTurnPosB = (80, 10, 18)
 SellbotBossP3PosB = (50, 60, 18)
-if config.GetBool('want-nerfs', False):
-    CashbotBossMaxDamage = 300
-else:
-    CashbotBossMaxDamage = 500
-CashbotBossOffstagePosHpr = (120, -195, 0, 0, 0, 0)
-CashbotBossBattleOnePosHpr = (120, -230, 0, 90, 0, 0)
-CashbotRTBattleOneStartPosHpr = (94, -220, 0, 110, 0, 0)
-CashbotBossBattleThreePosHpr = (120, -315, 0, 180, 0, 0)
-CashbotToonsBattleThreeStartPosHpr = [(105, -285, 0, 208, 0, 0),
- (136, -342, 0, 398, 0, 0),
- (105, -342, 0, 333, 0, 0),
- (135, -292, 0, 146, 0, 0),
- (93, -303, 0, 242, 0, 0),
- (144, -327, 0, 64, 0, 0),
- (145, -302, 0, 117, 0, 0),
- (93, -327, 0, -65, 0, 0)]
-CashbotBossSafePosHprs = [(120, -315, 30, 0, 0, 0),
- (77.2, -329.3, 0, -90, 0, 0),
- (77.1, -302.7, 0, -90, 0, 0),
- (165.7, -326.4, 0, 90, 0, 0),
- (165.5, -302.4, 0, 90, 0, 0),
- (107.8, -359.1, 0, 0, 0, 0),
- (133.9, -359.1, 0, 0, 0, 0),
- (107.0, -274.7, 0, 180, 0, 0),
- (134.2, -274.7, 0, 180, 0, 0)]
-CashbotBossCranePosHprs = [(97.4, -337.6, 0, -45, 0, 0),
- (97.4, -292.4, 0, -135, 0, 0),
- (142.6, -292.4, 0, 135, 0, 0),
- (142.6, -337.6, 0, 45, 0, 0)]
+CashbotBossMaxDamage = 500
+CashbotBossOffstagePosHpr = (120,
+ -195,
+ 0,
+ 0,
+ 0,
+ 0)
+CashbotBossBattleOnePosHpr = (120,
+ -230,
+ 0,
+ 90,
+ 0,
+ 0)
+CashbotRTBattleOneStartPosHpr = (94,
+ -220,
+ 0,
+ 110,
+ 0,
+ 0)
+CashbotBossBattleThreePosHpr = (120,
+ -315,
+ 0,
+ 180,
+ 0,
+ 0)
+CashbotToonsBattleThreeStartPosHpr = [(105,
+  -285,
+  0,
+  208,
+  0,
+  0),
+ (136,
+  -342,
+  0,
+  398,
+  0,
+  0),
+ (105,
+  -342,
+  0,
+  333,
+  0,
+  0),
+ (135,
+  -292,
+  0,
+  146,
+  0,
+  0),
+ (93,
+  -303,
+  0,
+  242,
+  0,
+  0),
+ (144,
+  -327,
+  0,
+  64,
+  0,
+  0),
+ (145,
+  -302,
+  0,
+  117,
+  0,
+  0),
+ (93,
+  -327,
+  0,
+  -65,
+  0,
+  0)]
+CashbotBossSafePosHprs = [(120,
+  -315,
+  30,
+  0,
+  0,
+  0),
+ (77.2,
+  -329.3,
+  0,
+  -90,
+  0,
+  0),
+ (77.1,
+  -302.7,
+  0,
+  -90,
+  0,
+  0),
+ (165.7,
+  -326.4,
+  0,
+  90,
+  0,
+  0),
+ (165.5,
+  -302.4,
+  0,
+  90,
+  0,
+  0),
+ (107.8,
+  -359.1,
+  0,
+  0,
+  0,
+  0),
+ (133.9,
+  -359.1,
+  0,
+  0,
+  0,
+  0),
+ (107.0,
+  -274.7,
+  0,
+  180,
+  0,
+  0),
+ (134.2,
+  -274.7,
+  0,
+  180,
+  0,
+  0)]
+CashbotBossCranePosHprs = [(97.4,
+  -337.6,
+  0,
+  -45,
+  0,
+  0),
+ (97.4,
+  -292.4,
+  0,
+  -135,
+  0,
+  0),
+ (142.6,
+  -292.4,
+  0,
+  135,
+  0,
+  0),
+ (142.6,
+  -337.6,
+  0,
+  45,
+  0,
+  0)]
 CashbotBossToMagnetTime = 0.2
 CashbotBossFromMagnetTime = 1
 CashbotBossSafeKnockImpact = 0.5
 CashbotBossSafeNewImpact = 0.0
 CashbotBossGoonImpact = 0.1
-if config.GetBool('want-nerfs', False):
-    CashbotBossKnockoutDamage = 10
-else:
-    CashbotBossKnockoutDamage = 15
+CashbotBossKnockoutDamage = 15
 TTWakeWaterHeight = -4.79
 DDWakeWaterHeight = 1.669
-EstateWakeWaterHeight = -0.3
+EstateWakeWaterHeight = -.3
 OZWakeWaterHeight = -0.5
 WakeRunDelta = 0.1
 WakeWalkDelta = 0.2
@@ -856,8 +941,18 @@ TOT_REWARD_END_OFFSET_AMOUNT = 0
 LawbotBossMaxDamage = 2700
 LawbotBossWinningTilt = 40
 LawbotBossInitialDamage = 1350
-LawbotBossBattleOnePosHpr = (-2.798, -60, 0, 0, 0, 0)
-LawbotBossBattleTwoPosHpr = (-2.798, 89, 19.145, 0, 0, 0)
+LawbotBossBattleOnePosHpr = (-2.798,
+ -60,
+ 0,
+ 0,
+ 0,
+ 0)
+LawbotBossBattleTwoPosHpr = (-2.798,
+ 89,
+ 19.145,
+ 0,
+ 0,
+ 0)
 LawbotBossTopRampPosA = (-80, -35, 18)
 LawbotBossTopRampTurnPosA = (-80, 10, 18)
 LawbotBossP3PosA = (55, -9, 0)
@@ -867,14 +962,54 @@ LawbotBossP3PosB = (55, -9, 0)
 LawbotBossBattleThreePosHpr = LawbotBossBattleTwoPosHpr
 LawbotBossBottomPos = (50, 39, 0)
 LawbotBossDeathPos = (50, 40, 0)
-LawbotBossGavelPosHprs = [(35, 78.328, 0, -135, 0, 0),
- (68.5, 78.328, 0, 135, 0, 0),
- (47, -33, 0, 45, 0, 0),
- (-50, -39, 0, -45, 0, 0),
- (-9, -37, 0, 0, 0, 0),
- (-9, 49, 0, -180, 0, 0),
- (32, 0, 0, 45, 0, 0),
- (33, 56, 0, 135, 0, 0)]
+LawbotBossGavelPosHprs = [(35,
+  78.328,
+  0,
+  -135,
+  0,
+  0),
+ (68.5,
+  78.328,
+  0,
+  135,
+  0,
+  0),
+ (47,
+  -33,
+  0,
+  45,
+  0,
+  0),
+ (-50,
+  -39,
+  0,
+  -45,
+  0,
+  0),
+ (-9,
+  -37,
+  0,
+  0,
+  0,
+  0),
+ (-9,
+  49,
+  0,
+  -180,
+  0,
+  0),
+ (32,
+  0,
+  0,
+  45,
+  0,
+  0),
+ (33,
+  56,
+  0,
+  135,
+  0,
+  0)]
 LawbotBossGavelTimes = [(0.2, 0.9, 0.6),
  (0.25, 1, 0.5),
  (1.0, 6, 0.5),
@@ -886,106 +1021,353 @@ LawbotBossGavelTimes = [(0.2, 0.9, 0.6),
 LawbotBossGavelHeadings = [(0,
   -15,
   4,
-  -115,
+  -70 - 45,
   5,
   45),
- (0, -45, -4, -35, -45, -16, 32),
- (0, -8, 19, -7, 5, 23),
- (0, -4, 8, -16, 32, -45, 7, 7, -30, 19, -13, 25),
- (0, -45, -90, 45, 90),
- (0, -45, -90, 45, 90),
+ (0,
+  -45,
+  -4,
+  -35,
+  -45,
+  -16,
+  32),
+ (0,
+  -8,
+  19,
+  -7,
+  5,
+  23),
+ (0,
+  -4,
+  8,
+  -16,
+  32,
+  -45,
+  7,
+  7,
+  -30,
+  19,
+  -13,
+  25),
+ (0,
+  -45,
+  -90,
+  45,
+  90),
+ (0,
+  -45,
+  -90,
+  45,
+  90),
  (0, -45, 45),
  (0, -45, 45)]
-LawbotBossCogRelBattleAPosHpr = (-25, -10, 0, 0, 0, 0)
-LawbotBossCogRelBattleBPosHpr = (-25, 10, 0, 0, 0, 0)
-LawbotBossCogAbsBattleAPosHpr = (-5, -2, 0, 0, 0, 0)
-LawbotBossCogAbsBattleBPosHpr = (-5, 0, 0, 0, 0, 0)
-LawbotBossWitnessStandPosHpr = (54, 100, 0, -90, 0, 0)
-LawbotBossInjusticePosHpr = (-3, 12, 0, 90, 0, 0)
+LawbotBossCogRelBattleAPosHpr = (-25,
+ -10,
+ 0,
+ 0,
+ 0,
+ 0)
+LawbotBossCogRelBattleBPosHpr = (-25,
+ 10,
+ 0,
+ 0,
+ 0,
+ 0)
+LawbotBossCogAbsBattleAPosHpr = (-5,
+ -2,
+ 0,
+ 0,
+ 0,
+ 0)
+LawbotBossCogAbsBattleBPosHpr = (-5,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0)
+LawbotBossWitnessStandPosHpr = (54,
+ 100,
+ 0,
+ -90,
+ 0,
+ 0)
+LawbotBossInjusticePosHpr = (-3,
+ 12,
+ 0,
+ 90,
+ 0,
+ 0)
 LawbotBossInjusticeScale = (1.75, 1.75, 1.5)
 LawbotBossDefensePanDamage = 1
-LawbotBossLawyerPosHprs = [(-57, -24, 0, -90, 0, 0),
- (-57, -12, 0, -90, 0, 0),
- (-57, 0, 0, -90, 0, 0),
- (-57, 12, 0, -90, 0, 0),
- (-57, 24, 0, -90, 0, 0),
- (-57, 36, 0, -90, 0, 0),
- (-57, 48, 0, -90, 0, 0),
- (-57, 60, 0, -90, 0, 0),
- (-3, -37.3, 0, 0, 0, 0),
- (-3, 53, 0, -180, 0, 0)]
-if config.GetBool('want-nerfs', False):
-    LawbotBossLawyerCycleTime = 12
-    LawbotBossLawyerToPanTime = 2.5
-    LawbotBossLawyerChanceToAttack = 25
-    LawbotBossLawyerHeal = 1
-    LawbotBossLawyerStunTime = 10
-else:
-    LawbotBossLawyerCycleTime = 6
-    LawbotBossLawyerToPanTime = 2.5
-    LawbotBossLawyerChanceToAttack = 50
-    LawbotBossLawyerHeal = 2
-    LawbotBossLawyerStunTime = 5
-LawbotBossDifficultySettings = [(38, 4, 8, 1, 0, 0),
- (36, 5, 8, 1, 0, 0),
- (34, 5, 8, 1, 0, 0),
- (32, 6, 8, 2, 0, 0),
- (30, 6, 8, 2, 0, 0),
- (28, 7, 8, 3, 0, 0),
- (26, 7, 9, 3, 1, 1),
- (24, 8, 9, 4, 1, 1),
- (22, 8, 10, 4, 1, 0)]
-LawbotBossCannonPosHprs = [(-40, -12, 0, -90, 0, 0),
- (-40, 0, 0, -90, 0, 0),
- (-40, 12, 0, -90, 0, 0),
- (-40, 24, 0, -90, 0, 0),
- (-40, 36, 0, -90, 0, 0),
- (-40, 48, 0, -90, 0, 0),
- (-40, 60, 0, -90, 0, 0),
- (-40, 72, 0, -90, 0, 0)]
+LawbotBossLawyerPosHprs = [(-57,
+  -24,
+  0,
+  -90,
+  0,
+  0),
+ (-57,
+  -12,
+  0,
+  -90,
+  0,
+  0),
+ (-57,
+  0,
+  0,
+  -90,
+  0,
+  0),
+ (-57,
+  12,
+  0,
+  -90,
+  0,
+  0),
+ (-57,
+  24,
+  0,
+  -90,
+  0,
+  0),
+ (-57,
+  36,
+  0,
+  -90,
+  0,
+  0),
+ (-57,
+  48,
+  0,
+  -90,
+  0,
+  0),
+ (-57,
+  60,
+  0,
+  -90,
+  0,
+  0),
+ (-3,
+  -37.3,
+  0,
+  0,
+  0,
+  0),
+ (-3,
+  53,
+  0,
+  -180,
+  0,
+  0)]
+LawbotBossLawyerCycleTime = 6
+LawbotBossLawyerToPanTime = 2.5
+LawbotBossLawyerChanceToAttack = 50
+LawbotBossLawyerHeal = 2
+LawbotBossLawyerStunTime = 5
+LawbotBossDifficultySettings = [(38,
+  4,
+  8,
+  1,
+  0,
+  0),
+ (36,
+  5,
+  8,
+  1,
+  0,
+  0),
+ (34,
+  5,
+  8,
+  1,
+  0,
+  0),
+ (32,
+  6,
+  8,
+  2,
+  0,
+  0),
+ (30,
+  6,
+  8,
+  2,
+  0,
+  0),
+ (28,
+  7,
+  8,
+  3,
+  0,
+  0),
+ (26,
+  7,
+  9,
+  3,
+  1,
+  1),
+ (24,
+  8,
+  9,
+  4,
+  1,
+  1),
+ (22,
+  8,
+  10,
+  4,
+  1,
+  0)]
+LawbotBossCannonPosHprs = [(-40,
+  -12,
+  0,
+  -90,
+  0,
+  0),
+ (-40,
+  0,
+  0,
+  -90,
+  0,
+  0),
+ (-40,
+  12,
+  0,
+  -90,
+  0,
+  0),
+ (-40,
+  24,
+  0,
+  -90,
+  0,
+  0),
+ (-40,
+  36,
+  0,
+  -90,
+  0,
+  0),
+ (-40,
+  48,
+  0,
+  -90,
+  0,
+  0),
+ (-40,
+  60,
+  0,
+  -90,
+  0,
+  0),
+ (-40,
+  72,
+  0,
+  -90,
+  0,
+  0)]
 LawbotBossCannonPosA = (-80, -51.48, 0)
 LawbotBossCannonPosB = (-80, 70.73, 0)
-LawbotBossChairPosHprs = [(60, 72, 0, -90, 0, 0),
- (60, 62, 0, -90, 0, 0),
- (60, 52, 0, -90, 0, 0),
- (60, 42, 0, -90, 0, 0),
- (60, 32, 0, -90, 0, 0),
- (60, 22, 0, -90, 0, 0),
- (70, 72, 5, -90, 0, 0),
- (70, 62, 5, -90, 0, 0),
- (70, 52, 5, -90, 0, 0),
- (70, 42, 5, -90, 0, 0),
- (70, 32, 5, -90, 0, 0),
- (70, 22, 5, -90, 0, 0)]
+LawbotBossChairPosHprs = [(60,
+  72,
+  0,
+  -90,
+  0,
+  0),
+ (60,
+  62,
+  0,
+  -90,
+  0,
+  0),
+ (60,
+  52,
+  0,
+  -90,
+  0,
+  0),
+ (60,
+  42,
+  0,
+  -90,
+  0,
+  0),
+ (60,
+  32,
+  0,
+  -90,
+  0,
+  0),
+ (60,
+  22,
+  0,
+  -90,
+  0,
+  0),
+ (70,
+  72,
+  5,
+  -90,
+  0,
+  0),
+ (70,
+  62,
+  5,
+  -90,
+  0,
+  0),
+ (70,
+  52,
+  5,
+  -90,
+  0,
+  0),
+ (70,
+  42,
+  5,
+  -90,
+  0,
+  0),
+ (70,
+  32,
+  5,
+  -90,
+  0,
+  0),
+ (70,
+  22,
+  5,
+  -90,
+  0,
+  0)]
 LawbotBossChairRow1PosB = (59.3, 48, 14.05)
 LawbotBossChairRow1PosA = (59.3, -18.2, 14.05)
 LawbotBossChairRow2PosB = (75.1, 48, 28.2)
 LawbotBossChairRow2PosA = (75.1, -18.2, 28.2)
-if config.GetBool('want-nerfs', False):
-    LawbotBossCannonBallMax = 24
-else:
-    LawbotBossCannonBallMax = 12
+LawbotBossCannonBallMax = 12
 LawbotBossJuryBoxStartPos = (94, -8, 5)
 LawbotBossJuryBoxRelativeEndPos = (30, 0, 12.645)
 LawbotBossJuryBoxMoveTime = 70
-if config.GetBool('want-nerfs', False):
-    LawbotBossJurorsForBalancedScale = 4
-else:
-    LawbotBossJurorsForBalancedScale = 8
+LawbotBossJurorsForBalancedScale = 8
 LawbotBossDamagePerJuror = 68
 LawbotBossCogJurorFlightTime = 10
 LawbotBossCogJurorDistance = 75
 LawbotBossBaseJurorNpcId = 2001
-LawbotBossWitnessEpiloguePosHpr = (-3, 0, 0, 180, 0, 0)
+LawbotBossWitnessEpiloguePosHpr = (-3,
+ 0,
+ 0,
+ 180,
+ 0,
+ 0)
 LawbotBossChanceForTaunt = 25
 LawbotBossBonusWaitTime = 60
 LawbotBossBonusDuration = 20
 LawbotBossBonusToonup = 10
 LawbotBossBonusWeightMultiplier = 2
 LawbotBossChanceToDoAreaAttack = 11
-LOW_POP = 4
-MID_POP = 6
-HIGH_POP = 8
+LOW_POP = 1 # This is 'Ideal' in the book (green)
+MID_POP = 6 # This is 'Full' in the book, but friends can still TP onto shard (soft red)
+HIGH_POP = 10 # Still 'Full' in book, but nobody joins this shard for any reason (hard red)
 PinballCannonBumper = 0
 PinballCloudBumperLow = 1
 PinballCloudBumperMed = 2
@@ -1014,55 +1396,140 @@ GlitchKillerZones = [13300,
  13400,
  13500,
  13600]
-ColorPlayer = (0.3, 0.7, 0.3, 1)
-ColorAvatar = (0.3, 0.3, 0.7, 1)
-ColorPet = (0.6, 0.4, 0.2, 1)
-ColorFreeChat = (0.3, 0.3, 0.8, 1)
-ColorSpeedChat = (0.2, 0.6, 0.4, 1)
-ColorNoChat = (0.8, 0.5, 0.1, 1)
-FactoryLaffMinimums = [(0, 31),
- (0, 66, 71),
- (0, 81, 86, 96),
- (0, 101, 106)]
+ColorPlayer = (0.3,
+ 0.7,
+ 0.3,
+ 1)
+ColorAvatar = (0.3,
+ 0.3,
+ 0.7,
+ 1)
+ColorPet = (0.6,
+ 0.4,
+ 0.2,
+ 1)
+ColorFreeChat = (0.3,
+ 0.3,
+ 0.8,
+ 1)
+ColorSpeedChat = (0.2,
+ 0.6,
+ 0.4,
+ 1)
+ColorNoChat = (0.8,
+ 0.5,
+ 0.1,
+ 1)
+FactoryLaffMinimums = [
+ (0, 31),         # SBHQ Factory
+ (0, 66, 71),     # CBHQ Mint
+ (0, 81, 86, 96), # LBHQ DA
+ (0, 101, 106)    # BBHQ Golf
+]
 PICNIC_COUNTDOWN_TIME = 60
-BossbotRTIntroStartPosHpr = (0, -64, 0, 180, 0, 0)
-BossbotRTPreTwoPosHpr = (0, -20, 0, 180, 0, 0)
-BossbotRTEpiloguePosHpr = (0, 90, 0, 180, 0, 0)
-BossbotBossBattleOnePosHpr = (0, 355, 0, 0, 0, 0)
-BossbotBossPreTwoPosHpr = (0, 20, 0, 0, 0, 0)
-BossbotElevCamPosHpr = (0, -100.544, 7.18258, 0, 0, 0)
+BossbotRTIntroStartPosHpr = (0,
+ -64,
+ 0,
+ 180,
+ 0,
+ 0)
+BossbotRTPreTwoPosHpr = (0,
+ -20,
+ 0,
+ 180,
+ 0,
+ 0)
+BossbotRTEpiloguePosHpr = (0,
+ 90,
+ 0,
+ 180,
+ 0,
+ 0)
+BossbotBossBattleOnePosHpr = (0,
+ 355,
+ 0,
+ 0,
+ 0,
+ 0)
+BossbotBossPreTwoPosHpr = (0,
+ 20,
+ 0,
+ 0,
+ 0,
+ 0)
+BossbotElevCamPosHpr = (0,
+ -100.544,
+ 7.18258,
+ 0,
+ 0,
+ 0)
 BossbotFoodModelScale = 0.75
-if config.GetBool('want-nerfs', False):
-    BossbotNumFoodToExplode = 2
-else:
-    BossbotNumFoodToExplode = 3
+BossbotNumFoodToExplode = 3
 BossbotBossServingDuration = 300
 BossbotPrepareBattleThreeDuration = 20
-WaiterBattleAPosHpr = (20, -400, 0, 0, 0, 0)
-WaiterBattleBPosHpr = (-20, -400, 0, 0, 0, 0)
-BossbotBossBattleThreePosHpr = (0, 355, 0, 0, 0, 0)
-DinerBattleAPosHpr = (20, -240, 0, 0, 0, 0)
-DinerBattleBPosHpr = (-20, -240, 0, 0, 0, 0)
-if config.GetBool('want-nerfs', False):
-    BossbotBossMaxDamage = 300
-    BossbotMaxSpeedDamage = 90
-    BossbotSpeedRecoverRate = 1
-else:
-    BossbotBossMaxDamage = 500
-    BossbotMaxSpeedDamage = 90
-    BossbotSpeedRecoverRate = 20
-if config.GetBool('want-nerfs', False):
-    BossbotBossDifficultySettings = [(8, 4, 11, 3, 30, 10),
-     (9, 5, 12, 6, 28, 10),
-     (10, 6, 11, 7, 26, 10),
-     (8, 8, 12, 8, 24, 10),
-     (13, 5, 12, 9, 22, 10)]
-else:
-    BossbotBossDifficultySettings = [(8, 4, 11, 3, 30, 25),
-     (9, 5, 12, 6, 28, 26),
-     (10, 6, 11, 7, 26, 27),
-     (8, 8, 12, 8, 24, 28),
-     (13, 5, 12, 9, 22, 29)]
+WaiterBattleAPosHpr = (20,
+ -400,
+ 0,
+ 0,
+ 0,
+ 0)
+WaiterBattleBPosHpr = (-20,
+ -400,
+ 0,
+ 0,
+ 0,
+ 0)
+BossbotBossBattleThreePosHpr = (0,
+ 355,
+ 0,
+ 0,
+ 0,
+ 0)
+DinerBattleAPosHpr = (20,
+ -240,
+ 0,
+ 0,
+ 0,
+ 0)
+DinerBattleBPosHpr = (-20,
+ -240,
+ 0,
+ 0,
+ 0,
+ 0)
+BossbotBossMaxDamage = 400
+BossbotMaxSpeedDamage = 90
+BossbotSpeedRecoverRate = 2 # This was 20 - far too high - but we need to test and find a good value for this.
+BossbotBossDifficultySettings = [(8,
+  4,
+  11,
+  3,
+  30,
+  25),
+ (9,
+  5,
+  12,
+  6,
+  28,
+  26),
+ (10,
+  6,
+  11,
+  7,
+  26,
+  27),
+ (8,
+  8,
+  12,
+  8,
+  24,
+  28),
+ (13,
+  5,
+  12,
+  9,
+  22,
+  29)]
 BossbotRollSpeedMax = 22
 BossbotRollSpeedMin = 7.5
 BossbotTurnSpeedMax = 60
@@ -1098,10 +1565,13 @@ gmMagicWordList = ['restock',
  'who',
  'who all']
 NewsPageScaleAdjust = 0.85
-AnimPropTypes = Enum(('Unknown', 'Hydrant', 'Mailbox', 'Trashcan'), start=-1)
+AnimPropTypes = Enum(('Unknown',
+ 'Hydrant',
+ 'Mailbox',
+ 'Trashcan'), start=-1)
 EmblemTypes = Enum(('Silver', 'Gold'))
 NumEmblemTypes = 2
-DefaultMaxBankMoney = 12000
+DefaultMaxBankMoney = 50000
 DefaultBankItemId = 1350
 ToonAnimStates = set(['off',
  'neutral',
@@ -1156,7 +1626,10 @@ AV_TOUCH_CHECK_DIST_Z = 5.0
 AV_TOUCH_CHECK_TIMELIMIT_CL = 0.002
 AV_TOUCH_COUNT_LIMIT = 5
 AV_TOUCH_COUNT_TIME = 300
-hood2Id = {'TTC': (ToontownCentral,),
+
+#teleportation codenames and location IDs for ~tp MW
+hood2Id = {
+ 'TTC': (ToontownCentral,),
  'DD': (DonaldsDock,),
  'MML': (MinniesMelodyland,),
  'DG': (DaisyGardens,),
@@ -1164,17 +1637,83 @@ hood2Id = {'TTC': (ToontownCentral,),
  'DDL': (DonaldsDreamland,),
  'GZ': (GolfZone,),
  'GSW': (GoofySpeedway,),
- 'GS': (GoofySpeedway,),
- 'TF': (ToonFest,),
  'OZ': (OutdoorZone,),
  'CEO': (BossbotHQ,),
  'CJ': (LawbotHQ,),
  'CFO': (CashbotHQ,),
  'VP': (SellbotHQ,),
- 'BBHQ': (BossbotHQ,),
- 'LBHQ': (LawbotHQ,),
- 'CBHQ': (CashbotHQ,),
- 'SBHQ': (SellbotHQ,),
+ 'FACTORY': (SellbotHQ, SellbotFactoryExt),
+ 'BULLION': (CashbotHQ,),
+ 'DOLLAR': (CashbotHQ,),
+ 'COIN': (CashbotHQ,),
+ 'OFFICE': (LawbotHQ,),
+ 'BACK': (BossbotHQ,),
+ 'MIDDLE': (BossbotHQ,),
+ 'FRONT': (BossbotHQ,),
+ 'FF' : (FunnyFarm,)}
+hood2Coords = {
+ 'CEO': [
+    (61.044, 119.014, 0.025),
+    (-4.680, 0, 0)
+ ],
+ 'CJ': [
+    (333.700, -179.869, -42.932),
+    (-807.174, 0, 0)
+ ],
+ 'CFO': [
+    (125.155, 546.084, 32.246),
+    (360.056, 0, 0)
+ ],
+ 'VP': [
+    (25.512, -51.193, 10.095),
+    (40.868, 0, 0)
+ ],
+ 'FACTORY': [
+    (62.204, -89.739, 0.025),
+    (-7.144, 0, 0)
+ ],
+ 'BULLION': [
+    (-118.641, 64.131, -23.434),
+    (449.182, 0, 0)
+ ],
+ 'DOLLAR': [
+    (178.612, -175.786, -63.244),
+    (274.225, 0, 0)
+ ],
+ 'COIN': [
+    (-122.43, -428.856, -23.439),
+    (450.141, 0, 0)
+ ],
+ 'OFFICE': [
+    (-170.371, -191.902, -16.280),
+    (-633.031, 0, 0)
+ ],
+ 'BACK': [
+    (-36.121, 11.683, 0.025),
+    (75.934, 0, 0)
+ ],
+ 'MIDDLE': [
+    (129.358, -75.831, 0.025),
+    (240.828, 0, 0)
+ ],
+ 'FRONT': [
+    (146.1, 33.228, 0.025),
+    (296.844, 0, 0)]}
+
+hood2Id = {
+ 'TTC': (ToontownCentral,),
+ 'DD': (DonaldsDock,),
+ 'MML': (MinniesMelodyland,),
+ 'DG': (DaisyGardens,),
+ 'TB': (TheBrrrgh,),
+ 'DDL': (DonaldsDreamland,),
+ 'GZ': (GolfZone,),
+ 'GSW': (GoofySpeedway,),
+ 'OZ': (OutdoorZone,),
+ 'CEO': (BossbotHQ,),
+ 'CJ': (LawbotHQ,),
+ 'CFO': (CashbotHQ,),
+ 'VP': (SellbotHQ,),
  'FACTORY': (SellbotHQ, SellbotFactoryExt),
  'BULLION': (CashbotHQ,),
  'DOLLAR': (CashbotHQ,),
@@ -1183,15 +1722,62 @@ hood2Id = {'TTC': (ToontownCentral,),
  'BACK': (BossbotHQ,),
  'MIDDLE': (BossbotHQ,),
  'FRONT': (BossbotHQ,)}
-hood2Coords = {'CEO': [(61.044, 119.014, 0.025), (-4.68, 0, 0)],
- 'CJ': [(333.7, -179.869, -42.932), (-807.174, 0, 0)],
- 'CFO': [(125.155, 546.084, 32.246), (360.056, 0, 0)],
- 'VP': [(25.512, -51.193, 10.095), (40.868, 0, 0)],
- 'FACTORY': [(62.204, -89.739, 0.025), (-7.144, 0, 0)],
- 'BULLION': [(-118.641, 64.131, -23.434), (449.182, 0, 0)],
- 'DOLLAR': [(178.612, -175.786, -63.244), (274.225, 0, 0)],
- 'COIN': [(-122.43, -428.856, -23.439), (450.141, 0, 0)],
- 'OFFICE': [(-170.371, -191.902, -16.28), (-633.031, 0, 0)],
- 'BACK': [(-36.121, 11.683, 0.025), (75.934, 0, 0)],
- 'MIDDLE': [(129.358, -75.831, 0.025), (240.828, 0, 0)],
- 'FRONT': [(146.1, 33.228, 0.025), (296.844, 0, 0)]}
+hood2Coords = {
+ 'CEO': [
+    (61.044, 119.014, 0.025),
+    (-4.680, 0, 0)
+ ],
+ 'CJ': [
+    (333.700, -179.869, -42.932),
+    (-807.174, 0, 0)
+ ],
+ 'CFO': [
+    (125.155, 546.084, 32.246),
+    (360.056, 0, 0)
+ ],
+ 'VP': [
+    (25.512, -51.193, 10.095),
+    (40.868, 0, 0)
+ ],
+ 'FACTORY': [
+    (62.204, -89.739, 0.025),
+    (-7.144, 0, 0)
+ ],
+ 'BULLION': [
+    (-118.641, 64.131, -23.434),
+    (449.182, 0, 0)
+ ],
+ 'DOLLAR': [
+    (178.612, -175.786, -63.244),
+    (274.225, 0, 0)
+ ],
+ 'COIN': [
+    (-122.43, -428.856, -23.439),
+    (450.141, 0, 0)
+ ],
+ 'OFFICE': [
+    (-170.371, -191.902, -16.280),
+    (-633.031, 0, 0)
+ ],
+ 'BACK': [
+    (-36.121, 11.683, 0.025),
+    (75.934, 0, 0)
+ ],
+ 'MIDDLE': [
+    (129.358, -75.831, 0.025),
+    (240.828, 0, 0)
+ ],
+ 'FRONT': [
+    (146.1, 33.228, 0.025),
+    (296.844, 0, 0)]}
+
+
+# Gag Buffs variables...
+
+BMovementSpeed = 0
+BMovementSpeedMultiplier = 2.3
+BGagAccuracy = 1
+BGagAccuracyMultiplier = 2.0
+BGagExperience = 2
+BGagExperienceMultiplier = 2
+
