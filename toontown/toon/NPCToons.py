@@ -11734,7 +11734,7 @@ FOnpcFriends = {
 9303: (ToontownBattleGlobals.HEAL_TRACK, 3, 30, 2),
 91915: (ToontownBattleGlobals.DROP_TRACK,0, 999, 5) }
 
-with open('sos.json') as data:
+with open('sos.json', 'sos1.json') as data:
     sos = json.load(data)
 for i in xrange(len(sos['name'])):
     TTLocalizer.NPCToonNames[sos['id'][i]] = sos['name'][i]
