@@ -3,12 +3,17 @@ from toontown.toonbase import ToontownGlobals
 from toontown.safezone.DistributedPicnicBasketAI import DistributedPicnicBasketAI
 from toontown.hood import ZoneUtil
 from toontown.safezone.DistributedPicnicTableAI import DistributedPicnicTableAI
+from toontown.election import DistributedToonfestBalloonAI
 
 class TFHoodAI(HoodAI.HoodAI):
     def __init__(self, air):
         HoodAI.HoodAI.__init__(self, air,
-                               ToontownGlobals.Toonfest,
-                               ToontownGlobals.Toonfest)
+                               ToontownGlobals.FunnyFarm,
+                               ToontownGlobals.FunnyFarm)
+        
+        self.balloon = DistributedToonfestBalloonAI.DistributedToonfestBalloonAI(self.air)
+        self.balloon.generateWithRequired(self.HOOD)
+        self.balloon.b_setState('Waiting')
         self.timer = None
         self.picnicTables = []
         self.gameTables = []                      
@@ -18,7 +23,7 @@ class TFHoodAI(HoodAI.HoodAI):
         HoodAI.HoodAI.startup(self)
 
         self.createTimer()
-        #self.createPicnicTables()
+        self.createPicnicTables()
         if simbase.config.GetBool('want-game-tables', True):
             self.createGameTables()
 
