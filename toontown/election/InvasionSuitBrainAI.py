@@ -1,9 +1,11 @@
-#Embedded file name: toontown.election.InvasionSuitBrainAI
 import random
 from pandac.PandaModules import *
 from direct.fsm.FSM import FSM
 from InvasionPathDataAI import pathfinder
 
+# Individual suit behaviors...
+
+# Attack a specific Toon.
 class AttackBehavior(FSM):
     REASSESS_INTERVAL = 2.0
 
@@ -11,41 +13,54 @@ class AttackBehavior(FSM):
         FSM.__init__(self, 'AttackFSM')
         self.brain = brain
         self.toonId = toonId
+
         self._walkingTo = None
         self._walkTask = None
 
     def getToon(self):
+        # Convenience function to get the Toon, or None if they're gone.
         return self.brain.suit.invasion.getToon(self.toonId)
 
     def start(self):
         self.assessDistance()
 
     def assessDistance(self):
+        # Check if we're within attacking distance away from the Toon. If so, we
+        # can attack. Otherwise, we need to walk closer.
         toon = self.getToon()
         if toon is None:
+            # No good! Toon is gone.
             self.brain.demand('Idle')
             return
+
         toonPos = Point2(toon.getComponentX(), toon.getComponentY())
         distance = (toonPos - self.brain.suit.getCurrentPos()).length()
+
         if distance < self.brain.getAttackRange():
             self.demand('Attack')
+        elif self._walkingTo and (self._walkingTo - toonPos).length() < self.brain.getAttackRange():
+            return
         else:
-            if self._walkingTo and (self._walkingTo - toonPos).length() < self.brain.getAttackRange():
-                return
             self.demand('Walk', toonPos.getX(), toonPos.getY())
 
     def enterAttack(self):
+        # Attack the Toon.
         self.brain.suit.attack(self.toonId)
 
     def enterWalk(self, x, y):
+        # Walk state -- we try to get closer to the Toon. When we're
+        # close enough, we switch to 'Attack'
         if not self.brain.navigateTo(x, y, self.brain.getAttackRange()):
+            # Can't get there, Captain!
             self.brain.master.toonUnreachable(self.toonId)
             self.brain.demand('Idle')
             return
+
         self._walkingTo = Point2(x, y)
         if self._walkTask:
             self._walkTask.remove()
-        self._walkTask = taskMgr.doMethodLater(self.REASSESS_INTERVAL, self.__reassess, self.brain.suit.uniqueName('reassess-walking'))
+        self._walkTask = taskMgr.doMethodLater(self.REASSESS_INTERVAL, self.__reassess,
+                                               self.brain.suit.uniqueName('reassess-walking'))
 
     def __reassess(self, task):
         self.assessDistance()
@@ -59,6 +74,7 @@ class AttackBehavior(FSM):
     def onArrive(self):
         if self.state != 'Walk':
             return
+        # We've finished walking -- let's see if we're close enough to attack.
         self.assessDistance()
 
     def onAttackCompleted(self):
@@ -66,7 +82,8 @@ class AttackBehavior(FSM):
             return
         self.brain.demand('Idle')
 
-
+# Chase after a Toon relentlessly and keep attacking them.
+# This behavior is used when a Toon manages to royally piss off the master.
 class HarassBehavior(AttackBehavior):
     ATTACK_COOLDOWN = 3.0
 
@@ -74,8 +91,10 @@ class HarassBehavior(AttackBehavior):
         self.demand('AttackCooldown')
 
     def enterAttackCooldown(self):
+        # Wait a little bit, then hunt them again.
         self.brain.suit.idle()
-        self.__wait = taskMgr.doMethodLater(self.ATTACK_COOLDOWN, self.__waitOver, self.brain.suit.uniqueName('harass-cooldown'))
+        self.__wait = taskMgr.doMethodLater(self.ATTACK_COOLDOWN, self.__waitOver,
+                                            self.brain.suit.uniqueName('harass-cooldown'))
 
     def __waitOver(self, task):
         self.assessDistance()
@@ -84,7 +103,7 @@ class HarassBehavior(AttackBehavior):
     def exitAttackCooldown(self):
         self.__wait.remove()
 
-
+# We got too close to another Cog and have to spread out a little...
 class UnclumpBehavior(FSM):
     UNCLUMP_SCAN_RADIUS = 30
     UNCLUMP_MOVE_DISTANCE = 5
@@ -92,39 +111,55 @@ class UnclumpBehavior(FSM):
 
     def __init__(self, brain):
         FSM.__init__(self, 'UnclumpFSM')
+
         self.brain = brain
 
     def start(self):
         moveVector = Vec2()
+
+        # Scan for who else is where...
         ourSuit = self.brain.suit
         ourPos = ourSuit.getCurrentPos()
         for otherSuit in self.brain.suit.invasion.suits:
             if otherSuit == ourSuit:
-                continue
+                continue # It's us!
+
             otherPos = otherSuit.getCurrentPos()
+
             moveAway = ourPos - otherPos
+
             if moveAway.length() > self.UNCLUMP_SCAN_RADIUS:
-                continue
-            moveMag = 1.0 / max(moveAway.lengthSquared(), 0.1)
+                continue # Too far away to consider them.
+
+            # Use an inverse square law to scale the "move away" vector.
+            moveMag = 1.0/max(moveAway.lengthSquared(), 0.1)
             moveAway.normalize()
             moveAway *= moveMag
+
+            # Add it to to our overall move direction.
             moveVector += moveAway
 
+        # Which direction do we go?
         moveVector.normalize()
-        x, y = ourPos + moveVector * self.UNCLUMP_MOVE_DISTANCE
+        x, y = ourPos + (moveVector * self.UNCLUMP_MOVE_DISTANCE)
+
         self.brain.navigateTo(x, y)
+        # And we're walking!
         self.demand('Walking')
 
     def enterWalking(self):
-        pass
+        pass # Do nothing, we just wait for onArrive and exit the behavior.
 
     def onArrive(self):
         if self.state == 'Walking':
+            # Ah, here we are!
             self.brain.demand('Idle')
 
     def enterWait(self):
         self.brain.suit.idle()
-        self._waitDelay = taskMgr.doMethodLater(self.UNCLUMP_WAIT_TIME, self._doneWaiting, self.brain.suit.uniqueName('unclump-wait'))
+        self._waitDelay = \
+            taskMgr.doMethodLater(self.UNCLUMP_WAIT_TIME, self._doneWaiting,
+                                  self.brain.suit.uniqueName('unclump-wait'))
 
     def _doneWaiting(self, task):
         self.brain.demand('Idle')
@@ -132,7 +167,6 @@ class UnclumpBehavior(FSM):
 
     def exitWait(self):
         self._waitDelay.remove()
-
 
 class InvasionSuitBrainAI(FSM):
     PROXEMICS_INTERVAL = 0.5
@@ -142,13 +176,18 @@ class InvasionSuitBrainAI(FSM):
         FSM.__init__(self, 'InvasionSuitBrainFSM')
         self.suit = suit
         self.master = self.suit.invasion.master
+
         self.behavior = None
+
         self.__proxemicsTask = None
+
+        # For the nav system:
         self.__waypoints = []
 
     def start(self):
         if self.state != 'Off':
             return
+
         self.demand('Idle')
 
     def stop(self):
@@ -167,17 +206,21 @@ class InvasionSuitBrainAI(FSM):
 
     def enterUnclump(self):
         self.__stopProxemics()
+
         self.behavior = UnclumpBehavior(self)
         self.behavior.start()
 
     def exitUnclump(self):
         self.__startProxemics()
+
         self.behavior.demand('Off')
         self.behavior = None
 
     def __startProxemics(self):
         if not self.__proxemicsTask:
-            self.__proxemicsTask = taskMgr.doMethodLater(self.PROXEMICS_INTERVAL, self.__proxemics, self.suit.uniqueName('proxemics'))
+            self.__proxemicsTask = \
+                taskMgr.doMethodLater(self.PROXEMICS_INTERVAL, self.__proxemics,
+                                      self.suit.uniqueName('proxemics'))
 
     def __stopProxemics(self):
         if self.__proxemicsTask:
@@ -185,22 +228,34 @@ class InvasionSuitBrainAI(FSM):
             self.__proxemicsTask = None
 
     def __proxemics(self, task):
+        # Proxemics: Maintain personal space. This works by yielding to the
+        # higher-leveled (or, in the event of the same level, lower-ID'd) Cog.
+
         for otherSuit in self.suit.invasion.suits:
             if otherSuit == self.suit:
-                continue
+                continue # It's us!
+
             if otherSuit.getActualLevel() < self.suit.getActualLevel():
+                # We outrank them, and do not yield to subordinates!
                 continue
-            elif otherSuit.getActualLevel() == self.suit.getActualLevel() and otherSuit.doId > self.suit.doId:
+            elif (otherSuit.getActualLevel() == self.suit.getActualLevel() and
+                  otherSuit.doId > self.suit.doId):
+                # We may not outrank them, but our ID is lower - we were first!
                 continue
+
+            # Okay, we have to consider yielding to them. Are we too close?
             ourPos = self.suit.getCurrentPos()
             otherPos = otherSuit.getCurrentPos()
+
             if (ourPos - otherPos).length() < self.PERSONAL_SPACE:
+                # Yeah, too close...
                 self.demand('Unclump')
                 return task.done
 
         return task.again
 
     def enterIdle(self):
+        # Brain has nothing to do -- ask the master for orders:
         self.suit.idle()
         self.master.requestOrders(self)
 
@@ -223,13 +278,16 @@ class InvasionSuitBrainAI(FSM):
     def suitFinishedNavigating(self):
         if self.behavior:
             self.behavior.onArrive()
-
+			
+    # Attacks:
     def suitFinishedAttacking(self):
         if hasattr(self.behavior, 'onAttackCompleted'):
             self.behavior.onAttackCompleted()
 
-    def navigateTo(self, x, y, closeEnough = 0):
-        self.__waypoints = pathfinder.planPath(self.suit.getCurrentPos(), (x, y), closeEnough)
+    # Navigation:
+    def navigateTo(self, x, y, closeEnough=0):
+        self.__waypoints = pathfinder.planPath(self.suit.getCurrentPos(),
+                                               (x, y), closeEnough)
         if self.__waypoints:
             self.__walkToNextWaypoint()
             return True
@@ -237,6 +295,8 @@ class InvasionSuitBrainAI(FSM):
             return False
 
     def suitFinishedWalking(self):
+        # The suit finished walking. If there's another waypoint, go to it.
+        # Otherwise, elevate the callback to suitFinishedNavigating.
         if self.__waypoints:
             self.__walkToNextWaypoint()
         else:
