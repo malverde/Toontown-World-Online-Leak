@@ -21,10 +21,8 @@
     "gag-damage": [120],
     "rating": [5],
     "zone": [-1],
-    "type": [0]
-},
-
-{
+    "type": [0],
+    
     "name" : ["Sir. Kippy"],
     "id": [3005],
     "head": ["dss"],
