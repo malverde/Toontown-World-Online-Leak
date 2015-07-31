@@ -1,13 +1,11 @@
-from direct.directnotify.DirectNotifyGlobal import directNotify
+#from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.ClockDelta import *
 from direct.task import Task
-
 from toontown.toonbase import ToontownGlobals
 from toontown.parties import PartyGlobals
-
+#fireworks
 from toontown.effects.DistributedFireworkShowAI import DistributedFireworkShowAI
 from toontown.effects import FireworkShows
-
 import random
 import time
 
