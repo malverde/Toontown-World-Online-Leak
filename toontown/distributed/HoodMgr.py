@@ -115,7 +115,7 @@ class HoodMgr(DirectObject.DirectObject):
             [20, -88, 0.0, -123.4, 0.0, 0.0],
             [76, -90, 0.0, 11.0, 0.0, 0.0]
         ),
-        ToontownGlobals.FunnyFarm: ( # TODO: Drop points!
+        ToontownGlobals.ToonFest: ( # TODO: Drop points!
             [0, 0, 0, 0, 0, 0],
         ),
         ToontownGlobals.GoofySpeedway: (
@@ -180,7 +180,7 @@ class HoodMgr(DirectObject.DirectObject):
         'mm': ToontownGlobals.MinniesMelodyland,
         'dg': ToontownGlobals.DaisyGardens,
         'oz': ToontownGlobals.OutdoorZone,
-        'ff': ToontownGlobals.FunnyFarm,
+        'TF': ToontownGlobals.ToonFest,
         'gs': ToontownGlobals.GoofySpeedway,
         'dl': ToontownGlobals.DonaldsDreamland,
         'bosshq': ToontownGlobals.BossbotHQ,
@@ -197,7 +197,7 @@ class HoodMgr(DirectObject.DirectObject):
         ToontownGlobals.MinniesMelodyland: 'mm',
         ToontownGlobals.DaisyGardens: 'dg',
         ToontownGlobals.OutdoorZone: 'oz',
-        ToontownGlobals.FunnyFarm: 'ff',
+        ToontownGlobals.ToonFest: 'TF',
         ToontownGlobals.GoofySpeedway: 'gs',
         ToontownGlobals.DonaldsDreamland: 'dl',
         ToontownGlobals.BossbotHQ: 'bosshq',
