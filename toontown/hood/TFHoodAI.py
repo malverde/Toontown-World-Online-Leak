@@ -15,7 +15,7 @@ from pandac.PandaModules import *
 class TFHoodAI(SZHoodAI):
     notify = directNotify.newCategory('SZHoodAI')
     notify.setInfo(True)
-    HOOD = ToontownGlobals.FunnyFarm
+    HOOD = ToontownGlobals.ToonFest
 
     def createZone(self):
         SZHoodAI.createZone(self)
