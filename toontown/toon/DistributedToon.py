@@ -2748,7 +2748,7 @@ def sleep():
 def gardenGame():
     base.localAvatar.game = GardenDropGame.GardenDropGame()
 
-@magicWord(category=CATEGORY_MODERATION)
+@magicWord(category=CATEGORY_USER)
 def toonfest():
     spellbook.getInvoker().magicTeleportInitiate(7000, 7000)
     

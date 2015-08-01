@@ -2352,6 +2352,9 @@ SuitBeanCounter = 'Bean Counter'
 SuitNumberCruncher = 'Number Cruncher'
 SuitMoneyBags = 'Money Bags'
 SuitLoanShark = 'Loan Shark'
+SuitAmbushMarketing = 'Director Of Ambush Marketing'
+SuitAmbushMarketingS = 'A Director Of Ambush Marketing'
+SuitAmbushMarketingP = 'Directors Of Ambush Marketing'
 SuitRobberBaron = 'Robber Baron'
 SuitBottomFeeder = 'Bottom Feeder'
 SuitBloodsucker = 'Blood\x03sucker'
@@ -8431,11 +8434,11 @@ TIP_KARTING = 6
 TIP_GOLF = 7
 TipTitle = 'TOON TIP:'
 TipDict = {TIP_NONE: ('',),
- TIP_GENERAL: ('Struggling to train your Drop Gag Track? Gag Buffs can boost your Accuracy by up to 3 times without. Collect and complete Gag Buffs to get boost Accuracy around Toontown.',
+ TIP_GENERAL: ('Struggling to train your Drop Gag Track? Gag Buffs can boost your Accuracy by up to 3 times. Collect and complete Gag Buffs to get boosted Accuracy around Toontown.',
  	       'Watch out for Version 2.0 Cogs! They can be found at Bossbot HQ Factories, or rarely invading a District. Fight alongside your friends and receive more XP.',
- 	       'Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters. They will not work inside Cog Headquarters or Factories!',
- 	       'Keep an eye on the News and Announcements for information about Global XP boosters on every District and make every HIT on the Cogs count.',
-               'Collect and complete Gag Buff ToonTasks to increase your Gag Accuracy or movement speed around Toontown.',
+ 	       'Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters. They will not work inside Cog Buildings, Headquarters or Factories!',
+ 	       'Keep an eye on the News and Announcements for information about Global XP Boosters on every District and make every HIT on the Cogs count.',
+               'Collect and complete Gag Buff ToonTasks to increase your Gag Accuracy or Movement Speed around Toontown.',
                'Toon Troopers are here to help. If you are being troubled find one and ask for help.',
                'You can have up to 20 Toons in your Party! Let your friends know you are having a Party and invite them.',
                'Parties only cost 50 Jellybeans to plan a Party. You can get that back by using the Cannons or other games in your Party!',
@@ -8492,9 +8495,9 @@ TipDict = {TIP_NONE: ('',),
                'Enter Goofy Speedway through the tire-shaped tunnel in Toontown Central Playground.',
                'Earn Laff points at Goofy Speedway.',
                'Goofy Speedway has six different race tracks. '),
- TIP_STREET: ('Struggling to train your Drop Gag Track? Gag Buffs can boost your Accuracy by up to 3 times without. Collect and complete Gag Buffs to get boost Accuracy around Toontown.',
+ TIP_STREET: ('Struggling to train your Drop Gag Track? Gag Buffs can boost your Accuracy by up to 3 times. Collect and complete Gag Buffs to get boosted Accuracy around Toontown.',
  	      'There are four types of Cogs: Lawbots, Cashbots, Sellbots, and Bossbots.',
- 	      'Collect and complete Gag Buff ToonTasks to increase your Gag Accuracy or movement speed around Toontown.',	
+ 	      'Collect and complete Gag Buff ToonTasks to increase your Gag Accuracy or Movement Speed around Toontown.',	
               'Each Gag Track has different amounts of accuracy and damage.',
               'Sound gags will affect all Cogs but will wake up any lured Cogs.',
               'Defeating Cogs in strategic order can greatly increase your chances of winning battles.',
@@ -8539,7 +8542,7 @@ TipDict = {TIP_NONE: ('',),
                 'In the Tug-of-War you are awarded more jellybeans if you play against a tougher Cog.',
                 'Trolley Game difficulty varies by neighborhood; ' + lToontownCentral + ' has the easiest and ' + lDonaldsDreamland + ' has the hardest.',
                 'Certain Trolley Games can only be played in a group.'),
- TIP_COGHQ: ('Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters. They will not work inside Cog Headquarters or Factories!',
+ TIP_COGHQ: ('Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters. They will not work inside Cog Buildings, Headquarters or Factories!',
              'You must complete your Sellbot Disguise before visiting the V.P.',
              'By defeating the VP you can get two SOS cards.',
              'You must complete your Cashbot Disguise before visiting the C.F.O.',

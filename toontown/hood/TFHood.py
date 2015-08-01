@@ -10,7 +10,7 @@ class TFHood(ToonHood):
 
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
         ToonHood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
-        self.id = ToontownGlobals.Toonfest
+        self.id = ToontownGlobals.FunnyFarm
         self.townLoaderClass = TTTownLoader # Temporary
         self.safeZoneLoaderClass = TFSafeZoneLoader
         self.storageDNAFile = 'phase_6/dna/storage_TF.xml'
