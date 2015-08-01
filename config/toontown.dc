@@ -617,6 +617,8 @@ from toontown.building import DistributedTutorialInterior/AI
 from toontown.estate import DistributedBankMgr/AI
 from toontown.estate import DistributedMailbox/AI
 from toontown.election import DistributedFlippyStand/AI
+from toontown.election import DistributedHotAirBalloon/AI
+from toontown.election import DistributedToonfestBalloon/AI
 from toontown.election import DistributedToonfestTower/AI
 from toontown.election import DistributedToonfestTowerBase/AI
 from toontown.estate import DistributedFurnitureManager/AI
@@ -1265,6 +1267,19 @@ dclass DistributedFlippyStand : DistributedObject {
   wheelbarrowAvatarEnter() clsend airecv;
 };
 
+dclass DistributedHotAirBalloon : DistributedObject {		
+  setState(string state, int32 timestamp, uint32 avId) required broadcast ram;		
+  requestEnter() clsend airecv;		
+  setFlightPath(uint8 flightPathIndex) required broadcast ram;		
+};		
+		
+
+dclass DistributedToonfestBalloon : DistributedObject {
+  setState(string state, int32 timestamp, uint32 avId) required broadcast ram;
+  requestEnter() clsend airecv;
+  setFlightPath(uint8 flightPathIndex) required broadcast ram;
+};
+
 dclass DistributedToonfestTower : DistributedObject {
   updateTower(string operation, uint8 base) broadcast;
 };
@@ -1457,12 +1472,6 @@ dclass DistributedElectionCameraManager : DistributedObject
 {
   setMainCamera(uint32 doId) required broadcast ram;
   setCameraIds(uint32[]) required broadcast ram;
-};
-
-dclass DistributedHotAirBalloon : DistributedObject {
-  setState(string state, int32 timestamp, uint32 avId) required broadcast ram;
-  requestEnter() clsend airecv;
-  setFlightPath(uint8 flightPathIndex) required broadcast ram;
 };
 
 dclass DistributedSafezoneInvasion : DistributedObject {
@@ -3872,4 +3881,5 @@ dclass DistributedTrashcanZeroMgr : DistributedPhaseEventMgr {
 
 dclass DistributedSillyMeterMgr : DistributedPhaseEventMgr {
 };
+
 
