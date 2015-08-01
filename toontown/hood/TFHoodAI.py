@@ -4,6 +4,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.election import DistributedFlippyStandAI
 from toontown.election import DistributedToonfestTowerBaseAI
 from toontown.election import DistributedToonfestCogAI
+from toontown.election import DistributedToonfestBalloonAI
 from toontown.safezone.DistributedPicnicBasketAI import DistributedPicnicBasketAI
 from toontown.safezone.DistributedPicnicTableAI import DistributedPicnicTableAI
 
@@ -16,6 +17,10 @@ class TFHoodAI(SZHoodAI):
         self.flippyStand.generateWithRequired(self.HOOD)
         self.toonfestTower = DistributedToonfestTowerBaseAI.DistributedToonfestTowerBaseAI(self.air)
         self.toonfestTower.generateWithRequired(self.HOOD)
+        self.balloon = DistributedToonfestBalloonAI.DistributedToonfestBalloonAI(self.air)
+        self.balloon.generateWithRequired(self.HOOD)
+        self.balloon.b_setState('Waiting')
+
         self.cogs = []
         
     def createCogs(self):
