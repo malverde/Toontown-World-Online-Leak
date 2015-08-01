@@ -20,7 +20,7 @@ class DistributedFlippyStandAI(DistributedObjectAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedFlippyStandAI')
 
     def __init__(self, air):
-        #DistributedObjectAI.__init__(self, air)
+        DistributedObjectAI.__init__(self, air)
         FSM.__init__(self, 'FlippyStandFSM')
         self.air = air
         self.pieTypeAmount = [4, 20, 1]
