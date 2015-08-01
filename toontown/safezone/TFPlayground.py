@@ -6,9 +6,12 @@ from toontown.building import Elevator
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
 from toontown.racing import RaceGlobals
-from direct.fsm import ClassicFSM, State
+
 from toontown.safezone import PicnicBasket
+from toontown.safezone import GolfKart
 from direct.task.Task import Task
+from direct.fsm import ClassicFSM, State
+
 
 class TFPlayground(Playground.Playground):
 
