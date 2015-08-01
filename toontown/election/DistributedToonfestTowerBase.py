@@ -4,6 +4,7 @@ from direct.task.Task import Task
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed import DistributedObject
+from direct.fsm import ClassicFSM, State
 from pandac.PandaModules import NodePath
 from toontown.toonbase import ToontownGlobals
 ChangeDirectionDebounce = 1.0
