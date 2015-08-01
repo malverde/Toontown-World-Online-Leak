@@ -52,6 +52,9 @@ class TFPlayground(Playground.Playground):
         self.trolley.load()
         self.trolley.enter()
 
+    def exitOff(self):
+        return None
+
     def exitPicnicBasketBlock(self):
         base.localAvatar.laffMeter.stop()
         base.localAvatar.cantLeaveGame = 0
