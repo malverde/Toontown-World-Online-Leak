@@ -7,6 +7,7 @@ from toontown.election import DistributedToonfestCogAI
 from toontown.election import DistributedToonfestBalloonAI
 from toontown.safezone.DistributedPicnicBasketAI import DistributedPicnicBasketAI
 from toontown.safezone.DistributedPicnicTableAI import DistributedPicnicTableAI
+from toontown.distributed.DistributedTimerAI import DistributedTimerAI
 
 class TFHoodAI(SZHoodAI):
     HOOD = ToontownGlobals.FunnyFarm
