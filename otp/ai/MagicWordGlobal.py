@@ -1,6 +1,6 @@
 from direct.showbase import PythonUtil
 
-MINIMUM_MAGICWORD_ACCESS = 0
+MINIMUM_MAGICWORD_ACCESS = 300
 MINIMUM_AI_OBJ_MW_ACCESS = config.GetInt('mw-minimum-ai-manipulation-access', 500)
 
 class MagicError(Exception): pass
@@ -105,9 +105,6 @@ class MagicWordCategory:
 
     def getDefinedAccess(self):
         return config.GetInt('mw-category-' + self.name.replace(' ', '-').lower(), 0)
-CATEGORY_USER = MagicWordCategory('uer', defaultAccess=0,
-    doc='Tester '
-        'user')
 CATEGORY_UNKNOWN = MagicWordCategory('Unknown')
 CATEGORY_GRAPHICAL = MagicWordCategory('Graphical debugging', defaultAccess=300,
     doc='Magic Words in this category are used to assist developers in locating '
