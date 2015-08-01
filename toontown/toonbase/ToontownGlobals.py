@@ -180,8 +180,8 @@ HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace),
  MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace),
  DaisyGardens: (ElmStreet, MapleStreet, OakStreet),
  DonaldsDreamland: (LullabyLane, PajamaPlace),
- OutdoorZone: (FunnyFarm),
- FunnyFarm: (OutdoorZone),
+ OutdoorZone: (),
+ FunnyFarm: (),
  GoofySpeedway: ()}
 WelcomeValleyToken = 0
 BossbotHQ = 10000
