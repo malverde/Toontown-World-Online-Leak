@@ -24,6 +24,11 @@ class DistributedToonfestTowerBase(DistributedObject.DistributedObject):
         self.speedUpSound = None
         self.changeDirectionSound = None
         self.lastChangeDirection = 0.0
+        self.activityFsm = ClassicFSM.ClassicFSM('Activity', [State.State('off', self.enterOff, self.exitOff, ['OnBase1', 'OnBase2', 'OnBase3']),
+         State.State('OnBase1', self.enterOnBase1, self.exitOnBase1, ['off', 'OnBase2', 'OnBase3']),
+         State.State('OnBase2', self.enterOnBase2, self.exitOnBase2, ['off', 'OnBase1', 'OnBase3']),
+         State.State('OnBase3', self.enterOnBase3, self.exitOnBase3, ['off', 'OnBase2', 'OnBase1'])], 'off', 'off')
+        self.activityFsm.enterInitialState()
 
     def generate(self):
         self.base1 = base.cr.playGame.hood.loader.base1
@@ -81,6 +86,29 @@ class DistributedToonfestTowerBase(DistributedObject.DistributedObject):
         self.changeDirectionSound = None
         self.__stopSpin()
         DistributedObject.DistributedObject.disable(self)
+        def enterOnBase1(self):
+        base.localAvatar.b_setParent(ToontownGlobals.SPToonfestTowerLarge)
+
+    def exitOnBase1(self):
+        base.localAvatar.b_setParent(ToontownGlobals.SPRender)
+
+    def enterOnBase2(self):
+        base.localAvatar.b_setParent(ToontownGlobals.SPToonfestTowerMed)
+
+    def exitOnBase2(self):
+        base.localAvatar.b_setParent(ToontownGlobals.SPRender)
+
+    def enterOnBase3(self):
+        base.localAvatar.b_setParent(ToontownGlobals.SPToonfestTowerSmall)
+
+    def exitOnBase3(self):
+        base.localAvatar.b_setParent(ToontownGlobals.SPRender)
+
+    def enterOff(self):
+        return None
+
+    def exitOff(self):
+        return None
 
     def setSpeed(self, rpm, offset, timestamp):
         timestamp = globalClockDelta.networkToLocalTime(timestamp)
