@@ -1267,12 +1267,6 @@ dclass DistributedFlippyStand : DistributedObject {
   wheelbarrowAvatarEnter() clsend airecv;
 };
 
-dclass DistributedHotAirBalloon : DistributedObject {
-  setState(string state, int32 timestamp, uint32 avId) required broadcast ram;
-  requestEnter() clsend airecv;
-  setFlightPath(uint8 flightPathIndex) required broadcast ram;
-};
-
 dclass DistributedToonfestBalloon : DistributedObject {
   setState(string state, int32 timestamp, uint32 avId) required broadcast ram;
   requestEnter() clsend airecv;
