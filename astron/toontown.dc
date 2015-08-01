@@ -616,6 +616,9 @@ from toontown.building import DistributedBoardingParty/AI
 from toontown.building import DistributedTutorialInterior/AI
 from toontown.estate import DistributedBankMgr/AI
 from toontown.estate import DistributedMailbox/AI
+from toontown.election import DistributedFlippyStand/AI
+from toontown.election import DistributedToonfestTower/AI
+from toontown.election import DistributedToonfestTowerBase/AI
 from toontown.estate import DistributedFurnitureManager/AI
 from toontown.estate import DistributedFurnitureItem/AI
 from toontown.estate import DistributedBank/AI
@@ -743,6 +746,7 @@ from toontown.friends import TTRFriendsManager/UD
 from toontown.uberdog import TTSpeedchatRelay/UD
 from toontown.safezone import DistributedGolfKart/AI
 from toontown.safezone import DistributedPicnicBasket/AI
+from toontown.election import DistributedToonfestCog/AI
 from toontown.distributed import DistributedTimer/AI
 from toontown.suit import DistributedBossbotBoss/AI
 from toontown.coghq import DistributedCogKart/AI
@@ -1255,6 +1259,28 @@ struct LinkPosition {
   int16/100 x;
   int16/100 y;
   int16/100 z;
+};
+
+dclass DistributedFlippyStand : DistributedObject {
+  wheelbarrowAvatarEnter() clsend airecv;
+};
+
+dclass DistributedToonfestTower : DistributedObject {
+  updateTower(string operation, uint8 base) broadcast;
+};
+
+dclass DistributedToonfestCog : DistributedObject {
+  updateTower() clsend airecv;
+  setPosThroughAI(int16 x, int16 y, int16 z) broadcast;
+  setIdThroughAI(int16 id) broadcast;
+};
+
+dclass DistributedToonfestTowerBase : DistributedObject {
+  requestSpeedUp() airecv clsend;
+  requestChangeDirection() airecv clsend;
+  setSpeed(int16/1000 rpm, uint16/100 offset, int16 timestamp) broadcast ram;
+  playSpeedUp(uint32 avId) broadcast;
+  playChangeDirection(uint32 avId) broadcast;
 };
 
 dclass DistributedCashbotBossCrane : DistributedObject {
