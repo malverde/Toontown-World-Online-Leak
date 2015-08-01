@@ -86,7 +86,7 @@ class DistributedToonfestTowerBase(DistributedObject.DistributedObject):
         self.changeDirectionSound = None
         self.__stopSpin()
         DistributedObject.DistributedObject.disable(self)
-        def enterOnBase1(self):
+    def enterOnBase1(self):
         base.localAvatar.b_setParent(ToontownGlobals.SPToonfestTowerLarge)
 
     def exitOnBase1(self):
