@@ -140,25 +140,25 @@ class DistributedToonfestTowerBase(DistributedObject.DistributedObject):
             pass
 
     def __handleOnBase1(self, collEntry):
-        activityFsm.request('OnBase1')
+        self.activityFsm.request('OnBase1')
         self.sendUpdate('requestSpeedUp', [])
 
     def __handleOffBase1(self, collEntry):
-        activityFsm.request('off')
+        self.activityFsm.request('off')
 
     def __handleOnBase2(self, collEntry):
-        activityFsm.request('OnBase2')
+        self.activityFsm.request('OnBase2')
         self.sendUpdate('requestSpeedUp', [])
 
     def __handleOffBase2(self, collEntry):
-        activityFsm.request('off')
+        self.activityFsm.request('off')
 
     def __handleOnBase3(self, collEntry):
-        activityFsm.request('OnBase3')
+        self.activityFsm.request('OnBase3')
         self.sendUpdate('requestSpeedUp', [])
 
     def __handleOffBase3(self, collEntry):
-        activityFsm.request('off')
+        self.activityFsm.request('off')
 
     def __handleSpeedUpButton(self, collEntry):
         self.sendUpdate('requestSpeedUp', [])
