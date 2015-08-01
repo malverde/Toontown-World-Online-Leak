@@ -14,7 +14,7 @@ SlappySpeech1 = ['Heeeeellllllooooo!',
  'If they had an official ToonFest counter though? Oh man, that would be the dream.',
  "But no, instead I'm up here in the balloon.",
  "That's the last time I put my name into a ballot! No, just kidding. I love ballots.",
- "Just press the ToonFest Teleport Button when you're ready to come back down!"]
+ "Just use ~toonfest when you're ready to come back down!"]
 SlappySpeech2 = ['Another balloon ride. Just what my day needed!',
  'That was complete sarcasm, too. I actually have a mortal fear of heights.',
  "I've been living my nightmares all day today!",
@@ -24,7 +24,7 @@ SlappySpeech2 = ['Another balloon ride. Just what my day needed!',
  "I can't say I like the color scheme though.",
  "Wowee, this is great! I'm actually pretty excited to head--",
  "Hang on - you're getting off here? No, you can't just leave me all the way up here!",
- "Just press the ToonFest Teleport Button when you're ready to come back down. Don't mind me, I'll just float here panicking!"]
+ "Just use ~toonfest when you're ready to come back down! Don't mind me, I'll just float here panicking!"]
 SlappySpeech3 = ['Need a lift?',
  "I actually wouldn't recommend it.",
  'Say, do you know how many Toons go sad from balloon crashes each year?',
@@ -34,7 +34,7 @@ SlappySpeech3 = ['Need a lift?',
  "I mean seriously, I'm telling you straightforward: We're not going to survive this ride.",
  "Listen, I didn't want to do this, but we're too high. This is just too high. For your own safety I'm taking us back--",
  "Oh we're here. You know, that was just as bad as anticipated, and now I get to relive it all again. Hooray!",
- "Just press the ToonFest Teleport Button when you're ready to come back down!"]
+ "Just use ~toonfest when you're ready to come back down!"]
 SlappySpeech5 = ['No, no! Blargghh, not another one!',
  "I don't mean to offend very much -- I'm just not a fan of rides.",
  '...or balloons...',
@@ -44,7 +44,7 @@ SlappySpeech5 = ['No, no! Blargghh, not another one!',
  'Well, you know what happened.',
  'Flippy insisted on having a balloon here in his memory.',
  "Oh boy, we're here. Looks like I get to go back down.",
- "Just click on the ToonFest Teleport Button when you're ready to come back down!"]
+ "Just use ~toonfest when you're ready to come back down!"]
 SlappySpeechChoices = [SlappySpeech1,
  SlappySpeech2,
  SlappySpeech3,
