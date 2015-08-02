@@ -34,7 +34,7 @@ SlappySpeech3 = ['Need a lift?',
  "I mean seriously, I'm telling you straightforward: We're not going to survive this ride.",
  "Listen, I didn't want to do this, but we're too high. This is just too high. For your own safety I'm taking us back--",
  "Oh we're here. You know, that was just as bad as anticipated, and now I get to relive it all again. Hooray!",
- "Teleport to a friend or go to acorn acres to get down!"]
+ "Teleport to a friend or go to Acorn Acres to get down!"]
 SlappySpeech5 = ['No, no! Blargghh, not another one!',
  "I don't mean to offend very much -- I'm just not a fan of rides.",
  '...or balloons...',
