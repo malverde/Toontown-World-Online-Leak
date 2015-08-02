@@ -111,7 +111,7 @@
 			</group>
 
       <node name="buildings">
-        <prop name="prop_outdoor_zone_entrance_DNARoot" code="prop_outdoor_zone_entrance">
+        <prop name="linktunnel_oz_6000_DNARoot" code="prop_outdoor_zone_entrance">
 					<pos x=" -83.9" y="-303.4" z="18.3" />
 					<nhpr h="82.5" p="0" r="0" />
 					<sign code="DD_sign2">

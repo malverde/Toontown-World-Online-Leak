@@ -4,6 +4,7 @@ from direct.task.Task import Task
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed import DistributedObject
+from direct.fsm import *
 from pandac.PandaModules import NodePath
 from toontown.toonbase import ToontownGlobals
 ChangeDirectionDebounce = 1.0
@@ -23,6 +24,11 @@ class DistributedToonfestTowerBase(DistributedObject.DistributedObject):
         self.speedUpSound = None
         self.changeDirectionSound = None
         self.lastChangeDirection = 0.0
+        self.activityFsm = ClassicFSM.ClassicFSM('Activity', [State.State('off', self.enterOff, self.exitOff, ['OnBase1', 'OnBase2', 'OnBase3']),
+         State.State('OnBase1', self.enterOnBase1, self.exitOnBase1, ['off', 'OnBase2', 'OnBase3']),
+         State.State('OnBase2', self.enterOnBase2, self.exitOnBase2, ['off', 'OnBase1', 'OnBase3']),
+         State.State('OnBase3', self.enterOnBase3, self.exitOnBase3, ['off', 'OnBase2', 'OnBase1'])], 'off', 'off')
+        self.activityFsm.enterInitialState()
 
     def generate(self):
         self.base1 = base.cr.playGame.hood.loader.base1
@@ -58,9 +64,9 @@ class DistributedToonfestTowerBase(DistributedObject.DistributedObject):
         else:
             offset = self.oldOffset
         heading = self.degreesPerSecond * (now - self.spinStartTime) + offset
-        self.base1.setHprScale(heading % 360.0, 0.0, 0.0, 1.0, 1.0, 1.0)
+        self.base1.setHprScale(heading % 360.0, 0.0, 0.0, -1.0, -1.0, -1.0)
         self.base2.setHprScale(heading % 360.0, 0.0, 0.0, 1.0, 1.0, 1.0)
-        self.base3.setHprScale(heading % 360.0, 0.0, 0.0, 1.0, 1.0, 1.0)
+        self.base3.setHprScale(heading % 360.0, 0.0, 0.0, -2.0, -2.0, -2.0)
         return Task.cont
 
     def disable(self):
@@ -80,6 +86,29 @@ class DistributedToonfestTowerBase(DistributedObject.DistributedObject):
         self.changeDirectionSound = None
         self.__stopSpin()
         DistributedObject.DistributedObject.disable(self)
+    def enterOnBase1(self):
+        base.localAvatar.b_setParent(ToontownGlobals.SPToonfestTowerLarge)
+
+    def exitOnBase1(self):
+        base.localAvatar.b_setParent(ToontownGlobals.SPRender)
+
+    def enterOnBase2(self):
+        base.localAvatar.b_setParent(ToontownGlobals.SPToonfestTowerMed)
+
+    def exitOnBase2(self):
+        base.localAvatar.b_setParent(ToontownGlobals.SPRender)
+
+    def enterOnBase3(self):
+        base.localAvatar.b_setParent(ToontownGlobals.SPToonfestTowerSmall)
+
+    def exitOnBase3(self):
+        base.localAvatar.b_setParent(ToontownGlobals.SPRender)
+
+    def enterOff(self):
+        return None
+
+    def exitOff(self):
+        return None
 
     def setSpeed(self, rpm, offset, timestamp):
         timestamp = globalClockDelta.networkToLocalTime(timestamp)
@@ -111,25 +140,25 @@ class DistributedToonfestTowerBase(DistributedObject.DistributedObject):
             pass
 
     def __handleOnBase1(self, collEntry):
-        self.cr.playGame.getPlace().activityFsm.request('OnBase1')
+        self.activityFsm.request('OnBase1')
         self.sendUpdate('requestSpeedUp', [])
 
     def __handleOffBase1(self, collEntry):
-        self.cr.playGame.getPlace().activityFsm.request('off')
+        self.activityFsm.request('off')
 
     def __handleOnBase2(self, collEntry):
-        self.cr.playGame.getPlace().activityFsm.request('OnBase2')
+        self.activityFsm.request('OnBase2')
         self.sendUpdate('requestSpeedUp', [])
 
     def __handleOffBase2(self, collEntry):
-        self.cr.playGame.getPlace().activityFsm.request('off')
+        self.activityFsm.request('off')
 
     def __handleOnBase3(self, collEntry):
-        self.cr.playGame.getPlace().activityFsm.request('OnBase3')
+        self.activityFsm.request('OnBase3')
         self.sendUpdate('requestSpeedUp', [])
 
     def __handleOffBase3(self, collEntry):
-        self.cr.playGame.getPlace().activityFsm.request('off')
+        self.activityFsm.request('off')
 
     def __handleSpeedUpButton(self, collEntry):
         self.sendUpdate('requestSpeedUp', [])
