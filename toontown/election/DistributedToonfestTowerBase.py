@@ -64,9 +64,9 @@ class DistributedToonfestTowerBase(DistributedObject.DistributedObject):
         else:
             offset = self.oldOffset
         heading = self.degreesPerSecond * (now - self.spinStartTime) + offset
-        self.base1.setHprScale(heading % 360.0, 0.0, 0.0, -1.0, -1.0, -1.0)
+        self.base1.setHprScale(heading % 360.0, 0.0, 0.0, 1.0, 1.0, 1.0)
         self.base2.setHprScale(heading % 360.0, 0.0, 0.0, 1.0, 1.0, 1.0)
-        self.base3.setHprScale(heading % 360.0, 0.0, 0.0, -2.0, -2.0, -2.0)
+        self.base3.setHprScale(heading % 360.0, 0.0, 0.0, 1.0, 1.0, 1.0)
         return Task.cont
 
     def disable(self):
