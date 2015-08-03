@@ -215,7 +215,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         
         self.notify.info('Creating Pets')
         self.PetManager = PetManagerAI(self)
-        self.PetManager.generateWithRequired(2)
+
 
         self.notify.info('Creating Code Redemption')
         self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
