@@ -2,7 +2,7 @@
 from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import DirectObject
-from direct.showbase.PythonUtil import *
+from direct.showbase.PythonUtil import randFloat, lerp
 from toontown.pets import PetConstants
 import random
 

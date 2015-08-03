@@ -1,5 +1,5 @@
 #Embedded file name: toontown.pets.DistributedPetProxyAI
-from direct.showbase.PythonUtil import *
+from direct.showbase.PythonUtil import contains, lerp, clampScalar
 from direct.distributed import DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.pets import PetTraits, PetTricks
