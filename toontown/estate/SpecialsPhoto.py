@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.SpecialsPhoto
 from direct.directnotify import DirectNotifyGlobal
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
@@ -16,7 +17,6 @@ class DirectRegion(NodePath):
     def destroy(self):
         self.unload()
         self.parent = None
-        return
 
     def setBounds(self, *bounds):
         self.bounds = bounds
@@ -85,7 +85,6 @@ class SpecialsPhoto(NodePath):
         self.soundTrack = None
         self.track = None
         self.specialsFrame = None
-        return
 
     def destroy(self):
         self.hide()
@@ -101,7 +100,6 @@ class SpecialsPhoto(NodePath):
         del self.soundTrack
         del self.track
         self.parent = None
-        return
 
     def update(self, type):
         self.type = type
@@ -137,7 +135,7 @@ class SpecialsPhoto(NodePath):
         if specialsIndex == -1:
             nodePath = self.attachNewNode('blank')
             return nodePath
-        if specialsIndex >= 105 and specialsIndex <= 108:
+        elif specialsIndex >= 105 and specialsIndex <= 108:
             from toontown.estate import DistributedToonStatuary
             self.toonStatuary = DistributedToonStatuary.DistributedToonStatuary(None)
             self.toonStatuary.setupStoneToon(base.localAvatar.style)
@@ -170,7 +168,6 @@ class SpecialsPhoto(NodePath):
                 nodePath.setColorScale(colorTuple[0], colorTuple[1], colorTuple[2], 1.0)
             nodePath.setScale(GardenGlobals.Specials[specialsIndex]['photoScale'] * 0.5)
             return nodePath
-        return
 
     def show(self, showBackground = 0):
         self.notify.debug('show')
@@ -214,7 +211,6 @@ class SpecialsPhoto(NodePath):
         if hasattr(self, 'toonStatuary'):
             if self.toonStatuary.toon:
                 self.toonStatuary.deleteToon()
-        return
 
     def changeVariety(self, variety):
         self.variety = variety

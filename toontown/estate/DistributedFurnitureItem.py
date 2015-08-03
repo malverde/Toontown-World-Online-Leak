@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.DistributedFurnitureItem
 from toontown.toonbase.ToontownGlobals import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
@@ -23,7 +24,6 @@ class DistributedFurnitureItem(DistributedHouseItem.DistributedHouseItem, Distri
         self.__adjustStarted = 0
         self.furnitureMgr = None
         self.transmitRelativeTo = None
-        return
 
     def generate(self):
         DistributedHouseItem.DistributedHouseItem.generate(self)
@@ -45,7 +45,6 @@ class DistributedFurnitureItem(DistributedHouseItem.DistributedHouseItem, Distri
         self.furnitureMgr = None
         DistributedHouseItem.DistributedHouseItem.disable(self)
         DistributedSmoothNode.DistributedSmoothNode.disable(self)
-        return
 
     def delete(self):
         self.removeNode()
@@ -54,13 +53,12 @@ class DistributedFurnitureItem(DistributedHouseItem.DistributedHouseItem, Distri
         DistributedSmoothNode.DistributedSmoothNode.delete(self)
 
     def setItem(self, furnitureMgrId, blob):
-        self.furnitureMgr = self.cr.doId2do.get(furnitureMgrId)
-        if self.furnitureMgr:
-         self.furnitureMgr.dfitems.append(self)
-         self.item = CatalogItem.getItem(blob, store=CatalogItem.Customization)
-         self.assign(self.loadModel())
-         interior = self.furnitureMgr.getInteriorObject()
-         self.reparentTo(interior.interior)
+        self.furnitureMgr = self.cr.doId2do[furnitureMgrId]
+        self.furnitureMgr.dfitems.append(self)
+        self.item = CatalogItem.getItem(blob, store=CatalogItem.Customization)
+        self.assign(self.loadModel())
+        interior = self.furnitureMgr.getInteriorObject()
+        self.reparentTo(interior.interior)
 
     def loadModel(self):
         return self.item.loadModel()

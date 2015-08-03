@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.FlowerPanel
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
@@ -29,7 +30,6 @@ class FlowerPanel(DirectFrame):
         self.flower = flower
         self.parent = parent
         self.photo = None
-        return
 
     def destroy(self):
         if self.photo:
@@ -38,7 +38,6 @@ class FlowerPanel(DirectFrame):
         self.flower = None
         DirectFrame.destroy(self)
         self.parent = None
-        return
 
     def load(self):
         self.weight = DirectLabel(parent=self, pos=(0, 0, -0.28), relief=None, state=DGG.NORMAL, text='', text_scale=0.05, text_fg=(0, 0, 0, 1), text_pos=(0, 0.0, 0), text_font=ToontownGlobals.getInterfaceFont(), text_wordwrap=10.5)
@@ -50,7 +49,6 @@ class FlowerPanel(DirectFrame):
         buttons.removeNode()
         self.photo = FlowerPhoto.FlowerPhoto(parent=self)
         self.update(self.flower)
-        return
 
     def update(self, flower):
         self.flower = flower
@@ -63,7 +61,6 @@ class FlowerPanel(DirectFrame):
         else:
             self.value['text'] = TTLocalizer.GardenPageValueP % value
         self.photo.update(flower.getSpecies(), flower.getVariety())
-        return
 
     def setSwimBounds(self, *bounds):
         self.swimBounds = bounds

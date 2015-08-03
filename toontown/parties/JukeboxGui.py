@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.JukeboxGui
 from pandac.PandaModules import *
 from direct.showbase.DirectObject import DirectObject
 from direct.gui.DirectGui import DirectFrame, DirectButton, DirectLabel
@@ -19,7 +20,6 @@ class JukeboxGui(DirectObject):
         self._timerGui = None
         self._windowFrame = None
         self.phaseToMusicData = phaseToMusicData
-        return
 
     def load(self):
         if self.isLoaded():
@@ -40,7 +40,6 @@ class JukeboxGui(DirectObject):
         self._moveToTopButton = self.__createButton(guiNode, 'moveToTop', command=self.__handleMoveToTopButtonClick)
         guiNode.removeNode()
         self._loaded = True
-        return
 
     def __createButton(self, guiNode, imagePrefix, parent = hidden, **kwargs):
         return DirectButton(parent=parent, relief=None, image=(guiNode.find('**/%s_up' % imagePrefix), guiNode.find('**/%s_down' % imagePrefix), guiNode.find('**/%s_rollover' % imagePrefix)), **kwargs)
@@ -88,7 +87,6 @@ class JukeboxGui(DirectObject):
             self._timerGui.destroy()
             self._timerGui = None
         self._loaded = False
-        return
 
     def isLoaded(self):
         return self._loaded
@@ -146,7 +144,6 @@ class JukeboxGui(DirectObject):
                 self._addSongButton['text'] = TTLocalizer.JukeboxAddSong
             item.removeNode()
             return item
-        return None
 
     def setSongCurrentlyPlaying(self, phase, filename):
         songs = self.phaseToMusicData.get(phase / 1)

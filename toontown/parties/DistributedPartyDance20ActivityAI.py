@@ -1,6 +1,6 @@
+#Embedded file name: toontown.parties.DistributedPartyDance20ActivityAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.parties.DistributedPartyDanceActivityBaseAI import DistributedPartyDanceActivityBaseAI
 
 class DistributedPartyDance20ActivityAI(DistributedPartyDanceActivityBaseAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPartyDance20ActivityAI")
-
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPartyDance20ActivityAI')

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.PartyCogActivityInput
 from direct.showbase.DirectObject import DirectObject
 from pandac.PandaModules import ModifierButtons
 ROTATE_LEFT_KEY = 'arrow_left'

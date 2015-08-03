@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.DistributedFireworksCannon
 from toontown.toonbase.ToontownGlobals import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
@@ -16,7 +17,6 @@ class DistributedFireworksCannon(DistributedFireworkShow.DistributedFireworkShow
         DistributedFireworkShow.DistributedFireworkShow.__init__(self, cr)
         self.fireworksGui = None
         self.load()
-        return
 
     def generateInit(self):
         DistributedFireworkShow.DistributedFireworkShow.generateInit(self)
@@ -47,7 +47,6 @@ class DistributedFireworksCannon(DistributedFireworkShow.DistributedFireworkShow
             self.fireworksGui.destroy()
             self.fireworksGui = None
         DistributedFireworkShow.DistributedFireworkShow.disable(self)
-        return
 
     def delete(self):
         self.notify.debug('delete')
@@ -70,7 +69,6 @@ class DistributedFireworksCannon(DistributedFireworkShow.DistributedFireworkShow
         self.sendUpdate('avatarExit')
         self.fireworksGui.destroy()
         self.fireworksGui = None
-        return
 
     def freeAvatar(self):
         base.localAvatar.posCamera(0, 0)
@@ -83,15 +81,14 @@ class DistributedFireworksCannon(DistributedFireworkShow.DistributedFireworkShow
         if mode == FIREWORKS_MOVIE_CLEAR:
             self.notify.debug('setMovie: clear')
             return
-        elif mode == FIREWORKS_MOVIE_GUI:
+        if mode == FIREWORKS_MOVIE_GUI:
             self.notify.debug('setMovie: gui')
             if isLocalToon:
                 self.fireworksGui = FireworksGui.FireworksGui(self.fireworksGuiDoneEvent, self.shootEvent)
                 self.accept(self.fireworksGuiDoneEvent, self.__handleFireworksDone)
                 self.accept(self.shootEvent, self.localShootFirework)
             return
-        else:
-            self.notify.warning('unknown mode in setMovie: %s' % mode)
+        self.notify.warning('unknown mode in setMovie: %s' % mode)
 
     def setPosition(self, x, y, z):
         self.pos = [x, y, z]

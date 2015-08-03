@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.DistributedMailbox
 from direct.distributed import DistributedObject
 from toontown.toonbase import ToontownGlobals
 import MailboxGlobals
@@ -29,7 +30,6 @@ class DistributedMailbox(DistributedObject.DistributedObject):
         self.mailboxSphereEvent = None
         self.mailboxSphereEnterEvent = None
         self.mailboxGuiDoneEvent = 'mailboxGuiDone'
-        return
 
     def announceGenerate(self):
         DistributedMailbox.notify.debug('announceGenerate')
@@ -94,7 +94,6 @@ class DistributedMailbox(DistributedObject.DistributedObject):
         self.mailboxSphereEvent = None
         self.mailboxSphereEnterEvent = None
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def setHouseId(self, houseId):
         DistributedMailbox.notify.debug('setHouseId( houseId=%d )' % houseId)
@@ -121,7 +120,6 @@ class DistributedMailbox(DistributedObject.DistributedObject):
                     p = FlagPitchFull
                 self.flagIval = self.flag.hprInterval(0.5, VBase3(0, p, 0), blendType='easeInOut')
                 self.flagIval.start()
-        return
 
     def __handleEnterSphere(self, collEntry):
         DistributedMailbox.notify.debug('Entering Mailbox Sphere....')
@@ -140,14 +138,12 @@ class DistributedMailbox(DistributedObject.DistributedObject):
             self.mailboxDialog.cleanup()
             self.mailboxDialog = None
         self.__handleMailboxDone()
-        return
 
     def __handleMailboxDone(self):
         DistributedMailbox.notify.debug('Mailbox Done')
         self.sendUpdate('avatarExit', [])
         self.ignore(self.mailboxGuiDoneEvent)
         self.mailboxGui = None
-        return
 
     def freeAvatar(self):
         DistributedMailbox.notify.debug('freeAvatar')
@@ -168,7 +164,7 @@ class DistributedMailbox(DistributedObject.DistributedObject):
         if mode == MailboxGlobals.MAILBOX_MOVIE_CLEAR:
             DistributedMailbox.notify.debug('setMovie: clear')
             return
-        elif mode == MailboxGlobals.MAILBOX_MOVIE_EXIT:
+        if mode == MailboxGlobals.MAILBOX_MOVIE_EXIT:
             if random.random() < 0.5:
                 sfx = base.loadSfx('phase_5.5/audio/sfx/mailbox_close_1.ogg')
             else:
@@ -177,17 +173,17 @@ class DistributedMailbox(DistributedObject.DistributedObject):
             sfxTrack.start()
             DistributedMailbox.notify.debug('setMovie: exit')
             return
-        elif mode == MailboxGlobals.MAILBOX_MOVIE_EMPTY:
+        if mode == MailboxGlobals.MAILBOX_MOVIE_EMPTY:
             DistributedMailbox.notify.debug('setMovie: empty')
             if isLocalToon:
                 self.mailboxDialog = TTDialog.TTDialog(dialogName='MailboxEmpty', style=TTDialog.Acknowledge, text=TTLocalizer.DistributedMailboxEmpty, text_wordwrap=15, fadeScreen=1, command=self.__clearDialog)
             return
-        elif mode == MailboxGlobals.MAILBOX_MOVIE_WAITING:
+        if mode == MailboxGlobals.MAILBOX_MOVIE_WAITING:
             DistributedMailbox.notify.debug('setMovie: waiting')
             if isLocalToon:
                 self.mailboxDialog = TTDialog.TTDialog(dialogName='MailboxWaiting', style=TTDialog.Acknowledge, text=TTLocalizer.DistributedMailboxWaiting, text_wordwrap=15, fadeScreen=1, command=self.__clearDialog)
             return
-        elif mode == MailboxGlobals.MAILBOX_MOVIE_READY:
+        if mode == MailboxGlobals.MAILBOX_MOVIE_READY:
             DistributedMailbox.notify.debug('setMovie: ready')
             if random.random() < 0.5:
                 sfx = base.loadSfx('phase_5.5/audio/sfx/mailbox_open_1.ogg')
@@ -200,13 +196,12 @@ class DistributedMailbox(DistributedObject.DistributedObject):
                 self.mailboxGui.show()
                 self.accept(self.mailboxGuiDoneEvent, self.__handleMailboxDone)
             return
-        elif mode == MailboxGlobals.MAILBOX_MOVIE_NOT_OWNER:
+        if mode == MailboxGlobals.MAILBOX_MOVIE_NOT_OWNER:
             DistributedMailbox.notify.debug('setMovie: not owner')
             if isLocalToon:
                 self.mailboxDialog = TTDialog.TTDialog(dialogName='MailboxNotOwner', style=TTDialog.Acknowledge, text=TTLocalizer.DistributedMailboxNotOwner, text_wordwrap=15, fadeScreen=1, command=self.__clearDialog)
             return
-        else:
-            DistributedMailbox.notify.warning('unknown mode in setMovie: %s' % mode)
+        DistributedMailbox.notify.warning('unknown mode in setMovie: %s' % mode)
 
     def acceptItem(self, item, index, callback, optional = -1):
         DistributedMailbox.notify.debug('acceptItem')
@@ -262,14 +257,12 @@ class DistributedMailbox(DistributedObject.DistributedObject):
             self.nameText = nameOrigin.attachNewNode(text)
             self.nameText.setH(90)
             self.nameText.setScale(0.2)
-        return
 
     def __clearDialog(self, event):
         DistributedMailbox.notify.debug('__clearDialog')
         self.mailboxDialog.cleanup()
         self.mailboxDialog = None
         self.freeAvatar()
-        return
 
     def sendInviteReadButNotReplied(self, inviteKey):
         self.sendUpdate('markInviteReadButNotReplied', [inviteKey])

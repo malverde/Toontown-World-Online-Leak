@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.WinterPartyCatchActivityToonSD
 import PartyCatchActivityToonSD
 from pandac.PandaModules import Vec4
 from direct.directnotify import DirectNotifyGlobal

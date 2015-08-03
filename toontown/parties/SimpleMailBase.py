@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.SimpleMailBase
 
 
 class SimpleMailBase:

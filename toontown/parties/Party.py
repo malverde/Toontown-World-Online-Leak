@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.Party
 from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from toontown.toonbase.ToontownGlobals import *
@@ -15,9 +16,10 @@ from toontown.hood import Place
 from toontown.hood import SkyUtil
 from toontown.parties import PartyPlanner
 from toontown.parties.DistributedParty import DistributedParty
-fsm = None 
+
 class Party(Place.Place):
     notify = DirectNotifyGlobal.directNotify.newCategory('Party')
+
     def __init__(self, loader, avId, zoneId, parentFSMState, doneEvent):
         Place.Place.__init__(self, None, doneEvent)
         self.id = PartyHood
@@ -68,7 +70,6 @@ class Party(Place.Place):
         self.parentFSMState = parentFSMState
         self.isPartyEnding = False
         self.accept('partyStateChanged', self.setPartyState)
-        return
 
     def delete(self):
         self.unload()
@@ -80,7 +81,6 @@ class Party(Place.Place):
             if not hasattr(self, 'partyPlanner') or self.partyPlanner is None:
                 self.partyPlanner = PartyPlanner.PartyPlanner(self.partyPlannerDoneEvent)
         self.parentFSMState.addChild(self.fsm)
-        return
 
     def unload(self):
         if hasattr(self, 'partyPlanner'):
@@ -93,7 +93,6 @@ class Party(Place.Place):
         self.parentFSMState.removeChild(self.fsm)
         del self.fsm
         Place.Place.unload(self)
-        return
 
     def enter(self, requestStatus):
         hoodId = requestStatus['hoodId']
@@ -161,7 +160,6 @@ class Party(Place.Place):
           'hoodId': hoodId,
           'loader': 'safeZoneLoader',
           'where': 'playground'}])
-        return
 
     def exitPartyPlanning(self):
         pass
@@ -174,7 +172,6 @@ class Party(Place.Place):
             self.__updateLocalAvatarTeleportIn(requestStatus)
         else:
             self.acceptOnce(DistributedParty.generatedEvent, self.__updateLocalAvatarTeleportIn, [requestStatus])
-        return
 
     def exitTeleportIn(self):
         Place.Place.exitTeleportIn(self)
@@ -203,18 +200,18 @@ class Party(Place.Place):
 
     def __setPartyHat(self, doId = None):
         if hasattr(base, 'distributedParty'):
-            if base.distributedParty.partyInfo.hostId in base.cr.doId2do:
+            if base.cr.doId2do.has_key(base.distributedParty.partyInfo.hostId):
                 host = base.cr.doId2do[base.distributedParty.partyInfo.hostId]
                 if hasattr(host, 'gmIcon') and host.gmIcon:
                     host.removeGMIcon()
                     host.setGMPartyIcon()
                 else:
-                    np = NodePath(host.nametag.getIcon())
+                    np = NodePath(host.nametag.getNameIcon())
                     base.distributedParty.partyHat.reparentTo(np)
 
     def __removePartyHat(self):
         if hasattr(base, 'distributedParty'):
-            if base.distributedParty.partyInfo.hostId in base.cr.doId2do:
+            if base.cr.doId2do.has_key(base.distributedParty.partyInfo.hostId):
                 host = base.cr.doId2do[base.distributedParty.partyInfo.hostId]
                 if hasattr(host, 'gmIcon') and host.gmIcon:
                     host.removeGMIcon()
@@ -238,7 +235,6 @@ class Party(Place.Place):
         else:
             self.doneStatus = requestStatus
             messenger.send(self.doneEvent, [self.doneStatus])
-        return
 
     def goHomeFailed(self, task):
         self.notifyUserGoHomeFailed()
@@ -253,8 +249,7 @@ class Party(Place.Place):
     def getZoneId(self):
         if self.zoneId:
             return self.zoneId
-        else:
-            self.notify.warning('no zone id available')
+        self.notify.warning('no zone id available')
 
     def enterActivity(self, setAnimState = True):
         if setAnimState:
@@ -275,7 +270,7 @@ class Party(Place.Place):
         if self.isPartyEnding:
             teleportNotify.debug('party ending, sending teleportResponse')
             fromAvatar.d_teleportResponse(toAvatar.doId, 0, toAvatar.defaultShard, base.cr.playGame.getPlaceId(), self.getZoneId())
-        elif base.config.GetBool('want-tptrack', False):
+        elif config.GetBool('want-tptrack', False):
             if toAvatar == localAvatar:
                 localAvatar.doTeleportResponse(fromAvatar, toAvatar, toAvatar.doId, 1, toAvatar.defaultShard, base.cr.playGame.getPlaceId(), self.getZoneId(), fromAvatar.doId)
             else:

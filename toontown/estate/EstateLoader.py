@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.EstateLoader
 from pandac.PandaModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.interval.IntervalGlobal import *
@@ -43,7 +44,6 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         self.cloudTrack = None
         self.sunMoonNode = None
         self.fsm.enterInitialState()
-        return
 
     def load(self):
         SafeZoneLoader.SafeZoneLoader.load(self)
@@ -103,7 +103,6 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         if self.barrel:
             self.barrel.removeNode()
         SafeZoneLoader.SafeZoneLoader.unload(self)
-        return
 
     def enter(self, requestStatus):
         self.estateOwnerId = requestStatus.get('ownerId', base.localAvatar.doId)
@@ -175,7 +174,6 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         self.place = None
         base.cr.playGame.setPlace(self.place)
         base.cr.cache.flush()
-        return
 
     def handleEstateDone(self, doneStatus = None):
         if not doneStatus:
@@ -192,15 +190,11 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
             self.doneStatus = doneStatus
             messenger.send(self.doneEvent)
             return
-        if how in ['tunnelIn',
-         'teleportIn',
-         'doorIn',
-         'elevatorIn']:
+        if how in ('tunnelIn', 'teleportIn', 'doorIn', 'elevatorIn'):
             self.notify.debug('staying in estateloader')
             self.fsm.request('quietZone', [doneStatus])
         else:
             self.notify.error('Exited hood with unexpected mode %s' % how)
-        return
 
     def enterHouse(self, requestStatus):
         ownerId = requestStatus.get('ownerId')
@@ -218,7 +212,6 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         self.place.unload()
         self.place = None
         base.cr.playGame.setPlace(self.place)
-        return
 
     def handleHouseDone(self, doneStatus = None):
         if not doneStatus:
@@ -230,14 +223,10 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
             messenger.send(self.doneEvent)
             return
         how = doneStatus['how']
-        if how in ['tunnelIn',
-         'teleportIn',
-         'doorIn',
-         'elevatorIn']:
+        if how in ('tunnelIn', 'teleportIn', 'doorIn', 'elevatorIn'):
             self.fsm.request('quietZone', [doneStatus])
         else:
             self.notify.error('Exited hood with unexpected mode %s' % how)
-        return
 
     def handleQuietZoneDone(self):
         status = self.quietZoneStateData.getRequestStatus()
@@ -251,7 +240,6 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
                 return 0
         else:
             self.notify.warning("We aren't in an estate")
-        return
 
     def setHouse(self, houseId):
         try:
@@ -271,7 +259,6 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
             self.cloudTrack.pause()
             del self.cloudTrack
             self.cloudTrack = None
-        return
 
     def __cloudTrack(self):
         track = Parallel()

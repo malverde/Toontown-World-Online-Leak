@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.DistributedPartyValentineDanceActivity
 from toontown.parties import PartyGlobals
 from toontown.parties.DistributedPartyDanceActivityBase import DistributedPartyDanceActivityBase
 from toontown.toonbase import TTLocalizer
