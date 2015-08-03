@@ -191,7 +191,7 @@ CRBootedReasons = {1: 'Yikes - An unexpected problem occured.  Your connection h
  128: 'There appears to have been a hiccup in your connection to Toontown. Don\'t worry -- we\'re working on straightening it out. You should be able to connect again and go right back into Toontown.',
  151: 'You were kicked out by one of the developers working on the servers.',
  152: "You have been banned from the game for a reported violation of our Terms of Use connected to '%(name)s'. For more details, please check the Toontown World website.",
- 153: 'Toon HQ, we have a problem. Cogs have crashed the District you were playing.  Everyone who was playing on that district has also been disconnected, however, you should be able to connect again and go right back into Toontown.',
+ 153: 'Toon HQ, we have a problem. Cogs have crashed the District you were playing in.  Everyone who was playing on that district has also been disconnected, however, you should be able to connect again and go right back into Toontown.',
  154: 'Toontown World is now temporarily closed for maintenance. Everyone who was playing has been disconnected from the game.\n\nFor more information, please visit the Toontown World website.',
  155: 'You\'ve been warned for %(dc_reason)s. Try to behave next time! For more information contact support.',
  200: 'Logins are currently disabled. Please try again later.',
