@@ -39,6 +39,9 @@ from toontown.effects import FireworkShows
 from direct.distributed.ClockDelta import *
 from toontown.parties import PartyGlobals
 
+#pets!
+from toontown.pets.PetManagerAI import PetManagerAI
+
 # Tasks!
 from toontown.quest.QuestManagerAI import QuestManagerAI
 from toontown.building.DistributedTrophyMgrAI import DistributedTrophyMgrAI
@@ -88,7 +91,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.doLiveUpdates = self.config.GetBool('want-live-updates', True)
         self.baseXpMultiplier = self.config.GetFloat('base-xp-multiplier', 1.0)
         self.holidayManager = HolidayManagerAI(self)
-
+        self.PetManager = PetManagerAI(self)
         self.fishManager = FishManagerAI()
         self.questManager = QuestManagerAI(self)
         self.cogPageManager = CogPageManagerAI()
@@ -209,6 +212,10 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.notify.info('Creating catalog')
         self.catalogManager = CatalogManagerAI(self)
         self.catalogManager.generateWithRequired(2)
+        
+        self.notify.info('Creating Pets')
+        self.PetManager = PetManagerAI(self)
+        self.PetManager.generateWithRequired(2)
 
         self.notify.info('Creating Code Redemption')
         self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
