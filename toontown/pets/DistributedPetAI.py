@@ -1,7 +1,6 @@
 #Embedded file name: toontown.pets.DistributedPetAI
 from pandac.PandaModules import *
-from direct.showbase.PythonUtil import weightedChoice, randFloat, lerp
-from direct.showbase.PythonUtil import contains, list2dict, clampScalar
+from direct.showbase.PythonUtil import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedSmoothNodeAI
 from direct.distributed import DistributedSmoothNodeBase
@@ -21,7 +20,6 @@ import random
 import time
 import string
 import copy
-from direct.showbase.PythonUtil import StackTrace
 from PetMoverAI import PetMoverAI
 
 class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLookerAI.PetLookerAI, PetBase.PetBase):
