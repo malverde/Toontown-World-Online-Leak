@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import DirectObject
 from pandac.PandaModules import *
 import sys
 import time
-import re
 
 from otp.chat.ChatGlobals import *
 from otp.chat.TalkGlobals import *
@@ -584,10 +582,8 @@ class TalkAssistant(DirectObject.DirectObject):
         if base.cr.wantMagicWords and len(message) > 0 and message[0] == '~':
             messenger.send('magicWord', [message])
             self.receiveDeveloperMessage(message)
-        else:       
+        else:
             chatFlags = CFSpeech | CFTimeout
-           # if re.search(r'[a-zA-Z\d]', message):
-            #    if not "¬" in message:
             if self.isThought(message):
                 chatFlags = CFThought
             base.cr.chatAgent.sendChatMessage(message)
@@ -598,10 +594,10 @@ class TalkAssistant(DirectObject.DirectObject):
         # Check if we are a true friend
         if (receiverAvId, True) in base.localAvatar.friendsList:
             base.cr.chatAgent.sendSFWhisperMessage(receiverAvId, message)
-            return 
+            return None
 
         base.cr.chatAgent.sendWhisperMessage(receiverAvId, message)
-        return 
+        return None
 
 
     def sendAccountTalk(self, message, receiverAccount):

@@ -3,7 +3,6 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.fsm.FSM import FSM
 from otp.ai.MagicWordGlobal import *
-from DistributedInvasionSuitAI import DistributedInvasionSuitAI
 from InvasionMasterAI import InvasionMasterAI
 import SafezoneInvasionGlobals
 import DistributedElectionEventAI

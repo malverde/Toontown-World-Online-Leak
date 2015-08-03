@@ -1,18 +1,16 @@
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.ClockDelta import *
 from direct.task import Task
-
 from toontown.toonbase import ToontownGlobals
 from toontown.parties import PartyGlobals
-
+#fireworks
 from toontown.effects.DistributedFireworkShowAI import DistributedFireworkShowAI
 from toontown.effects import FireworkShows
-
 import random
 import time
 
 class HolidayManagerAI:
-    # notify = directNotify.newCategory('HolidayManagerAI')
+    notify = directNotify.newCategory('HolidayManagerAI')
     def __init__(self, air):
         self.air = air
         self.currentHolidays = []
@@ -29,7 +27,7 @@ class HolidayManagerAI:
         ts = time.time()
         nextHour = 3600 - (ts % 3600)
         taskMgr.doMethodLater(nextHour, self.__fireworksTick, 'hourly-fireworks')
-
+        
     def __fireworksTick(self, task):
         # The next tick will occur in exactly an hour.
         task.delayTime = 3600
@@ -60,6 +58,7 @@ class HolidayManagerAI:
             fireworksShow = DistributedFireworkShowAI(self.air)
             fireworksShow.generateWithRequired(hood.HOOD)
             fireworksShow.b_startShow(showType, showIndex, globalClockDelta.getRealNetworkTime())
+            self.notify.info('Oh! A fireworks show has started in this District - next one in exactly 1 hours time!')
         return task.again
 
     def isHolidayRunning(self, *args):

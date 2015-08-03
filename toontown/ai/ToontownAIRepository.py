@@ -9,7 +9,7 @@ from toontown.ai.NewsManagerAI import NewsManagerAI
 from toontown.ai.FishManagerAI import FishManagerAI
 from toontown.distributed.ToontownInternalRepository import ToontownInternalRepository
 from toontown.toon import NPCToons
-from toontown.hood import TTHoodAI, DDHoodAI, DGHoodAI, BRHoodAI, MMHoodAI, DLHoodAI, OZHoodAI, GSHoodAI, GZHoodAI, ZoneUtil
+from toontown.hood import TTHoodAI, DDHoodAI, DGHoodAI, BRHoodAI, MMHoodAI, DLHoodAI, OZHoodAI, GSHoodAI, GZHoodAI, TFHoodAI, ZoneUtil
 from toontown.hood import SellbotHQAI, CashbotHQAI, LawbotHQAI, BossbotHQAI
 from toontown.toonbase import ToontownGlobals
 from direct.distributed.PyDatagram import *
@@ -112,6 +112,7 @@ class ToontownAIRepository(ToontownInternalRepository):
 
 
     def handleConnected(self):
+        self.notify.info('Yarn, Waking up (This may take a while)')
         ToontownInternalRepository.handleConnected(self)
         self.districtId = self.allocateChannel()
         self.distributedDistrict = ToontownDistrictAI(self)
@@ -125,7 +126,9 @@ class ToontownAIRepository(ToontownInternalRepository):
         dg.addChannel(self.ourChannel)
         self.send(dg)
 
+        self.notify.info('Creating managers')
         self.createGlobals()
+        self.notify.info('Creating Toontown')
         self.createZones()
 
         self.statusSender.start()
@@ -162,42 +165,52 @@ class ToontownAIRepository(ToontownInternalRepository):
         """
         Create "global" objects, e.g. TimeManager et al.
         """
+        self.notify.info('Creating District Stats')
         self.districtStats = ToontownDistrictStatsAI(self)
         self.districtStats.settoontownDistrictId(self.districtId)
         self.districtStats.generateWithRequiredAndId(self.allocateChannel(),
                                                      self.getGameDoId(), 3)
-
+        self.notify.info('Creating Time')
         self.timeManager = TimeManagerAI(self)
         self.timeManager.generateWithRequired(2)
 
+        self.notify.info('Creating News')
         self.newsManager = NewsManagerAI(self)
         self.newsManager.generateWithRequired(2)
-
+        
+        self.notify.info('Creating Magic Words')
         self.magicWordManager = MagicWordManagerAI(self)
         self.magicWordManager.generateWithRequired(2)
 
+        self.notify.info('Creating Friends')
         self.friendManager = FriendManagerAI(self)
         self.friendManager.generateWithRequired(2)
 
         if config.GetBool('want-parties', True):
+            self.notify.info('Creating Partys')
             self.partyManager = DistributedPartyManagerAI(self)
             self.partyManager.generateWithRequired(2)
 
             # setup our view of the global party manager ud
             self.globalPartyMgr = self.generateGlobalObject(OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
 
+        self.notify.info('Creating Estates')
         self.estateManager = EstateManagerAI(self)
         self.estateManager.generateWithRequired(2)
 
+        self.notify.info('Creating Trophys')
         self.trophyMgr = DistributedTrophyMgrAI(self)
         self.trophyMgr.generateWithRequired(2)
 
+        self.notify.info('Creating Toontorial')
         self.tutorialManager = TutorialManagerAI(self)
         self.tutorialManager.generateWithRequired(2)
 
+        self.notify.info('Creating catalog')
         self.catalogManager = CatalogManagerAI(self)
         self.catalogManager.generateWithRequired(2)
 
+        self.notify.info('Creating Code Redemption')
         self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
         self.codeRedemptionManager.generateWithRequired(2)
 
@@ -210,40 +223,55 @@ class ToontownAIRepository(ToontownInternalRepository):
             '''So the TCP window doesn't fill up and we get the axe'''
             while self.readerPollOnce():
                 pass
-
+        self.notify.info('Creating TTC')
         self.hoods.append(TTHoodAI.TTHoodAI(self))
         clearQueue()
+        self.notify.info('Creating DD')
         self.hoods.append(DDHoodAI.DDHoodAI(self))
         clearQueue()
+        self.notify.info('Creating DG')
         self.hoods.append(DGHoodAI.DGHoodAI(self))
         clearQueue()
+        self.notify.info('Creating BR')
         self.hoods.append(BRHoodAI.BRHoodAI(self))
         clearQueue()
+        self.notify.info('Creating MML')
         self.hoods.append(MMHoodAI.MMHoodAI(self))
         clearQueue()
+        self.notify.info('Creating DDL')
         self.hoods.append(DLHoodAI.DLHoodAI(self))
         clearQueue()
+        self.notify.info('Creating GZ')
         self.hoods.append(GSHoodAI.GSHoodAI(self))
         clearQueue()
+        self.notify.info('Creating OZ')
         self.hoods.append(OZHoodAI.OZHoodAI(self))
         clearQueue()
+        self.notify.info('Creating GZ')
         self.hoods.append(GZHoodAI.GZHoodAI(self))
+        clearQueue()
+        self.notify.info('Creating TF')
+        self.hoods.append(TFHoodAI.TFHoodAI(self))
         clearQueue()
 
 
         if config.GetBool('want-sbhq', True):
+            self.notify.info('Creating SBHQ')
             self.hoods.append(SellbotHQAI.SellbotHQAI(self))
             clearQueue()
 
         if config.GetBool('want-cbhq', True):
+            self.notify.info('Creating CBHQ')
             self.hoods.append(CashbotHQAI.CashbotHQAI(self))
             clearQueue()
 
         if config.GetBool('want-lbhq', True):
+            self.notify.info('Creating LBHQ')
             self.hoods.append(LawbotHQAI.LawbotHQAI(self))
             clearQueue()
 
         if config.GetBool('want-bbhq', True):
+            self.notify.info('Creating BBHQ')
             self.hoods.append(BossbotHQAI.BossbotHQAI(self))
             clearQueue()
 

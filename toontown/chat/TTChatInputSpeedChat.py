@@ -243,7 +243,6 @@ scStructure = [
   1204,
   1205],
  [OTPLocalizer.SCMenuBattle,
-  30003,
   [OTPLocalizer.SCMenuBattleStrategy,
    [OTPLocalizer.SCMenuBattleUse,
     [OTPLocalizer.SCMenuBattleToonUp,

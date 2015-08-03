@@ -3,11 +3,12 @@ from otp.avatar import Avatar
 import SuitDNA
 from toontown.toonbase import ToontownGlobals
 from pandac.PandaModules import *
-from otp.nametag.NametagGroup import NametagGroup
+from toontown.nametag import NametagGroup
 from toontown.battle import SuitBattleGlobals
 from direct.task.Task import Task
 from toontown.battle import BattleProps
 from toontown.toonbase import TTLocalizer
+from toontown.nametag import NametagGlobals
 from pandac.PandaModules import VirtualFileMountHTTP, VirtualFileSystem, Filename, DSearchPath
 from direct.showbase import AppRunnerGlobal
 import string
@@ -153,9 +154,7 @@ bw = (('finger-wag', 'fingerwag', 5),
  ('gavel', 'gavel', 8),
  ('magic1', 'magic1', 5),
  ('throw-object', 'throw-object', 5),
- ('throw-paper', 'throw-paper', 5)),
- 
-md = (('throw-paper', 'throw-paper', 5), ('throw-object', 'throw-object', 5), ('hold-pencil', 'hold-pencil', 5))
+ ('throw-paper', 'throw-paper', 5))
 if not base.config.GetBool('want-new-cogs', 0):
     ModelDict = {'a': ('/models/char/suitA-', 4),
      'b': ('/models/char/suitB-', 4),
@@ -343,8 +342,7 @@ class Suit(Avatar.Avatar):
 
         Avatar.Avatar.__init__(self)
         self.setFont(ToontownGlobals.getSuitFont())
-        self.setSpeechFont(ToontownGlobals.getSuitFont())
-        self.setPlayerType(NametagGroup.CCSuit)
+        self.setPlayerType(NametagGlobals.CCSuit)
         self.setPickable(1)
         self.leftHand = None
         self.rightHand = None

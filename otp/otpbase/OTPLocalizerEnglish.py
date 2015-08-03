@@ -179,26 +179,26 @@ CRLoggingIn = 'Authenticating...'
 CRMissingGameRootObject = 'Missing some root game objects.  (May be a failed network connection).\n\nTry again?'
 CRNoDistrictsTryAgain = 'No Districts are available. Try again?'
 CRRejectRemoveAvatar = 'The avatar was not able to be deleted, try again another time.'
-CRLostConnection = 'Your connection to the gameserver was lost.'
-CRBootedReasons = {1: 'Yikes - An unexpected problem occured.  Your connection has been lost, but you should be able to connect again and go right back into Toontown.',
- 100: 'You have been disconnected because someone else just logged in using your account on another computer.',
+CRLostConnection = 'Uh oh! Your connection to the gameserver was lost. Please relaunch Toontown World - you should be able to connect if you try again.'
+CRBootedReasons = {1: 'Yikes - An unexpected problem occured.  Your connection has been lost, but you should be able to connect again and go right back into Toontown. Contact support with that Error Code if you need assistance',
+ 100: 'You have been disconnected because someone else just logged in using your account on another computer. If this wasn not you please contact support and change your password.',
  120: 'You have been disconnected because of a problem with your authorization to use keyboard chat.',
- 122: 'There was an issue getting you into Toontown.  If the problem persists, please contact Toontown World Support.',
+ 122: 'There was an issue getting you into Toontown.  If the problem persists, please contact Toontown World Support. Contact support with that Error Code if you need assistance',
  124: 'Your installed files are out of date!  Use the official launcher to download the newest version, or contact Toontown World Support if the problem persists.',
- 125: 'Your installed files appear to be invalid.  Use the official launcher to download the newest version, or contact Toontown World Support if the problem persists.',
+ 125: 'Your installed files appear to be invalid!  Use the official launcher to download the newest version, or contact Toontown World Support if the problem persists.',
  126: 'You aren\'t authorized to use administrator privileges. The request has been noted.',
  127: 'There appears to be a problem with your Toon.  Don\'t worry - we\'ll get it straightened out. Please contact Toontown World Support and referece Error Code 127.',
  128: 'There appears to have been a hiccup in your connection to Toontown. Don\'t worry -- we\'re working on straightening it out. You should be able to connect again and go right back into Toontown.',
  151: 'You were kicked out by one of the developers working on the servers.',
  152: "You have been banned from the game for a reported violation of our Terms of Use connected to '%(name)s'. For more details, please check the Toontown World website.",
- 153: 'The district you were playing on has been reset.  Everyone who was playing on that district has also been disconnected, however, you should be able to connect again and go right back into Toontown.',
+ 153: 'Toon HQ, we have a problem. Cogs have crashed the District you were playing in.  Everyone who was playing on that district has also been disconnected, however, you should be able to connect again and go right back into Toontown.',
  154: 'Toontown World is now temporarily closed for maintenance. Everyone who was playing has been disconnected from the game.\n\nFor more information, please visit the Toontown World website.',
- 155: 'You\'ve been warned for %(dc_reason)s. Try to behave next time!',
+ 155: 'You\'ve been warned for %(dc_reason)s. Try to behave next time! For more information contact support.',
  200: 'Logins are currently disabled. Please try again later.',
  288: 'Sorry, you have used up all of your available minutes this month.',
  349: 'Sorry, you have used up all of your available minutes this month.',
  350: 'Sorry, your play time is up for today! You\'re welcome to hop on the queue or schedule a new session at any time. Thanks for testing with us, and come back soon!',}
-CRBootedReasonUnknownCode = 'Yikes - An unexpected problem occured. (Error code %s)  Your connection has been lost, but you should be able to connect again and go right back into Toontown.'
+CRBootedReasonUnknownCode = 'Yikes - An unexpected problem occured. (Error Code %s)  Your connection has been lost, but you should be able to connect again and go right back into Toontown. Contact support with that Error Code if you need assistance'
 CRSystemMessages = {
     # General, generic messages:
     0: '%s',

@@ -105,7 +105,6 @@ class MagicWordCategory:
 
     def getDefinedAccess(self):
         return config.GetInt('mw-category-' + self.name.replace(' ', '-').lower(), 0)
-
 CATEGORY_UNKNOWN = MagicWordCategory('Unknown')
 CATEGORY_GRAPHICAL = MagicWordCategory('Graphical debugging', defaultAccess=300,
     doc='Magic Words in this category are used to assist developers in locating '

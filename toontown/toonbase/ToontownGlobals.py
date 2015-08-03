@@ -98,7 +98,10 @@ FM_DeletedItem = 3
 FM_RecoveredItem = 4
 SPDonaldsBoat = 3
 SPMinniesPiano = 4
-SPBuddysBalloon = 5
+SPToonfestBalloon = 6
+SPToonfestTowerSmall = 7
+SPToonfestTowerMed = 8
+SPToonfestTowerLarge = 9
 CEVirtual = 14
 MaxHpLimit = 156
 MaxCarryLimit = 240
@@ -150,6 +153,7 @@ TheBrrrgh = 3000
 MinniesMelodyland = 4000
 DaisyGardens = 5000
 OutdoorZone = 6000
+FunnyFarm = 7000
 GoofySpeedway = 8000
 DonaldsDreamland = 9000
 BarnacleBoulevard = 1100
@@ -176,6 +180,8 @@ HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace),
  MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace),
  DaisyGardens: (ElmStreet, MapleStreet, OakStreet),
  DonaldsDreamland: (LullabyLane, PajamaPlace),
+ OutdoorZone: (),
+ FunnyFarm: (),
  GoofySpeedway: ()}
 WelcomeValleyToken = 0
 BossbotHQ = 10000
@@ -304,7 +310,9 @@ Hoods = (DonaldsDock,
  TheBrrrgh,
  MinniesMelodyland,
  DaisyGardens,
- OutdoorZone, 
+ OutdoorZone,
+ FunnyFarm,
+ FunnyFarm,
  GoofySpeedway,
  DonaldsDreamland,
  BossbotHQ,
@@ -405,6 +413,7 @@ phaseMap = {Tutorial: 4,
  GoofySpeedway: 6,
  TheBrrrgh: 8,
  DaisyGardens: 8,
+ FunnyFarm: 14,
  DonaldsDreamland: 8,
  OutdoorZone: 6,
  BossbotHQ: 12,
@@ -419,6 +428,7 @@ streetPhaseMap = {ToontownCentral: 5,
  GoofySpeedway: 6,
  TheBrrrgh: 8,
  DaisyGardens: 8,
+ FunnyFarm: 14,
  DonaldsDreamland: 8,
  OutdoorZone: 8,
  BossbotHQ: 12,
@@ -433,6 +443,7 @@ dnaMap = {Tutorial: 'toontown_central',
  GoofySpeedway: 'goofy_speedway',
  TheBrrrgh: 'the_burrrgh',
  DaisyGardens: 'daisys_garden',
+ FunnyFarm: 'funny_farms',
  DonaldsDreamland: 'donalds_dreamland',
  OutdoorZone: 'outdoor_zone',
  BossbotHQ: 'cog_hq_bossbot',
@@ -446,6 +457,7 @@ hoodNameMap = {DonaldsDock: TTLocalizer.DonaldsDock,
  MinniesMelodyland: TTLocalizer.MinniesMelodyland,
  DaisyGardens: TTLocalizer.DaisyGardens,
  OutdoorZone: TTLocalizer.OutdoorZone,
+ FunnyFarm: TTLocalizer.FunnyFarm,
  GoofySpeedway: TTLocalizer.GoofySpeedway,
  DonaldsDreamland: TTLocalizer.DonaldsDreamland,
  BossbotHQ: TTLocalizer.BossbotHQ,
@@ -464,6 +476,7 @@ safeZoneCountMap = {MyEstate: 8,
  GoofySpeedway: 500,
  TheBrrrgh: 8,
  DaisyGardens: 9,
+ FunnyFarm: 500,
  DonaldsDreamland: 5,
  OutdoorZone: 500,
  GolfZone: 500,
@@ -476,6 +489,7 @@ townCountMap = {MyEstate: 8,
  GoofySpeedway: 40,
  TheBrrrgh: 40,
  DaisyGardens: 40,
+ FunnyFarm: 40,
  DonaldsDreamland: 40,
  OutdoorZone: 40,
  PartyHood: 20}
@@ -487,7 +501,7 @@ hoodCountMap = {MyEstate: 2,
  GoofySpeedway: 2,
  TheBrrrgh: 2,
  DaisyGardens: 2,
- 
+ FunnyFarm: 2,
  DonaldsDreamland: 2,
  OutdoorZone: 2,
  BossbotHQ: 2,
@@ -1640,7 +1654,8 @@ hood2Id = {
  'OFFICE': (LawbotHQ,),
  'BACK': (BossbotHQ,),
  'MIDDLE': (BossbotHQ,),
- 'FRONT': (BossbotHQ,)}
+ 'FRONT': (BossbotHQ,),
+ 'FF' : (FunnyFarm,)}
 hood2Coords = {
  'CEO': [
     (61.044, 119.014, 0.025),

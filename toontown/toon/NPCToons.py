@@ -8,6 +8,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 import sys, os
 import string
+import json
 QUEST_MOVIE_CLEAR = 0
 QUEST_MOVIE_REJECT = 1
 QUEST_MOVIE_COMPLETE = 2
@@ -11732,6 +11733,34 @@ FOnpcFriends = {
 9302: (ToontownBattleGlobals.HEAL_TRACK, 3, 20, 1),
 9303: (ToontownBattleGlobals.HEAL_TRACK, 3, 30, 2),
 91915: (ToontownBattleGlobals.DROP_TRACK,0, 999, 5) }
+
+with open('toontown/toon/sos.json') as data:
+    sos = json.load(data)
+for i in xrange(len(sos['name'])):
+    TTLocalizer.NPCToonNames[sos['id'][i]] = sos['name'][i]
+    NPCToonDict[sos['id'][i]] = (sos['zone'][i],
+     sos['name'][i],
+     (sos['head'][i],
+      sos['torso'][i],
+      sos['legs'][i],
+      sos['gender'][i],
+      sos['arm-color'][i],
+      sos['glove-color'][i],
+      sos['leg-color'][i],
+      sos['head-color'][i],
+      sos['shirt-id'][i],
+      sos['shirt-color'][i],
+      sos['sleeve-id'][i],
+      sos['sleeve-color'][i],
+      sos['bottoms-id'][i],
+      sos['bottoms-color'][i]),
+     sos['gender'][i],
+     sos['has-building'][i],
+     sos['type'][i])
+    HQnpcFriends[sos['id'][i]] = (sos['gag-track'][i],
+     sos['gag-level'][i],
+     sos['gag-damage'][i],
+     sos['rating'][i])
 
 npcFriends = dict(HQnpcFriends)
 npcFriends.update(FOnpcFriends)
