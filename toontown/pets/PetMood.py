@@ -1,7 +1,7 @@
 #Embedded file name: toontown.pets.PetMood
 from direct.directnotify import DirectNotifyGlobal
 from direct.task import Task
-from direct.showbase.PythonUtil import lerp, average, clampScalar
+from direct.showbase.PythonUtil import *
 from toontown.toonbase import TTLocalizer
 import random, time, weakref
 
