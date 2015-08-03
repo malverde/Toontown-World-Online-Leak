@@ -98,7 +98,10 @@ FM_DeletedItem = 3
 FM_RecoveredItem = 4
 SPDonaldsBoat = 3
 SPMinniesPiano = 4
-SPBuddysBalloon = 5
+SPToonfestBalloon = 6
+SPToonfestTowerSmall = 7
+SPToonfestTowerMed = 8
+SPToonfestTowerLarge = 9
 CEVirtual = 14
 MaxHpLimit = 156
 MaxCarryLimit = 240
@@ -177,6 +180,8 @@ HoodHierarchy = {ToontownCentral: (SillyStreet, LoopyLane, PunchlinePlace),
  MinniesMelodyland: (AltoAvenue, BaritoneBoulevard, TenorTerrace),
  DaisyGardens: (ElmStreet, MapleStreet, OakStreet),
  DonaldsDreamland: (LullabyLane, PajamaPlace),
+ OutdoorZone: (),
+ FunnyFarm: (),
  GoofySpeedway: ()}
 WelcomeValleyToken = 0
 BossbotHQ = 10000
