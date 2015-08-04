@@ -132,12 +132,12 @@ class DistributedPetAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, PetLooke
     def announceZoneChange(self, newZoneId, oldZoneId):
         DistributedPetAI.notify.debug('%s.announceZoneChange: %s->%s' % (self.doId, oldZoneId, newZoneId))
         broadcastZones = list2dict([newZoneId, oldZoneId])
-        self.estateOwnerId = simbase.air.estateMgr.getOwnerFromZone(newZoneId)
+        self.estateOwnerId = simbase.air.estateManager.getOwnerFromZone(newZoneId)
         if self.estateOwnerId:
             if __dev__:
                 pass
             self.inEstate = 1
-            self.estateZones = simbase.air.estateMgr.getEstateZones(self.estateOwnerId)
+            self.estateZones = simbase.air.estateManager.getEstateZones(self.estateOwnerId)
         else:
             self.inEstate = 0
             self.estateZones = []
