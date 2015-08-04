@@ -16,7 +16,7 @@ class Mover():
     PSCInt = 'App:Show code:moveObjects:MoverIntegrate'
 
     def __init__(self, objNodePath, fwdSpeed = 1, rotSpeed = 1):
-        CMover.__init__(self, objNodePath, fwdSpeed, rotSpeed)
+        CMover(objNodePath, fwdSpeed, rotSpeed)
         self.serialNum = Mover.SerialNum
         Mover.SerialNum += 1
         self.VecType = Vec3
@@ -33,14 +33,14 @@ class Mover():
 
     def addImpulse(self, name, impulse):
         if impulse.isCpp():
-            CMover.addCImpulse(self, name, impulse)
+            Mover.addImpulse(self, name, impulse)
         else:
             self.impulses[name] = impulse
             impulse._setMover(self)
 
     def removeImpulse(self, name):
         if name not in self.impulses:
-            if not CMover.removeCImpulse(self, name):
+            if not Mover.removeImpulse(self, name):
                 Mover.notify.warning("Mover.removeImpulse: unknown impulse '%s'" % name)
             return
         self.impulses[name]._clearMover(self)
@@ -62,7 +62,7 @@ class Mover():
             return
         if Mover.Pstats:
             self.pscCpp.start()
-        CMover.processCImpulses(self, dt)
+        Mover.processCImpulses(self, dt)
         if Mover.Pstats:
             self.pscCpp.stop()
             self.pscPy.start()
@@ -72,6 +72,6 @@ class Mover():
         if Mover.Pstats:
             self.pscPy.stop()
             self.pscInt.start()
-        CMover.integrate(self)
+        Mover.integrate(self)
         if Mover.Pstats:
             self.pscInt.stop()

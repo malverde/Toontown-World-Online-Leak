@@ -15,7 +15,6 @@ class PetBrain(DirectObject.DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('PetBrain')
 
     def __init__(self, pet):
-        PetBrain.__init__(self)
         self.pet = pet
         self.focus = None
         self.started = 0
