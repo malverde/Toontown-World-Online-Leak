@@ -27,7 +27,6 @@ from toontown.shtiker import OptionsPage
 from toontown.shtiker import ShardPage
 from toontown.shtiker import QuestPage
 from toontown.shtiker import TrackPage
-from toontown.shtiker import WordPage
 from toontown.shtiker import KartPage
 from toontown.shtiker import GardenPage
 from toontown.shtiker import GolfPage
