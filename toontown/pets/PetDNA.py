@@ -1,4 +1,3 @@
-#Embedded file name: toontown.pets.PetDNA
 from toontown.toon import ToonDNA
 from pandac.PandaModules import VBase4
 from toontown.toonbase import TTLocalizer, ToontownGlobals
@@ -272,3 +271,4 @@ def getGenderString(dna = None, gender = -1):
         return TTLocalizer.GenderShopBoyButtonText
     else:
         return TTLocalizer.GenderShopGirlButtonText
+    return

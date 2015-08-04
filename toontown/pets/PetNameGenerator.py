@@ -1,4 +1,3 @@
-#Embedded file name: toontown.pets.PetNameGenerator
 import random
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -22,8 +21,16 @@ class PetNameGenerator:
         self.neutralFirsts = []
         self.nameDictionary = {}
         searchPath = DSearchPath()
-        searchPath.appendDirectory(Filename('resources/phase_3/etc'))
-        filename = Filename('PetNameMasterEnglish.txt')
+        if AppRunnerGlobal.appRunner:
+            searchPath.appendDirectory(Filename.expandFrom('$TT_3_ROOT/phase_3/etc'))
+        else:
+            searchPath.appendDirectory(Filename('phase_3/etc'))
+            if os.path.expandvars('$TOONTOWN') != '':
+                searchPath.appendDirectory(Filename.fromOsSpecific(os.path.expandvars('$TOONTOWN/src/configfiles')))
+            else:
+                searchPath.appendDirectory(Filename.fromOsSpecific(os.path.expandvars('toontown/src/configfiles')))
+            searchPath.appendDirectory(Filename('.'))
+        filename = Filename(TTLocalizer.PetNameMaster)
         found = vfs.resolveFilename(filename, searchPath)
         if not found:
             self.notify.error('PetNameGenerator: Error opening name list text file.')

@@ -1,4 +1,3 @@
-#Embedded file name: toontown.pets.PetMood
 from direct.directnotify import DirectNotifyGlobal
 from direct.task import Task
 from direct.showbase.PythonUtil import lerp, average, clampScalar
@@ -200,6 +199,7 @@ class PetMood:
             tAnger = lerp(PetMood.LONGTIME, self.tAngerInc, (abuse - tipPoint) / (1.0 - tipPoint))
         self.anger = doDrift(curMood.anger, tAnger)
         self.announceChange()
+        return
 
     def _driftMoodTask(self, task = None):
         self.driftMood()

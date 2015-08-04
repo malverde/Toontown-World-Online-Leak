@@ -1,4 +1,3 @@
-#Embedded file name: toontown.pets.PetTraits
 from direct.showbase.PythonUtil import randFloat, normalDistrib, Enum
 from direct.showbase.PythonUtil import clampScalar
 from toontown.toonbase import TTLocalizer, ToontownGlobals
@@ -92,15 +91,15 @@ class TraitDistribution:
                 return TraitQuality.GOOD
             else:
                 return TraitQuality.AVERAGE
+        elif percent <= TraitCutoffs[TraitQuality.VERY_GOOD]:
+            return TraitQuality.VERY_GOOD
+        elif percent <= TraitCutoffs[TraitQuality.GOOD]:
+            return TraitQuality.GOOD
+        elif percent >= TraitCutoffs[TraitQuality.VERY_BAD]:
+            return TraitQuality.VERY_BAD
+        elif percent >= TraitCutoffs[TraitQuality.BAD]:
+            return TraitQuality.BAD
         else:
-            if percent <= TraitCutoffs[TraitQuality.VERY_GOOD]:
-                return TraitQuality.VERY_GOOD
-            if percent <= TraitCutoffs[TraitQuality.GOOD]:
-                return TraitQuality.GOOD
-            if percent >= TraitCutoffs[TraitQuality.VERY_BAD]:
-                return TraitQuality.VERY_BAD
-            if percent >= TraitCutoffs[TraitQuality.BAD]:
-                return TraitQuality.BAD
             return TraitQuality.AVERAGE
 
     def getExtremeness(self, traitValue):
@@ -170,6 +169,7 @@ class PetTraits:
             self.percentile = distrib.getPercentile(self.value)
             self.quality = distrib.getQuality(self.value)
             self.howExtreme = distrib.getExtremeness(self.value)
+            return
 
         def __repr__(self):
             return 'Trait: %s, %s, %s, %s' % (self.name,

@@ -1,4 +1,3 @@
-#Embedded file name: toontown.pets.PetLookerAI
 from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import DirectObject
@@ -163,6 +162,7 @@ class PetLookerAI:
             self.others[other] = None
             messenger.send(getStartLookingAtOtherEvent(self.doId), [other])
             messenger.send(getStartLookedAtByOtherEvent(other), [self.doId])
+        return
 
     def _handleLookingAtOtherStop(self, other):
         if not self.__active:

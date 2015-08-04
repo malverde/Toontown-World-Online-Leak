@@ -1,4 +1,3 @@
-#Embedded file name: toontown.pets.PetObserve
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.PythonUtil import list2dict, Enum
 from toontown.pets import PetTricks

@@ -1,4 +1,3 @@
-#Embedded file name: toontown.pets.PetHandle
 from toontown.toonbase import ToontownGlobals
 from toontown.pets import PetMood, PetTraits, PetDetail
 
@@ -60,7 +59,6 @@ class PetHandle:
     def updateMoodFromServer(self, callWhenDone = None):
 
         def handleGotDetails(avatar, callWhenDone = callWhenDone):
-            avatar.announceGenerate()
             self._grabMood(avatar)
             if callWhenDone:
                 callWhenDone()

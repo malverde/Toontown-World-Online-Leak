@@ -102,8 +102,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self.deliveryManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER, 'DistributedDeliveryManager')
         if config.GetBool('want-code-redemption', 1):
             self.codeRedemptionManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TOONTOWN_CODE_REDEMPTION_MANAGER, 'TTCodeRedemptionMgr')
-        #if config.GetBool('want-arg-manager', 0):
-            #self.argManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TTR_ARG_MANAGER, 'ARGManager')
+        if config.GetBool('want-arg-manager', 0):
+            self.argManager = self.generateGlobalObject(OtpDoGlobals.OTP_DO_ID_TTR_ARG_MANAGER, 'ARGManager')
 
         self.streetSign = None
         self.furnitureManager = None
@@ -384,7 +384,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         pad.avatar = avatar
         pad.delayDelete = DelayDelete.DelayDelete(avatar, 'getAvatarDetails')
         self.__queryAvatarMap[avId] = pad
-        self.__sendGetAvatarDetails(avId, pet=args[0].endswith('Pet'))
+        self.__sendGetAvatarDetails(avId)
 
     def cancelAvatarDetailsRequest(self, avatar):
         avId = avatar.doId
@@ -393,12 +393,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             pad.delayDelete.destroy()
 
     def __sendGetAvatarDetails(self, avId):
-        if pet:
-            self.ttrFriendsManager.d_getPetDetails(avId)
-        else:
-            self.ttrFriendsManager.d_getAvatarDetails(avId)
-        
-        return
+        #return
 
         self.ttrFriendsManager.d_getAvatarDetails(avId)
 
@@ -478,6 +473,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         self._userLoggingOut = False
         if not self.streetSign:
             self.streetSign = StreetSign.StreetSign()
+        return
 
     def exitPlayingGame(self):
         ivalMgr.interrupt()
@@ -508,7 +504,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         base.transitions.noTransitions()
         if self._userLoggingOut:
             self.detectLeaks(okTasks=[], okEvents=['destroy-ToontownLoadingScreenTitle', 'destroy-ToontownLoadingScreenTip', 'destroy-ToontownLoadingScreenWaitBar'])
-        
+        return
+
     def enterCredits(self):
         self.credits.enter()
 
@@ -811,6 +808,8 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                 return 0
 
         if base.wantPets and base.localAvatar.hasPet():
+            print str(self.friendsMap)
+            print str(self.friendsMap.has_key(base.localAvatar.getPetId()))
             if self.friendsMap.has_key(base.localAvatar.getPetId()) == None:
                 return 0
         return 1
@@ -850,7 +849,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             return
 
         def petDetailsCallback(petAvatar):
-            petAvatar.announceGenerate()
             handle = PetHandle.PetHandle(petAvatar)
             self.friendsMap[doId] = handle
             petAvatar.disable()

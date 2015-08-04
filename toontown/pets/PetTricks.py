@@ -1,4 +1,3 @@
-#Embedded file name: toontown.pets.PetTricks
 from direct.showbase.PythonUtil import Enum, invertDictLossless
 from direct.interval.IntervalGlobal import *
 import types
@@ -8,7 +7,7 @@ NonHappyMinActualTrickAptitude = 0.1
 NonHappyMaxActualTrickAptitude = 0.6
 MinActualTrickAptitude = 0.5
 MaxActualTrickAptitude = 0.97
-AptitudeIncrementDidTrick = 0.0005 * config.GetFloat('pet-trick-aptitude-mult', 4)
+AptitudeIncrementDidTrick = 0.0005
 MaxAptitudeIncrementGotPraise = 0.0003
 MaxTrickFatigue = 0.65
 MinTrickFatigue = 0.1
@@ -52,13 +51,13 @@ TrickHeals = {Tricks.JUMP: (5, 10),
  Tricks.DANCE: (10, 20),
  Tricks.SPEAK: (11, 22),
  Tricks.BALK: (0, 0)}
-TrickSounds = {Tricks.BACKFLIP: 'phase_5/audio/sfx/backflip.ogg',
- Tricks.ROLLOVER: 'phase_5/audio/sfx/rollover.ogg',
- Tricks.PLAYDEAD: 'phase_5/audio/sfx/play_dead.ogg',
- Tricks.BEG: 'phase_5/audio/sfx/beg.ogg',
- Tricks.DANCE: 'phase_5/audio/sfx/heal_dance.ogg',
- Tricks.JUMP: 'phase_5/audio/sfx/jump.ogg',
- Tricks.SPEAK: 'phase_5/audio/sfx/speak_v1.ogg'}
+TrickSounds = {Tricks.BACKFLIP: 'phase_5/audio/sfx/backflip.mp3',
+ Tricks.ROLLOVER: 'phase_5/audio/sfx/rollover.mp3',
+ Tricks.PLAYDEAD: 'phase_5/audio/sfx/play_dead.mp3',
+ Tricks.BEG: 'phase_5/audio/sfx/beg.mp3',
+ Tricks.DANCE: 'phase_5/audio/sfx/heal_dance.mp3',
+ Tricks.JUMP: 'phase_5/audio/sfx/jump.mp3',
+ Tricks.SPEAK: 'phase_5/audio/sfx/speak_v1.mp3'}
 
 def getSoundIval(trickId):
     sounds = TrickSounds.get(trickId, None)
@@ -73,6 +72,7 @@ def getSoundIval(trickId):
                 soundIval.append(SoundInterval(sound))
 
             return soundIval
+    return
 
 
 def getTrickIval(pet, trickId):
