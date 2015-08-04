@@ -384,7 +384,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
         pad.avatar = avatar
         pad.delayDelete = DelayDelete.DelayDelete(avatar, 'getAvatarDetails')
         self.__queryAvatarMap[avId] = pad
-        self.__sendGetAvatarDetails(avId)
+        self.__sendGetAvatarDetails(avId, pet=args[0].endswith('Pet'))
 
     def cancelAvatarDetailsRequest(self, avatar):
         avId = avatar.doId
@@ -393,7 +393,12 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             pad.delayDelete.destroy()
 
     def __sendGetAvatarDetails(self, avId):
-        #return
+        if pet:
+            self.ttrFriendsManager.d_getPetDetails(avId)
+        else:
+            self.ttrFriendsManager.d_getAvatarDetails(avId)
+        
+        return
 
         self.ttrFriendsManager.d_getAvatarDetails(avId)
 
@@ -806,8 +811,6 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
                 return 0
 
         if base.wantPets and base.localAvatar.hasPet():
-            print str(self.friendsMap)
-            print str(self.friendsMap.has_key(base.localAvatar.getPetId()))
             if self.friendsMap.has_key(base.localAvatar.getPetId()) == None:
                 return 0
         return 1
@@ -847,6 +850,7 @@ class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
             return
 
         def petDetailsCallback(petAvatar):
+            petAvatar.announceGenerate()
             handle = PetHandle.PetHandle(petAvatar)
             self.friendsMap[doId] = handle
             petAvatar.disable()
