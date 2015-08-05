@@ -1,6 +1,6 @@
 #Embedded file name: toontown.pets.DistributedPetAI
 from pandac.PandaModules import *
-from direct.showbase.PythonUtil import weightedChoice, randFloat, lerp
+from direct.showbase.PythonUtil import weightedChoice, randFloat, Lerp
 from direct.showbase.PythonUtil import contains, list2dict, clampScalar
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedSmoothNodeAI
