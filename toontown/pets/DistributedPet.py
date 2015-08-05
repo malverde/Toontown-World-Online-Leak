@@ -1,3 +1,4 @@
+#Embedded file name: toontown.pets.DistributedPet
 from pandac.PandaModules import *
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
@@ -42,7 +43,6 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         self.__generateDistMoodFuncs()
         self.trickAptitudes = []
         self.avDelayDelete = None
-        return
 
     def generate(self):
         DistributedPet.notify.debug('generate(), fake=%s' % self.bFake)
@@ -53,7 +53,6 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         self.movieTrack = None
         self.traitList = [0] * PetTraits.PetTraits.NumTraits
         self.requiredMoodComponents = {}
-        return
 
     def b_setLocation(self, parentId, zoneId):
         if not self.bFake:
@@ -195,7 +194,6 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
                 mood = self.getDominantMood()
                 self.trickIval = Parallel(self.trickIval, Sequence(Func(self.handleMoodChange, 'confusion'), Wait(1.0), Func(self.handleMoodChange, mood)))
             self.trickIval.start(globalClockDelta.localElapsedTime(timestamp))
-        return
 
     def getName(self):
         return Pet.Pet.getName(self)
@@ -236,11 +234,11 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
             self.addActive()
             self.startBlink()
             if not self.swallowSfx:
-                self.swallowSfx = loader.loadSfx('phase_5.5/audio/sfx/beg_eat_swallow.mp3')
+                self.swallowSfx = loader.loadSfx('phase_5.5/audio/sfx/beg_eat_swallow.ogg')
             if not self.callSfx:
-                self.callSfx = loader.loadSfx('phase_5.5/audio/sfx/call_pet.mp3')
+                self.callSfx = loader.loadSfx('phase_5.5/audio/sfx/call_pet.ogg')
             if not self.petSfx:
-                self.petSfx = loader.loadSfx('phase_5.5/audio/sfx/pet_the_pet.mp3')
+                self.petSfx = loader.loadSfx('phase_5.5/audio/sfx/pet_the_pet.ogg')
             self.handleMoodChange()
             self.accept(self.mood.getDominantMoodChangeEvent(), self.handleMoodChange)
             self.accept(self.mood.getMoodChangeEvent(), self.moodComponentChanged)
@@ -286,7 +284,6 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         DistributedSmoothNode.DistributedSmoothNode.delete(self)
         if not self.bFake:
             PetManager.releasePetManager()
-        return
 
     def __initCollisions(self):
         cRay = CollisionRay(0.0, 0.0, 40000.0, 0.0, 0.0, -1.0)
@@ -332,7 +329,6 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
             if not self.lockedDown:
                 self.animFSM.request(self.prevAnimState)
                 self.prevAnimState = None
-        return
 
     def smoothPosition(self):
         DistributedSmoothNode.DistributedSmoothNode.smoothPosition(self)
@@ -369,7 +365,6 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         else:
             self.showMood(mood)
         messenger.send('petStateUpdated', [self])
-        return
 
     def getDominantMood(self):
         if not hasattr(self, 'mood'):
@@ -418,7 +413,6 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
         if self.avDelayDelete:
             self.avDelayDelete.destroy()
             self.avDelayDelete = None
-        return
 
     def clearMovie(self):
         self.clearMovieAvatar()
@@ -460,22 +454,22 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
             av = base.cr.doId2do.get(avId)
             if av is None:
                 self.notify.warning('Avatar %d not found in doId' % avId)
-                return
+                return None
         if mode == PetConstants.PET_MOVIE_CLEAR:
             self.clearMovie()
-            return
+            return None
         if mode == PetConstants.PET_MOVIE_CALL:
             try:
                 self.movieTrack = Sequence(Func(self._petMovieStart, av), Parallel(av.getCallPetIval(), Sequence(Wait(0.54), SoundInterval(self.callSfx))), self._getPetMovieCompleteIval(av))
                 self.movieTrack.start()
-            except StandardError, error:
+            except StandardError as error:
                 print str(error)
 
         if mode == PetConstants.PET_MOVIE_SCRATCH:
             try:
                 self.movieTrack = Sequence(Func(self._petMovieStart, av), Func(self.holdPetDownForMovie), Parallel(self.getInteractIval(self.Interactions.SCRATCH), av.getScratchPetIval(), SoundInterval(self.petSfx)), Func(self.releasePetFromHoldDown), self._getPetMovieCompleteIval(av))
                 self.movieTrack.start()
-            except StandardError, error:
+            except StandardError as error:
                 print str(error)
 
         if mode == PetConstants.PET_MOVIE_FEED:
@@ -484,7 +478,6 @@ class DistributedPet(DistributedSmoothNode.DistributedSmoothNode, Pet.Pet, PetBa
             bean.setColor(random.choice(BeanColors))
             self.movieTrack = Sequence(Func(self._petMovieStart, av), Func(self.holdPetDownForMovie), Parallel(Func(base.playSfx, self.swallowSfx, 0, 1, 1, 2.5, self.bean), Sequence(ActorInterval(self, 'toBeg'), ActorInterval(self, 'beg'), ActorInterval(self, 'fromBeg'), ActorInterval(self, 'eat'), ActorInterval(self, 'swallow'), Func(self.loop, 'neutral')), Sequence(Wait(0.3), ActorInterval(av, 'feedPet'), Func(av.animFSM.request, 'neutral')), Sequence(Wait(0.3), Func(self.bean.reparentTo, av.rightHand), Func(self.bean.setPos, 0.1, 0.0, 0.2), Wait(2.1), Func(av.update, 0), Func(av.update, 1), Func(av.update, 2), Func(self.bean.wrtReparentTo, render), Parallel(LerpHprInterval(self.bean, hpr=Point3(random.random() * 360.0 * 2, random.random() * 360.0 * 2, random.random() * 360.0 * 2), duration=1.2), ProjectileInterval(self.bean, endPos=self.find('**/joint_tongueBase').getPos(render), duration=1.2, gravityMult=0.45)), Func(self.bean.removeNode))), Func(self.releasePetFromHoldDown), self._getPetMovieCompleteIval(av))
             self.movieTrack.start()
-        return
 
     def setTrickAptitudes(self, aptitudes):
         self.trickAptitudes = aptitudes

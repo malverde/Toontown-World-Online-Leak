@@ -1,3 +1,4 @@
+#Embedded file name: toontown.pets.Pet
 from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
@@ -68,7 +69,6 @@ class Pet(Avatar.Avatar):
         self.soundTeleportIn = None
         self.soundTeleportOut = None
         self.teleportHole = None
-        return
 
     def isPet(self):
         return True
@@ -102,7 +102,6 @@ class Pet(Avatar.Avatar):
         self.leftBrow = None
         self.color = None
         Avatar.Avatar.delete(self)
-        return
 
     def getDNA(self):
         return self.style
@@ -261,7 +260,6 @@ class Pet(Avatar.Avatar):
         self.eyesClosedTexture.setMinfilter(Texture.FTLinear)
         self.eyesClosedTexture.setMagfilter(Texture.FTLinear)
         self.eyesOpen()
-        return None
 
     def initializeBodyCollisions(self, collIdStr):
         Avatar.Avatar.initializeBodyCollisions(self, collIdStr)
@@ -292,7 +290,6 @@ class Pet(Avatar.Avatar):
         if self.moodModel:
             self.moodModel.hide()
         self.moodModel = None
-        return
 
     def showMood(self, mood):
         if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
@@ -300,8 +297,7 @@ class Pet(Avatar.Avatar):
             if (ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds or ToontownGlobals.SILLYMETER_EXT_HOLIDAY in holidayIds) and not mood == 'confusion':
                 self.speakMood(mood)
                 return
-            else:
-                self.clearChat()
+            self.clearChat()
         else:
             self.clearChat()
         mood = Component2IconDict[mood]
@@ -319,7 +315,6 @@ class Pet(Avatar.Avatar):
         self.moodModel = moodModel
         if self.moodModel:
             self.moodModel.show()
-        return
 
     def speakMood(self, mood):
         if self.moodModel:
@@ -498,12 +493,12 @@ class Pet(Avatar.Avatar):
 
     def getTeleportInSoundInterval(self):
         if not self.soundTeleportIn:
-            self.soundTeleportIn = loader.loadSfx('phase_5/audio/sfx/teleport_reappear.mp3')
+            self.soundTeleportIn = loader.loadSfx('phase_5/audio/sfx/teleport_reappear.ogg')
         return SoundInterval(self.soundTeleportIn)
 
     def getTeleportOutSoundInterval(self):
         if not self.soundTeleportOut:
-            self.soundTeleportOut = loader.loadSfx('phase_5/audio/sfx/teleport_disappear.mp3')
+            self.soundTeleportOut = loader.loadSfx('phase_5/audio/sfx/teleport_disappear.ogg')
         return SoundInterval(self.soundTeleportOut)
 
     def enterWalk(self):
@@ -632,7 +627,6 @@ class Pet(Avatar.Avatar):
         if not self.lockedDown:
             self.animFSM.request(self.prevAnimState)
             self.prevAnimState = None
-        return
 
     def getInteractIval(self, interactId):
         anims = self.InteractAnims[interactId]

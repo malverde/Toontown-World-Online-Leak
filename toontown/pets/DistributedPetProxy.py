@@ -1,3 +1,4 @@
+#Embedded file name: toontown.pets.DistributedPetProxy
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.pets import PetTraits
@@ -25,7 +26,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
         self.requiredMoodComponents = {}
 
     def getSetterName(self, valueName, prefix = 'set'):
-        return '%s%s%s' % (prefix, string.upper(valueName[0]), valueName[1:])
+        return '%s%s%s' % (prefix, valueName[0].upper(), valueName[1:])
 
     def setOwnerId(self, ownerId):
         self.ownerId = ownerId

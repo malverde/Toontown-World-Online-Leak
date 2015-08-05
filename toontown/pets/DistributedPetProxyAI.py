@@ -1,3 +1,4 @@
+#Embedded file name: toontown.pets.DistributedPetProxyAI
 from direct.showbase.PythonUtil import contains, lerp, clampScalar
 from direct.distributed import DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
@@ -6,7 +7,6 @@ from toontown.pets import PetMood
 from toontown.toonbase import ToontownGlobals
 import random
 import time
-import string
 import copy
 BATTLE_TRICK_HP_MULTIPLIER = 10.0
 
@@ -37,7 +37,7 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
         self.__generateDistMoodFuncs()
 
     def getSetterName(self, valueName, prefix = 'set'):
-        return '%s%s%s' % (prefix, string.upper(valueName[0]), valueName[1:])
+        return '%s%s%s' % (prefix, valueName[0].upper(), valueName[1:])
 
     def setDNA(self, dna):
         head, ears, nose, tail, body, color, colorScale, eyes, gender = dna
@@ -443,9 +443,9 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
         self.d_setDominantMood(self.mood.getDominantMood())
 
     def attemptBattleTrick(self, trickId):
-        self.lerpMoods({'boredom': -.1,
+        self.lerpMoods({'boredom': -0.1,
          'excitement': 0.05,
-         'loneliness': -.05})
+         'loneliness': -0.05})
         if self._willDoTrick(trickId):
             self._handleDidTrick(trickId)
             self.b_setLastSeenTimestamp(self.getCurEpochTimestamp())
