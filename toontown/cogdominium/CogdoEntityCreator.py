@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoEntityCreator
 from otp.level import EntityCreator
 from toontown.cogdominium import CogdoCraneGameConsts
 from toontown.cogdominium.CogdoLevelMgr import CogdoLevelMgr

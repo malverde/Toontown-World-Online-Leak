@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoFlyingGuiManager
 from pandac.PandaModules import NodePath
 from toontown.toonbase import ToontownIntervals
 from toontown.toonbase.ToontownTimer import ToontownTimer
@@ -28,12 +29,12 @@ class CogdoFlyingGuiManager:
         self._progressGui = CogdoFlyingProgressGui(self.root, self._level)
 
     def _initHud(self):
-        self._memoGui = CogdoMemoGui(self.root)
+        self._memoGui = CogdoMemoGui(self.root, 'memo_card')
         self._memoGui.posNextToLaffMeter()
 
     def _initTimer(self):
         self._timer = ToontownTimer()
-        self._timer.reparentTo(self.root)
+        self._timer.hide()
         self._timer.posInTopRightCorner()
 
     def _initMessageDisplay(self):
@@ -46,7 +47,6 @@ class CogdoFlyingGuiManager:
             self._timer.stop()
             self._timer.destroy()
             self._timer = None
-        return
 
     def onstage(self):
         self.root.unstash()
@@ -86,13 +86,11 @@ class CogdoFlyingGuiManager:
             self.hideTimer()
         else:
             self.showTimer()
-        return
 
     def stopTimer(self):
         if hasattr(self, '_timer') and self._timer is not None:
             self.hideTimer()
             self._timer.stop()
-        return
 
     def showTimer(self):
         self._timer.show()
@@ -103,7 +101,6 @@ class CogdoFlyingGuiManager:
     def forceTimerDone(self):
         if self._timer.countdownTask != None:
             self._timer.countdownTask.duration = 0
-        return
 
     def showRefuelGui(self):
         self._refuelGui.show()
@@ -164,4 +161,3 @@ class CogdoFlyingGuiManager:
         self._messageDisplay = None
         self.root.removeNode()
         self.root = None
-        return

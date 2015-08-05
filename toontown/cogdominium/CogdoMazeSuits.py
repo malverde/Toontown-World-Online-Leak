@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoMazeSuits
 from pandac.PandaModules import Point3, VBase4
 from direct.fsm.FSM import FSM
 from direct.interval.IntervalGlobal import Sequence, Parallel, ActorInterval, Func, Wait, ParticleInterval, Track, LerpColorScaleInterval, LerpScaleInterval, LerpHprInterval
@@ -21,6 +22,8 @@ class CogdoMazeSuit(MazeSuit, FSM, CogdoMazeSplattable):
         CogdoMazeSplattable.__init__(self, self.suit, '%s-%i' % (Globals.SuitCollisionName, self.serialNum), 1.5)
         if data.has_key('scale'):
             self.suit.setScale(data['scale'])
+        self.suit.nametag3d.stash()
+        self.suit.nametag.destroy()
         self.hp = data['hp']
         self.type = cogdoSuitType
         self.memos = data['memos']
@@ -159,7 +162,6 @@ class CogdoMazeSlowMinionSuit(CogdoMazeSuit):
             return None
         else:
             return self.defaultFilter(request, args)
-        return None
 
     def exitAttack(self):
         self._attackIval.pause()

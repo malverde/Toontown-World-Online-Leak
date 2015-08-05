@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoEntityTypes
 from otp.level.EntityTypes import *
 
 class CogdoLevelMgr(LevelMgr):

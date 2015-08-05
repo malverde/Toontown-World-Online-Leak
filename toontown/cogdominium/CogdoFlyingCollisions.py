@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoFlyingCollisions
 from direct.controls.GravityWalker import GravityWalker
 from pandac.PandaModules import CollisionSphere, CollisionNode, BitMask32, CollisionHandlerEvent, CollisionRay, CollisionHandlerGravity, CollisionHandlerFluidPusher, CollisionHandlerPusher
 from toontown.toonbase import ToontownGlobals
@@ -15,7 +16,6 @@ class CogdoFlyingCollisions(GravityWalker):
         self.setupHeadSphere(avatarNodePath)
         self.setupFloorEventSphere(avatarNodePath, ToontownGlobals.FloorEventBitmask, avatarRadius)
         GravityWalker.initializeCollisions(self, collisionTraverser, avatarNodePath, avatarRadius, floorOffset, reach)
-        return
 
     def setupWallSphere(self, bitmask, avatarRadius):
         self.avatarRadius = avatarRadius
@@ -107,7 +107,6 @@ class CogdoFlyingCollisions(GravityWalker):
         del self.cRayNodePath
         self.cEventSphereNodePath.detachNode()
         del self.cEventSphereNodePath
-        return
 
     def setCollisionsActive(self, active = 1):
         if self.collisionsActive != active:
@@ -120,7 +119,6 @@ class CogdoFlyingCollisions(GravityWalker):
                 if active:
                     base.cTrav.addCollider(self.cFloorEventSphereNodePath, self.floorCollisionEvent)
         GravityWalker.setCollisionsActive(self, active)
-        return
 
     def enableAvatarControls(self):
         pass

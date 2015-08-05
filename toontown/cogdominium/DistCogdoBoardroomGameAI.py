@@ -1,6 +1,6 @@
+#Embedded file name: toontown.cogdominium.DistCogdoBoardroomGameAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.cogdominium.DistCogdoLevelGameAI import DistCogdoLevelGameAI
 
 class DistCogdoBoardroomGameAI(DistCogdoLevelGameAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistCogdoBoardroomGameAI")
-
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistCogdoBoardroomGameAI')

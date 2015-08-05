@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.DistCogdoCrane
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
@@ -76,7 +77,6 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.magnetSoundInterval = Parallel(SoundInterval(self.magnetOnSfx), Sequence(Wait(0.5), Func(base.playSfx, self.magnetLoopSfx, looping=1)))
         self.craneMoveSfx = base.loadSfx('phase_9/audio/sfx/CHQ_FACT_elevator_up_down.ogg')
         self.fadeTrack = None
-        return
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
@@ -135,7 +135,6 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         if self.state != 'Off':
             self.demand('Off')
         self.craneGame = None
-        return
 
     def accomodateToon(self, toon):
         origScale = self.controlModel.getSz()
@@ -200,7 +199,6 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         if self.toon:
             self.ignore(self.toon.uniqueName('disable'))
         self.toon = None
-        return
 
     def __watchJoystick(self, task):
         self.toon.setPosHpr(self.controls, 0, 0, 0, 0, 0, 0)
@@ -298,7 +296,6 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.cable.getChildren().detach()
         self.topLink.getChildren().detach()
         self.gripper = None
-        return
 
     def makeSpline(self):
         rope = Rope.Rope()
@@ -347,7 +344,6 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
             self.magnetShadow = None
             self.craneShadow = None
         taskMgr.remove(self.shadowName)
-        return
 
     def __followShadow(self, task):
         p = self.magnet.getPos(self.craneGame.geomRoot)
@@ -418,31 +414,26 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         NametagGlobals.setOnscreenChatForced(0)
         taskMgr.remove('watchCraneControls')
         self.__setMoveSound(None)
-        return
 
     def __displayCraneAdvice(self, task):
         if self.craneAdviceLabel == None:
             self.craneAdviceLabel = DirectLabel(text=TTLocalizer.CashbotCraneAdvice, text_fg=VBase4(1, 1, 1, 1), text_align=TextNode.ACenter, relief=None, pos=(0, 0, 0.69), scale=0.1)
-        return
 
     def __cleanupCraneAdvice(self):
         if self.craneAdviceLabel:
             self.craneAdviceLabel.destroy()
             self.craneAdviceLabel = None
         taskMgr.remove(self.craneAdviceName)
-        return
 
     def __displayMagnetAdvice(self, task):
         if self.magnetAdviceLabel == None:
             self.magnetAdviceLabel = DirectLabel(text=TTLocalizer.CashbotMagnetAdvice, text_fg=VBase4(1, 1, 1, 1), text_align=TextNode.ACenter, relief=None, pos=(0, 0, 0.55), scale=0.1)
-        return
 
     def __cleanupMagnetAdvice(self):
         if self.magnetAdviceLabel:
             self.magnetAdviceLabel.destroy()
             self.magnetAdviceLabel = None
         taskMgr.remove(self.magnetAdviceName)
-        return
 
     def __watchControls(self, task):
         if self.arrowHorz or self.arrowVert:
@@ -513,7 +504,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.arm.setH(limitH)
         y = self.crane.getY() + yd * self.slideSpeed * dt
         limitY = max(min(y, self.craneMaxY), self.craneMinY)
-        atLimit = (limitH != h or limitY != y)
+        atLimit = limitH != h or limitY != y
         if atLimit:
             now = globalClock.getFrameTime()
             x = math.sin(now * 79) * 0.05
@@ -578,7 +569,6 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
             l.detachNode()
 
         self.lightning = None
-        return
 
     def __flickerLightning(self, task):
         for l in self.lightning:
@@ -614,7 +604,6 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.rotateSpeed = obj.craneRotateSpeed
         if self.avId == localAvatar.doId and not self.magnetOn:
             self.releaseObject()
-        return
 
     def dropObject(self, obj):
         if obj.lerpInterval:
@@ -630,7 +619,6 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
             self.handler.setDynamicFrictionCoef(GameConsts.Settings.EmptyFrictionCoef.get())
             self.slideSpeed = self.emptySlideSpeed
             self.rotateSpeed = self.emptyRotateSpeed
-        return
 
     def releaseObject(self):
         if self.heldObject:
@@ -841,7 +829,6 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
             self.trigger.unstash()
             self.accept(self.triggerEvent, self.__hitTrigger)
         self.avId = 0
-        return
 
     def __allowDetect(self, task):
         if self.fadeTrack:
@@ -862,7 +849,6 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.controlModel.clearTransparency()
         self.trigger.stash()
         self.ignore(self.triggerEvent)
-        return
 
     def enterMovie(self):
         self.__activatePhysics()

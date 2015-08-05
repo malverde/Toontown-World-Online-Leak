@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoGameExit
 from pandac.PandaModules import NodePath, Point3
 from direct.interval.MetaInterval import Parallel, Sequence
 from direct.interval.SoundInterval import SoundInterval
@@ -26,7 +27,6 @@ class CogdoGameExit(NodePath):
         self._open = True
         self._toon2track = {}
         self.close(animate=False)
-        return
 
     def destroy(self):
         self._cleanToonTracks()
@@ -40,7 +40,6 @@ class CogdoGameExit(NodePath):
         del self._openSfx
         del self._closeSfx
         del self._elevatorPoints
-        return
 
     def isOpen(self):
         return self._open
@@ -76,7 +75,6 @@ class CogdoGameExit(NodePath):
     def _finishIval(self):
         if self._ival is not None and self._ival.isPlaying():
             self._ival.finish()
-        return
 
     def toonEnters(self, toon, goInside = True):
         self._runToonThroughSlot(toon, self._currentSlot, goInside=goInside)
@@ -116,7 +114,6 @@ class CogdoGameExit(NodePath):
         if oldTrack is not None:
             oldTrack.pause()
             del self._toon2track[toon]
-        return
 
     def _storeToonTrack(self, toon, track):
         self._clearToonTrack(toon)

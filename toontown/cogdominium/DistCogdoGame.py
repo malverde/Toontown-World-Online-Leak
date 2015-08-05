@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.DistCogdoGame
 from pandac.PandaModules import VBase4
 from direct.gui.DirectGui import DirectLabel
 from direct.directnotify.DirectNotifyGlobal import directNotify
@@ -11,7 +12,7 @@ from toontown.minigame.MinigameRulesPanel import MinigameRulesPanel
 from toontown.cogdominium.CogdoGameRulesPanel import CogdoGameRulesPanel
 from toontown.minigame import MinigameGlobals
 from toontown.toonbase import TTLocalizer as TTL
-SCHELLGAMES_DEV = __debug__ and config.GetBool('schellgames-dev', False)
+SCHELLGAMES_DEV = __debug__ and base.config.GetBool('cogdo-enable-cheat', True)
 
 class DistCogdoGame(DistCogdoGameBase, DistributedObject):
     notify = directNotify.newCategory('DistCogdoGame')
@@ -19,6 +20,7 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
     def __init__(self, cr):
         DistributedObject.__init__(self, cr)
         base.cogdoGame = self
+        cr.cogdoGame = self
         self._waitingStartLabel = DirectLabel(text=TTL.MinigameWaitingForOtherPlayers, text_fg=VBase4(1, 1, 1, 1), relief=None, pos=(-0.6, 0, -0.75), scale=0.075)
         self._waitingStartLabel.hide()
         self.loadFSM = ClassicFSM.ClassicFSM('DistCogdoGame.loaded', [State.State('NotLoaded', self.enterNotLoaded, self.exitNotLoaded, ['Loaded']), State.State('Loaded', self.enterLoaded, self.exitLoaded, ['NotLoaded'])], 'NotLoaded', 'NotLoaded')
@@ -36,7 +38,6 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
         self._toonsInEntranceElev = StateVar(False)
         self._wantStashElevator = StateVar(False)
         self._stashElevatorFC = FunctionCall(self._doStashElevator, self._toonsInEntranceElev, self._gotInterior, self._wantStashElevator)
-        return
 
     def getTitle(self):
         pass
@@ -68,14 +69,12 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
             return interior.getToonIds()
         else:
             return []
-        return
 
     def getToon(self, toonId):
         if self.cr.doId2do.has_key(toonId):
             return self.cr.doId2do[toonId]
         else:
             return None
-        return None
 
     def getNumPlayers(self):
         return len(self.getToonIds())
@@ -88,8 +87,8 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
 
     def announceGenerate(self):
         DistributedObject.announceGenerate(self)
-        self._requestInterior()
         self.loadFSM.request('Loaded')
+        self._requestInterior()
         self.notify.info('difficulty: %s, safezoneId: %s' % (self.getDifficulty(), self.getSafezoneId()))
 
     def _requestInterior(self):
@@ -116,12 +115,12 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
 
     def disable(self):
         base.cogdoGame = None
+        self.cr.cogdoGame = None
         self.fsm.requestFinalState()
         self.loadFSM.requestFinalState()
         self.fsm = None
         self.loadFSM = None
         DistributedObject.disable(self)
-        return
 
     def delete(self):
         self._stashElevatorFC.destroy()
@@ -131,7 +130,6 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
         self._waitingStartLabel.destroy()
         self._waitingStartLabel = None
         DistributedObject.delete(self)
-        return
 
     def getDifficulty(self):
         if self.difficultyOverride is not None:
@@ -192,7 +190,6 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
             self._rulesPanel.exit()
             self._rulesPanel.unload()
             self._rulesPanel = None
-        return
 
     def _handleRulesDone(self):
         self.ignore(self._rulesDoneEvent)
@@ -201,7 +198,6 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
         self._rulesPanel = None
         self.fsm.request('WaitServerStart')
         self.d_setAvatarReady()
-        return
 
     def d_setAvatarReady(self):
         self.sendUpdate('setAvatarReady', [])
@@ -230,7 +226,7 @@ class DistCogdoGame(DistCogdoGameBase, DistributedObject):
 
     def enterGame(self):
         if SCHELLGAMES_DEV:
-            self.acceptOnce('escape', messenger.send, ['magicWord', ['~endgame']])
+            self.acceptOnce('escape', messenger.send, ['magicWord', ['~endMaze']])
 
     def exitGame(self):
         if SCHELLGAMES_DEV:

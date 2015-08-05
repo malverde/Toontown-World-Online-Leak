@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoMaze
 from pandac.PandaModules import NodePath, VBase4
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase.RandomNumGen import RandomNumGen
@@ -18,7 +19,7 @@ class CogdoMaze(MazeBase, DirectObject):
         self._clearColor = VBase4(base.win.getClearColor())
         self._clearColor.setW(1.0)
         base.win.setClearColor(VBase4(0.0, 0.0, 0.0, 1.0))
-        if __debug__ and config.GetBool('cogdomaze-dev', False):
+        if __debug__ and base.config.GetBool('cogdomaze-dev', False):
             self._initCollisionVisuals()
 
     def _initWaterCoolers(self):
@@ -187,13 +188,10 @@ class CogdoMazeFactory:
                 if next is not None:
                     openBarriers(*next)
 
-            return
-
         x = self._rng.randint(0, self.width - 1)
         y = self._rng.randint(0, self.height - 1)
         openBarriers(x, y)
         self._barrierData = data
-        return
 
     def _generateMazeData(self):
         if not hasattr(self, 'quadrantData'):
@@ -258,7 +256,10 @@ class CogdoMazeFactory:
             for x in range(self.width):
                 ax = (x - halfWidth) * size
                 ay = (y - halfHeight) * size
-                filepath = self.quadrantData[i][0]
+                extension = ''
+                if hasattr(getBase(), 'air'):
+                    extension = '.bam'
+                filepath = self.quadrantData[i][0] + extension
                 angle = self.quadrantData[i][2]
                 m = self._createQuadrant(filepath, i, angle, quadrantUnitSize)
                 m.setPos(ax, ay, 0)

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.DistCogdoLevelGame
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from otp.level.DistributedLevel import DistributedLevel
 from otp.level import LevelConstants

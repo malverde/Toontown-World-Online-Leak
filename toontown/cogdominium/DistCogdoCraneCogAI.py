@@ -1,8 +1,9 @@
+#Embedded file name: toontown.cogdominium.DistCogdoCraneCogAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
 class DistCogdoCraneCogAI(DistributedObjectAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistCogdoCraneCogAI")
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistCogdoCraneCogAI')
 
     def setGameId(self, todo0):
         pass
@@ -12,4 +13,3 @@ class DistCogdoCraneCogAI(DistributedObjectAI):
 
     def setSpawnInfo(self, todo0, todo1):
         pass
-

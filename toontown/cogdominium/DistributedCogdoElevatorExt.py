@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.DistributedCogdoElevatorExt
 from toontown.building.DistributedElevatorExt import DistributedElevatorExt
 
 class DistributedCogdoElevatorExt(DistributedElevatorExt):
