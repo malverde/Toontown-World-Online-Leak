@@ -1,3 +1,4 @@
+#Embedded file name: toontown.building.DistributedPetshopInterior
 from toontown.toonbase.ToonBaseGlobal import *
 from pandac.PandaModules import *
 from toontown.toonbase.ToontownGlobals import *
