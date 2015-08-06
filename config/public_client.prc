@@ -69,6 +69,7 @@ want-news-tab #f
 want-news-page #f
 want-gardening #f
 want-gifting #f
+want-flippy-pet-intro #t
 default-directnotify-level info
 
 
