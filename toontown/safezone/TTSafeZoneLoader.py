@@ -59,17 +59,19 @@ class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
     def unload(self):
 		del self.birdSound
 		SafeZoneLoader.SafeZoneLoader.unload(self)
-		if self.flippy:
-			self.flippy.stopBlink()
-			self.flippy.removeActive()
-			self.flippy.cleanup()
-			self.flippy.removeNode()
-		if self.fluffy:
-			self.fluffy.stopBlink()
-			self.fluffy.removeActive()
-			self.fluffy.enterOff()
-			self.fluffy.cleanup()
-			self.fluffy.removeNode()
+		if config.GetBool('want-flippy-pet-intro', True):
+			self.flippyBlatherSequence.finish()
+			if self.flippy:
+				self.flippy.stopBlink()
+				self.flippy.removeActive()
+				self.flippy.cleanup()
+				self.flippy.removeNode()
+			if self.fluffy:
+				self.fluffy.stopBlink()
+				self.fluffy.removeActive()
+				self.fluffy.enterOff()
+				self.fluffy.cleanup()
+				self.fluffy.removeNode()
 
     def enter(self, requestStatus):
         SafeZoneLoader.SafeZoneLoader.enter(self, requestStatus)
