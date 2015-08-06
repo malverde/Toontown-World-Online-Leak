@@ -10,6 +10,10 @@ if config.GetBool('want-flippy-pet-intro', True):
 	from toontown.toon import NPCToons
 	from otp.nametag.NametagConstants import *
 	from direct.actor import Actor
+	from direct.interval.IntervalGlobal import *
+	from direct.distributed.DistributedObject import DistributedObject
+	from otp.speedchat import SpeedChatGlobals
+	from otp.margins.WhisperPopup import *
 
 
 class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
@@ -31,8 +35,8 @@ class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
 			self.flippy = NPCToons.createLocalNPC(2001)
 			self.flippy.reparentTo(render)
 			self.flippy.setPickable(0)
-			self.flippy.setPos(188, -260, 11.187)
-			self.flippy.setH(108.411)
+			self.flippy.setPos(10, 4, 4.3)
+			self.flippy.setH(90)
 			self.flippy.initializeBodyCollisions('toon')
 			self.flippy.addActive()
 			self.flippy.startBlink()
@@ -45,8 +49,8 @@ class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
 			self.fluffy.setName('Fluffy')
 			self.fluffy.setPickable(0)
 			self.fluffy.reparentTo(render)
-			self.fluffy.setPos(191, -263, 11.382)
-			self.fluffy.setH(829)
+			self.fluffy.setPos(10, 0, 4.3)
+			self.fluffy.setH(90)
 			self.fluffy.enterNeutralHappy()
 			self.fluffy.initializeBodyCollisions('pet')
 			SafeZoneLoader.SafeZoneLoader.load(self)
@@ -55,22 +59,21 @@ class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
     def unload(self):
 		del self.birdSound
 		SafeZoneLoader.SafeZoneLoader.unload(self)
-		if config.GetBool('want-flippy-pet-intro', True):
-			if self.flippy:
-				self.flippy.stopBlink()
-				self.flippy.removeActive()
-				self.flippy.cleanup()
-				self.flippy.removeNode()
-			if self.fluffy:
-				self.fluffy.stopBlink()
-				self.fluffy.removeActive()
-				self.fluffy.enterOff()
-				self.fluffy.cleanup()
-				self.fluffy.removeNode()
+		if self.flippy:
+			self.flippy.stopBlink()
+			self.flippy.removeActive()
+			self.flippy.cleanup()
+			self.flippy.removeNode()
+		if self.fluffy:
+			self.fluffy.stopBlink()
+			self.fluffy.removeActive()
+			self.fluffy.enterOff()
+			self.fluffy.cleanup()
+			self.fluffy.removeNode()
 
     def enter(self, requestStatus):
-        SafeZoneLoader.enter(self, requestStatus)
+        SafeZoneLoader.SafeZoneLoader.enter(self, requestStatus)
 
     def exit(self):
-        SafeZoneLoader.exit(self)
+        SafeZoneLoader.SafeZoneLoader.exit(self)
 
