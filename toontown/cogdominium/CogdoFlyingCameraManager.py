@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoFlyingCameraManager
 import math
 from pandac.PandaModules import NodePath, Vec3
 from pandac.PandaModules import CollisionTraverser, CollisionHandlerQueue
@@ -171,16 +172,20 @@ class CogdoFlyingCameraManager:
                 np.setTransparency(True)
                 np.wrtReparentTo(self._transNP)
                 if np.getName().find('lightFixture') >= 0:
-                    np.find('**/*floor_mesh').hide()
+                    if not np.find('**/*floor_mesh').isEmpty():
+                        np.find('**/*floor_mesh').hide()
                 elif np.getName().find('platform') >= 0:
-                    np.find('**/*Floor').hide()
+                    if not np.find('**/*Floor').isEmpty():
+                        np.find('**/*Floor').hide()
 
         for np, parent in self._betweenCamAndToon.items():
             np.wrtReparentTo(parent)
             np.setTransparency(False)
             if np.getName().find('lightFixture') >= 0:
-                np.find('**/*floor_mesh').show()
+                if not np.find('**/*floor_mesh').isEmpty():
+                    np.find('**/*floor_mesh').show()
             elif np.getName().find('platform') >= 0:
-                np.find('**/*Floor').show()
+                if not np.find('**/*Floor').isEmpty():
+                    np.find('**/*Floor').show()
 
         self._betweenCamAndToon = nodesInBetween

@@ -43,23 +43,17 @@ class TTRFriendsManager(DistributedObjectGlobal):
         base.cr.n_handleGetAvatarDetailsResp(avId, fields=fields)      
 
     def d_getPetDetails(self, avId):
-        self.sendUpdate('getPetDetails', [avId])
-        
+        self.sendUpdate('petDetails', [avId])
+
     def petDetails(self, avId, ownerId, petName, traitSeed, sz, traits, moods, dna, lastSeen):
-        fields = list(zip(("setHead", "setEars", "setNose", "setTail", "setBodyTexture", "setColor", "setColorScale", "setEyeColor", "setGender"), dna))
-        fields.extend(zip(("setBoredom", "setRestlessness", "setPlayfulness", "setLoneliness",
-                           "setSadness", "setAffection", "setHunger", "setConfusion", "setExcitement",
-                           "setFatigue", "setAnger", "setSurprise"), moods))
-        fields.extend(zip(("setForgetfulness", "setBoredomThreshold", "setRestlessnessThreshold",
-                           "setPlayfulnessThreshold", "setLonelinessThreshold", "setSadnessThreshold",
-                           "setFatigueThreshold", "setHungerThreshold", "setConfusionThreshold",
-                           "setExcitementThreshold", "setAngerThreshold", "setSurpriseThreshold",
-                           "setAffectionThreshold"), traits))
-        fields.append(("setOwnerId", ownerId))
-        fields.append(("setPetName", petName))
-        fields.append(("setTraitSeed", traitSeed))
-        fields.append(("setSafeZone", sz))
-        fields.append(("setLastSeenTimestamp", lastSeen))
+        fields = list(zip(('setHead', 'setEars', 'setNose', 'setTail', 'setBodyTexture', 'setColor', 'setColorScale', 'setEyeColor', 'setGender'), dna))
+        fields.extend(zip(('setBoredom', 'setRestlessness', 'setPlayfulness', 'setLoneliness', 'setSadness', 'setAffection', 'setHunger', 'setConfusion', 'setExcitement', 'setFatigue', 'setAnger', 'setSurprise'), moods))
+        fields.extend(zip(('setForgetfulness', 'setBoredomThreshold', 'setRestlessnessThreshold', 'setPlayfulnessThreshold', 'setLonelinessThreshold', 'setSadnessThreshold', 'setFatigueThreshold', 'setHungerThreshold', 'setConfusionThreshold', 'setExcitementThreshold', 'setAngerThreshold', 'setSurpriseThreshold', 'setAffectionThreshold'), traits))
+        fields.append(('setOwnerId', ownerId))
+        fields.append(('setPetName', petName))
+        fields.append(('setTraitSeed', traitSeed))
+        fields.append(('setSafeZone', sz))
+        fields.append(('setLastSeenTimestamp', lastSeen))
         base.cr.n_handleGetAvatarDetailsResp(avId, fields=fields)
                 
     def d_teleportQuery(self, toId):

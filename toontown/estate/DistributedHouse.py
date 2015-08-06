@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.DistributedHouse
 from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
@@ -42,7 +43,6 @@ class DistributedHouse(DistributedObject.DistributedObject):
         self.randomGenerator = None
         self.housePosInd = 0
         self.house_loaded = 0
-        return
 
     def disable(self):
         DistributedObject.DistributedObject.disable(self)
@@ -65,7 +65,6 @@ class DistributedHouse(DistributedObject.DistributedObject):
         self.house_loaded = 0
         del self.randomGenerator
         DistributedObject.DistributedObject.delete(self)
-        return
 
     def clearNametag(self):
         if self.nametag != None:
@@ -73,7 +72,6 @@ class DistributedHouse(DistributedObject.DistributedObject):
             self.nametag.setAvatar(NodePath())
             self.nametag.destroy()
             self.nametag = None
-        return
 
     def load(self):
         self.notify.debug('load')
@@ -166,8 +164,7 @@ class DistributedHouse(DistributedObject.DistributedObject):
         numLines = 0
         if self.name == '':
             return
-        else:
-            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name)
+        houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name)
         nameText.setText(houseName)
         self.nameText = nameText
         textHeight = nameText.getHeight() - 2
@@ -206,8 +203,7 @@ class DistributedHouse(DistributedObject.DistributedObject):
         numLines = 0
         if self.name == '':
             return
-        else:
-            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name)
+        houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name)
         matText.setText(houseName)
         self.matText = matText
         textHeight = matText.getHeight() - 2
@@ -220,9 +216,8 @@ class DistributedHouse(DistributedObject.DistributedObject):
         mat_origin.setPosHpr(pos[0] - 0.15 * textHeight, pos[1], pos[2], 90, -90, 0)
         self.floorMat = mat_origin.attachNewNode(self.matText)
         self.floorMat.setDepthWrite(0)
-        self.floorMat.setPos(0, -.025, 0)
+        self.floorMat.setPos(0, -0.025, 0)
         self.floorMat.setScale(0.45 * xScale)
-        return
 
     def __setupNametag(self):
         if self.nametag:
@@ -356,8 +351,7 @@ class DistributedHouse(DistributedObject.DistributedObject):
         numLines = 0
         if self.name == '':
             return
-        else:
-            houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name)
+        houseName = TTLocalizer.AvatarsHouse % TTLocalizer.GetPossesive(self.name)
         nameText.setText(houseName)
         self.nameText = nameText
         textHeight = nameText.getHeight() - 2

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoLayout
 from direct.directnotify import DirectNotifyGlobal
 
 class CogdoLayout:

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.DistributedPartyWinterCogActivity
 from toontown.parties.DistributedPartyCogActivity import DistributedPartyCogActivity
 
 class DistributedPartyWinterCogActivity(DistributedPartyCogActivity):

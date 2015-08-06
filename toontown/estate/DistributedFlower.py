@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.DistributedFlower
 from toontown.estate import DistributedPlantBase
 from direct.directnotify import DirectNotifyGlobal
 from toontown.estate import FlowerBase
@@ -23,7 +24,6 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
         self.dirtMound = None
         self.sandMound = None
         self.resultDialog = None
-        return
 
     def delete(self):
         DistributedPlantBase.DistributedPlantBase.delete(self)
@@ -61,7 +61,6 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
             desat.setColorScale(colorTuple[0], colorTuple[1], colorTuple[2], 1.0)
         elif not self.isSeedling():
             nodePath.setColorScale(colorTuple[0], colorTuple[1], colorTuple[2], 1.0)
-        return
 
     def loadModel(self):
         DistributedPlantBase.DistributedPlantBase.loadModel(self)
@@ -119,7 +118,6 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
             self.doPicking()
         else:
             self.finishInteraction()
-        return
 
     def doPicking(self):
         if not self.canBePicked():
@@ -191,4 +189,3 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
             self.resultDialog.destroy()
             self.resultDialog = None
         self.finishInteraction()
-        return

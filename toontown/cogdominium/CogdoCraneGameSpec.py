@@ -1,9 +1,10 @@
+#Embedded file name: toontown.cogdominium.CogdoCraneGameSpec
 from toontown.coghq.SpecImports import *
 GlobalEntities = {1000: {'type': 'levelMgr',
         'name': 'LevelMgr',
         'comment': '',
         'parentEntId': 0,
-        'modelFilename': 'phase_10/models/cogHQ/EndVault'},
+        'modelFilename': 'phase_10/models/cogHQ/EndVault.bam'},
  1001: {'type': 'editMgr',
         'name': 'EditMgr',
         'parentEntId': 0,

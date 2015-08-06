@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.PartyInfo
 from datetime import datetime
 from direct.directnotify import DirectNotifyGlobal
 from toontown.parties.PartyGlobals import InviteTheme
@@ -65,6 +66,5 @@ class PartyInfoAI(PartyInfoBase):
 
     def __init__(self, partyId, hostId, startYear, startMonth, startDay, startHour, startMinute, endYear, endMonth, endDay, endHour, endMinute, isPrivate, inviteTheme, activityList, decors, status):
         PartyInfoBase.__init__(self, partyId, hostId, startYear, startMonth, startDay, startHour, startMinute, endYear, endMonth, endDay, endHour, endMinute, isPrivate, inviteTheme, activityList, decors, status)
-        #serverTzInfo = simbase.air.timeManager.serverTimeZone
-        self.startTime = self.startTime#.replace(tzinfo=serverTzInfo)
-        self.endTime = self.endTime#.replacetzinfo=serverTzInfo)
+        self.startTime = self.startTime
+        self.endTime = self.endTime

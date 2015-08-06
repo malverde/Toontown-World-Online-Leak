@@ -4,11 +4,11 @@ from direct.showbase import DirectObject
 from toontown.pets import PetChase
 from toontown.pets import PetConstants
 
-class PetWander(CPetChase, DirectObject.DirectObject):
+class PetWander(DirectObject.DirectObject):
 
     def __init__(self, minDist = 5.0, moveAngle = 20.0):
         self.movingTarget = hidden.attachNewNode('petWanderTarget')
-        CPetChase.__init__(self, self.movingTarget, minDist, moveAngle)
+        PetChase.__init__(self, self.movingTarget, minDist, moveAngle)
         self.targetMoveCountdown = 0
         self.collEvent = None
         self.gotCollision = False
@@ -24,14 +24,14 @@ class PetWander(CPetChase, DirectObject.DirectObject):
         return
 
     def _setMover(self, mover):
-        CPetChase.setMover(self, mover)
+        PetChase.setMover(self, mover)
         self.mover = mover
         self.__ignoreCollisions()
         self.collEvent = mover.getCollisionEventName()
         self.accept(self.collEvent, self._handleCollision)
 
     def _clearMover(self, mover):
-        CPetChase.clearMover(self, mover)
+        PetChase.clearMover(self, mover)
         self.__ignoreCollisions()
 
     def _handleCollision(self, collEntry):
@@ -58,4 +58,4 @@ class PetWander(CPetChase, DirectObject.DirectObject):
             target.setY(target, distance)
             duration = distance / self.mover.getFwdSpeed()
             self.targetMoveCountdown = duration * randFloat(1.2, 3.0)
-        CPetChase.process(self, dt)
+        PetChase.process(self, dt)

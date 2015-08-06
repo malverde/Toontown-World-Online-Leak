@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoElevatorMovie
 from pandac.PandaModules import NodePath, Point3, PlaneNode, TextNode
 from direct.interval.IntervalGlobal import *
 from direct.showbase.ShowBase import Plane
@@ -10,6 +11,7 @@ from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase import TTLocalizer
 from toontown.suit import Suit, SuitDNA
 from toontown.toon import Toon, ToonHead, ToonDNA
+from DistributedCogdoInterior import *
 from CogdoUtil import CogdoGameMovie
 import CogdoUtil
 
@@ -22,7 +24,6 @@ class CogdoElevatorMovie(CogdoGameMovie):
         self._toonDialogueSfx = None
         self.toonHead = None
         self.frame = None
-        return
 
     def displayLine(self, text):
         self.notify.debug('displayLine')
@@ -44,8 +45,6 @@ class CogdoElevatorMovie(CogdoGameMovie):
         suit.reparentTo(self.toonHead)
         for part in suit.getHeadParts():
             part.hide()
-
-        suit.loop('neutral')
 
     def load(self):
         self.notify.debug('load()')
@@ -97,7 +96,6 @@ class CogdoElevatorMovie(CogdoGameMovie):
 
         self._ival = Sequence(Func(start), Func(self.displayLine, dialogue), Wait(self.elevatorDuration), Func(end))
         self._startUpdateTask()
-        return
 
     def _updateTask(self, task):
         dt = globalClock.getDt()

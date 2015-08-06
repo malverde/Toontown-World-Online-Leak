@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.DistributedPartyJukeboxActivity
 from toontown.parties.DistributedPartyJukeboxActivityBase import DistributedPartyJukeboxActivityBase
 from toontown.parties import PartyGlobals
 

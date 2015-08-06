@@ -1,3 +1,4 @@
+#Embedded file name: toontown.coderedemption.TTCodeRedemptionMgr
 from direct.distributed.DistributedObject import DistributedObject
 from direct.directnotify.DirectNotifyGlobal import directNotify
 
@@ -21,7 +22,6 @@ class TTCodeRedemptionMgr(DistributedObject):
         self._context2callback = None
         self._contextGen = None
         DistributedObject.delete(self)
-        return
 
     def redeemCode(self, code, callback):
         context = self._contextGen.next()

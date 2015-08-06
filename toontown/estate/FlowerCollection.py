@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.FlowerCollection
 import GardenGlobals
 from direct.directnotify import DirectNotifyGlobal
 import FlowerBase

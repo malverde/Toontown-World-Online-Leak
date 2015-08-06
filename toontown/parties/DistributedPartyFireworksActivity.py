@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.DistributedPartyFireworksActivity
 from pandac.PandaModules import Vec3
 from pandac.PandaModules import OmniBoundingVolume
 from pandac.PandaModules import AlphaTestAttrib
@@ -35,7 +36,7 @@ class DistributedPartyFireworksActivity(DistributedPartyActivity, FireworkShowMi
     def setShowStyle(self, showStyle):
         DistributedPartyFireworksActivity.notify.debug('setShowStyle( %d )' % showStyle)
         self.showStyle = showStyle
-    
+
     def setSongId(self, songId):
         self.songId = songId
 
@@ -48,7 +49,7 @@ class DistributedPartyFireworksActivity(DistributedPartyActivity, FireworkShowMi
         self.launchPadModel.setPos(0.0, -18.0, 0.0)
         self.launchPadModel.reparentTo(self.root)
         railingsCollection = self.launchPadModel.findAllMatches('**/launchPad_mesh/*railing*')
-        for i in xrange(railingsCollection.getNumPaths()):
+        for i in range(railingsCollection.getNumPaths()):
             railingsCollection[i].setAttrib(AlphaTestAttrib.make(RenderAttrib.MGreater, 0.75))
 
         leverLocator = self.launchPadModel.find('**/RocketLever_locator')
@@ -67,7 +68,6 @@ class DistributedPartyFireworksActivity(DistributedPartyActivity, FireworkShowMi
         self.launchSound = base.loadSfx('phase_13/audio/sfx/rocket_launch.ogg')
         self.activityFSM = FireworksActivityFSM(self)
         self.activityFSM.request('Idle')
-        return
 
     def unload(self):
         DistributedPartyFireworksActivity.notify.debug('unload')
@@ -87,7 +87,6 @@ class DistributedPartyFireworksActivity(DistributedPartyActivity, FireworkShowMi
         del self.eventId
         del self.showStyle
         DistributedPartyActivity.unload(self)
-        return
 
     def _leverPulled(self, collEntry):
         DistributedPartyFireworksActivity.notify.debug('_leverPulled')
@@ -144,7 +143,6 @@ class DistributedPartyFireworksActivity(DistributedPartyActivity, FireworkShowMi
         messenger.send(FireworksFinishedEvent)
         taskMgr.remove(self.taskName('delayedStartShow'))
         FireworkShowMixin.disable(self)
-        return
 
     def startDisabled(self):
         DistributedPartyFireworksActivity.notify.debug('startDisabled')

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoGameRulesPanel
 from direct.task import Task
 from direct.fsm import StateData
 from toontown.toonbase.ToontownGlobals import *
@@ -32,14 +33,14 @@ class CogdoGameRulesPanel(StateData.StateData):
         self.playButton = DirectButton(parent=self.frame, relief=None, geom=(minigameGui.find('**/buttonUp'), minigameGui.find('**/buttonDown'), minigameGui.find('**/buttonHover')), pos=(0.74, 0, 0.1), scale=(4.2, 5, 5), command=self.playCallback)
         minigameGui.removeNode()
         self.timer = ToontownTimer.ToontownTimer()
-        self.timer.reparentTo(self.frame)
+        self.timer.reparentTo(base.a2dTopRight)
         self.timer.setScale(0.4)
-        self.timer.setPos(0.997, 0, 1.5)
+        self.timer.setPos(-0.155, 0, -0.155)
         self.frame.hide()
-        return
 
     def unload(self):
         self.frame.destroy()
+        self.timer.destroy()
         del self.frame
         del self.gameTitleText
         del self.instructionsText

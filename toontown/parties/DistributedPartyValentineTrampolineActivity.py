@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.DistributedPartyValentineTrampolineActivity
 from toontown.parties.DistributedPartyTrampolineActivity import DistributedPartyTrampolineActivity
 
 class DistributedPartyValentineTrampolineActivity(DistributedPartyTrampolineActivity):

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.PartyCogUtils
 import math
 from pandac.PandaModules import NodePath, Point3
 import PartyGlobals
@@ -85,7 +86,6 @@ class StrafingControl:
         del self.player
         self.defaultOffset = None
         del self.defaultOffset
-        return
 
     def update(self):
         self.player.tempNP.setPos(self.player.locator, self.player.toon.getPos() + self.defaultOffset)

@@ -3,6 +3,7 @@ from pandac.PandaModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
+from direct.showbase.PythonUtil import lerp
 from direct.showbase import DirectObject
 from direct.showbase.PythonUtil import Functor
 from direct.task.Task import Task

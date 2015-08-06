@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoBarrelRoom
 import random
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
@@ -23,7 +24,6 @@ class CogdoBarrelRoom:
         self.fog = None
         self.defaultFar = None
         self.stomperSfx = None
-        return
 
     def destroy(self):
         self.unload()
@@ -37,8 +37,6 @@ class CogdoBarrelRoom:
         self.model.setPos(*CogdoBarrelRoomConsts.BarrelRoomModelPos)
         self.model.reparentTo(render)
         self.model.stash()
-        self.dummyElevInNode = self.model.attachNewNode('elevator-in')
-        self.dummyElevInNode.hide()
         self.entranceNode = self.model.attachNewNode('door-entrance')
         self.entranceNode.setPos(0, -65, 0)
         self.nearBattleNode = self.model.attachNewNode('near-battle')
@@ -49,6 +47,12 @@ class CogdoBarrelRoom:
         self.fog = Fog('barrel-room-fog')
         self.fog.setColor(CogdoBarrelRoomConsts.BarrelRoomFogColor)
         self.fog.setLinearRange(*CogdoBarrelRoomConsts.BarrelRoomFogLinearRange)
+        self.brBarrel = render.attachNewNode('@@CogdoBarrels')
+        for i in range(len(CogdoBarrelRoomConsts.BarrelProps)):
+            self.bPath = self.brBarrel.attachNewNode('%s%s' % (CogdoBarrelRoomConsts.BarrelPathName, i))
+            self.bPath.setPos(CogdoBarrelRoomConsts.BarrelProps[i]['pos'])
+            self.bPath.setH(CogdoBarrelRoomConsts.BarrelProps[i]['heading'])
+
         self._isLoaded = True
 
     def unload(self):
@@ -61,13 +65,13 @@ class CogdoBarrelRoom:
         if self.rewardUi:
             self.rewardUi.destroy()
             self.rewardUi = None
-        if self.fog:
-            render.setFogOff()
-            del self.fog
+        if hasattr(self, 'fog'):
+            if self.fog:
+                render.setFogOff()
+                del self.fog
         taskMgr.remove(self.rewardUiTaskName)
         taskMgr.remove(self.rewardCameraTaskName)
         self._isLoaded = False
-        return
 
     def isLoaded(self):
         return self._isLoaded
@@ -75,25 +79,26 @@ class CogdoBarrelRoom:
     def show(self):
         if not self.cogdoBarrelsNode:
             self.cogdoBarrelsNode = render.find('**/@@CogdoBarrels')
-            self.cogdoBarrelsNode.reparentTo(self.model)
-            self.cogdoBarrelsNode.unstash()
+            if not self.cogdoBarrelsNode.isEmpty():
+                self.cogdoBarrelsNode.reparentTo(self.model)
+                self.cogdoBarrelsNode.unstash()
+        base.localAvatar.b_setAnimState('neutral')
         self.defaultFar = base.camLens.getFar()
         base.camLens.setFar(CogdoBarrelRoomConsts.BarrelRoomCameraFar)
+        base.camLens.setMinFov(ToontownGlobals.DefaultCameraFov / (4.0 / 3.0))
         self.showBattleAreaLight(True)
         render.setFog(self.fog)
         self.model.unstash()
 
     def hide(self):
         self.model.stash()
-        render.setFogOff()
         if self.defaultFar is not None:
             base.camLens.setFar(self.defaultFar)
-        return
 
     def activate(self):
         self.notify.info('Activating barrel room: %d sec timer.' % CogdoBarrelRoomConsts.CollectionTime)
         self.timer.unstash()
-        self.timer.posAboveShtikerBook()
+        self.timer.posAboveMapButton()
         self.timer.countdown(CogdoBarrelRoomConsts.CollectionTime)
         base.cr.playGame.getPlace().fsm.request('walk')
 
@@ -117,7 +122,6 @@ class CogdoBarrelRoom:
                 lightConeNode.show()
             else:
                 lightConeNode.hide()
-        return
 
     def getIntroInterval(self):
         avatar = base.localAvatar
@@ -151,17 +155,16 @@ class CogdoBarrelRoom:
         self.hideRewardUi()
         if callback is not None:
             callback()
-        return
 
     def __rewardCamera(self):
         trackName = 'cogdoBarrelRoom-RewardCamera'
         track = Sequence(Func(camera.reparentTo, render), Func(camera.setPosHpr, self.model, 0, 0, 11.0, 0, -14, 0), Func(self.showBattleAreaLight, False), name=trackName)
         return (track, trackName)
 
-    def showRewardUi(self, results, callback = None):
+    def showRewardUi(self, callback = None):
         track, trackName = self.__rewardCamera()
         if CogdoBarrelRoomConsts.ShowRewardUI:
-            self.rewardUi.setRewards(results)
+            self.rewardUi.setRewards()
             self.rewardUi.unstash()
         taskMgr.doMethodLater(CogdoBarrelRoomConsts.RewardUiTime, self.__rewardUiTimeout, self.rewardUiTaskName, extraArgs=[callback])
         return (track, trackName)

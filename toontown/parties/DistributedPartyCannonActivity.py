@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.DistributedPartyCannonActivity
 import math
 from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
@@ -19,9 +20,6 @@ from toontown.parties.PartyGlobals import PartyCannonCollisions
 from toontown.parties.DistributedPartyActivity import DistributedPartyActivity
 from toontown.parties.CannonGui import CannonGui
 from toontown.parties.PartyUtils import toRadians, toDegrees
-from direct.distributed.ClockDelta import *
-from toontown.minigame import Trajectory
-from toontown.minigame import CannonGameGlobals
 CANNON_ROTATION_VEL = 15.0
 CANNON_ANGLE_VEL = 15.0
 GROUND_PLANE_MIN = -15
@@ -30,7 +28,6 @@ INITIAL_VELOCITY = 90.0
 WHISTLE_SPEED = INITIAL_VELOCITY * 0.35
 
 class DistributedPartyCannonActivity(DistributedPartyActivity):
-    # I never go anywhere without my party cannon!
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPartyCannonActivity')
     HIT_GROUND = 0
     HIT_TOWER = 1
@@ -81,7 +78,6 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
         self.flyColNode = None
         self.flyColNodePath = None
         self._flyingCollisionTaskName = None
-        return
 
     def generateInit(self):
         DistributedPartyActivity.generateInit(self)
@@ -147,7 +143,6 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             self.localFlyingToon.setPlayRate(1.0, 'run')
             self.localFlyingToon = None
         self.ignoreAll()
-        return
 
     def onstage(self):
         self.notify.debug('onstage')
@@ -162,7 +157,6 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
         if self.dustCloud is not None:
             self.dustCloud.reparentTo(hidden)
             self.dustCloud.stop()
-        return
 
     def disable(self):
         taskMgr.remove(self._remoteToonFlyTaskName)
@@ -182,7 +176,6 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             del self.hitTrack
             self.hitTrack = None
         DistributedPartyActivity.disable(self)
-        return
 
     def delete(self):
         self.offstage()
@@ -252,7 +245,6 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
         task.cannon = cannon
         taskMgr.add(task, self.taskNameFireCannon)
         self.toonIds.append(toonId)
-        return
 
     def __fireCannonTask(self, task):
         launchTime = 0.0
@@ -265,7 +257,6 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
         if self.isLocalToonId(toonId):
             self.inWater = 0
             startPos, startHpr, startVel, trajectory = self.__calcFlightResults(cannon, toonId, launchTime)
-
             self.notify.debug('start position: ' + str(startPos))
             self.notify.debug('start velocity: ' + str(startVel))
             self.notify.debug('time of launch: ' + str(launchTime))
@@ -366,6 +357,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
         return Task.cont
 
     def __calcFlightResults(self, cannon, toonId, launchTime):
+
         def quantizeVec(vec, divisor):
             quantize = lambda value, divisor: float(int(value * int(divisor))) / int(divisor)
             vec[0] = quantize(vec[0], divisor)
@@ -380,7 +372,10 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
         quantizeVec(startVel, self.NetDivisor)
         trajectory = Trajectory.Trajectory(launchTime, startPos, startVel)
         self.trajectory = trajectory
-        return startPos, startHpr, startVel, trajectory
+        return (startPos,
+         startHpr,
+         startVel,
+         trajectory)
 
     def __shootTask(self, task):
         task.info['cannon'].fire()
@@ -429,7 +424,6 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
                 return
         if toon is not None and toon == base.localAvatar:
             self.__localDisplayLandedResults()
-        return
 
     def __localDisplayLandedResults(self):
         if self.flyingToonCloudsHit > 0:
@@ -475,7 +469,6 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             avatar = base.cr.doId2do.get(self.localFlyingToonId, None)
         if avatar:
             self.__resetToon(avatar)
-        return
 
     def __resetToon(self, avatar, pos = None):
         self.notify.debug('__resetToon')
@@ -504,7 +497,6 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             self.sendUpdate('updateToonTrajectoryStartVelAi', [self._dirtyNewVel[0], self._dirtyNewVel[1], self._dirtyNewVel[2]])
             self._lastBroadcastTime = now
             self._dirtyNewVel = None
-        return
 
     def updateToonTrajectoryStartVel(self, avId, vx, vy, vz):
         if avId == localAvatar.doId:
@@ -670,7 +662,6 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
                 if hasattr(self, 'camNode') and self.camNode:
                     self.camNode.removeNode()
                     self.camNode = None
-        return
 
     def __startCollisionHandler(self):
         self.flyColSphere = CollisionSphere(0, 0, self.localFlyingToon.getHeight() / 2.0, 1.0)
@@ -701,7 +692,6 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
                 self.flyColNodePath.removeNode()
                 self.flyColNodePath = None
             self.handler = None
-        return
 
     def _checkFlyingToonCollision(self, task = None):
         curCollisions = set()
@@ -778,10 +768,9 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             else:
                 self.notify.debug('*************** hit something else ************')
             return
-        else:
-            self.__stopCollisionHandler(self.localFlyingToon)
-            self.__stopLocalFlyTask(self.localFlyingToonId)
-            self.notify.debug('stopping flying since we hit %s' % hitNode)
+        self.__stopCollisionHandler(self.localFlyingToon)
+        self.__stopLocalFlyTask(self.localFlyingToonId)
+        self.notify.debug('stopping flying since we hit %s' % hitNode)
         if self.isLocalToonId(self.localFlyingToon.doId):
             camera.wrtReparentTo(render)
         if self.localFlyingDropShadow:
@@ -817,7 +806,6 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             self.hitTrack.finish()
         self.hitTrack = track
         self.hitTrack.start()
-        return
 
     def __hitBumper(self, avatar, collisionEntry, sound, kr = 0.6, angVel = 1):
         self.hitBumper = 1
@@ -927,7 +915,6 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
                 self.__playDustCloud(avatar, collisionEntry.getSurfacePoint(render))
                 self.flyingToonCloudsHit += 1
                 taskMgr.doMethodLater(0.25, self.__reactivateLastCloudHit, DistributedPartyCannonActivity.REACTIVATE_CLOUD_TASK)
-        return
 
     def __reactivateLastCloudHit(self, task):
         self._lastCloudHit = None
@@ -952,5 +939,5 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
 
     def handleToonExited(self, toonId):
         self.notify.debug('DistributedPartyCannonActivity handleToonExited( toonId=%s ) ' % toonId)
-        if toonId in self.cr.doId2do:
+        if self.cr.doId2do.has_key(toonId):
             self.notify.warning('handleToonExited is not defined')

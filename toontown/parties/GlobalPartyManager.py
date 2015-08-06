@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.GlobalPartyManager
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 from direct.distributed.PyDatagram import *
 from direct.directnotify.DirectNotifyGlobal import directNotify

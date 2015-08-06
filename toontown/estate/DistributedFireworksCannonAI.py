@@ -1,8 +1,9 @@
+#Embedded file name: toontown.estate.DistributedFireworksCannonAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.effects.DistributedFireworkShowAI import DistributedFireworkShowAI
 
 class DistributedFireworksCannonAI(DistributedFireworkShowAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedFireworksCannonAI")
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedFireworksCannonAI')
 
     def avatarEnter(self):
         pass
@@ -18,4 +19,3 @@ class DistributedFireworksCannonAI(DistributedFireworkShowAI):
 
     def setPosition(self, todo0, todo1, todo2):
         pass
-

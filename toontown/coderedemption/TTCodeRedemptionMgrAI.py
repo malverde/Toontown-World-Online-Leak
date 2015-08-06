@@ -1,21 +1,20 @@
+#Embedded file name: toontown.coderedemption.TTCodeRedemptionMgrAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.toonbase import ToontownGlobals
-
-
-# Import the Catalog
 from toontown.catalog import CatalogItem
-from toontown.catalog.CatalogInvalidItem import CatalogInvalidItem
 from toontown.catalog.CatalogItemList import CatalogItemList
-from toontown.catalog.CatalogFurnitureItem import CatalogFurnitureItem
+from toontown.catalog.CatalogPoleItem import CatalogPoleItem
+from toontown.catalog.CatalogBeanItem import CatalogBeanItem
+from toontown.catalog.CatalogChatItem import CatalogChatItem
 from toontown.catalog.CatalogClothingItem import CatalogClothingItem, getAllClothes
-
+from toontown.catalog.CatalogAccessoryItem import CatalogAccessoryItem
+from toontown.catalog.CatalogRentalItem import CatalogRentalItem
+from toontown.catalog.CatalogInvalidItem import CatalogInvalidItem
 import time
 
 class TTCodeRedemptionMgrAI(DistributedObjectAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("TTCodeRedemptionMgrAI")
-
-    # TODO: Possibly place these in a better location
+    notify = DirectNotifyGlobal.directNotify.newCategory('TTCodeRedemptionMgrAI')
     Success = 0
     InvalidCode = 1
     ExpiredCode = 2
@@ -33,7 +32,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
 
     def delete(self):
         DistributedObjectAI.delete(self)
-        
+
     def giveAwardToToonResult(self, todo0, todo1):
         pass
 
@@ -42,129 +41,121 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
         if not avId:
             self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to redeem a code from an invalid avId')
             return
-
         av = self.air.doId2do.get(avId)
         if not av:
             self.air.writeServerEvent('suspicious', avId=avId, issue='Invalid avatar tried to redeem a code')
             return
-
-        ### VALIDATEE THIS SHIT ###
-        valid = True            ###
-        eligible = True         ###
-        expired = False         ###
-        delivered = False       ###
-        ###########################
-
-       # TODO: Come up with a way to determine if the toon is eligible for the prize
-
-
-        # Get our redeemed Codes
+        valid = True
+        eligible = True
+        expired = False
+        delivered = False
         codes = av.getRedeemedCodes()
         print codes
         if not codes:
             codes = [code]
             av.setRedeemedCodes(codes)
+        elif code not in codes:
+            codes.append(code)
+            av.setRedeemedCodes(codes)
+            valid = True
         else:
-            if not code in codes:
-                codes.append(code)
-                av.setRedeemedCodes(codes)
-                valid = True
-            else:
-                valid = False
-
-        # Is the code valid?
+            valid = False
         if not valid:
             self.air.writeServerEvent('code-redeemed', avId=avId, issue='Invalid code: %s' % code)
             self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.InvalidCode, 0])
             return
-
-        # Did out code expire?
         if expired:
             self.air.writeServerEvent('code-redeemed', avId=avId, issue='Expired code: %s' % code)
             self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.ExpiredCode, 0])
             return
-
-        # Are we able to redeem this code?
         if not eligible:
             self.air.writeServerEvent('code-redeemed', avId=avId, issue='Ineligible for code: %s' % code)
             self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.Ineligible, 0])
             return
-
-        # Deliver the reward to the user
         items = self.getItemsForCode(code)
-
-        # Iterate over these shitty items
         for item in items:
-            if isinstance(item, CatalogInvalidItem): # Umm, u wot m8?
-                self.air.writeServerEvent('suspicious', avId=avId, issue='Invalid CatalogItem\'s for code: %s' % code)
-                self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.InvalidCode, 0]) # TODO: Come up with a special code for this
+            if isinstance(item, CatalogInvalidItem):
+                self.air.writeServerEvent('suspicious', avId=avId, issue="Invalid CatalogItem's for code: %s" % code)
+                self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.InvalidCode, 0])
                 break
-
-            item.deliveryDate = int(time.time() / 60) + 1 # I don't give a shit here, just deliver it now
-            av.onOrder.append(item)
-            av.b_setDeliverySchedule(av.onOrder)
-            delivered = True
-
-        # Iterate over these shitty items
-        for item in items:
-            if isinstance(item, CatalogInvalidItem): # Umm, u wot m8?
-                self.air.writeServerEvent('suspicious', avId=avId, issue='Invalid CatalogItem\'s for code: %s' % code)
-                self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.InvalidCode, 0]) # TODO: Come up with a special code for this
-                break
-
             if len(av.mailboxContents) + len(av.onGiftOrder) >= ToontownGlobals.MaxMailboxContents:
-                # Mailbox is full
                 delivered = False
                 break
-
-            item.deliveryDate = int(time.time() / 60) + 1 # I don't give a shit here, just deliver it now
+            item.deliveryDate = int(time.time() / 60) + 1
             av.onOrder.append(item)
             av.b_setDeliverySchedule(av.onOrder)
             delivered = True
 
         if not delivered:
-            # 0 is Sucess
-            # 1, 2, 15, & 16 is an UnknownError
-            # 3 & 4 is MailboxFull
-            # 5 & 10 is AlreadyInMailbox
-            # 6, 7, & 11 is AlreadyInQueue
-            # 8 is AlreadyInCloset
-            # 9 is AlreadyBeingWorn
-            # 12, 13, & 14 is AlreadyReceived
             self.air.writeServerEvent('code-redeemed', avId=avId, issue='Could not deliver items for code: %s' % code)
-            self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.AwardError, 3])
+            self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.InvalidCode, 0])
             return
-
-        # Send the item and tell the user its A-Okay
         self.air.writeServerEvent('code-redeemed', avId=avId, issue='Successfuly redeemed code: %s' % code)
         self.sendUpdateToAvatarId(avId, 'redeemCodeResult', [context, self.Success, 0])
 
-    def redeemCodeAiToUd(self, todo0, todo1, todo2, todo3, todo4):
-        pass
+    def getItemsForCode(self, code):
+        avId = self.air.getAvatarIdFromSender()
+        if not avId:
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Could not parse the gender of an invalid avId')
+            return
+        av = self.air.doId2do.get(avId)
+        if not av:
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Could not parse the gender of an invalid avatar')
+            return
+        code = code.lower()
+        if code == 'bdisanerd':
+            beans = CatalogBeanItem(420, tagCode=2)
+            return [beans]
+        if code == 'flip-for-flippy':
+            shirt = CatalogClothingItem(2001, 0)
+            return [shirt]
+        if code == 'dont-be-wacky':
+            shirt = CatalogClothingItem(2002, 0)
+            return [shirt]
+        if code == 'gadzooks':
+            shirt = CatalogClothingItem(1807, 0)
+            return [shirt]
+        if code == 'sillymeter' or code == 'silly meter' or code == 'silly-meter':
+            shirt = CatalogClothingItem(1753, 0)
+            return [shirt]
+        if code == 'gc-sbfo' or code == 'gc sbfo' or code == 'gcsbfo':
+            shirt = CatalogClothingItem(1788, 0)
+            return [shirt]
+        if code == 'getconnected' or code == 'get connected' or code == 'get_connected':
+            shirt = CatalogClothingItem(1752, 0)
+            return [shirt]
+        if code == 'summer':
+            shirt = CatalogClothingItem(1709, 0)
+            return [shirt]
+        if code == 'brrrgh':
+            shirt = CatalogClothingItem(1800, 0)
+            return [shirt]
+        if code == 'toontastic':
+            shirt = CatalogClothingItem(1820, 0)
+            return [shirt]
+        if code == 'sunburst':
+            shirt = CatalogClothingItem(1809, 0)
+            return [shirt]
+        if code == 'sweet' or code == 'schweet':
+            beans = CatalogBeanItem(12000, tagCode=2)
+            return [beans]
+        if code == 'winter' or code == 'cannons':
+            rent = CatalogRentalItem(ToontownGlobals.RentalCannon, 2880, 0)
+            return [rent]
+        if code == 'paycheck':
+            beans = CatalogBeanItem(1500, tagCode=2)
+            return [beans]
+        if code == 'toonfest2014':
+            shirt = CatalogClothingItem(2003, 0)
+            if av.getStyle().getGender() == 'm':
+                bot = CatalogClothingItem(2004, 0)
+            else:
+                bot = CatalogClothingItem(2005, 0)
+            return [shirt, bot]
+        return []
 
-    def redeemCodeResultUdToAi(self, todo0, todo1, todo2, todo3, todo4):
+    def requestCodeRedeem(self, todo0, todo1):
         pass
 
     def redeemCodeResult(self, todo0, todo1, todo2):
         pass
-
-    ### Helper Methods ###
-
-    def getItemsForCode(self, code):
-        # TODO: Figure out how we want to get the items from the codes
-        # I don't know what items are shorts, skirts or shirts... rip
-        if code == "ALPHA":
-            shirt = CatalogClothingItem(1403, 0)
-            shorts = CatalogClothingItem(1404, 0)
-            return [shirt, shorts] # TODO: Give the correct alpha reward
-
-        if code == "BETA":
-            return CatalogClothingItem(118, 0) # TODO: Give it the correct item
-            shirt = CatalogClothingItem(1405, 0)
-            shorts = CatalogClothingItem(1406, 0)
-            return [shirt, shorts] # TODO: Give the correct beta rewards
-        
-        if code == "TRUNK":
-            return CatalogFurnitureItem(4000, 0) # TODO: Give it the correct item
-        return [CatalogInvalidItem()]
-

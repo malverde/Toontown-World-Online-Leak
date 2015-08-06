@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.InviteVisual
 from datetime import datetime
 import calendar
 from direct.gui.DirectGui import DirectFrame, DirectLabel
@@ -14,40 +15,18 @@ class InviteVisual(DirectFrame):
     def __init__(self, parent):
         DirectFrame.__init__(self, parent=parent)
         self.gui = loader.loadModel('phase_5.5/models/parties/partyInviteGUI')
-        self.inviteThemesIdToInfo = {PartyGlobals.InviteTheme.Birthday: (self.gui.find('**/birthdayPage'), TTLocalizer.PartyPlannerBirthdayTheme, (0.0,
-                                              0.0,
-                                              0.0,
-                                              1.0)),
-         PartyGlobals.InviteTheme.GenericMale: (self.gui.find('**/genericMalePage'), TTLocalizer.PartyPlannerGenericMaleTheme, (0.7,
-                                                 0.7,
-                                                 0.0,
-                                                 1.0)),
-         PartyGlobals.InviteTheme.GenericFemale: (self.gui.find('**/genericFemalePage'), TTLocalizer.PartyPlannerGenericFemaleTheme, (0.0,
-                                                   1.0,
-                                                   0.5,
-                                                   1.0)),
-         PartyGlobals.InviteTheme.Racing: (self.gui.find('**/racingPage'), TTLocalizer.PartyPlannerRacingTheme, (0.0,
-                                            0.0,
-                                            0.0,
-                                            1.0)),
-         PartyGlobals.InviteTheme.Valentoons: (self.gui.find('**/valentinePage1'), TTLocalizer.PartyPlannerValentoonsTheme, (0.0,
-                                                0.0,
-                                                0.0,
-                                                1.0)),
-         PartyGlobals.InviteTheme.VictoryParty: (self.gui.find('**/victoryPartyPage'), TTLocalizer.PartyPlannerVictoryPartyTheme, (0.0,
-                                                  0.0,
-                                                  0.0,
-                                                  1.0)),
-         PartyGlobals.InviteTheme.Winter: (self.gui.find('**/winterPartyPage1'), TTLocalizer.PartyPlannerWinterPartyTheme, (1.0,
-                                            1.0,
-                                            1.0,
-                                            1.0))}
+        self.inviteThemesIdToInfo = {PartyGlobals.InviteTheme.Birthday: (self.gui.find('**/birthdayPage'), TTLocalizer.PartyPlannerBirthdayTheme, (0.0, 0.0, 0.0, 1.0)),
+         PartyGlobals.InviteTheme.GenericMale: (self.gui.find('**/genericMalePage'), TTLocalizer.PartyPlannerGenericMaleTheme, (0.7, 0.7, 0.0, 1.0)),
+         PartyGlobals.InviteTheme.GenericFemale: (self.gui.find('**/genericFemalePage'), TTLocalizer.PartyPlannerGenericFemaleTheme, (0.0, 1.0, 0.5, 1.0)),
+         PartyGlobals.InviteTheme.Racing: (self.gui.find('**/racingPage'), TTLocalizer.PartyPlannerRacingTheme, (0.0, 0.0, 0.0, 1.0)),
+         PartyGlobals.InviteTheme.Valentoons: (self.gui.find('**/valentinePage1'), TTLocalizer.PartyPlannerValentoonsTheme, (0.0, 0.0, 0.0, 1.0)),
+         PartyGlobals.InviteTheme.VictoryParty: (self.gui.find('**/victoryPartyPage'), TTLocalizer.PartyPlannerVictoryPartyTheme, (0.0, 0.0, 0.0, 1.0)),
+         PartyGlobals.InviteTheme.Winter: (self.gui.find('**/winterPartyPage1'), TTLocalizer.PartyPlannerWinterPartyTheme, (1.0, 1.0, 1.0, 1.0))}
         self.inviteThemeBackground = DirectFrame(parent=self, image=self.inviteThemesIdToInfo[0][0], relief=None)
         self.whosePartyLabel = DirectLabel(parent=self, relief=None, pos=self.gui.find('**/who_locator').getPos(), text='.', text_scale=0.067, textMayChange=True)
         self.activityTextLabel = DirectLabel(parent=self, relief=None, text='.\n.\n.\n.', pos=self.gui.find('**/what_locator').getPos(), text_scale=TTLocalizer.IVactivityTextLabel, textMayChange=True)
         self.whenTextLabel = DirectLabel(parent=self, relief=None, text='.\n.\n.', pos=self.gui.find('**/when_locator').getPos(), text_scale=TTLocalizer.IVwhenTextLabel, textMayChange=True)
         self.noFriends = False
-        return None
 
     def setNoFriends(self, noFriends):
         self.noFriends = noFriends
@@ -95,7 +74,7 @@ class InviteVisual(DirectFrame):
         desiredNumberOfCharactersInLine = 42
         if len(stringLeft) < desiredNumberOfCharactersInLine:
             return stringDone + '\n' + stringLeft
-        for i in xrange(desiredNumberOfCharactersInLine - 6, len(stringLeft)):
+        for i in range(desiredNumberOfCharactersInLine - 6, len(stringLeft)):
             if stringLeft[i] == ' ':
                 return self.insertCarriageReturn(stringLeft[i:], stringDone + '\n' + stringLeft[:i])
 

@@ -1,8 +1,9 @@
+#Embedded file name: toontown.estate.DistributedGardenPlotAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.estate.DistributedLawnDecorAI import DistributedLawnDecorAI
 
 class DistributedGardenPlotAI(DistributedLawnDecorAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedGardenPlotAI")
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedGardenPlotAI')
 
     def plantFlower(self, todo0, todo1):
         pass
@@ -18,4 +19,3 @@ class DistributedGardenPlotAI(DistributedLawnDecorAI):
 
     def plantNothing(self, todo0):
         pass
-
