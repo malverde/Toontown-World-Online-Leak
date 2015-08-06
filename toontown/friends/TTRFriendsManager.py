@@ -43,7 +43,7 @@ class TTRFriendsManager(DistributedObjectGlobal):
         base.cr.n_handleGetAvatarDetailsResp(avId, fields=fields)      
 
     def d_getPetDetails(self, avId):
-        self.sendUpdate('petDetails', [avId])
+        self.sendUpdate('getPetDetails', [avId])
 
     def petDetails(self, avId, ownerId, petName, traitSeed, sz, traits, moods, dna, lastSeen):
         fields = list(zip(('setHead', 'setEars', 'setNose', 'setTail', 'setBodyTexture', 'setColor', 'setColorScale', 'setEyeColor', 'setGender'), dna))

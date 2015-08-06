@@ -71,6 +71,7 @@ want-checkers-table #t
 want-findfour-table #t
 want-keep-alive #f
 want-hourly-fireworks #t
+want-flippy-pet-intro #t
 want-hourly-fireworks-type summer
 default-directnotify-level info
 
