@@ -60,7 +60,6 @@ def __healToon(toon, hp, gender, callerToonId, ineffective = 0):
         toon.toonUp(hp)
     else:
         notify.debug('__healToon() - toon: %d hp: %d' % (toon.doId, hp))
-    return
 
 
 def __teleportIn(attack, pet, pos = Point3(0, 0, 0), hpr = Vec3(180.0, 0.0, 0.0)):
