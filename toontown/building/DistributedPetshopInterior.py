@@ -15,19 +15,6 @@ class DistributedPetshopInterior(DistributedObject.DistributedObject):
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.dnaStore = cr.playGame.dnaStore
-	if config.GetBool('want-flippy-pet-intro', True):
-		self.flippyBlatherSequence.finish()
-		if self.flippy:
-			self.flippy.stopBlink()
-			self.flippy.removeActive()
-			self.flippy.cleanup()
-			self.flippy.removeNode()
-		if self.fluffy:
-			self.fluffy.stopBlink()
-			self.fluffy.removeActive()
-			self.fluffy.enterOff()
-			self.fluffy.cleanup()
-			self.fluffy.removeNode()
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
