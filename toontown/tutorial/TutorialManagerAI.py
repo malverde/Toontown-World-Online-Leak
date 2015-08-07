@@ -1,3 +1,4 @@
+#Embedded file name: toontown.tutorial.TutorialManagerAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.building.DistributedTutorialInteriorAI import DistributedTutorialInteriorAI
@@ -20,12 +21,10 @@ class TZoneStruct:
 
 
 class ToontorialBuildingAI:
+
     def __init__(self, air, street, interior, npcId):
-
         self.air = air
-
         self.interior = DistributedTutorialInteriorAI(self.air, interior, npcId)
-
         self.interior.generateWithRequired(interior)
         self.door0 = DistributedDoorAI.DistributedDoorAI(self.air, 2, DoorTypes.EXT_STANDARD, doorIndex=0)
         self.insideDoor0 = DistributedDoorAI.DistributedDoorAI(self.air, 0, DoorTypes.INT_STANDARD, doorIndex=0)
@@ -45,23 +44,20 @@ class ToontorialBuildingAI:
 
 
 class TutorialFSM(FSM):
+
     def __init__(self, air, zones, avId):
         FSM.__init__(self, 'TutorialFSM')
         self.avId = avId
         self.zones = zones
         self.air = air
-
         npcDesc = NPCToons.NPCToonDict.get(20000)
         self.tom = NPCToons.createNPC(self.air, 20000, npcDesc, self.zones.shop, 0)
         self.tom.setTutorial(1)
-
         npcDesc = NPCToons.NPCToonDict.get(20002)
         self.harry = NPCToons.createNPC(self.air, 20002, npcDesc, self.zones.hq, 0)
         self.harry.setTutorial(1)
-
         self.building = ToontorialBuildingAI(self.air, zones.street, zones.shop, self.tom.getDoId())
         self.hq = HQBuildingAI(self.air, zones.street, zones.hq, 1)
-
         self.forceTransition('Introduction')
 
     def enterIntroduction(self):
@@ -89,7 +85,6 @@ class TutorialFSM(FSM):
     def enterTunnel(self):
         npcDesc = NPCToons.NPCToonDict.get(20001)
         self.flippy = NPCToons.createNPC(self.air, 20001, npcDesc, self.zones.street, 0)
-
         self.hq.insideDoor1.setDoorLock(FADoorCodes.UNLOCKED)
         self.hq.door1.setDoorLock(FADoorCodes.GO_TO_PLAYGROUND)
         self.hq.insideDoor0.setDoorLock(FADoorCodes.WRONG_DOOR_HQ)
@@ -98,7 +93,6 @@ class TutorialFSM(FSM):
         self.flippy.requestDelete()
 
     def enterCleanUp(self):
-        #deallocate all the zones
         self.building.cleanup()
         self.hq.cleanup()
         self.tom.requestDelete()
@@ -109,8 +103,9 @@ class TutorialFSM(FSM):
         self.air.deallocateZone(self.zones.hq)
         del self.air.tutorialManager.avId2fsm[self.avId]
 
+
 class TutorialManagerAI(DistributedObjectAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("TutorialManagerAI")
+    notify = DirectNotifyGlobal.directNotify.newCategory('TutorialManagerAI')
 
     def __init__(self, air):
         DistributedObjectAI.__init__(self, air)
@@ -119,46 +114,46 @@ class TutorialManagerAI(DistributedObjectAI):
     def requestTutorial(self):
         avId = self.air.getAvatarIdFromSender()
         zones = TZoneStruct()
-
         zones.branch = self.air.allocateZone()
         zones.street = self.air.allocateZone()
         zones.shop = self.air.allocateZone()
         zones.hq = self.air.allocateZone()
-
         self.avId2fsm[avId] = TutorialFSM(self.air, zones, avId)
-
         self.acceptOnce(self.air.getAvatarExitEvent(avId), self.unexpectedExit, extraArgs=[avId])
-
-        self.d_enterTutorial(avId, zones.street, zones.street, zones.shop, zones.hq) #hackfix lololol
+        self.d_enterTutorial(avId, zones.street, zones.street, zones.shop, zones.hq)
 
     def unexpectedExit(self, avId):
         fsm = self.avId2fsm.get(avId)
         if fsm:
             fsm.demand('CleanUp')
 
-    def rejectTutorial(self): # ... never used by the client.
+    def rejectTutorial(self):
         pass
 
     def requestSkipTutorial(self):
         avId = self.air.getAvatarIdFromSender()
-        self.d_skipTutorialResponse(avId, 1)
-
-
-        def handleTutorialSkipped(av):
+        av = self.air.doId2do.get(avId)
+        if av:
             av.b_setTutorialAck(1)
-            av.b_setQuests([[110, 1, 1000, 100, 1]])
-            av.b_setQuestHistory([101])
-            av.b_setRewardHistory(1, [])
-
-
-        # We must wait for the avatar to be generated:
-        self.acceptOnce('generate-%d' % avId, handleTutorialSkipped)
+            av.b_setQuestHistory([110, 100])
+            av.addQuest((110,
+             Quests.getQuestFromNpcId(110),
+             Quests.getQuestToNpcId(110),
+             Quests.getQuestReward(110, av),
+             0), 0)
+            self.air.questManager.toonRodeTrolleyFirstTime(av)
+            self.d_skipTutorialResponse(avId, 1)
+        else:
+            self.d_skipTutorialResponse(avId, 0)
 
     def d_skipTutorialResponse(self, avId, allOk):
         self.sendUpdateToAvatarId(avId, 'skipTutorialResponse', [allOk])
 
     def d_enterTutorial(self, avId, branchZone, streetZone, shopZone, hqZone):
-        self.sendUpdateToAvatarId(avId, 'enterTutorial', [branchZone, streetZone, shopZone, hqZone])
+        self.sendUpdateToAvatarId(avId, 'enterTutorial', [branchZone,
+         streetZone,
+         shopZone,
+         hqZone])
 
     def allDone(self):
         avId = self.air.getAvatarIdFromSender()
@@ -181,21 +176,16 @@ class TutorialManagerAI(DistributedObjectAI):
             self.avId2fsm[avId].demand('CleanUp')
             self.air.writeServerEvent('suspicious', avId=avId, issue='Attempted to request Toontorial when it would be impossible to do so')
             return
-
-"""# Reset Toon to be appropriate for the tutorial:
         av.b_setQuests([])
         av.b_setQuestHistory([])
         av.b_setRewardHistory(0, [])
         av.b_setHp(15)
         av.b_setMaxHp(15)
-
         av.inventory.zeroInv()
         if av.inventory.numItem(ToontownBattleGlobals.THROW_TRACK, 0) == 0:
             av.inventory.addItem(ToontownBattleGlobals.THROW_TRACK, 0)
         if av.inventory.numItem(ToontownBattleGlobals.SQUIRT_TRACK, 0) == 0:
             av.inventory.addItem(ToontownBattleGlobals.SQUIRT_TRACK, 0)
         av.d_setInventory(av.inventory.makeNetString())
-
         av.experience.zeroOutExp()
         av.d_setExperience(av.experience.makeNetString())
-        """

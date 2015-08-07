@@ -1854,7 +1854,7 @@ class TrolleyQuest(Quest):
             return ''
 
     def getString(self):
-        return TTLocalizer.QuestsFriendQuestString
+        return TTLocalizer.QuestsTrolleyQuestString
 
     def getSCStrings(self, toNpcId, progress):
         if progress:
