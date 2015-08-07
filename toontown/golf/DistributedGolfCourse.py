@@ -68,7 +68,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         self.request('Join')
         self.normalExit = 1
         count = self.modelCount
-        loader.beginBulkLoad('minigame', TTLocalizer.HeadingToMinigameTitle % self.getTitle(), count, 1, TTLocalizer.TIP_GOLF)
+        loader.beginBulkLoad('minigame', TTLocalizer.HeadingToMinigameTitle % self.getTitle(), count, 1, TTLocalizer.TIP_GOLF, self.zoneId)
         self.load()
         globalClock.syncFrameTime()
         self.onstage()
