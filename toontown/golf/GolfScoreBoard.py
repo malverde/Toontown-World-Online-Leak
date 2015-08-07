@@ -1,3 +1,4 @@
+#Embedded file name: toontown.golf.GolfScoreBoard
 from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal
@@ -107,22 +108,21 @@ class GolfScoreBoard:
         self.lines.moveTo(self.lineVStart - 0.45, 0, self.lineHStart)
         self.lines.drawTo(self.lineVStart + 11 * self.lineVertOffset, 0, self.lineHStart)
         self.lines.moveTo(self.lineVStart - 0.45, 0, self.lineHStart + 0.19)
-        self.lines.drawTo(self.lineVStart - 0.45, 0, self.lineHStart - 4 * 0.13)
+        self.lines.drawTo(self.lineVStart - 0.45, 0, self.lineHStart - 0.52)
         self.lines.moveTo(self.lineVStart, 0, self.lineHStart + 0.19)
-        self.lines.drawTo(self.lineVStart, 0, self.lineHStart - 4 * 0.13)
+        self.lines.drawTo(self.lineVStart, 0, self.lineHStart - 0.52)
         for x in xrange(4):
             self.lines.moveTo(self.lineVStart - 0.45, 0, self.lineHStart - (x + 1) * self.lineHorOffset)
             self.lines.drawTo(self.lineVStart + 11 * self.lineVertOffset + 0.005, 0, self.lineHStart - (x + 1) * self.lineHorOffset)
 
         for y in xrange(10):
             self.lines.moveTo(self.lineVStart + y * self.lineVertOffset, 0, self.lineHStart + 0.19)
-            self.lines.drawTo(self.lineVStart + y * self.lineVertOffset, 0, self.lineHStart - 4 * 0.13)
+            self.lines.drawTo(self.lineVStart + y * self.lineVertOffset, 0, self.lineHStart - 0.52)
 
         self.lines.moveTo(self.lineVStart + 11 * self.lineVertOffset, 0, self.lineHStart + 0.19)
-        self.lines.drawTo(self.lineVStart + 11 * self.lineVertOffset, 0, self.lineHStart - 4 * 0.13)
+        self.lines.drawTo(self.lineVStart + 11 * self.lineVertOffset, 0, self.lineHStart - 0.52)
         self.scoreboard.attachNewNode(self.lines.create())
         self.hide()
-        return
 
     def getScoreLabel(self, avIdorIndex, holeNum):
         index = None
@@ -226,4 +226,3 @@ class GolfScoreBoard:
         self.scoreboard = None
         self.golfCourse = None
         taskMgr.remove('hide score board')
-        return
