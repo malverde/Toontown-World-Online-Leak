@@ -62,13 +62,13 @@ want-news-tab #f
 want-news-page #f
 want-accessories #t
 want-parties #t
-want-gardening #f
+want-gardening #t
 want-gifting #t
-want-picnic-games #t
-want-chinese-table #t
+want-picnic-games #f
+want-chinese-table #f
 want-fishing #t
-want-checkers-table #t
-want-findfour-table #t
+want-checkers-table #f
+want-findfour-table #f
 want-keep-alive #f
 want-hourly-fireworks #t
 want-flippy-pet-intro #t
@@ -107,5 +107,5 @@ boarding-group-merges #t
 
 want-speedhack-fix #t
 want-cogdominiums #f
-want-game-tables #t
+want-game-tables #f
 force-skip-tutorial #f
