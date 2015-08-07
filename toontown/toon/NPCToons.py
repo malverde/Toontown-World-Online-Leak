@@ -11733,7 +11733,7 @@ FOnpcFriends = {
 9303: (ToontownBattleGlobals.HEAL_TRACK, 3, 30, 2),
 91915: (ToontownBattleGlobals.DROP_TRACK,0, 999, 5) }
 
-import sos
+import toontown.toon.sos
 with open('toontown/toon/sos.py') as data:
     sos = json.load(data)
 for i in xrange(len(sos['name'])):
