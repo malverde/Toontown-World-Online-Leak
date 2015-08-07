@@ -62,7 +62,7 @@ want-news-tab #f
 want-news-page #f
 want-accessories #t
 want-parties #t
-want-gardening #t
+want-gardening #f
 want-gifting #t
 want-picnic-games #f
 want-chinese-table #f
@@ -71,7 +71,7 @@ want-checkers-table #f
 want-findfour-table #f
 want-keep-alive #f
 want-hourly-fireworks #t
-want-flippy-pet-intro #t
+want-flippy-pet-intro #f
 want-hourly-fireworks-type summer
 default-directnotify-level info
 
