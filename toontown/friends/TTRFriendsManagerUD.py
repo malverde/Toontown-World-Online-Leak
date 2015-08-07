@@ -64,23 +64,22 @@ class FriendsListOperation(OperationFSM):
         self.air.dbInterface.queryObject(self.air.dbId, self.friendsList[0][0],
             self.addFriend)
 
-        def addFriend(dclass, fields, friendId = 0, avId = 0):
-            if not (avId or friendId):
-                return
-            if dclass == self.air.dclassesByName['DistributedToonUD']:
-                self.listResponses[avId].append([friendId,
-                 fields['setName'][0],
-                 fields['setDNAString'][0],
-                 fields['setPetId'][0]])
-            if len(self.listResponses[avId]) >= len(self.friendsLists[avId]):
-                self.sendUpdateToAvatarId(avId, 'friendList', [self.listResponses[avId]])
-                del self.friendsLists[avId]
-                del self.friendIndexes[avId]
-                del self.listResponses[avId]
-            else:
-                self.friendIndexes[avId] += 1
-                self.air.dbInterface.queryObject(self.air.dbId, self.friendsLists[avId][self.friendIndexes[avId]][0], functools.partial(addFriend, avId=avId, friendId=self.friendsLists[avId][self.friendIndexes[avId]][0]))
-                
+    def addFriend(self, dclass, fields):
+        if dclass != self.air.dclassesByName['DistributedToonUD']:
+            self.demand('Error', 'Friend was not a Toon')
+            return
+        friendId = self.friendsList[self.friendIndex][0]
+        self.realFriendsList.append([friendId, fields['setName'][0],
+            fields['setDNAString'][0], fields['setPetId'][0]])
+
+        if len(self.realFriendsList) >= len(self.friendsList):
+            self.result = self.realFriendsList
+            self.demand('Off')
+            return
+
+        self.friendIndex += 1
+        self.air.dbInterface.queryObject(self.air.dbId,
+            self.friendsList[self.friendIndex][0], self.addFriend)
 
 
 # -- Remove Friends --
@@ -155,16 +154,16 @@ class FriendDetailsOperation(OperationFSM):
                     break
         self.demand('Off')
 
-        def handleFriend(dclass, fields):
-            if dclass != self.air.dclassesByName['DistributedToonUD']:
-                return
-            name = fields['setName'][0]
-            dna = fields['setDNAString'][0]
-            petId = fields['setPetId'][0]
-            self.sendUpdateToAvatarId(avId, 'friendInfo', [self.currId,
-             name,
-             dna,
-             petId])
+    def handleFriend(self, dclass, fields):
+        if dclass != self.air.dclassesByName['DistributedToonUD']:
+            self.demand('Error', 'Distributed Class was not a Toon.')
+            return
+        name = fields['setName'][0]
+        dna = fields['setDNAString'][0]
+        petId = fields['setPetId'][0]
+
+        self.mgr.sendUpdateToAvatarId(self.sender, 'friendInfo',
+            [self.currId, name, dna, petId])
 
 
 # -- Clear List --
