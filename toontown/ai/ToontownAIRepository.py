@@ -5,6 +5,7 @@ from toontown.distributed.ShardStatus import ShardStatusSender
 from otp.ai.TimeManagerAI import TimeManagerAI
 from otp.ai.MagicWordManagerAI import MagicWordManagerAI
 from toontown.ai.HolidayManagerAI import HolidayManagerAI
+from toontown.ai.DistributedAprilToonsMgrAI import DistributedAprilToonsMgrAI
 from toontown.ai.NewsManagerAI import NewsManagerAI
 from toontown.ai.FishManagerAI import FishManagerAI
 from toontown.distributed.ToontownInternalRepository import ToontownInternalRepository
@@ -91,6 +92,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.doLiveUpdates = self.config.GetBool('want-live-updates', True)
         self.baseXpMultiplier = self.config.GetFloat('base-xp-multiplier', 1.0)
         self.holidayManager = HolidayManagerAI(self)
+        self.DistributedAprilToonsMgr = DistributedAprilToonsMgrAI(self)
         self.PetManager = PetManagerAI(self)
         self.fishManager = FishManagerAI()
         self.questManager = QuestManagerAI(self)
@@ -215,7 +217,9 @@ class ToontownAIRepository(ToontownInternalRepository):
         
         self.notify.info('Creating Pets')
         self.PetManager = PetManagerAI(self)
-
+        
+        self.notify.info('Creating April Toons')
+        self.DistributedAprilToonsMgr = DistributedAprilToonsMgrAI(self)
 
         self.notify.info('Creating Code Redemption')
         self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
