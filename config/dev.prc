@@ -70,8 +70,8 @@ want-fishing #t
 want-checkers-table #f
 want-findfour-table #f
 want-keep-alive #f
-want-april-toons #t
 want-hourly-fireworks #t
+want-flippy-pet-intro #f
 want-hourly-fireworks-type summer
 default-directnotify-level info
 
