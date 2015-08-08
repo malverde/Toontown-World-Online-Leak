@@ -22,7 +22,7 @@ class PetNameGenerator:
         self.neutralFirsts = []
         self.nameDictionary = {}
         searchPath = DSearchPath()
-        searchPath.appendDirectory(Filename('phase_3/etc'))
+        searchPath.appendDirectory(Filename('/phase_3/etc'))
         searchPath.appendDirectory(Filename('resources/phase_3/etc'))
         filename = Filename('PetNameMasterEnglish.txt')
         found = vfs.resolveFilename(filename, searchPath)
