@@ -11736,7 +11736,7 @@ FOnpcFriends = {
 
 
 
-with open(resources/phase_3/etc/sos.py) as data:
+with open('resources/phase_3/etc/sos.py') as data:
      sos = json.load(data)
 for i in xrange(len(sos['name'])):
     TTLocalizer.NPCToonNames[sos['id'][i]] = sos['name'][i]
