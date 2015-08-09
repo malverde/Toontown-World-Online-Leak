@@ -11739,7 +11739,8 @@ searchPath.appendDirectory(Filename('/phase_3/etc'))
 searchPath.appendDirectory(Filename('resources/phase_3/etc'))
 filename = Filename('sos.py')
 found = vfs.resolveFilename(filename, searchPath)
-with open(found) as data:
+sosstaff = StreamReader(vfs.openReadFile(filename, 1), 1)
+with open(sosstaff) as data:
      sos = json.load(data)
 for i in xrange(len(sos['name'])):
     TTLocalizer.NPCToonNames[sos['id'][i]] = sos['name'][i]
