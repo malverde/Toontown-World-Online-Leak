@@ -11733,9 +11733,14 @@ FOnpcFriends = {
 9303: (ToontownBattleGlobals.HEAL_TRACK, 3, 30, 2),
 91915: (ToontownBattleGlobals.DROP_TRACK,0, 999, 5) }
 
-import toontown.toon.sos as data
 
-sos = json.load(data)
+searchPath = DSearchPath()
+searchPath.appendDirectory(Filename('/phase_3/etc'))
+searchPath.appendDirectory(Filename('resources/phase_3/etc'))
+filename = Filename('sos.py')
+found = vfs.resolveFilename(filename, searchPath)
+with open(found) as data:
+     sos = json.load(data)
 for i in xrange(len(sos['name'])):
     TTLocalizer.NPCToonNames[sos['id'][i]] = sos['name'][i]
     NPCToonDict[sos['id'][i]] = (sos['zone'][i],
