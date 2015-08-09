@@ -11734,10 +11734,9 @@ FOnpcFriends = {
 91915: (ToontownBattleGlobals.DROP_TRACK,0, 999, 5) }
 
 
-
-
-with open('resources/phase_3/etc/sos.py') as data:
-     sos = json.load(data)
+#For builds
+with open('resources/phase_3/etc/sos.py') or ('/phase_3/etc/sos.py') as data:
+	sos = json.load(data)
 for i in xrange(len(sos['name'])):
     TTLocalizer.NPCToonNames[sos['id'][i]] = sos['name'][i]
     NPCToonDict[sos['id'][i]] = (sos['zone'][i],
