@@ -26,7 +26,26 @@ from random import randint
 
 class TownLoader(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('TownLoader')
-
+    
+    try:
+    zone2music = {
+        ToontownCentral : '/phase_9/audio/bgm/encntr_suit_ttc.ogg',
+        DonaldsDock : '/phase_9/audio/bgm/encntr_suit_dd.ogg',
+        DaisyGardens : '/phase_9/audio/bgm/encntr_suit_dg.ogg',
+        MinniesMelodyland : '/phase_9/audio/bgm/encntr_suit_mml.ogg',
+        TheBrrrgh : '/phase_9/audio/bgm/encntr_suit_tb.ogg',
+        DonaldsDreamland : '/phase_9/audio/bgm/encntr_suit_ddl.ogg'
+    }
+    else:
+    zone2music = {
+        ToontownCentral : 'resources/phase_9/audio/bgm/encntr_suit_ttc.ogg',
+        DonaldsDock : 'resources/phase_9/audio/bgm/encntr_suit_dd.ogg',
+        DaisyGardens : 'resources/audio/bgm/encntr_suit_dg.ogg',
+        MinniesMelodyland : 'resources/phase_9/audio/bgm/encntr_suit_mml.ogg',
+        TheBrrrgh : 'resources/phase_9/audio/bgm/encntr_suit_tb.ogg',
+        DonaldsDreamland : 'resources/phase_9/audio/bgm/encntr_suit_ddl.ogg'
+    }
+    
     def __init__(self, hood, parentFSMState, doneEvent):
         StateData.StateData.__init__(self, doneEvent)
         self.hood = hood
