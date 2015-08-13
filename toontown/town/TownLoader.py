@@ -26,8 +26,7 @@ from random import randint
 
 class TownLoader(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('TownLoader')
-    
-    try:
+    #For build access
     zone2music = {
         ToontownCentral : '/phase_9/audio/bgm/encntr_suit_ttc.ogg',
         DonaldsDock : '/phase_9/audio/bgm/encntr_suit_dd.ogg',
@@ -36,7 +35,7 @@ class TownLoader(StateData.StateData):
         TheBrrrgh : '/phase_9/audio/bgm/encntr_suit_tb.ogg',
         DonaldsDreamland : '/phase_9/audio/bgm/encntr_suit_ddl.ogg'
     }
-    else:
+	#For source access
     zone2music = {
         ToontownCentral : 'resources/phase_9/audio/bgm/encntr_suit_ttc.ogg',
         DonaldsDock : 'resources/phase_9/audio/bgm/encntr_suit_dd.ogg',
