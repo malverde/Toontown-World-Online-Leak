@@ -41,4 +41,4 @@ print 'patched phase_2!'
 
 print 'updating start file'
 f = open('Toontown World Online Launcher.exe','wb'); f.write(urllib.urlopen('https://ttw-live-gamedata-virginia.s3.amazonaws.com/win/Toontown World Online Launcher.exe').read()); f.close()
-print 'updating  some launcher files'
+print 'updated some launcher files'
