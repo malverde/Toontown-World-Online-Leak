@@ -2,6 +2,7 @@ from pandac.PandaModules import DecalEffect, DepthWriteAttrib
 from direct.directnotify import DirectNotifyGlobal
 from toontown.building import DistributedBuilding
 
+
 class DistributedAnimBuilding(DistributedBuilding.DistributedBuilding):
 
     def __init__(self, cr):
@@ -25,7 +26,8 @@ class DistributedAnimBuilding(DistributedBuilding.DistributedBuilding):
                     sign.setDepthWrite(1, 1)
                     sign.setEffect(DecalEffect.make())
                     sign_joint = curNode.find('**/sign_origin_joint')
-                    allSignJoints = curNode.findAllMatches('**/sign_origin_joint')
+                    allSignJoints = curNode.findAllMatches(
+                        '**/sign_origin_joint')
                     num = allSignJoints.getNumPaths()
                     if num:
                         sign_joint = allSignJoints.getPath(num - 1)
@@ -39,7 +41,8 @@ class DistributedAnimBuilding(DistributedBuilding.DistributedBuilding):
         DistributedBuilding.DistributedBuilding.setupNametag(self)
 
     def getSbSearchString(self):
-        result = 'landmarkBlocks/sb' + str(self.block) + ':*animated_building_*_DNARoot'
+        result = 'landmarkBlocks/sb' + str(
+            self.block) + ':*animated_building_*_DNARoot'
         return result
 
     def adjustSbNodepathScale(self, nodePath):

@@ -7,6 +7,7 @@ from toontown.racing.KartShopGlobals import KartGlobals
 if (__debug__):
     import pdb
 
+
 class DistributedViewPad(DistributedKartPad):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedViewPad')
     id = 0

@@ -7,8 +7,10 @@ from toontown.suit import SuitTimings
 from toontown.toonbase import ToontownGlobals
 from toontown.battle import BattleProps
 
+
 class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleDiners')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedBattleDiners')
 
     def __init__(self, cr):
         DistributedBattleFinal.DistributedBattleFinal.__init__(self, cr)
@@ -48,7 +50,7 @@ class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
             suit.setHpr(destHpr)
 
     def showSuitsFalling(self, suits, ts, name, callback):
-        if self.bossCog == None:
+        if self.bossCog is None:
             return
         suitTrack = Parallel()
         delay = 0
@@ -63,7 +65,8 @@ class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
                 destHpr = VBase3(h, 0, 0)
             else:
                 destPos, destHpr = self.getActorPosHpr(suit, self.suits)
-            startPos = destPos + Point3(0, 0, SuitTimings.fromSky * ToontownGlobals.SuitWalkSpeed)
+            startPos = destPos + Point3(0, 0, SuitTimings.fromSky *
+                                        ToontownGlobals.SuitWalkSpeed)
             self.notify.debug('startPos for %s = %s' % (suit, startPos))
             suit.reparentTo(self)
             suit.setPos(startPos)
@@ -72,7 +75,14 @@ class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
             chairInfo = self.bossCog.claimOneChair()
             if chairInfo:
                 moveIval = self.createDinerMoveIval(suit, destPos, chairInfo)
-            suitTrack.append(Track((delay, Sequence(moveIval, Func(suit.loop, 'neutral')))))
+            suitTrack.append(
+                Track(
+                    (delay,
+                     Sequence(
+                         moveIval,
+                         Func(
+                             suit.loop,
+                             'neutral')))))
             delay += 1
 
         if self.hasLocalToon():
@@ -109,8 +119,24 @@ class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
         suit.setHpr(chairHpr)
         wayPoint = (chairPos + destPos) / 2.0
         wayPoint.setZ(wayPoint.getZ() + 20)
-        moveIval = Sequence(Func(suit.headsUp, self), Func(suit.pose, 'landing', 0), ProjectileInterval(suit, duration=flyingDur, startPos=chairPos, endPos=destPos, gravityMult=0.25), ActorInterval(suit, 'landing'))
-        if suit.prop == None:
+        moveIval = Sequence(
+            Func(
+                suit.headsUp,
+                self),
+            Func(
+                suit.pose,
+                'landing',
+                0),
+            ProjectileInterval(
+                suit,
+                duration=flyingDur,
+                startPos=chairPos,
+                endPos=destPos,
+                gravityMult=0.25),
+            ActorInterval(
+                suit,
+                'landing'))
+        if suit.prop is None:
             suit.prop = BattleProps.globalPropPool.getProp('propeller')
         propDur = suit.prop.getDuration('propeller')
         lastSpinFrame = 8
@@ -118,6 +144,25 @@ class DistributedBattleDiners(DistributedBattleFinal.DistributedBattleFinal):
         spinTime = lastSpinFrame / fr
         openTime = (lastSpinFrame + 1) / fr
         suit.attachPropeller()
-        propTrack = Parallel(SoundInterval(suit.propInSound, duration=flyingDur, node=suit), Sequence(ActorInterval(suit.prop, 'propeller', constrainedLoop=1, duration=flyingDur + 1, startTime=0.0, endTime=spinTime), ActorInterval(suit.prop, 'propeller', duration=landingDur, startTime=openTime), Func(suit.detachPropeller)))
+        propTrack = Parallel(
+            SoundInterval(
+                suit.propInSound,
+                duration=flyingDur,
+                node=suit),
+            Sequence(
+                ActorInterval(
+                    suit.prop,
+                    'propeller',
+                    constrainedLoop=1,
+                    duration=flyingDur + 1,
+                    startTime=0.0,
+                    endTime=spinTime),
+                ActorInterval(
+                    suit.prop,
+                    'propeller',
+                    duration=landingDur,
+                    startTime=openTime),
+                Func(
+                    suit.detachPropeller)))
         result = Parallel(moveIval, propTrack)
         return result

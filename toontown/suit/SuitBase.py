@@ -13,6 +13,7 @@ TIME_BUFFER_PER_WPT = 0.25
 TIME_DIVISOR = 100
 DISTRIBUTE_TASK_CREATION = 0
 
+
 class SuitBase:
     notify = DirectNotifyGlobal.directNotify.newCategory('SuitBase')
 
@@ -56,9 +57,9 @@ class SuitBase:
 
     def setLevel(self, level):
         self.level = level
-        nameWLevel = TTLocalizer.SuitBaseNameWithLevel % {'name': self.name,
-         'dept': self.getStyleDept(),
-         'level': self.getActualLevel()}
+        nameWLevel = TTLocalizer.SuitBaseNameWithLevel % {
+            'name': self.name, 'dept': self.getStyleDept(),
+            'level': self.getActualLevel()}
         self.setDisplayName(nameWLevel)
         attributes = SuitBattleGlobals.SuitAttributes[self.dna.name]
         self.maxHP = attributes['hp'][self.level]
@@ -72,9 +73,11 @@ class SuitBase:
 
     def getActualLevel(self):
         if hasattr(self, 'dna'):
-            return SuitBattleGlobals.getActualFromRelativeLevel(self.getStyleName(), self.level) + 1
+            return SuitBattleGlobals.getActualFromRelativeLevel(
+                self.getStyleName(), self.level) + 1
         else:
-            self.notify.warning('called getActualLevel with no DNA, returning 1 for level')
+            self.notify.warning(
+                'called getActualLevel with no DNA, returning 1 for level')
             return 1
 
     def setPath(self, suitGraph, path):

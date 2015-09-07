@@ -1,10 +1,11 @@
-#Embedded file name: toontown.catalog.CatalogPetTrickItem
+# Embedded file name: toontown.catalog.CatalogPetTrickItem
 import CatalogItem
 from toontown.pets import PetTricks
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
 from direct.interval.IntervalGlobal import *
+
 
 class CatalogPetTrickItem(CatalogItem.CatalogItem):
     sequenceNumber = 0
@@ -56,8 +57,14 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
         track = PetTricks.getTrickIval(pet, self.trickId)
         name = 'petTrick-item-%s' % self.sequenceNumber
         CatalogPetTrickItem.sequenceNumber += 1
-        if track != None:
-            track = Sequence(Sequence(track), ActorInterval(pet, 'neutral', duration=2), name=name)
+        if track is not None:
+            track = Sequence(
+                Sequence(track),
+                ActorInterval(
+                    pet,
+                    'neutral',
+                    duration=2),
+                name=name)
         else:
             pet.animFSM.request('neutral')
             track = Sequence(Wait(4), name=name)
@@ -70,8 +77,9 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
         self.petPicture.delete()
         self.petPicture = None
 
-    def output(self, store = -1):
-        return 'CatalogPetTrickItem(%s%s)' % (self.trickId, self.formatOptionalData(store))
+    def output(self, store=-1):
+        return 'CatalogPetTrickItem(%s%s)' % (
+            self.trickId, self.formatOptionalData(store))
 
     def compareTo(self, other):
         return self.trickId - other.trickId

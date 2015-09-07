@@ -3,6 +3,7 @@ from direct.showbase.PythonUtil import reduceAngle
 from otp.movement import Impulse
 from otp.otpbase import OTPGlobals
 
+
 class PetSphere(Impulse.Impulse):
     SerialNum = 0
 

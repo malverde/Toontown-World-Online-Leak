@@ -1,4 +1,4 @@
-#Embedded file name: toontown.pets.PetAvatarPanel
+# Embedded file name: toontown.pets.PetAvatarPanel
 from pandac.PandaModules import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.gui.DirectGui import *
@@ -17,6 +17,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.pets import Pet, PetConstants, PetDetailPanel
 
+
 class PetAvatarPanel(AvatarPanel.AvatarPanel):
     notify = directNotify.newCategory('PetAvatarPanel')
 
@@ -30,53 +31,120 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             self.avatar = avatar
             self.petIsLocal = False
         from toontown.friends import FriendsListPanel
-        AvatarPanel.AvatarPanel.__init__(self, self.avatar, FriendsListPanel=FriendsListPanel)
+        AvatarPanel.AvatarPanel.__init__(
+            self, self.avatar, FriendsListPanel=FriendsListPanel)
         base.localAvatar.obscureFriendsListButton(1)
         base.panel = self
         gui = loader.loadModel('phase_3.5/models/gui/PetControlPannel')
         guiScale = 0.116
         guiPos = (-0.213, 0, -0.7)
-        self.frame = DirectFrame(parent=base.a2dTopRight, image=gui, scale=guiScale, pos=guiPos, relief=None)
+        self.frame = DirectFrame(
+            parent=base.a2dTopRight,
+            image=gui,
+            scale=guiScale,
+            pos=guiPos,
+            relief=None)
         disabledImageColor = Vec4(0.6, 0.6, 0.6, 1)
         text0Color = Vec4(1, 1, 1, 1)
         text1Color = Vec4(0.5, 1, 0.5, 1)
         text2Color = Vec4(1, 1, 0.5, 1)
         text3Color = Vec4(0.6, 0.6, 0.6, 1)
-        self.closeButton = DirectButton(parent=self.frame, image=(gui.find('**/CancelButtonUp'), gui.find('**/CancelButtonDown'), gui.find('**/CancelButtonRollover')), relief=None, command=self.__handleClose)
-        self.feedButton = DirectButton(parent=self.frame, image=(gui.find('**/ButtonFeedUp'),
-         gui.find('**/ButtonFeedDown'),
-         gui.find('**/ButtonFeedRollover'),
-         gui.find('**/ButtonFeedUp')), geom=gui.find('**/PetControlFeedIcon'), geom3_color=disabledImageColor, image3_color=disabledImageColor, relief=None, text=TTLocalizer.PetPanelFeed, text_scale=TTLocalizer.PAPfeedButton, text0_fg=text0Color, text1_fg=text1Color, text2_fg=text2Color, text3_fg=text3Color, text_pos=(-0.5, 2.8), text_align=TextNode.ALeft, command=self.__handleFeed)
+        self.closeButton = DirectButton(
+            parent=self.frame,
+            image=(
+                gui.find('**/CancelButtonUp'),
+                gui.find('**/CancelButtonDown'),
+                gui.find('**/CancelButtonRollover')),
+            relief=None,
+            command=self.__handleClose)
+        self.feedButton = DirectButton(
+            parent=self.frame,
+            image=(gui.find('**/ButtonFeedUp'),
+                   gui.find('**/ButtonFeedDown'),
+                   gui.find('**/ButtonFeedRollover'),
+                   gui.find('**/ButtonFeedUp')),
+            geom=gui.find('**/PetControlFeedIcon'),
+            geom3_color=disabledImageColor, image3_color=disabledImageColor,
+            relief=None, text=TTLocalizer.PetPanelFeed,
+            text_scale=TTLocalizer.PAPfeedButton, text0_fg=text0Color,
+            text1_fg=text1Color, text2_fg=text2Color, text3_fg=text3Color,
+            text_pos=(-0.5, 2.8),
+            text_align=TextNode.ALeft, command=self.__handleFeed)
         if not self.petIsLocal:
             self.feedButton['state'] = DGG.DISABLED
         else:
             self.feedButton['state'] = self.feedButtonState()
-        self.callButton = DirectButton(parent=self.frame, image=(gui.find('**/ButtonGoToUp'),
-         gui.find('**/ButtonGoToDown'),
-         gui.find('**/ButtonGoToRollover'),
-         gui.find('**/ButtonGoToUp')), geom=gui.find('**/PetControlGoToIcon'), geom3_color=disabledImageColor, image3_color=disabledImageColor, relief=None, text=TTLocalizer.PetPanelCall, text0_fg=text0Color, text1_fg=text1Color, text2_fg=text2Color, text3_fg=text3Color, text_scale=TTLocalizer.PAPcallButton, text_pos=(-0.5, 1.3), text_align=TextNode.ALeft, command=self.__handleCall)
+        self.callButton = DirectButton(
+            parent=self.frame,
+            image=(gui.find('**/ButtonGoToUp'),
+                   gui.find('**/ButtonGoToDown'),
+                   gui.find('**/ButtonGoToRollover'),
+                   gui.find('**/ButtonGoToUp')),
+            geom=gui.find('**/PetControlGoToIcon'),
+            geom3_color=disabledImageColor, image3_color=disabledImageColor,
+            relief=None, text=TTLocalizer.PetPanelCall, text0_fg=text0Color,
+            text1_fg=text1Color, text2_fg=text2Color, text3_fg=text3Color,
+            text_scale=TTLocalizer.PAPcallButton, text_pos=(-0.5, 1.3),
+            text_align=TextNode.ALeft, command=self.__handleCall)
         if not self.petIsLocal:
             self.callButton['state'] = DGG.DISABLED
-        self.scratchButton = DirectButton(parent=self.frame, image=(gui.find('**/ButtonScratchUp'),
-         gui.find('**/ButtonScratchDown'),
-         gui.find('**/ButtonScratchRollover'),
-         gui.find('**/ButtonScratchUp')), geom=gui.find('**/PetControlScratchIcon'), geom3_color=disabledImageColor, image3_color=disabledImageColor, relief=None, text=TTLocalizer.PetPanelScratch, text0_fg=text0Color, text1_fg=text1Color, text2_fg=text2Color, text3_fg=text3Color, text_scale=TTLocalizer.PAPscratchButton, text_pos=(-0.5, 2.05), text_align=TextNode.ALeft, command=self.__handleScratch)
+        self.scratchButton = DirectButton(
+            parent=self.frame,
+            image=(gui.find('**/ButtonScratchUp'),
+                   gui.find('**/ButtonScratchDown'),
+                   gui.find('**/ButtonScratchRollover'),
+                   gui.find('**/ButtonScratchUp')),
+            geom=gui.find('**/PetControlScratchIcon'),
+            geom3_color=disabledImageColor, image3_color=disabledImageColor,
+            relief=None, text=TTLocalizer.PetPanelScratch, text0_fg=text0Color,
+            text1_fg=text1Color, text2_fg=text2Color, text3_fg=text3Color,
+            text_scale=TTLocalizer.PAPscratchButton, text_pos=(-0.5, 2.05),
+            text_align=TextNode.ALeft, command=self.__handleScratch)
         if not self.petIsLocal:
             self.scratchButton['state'] = DGG.DISABLED
-        self.ownerButton = DirectButton(parent=self.frame, image=(gui.find('**/PetControlToonButtonUp'), gui.find('**/PetControlToonButtonDown'), gui.find('**/PetControlToonButtonRollover')), geom=gui.find('**/PetControlToonIcon'), geom3_color=disabledImageColor, relief=None, image3_color=disabledImageColor, text=('',
-         TTLocalizer.PetPanelOwner,
-         TTLocalizer.PetPanelOwner,
-         ''), text_fg=text2Color, text_shadow=(0, 0, 0, 1), text_scale=TTLocalizer.PAPownerButton, text_pos=(0.3, 1.05), text_align=TextNode.ACenter, command=self.__handleToOwner)
+        self.ownerButton = DirectButton(
+            parent=self.frame,
+            image=(
+                gui.find('**/PetControlToonButtonUp'),
+                gui.find('**/PetControlToonButtonDown'),
+                gui.find('**/PetControlToonButtonRollover')),
+            geom=gui.find('**/PetControlToonIcon'),
+            geom3_color=disabledImageColor,
+            relief=None,
+            image3_color=disabledImageColor,
+            text=(
+                '',
+                TTLocalizer.PetPanelOwner,
+                TTLocalizer.PetPanelOwner,
+                ''),
+            text_fg=text2Color,
+            text_shadow=(
+                0,
+                0,
+                0,
+                1),
+            text_scale=TTLocalizer.PAPownerButton,
+            text_pos=(
+                0.3,
+                1.05),
+            text_align=TextNode.ACenter,
+            command=self.__handleToOwner)
         if self.avatar.getOwnerId() == base.localAvatar.doId:
             self.ownerButton['state'] = DGG.DISABLED
         toonGui = loader.loadModel('phase_3.5/models/gui/avatar_panel_gui')
-        self.detailButton = DirectButton(parent=self.frame, image=(toonGui.find('**/ChtBx_BackBtn_UP'),
-         toonGui.find('**/ChtBx_BackBtn_DN'),
-         toonGui.find('**/ChtBx_BackBtn_Rllvr'),
-         toonGui.find('**/ChtBx_BackBtn_UP')), relief=None, pos=(-1.3, 0, 0.67), image3_color=disabledImageColor, text=('',
-         TTLocalizer.PetPanelDetail,
-         TTLocalizer.PetPanelDetail,
-         ''), text_fg=text2Color, text_shadow=(0, 0, 0, 1), text_scale=0.05, text_pos=(0.05, 0.05), text_align=TextNode.ACenter, command=self.__handleDetail)
+        self.detailButton = DirectButton(
+            parent=self.frame,
+            image=(toonGui.find('**/ChtBx_BackBtn_UP'),
+                   toonGui.find('**/ChtBx_BackBtn_DN'),
+                   toonGui.find('**/ChtBx_BackBtn_Rllvr'),
+                   toonGui.find('**/ChtBx_BackBtn_UP')),
+            relief=None, pos=(-1.3, 0, 0.67),
+            image3_color=disabledImageColor,
+            text=('', TTLocalizer.PetPanelDetail, TTLocalizer.PetPanelDetail,
+                  ''),
+            text_fg=text2Color, text_shadow=(0, 0, 0, 1),
+            text_scale=0.05, text_pos=(0.05, 0.05),
+            text_align=TextNode.ACenter, command=self.__handleDetail)
         self.detailButton.setScale(7.5)
         if not self.petIsLocal:
             self.detailButton['state'] = DGG.DISABLED
@@ -88,25 +156,32 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         self.accept('petStateUpdated', self.__refreshPetInfo)
         self.frame.show()
         if self.petIsLocal:
-            proxTask = Task.loop(Task(self.__checkPetProximity), Task.pause(0.5))
-            taskMgr.add(proxTask, 'petpanel-proximity-check', priority=ToontownGlobals.PetPanelProximityPriority)
+            proxTask = Task.loop(
+                Task(self.__checkPetProximity),
+                Task.pause(0.5))
+            taskMgr.add(
+                proxTask,
+                'petpanel-proximity-check',
+                priority=ToontownGlobals.PetPanelProximityPriority)
         if base.localAvatar.isLockedDown():
             self.disableInteractionButtons()
         if self.petIsLocal:
             self.listenForInteractionDone()
         messenger.send('petPanelDone')
-        if not self.petIsLocal and hasattr(self.avatar, 'updateMoodFromServer'):
-            if self.avatar.doId != localAvatar.getPetId() or bboard.get(PetConstants.OurPetsMoodChangedKey, False):
+        if not self.petIsLocal and hasattr(
+                self.avatar, 'updateMoodFromServer'):
+            if self.avatar.doId != localAvatar.getPetId() or bboard.get(
+                    PetConstants.OurPetsMoodChangedKey, False):
                 self.stateLabel['text'] = ''
 
-                def refresh(self = self, av = self.avatar):
+                def refresh(self=self, av=self.avatar):
                     bboard.remove(PetConstants.OurPetsMoodChangedKey)
                     self.__refreshPetInfo(av)
 
                 self.avatar.updateMoodFromServer(refresh)
         base.hideFriendMargins()
 
-    def __checkPetProximity(self, task = None):
+    def __checkPetProximity(self, task=None):
         if self.petIsLocal:
             if base.localAvatar.isInWater():
                 self.scratchButton['state'] = DGG.DISABLED
@@ -135,7 +210,8 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
     def enableInteractionButtons(self):
         self.notify.debug('enable buttons')
         proxTask = Task.loop(Task(self.__checkPetProximity), Task.pause(0.5))
-        taskMgr.add(proxTask, 'petpanel-proximity-check', priority=ToontownGlobals.PetPanelProximityPriority)
+        taskMgr.add(proxTask, 'petpanel-proximity-check',
+                    priority=ToontownGlobals.PetPanelProximityPriority)
         self.__checkPetProximity()
 
     def disableInteractionButtons(self):
@@ -159,7 +235,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
 
     def cleanup(self):
         self.notify.debug('cleanup(): doId=%s' % self.avatar.doId)
-        if self.frame == None:
+        if self.frame is None:
             return
         self.cancelListenForInteractionDone()
         taskMgr.remove('petpanel-proximity-check')
@@ -188,25 +264,27 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         self.detailButton['state'] = DGG.DISABLED
 
     def __handleDetailDone(self):
-        if self.petDetailPanel != None:
+        if self.petDetailPanel is not None:
             self.petDetailPanel.cleanup()
             self.petDetailPanel = None
         self.detailButton['state'] = DGG.NORMAL
 
     def __handleDetail(self):
-        self.petDetailPanel = PetDetailPanel.PetDetailPanel(pet=self.avatar, closeCallback=self.__handleDetailDone, parent=self.frame)
+        self.petDetailPanel = PetDetailPanel.PetDetailPanel(
+            pet=self.avatar, closeCallback=self.__handleDetailDone, parent=self.frame)
         self.detailButton['state'] = DGG.DISABLED
 
     def __handleToOwner(self):
         self.notify.debug('__handleToOwner(): doId=%s' % self.avatar.doId)
         handle = base.cr.identifyFriend(self.avatar.ownerId)
-        if handle != None:
+        if handle is not None:
             self.cleanup()
             messenger.send('clickedNametag', [handle])
         else:
             self.disableAll()
             from toontown.toon import ToonDetail
-            self.toonDetail = ToonDetail.ToonDetail(self.avatar.ownerId, self.__ownerDetailsLoaded)
+            self.toonDetail = ToonDetail.ToonDetail(
+                self.avatar.ownerId, self.__ownerDetailsLoaded)
 
     def __ownerDetailsLoaded(self, avatar):
         self.notify.debug('__ownerDetailsLoaded(): doId=%s' % self.avatar.doId)
@@ -240,7 +318,8 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         if base.config.GetBool('want-qa-regression', 1):
             self.notify.info('QA-REGRESSION: PET: Scratch')
         self.notify.debug('__handleScratch(): doId=%s' % self.avatar.doId)
-        base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_SCRATCH)
+        base.localAvatar.b_setPetMovie(
+            self.avId, PetConstants.PET_MOVIE_SCRATCH)
         base.panel.disableInteractionButtons()
         if self.avatar.trickIval is not None and self.avatar.trickIval.isPlaying():
             self.avatar.trickIval.finish()
@@ -248,7 +327,9 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         base.localAvatar.lock()
 
     def __handleDisableAvatar(self):
-        self.notify.debug('__handleDisableAvatar(): doId=%s' % self.avatar.doId)
+        self.notify.debug(
+            '__handleDisableAvatar(): doId=%s' %
+            self.avatar.doId)
         self.cleanup()
         AvatarPanel.currentAvatarPanel = None
 
@@ -276,8 +357,20 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         self.petModel.reparentTo(self.petView)
         self.petModel.enterNeutralHappy()
         self.petModel.startBlink()
-        self.nameLabel = DirectLabel(parent=self.frame, pos=(0, 0, 5.2), relief=None, text=avatar.getName(), text_font=avatar.getFont(), text_fg=Vec4(0, 0, 0, 1), text_pos=(0, 0), text_scale=0.4, text_wordwrap=7.5, text_shadow=(1, 1, 1, 1))
-        self.stateLabel = DirectLabel(parent=self.frame, pos=TTLocalizer.PAPstateLabelPos, relief=None, text='', text_font=avatar.getFont(), text_fg=Vec4(0, 0, 0, 1), text_scale=TTLocalizer.PAPstateLabel, text_wordwrap=TTLocalizer.PAPstateLabelWordwrap, text_shadow=(1, 1, 1, 1))
+        self.nameLabel = DirectLabel(
+            parent=self.frame, pos=(0, 0, 5.2),
+            relief=None, text=avatar.getName(),
+            text_font=avatar.getFont(),
+            text_fg=Vec4(0, 0, 0, 1),
+            text_pos=(0, 0),
+            text_scale=0.4, text_wordwrap=7.5, text_shadow=(1, 1, 1, 1))
+        self.stateLabel = DirectLabel(
+            parent=self.frame, pos=TTLocalizer.PAPstateLabelPos, relief=None,
+            text='', text_font=avatar.getFont(),
+            text_fg=Vec4(0, 0, 0, 1),
+            text_scale=TTLocalizer.PAPstateLabel,
+            text_wordwrap=TTLocalizer.PAPstateLabelWordwrap,
+            text_shadow=(1, 1, 1, 1))
         self.__refreshPetInfo(avatar)
 
     def __refreshPetInfo(self, avatar):
@@ -285,12 +378,12 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         if avatar.doId != self.avatar.doId:
             self.notify.warning('avatar not self!')
             return
-        if self.frame == None:
+        if self.frame is None:
             return
         if not self.petIsLocal:
             self.avatar.updateOfflineMood()
         mood = self.avatar.getDominantMood()
         self.stateLabel['text'] = TTLocalizer.PetMoodAdjectives[mood]
         self.nameLabel['text'] = avatar.getName()
-        if self.petDetailPanel != None:
+        if self.petDetailPanel is not None:
             self.petDetailPanel.update(avatar)

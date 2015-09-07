@@ -1,4 +1,4 @@
-#Embedded file name: toontown.pets.DistributedPetProxyAI
+# Embedded file name: toontown.pets.DistributedPetProxyAI
 from direct.showbase.PythonUtil import contains, lerp, clampScalar
 from direct.distributed import DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
@@ -10,8 +10,10 @@ import time
 import copy
 BATTLE_TRICK_HP_MULTIPLIER = 10.0
 
+
 class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPetProxyAI')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedPetProxyAI')
 
     def __init__(self, air):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
@@ -36,7 +38,7 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
         self.__generateDistTraitFuncs()
         self.__generateDistMoodFuncs()
 
-    def getSetterName(self, valueName, prefix = 'set'):
+    def getSetterName(self, valueName, prefix='set'):
         return '%s%s%s' % (prefix, valueName[0].upper(), valueName[1:])
 
     def setDNA(self, dna):
@@ -114,17 +116,20 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
             d_setterName = self.getSetterName(traitName, 'd_set')
             setterName = self.getSetterName(traitName)
 
-            def traitGetter(i = i):
+            def traitGetter(i=i):
                 return self.traitList[i]
 
-            def b_traitSetter(value, setterName = setterName, d_setterName = d_setterName):
+            def b_traitSetter(
+                    value,
+                    setterName=setterName,
+                    d_setterName=d_setterName):
                 self.__dict__[d_setterName](value)
                 self.__dict__[setterName](value)
 
-            def d_traitSetter(value, setterName = setterName):
+            def d_traitSetter(value, setterName=setterName):
                 self.sendUpdate(setterName, [value])
 
-            def traitSetter(value, i = i):
+            def traitSetter(value, i=i):
                 self.traitList[i] = value
 
             self.__dict__[getterName] = traitGetter
@@ -290,16 +295,16 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
             getterName = self.getSetterName(compName, 'get')
             setterName = self.getSetterName(compName)
 
-            def moodGetter(compName = compName):
+            def moodGetter(compName=compName):
                 return self.__handleMoodGet(compName)
 
-            def b_moodSetter(value, setterName = setterName):
+            def b_moodSetter(value, setterName=setterName):
                 self.__dict__[setterName](value)
 
-            def d_moodSetter(value, setterName = setterName):
+            def d_moodSetter(value, setterName=setterName):
                 self.sendUpdate(setterName, [value])
 
-            def moodSetter(value, compName = compName):
+            def moodSetter(value, compName=compName):
                 self.__handleMoodSet(compName, value)
 
             self.__dict__[getterName] = moodGetter
@@ -328,9 +333,10 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
 
         self.sendUpdate('setTrickAptitudes', [aptitudes])
 
-    def setTrickAptitudes(self, aptitudes, local = 0):
+    def setTrickAptitudes(self, aptitudes, local=0):
         if not local:
-            DistributedPetProxyAI.notify.debug('setTrickAptitudes: %s' % aptitudes)
+            DistributedPetProxyAI.notify.debug(
+                'setTrickAptitudes: %s' % aptitudes)
         while len(self.trickAptitudes) < len(PetTricks.Tricks) - 1:
             self.trickAptitudes.append(0.0)
 
@@ -341,7 +347,7 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
             return 0.0
         return self.trickAptitudes[trickId]
 
-    def setTrickAptitude(self, trickId, aptitude, send = 1):
+    def setTrickAptitude(self, trickId, aptitude, send=1):
         aptitude = clampScalar(aptitude, 0.0, 1.0)
         aptitudes = self.trickAptitudes
         while len(aptitudes) - 1 < trickId:
@@ -363,10 +369,9 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
             if value == 0.0:
                 traitName = PetTraits.getTraitNames()[i]
                 traitValue = self.traits.getTraitValue(traitName)
-                DistributedPetProxyAI.notify.info("%s: initializing new trait '%s' to %s, seed=%s" % (self.doId,
-                 traitName,
-                 traitValue,
-                 self.traitSeed))
+                DistributedPetProxyAI.notify.info(
+                    "%s: initializing new trait '%s' to %s, seed=%s" %
+                    (self.doId, traitName, traitValue, self.traitSeed))
                 setterName = self.getSetterName(traitName, 'b_set')
                 self.__dict__[setterName](traitValue)
 
@@ -430,7 +435,9 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
         if self.mood.isComponentActive('fatigue'):
             cutoff *= 0.5
         cutoff *= PetTricks.TrickAccuracies[trickId]
-        DistributedPetProxyAI.notify.debug('_willDoTrick: %s / %s' % (randVal, cutoff))
+        DistributedPetProxyAI.notify.debug(
+            '_willDoTrick: %s / %s' %
+            (randVal, cutoff))
         return randVal < cutoff
 
     def _handleDidTrick(self, trickId):
@@ -438,14 +445,22 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
         if trickId == PetTricks.Tricks.BALK:
             return
         aptitude = self.getTrickAptitude(trickId)
-        self.setTrickAptitude(trickId, aptitude + PetTricks.AptitudeIncrementDidTrick)
-        self.addToMood('fatigue', lerp(PetTricks.MaxTrickFatigue, PetTricks.MinTrickFatigue, aptitude))
+        self.setTrickAptitude(
+            trickId,
+            aptitude +
+            PetTricks.AptitudeIncrementDidTrick)
+        self.addToMood(
+            'fatigue',
+            lerp(
+                PetTricks.MaxTrickFatigue,
+                PetTricks.MinTrickFatigue,
+                aptitude))
         self.d_setDominantMood(self.mood.getDominantMood())
 
     def attemptBattleTrick(self, trickId):
         self.lerpMoods({'boredom': -0.1,
-         'excitement': 0.05,
-         'loneliness': -0.05})
+                        'excitement': 0.05,
+                        'loneliness': -0.05})
         if self._willDoTrick(trickId):
             self._handleDidTrick(trickId)
             self.b_setLastSeenTimestamp(self.getCurEpochTimestamp())
@@ -454,7 +469,7 @@ class DistributedPetProxyAI(DistributedObjectAI.DistributedObjectAI):
             self.b_setLastSeenTimestamp(self.getCurEpochTimestamp())
             return 1
 
-    def handleMoodChange(self, components = [], distribute = 1):
+    def handleMoodChange(self, components=[], distribute=1):
         if len(components) == 0:
             components = PetMood.PetMood.Components
         if distribute:

@@ -7,6 +7,7 @@ from direct.fsm import FSM
 from direct.distributed.DistributedSmoothNode import DistributedSmoothNode
 from otp.avatar.ShadowCaster import ShadowCaster
 
+
 class DistributedProjectile(DistributedSmoothNode, ShadowCaster, NodePath):
 
     def __init__(self, cr):

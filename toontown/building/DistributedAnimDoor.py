@@ -6,6 +6,7 @@ from toontown.building import DoorTypes
 if (__debug__):
     import pdb
 
+
 class DistributedAnimDoor(DistributedDoor.DistributedDoor):
 
     def __init__(self, cr):
@@ -13,13 +14,17 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
         base.animDoor = self
 
     def getBuilding(self):
-        if not self.__dict__.has_key('building'):
+        if 'building' not in self.__dict__:
             if self.doorType == DoorTypes.EXT_ANIM_STANDARD:
-                searchStr = '**/??' + str(self.block) + ':animated_building_*_DNARoot;+s'
+                searchStr = '**/??' + str(
+                    self.block) + ':animated_building_*_DNARoot;+s'
                 self.notify.debug('searchStr=%s' % searchStr)
-                self.building = self.cr.playGame.hood.loader.geom.find(searchStr)
+                self.building = self.cr.playGame.hood.loader.geom.find(
+                    searchStr)
             else:
-                self.notify.error('DistributedAnimDoor.getBuiding with doorType=%s' % self.doorType)
+                self.notify.error(
+                    'DistributedAnimDoor.getBuiding with doorType=%s' %
+                    self.doorType)
         return self.building
 
     def getDoorNodePath(self):
@@ -29,14 +34,20 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
             else:
                 building = self.getBuilding()
                 doorNP = building.find('**/door_origin')
-                self.notify.debug('creating doorOrigin at %s %s' % (str(doorNP.getPos()), str(doorNP.getHpr())))
+                self.notify.debug(
+                    'creating doorOrigin at %s %s' %
+                    (str(
+                        doorNP.getPos()), str(
+                        doorNP.getHpr())))
                 otherNP = NodePath('doorOrigin')
                 otherNP.setPos(doorNP.getPos())
                 otherNP.setHpr(doorNP.getHpr())
                 otherNP.reparentTo(doorNP.getParent())
                 self.tempDoorNodePath = otherNP
         else:
-            self.notify.error('DistributedAnimDoor.getDoorNodePath with doorType=%s' % self.doorType)
+            self.notify.error(
+                'DistributedAnimDoor.getDoorNodePath with doorType=%s' %
+                self.doorType)
         return otherNP
 
     def setTriggerName(self):
@@ -52,11 +63,12 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
             self.notify.error('setTriggerName doorTYpe=%s' % self.doorType)
 
     def getAnimBuilding(self):
-        if not self.__dict__.has_key('animBuilding'):
+        if 'animBuilding' not in self.__dict__:
             if self.doorType == DoorTypes.EXT_ANIM_STANDARD:
                 bldg = self.getBuilding()
                 key = bldg.getParent().getParent()
-                animPropList = self.cr.playGame.hood.loader.animPropDict.get(key)
+                animPropList = self.cr.playGame.hood.loader.animPropDict.get(
+                    key)
                 if animPropList:
                     for prop in animPropList:
                         if bldg == prop.getActor().getParent():
@@ -86,7 +98,15 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
         else:
             h = -100
         self.finishDoorTrack()
-        self.doorTrack = Parallel(SoundInterval(self.openSfx, node=rightDoor), Sequence(HprInterval(rightDoor, VBase3(0, 0, 0)), Wait(0.4), LerpHprInterval(nodePath=rightDoor, duration=0.6, hpr=VBase3(h, 0, 0), startHpr=VBase3(0, 0, 0), blendType='easeInOut')), name=trackName)
+        self.doorTrack = Parallel(
+            SoundInterval(
+                self.openSfx, node=rightDoor), Sequence(
+                HprInterval(
+                    rightDoor, VBase3(
+                        0, 0, 0)), Wait(0.4), LerpHprInterval(
+                    nodePath=rightDoor, duration=0.6, hpr=VBase3(
+                        h, 0, 0), startHpr=VBase3(
+                        0, 0, 0), blendType='easeInOut')), name=trackName)
         self.doorTrack.start(ts)
         return
 
@@ -103,7 +123,12 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
         else:
             h = -100
         self.finishDoorTrack()
-        self.doorTrack = Sequence(LerpHprInterval(nodePath=rightDoor, duration=1.0, hpr=VBase3(0, 0, 0), startHpr=VBase3(h, 0, 0), blendType='easeInOut'), SoundInterval(self.closeSfx, node=rightDoor), name=trackName)
+        self.doorTrack = Sequence(
+            LerpHprInterval(
+                nodePath=rightDoor, duration=1.0, hpr=VBase3(
+                    0, 0, 0), startHpr=VBase3(
+                    h, 0, 0), blendType='easeInOut'), SoundInterval(
+                self.closeSfx, node=rightDoor), name=trackName)
         self.doorTrack.start(ts)
         if hasattr(self, 'done'):
             request = self.getRequestStatus()
@@ -121,10 +146,17 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
             otherNP = self.getDoorNodePath()
             trackName = 'doorDoorExitTrack-%d' % self.doId
             self.finishDoorExitTrack()
-            self.doorExitTrack = Parallel(SoundInterval(self.openSfx, node=leftDoor), Sequence(LerpHprInterval(nodePath=leftDoor, duration=0.6, hpr=VBase3(h, 0, 0), startHpr=VBase3(0, 0, 0), blendType='easeInOut')), name=trackName)
+            self.doorExitTrack = Parallel(
+                SoundInterval(
+                    self.openSfx, node=leftDoor), Sequence(
+                    LerpHprInterval(
+                        nodePath=leftDoor, duration=0.6, hpr=VBase3(
+                            h, 0, 0), startHpr=VBase3(
+                            0, 0, 0), blendType='easeInOut')), name=trackName)
             self.doorExitTrack.start(ts)
         else:
-            self.notify.warning('exitDoorEnterOpening(): did not find leftDoor')
+            self.notify.warning(
+                'exitDoorEnterOpening(): did not find leftDoor')
         return
 
     def exitDoorEnterClosing(self, ts):
@@ -138,6 +170,11 @@ class DistributedAnimDoor(DistributedDoor.DistributedDoor):
             otherNP = self.getDoorNodePath()
             trackName = 'doorExitTrack-%d' % self.doId
             self.finishDoorExitTrack()
-            self.doorExitTrack = Sequence(LerpHprInterval(nodePath=leftDoor, duration=1.0, hpr=VBase3(0, 0, 0), startHpr=VBase3(h, 0, 0), blendType='easeInOut'), SoundInterval(self.closeSfx, node=leftDoor), name=trackName)
+            self.doorExitTrack = Sequence(
+                LerpHprInterval(
+                    nodePath=leftDoor, duration=1.0, hpr=VBase3(
+                        0, 0, 0), startHpr=VBase3(
+                        h, 0, 0), blendType='easeInOut'), SoundInterval(
+                    self.closeSfx, node=leftDoor), name=trackName)
             self.doorExitTrack.start(ts)
         return

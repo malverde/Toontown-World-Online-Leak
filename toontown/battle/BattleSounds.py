@@ -3,13 +3,14 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import AppRunnerGlobal
 import os
 
+
 class BattleSounds:
     notify = DirectNotifyGlobal.directNotify.newCategory('BattleSounds')
 
     def __init__(self):
         self.mgr = AudioManager.createAudioManager()
         self.isValid = 0
-        if self.mgr != None and self.mgr.isValid():
+        if self.mgr is not None and self.mgr.isValid():
             self.isValid = 1
             limit = config.GetInt('battle-sound-cache-size', 15)
             self.mgr.setCacheLimit(limit)

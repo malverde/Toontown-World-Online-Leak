@@ -2,7 +2,9 @@ from toontown.toonbase import ToontownGlobals
 import SuitTimings
 from toontown.dna import DNAStoreSuitPoint
 
+
 class SuitLegList:
+
     def __init__(self, suitGraph, path):
         self.suitGraph = suitGraph
         self.suitLegType = 0
@@ -26,13 +28,18 @@ class SuitLegList:
         else:
             legType = SuitLeg.TFromSky
 
-        self.legs.append(SuitLeg(self.suitGraph, startPoint, secondPoint, legType))
+        self.legs.append(
+            SuitLeg(
+                self.suitGraph,
+                startPoint,
+                secondPoint,
+                legType))
 
     def createMidLegs(self):
         i = 0
-        while i < len(self.points)-1:
+        while i < len(self.points) - 1:
             a = self.points[i]
-            b = self.points[i+1]
+            b = self.points[i + 1]
 
             self.createLeg(a, b)
 
@@ -53,12 +60,14 @@ class SuitLegList:
         # leg, but we insert a leg in the middle to handle the door action:
         if a.type == DNAStoreSuitPoint.COGHQOUTPOINT:
             # We're walking out of a door, so first, insert a door leg:
-            # TODO: self.legs.append(SuitLeg(self.suitGraph, a, a, SuitLeg.TFromCoghq))
+            # TODO: self.legs.append(SuitLeg(self.suitGraph, a, a,
+            # SuitLeg.TFromCoghq))
             self.legs.append(SuitLeg(self.suitGraph, a, b, legType))
         elif b.type == DNAStoreSuitPoint.COGHQINPOINT:
             # We're going *into* a door, so insert a door leg after the move:
             self.legs.append(SuitLeg(self.suitGraph, a, b, legType))
-            # TODO: self.legs.append(SuitLeg(self.suitGraph, b, b, SuitLeg.TToCoghq))
+            # TODO: self.legs.append(SuitLeg(self.suitGraph, b, b,
+            # SuitLeg.TToCoghq))
         else:
             # No CogHQ going on here, regular leg:
             self.legs.append(SuitLeg(self.suitGraph, a, b, legType))
@@ -77,7 +86,12 @@ class SuitLegList:
 
         self.legs.append(SuitLeg(self.suitGraph, prevPoint, endPoint, legType))
         # And also take the suit down:
-        self.legs.append(SuitLeg(self.suitGraph, prevPoint, endPoint, SuitLeg.TOff))
+        self.legs.append(
+            SuitLeg(
+                self.suitGraph,
+                prevPoint,
+                endPoint,
+                SuitLeg.TOff))
 
     def getStartTime(self, index):
         time = 0
@@ -86,7 +100,7 @@ class SuitLegList:
             time += self.legs[i].getLegTime()
             i += 1
         return time
-    
+
     def getLegIndexAtTime(self, time, startLeg):
         endTime = 0
         i = 0
@@ -98,7 +112,7 @@ class SuitLegList:
             if endTime > time:
                 return i
             i += 1
-        return len(self.legs)-1
+        return len(self.legs) - 1
 
     def getNumLegs(self):
         return len(self.legs)
@@ -127,6 +141,7 @@ class SuitLegList:
     def __getitem__(self, key):
         return self.legs[key]
 
+
 class SuitLeg:
     TWalkFromStreet = 0
     TWalkToStreet = 1
@@ -140,18 +155,19 @@ class SuitLeg:
     TToCoghq = 9
     TOff = 10
     TypeToName = {
-      0 : 'WalkFromStreet',
-      1 : 'WalkToStreet',
-      2 : 'Walk',
-      3 : 'FromSky',
-      4 : 'ToSky',
-      5 : 'FromSuitBuilding',
-      6 : 'ToSuitBuilding',
-      7 : 'ToToonBuilding',
-      8 : 'FromCoghq',
-      9 : 'ToCoghq',
-      10 : 'Off'
+        0: 'WalkFromStreet',
+        1: 'WalkToStreet',
+        2: 'Walk',
+        3: 'FromSky',
+        4: 'ToSky',
+        5: 'FromSuitBuilding',
+        6: 'ToSuitBuilding',
+        7: 'ToToonBuilding',
+        8: 'FromCoghq',
+        9: 'ToCoghq',
+        10: 'Off'
     }
+
     def __init__(self, suitGraph, pointA, pointB, type):
         self.suitGraph = suitGraph
         self.pointA = pointA
@@ -163,7 +179,8 @@ class SuitLeg:
     def getLegTime(self):
         if self.type in (SuitLeg.TWalk, SuitLeg.TWalkFromStreet,
                          SuitLeg.TWalkToStreet):
-            return (self.posA-self.posB).length()/ToontownGlobals.SuitWalkSpeed
+            return (
+                self.posA - self.posB).length() / ToontownGlobals.SuitWalkSpeed
         elif self.type == SuitLeg.TFromSky:
             return SuitTimings.fromSky
         elif self.type == SuitLeg.TToSky:
@@ -192,16 +209,18 @@ class SuitLeg:
                            SuitLeg.TOff):
             return self.getPosB()
 
-        fraction = time/self.getLegTime()
+        fraction = time / self.getLegTime()
         fraction = min(max(fraction, 0.0), 1.0)
 
-        delta = self.getPosB()-self.getPosA()
-        pos = self.getPosA() + delta*(time/self.getLegTime())
+        delta = self.getPosB() - self.getPosA()
+        pos = self.getPosA() + delta * (time / self.getLegTime())
 
         return pos
 
     def getZone(self):
-        return self.suitGraph.getEdgeZone(self.suitGraph.getConnectingEdge(self.pointA, self.pointB))
+        return self.suitGraph.getEdgeZone(
+            self.suitGraph.getConnectingEdge(
+                self.pointA, self.pointB))
 
     def getBlockNumber(self):
         block = self.pointB.getLandmarkBuildingIndex()

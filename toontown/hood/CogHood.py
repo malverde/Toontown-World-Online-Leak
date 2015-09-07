@@ -3,15 +3,19 @@ from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 import Hood
 
+
 class CogHood(Hood.Hood):
     notify = DirectNotifyGlobal.directNotify.newCategory('CogHood')
 
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
         Hood.Hood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
-        self.fsm = ClassicFSM.ClassicFSM('Hood', [State.State('start', self.enterStart, self.exitStart, ['cogHQLoader']),
-         State.State('cogHQLoader', self.enterCogHQLoader, self.exitCogHQLoader, ['quietZone']),
-         State.State('quietZone', self.enterQuietZone, self.exitQuietZone, ['cogHQLoader']),
-         State.State('final', self.enterFinal, self.exitFinal, [])], 'start', 'final')
+        self.fsm = ClassicFSM.ClassicFSM(
+            'Hood', [
+                State.State(
+                    'start', self.enterStart, self.exitStart, ['cogHQLoader']), State.State(
+                    'cogHQLoader', self.enterCogHQLoader, self.exitCogHQLoader, ['quietZone']), State.State(
+                    'quietZone', self.enterQuietZone, self.exitQuietZone, ['cogHQLoader']), State.State(
+                        'final', self.enterFinal, self.exitFinal, [])], 'start', 'final')
         self.fsm.enterInitialState()
         self.visInterest = None
 
@@ -28,7 +32,6 @@ class CogHood(Hood.Hood):
         if not skyInner.isEmpty():
             skyInner.setDepthWrite(0)
             skyInner.setBin('background', 20)
-            
 
     def unload(self):
         Hood.Hood.unload(self)
@@ -36,7 +39,9 @@ class CogHood(Hood.Hood):
     def loadLoader(self, requestStatus):
         loaderName = requestStatus['loader']
         if loaderName == 'cogHQLoader':
-            self.loader = self.cogHQLoaderClass(self, self.fsm.getStateNamed('cogHQLoader'), self.loaderDoneEvent)
+            self.loader = self.cogHQLoaderClass(
+                self, self.fsm.getStateNamed('cogHQLoader'),
+                self.loaderDoneEvent)
             self.loader.load(requestStatus['zoneId'])
 
     def enterCogHQLoader(self, requestStatus):

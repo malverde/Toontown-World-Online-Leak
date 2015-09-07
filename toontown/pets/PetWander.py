@@ -4,9 +4,10 @@ from direct.showbase import DirectObject
 from toontown.pets import PetChase
 from toontown.pets import PetConstants
 
+
 class PetWander(DirectObject.DirectObject):
 
-    def __init__(self, minDist = 5.0, moveAngle = 20.0):
+    def __init__(self, minDist=5.0, moveAngle=20.0):
         self.movingTarget = hidden.attachNewNode('petWanderTarget')
         PetChase.__init__(self, self.movingTarget, minDist, moveAngle)
         self.targetMoveCountdown = 0

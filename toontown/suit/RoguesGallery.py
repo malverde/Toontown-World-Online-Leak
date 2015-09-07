@@ -5,9 +5,10 @@ import SuitDNA
 from toontown.toonbase import ToontownGlobals
 import random
 
+
 class RoguesGallery(StateData.StateData):
 
-    def __init__(self, rognamestr = None):
+    def __init__(self, rognamestr=None):
         StateData.StateData.__init__(self, 'roguesDone')
         self.rognamestr = rognamestr
         self.left = -1.333
@@ -25,7 +26,7 @@ class RoguesGallery(StateData.StateData):
         if StateData.StateData.load(self):
             self.width = self.right - self.left - self.sideMargins * 2.0
             self.height = self.top - self.bottom - self.topMargins * 2.0
-            if self.rognamestr == None:
+            if self.rognamestr is None:
                 self.numSuitTypes = SuitDNA.suitsPerDept
                 self.numSuitDepts = len(SuitDNA.suitDepts)
             else:
@@ -34,9 +35,11 @@ class RoguesGallery(StateData.StateData):
                 self.xSpaceBetweenDifferentSuits = 0.0
                 self.xSpaceBetweenSameSuits = 0.0
                 self.ySpaceBetweenSuits = 0.0
-            self.ySuitInc = (self.height + self.ySpaceBetweenSuits) / self.numSuitDepts
+            self.ySuitInc = (
+                self.height + self.ySpaceBetweenSuits) / self.numSuitDepts
             self.ySuitMaxAllowed = self.ySuitInc - self.ySpaceBetweenSuits
-            self.xRowSpace = self.width - (self.numSuitTypes - 1) * self.xSpaceBetweenDifferentSuits - self.numSuitTypes * self.xSpaceBetweenSameSuits
+            self.xRowSpace = self.width - (
+                self.numSuitTypes - 1) * self.xSpaceBetweenDifferentSuits - self.numSuitTypes * self.xSpaceBetweenSameSuits
             self.__makeGallery()
         return
 
@@ -68,7 +71,9 @@ class RoguesGallery(StateData.StateData):
     def animate(self):
         self.load()
         for suit in self.actors:
-            suit.pose('neutral', random.randint(0, suit.getNumFrames('neutral') - 1))
+            suit.pose(
+                'neutral', random.randint(
+                    0, suit.getNumFrames('neutral') - 1))
             suit.loop('neutral', 0)
 
     def stop(self):
@@ -92,7 +97,7 @@ class RoguesGallery(StateData.StateData):
         self.rowHeight = 0.0
         self.minXScale = None
         print "rognamestr='", self.rognamestr, "'\n"
-        if self.rognamestr == None or len(self.rognamestr) == 0:
+        if self.rognamestr is None or len(self.rognamestr) == 0:
             for dept in SuitDNA.suitDepts:
                 self.__makeDept(dept)
 
@@ -113,15 +118,15 @@ class RoguesGallery(StateData.StateData):
             self.__makeSuit(dept, type)
 
         xScale = self.xRowSpace / self.rowWidth
-        if self.minXScale == None or self.minXScale > xScale:
+        if self.minXScale is None or self.minXScale > xScale:
             self.minXScale = xScale
         self.suits.append((self.rowWidth, self.suitRow))
         del self.suitRow
         return
 
-    def __makeSuit(self, dept, type, name = None):
+    def __makeSuit(self, dept, type, name=None):
         dna = SuitDNA.SuitDNA()
-        if name != None:
+        if name is not None:
             dna.newSuit(name)
         else:
             dna.newSuitRandom(type + 1, dept)
@@ -147,10 +152,10 @@ class RoguesGallery(StateData.StateData):
         profile.reparentTo(self.gallery)
         profile.setHpr(90.0, 0.0, 0.0)
         self.suitRow.append((type,
-         suitWidth,
-         suit,
-         suitDepth,
-         profile))
+                             suitWidth,
+                             suit,
+                             suitDepth,
+                             profile))
         self.actors.append(suit)
         self.actors.append(profile)
         return
@@ -179,5 +184,7 @@ class RoguesGallery(StateData.StateData):
                 x += self.xSpaceBetweenDifferentSuits + extraSpacePerSuit
                 self.text.setText(suit.getName())
                 name = self.gallery.attachNewNode(self.text.generate())
-                name.setPos((right + left) / 2.0, 0.0, y + (suit.height + self.labelScale * 0.5) * scale)
+                name.setPos(
+                    (right + left) / 2.0, 0.0, y +
+                    (suit.height + self.labelScale * 0.5) * scale)
                 name.setScale(self.labelScale * scale)

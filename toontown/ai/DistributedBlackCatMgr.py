@@ -3,6 +3,7 @@ from direct.distributed import DistributedObject
 from direct.interval.IntervalGlobal import *
 from toontown.effects import DustCloud
 
+
 def getDustCloudIval(toon):
     dustCloud = DustCloud.DustCloud(fBillboard=0)
     dustCloud.setBillboardAxis(2.0)
@@ -11,7 +12,10 @@ def getDustCloudIval(toon):
     dustCloud.createTrack()
     if getattr(toon, 'laffMeter', None):
         toon.laffMeter.color = toon.style.getBlackColor()
-    seq = Sequence(Wait(0.5), Func(dustCloud.reparentTo, toon), dustCloud.track, Func(dustCloud.destroy))
+    seq = Sequence(
+        Wait(0.5), Func(
+            dustCloud.reparentTo, toon), dustCloud.track, Func(
+            dustCloud.destroy))
     seq.append(Func(messenger.send, 'blackcat-transformed'))
     if getattr(toon, 'laffMeter', None):
         seq.append(Func(toon.laffMeter.adjustFace, toon.hp, toon.maxHp))
@@ -19,7 +23,8 @@ def getDustCloudIval(toon):
 
 
 class DistributedBlackCatMgr(DistributedObject.DistributedObject):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBlackCatMgr')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedBlackCatMgr')
     ActivateEvent = 'DistributedBlackCatMgr-activate'
 
     def __init__(self, cr):
@@ -28,7 +33,9 @@ class DistributedBlackCatMgr(DistributedObject.DistributedObject):
     def announceGenerate(self):
         DistributedBlackCatMgr.notify.debug('announceGenerate')
         DistributedObject.DistributedObject.announceGenerate(self)
-        self.acceptOnce(DistributedBlackCatMgr.ActivateEvent, self.d_requestBlackCatTransformation)
+        self.acceptOnce(
+            DistributedBlackCatMgr.ActivateEvent,
+            self.d_requestBlackCatTransformation)
         self.dustCloudIval = None
         return
 
@@ -46,7 +53,8 @@ class DistributedBlackCatMgr(DistributedObject.DistributedObject):
         DistributedBlackCatMgr.notify.debug('doBlackCatTransformation')
         toon = self.cr.doId2do.get(avId)
         if not toon:
-            DistributedBlackCatMgr.notify.warning("couldn't find Toon %s" % self.avId)
+            DistributedBlackCatMgr.notify.warning(
+                "couldn't find Toon %s" % self.avId)
             return
         if toon.style.getAnimal() != 'cat':
             DistributedBlackCatMgr.notify.warning('not a cat: %s' % self.avId)

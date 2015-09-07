@@ -1,4 +1,4 @@
-#Embedded file name: toontown.building.DistributedBuildingMgrAI
+# Embedded file name: toontown.building.DistributedBuildingMgrAI
 import os
 from direct.task.Task import Task
 import cPickle
@@ -14,8 +14,10 @@ from toontown.hood import ZoneUtil
 import time
 import random
 
+
 class DistributedBuildingMgrAI:
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBuildingMgrAI')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedBuildingMgrAI')
 
     def __init__(self, air, branchID, dnaStore, trophyMgr):
         self.branchID = branchID
@@ -36,7 +38,7 @@ class DistributedBuildingMgrAI:
         self.__buildings = {}
 
     def isValidBlockNumber(self, blockNumber):
-        return self.__buildings.has_key(blockNumber)
+        return blockNumber in self.__buildings
 
     def delayedSaveTask(self, task):
         self.save()
@@ -111,14 +113,15 @@ class DistributedBuildingMgrAI:
                 blocks.append(blockNumber)
 
         return (blocks,
-         hqBlocks,
-         gagshopBlocks,
-         petshopBlocks,
-         kartshopBlocks,
-         animBldgBlocks)
+                hqBlocks,
+                gagshopBlocks,
+                petshopBlocks,
+                kartshopBlocks,
+                animBldgBlocks)
 
     def findAllLandmarkBuildings(self):
-        backups = simbase.backups.load('blockinfo', (self.air.districtId, self.branchID), default={})
+        backups = simbase.backups.load(
+            'blockinfo', (self.air.districtId, self.branchID), default={})
         blocks, hqBlocks, gagshopBlocks, petshopBlocks, kartshopBlocks, animBldgBlocks = self.getDNABlockLists()
         for block in blocks:
             self.newBuilding(block, backup=backups.get(block, None))
@@ -140,15 +143,17 @@ class DistributedBuildingMgrAI:
             for block in kartshopBlocks:
                 self.newKartShopBuilding(block)
 
-    def newBuilding(self, blockNumber, backup = None):
-        building = DistributedBuildingAI.DistributedBuildingAI(self.air, blockNumber, self.branchID, self.trophyMgr)
+    def newBuilding(self, blockNumber, backup=None):
+        building = DistributedBuildingAI.DistributedBuildingAI(
+            self.air, blockNumber, self.branchID, self.trophyMgr)
         building.generateWithRequired(self.branchID)
         if backup is not None:
             building.track = backup.get('track', 'c')
             building.difficulty = backup.get('difficulty', 1)
             building.numFloors = backup.get('numFloors', 1)
             building.updateSavedBy(backup.get('savedBy'))
-            building.becameSuitTime = backup.get('becameSuitTime', time.mktime(time.gmtime()))
+            building.becameSuitTime = backup.get(
+                'becameSuitTime', time.mktime(time.gmtime()))
             if ['state'] == 'suit':
                 building.setState('suit')
             elif ['state'] == 'cogdo':
@@ -161,9 +166,10 @@ class DistributedBuildingMgrAI:
         self.__buildings[blockNumber] = building
         return building
 
-    def newAnimBuilding(self, blockNumber, blockData = None):
+    def newAnimBuilding(self, blockNumber, blockData=None):
         return
-        building = DistributedAnimBuildingAI.DistributedAnimBuildingAI(self.air, blockNumber, self.branchID, self.trophyMgr)
+        building = DistributedAnimBuildingAI.DistributedAnimBuildingAI(
+            self.air, blockNumber, self.branchID, self.trophyMgr)
         building.generateWithRequired(self.branchID)
         if blockData:
             building.track = blockData.get('track', 'c')
@@ -172,8 +178,11 @@ class DistributedBuildingMgrAI:
             if not ZoneUtil.isWelcomeValley(building.zoneId):
                 building.updateSavedBy(blockData.get('savedBy'))
             else:
-                self.notify.warning('we had a cog building in welcome valley %d' % building.zoneId)
-            building.becameSuitTime = blockData.get('becameSuitTime', time.time())
+                self.notify.warning(
+                    'we had a cog building in welcome valley %d' %
+                    building.zoneId)
+            building.becameSuitTime = blockData.get(
+                'becameSuitTime', time.time())
             if blockData['state'] == 'suit':
                 building.setState('suit')
             else:
@@ -188,8 +197,11 @@ class DistributedBuildingMgrAI:
         exteriorZoneId = dnaStore.getBlock(blockNumber).zone
         exteriorZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.branchID)
         interiorZoneId = self.branchID - self.branchID % 100 + 500 + blockNumber
-        self.notify.debug('Spawning HQ ext: {0} int: {1}'.format(exteriorZoneId, interiorZoneId))
-        building = HQBuildingAI.HQBuildingAI(self.air, exteriorZoneId, interiorZoneId, blockNumber)
+        self.notify.debug(
+            'Spawning HQ ext: {0} int: {1}'.format(
+                exteriorZoneId, interiorZoneId))
+        building = HQBuildingAI.HQBuildingAI(
+            self.air, exteriorZoneId, interiorZoneId, blockNumber)
         self.__buildings[blockNumber] = building
         return building
 
@@ -198,8 +210,11 @@ class DistributedBuildingMgrAI:
         exteriorZoneId = dnaStore.getBlock(blockNumber).zone
         exteriorZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.branchID)
         interiorZoneId = self.branchID - self.branchID % 100 + 500 + blockNumber
-        self.notify.debug('Spawning GagShop ext: {0} int: {1}'.format(exteriorZoneId, interiorZoneId))
-        building = GagshopBuildingAI.GagshopBuildingAI(self.air, exteriorZoneId, interiorZoneId, blockNumber)
+        self.notify.debug(
+            'Spawning GagShop ext: {0} int: {1}'.format(
+                exteriorZoneId, interiorZoneId))
+        building = GagshopBuildingAI.GagshopBuildingAI(
+            self.air, exteriorZoneId, interiorZoneId, blockNumber)
         self.__buildings[blockNumber] = building
         return building
 
@@ -208,7 +223,8 @@ class DistributedBuildingMgrAI:
         exteriorZoneId = dnaStore.getBlock(blockNumber).zone
         exteriorZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.branchID)
         interiorZoneId = self.branchID - self.branchID % 100 + 500 + blockNumber
-        building = PetshopBuildingAI.PetshopBuildingAI(self.air, exteriorZoneId, interiorZoneId, blockNumber)
+        building = PetshopBuildingAI.PetshopBuildingAI(
+            self.air, exteriorZoneId, interiorZoneId, blockNumber)
         self.__buildings[blockNumber] = building
         return building
 
@@ -217,7 +233,8 @@ class DistributedBuildingMgrAI:
         exteriorZoneId = dnaStore.getBlock(blockNumber).zone
         exteriorZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.branchID)
         interiorZoneId = self.branchID - self.branchID % 100 + 500 + blockNumber
-        building = KartShopBuildingAI(self.air, exteriorZoneId, interiorZoneId, blockNumber)
+        building = KartShopBuildingAI(
+            self.air, exteriorZoneId, interiorZoneId, blockNumber)
         self.__buildings[blockNumber] = building
         return building
 
@@ -226,12 +243,16 @@ class DistributedBuildingMgrAI:
         for blockNumber in self.getSuitBlocks():
             building = self.getBuilding(blockNumber)
             backup = {'state': building.fsm.getCurrentState().getName(),
-             'block': building.block,
-             'track': building.track,
-             'difficulty': building.difficulty,
-             'numFloors': building.numFloors,
-             'savedBy': building.savedBy,
-             'becameSuitTime': building.becameSuitTime}
+                      'block': building.block,
+                      'track': building.track,
+                      'difficulty': building.difficulty,
+                      'numFloors': building.numFloors,
+                      'savedBy': building.savedBy,
+                      'becameSuitTime': building.becameSuitTime}
             buildings[blockNumber] = backup
 
-        simbase.backups.save('blockinfo', (self.air.districtId, self.branchID), buildings)
+        simbase.backups.save(
+            'blockinfo',
+            (self.air.districtId,
+             self.branchID),
+            buildings)

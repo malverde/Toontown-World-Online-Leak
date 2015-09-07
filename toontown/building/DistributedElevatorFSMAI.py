@@ -7,24 +7,26 @@ from direct.task import Task
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm.FSM import FSM
 
+
 class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedElevatorFSMAI')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedElevatorFSMAI')
     defaultTransitions = {'Off': ['Opening', 'Closed'],
-     'Opening': ['WaitEmpty',
-                 'WaitCountdown',
-                 'Opening',
-                 'Closing'],
-     'WaitEmpty': ['WaitCountdown', 'Closing'],
-     'WaitCountdown': ['WaitEmpty', 'AllAboard', 'Closing'],
-     'AllAboard': ['WaitEmpty', 'Closing'],
-     'Closing': ['Closed',
-                 'WaitEmpty',
-                 'Closing',
-                 'Opening'],
-     'Closed': ['Opening']}
+                          'Opening': ['WaitEmpty',
+                                      'WaitCountdown',
+                                      'Opening',
+                                      'Closing'],
+                          'WaitEmpty': ['WaitCountdown', 'Closing'],
+                          'WaitCountdown': ['WaitEmpty', 'AllAboard', 'Closing'],
+                          'AllAboard': ['WaitEmpty', 'Closing'],
+                          'Closing': ['Closed',
+                                      'WaitEmpty',
+                                      'Closing',
+                                      'Opening'],
+                          'Closed': ['Opening']}
     id = 0
 
-    def __init__(self, air, bldg, numSeats = 4, antiShuffle = 0, minLaff = 0):
+    def __init__(self, air, bldg, numSeats=4, antiShuffle=0, minLaff=0):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         FSM.__init__(self, 'Elevator_%s_FSM' % self.id)
         self.type = ELEVATOR_NORMAL
@@ -89,16 +91,16 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
 
         return openSeats
 
-    def rejectingBoardersHandler(self, avId, reason = 0):
+    def rejectingBoardersHandler(self, avId, reason=0):
         self.rejectBoarder(avId, reason)
 
-    def rejectBoarder(self, avId, reason = 0):
+    def rejectBoarder(self, avId, reason=0):
         self.sendUpdateToAvatarId(avId, 'rejectBoard', [avId, reason])
 
-    def acceptingBoardersHandler(self, avId, reason = 0):
+    def acceptingBoardersHandler(self, avId, reason=0):
         self.notify.debug('acceptingBoardersHandler')
         seatIndex = self.findAvailableSeat()
-        if seatIndex == None:
+        if seatIndex is None:
             self.rejectBoarder(avId, REJECT_NOSEAT)
         else:
             self.acceptBoarder(avId, seatIndex)
@@ -123,12 +125,17 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
         self.acceptExiter(avId)
 
     def clearEmptyNow(self, seatIndex):
-        self.sendUpdate('emptySlot' + str(seatIndex), [0, 0, globalClockDelta.getRealNetworkTime()])
+        self.sendUpdate(
+            'emptySlot' + str(seatIndex),
+            [0, 0, globalClockDelta.getRealNetworkTime()])
 
     def clearFullNow(self, seatIndex):
         avId = self.seats[seatIndex]
-        if avId == None:
-            self.notify.warning('Clearing an empty seat index: ' + str(seatIndex) + ' ... Strange...')
+        if avId is None:
+            self.notify.warning(
+                'Clearing an empty seat index: ' +
+                str(seatIndex) +
+                ' ... Strange...')
         else:
             self.seats[seatIndex] = None
             self.sendUpdate('fillSlot' + str(seatIndex), [0])
@@ -136,7 +143,9 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
         return
 
     def d_setState(self, state):
-        self.sendUpdate('setState', [state, globalClockDelta.getRealNetworkTime()])
+        self.sendUpdate(
+            'setState', [
+                state, globalClockDelta.getRealNetworkTime()])
 
     def getState(self):
         return self.state
@@ -153,7 +162,9 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
         self.notify.debug('requestBoard')
         avId = self.air.getAvatarIdFromSender()
         if self.findAvatar(avId) != None:
-            self.notify.warning('Ignoring multiple requests from %s to board.' % avId)
+            self.notify.warning(
+                'Ignoring multiple requests from %s to board.' %
+                avId)
             return
         av = self.air.doId2do.get(avId)
         if av:
@@ -165,7 +176,9 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
             else:
                 self.rejectingBoardersHandler(*newArgs)
         else:
-            self.notify.warning('avid: %s does not exist, but tried to board an elevator' % avId)
+            self.notify.warning(
+                'avid: %s does not exist, but tried to board an elevator' %
+                avId)
         return
 
     def requestExit(self, *args):
@@ -180,7 +193,9 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
                 else:
                     self.rejectingExitersHandler(*newArgs)
             else:
-                self.notify.warning('avId: %s does not exist, but tried to exit an elevator' % avId)
+                self.notify.warning(
+                    'avId: %s does not exist, but tried to exit an elevator' %
+                    avId)
 
     def start(self):
         self.open()

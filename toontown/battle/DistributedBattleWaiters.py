@@ -6,8 +6,10 @@ from toontown.battle import DistributedBattleFinal
 from toontown.suit import SuitTimings
 from toontown.toonbase import ToontownGlobals
 
+
 class DistributedBattleWaiters(DistributedBattleFinal.DistributedBattleFinal):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleWaiters')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedBattleWaiters')
 
     def __init__(self, cr):
         DistributedBattleFinal.DistributedBattleFinal.__init__(self, cr)
@@ -51,7 +53,7 @@ class DistributedBattleWaiters(DistributedBattleFinal.DistributedBattleFinal):
             suit.setHpr(destHpr)
 
     def showSuitsFalling(self, suits, ts, name, callback):
-        if self.bossCog == None:
+        if self.bossCog is None:
             return
         suitTrack = Parallel()
         delay = 0
@@ -67,13 +69,21 @@ class DistributedBattleWaiters(DistributedBattleFinal.DistributedBattleFinal):
                 destHpr = VBase3(h, 0, 0)
             else:
                 destPos, destHpr = self.getActorPosHpr(suit, self.suits)
-            startPos = destPos + Point3(0, 0, SuitTimings.fromSky * ToontownGlobals.SuitWalkSpeed)
+            startPos = destPos + Point3(0, 0, SuitTimings.fromSky *
+                                        ToontownGlobals.SuitWalkSpeed)
             self.notify.debug('startPos for %s = %s' % (suit, startPos))
             suit.reparentTo(self)
             suit.setPos(startPos)
             suit.headsUp(self)
             flyIval = suit.beginSupaFlyMove(destPos, True, 'flyIn')
-            suitTrack.append(Track((delay, Sequence(flyIval, Func(suit.loop, 'neutral')))))
+            suitTrack.append(
+                Track(
+                    (delay,
+                     Sequence(
+                         flyIval,
+                         Func(
+                             suit.loop,
+                             'neutral')))))
             delay += 1
 
         if self.hasLocalToon():
@@ -88,7 +98,8 @@ class DistributedBattleWaiters(DistributedBattleFinal.DistributedBattleFinal):
         self.storeInterval(track, name)
         return
 
-    def enterWaitForInput(self, ts = 0):
-        DistributedBattleFinal.DistributedBattleFinal.enterWaitForInput(self, ts)
+    def enterWaitForInput(self, ts=0):
+        DistributedBattleFinal.DistributedBattleFinal.enterWaitForInput(
+            self, ts)
         if self.hasLocalToon():
             camera.reparentTo(self)

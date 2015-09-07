@@ -1,4 +1,4 @@
-#Embedded file name: toontown.estate.EstateLoader
+# Embedded file name: toontown.estate.EstateLoader
 from pandac.PandaModules import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.interval.IntervalGlobal import *
@@ -14,17 +14,24 @@ import math
 from toontown.coghq import MovingPlatform
 from direct.directnotify import DirectNotifyGlobal
 
+
 class EstateLoader(SafeZoneLoader.SafeZoneLoader):
     notify = DirectNotifyGlobal.directNotify.newCategory('EstateLoader')
 
     def __init__(self, hood, parentFSM, doneEvent):
-        SafeZoneLoader.SafeZoneLoader.__init__(self, hood, parentFSM, doneEvent)
+        SafeZoneLoader.SafeZoneLoader.__init__(
+            self, hood, parentFSM, doneEvent)
         del self.fsm
-        self.fsm = ClassicFSM.ClassicFSM('EstateLoader', [State.State('start', self.enterStart, self.exitStart, ['quietZone', 'estate', 'house']),
-         State.State('estate', self.enterEstate, self.exitEstate, ['quietZone']),
-         State.State('house', self.enterHouse, self.exitHouse, ['quietZone']),
-         State.State('quietZone', self.enterQuietZone, self.exitQuietZone, ['house', 'estate']),
-         State.State('final', self.enterFinal, self.exitFinal, ['start'])], 'start', 'final')
+        self.fsm = ClassicFSM.ClassicFSM(
+            'EstateLoader', [
+                State.State(
+                    'start', self.enterStart, self.exitStart, [
+                        'quietZone', 'estate', 'house']), State.State(
+                    'estate', self.enterEstate, self.exitEstate, ['quietZone']), State.State(
+                        'house', self.enterHouse, self.exitHouse, ['quietZone']), State.State(
+                            'quietZone', self.enterQuietZone, self.exitQuietZone, [
+                                'house', 'estate']), State.State(
+                                    'final', self.enterFinal, self.exitFinal, ['start'])], 'start', 'final')
         self.musicFile = 'phase_4/audio/bgm/TC_nbrhood.ogg'
         self.activityMusicFile = 'phase_3.5/audio/bgm/TC_SZ_activity.ogg'
         self.dnaFile = 'phase_5.5/dna/estate_1.xml'
@@ -48,19 +55,32 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
     def load(self):
         SafeZoneLoader.SafeZoneLoader.load(self)
         self.music = base.loadMusic('phase_4/audio/bgm/TC_nbrhood.ogg')
-        self.underwaterSound = base.loadSfx('phase_4/audio/sfx/AV_ambient_water.ogg')
-        self.swimSound = base.loadSfx('phase_4/audio/sfx/AV_swim_single_stroke.ogg')
-        self.submergeSound = base.loadSfx('phase_5.5/audio/sfx/AV_jump_in_water.ogg')
-        self.birdSound = map(base.loadSfx, ['phase_4/audio/sfx/SZ_TC_bird1.ogg', 'phase_4/audio/sfx/SZ_TC_bird2.ogg', 'phase_4/audio/sfx/SZ_TC_bird3.ogg'])
-        self.cricketSound = map(base.loadSfx, ['phase_4/audio/sfx/SZ_TC_bird1.ogg', 'phase_4/audio/sfx/SZ_TC_bird2.ogg', 'phase_4/audio/sfx/SZ_TC_bird3.ogg'])
+        self.underwaterSound = base.loadSfx(
+            'phase_4/audio/sfx/AV_ambient_water.ogg')
+        self.swimSound = base.loadSfx(
+            'phase_4/audio/sfx/AV_swim_single_stroke.ogg')
+        self.submergeSound = base.loadSfx(
+            'phase_5.5/audio/sfx/AV_jump_in_water.ogg')
+        self.birdSound = map(base.loadSfx,
+                             ['phase_4/audio/sfx/SZ_TC_bird1.ogg',
+                              'phase_4/audio/sfx/SZ_TC_bird2.ogg',
+                              'phase_4/audio/sfx/SZ_TC_bird3.ogg'])
+        self.cricketSound = map(base.loadSfx,
+                                ['phase_4/audio/sfx/SZ_TC_bird1.ogg',
+                                 'phase_4/audio/sfx/SZ_TC_bird2.ogg',
+                                 'phase_4/audio/sfx/SZ_TC_bird3.ogg'])
         if base.goonsEnabled:
             invModel = loader.loadModel('phase_3.5/models/gui/inventory_icons')
             self.invModels = []
             from toontown.toonbase import ToontownBattleGlobals
             for track in range(len(ToontownBattleGlobals.AvPropsNew)):
                 itemList = []
-                for item in range(len(ToontownBattleGlobals.AvPropsNew[track])):
-                    itemList.append(invModel.find('**/' + ToontownBattleGlobals.AvPropsNew[track][item]))
+                for item in range(
+                        len(ToontownBattleGlobals.AvPropsNew[track])):
+                    itemList.append(
+                        invModel.find(
+                            '**/' +
+                            ToontownBattleGlobals.AvPropsNew[track][item]))
 
                 self.invModels.append(itemList)
 
@@ -105,7 +125,8 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         SafeZoneLoader.SafeZoneLoader.unload(self)
 
     def enter(self, requestStatus):
-        self.estateOwnerId = requestStatus.get('ownerId', base.localAvatar.doId)
+        self.estateOwnerId = requestStatus.get(
+            'ownerId', base.localAvatar.doId)
         base.localAvatar.inEstate = 1
         self.loadCloudPlatforms()
         if base.cloudPlatformsEnabled and 0:
@@ -158,9 +179,16 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         if ownerId:
             self.estateOwnerId = ownerId
         zoneId = requestStatus['zoneId']
-        self.notify.debug('enterEstate, ownerId = %s, zoneId = %s' % (self.estateOwnerId, zoneId))
+        self.notify.debug(
+            'enterEstate, ownerId = %s, zoneId = %s' %
+            (self.estateOwnerId, zoneId))
         self.accept(self.estateDoneEvent, self.handleEstateDone)
-        self.place = Estate.Estate(self, self.estateOwnerId, zoneId, self.fsm.getStateNamed('estate'), self.estateDoneEvent)
+        self.place = Estate.Estate(
+            self,
+            self.estateOwnerId,
+            zoneId,
+            self.fsm.getStateNamed('estate'),
+            self.estateDoneEvent)
         base.cr.playGame.setPlace(self.place)
         self.place.load()
         self.place.enter(requestStatus)
@@ -175,7 +203,7 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         base.cr.playGame.setPlace(self.place)
         base.cr.cache.flush()
 
-    def handleEstateDone(self, doneStatus = None):
+    def handleEstateDone(self, doneStatus=None):
         if not doneStatus:
             doneStatus = self.place.getDoneStatus()
         how = doneStatus['how']
@@ -184,8 +212,9 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         zoneId = doneStatus['zoneId']
         avId = doneStatus.get('avId', -1)
         ownerId = doneStatus.get('ownerId', -1)
-        if shardId != None or hoodId != MyEstate:
-            self.notify.debug('estate done, and we are backing out to a different hood/shard')
+        if shardId is not None or hoodId != MyEstate:
+            self.notify.debug(
+                'estate done, and we are backing out to a different hood/shard')
             self.notify.debug('hoodId = %s, avId = %s' % (hoodId, avId))
             self.doneStatus = doneStatus
             messenger.send(self.doneEvent)
@@ -201,7 +230,11 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         if ownerId:
             self.estateOwnerId = ownerId
         self.acceptOnce(self.houseDoneEvent, self.handleHouseDone)
-        self.place = House.House(self, self.estateOwnerId, self.fsm.getStateNamed('house'), self.houseDoneEvent)
+        self.place = House.House(
+            self,
+            self.estateOwnerId,
+            self.fsm.getStateNamed('house'),
+            self.houseDoneEvent)
         base.cr.playGame.setPlace(self.place)
         self.place.load()
         self.place.enter(requestStatus)
@@ -213,12 +246,12 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         self.place = None
         base.cr.playGame.setPlace(self.place)
 
-    def handleHouseDone(self, doneStatus = None):
+    def handleHouseDone(self, doneStatus=None):
         if not doneStatus:
             doneStatus = self.place.getDoneStatus()
         shardId = doneStatus['shardId']
         hoodId = doneStatus['hoodId']
-        if shardId != None or hoodId != MyEstate:
+        if shardId is not None or hoodId != MyEstate:
             self.doneStatus = doneStatus
             messenger.send(self.doneEvent)
             return
@@ -233,7 +266,7 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         self.fsm.request(status['where'], [status])
 
     def atMyEstate(self):
-        if self.estateOwnerId != None:
+        if self.estateOwnerId is not None:
             if self.estateOwnerId == base.localAvatar.getDoId():
                 return 1
             else:
@@ -267,7 +300,12 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
             pos = cloud[0].getPos(render)
             newPos = pos + axis * 30
             reversePos = pos - axis * 30
-            track.append(Sequence(LerpPosInterval(cloud[0], 10, newPos), LerpPosInterval(cloud[0], 20, reversePos), LerpPosInterval(cloud[0], 10, pos)))
+            track.append(
+                Sequence(
+                    LerpPosInterval(
+                        cloud[0], 10, newPos), LerpPosInterval(
+                        cloud[0], 20, reversePos), LerpPosInterval(
+                        cloud[0], 10, pos)))
 
         return track
 
@@ -292,7 +330,18 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
         dTheta = 2.0 * math.pi / self.numClouds
         cloud.reparentTo(self.cloudOrigin)
         axes = [Vec3(1, 0, 0), Vec3(0, 1, 0), Vec3(0, 0, 1)]
-        cloud.setPos(radius * math.cos(version * dTheta), radius * math.sin(version * dTheta), 4 * random.random() + zOffset)
+        cloud.setPos(
+            radius *
+            math.cos(
+                version *
+                dTheta),
+            radius *
+            math.sin(
+                version *
+                dTheta),
+            4 *
+            random.random() +
+            zOffset)
         cloud.setScale(4.0)
         self.clouds.append([cloud, random.choice(axes)])
 

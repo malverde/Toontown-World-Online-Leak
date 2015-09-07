@@ -6,6 +6,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil
 from toontown.hood import HoodUtil
 
+
 class GenericAnimatedProp(AnimatedProp.AnimatedProp):
     notify = DirectNotifyGlobal.directNotify.newCategory('GenericAnimatedProp')
     AnimsUsingWav = []
@@ -52,7 +53,8 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
         try:
             if type(self).__name__ == 'instance':
                 if self.__class__.__name__ == 'GenericAnimatedProp':
-                    if base.cr.newsManager.isHolidayRunning(ToontownGlobals.HYDRANTS_BUFF_BATTLES):
+                    if base.cr.newsManager.isHolidayRunning(
+                            ToontownGlobals.HYDRANTS_BUFF_BATTLES):
                         doAnimLoop = True
                     else:
                         doAnimLoop = False
@@ -85,10 +87,14 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
             visId = int(splits[2])
             self.visId = visId
             self.hoodId = ZoneUtil.getCanonicalHoodId(visId)
-            self.notify.debug('calcHoodId %d from %s' % (self.hoodId, fullString))
-        except Exception, generic:
+            self.notify.debug(
+                'calcHoodId %d from %s' %
+                (self.hoodId, fullString))
+        except Exception as generic:
             if 'Editor' not in fullString:
-                self.notify.warning("calcHoodId couldn't parse %s using 0" % fullString)
+                self.notify.warning(
+                    "calcHoodId couldn't parse %s using 0" %
+                    fullString)
             self.hoodId = 0
             self.visId = 0
 
@@ -114,9 +120,18 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
             if maximumDuration < soundDur:
                 if config.GetBool('interactive-prop-info', False):
                     if self.visId == localAvatar.zoneId and origAnimName != 'tt_a_ara_dga_hydrant_idleIntoFight':
-                        self.notify.warning('anim %s had duration of %s while sound  has duration of %s' % (origAnimName, maximumDuration, soundDur))
+                        self.notify.warning(
+                            'anim %s had duration of %s while sound  has duration of %s' %
+                            (origAnimName, maximumDuration, soundDur))
                 soundDur = maximumDuration
-            result = SoundInterval(theSound, node=self.node, listenerNode=base.localAvatar, volume=sfxVolume, cutOff=cutoff, startTime=0, duration=soundDur)
+            result = SoundInterval(
+                theSound,
+                node=self.node,
+                listenerNode=base.localAvatar,
+                volume=sfxVolume,
+                cutOff=cutoff,
+                startTime=0,
+                duration=soundDur)
         else:
             result = Sequence()
         return result

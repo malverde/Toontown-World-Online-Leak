@@ -8,8 +8,10 @@ from toontown.toonbase.ToontownGlobals import *
 if (__debug__):
     import pdb
 
+
 class DistributedKartShopInterior(DistributedObject):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedKartShopInterior')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedKartShopInterior')
 
     def __init__(self, cr):
         DistributedObject.__init__(self, cr)
@@ -32,6 +34,7 @@ class DistributedKartShopInterior(DistributedObject):
         self.block = block
 
     def __handleInteriorSetup(self):
-        self.interior = loader.loadModel('phase_6/models/karting/KartShop_Interior')
+        self.interior = loader.loadModel(
+            'phase_6/models/karting/KartShop_Interior')
         self.interior.reparentTo(render)
         self.interior.flattenMedium()

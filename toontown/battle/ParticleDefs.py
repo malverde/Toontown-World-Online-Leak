@@ -3,8 +3,10 @@ from pandac.PandaModules import *
 
 ParticleTable = {}
 
+
 def particle(func):
     ParticleTable[func.func_name] = func
+
 
 @particle
 def gearExplosion(self):
@@ -37,7 +39,8 @@ def gearExplosion(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/gear")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles", "**/gear")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -61,7 +64,9 @@ def gearExplosion(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -79.0000), LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -79.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -97,7 +102,8 @@ def smokeTest4(self):
     p0.renderer.setAlphaMode(BaseParticleRenderer.PRALPHAINOUT)
     p0.renderer.setUserAlpha(0.57)
     # Sprite parameters
-    p0.renderer.addTextureFromFile('../../ttmodels/src/maps/tt_t_efx_ext_smoke.tif')
+    p0.renderer.addTextureFromFile(
+        '../../ttmodels/src/maps/tt_t_efx_ext_smoke.tif')
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -109,7 +115,10 @@ def smokeTest4(self):
     p0.renderer.setNonanimatedTheta(0.0000)
     p0.renderer.setAlphaBlendMethod(BaseParticleRenderer.PPBLENDLINEAR)
     p0.renderer.setAlphaDisable(0)
-    p0.renderer.getColorInterpolationManager().addLinear(0.0,1.0,Vec4(0.28235295414924622,0.28235295414924622,0.28235295414924622,1.0),Vec4(0.28235295414924622,0.28235295414924622,0.28235295414924622,1.0),1)
+    p0.renderer.getColorInterpolationManager().addLinear(
+        0.0, 1.0, Vec4(
+            0.28235295414924622, 0.28235295414924622, 0.28235295414924622, 1.0), Vec4(
+            0.28235295414924622, 0.28235295414924622, 0.28235295414924622, 1.0), 1)
     # Emitter parameters
     p0.emitter.setEmissionType(BaseParticleEmitter.ETRADIATE)
     p0.emitter.setAmplitude(0.4000)
@@ -153,7 +162,8 @@ def gearExplosionSmall(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/gear")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles", "**/gear")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -177,7 +187,9 @@ def gearExplosionSmall(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -79.0000), LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -79.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -214,7 +226,8 @@ def gearExplosionBig(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/gear")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles", "**/gear")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -238,7 +251,9 @@ def gearExplosionBig(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -79.0000), LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -79.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -275,7 +290,9 @@ def poundkey(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/poundsign")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/poundsign")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -340,7 +357,9 @@ def shred(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/roll-o-dex")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/roll-o-dex")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -367,7 +386,9 @@ def shred(self):
     force0 = LinearVectorForce(Vec3(0.0000, 0.0000, 5.0000), 1.0000, 0)
     force0.setActive(1)
     f0.addForce(force0)
-    force1 = LinearSinkForce(Point3(0.0000, 0.0000, -8.0000), LinearDistanceForce.FTONEOVERRSQUARED, 14.5479, 155.9407, 1)
+    force1 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -8.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 14.5479, 155.9407, 1)
     force1.setActive(1)
     f0.addForce(force1)
     force2 = LinearNoiseForce(1.7000, 0)
@@ -389,7 +410,7 @@ def withdrawal(self):
     # Particles parameters
     p0.setFactory("PointParticleFactory")
     p0.setRenderer("SpriteParticleRenderer")
-    #p0.setRenderer("PointParticleRenderer")
+    # p0.setRenderer("PointParticleRenderer")
     p0.setEmitter("DiscEmitter")
     p0.setPoolSize(150)
     p0.setBirthRate(0.0200)
@@ -411,7 +432,9 @@ def withdrawal(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/snow-particle")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/snow-particle")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -475,7 +498,9 @@ def mumboJumboSmother(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/mumbojumbo-iron")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/mumbojumbo-iron")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -536,7 +561,9 @@ def buzzWord(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/buzzwords-crash")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/buzzwords-crash")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -597,7 +624,9 @@ def penSpill(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/raindrop")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/raindrop")
     p0.renderer.setColor(Vec4(0, 0, 0, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -621,7 +650,9 @@ def penSpill(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -99.0000), LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -99.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -658,7 +689,8 @@ def fingerwag(self):
     p0.renderer.setUserAlpha(0.86)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/blah")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles", "**/blah")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -685,10 +717,26 @@ def fingerwag(self):
     force0 = LinearJitterForce(4.0000, 0)
     force0.setActive(1)
     f0.addForce(force0)
-    force1 = LinearSourceForce(Point3(0.0000, 0.0000, 0.0000), LinearDistanceForce.FTONEOVERRSQUARED, 0.5000, 1.0000, 0)
+    force1 = LinearSourceForce(
+        Point3(
+            0.0000,
+            0.0000,
+            0.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED,
+        0.5000,
+        1.0000,
+        0)
     force1.setActive(1)
     f0.addForce(force1)
-    force2 = LinearSinkForce(Point3(0.0000, 1.0000, 0.0000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 1.0000, 1)
+    force2 = LinearSinkForce(
+        Point3(
+            0.0000,
+            1.0000,
+            0.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED,
+        1.0000,
+        1.0000,
+        1)
     force2.setActive(1)
     f0.addForce(force2)
     self.addForceGroup(f0)
@@ -725,7 +773,9 @@ def doubleTalkRight(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/doubletalk-good")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/doubletalk-good")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -749,7 +799,9 @@ def doubleTalkRight(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(-6.000, -3.0000, 0.0000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 1.5000, 1)
+    force0 = LinearSinkForce(
+        Point3(-6.000, -3.0000, 0.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 1.5000, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -786,15 +838,17 @@ def filibusterSpray(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/filibuster-cut")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/filibuster-cut")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
     p0.renderer.setAnimAngleFlag(0)
-    p0.renderer.setInitialXScale(0.3*1.5)
-    p0.renderer.setFinalXScale(0.75*1.5)
-    p0.renderer.setInitialYScale(0.15*1.5)
-    p0.renderer.setFinalYScale(0.25*1.5)
+    p0.renderer.setInitialXScale(0.3 * 1.5)
+    p0.renderer.setFinalXScale(0.75 * 1.5)
+    p0.renderer.setInitialYScale(0.15 * 1.5)
+    p0.renderer.setFinalYScale(0.25 * 1.5)
     p0.renderer.setNonanimatedTheta(0.0000)
     p0.renderer.setAlphaBlendMethod(BaseParticleRenderer.PPBLENDLINEAR)
     p0.renderer.setAlphaDisable(0)
@@ -810,7 +864,9 @@ def filibusterSpray(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, -9.0000, -11.0000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 1.3661, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, -9.0000, -11.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 1.3661, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -847,7 +903,8 @@ def fingerwag2(self):
     p0.renderer.setUserAlpha(0.86)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/blah")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles", "**/blah")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -905,7 +962,9 @@ def schmoozeLowerSpray(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/schmooze-master")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/schmooze-master")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -929,7 +988,9 @@ def schmoozeLowerSpray(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, -23.0000, 9.0000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 1.3661, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, -23.0000, 9.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 1.3661, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -966,7 +1027,9 @@ def brainStorm(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/brainstorm-box")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/brainstorm-box")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -974,7 +1037,7 @@ def brainStorm(self):
     p0.renderer.setInitialXScale(0.600)
     p0.renderer.setFinalXScale(0.0400)
     p0.renderer.setInitialYScale(0.30)
-    p0.renderer.setFinalYScale(0.0400 )
+    p0.renderer.setFinalYScale(0.0400)
     p0.renderer.setNonanimatedTheta(0.0000)
     p0.renderer.setAlphaBlendMethod(BaseParticleRenderer.PPBLENDLINEAR)
     p0.renderer.setAlphaDisable(0)
@@ -1027,7 +1090,8 @@ def numberSpray(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/fire")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles", "**/fire")
     p0.renderer.setColor(Vec4(0.00, 0.00, 0.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -1051,7 +1115,9 @@ def numberSpray(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -3.5000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 2.5308, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -3.5000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 2.5308, 1)
     force0.setActive(1)
     f0.addForce(force0)
     force1 = LinearVectorForce(Vec3(0.0000, -10.0000, 0.0000), 1.0000, 0)
@@ -1070,9 +1136,9 @@ def demotionUnFreeze(self):
     # Particles parameters
     p0.setFactory("PointParticleFactory")
     p0.setRenderer("SpriteParticleRenderer")
-    #p0.setRenderer("PointParticleRenderer")
+    # p0.setRenderer("PointParticleRenderer")
     p0.setEmitter("SphereVolumeEmitter")
-    #p0.setEmitter("SphereSurfaceEmitter")
+    # p0.setEmitter("SphereSurfaceEmitter")
     p0.setPoolSize(70)
     p0.setBirthRate(0.0200)
     p0.setLitterSize(10)
@@ -1093,7 +1159,9 @@ def demotionUnFreeze(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/roll-o-dex")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/roll-o-dex")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -1148,7 +1216,9 @@ def fillWithLeadSmother(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/mumbojumbo-iron")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/mumbojumbo-iron")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -1209,7 +1279,9 @@ def downsizeSpray(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/snow-particle")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/snow-particle")
     p0.renderer.setColor(Vec4(1.00, 1.00, 0.00, 0.80))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -1233,7 +1305,9 @@ def downsizeSpray(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -5.3000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 2.5308, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -5.3000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 2.5308, 1)
     force0.setActive(1)
     f0.addForce(force0)
     force1 = LinearVectorForce(Vec3(0.0000, -7.0000, 0.0000), 1.0000, 0)
@@ -1276,7 +1350,9 @@ def fillWithLeadSpray(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/roll-o-dex")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/roll-o-dex")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -1303,7 +1379,9 @@ def fillWithLeadSpray(self):
     force0 = LinearVectorForce(Vec3(0.0000, 0.0000, 5.0000), 1.0000, 0)
     force0.setActive(1)
     f0.addForce(force0)
-    force1 = LinearSinkForce(Point3(0.0000, 0.0000, -8.0000), LinearDistanceForce.FTONEOVERRSQUARED, 14.5479, 155.9407, 1)
+    force1 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -8.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 14.5479, 155.9407, 1)
     force1.setActive(1)
     f0.addForce(force1)
     force2 = LinearNoiseForce(1.7000, 0)
@@ -1325,7 +1403,7 @@ def reorgCloud(self):
     # Particles parameters
     p0.setFactory("PointParticleFactory")
     p0.setRenderer("SpriteParticleRenderer")
-    #p0.setRenderer("PointParticleRenderer")
+    # p0.setRenderer("PointParticleRenderer")
     p0.setEmitter("SphereSurfaceEmitter")
     p0.setPoolSize(70)
     p0.setBirthRate(0.0200)
@@ -1347,7 +1425,9 @@ def reorgCloud(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/snow-particle")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/snow-particle")
     p0.renderer.setColor(Vec4(1.00, 0.00, 0.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -1381,7 +1461,7 @@ def demotionFreeze(self):
     # Particles parameters
     p0.setFactory("PointParticleFactory")
     p0.setRenderer("SpriteParticleRenderer")
-    #p0.setRenderer("PointParticleRenderer")
+    # p0.setRenderer("PointParticleRenderer")
     p0.setEmitter("SphereSurfaceEmitter")
     p0.setPoolSize(70)
     p0.setBirthRate(0.0200)
@@ -1403,7 +1483,9 @@ def demotionFreeze(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/roll-o-dex")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/roll-o-dex")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -1437,7 +1519,7 @@ def demotionSpray(self):
     # Particles parameters
     p0.setFactory("PointParticleFactory")
     p0.setRenderer("SpriteParticleRenderer")
-    #p0.setRenderer("PointParticleRenderer")
+    # p0.setRenderer("PointParticleRenderer")
     p0.setEmitter("SphereVolumeEmitter")
     p0.setPoolSize(150)
     p0.setBirthRate(0.0500)
@@ -1459,7 +1541,9 @@ def demotionSpray(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/roll-o-dex")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/roll-o-dex")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -1531,7 +1615,9 @@ def powertrip2(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(-10.0000, 0.0000, 0.0000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 2.5308, 1)
+    force0 = LinearSinkForce(
+        Point3(-10.0000, 0.0000, 0.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 2.5308, 1)
     force0.setActive(1)
     f0.addForce(force0)
     force1 = LinearVectorForce(Vec3(0.0000, 0.0000, 0.0000), 1.0000, 0)
@@ -1547,7 +1633,7 @@ def powertrip2(self):
 def rollodexVortex(self):
     self.reset()
     self.setPos(-0.003, 2.465, 3.714)
-    self.setHpr(84.924, 13.378, 56.334) #(70.004, -75.422, 35.756)
+    self.setHpr(84.924, 13.378, 56.334)  # (70.004, -75.422, 35.756)
     self.setScale(1.000, 1.000, 1.000)
     p0 = Particles.Particles('particles-1')
     # Particles parameters
@@ -1574,7 +1660,9 @@ def rollodexVortex(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/rollodex-card")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/rollodex-card")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -1598,16 +1686,40 @@ def rollodexVortex(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forward')
     # Force parameters
-    force0 = LinearSourceForce(Point3(0.0000, 0.0000, 0.0000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 1.0000, 1)
+    force0 = LinearSourceForce(
+        Point3(
+            0.0000,
+            0.0000,
+            0.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED,
+        1.0000,
+        1.0000,
+        1)
     force0.setActive(1)
     f0.addForce(force0)
-    force1 = LinearSinkForce(Point3(0.0000, 0.0000, 0.0000), LinearDistanceForce.FTONEOVERRSQUARED, 5.0000, 6.0000, 0)
+    force1 = LinearSinkForce(
+        Point3(
+            0.0000,
+            0.0000,
+            0.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED,
+        5.0000,
+        6.0000,
+        0)
     force1.setActive(0)
     f0.addForce(force1)
     force2 = LinearCylinderVortexForce(1.0000, 1.0000, 15.0000, 1.0000, 0)
     force2.setActive(1)
     f0.addForce(force2)
-    force3 = LinearSourceForce(Point3(0.5000, 0.0000, 1.0000), LinearDistanceForce.FTONEOVERRCUBED, 4.0000, 4.0000, 1)
+    force3 = LinearSourceForce(
+        Point3(
+            0.5000,
+            0.0000,
+            1.0000),
+        LinearDistanceForce.FTONEOVERRCUBED,
+        4.0000,
+        4.0000,
+        1)
     force3.setActive(1)
     f0.addForce(force3)
     self.addForceGroup(f0)
@@ -1719,6 +1831,7 @@ def guiltTrip(self):
     f0.addForce(force0)
     self.addForceGroup(f0)
 
+
 @particle
 def soundBreak(self):
     self.reset()
@@ -1754,8 +1867,9 @@ def soundBreak(self):
     p0.renderer.setAlphaMode(BaseParticleRenderer.PRALPHAINOUT)
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
-    p0.renderer.setTextureFromNode("phase_5/models/props/uberSoundEffects", "**/break")
-    #p0.renderer.addTextureFromFile('maps/break.tif')
+    p0.renderer.setTextureFromNode(
+        "phase_5/models/props/uberSoundEffects", "**/break")
+    # p0.renderer.addTextureFromFile('maps/break.tif')
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -1874,7 +1988,9 @@ def waterfall(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -30.0000), LinearDistanceForce.FTONEOVERRSQUARED, 3.0400, 1.5000, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -30.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 3.0400, 1.5000, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -1964,7 +2080,8 @@ def firedFlame(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/fire")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles", "**/fire")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -2019,7 +2136,9 @@ def spinSpray(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/snow-particle")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/snow-particle")
     p0.renderer.setColor(Vec4(1.00, 0.00, 0.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -2043,7 +2162,9 @@ def spinSpray(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -3.0000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 2.5308, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -3.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 2.5308, 1)
     force0.setActive(1)
     f0.addForce(force0)
     force1 = LinearVectorForce(Vec3(0.0000, 0.0000, 0.0000), 1.0000, 0)
@@ -2080,11 +2201,12 @@ def confetti(self):
     # Point factory parameters
     # Renderer parameters
     p0.renderer.setAlphaMode(BaseParticleRenderer.PRALPHAUSER)
-    #p0.renderer.setAlphaMode(BaseParticleRenderer.PRALPHANONE)
+    # p0.renderer.setAlphaMode(BaseParticleRenderer.PRALPHANONE)
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/spark")
-    #p0.renderer.addTextureFromFile('confetti.png')
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles", "**/spark")
+    # p0.renderer.addTextureFromFile('confetti.png')
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -2096,9 +2218,9 @@ def confetti(self):
     p0.renderer.setNonanimatedTheta(145.0080)
     p0.renderer.setAlphaBlendMethod(BaseParticleRenderer.PPBLENDLINEAR)
     p0.renderer.setAlphaDisable(0)
-    #p0.renderer.getColorInterpolationManager().addSinusoid(0.0,0.60000002384185791,Vec4(1.0,0.0,0.0,1.0),Vec4(0.0,1.0,0.0,1.0),0.30000001192092896,1)
-    #p0.renderer.getColorInterpolationManager().addSinusoid(0.5,1.0,Vec4(0.0,0.0,1.0,1.0),Vec4(1.0,0.0,0.0,1.0),0.30000001192092896,1)
-    #p0.renderer.getColorInterpolationManager().addSinusoid(0.0,1.0,Vec4(1.0,0.0,0.0,1.0),Vec4(0.0,1.0,0.0,1.0),0.5,0)
+    # p0.renderer.getColorInterpolationManager().addSinusoid(0.0,0.60000002384185791,Vec4(1.0,0.0,0.0,1.0),Vec4(0.0,1.0,0.0,1.0),0.30000001192092896,1)
+    # p0.renderer.getColorInterpolationManager().addSinusoid(0.5,1.0,Vec4(0.0,0.0,1.0,1.0),Vec4(1.0,0.0,0.0,1.0),0.30000001192092896,1)
+    # p0.renderer.getColorInterpolationManager().addSinusoid(0.0,1.0,Vec4(1.0,0.0,0.0,1.0),Vec4(0.0,1.0,0.0,1.0),0.5,0)
     # Emitter parameters
     p0.emitter.setEmissionType(BaseParticleEmitter.ETRADIATE)
     p0.emitter.setAmplitude(1.0000)
@@ -2115,11 +2237,14 @@ def confetti(self):
     force0.setVectorMasks(1, 1, 1)
     force0.setActive(1)
     f0.addForce(force0)
-    force1 = LinearSinkForce(Point3(0.0000, 0.0000, -0.8000), LinearDistanceForce.FTONEOVERRSQUARED, 0.5000, 1.0000, 1)
+    force1 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -0.8000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 0.5000, 1.0000, 1)
     force1.setVectorMasks(1, 1, 1)
     force1.setActive(1)
     f0.addForce(force1)
     self.addForceGroup(f0)
+
 
 @particle
 def downsizeCloud(self):
@@ -2152,7 +2277,9 @@ def downsizeCloud(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/snow-particle")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/snow-particle")
     p0.renderer.setColor(Vec4(1.00, 1.00, 0.00, 0.80))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -2213,7 +2340,9 @@ def synergyWaterfall(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/dollar-sign")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/dollar-sign")
     p0.renderer.setColor(Vec4(0.00, 1.00, 0.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -2237,7 +2366,9 @@ def synergyWaterfall(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -15.0000), LinearDistanceForce.FTONEOVERRSQUARED, 3.0400, 1.5000, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -15.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 3.0400, 1.5000, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -2274,7 +2405,9 @@ def calculate(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/audit-plus")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/audit-plus")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -2329,7 +2462,9 @@ def freezeAssets(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/snow-particle")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/snow-particle")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -2390,7 +2525,9 @@ def spriteFiredFlecks(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/roll-o-dex")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/roll-o-dex")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -2492,7 +2629,9 @@ def trickleLiquidate(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/raindrop")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/raindrop")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -2526,7 +2665,7 @@ def reorgSpray(self):
     # Particles parameters
     p0.setFactory("PointParticleFactory")
     p0.setRenderer("SpriteParticleRenderer")
-    #p0.setRenderer("PointParticleRenderer")
+    # p0.setRenderer("PointParticleRenderer")
     p0.setEmitter("SphereVolumeEmitter")
     p0.setPoolSize(150)
     p0.setBirthRate(0.0500)
@@ -2548,7 +2687,9 @@ def reorgSpray(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/snow-particle")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/snow-particle")
     p0.renderer.setColor(Vec4(1.00, 0.00, 0.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -2603,7 +2744,9 @@ def liquidate(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/raindrop")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/raindrop")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -2658,7 +2801,9 @@ def mumboJumboSpray(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/mumbojumbo-iron")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/mumbojumbo-iron")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -2719,7 +2864,8 @@ def gearExplosionWide(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/gear")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles", "**/gear")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -2743,7 +2889,9 @@ def gearExplosionWide(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -79.0000), LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0000, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -79.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0000, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -2796,7 +2944,9 @@ def pixieSpray(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -30.0000), LinearDistanceForce.FTONEOVERRSQUARED, 3.0400, 1.5000, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -30.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 3.0400, 1.5000, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -2833,7 +2983,9 @@ def synergy(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/dollar-sign")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/dollar-sign")
     p0.renderer.setColor(Vec4(0.00, 1.00, 0.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -2893,8 +3045,9 @@ def soundWave(self):
     p0.renderer.setAlphaMode(BaseParticleRenderer.PRALPHAOUT)
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
-    p0.renderer.setTextureFromNode("phase_5/models/props/uberSoundEffects", "**/Circle")
-    #p0.renderer.addTextureFromFile('maps/Circle.tif')
+    p0.renderer.setTextureFromNode(
+        "phase_5/models/props/uberSoundEffects", "**/Circle")
+    # p0.renderer.addTextureFromFile('maps/Circle.tif')
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -2906,7 +3059,10 @@ def soundWave(self):
     p0.renderer.setNonanimatedTheta(0.0000)
     p0.renderer.setAlphaBlendMethod(BaseParticleRenderer.PPBLENDLINEAR)
     p0.renderer.setAlphaDisable(1)
-    p0.renderer.setColorBlendMode(ColorBlendAttrib.MAdd, ColorBlendAttrib.OIncomingAlpha, ColorBlendAttrib.OOne)
+    p0.renderer.setColorBlendMode(
+        ColorBlendAttrib.MAdd,
+        ColorBlendAttrib.OIncomingAlpha,
+        ColorBlendAttrib.OOne)
     # Emitter parameters
     p0.emitter.setEmissionType(BaseParticleEmitter.ETEXPLICIT)
     p0.emitter.setAmplitude(0.0100)
@@ -2950,7 +3106,8 @@ def tnt(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/spark")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles", "**/spark")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -2965,9 +3122,9 @@ def tnt(self):
     # Sparkle parameters
     #p0.renderer.setCenterColor(Vec4(0.78, 0.78, 0, 1.00))
     #p0.renderer.setEdgeColor(Vec4(0.78, 0.78, 0, 1.00))
-    #p0.renderer.setBirthRadius(0.0600)
-    #p0.renderer.setDeathRadius(0.0600)
-    #p0.renderer.setLifeScale(SparkleParticleRenderer.SPNOSCALE)
+    # p0.renderer.setBirthRadius(0.0600)
+    # p0.renderer.setDeathRadius(0.0600)
+    # p0.renderer.setLifeScale(SparkleParticleRenderer.SPNOSCALE)
     # Emitter parameters
     p0.emitter.setEmissionType(BaseParticleEmitter.ETRADIATE)
     p0.emitter.setAmplitude(1.5000)
@@ -2980,7 +3137,9 @@ def tnt(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -19.0000), LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -19.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -3017,7 +3176,9 @@ def doubleTalkLeft(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/doubletalk-double")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/doubletalk-double")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -3041,7 +3202,9 @@ def doubleTalkLeft(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(6.000, -3.0000, 0.0000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 1.5000, 1)
+    force0 = LinearSinkForce(
+        Point3(6.000, -3.0000, 0.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 1.5000, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -3131,7 +3294,9 @@ def schmoozeUpperSpray(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/schmooze-master")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/schmooze-master")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -3155,7 +3320,9 @@ def schmoozeUpperSpray(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, -23.0000, -9.0000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 1.3661, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, -23.0000, -9.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 1.3661, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -3192,7 +3359,8 @@ def firedBaseFlame(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/fire")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles", "**/fire")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -3227,7 +3395,7 @@ def headShrinkSpray(self):
     p0.setFactory("PointParticleFactory")
     p0.setRenderer("SparkleParticleRenderer")
     p0.setEmitter("SphereVolumeEmitter")
-    p0.setPoolSize(60) #60)
+    p0.setPoolSize(60)  # 60)
     p0.setBirthRate(0.1000)
     p0.setLitterSize(4)
     p0.setLitterSpread(2)
@@ -3235,7 +3403,7 @@ def headShrinkSpray(self):
     p0.setLocalVelocityFlag(1)
     p0.setSystemGrowsOlderFlag(0)
     # Factory parameters
-    p0.factory.setLifespanBase(1.15) #1.1200)
+    p0.factory.setLifespanBase(1.15)  # 1.1200)
     p0.factory.setLifespanSpread(0.0000)
     p0.factory.setMassBase(1.0000)
     p0.factory.setMassSpread(0.0000)
@@ -3263,7 +3431,9 @@ def headShrinkSpray(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -4.0000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 2.5308, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -4.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 2.5308, 1)
     force0.setActive(1)
     f0.addForce(force0)
     force1 = LinearVectorForce(Vec3(0.0000, -7.0000, 0.0000), 1.0000, 0)
@@ -3303,7 +3473,9 @@ def jargonSpray(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/jargon-brow")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/jargon-brow")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -3365,7 +3537,9 @@ def legaleseSpray(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/buzzwords-crash")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/buzzwords-crash")
     p0.renderer.setColor(Vec4(0.00, 0.00, 0.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -3443,7 +3617,15 @@ def powertrip(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(10.0000, 0.0000, 0.0000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 2.5308, 1)
+    force0 = LinearSinkForce(
+        Point3(
+            10.0000,
+            0.0000,
+            0.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED,
+        1.0000,
+        2.5308,
+        1)
     force0.setActive(1)
     f0.addForce(force0)
     force1 = LinearVectorForce(Vec3(0.0000, 0.0000, 0.0000), 1.0000, 0)
@@ -3484,7 +3666,9 @@ def spinEffect(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/snow-particle")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/snow-particle")
     p0.renderer.setColor(Vec4(1.00, 0.00, 0.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -3498,7 +3682,7 @@ def spinEffect(self):
     p0.renderer.setAlphaDisable(0)
     # Emitter parameters
     p0.emitter.setEmissionType(BaseParticleEmitter.ETRADIATE)
-    p0.emitter.setAmplitude(4.000*1.2)
+    p0.emitter.setAmplitude(4.000 * 1.2)
     p0.emitter.setAmplitudeSpread(1.000)
     p0.emitter.setOffsetForce(Vec3(0.0000, 0.000, 0.0000))
     p0.emitter.setExplicitLaunchVector(Vec3(0.0000, 0.0000, 0.0000))
@@ -3508,7 +3692,9 @@ def spinEffect(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 1.2000, 0.0000), LinearDistanceForce.FTONEOVERRSQUARED,1.0000, 20, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 1.2000, 0.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 20, 1)
     force0.setActive(1)
     f0.addForce(force0)
     force1 = LinearJitterForce(5.0000, 0)
@@ -3527,7 +3713,7 @@ def restrainingOrderCloud(self):
     # Particles parameters
     p0.setFactory("PointParticleFactory")
     p0.setRenderer("SpriteParticleRenderer")
-    #p0.setRenderer("PointParticleRenderer")
+    # p0.setRenderer("PointParticleRenderer")
     p0.setEmitter("SphereVolumeEmitter")
     p0.setPoolSize(60)
     p0.setBirthRate(0.0001)
@@ -3549,7 +3735,9 @@ def restrainingOrderCloud(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/roll-o-dex")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/roll-o-dex")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -3604,7 +3792,9 @@ def numberSpill(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/raindrop")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/raindrop")
     p0.renderer.setColor(Vec4(0, 0, 0, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -3628,7 +3818,9 @@ def numberSpill(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -33.0000), LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -33.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -3718,7 +3910,9 @@ def rollodexWaterfall(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/rollodex-card")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/rollodex-card")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -3742,10 +3936,26 @@ def rollodexWaterfall(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forward')
     # Force parameters
-    force0 = LinearSourceForce(Point3(0.0000, 0.0000, 0.0000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 1.0000, 1)
+    force0 = LinearSourceForce(
+        Point3(
+            0.0000,
+            0.0000,
+            0.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED,
+        1.0000,
+        1.0000,
+        1)
     force0.setActive(0)
     f0.addForce(force0)
-    force1 = LinearSinkForce(Point3(0.0000, 0.0000, 10.0000), LinearDistanceForce.FTONEOVERRCUBED, 2.9550, 50.0000, 1)
+    force1 = LinearSinkForce(
+        Point3(
+            0.0000,
+            0.0000,
+            10.0000),
+        LinearDistanceForce.FTONEOVERRCUBED,
+        2.9550,
+        50.0000,
+        1)
     force1.setActive(1)
     f0.addForce(force1)
     self.addForceGroup(f0)
@@ -3782,7 +3992,9 @@ def rollodexStream(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/rollodex-card")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles",
+        "**/rollodex-card")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -3806,7 +4018,15 @@ def rollodexStream(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forward')
     # Force parameters
-    force0 = LinearSourceForce(Point3(0.0000, 0.0000, 0.0000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 1.0000, 1)
+    force0 = LinearSourceForce(
+        Point3(
+            0.0000,
+            0.0000,
+            0.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED,
+        1.0000,
+        1.0000,
+        1)
     force0.setActive(1)
     f0.addForce(force0)
     force1 = LinearJitterForce(19.1346, 0)
@@ -3860,7 +4080,15 @@ def shiftSpray(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, 96.0000), LinearDistanceForce.FTONEOVERRSQUARED, 3.0400, 1.5000, 1)
+    force0 = LinearSinkForce(
+        Point3(
+            0.0000,
+            0.0000,
+            96.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED,
+        3.0400,
+        1.5000,
+        1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -3922,7 +4150,7 @@ def pixieDrop(self):
 @particle
 def hotAirSpray(self):
     self.reset()
-    self.setPos(0.000, 2.500, 3.200) # originally (0,4,4)
+    self.setPos(0.000, 2.500, 3.200)  # originally (0,4,4)
     self.setHpr(-180.000, 80.000, -180.000)
     self.setScale(1.000, 1.000, 1.000)
     p0 = Particles.Particles('particles-1')
@@ -3950,7 +4178,8 @@ def hotAirSpray(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/fire")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles", "**/fire")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -3974,7 +4203,9 @@ def hotAirSpray(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -4.0000), LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 2.5308, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -4.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 1.0000, 2.5308, 1)
     force0.setActive(1)
     f0.addForce(force0)
     force1 = LinearVectorForce(Vec3(0.0000, -10.0000, 0.0000), 1.0000, 0)
@@ -4030,7 +4261,9 @@ def resistanceEffectSparkle(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -79.0000), LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0000, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -79.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0000, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -4078,7 +4311,10 @@ def tt_p_efx_rocketLaunchFire(self):
     p0.renderer.setNonanimatedTheta(0.0000)
     p0.renderer.setAlphaBlendMethod(BaseParticleRenderer.PPBLENDLINEAR)
     p0.renderer.setAlphaDisable(0)
-    p0.renderer.getColorInterpolationManager().addLinear(0.10999999940395355,1.0,Vec4(1.0,1.0,1.0,1.0),Vec4(0.729411780834198,0.40392157435417175,0.11372549086809158,1.0),1)
+    p0.renderer.getColorInterpolationManager().addLinear(
+        0.10999999940395355, 1.0, Vec4(
+            1.0, 1.0, 1.0, 1.0), Vec4(
+            0.729411780834198, 0.40392157435417175, 0.11372549086809158, 1.0), 1)
     # Emitter parameters
     p0.emitter.setEmissionType(BaseParticleEmitter.ETRADIATE)
     p0.emitter.setAmplitude(1.0000)
@@ -4134,7 +4370,8 @@ def icetnt(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/spark")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles", "**/spark")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -4149,9 +4386,9 @@ def icetnt(self):
     # Sparkle parameters
     #p0.renderer.setCenterColor(Vec4(0.78, 0.78, 0, 1.00))
     #p0.renderer.setEdgeColor(Vec4(0.78, 0.78, 0, 1.00))
-    #p0.renderer.setBirthRadius(0.0600)
-    #p0.renderer.setDeathRadius(0.0600)
-    #p0.renderer.setLifeScale(SparkleParticleRenderer.SPNOSCALE)
+    # p0.renderer.setBirthRadius(0.0600)
+    # p0.renderer.setDeathRadius(0.0600)
+    # p0.renderer.setLifeScale(SparkleParticleRenderer.SPNOSCALE)
     # Emitter parameters
     p0.emitter.setEmissionType(BaseParticleEmitter.ETRADIATE)
     p0.emitter.setAmplitude(1.5000)
@@ -4164,7 +4401,9 @@ def icetnt(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -19.0000), LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -19.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -4448,7 +4687,9 @@ def resistanceEffectSprite(self):
     self.addParticles(p5)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -79.0000), LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0000, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -79.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0000, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -4498,7 +4739,9 @@ def splashlines(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -79.0000), LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -79.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0100, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -4534,7 +4777,7 @@ def resistanceEffectBean(self):
     p0.renderer.setAlphaMode(BaseParticleRenderer.PRALPHANONE)
     p0.renderer.setUserAlpha(1.00)
     # Geom parameters
-    #p0.renderer.setGeomNode(jellybean4.egg)
+    # p0.renderer.setGeomNode(jellybean4.egg)
     # Emitter parameters
     p0.emitter.setEmissionType(BaseParticleEmitter.ETRADIATE)
     p0.emitter.setAmplitude(20.0000)
@@ -4569,7 +4812,7 @@ def resistanceEffectBean(self):
     p1.renderer.setAlphaMode(BaseParticleRenderer.PRALPHANONE)
     p1.renderer.setUserAlpha(1.00)
     # Geom parameters
-    #p1.renderer.setGeomNode(jellybean4.egg)
+    # p1.renderer.setGeomNode(jellybean4.egg)
     # Emitter parameters
     p1.emitter.setEmissionType(BaseParticleEmitter.ETRADIATE)
     p1.emitter.setAmplitude(20.0000)
@@ -4604,7 +4847,7 @@ def resistanceEffectBean(self):
     p2.renderer.setAlphaMode(BaseParticleRenderer.PRALPHANONE)
     p2.renderer.setUserAlpha(1.00)
     # Geom parameters
-    #p2.renderer.setGeomNode(jellybean4.egg)
+    # p2.renderer.setGeomNode(jellybean4.egg)
     # Emitter parameters
     p2.emitter.setEmissionType(BaseParticleEmitter.ETRADIATE)
     p2.emitter.setAmplitude(20.0000)
@@ -4639,7 +4882,7 @@ def resistanceEffectBean(self):
     p3.renderer.setAlphaMode(BaseParticleRenderer.PRALPHANONE)
     p3.renderer.setUserAlpha(1.00)
     # Geom parameters
-    #p3.renderer.setGeomNode(jellybean4.egg)
+    # p3.renderer.setGeomNode(jellybean4.egg)
     # Emitter parameters
     p3.emitter.setEmissionType(BaseParticleEmitter.ETRADIATE)
     p3.emitter.setAmplitude(20.0000)
@@ -4674,7 +4917,7 @@ def resistanceEffectBean(self):
     p4.renderer.setAlphaMode(BaseParticleRenderer.PRALPHANONE)
     p4.renderer.setUserAlpha(1.00)
     # Geom parameters
-    #p4.renderer.setGeomNode(jellybean4.egg)
+    # p4.renderer.setGeomNode(jellybean4.egg)
     # Emitter parameters
     p4.emitter.setEmissionType(BaseParticleEmitter.ETRADIATE)
     p4.emitter.setAmplitude(20.0000)
@@ -4687,7 +4930,9 @@ def resistanceEffectBean(self):
     self.addParticles(p4)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -79.0000), LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0000, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -79.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 95.0000, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
@@ -4723,7 +4968,7 @@ def tt_p_efx_rocketLaunchSmoke(self):
     p0.renderer.setAlphaMode(BaseParticleRenderer.PRALPHAINOUT)
     p0.renderer.setUserAlpha(0.47)
     # Sprite parameters
-    #p0.renderer.addTextureFromFile('../../ttmodels/src/maps/tt_t_efx_smoke.tif')
+    # p0.renderer.addTextureFromFile('../../ttmodels/src/maps/tt_t_efx_smoke.tif')
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -4735,7 +4980,10 @@ def tt_p_efx_rocketLaunchSmoke(self):
     p0.renderer.setNonanimatedTheta(0.0000)
     p0.renderer.setAlphaBlendMethod(BaseParticleRenderer.PPBLENDLINEAR)
     p0.renderer.setAlphaDisable(0)
-    p0.renderer.getColorInterpolationManager().addLinear(0.0,1.0,Vec4(1.0,1.0,1.0,1.0),Vec4(0.58823531866073608,0.58823531866073608,0.58823531866073608,1.0),1)
+    p0.renderer.getColorInterpolationManager().addLinear(
+        0.0, 1.0, Vec4(
+            1.0, 1.0, 1.0, 1.0), Vec4(
+            0.58823531866073608, 0.58823531866073608, 0.58823531866073608, 1.0), 1)
     # Emitter parameters
     p0.emitter.setEmissionType(BaseParticleEmitter.ETRADIATE)
     p0.emitter.setAmplitude(0.4000)
@@ -4872,7 +5120,7 @@ def drift(self):
     p0.renderer.setNonanimatedTheta(0.0000)
     p0.renderer.setAlphaBlendMethod(BaseParticleRenderer.PPBLENDLINEAR)
     p0.renderer.setAlphaDisable(0)
-    #p0.renderer.setColorBlendMode(ColorBlendAttrib.MAdd,ColorBlendAttrib.OIncomingAlpha,ColorBlendAttrib.OOneMinusIncomingAlpha)
+    # p0.renderer.setColorBlendMode(ColorBlendAttrib.MAdd,ColorBlendAttrib.OIncomingAlpha,ColorBlendAttrib.OOneMinusIncomingAlpha)
     # Emitter parameters
     p0.emitter.setEmissionType(BaseParticleEmitter.ETEXPLICIT)
     p0.emitter.setAmplitude(1.0000)
@@ -4881,7 +5129,7 @@ def drift(self):
     p0.emitter.setExplicitLaunchVector(Vec3(0.0000, 0.0000, 0.0000))
     p0.emitter.setRadiateOrigin(Point3(0.0000, 0.0000, 0.0000))
     # Sphere Volume parameters
-    p0.emitter.setLocation(Point3(0.0000,0.0000,0.0000))
+    p0.emitter.setLocation(Point3(0.0000, 0.0000, 0.0000))
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('Smoke')
     # Force parameters
@@ -4936,7 +5184,8 @@ def snowdisk(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_8/models/props/snowflake_particle", "**/p1_2")
+    p0.renderer.setTextureFromNode(
+        "phase_8/models/props/snowflake_particle", "**/p1_2")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(0)
     p0.renderer.setYScaleFlag(0)
@@ -5000,7 +5249,8 @@ def bossCogFrontAttack(self):
     p0.renderer.setUserAlpha(1.00)
     # Sprite parameters
     p0.renderer.setIgnoreScale(1)
-    p0.renderer.setTextureFromNode("phase_3.5/models/props/suit-particles", "**/gear")
+    p0.renderer.setTextureFromNode(
+        "phase_3.5/models/props/suit-particles", "**/gear")
     p0.renderer.setColor(Vec4(1.00, 1.00, 1.00, 1.00))
     p0.renderer.setXScaleFlag(1)
     p0.renderer.setYScaleFlag(1)
@@ -5024,9 +5274,9 @@ def bossCogFrontAttack(self):
     self.addParticles(p0)
     f0 = ForceGroup.ForceGroup('forces')
     # Force parameters
-    force0 = LinearSinkForce(Point3(0.0000, 0.0000, -79.0000), LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 50.0000, 1)
+    force0 = LinearSinkForce(
+        Point3(0.0000, 0.0000, -79.0000),
+        LinearDistanceForce.FTONEOVERRSQUARED, 15.9701, 50.0000, 1)
     force0.setActive(1)
     f0.addForce(force0)
     self.addForceGroup(f0)
-
-

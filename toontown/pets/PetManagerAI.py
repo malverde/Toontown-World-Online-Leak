@@ -1,4 +1,4 @@
-#Embedded file name: toontown.pets.PetManagerAI
+# Embedded file name: toontown.pets.PetManagerAI
 from toontown.pets import PetTraits
 from toontown.pets import PetUtil
 from toontown.hood import ZoneUtil
@@ -6,6 +6,7 @@ from toontown.pets import PetNameGenerator
 import random
 import time
 from toontown.toon.DistributedToonAI import dna
+
 
 class PetCreator:
 
@@ -18,7 +19,8 @@ class PetCreator:
         self.nameIndex = nameIndex
         self.dna = dna
         self.zoneId = ZoneUtil.getCanonicalSafeZoneId(zoneId)
-        self.traits = PetTraits.PetTraits(traitSeed=traitSeed, safeZoneId=zoneId)
+        self.traits = PetTraits.PetTraits(
+            traitSeed=traitSeed, safeZoneId=zoneId)
         self.gender = gender
         self.petId = None
         self.name = None
@@ -27,53 +29,53 @@ class PetCreator:
         self.petId = doId
         av = self.air.doId2do[self.avId]
         av.b_setPetId(self.petId)
-        self.air.writeServerEvent('purchased-pet', avId=self.avId, petId=self.petId)
+        self.air.writeServerEvent(
+            'purchased-pet',
+            avId=self.avId,
+            petId=self.petId)
 
     def createPet(self):
         self.nameGen = PetNameGenerator.PetNameGenerator()
         self.name = self.nameGen.getName(self.nameIndex)
-        self.air.dbInterface.createObject(self.air.dbId, self.air.dclassesByName['DistributedPetAI'], {'setOwnerId': [self.avId],
-         'setPetName': [self.name],
-         'setTraitSeed': [self.traitSeed],
-         'setSafeZone': [self.zoneId],
-         'setForgetfulness': [0],
-         'setBoredomThreshold': [0],
-         'setRestlessnessThreshold': [0],
-         'setPlayfulnessThreshold': [0],
-         'setLonelinessThreshold': [0],
-         'setSadnessThreshold': [0],
-         'setFatigueThreshold': [0],
-         'setHungerThreshold': [0],
-         'setExcitementThreshold': [0],
-         'setAngerThreshold': [0],
-         'setSurpriseThreshold': [0],
-         'setAffectionThreshold': [0],
-         'setHead': [self.dna[0]],
-         'setEars': [self.dna[1]],
-         'setNose': [self.dna[2]],
-         'setTail': [self.dna[3]],
-         'setBodyTexture': [self.dna[4]],
-         'setColor': [self.dna[5]],
-         'setColorScale': [self.dna[6]],
-         'setEyeColor': [self.dna[7]],
-         'setGender': [self.dna[8]],
-         'setLastSeenTimestamp': [0],
-         'setExcitement': [0],
-         'setBoredom': [0],
-         'setRestlessness': [0],
-         'setPlayfulness': [0],
-         'setLoneliness': [0],
-         'setSadness': [0],
-         'setAffection': [0],
-         'setHunger': [0],
-         'setAnger': [0],
-         'setTrickAptitudes': [[0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0]]}, self._handleCreate)
+        self.air.dbInterface.createObject(
+            self.air.dbId, self.air.dclassesByName['DistributedPetAI'],
+            {'setOwnerId': [self.avId],
+             'setPetName': [self.name],
+             'setTraitSeed': [self.traitSeed],
+             'setSafeZone': [self.zoneId],
+             'setForgetfulness': [0],
+             'setBoredomThreshold': [0],
+             'setRestlessnessThreshold': [0],
+             'setPlayfulnessThreshold': [0],
+             'setLonelinessThreshold': [0],
+             'setSadnessThreshold': [0],
+             'setFatigueThreshold': [0],
+             'setHungerThreshold': [0],
+             'setExcitementThreshold': [0],
+             'setAngerThreshold': [0],
+             'setSurpriseThreshold': [0],
+             'setAffectionThreshold': [0],
+             'setHead': [self.dna[0]],
+             'setEars': [self.dna[1]],
+             'setNose': [self.dna[2]],
+             'setTail': [self.dna[3]],
+             'setBodyTexture': [self.dna[4]],
+             'setColor': [self.dna[5]],
+             'setColorScale': [self.dna[6]],
+             'setEyeColor': [self.dna[7]],
+             'setGender': [self.dna[8]],
+             'setLastSeenTimestamp': [0],
+             'setExcitement': [0],
+             'setBoredom': [0],
+             'setRestlessness': [0],
+             'setPlayfulness': [0],
+             'setLoneliness': [0],
+             'setSadness': [0],
+             'setAffection': [0],
+             'setHunger': [0],
+             'setAnger': [0],
+             'setTrickAptitudes': [[0, 0, 0, 0, 0, 0, 0]]},
+            self._handleCreate)
 
 
 class PetManagerAI:
@@ -81,11 +83,23 @@ class PetManagerAI:
     def __init__(self, air):
         self.air = air
 
-    def getAvailablePets(self, numPets = 5):
+    def getAvailablePets(self, numPets=5):
         return random.sample(xrange(256), numPets)
 
-    def createNewPetFromSeed(self, avId, petSeeds, nameIndex, gender, safeZoneId):
-        creator = PetCreator(self.air, avId, petSeeds, nameIndex, gender, safeZoneId)
+    def createNewPetFromSeed(
+            self,
+            avId,
+            petSeeds,
+            nameIndex,
+            gender,
+            safeZoneId):
+        creator = PetCreator(
+            self.air,
+            avId,
+            petSeeds,
+            nameIndex,
+            gender,
+            safeZoneId)
         creator.createPet()
 
     def deleteToonsPet(self, avId):

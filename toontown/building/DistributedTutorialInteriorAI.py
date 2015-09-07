@@ -1,8 +1,10 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
+
 class DistributedTutorialInteriorAI(DistributedObjectAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedTutorialInteriorAI")
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        "DistributedTutorialInteriorAI")
 
     def __init__(self, air, zoneId, npcId):
         DistributedObjectAI.__init__(self, air)
@@ -15,4 +17,3 @@ class DistributedTutorialInteriorAI(DistributedObjectAI):
 
     def getTutorialNpcId(self):
         return self.npcId
-

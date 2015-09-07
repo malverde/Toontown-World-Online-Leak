@@ -10,16 +10,17 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.racing.KartShopGlobals import KartGlobals
 
+
 class DistributedRacePad(DistributedKartPad, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedRacePad')
     defaultTransitions = {'Off': ['WaitEmpty'],
-     'WaitEmpty': ['WaitCountdown', 'Off'],
-     'WaitCountdown': ['WaitEmpty',
-                       'WaitBoarding',
-                       'Off',
-                       'AllAboard'],
-     'WaitBoarding': ['AllAboard', 'WaitEmpty', 'Off'],
-     'AllAboard': ['Off', 'WaitEmpty', 'WaitCountdown']}
+                          'WaitEmpty': ['WaitCountdown', 'Off'],
+                          'WaitCountdown': ['WaitEmpty',
+                                            'WaitBoarding',
+                                            'Off',
+                                            'AllAboard'],
+                          'WaitBoarding': ['AllAboard', 'WaitEmpty', 'Off'],
+                          'AllAboard': ['Off', 'WaitEmpty', 'WaitCountdown']}
     id = 0
 
     def __init__(self, cr):
@@ -67,11 +68,10 @@ class DistributedRacePad(DistributedKartPad, FSM):
         for block in self.startingBlocks:
             if block.avId == base.localAvatar.getDoId():
                 hoodId = self.cr.playGame.hood.hoodId
-                self.cr.playGame.getPlace().doneStatus = {'loader': 'racetrack',
-                 'where': 'racetrack',
-                 'zoneId': zoneId,
-                 'trackId': self.trackId,
-                 'hoodId': hoodId}
+                self.cr.playGame.getPlace().doneStatus = {
+                    'loader': 'racetrack', 'where': 'racetrack',
+                    'zoneId': zoneId, 'trackId': self.trackId,
+                    'hoodId': hoodId}
                 messenger.send(base.cr.playGame.getPlace().doneEvent)
 
     def setTrackInfo(self, trackInfo):
@@ -84,52 +84,74 @@ class DistributedRacePad(DistributedKartPad, FSM):
         self.acceptOnce('enterPlayground', self.setTunnelSignText)
 
     def enterOff(self, *args):
-        self.notify.debug('enterOff: Entering Off State for RacePad %s' % self.id)
+        self.notify.debug(
+            'enterOff: Entering Off State for RacePad %s' %
+            self.id)
         if self.tunnelSignInterval:
             self.tunnelSignInterval.finish()
         self.cleanupTunnelText()
 
     def exitOff(self):
-        self.notify.debug('exitOff: Exiting Off state for RacePad %s' % self.id)
+        self.notify.debug(
+            'exitOff: Exiting Off state for RacePad %s' %
+            self.id)
 
     def enterWaitEmpty(self, args):
-        self.notify.debug('enterWaitEmpty: Entering WaitEmpty State for RacePad %s' % self.id)
+        self.notify.debug(
+            'enterWaitEmpty: Entering WaitEmpty State for RacePad %s' %
+            self.id)
         if self.tunnelSignInterval:
             self.tunnelSignInterval.finish()
 
     def exitWaitEmpty(self):
-        self.notify.debug('exitWaitEmpty: Exiting WaitEmpty State for RacePad %s' % self.id)
+        self.notify.debug(
+            'exitWaitEmpty: Exiting WaitEmpty State for RacePad %s' %
+            self.id)
 
     def enterWaitCountdown(self, args):
-        self.notify.debug('enterWaitCountdown: Entering WaitCountdown State for RacePad %s' % self.id)
+        self.notify.debug(
+            'enterWaitCountdown: Entering WaitCountdown State for RacePad %s' %
+            self.id)
         self.timeStamp = args[0]
         self.startCountdown()
 
     def exitWaitCountdown(self):
-        self.notify.debug('exitWaitCountdown: Exiting WaitCountdown State for RacePad %s' % self.id)
+        self.notify.debug(
+            'exitWaitCountdown: Exiting WaitCountdown State for RacePad %s' %
+            self.id)
         self.stopCountdown()
 
     def enterWaitBoarding(self, args):
-        self.notify.debug('enterWaitBoarding: Entering WaitBoarding State for RacePad %s' % self.id)
+        self.notify.debug(
+            'enterWaitBoarding: Entering WaitBoarding State for RacePad %s' %
+            self.id)
         self.timeStamp = args[0]
         for block in self.startingBlocks:
             block.hideGui()
 
     def exitWaitBoarding(self):
-        self.notify.debug('exitWaitBoarding: Exiting WaitBording State for RacePad %s' % self.id)
+        self.notify.debug(
+            'exitWaitBoarding: Exiting WaitBording State for RacePad %s' %
+            self.id)
 
     def enterAllAboard(self, args):
-        self.notify.debug('enterAllAboard: Entering AllAboard State for RacePad %s' % self.id)
+        self.notify.debug(
+            'enterAllAboard: Entering AllAboard State for RacePad %s' %
+            self.id)
         for block in self.startingBlocks:
             block.request('Off')
             if block.av and block.kartNode:
-                self.notify.debug('enterAllAboard: Avatar %s is in the race.' % block.av.doId)
+                self.notify.debug(
+                    'enterAllAboard: Avatar %s is in the race.' %
+                    block.av.doId)
                 block.doExitToRaceTrack()
 
     def exitAllAboard(self):
-        self.notify.debug('enterAllAboard: Exiting AllAboard State for RacePad %s' % self.id)
+        self.notify.debug(
+            'enterAllAboard: Exiting AllAboard State for RacePad %s' %
+            self.id)
 
-    def getTimestamp(self, avId = None):
+    def getTimestamp(self, avId=None):
         error = 'DistributedRacePad::getTimeStamp - timestamp not yet set!'
         return self.timeStamp
 
@@ -155,10 +177,12 @@ class DistributedRacePad(DistributedKartPad, FSM):
     def startCountdown(self):
         if not self.timerTask and self.startingBlocks:
             self.makeClockGui()
-            duration = KartGlobals.COUNTDOWN_TIME - globalClockDelta.localElapsedTime(self.getTimestamp())
+            duration = KartGlobals.COUNTDOWN_TIME - \
+                globalClockDelta.localElapsedTime(self.getTimestamp())
             countdownTask = Task(self.updateTimerTask)
             countdownTask.duration = duration
-            self.timerTask = taskMgr.add(countdownTask, self.uniqueName('racePadTimerTask'))
+            self.timerTask = taskMgr.add(
+                countdownTask, self.uniqueName('racePadTimerTask'))
 
     def addStartingBlock(self, block):
         DistributedKartPad.addStartingBlock(self, block)
@@ -169,7 +193,8 @@ class DistributedRacePad(DistributedKartPad, FSM):
         self.notify.debugStateCall(self)
         if self.clockNodepath is not None:
             return
-        self.clockNode, self.clockNodepath = self.getSignTextNodes('racePadClock')
+        self.clockNode, self.clockNodepath = self.getSignTextNodes(
+            'racePadClock')
         self.clockNodepath.setPos(0, 0.125, -3.0)
         self.clockNodepath.setScale(2.5)
         self.clockNodepath.flattenLight()
@@ -179,9 +204,10 @@ class DistributedRacePad(DistributedKartPad, FSM):
         cPadId = RaceGlobals.RaceInfo2RacePadId(self.trackId, self.trackType)
         genreId = RaceGlobals.getTrackGenre(self.trackId)
         tunnelName = RaceGlobals.getTunnelSignName(genreId, cPadId)
-        self.tunnelSign = self.cr.playGame.hood.loader.geom.find('**/' + tunnelName)
+        self.tunnelSign = self.cr.playGame.hood.loader.geom.find(
+            '**/' + tunnelName)
 
-    def getSignTextNodes(self, nodeName, font = ToontownGlobals.getSignFont()):
+    def getSignTextNodes(self, nodeName, font=ToontownGlobals.getSignFont()):
         signTextNode = TextNode(nodeName)
         signTextNode.setFont(font)
         signTextNode.setAlign(TextNode.ACenter)
@@ -201,7 +227,15 @@ class DistributedRacePad(DistributedKartPad, FSM):
             self.makeTextNodes()
         if self.tunnelSignInterval:
             self.tunnelSignInterval.finish()
-        self.tunnelSignInterval = Sequence(Func(self.hideTunnelSignText), Wait(0.2), Func(self.showTunnelSignText), Wait(0.2), Func(self.hideTunnelSignText), Wait(0.2), Func(self.showTunnelSignText), Wait(0.2), Func(self.hideTunnelSignText), Wait(0.2), Func(self.updateTunnelSignText), Func(self.showTunnelSignText))
+        self.tunnelSignInterval = Sequence(
+            Func(
+                self.hideTunnelSignText), Wait(0.2), Func(
+                self.showTunnelSignText), Wait(0.2), Func(
+                self.hideTunnelSignText), Wait(0.2), Func(
+                    self.showTunnelSignText), Wait(0.2), Func(
+                        self.hideTunnelSignText), Wait(0.2), Func(
+                            self.updateTunnelSignText), Func(
+                                self.showTunnelSignText))
         self.tunnelSignInterval.start()
 
     def hideTunnelSignText(self):
@@ -243,20 +277,24 @@ class DistributedRacePad(DistributedKartPad, FSM):
 
     def makeTextNodes(self):
         self.notify.debugStateCall(self)
-        self.trackNameNode, trackNameNodePath = self.getSignTextNodes('trackNameNode')
+        self.trackNameNode, trackNameNodePath = self.getSignTextNodes(
+            'trackNameNode')
         trackNameNodePath.setZ(0.7)
         trackNameNodePath.setScale(0.875)
         trackNameNodePath.flattenLight()
-        self.trackTypeNode, trackTypeNodePath = self.getSignTextNodes('trackTypeNode')
+        self.trackTypeNode, trackTypeNodePath = self.getSignTextNodes(
+            'trackTypeNode')
         trackTypeNodePath.setZ(-0.35)
         trackTypeNodePath.setScale(0.875)
         trackTypeNodePath.flattenLight()
-        self.depositNode, depositNodePath = self.getSignTextNodes('depositNode', ToontownGlobals.getToonFont())
+        self.depositNode, depositNodePath = self.getSignTextNodes(
+            'depositNode', ToontownGlobals.getToonFont())
         self.depositNode.setTextColor(0, 0, 0, 1)
         depositNodePath.setPos(4.0, -1.0, -2.0)
         depositNodePath.setScale(0.75)
         depositNodePath.flattenLight()
-        self.qualifyNode, qualifyNodePath = self.getSignTextNodes('qualifyNode', ToontownGlobals.getToonFont())
+        self.qualifyNode, qualifyNodePath = self.getSignTextNodes(
+            'qualifyNode', ToontownGlobals.getToonFont())
         self.qualifyNode.setTextColor(0, 0, 0, 1)
         qualifyNodePath.setPos(-4.0, 1.2, -2.0)
         qualifyNodePath.setScale(0.75)

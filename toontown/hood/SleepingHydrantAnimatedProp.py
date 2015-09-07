@@ -3,6 +3,7 @@ from direct.interval.IntervalGlobal import *
 from direct.task import Task
 import math
 
+
 class SleepingHydrantAnimatedProp(AnimatedProp.AnimatedProp):
 
     def __init__(self, node):

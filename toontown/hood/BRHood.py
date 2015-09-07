@@ -4,18 +4,21 @@ from toontown.town import BRTownLoader
 from toontown.safezone import BRSafeZoneLoader
 from toontown.toonbase.ToontownGlobals import *
 
+
 class BRHood(ToonHood.ToonHood):
 
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
-        ToonHood.ToonHood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
+        ToonHood.ToonHood.__init__(
+            self, parentFSM, doneEvent, dnaStore, hoodId)
         self.id = TheBrrrgh
         self.townLoaderClass = BRTownLoader.BRTownLoader
         self.safeZoneLoaderClass = BRSafeZoneLoader.BRSafeZoneLoader
         self.storageDNAFile = 'phase_8/dna/storage_BR.xml'
-        self.holidayStorageDNADict = {WINTER_DECORATIONS: ['phase_8/dna/winter_storage_BR.xml'],
-         WACKY_WINTER_DECORATIONS: ['phase_8/dna/winter_storage_BR.xml'],
-         HALLOWEEN_PROPS: ['phase_8/dna/halloween_props_storage_BR.xml'],
-         SPOOKY_PROPS: ['phase_8/dna/halloween_props_storage_BR.xml']}
+        self.holidayStorageDNADict = {
+            WINTER_DECORATIONS: ['phase_8/dna/winter_storage_BR.xml'],
+            WACKY_WINTER_DECORATIONS: ['phase_8/dna/winter_storage_BR.xml'],
+            HALLOWEEN_PROPS: ['phase_8/dna/halloween_props_storage_BR.xml'],
+            SPOOKY_PROPS: ['phase_8/dna/halloween_props_storage_BR.xml']}
         self.skyFile = 'phase_3.5/models/props/BR_sky'
         self.spookySkyFile = 'phase_3.5/models/props/BR_sky'
         self.titleColor = (0.3, 0.6, 1.0, 1.0)

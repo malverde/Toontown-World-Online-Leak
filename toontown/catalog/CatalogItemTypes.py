@@ -1,4 +1,4 @@
-#Embedded file name: toontown.catalog.CatalogItemTypes
+# Embedded file name: toontown.catalog.CatalogItemTypes
 import CatalogFurnitureItem
 import CatalogChatItem
 import CatalogClothingItem
@@ -40,46 +40,47 @@ TOON_STATUE_ITEM = 17
 ANIMATED_FURNITURE_ITEM = 18
 ACCESSORY_ITEM = 19
 NonPermanentItemTypes = (RENTAL_ITEM,)
-CatalogItemTypes = {CatalogInvalidItem.CatalogInvalidItem: INVALID_ITEM,
- CatalogFurnitureItem.CatalogFurnitureItem: FURNITURE_ITEM,
- CatalogChatItem.CatalogChatItem: CHAT_ITEM,
- CatalogClothingItem.CatalogClothingItem: CLOTHING_ITEM,
- CatalogEmoteItem.CatalogEmoteItem: EMOTE_ITEM,
- CatalogWallpaperItem.CatalogWallpaperItem: WALLPAPER_ITEM,
- CatalogWindowItem.CatalogWindowItem: WINDOW_ITEM,
- CatalogFlooringItem.CatalogFlooringItem: FLOORING_ITEM,
- CatalogMouldingItem.CatalogMouldingItem: MOULDING_ITEM,
- CatalogWainscotingItem.CatalogWainscotingItem: WAINSCOTING_ITEM,
- CatalogPoleItem.CatalogPoleItem: POLE_ITEM,
- CatalogPetTrickItem.CatalogPetTrickItem: PET_TRICK_ITEM,
- CatalogBeanItem.CatalogBeanItem: BEAN_ITEM,
- CatalogGardenItem.CatalogGardenItem: GARDEN_ITEM,
- CatalogRentalItem.CatalogRentalItem: RENTAL_ITEM,
- CatalogGardenStarterItem.CatalogGardenStarterItem: GARDENSTARTER_ITEM,
- CatalogNametagItem.CatalogNametagItem: NAMETAG_ITEM,
- CatalogToonStatueItem.CatalogToonStatueItem: TOON_STATUE_ITEM,
- CatalogAnimatedFurnitureItem.CatalogAnimatedFurnitureItem: ANIMATED_FURNITURE_ITEM,
- CatalogAccessoryItem.CatalogAccessoryItem: ACCESSORY_ITEM}
+CatalogItemTypes = {
+    CatalogInvalidItem.CatalogInvalidItem: INVALID_ITEM,
+    CatalogFurnitureItem.CatalogFurnitureItem: FURNITURE_ITEM,
+    CatalogChatItem.CatalogChatItem: CHAT_ITEM,
+    CatalogClothingItem.CatalogClothingItem: CLOTHING_ITEM,
+    CatalogEmoteItem.CatalogEmoteItem: EMOTE_ITEM,
+    CatalogWallpaperItem.CatalogWallpaperItem: WALLPAPER_ITEM,
+    CatalogWindowItem.CatalogWindowItem: WINDOW_ITEM,
+    CatalogFlooringItem.CatalogFlooringItem: FLOORING_ITEM,
+    CatalogMouldingItem.CatalogMouldingItem: MOULDING_ITEM,
+    CatalogWainscotingItem.CatalogWainscotingItem: WAINSCOTING_ITEM,
+    CatalogPoleItem.CatalogPoleItem: POLE_ITEM,
+    CatalogPetTrickItem.CatalogPetTrickItem: PET_TRICK_ITEM,
+    CatalogBeanItem.CatalogBeanItem: BEAN_ITEM,
+    CatalogGardenItem.CatalogGardenItem: GARDEN_ITEM,
+    CatalogRentalItem.CatalogRentalItem: RENTAL_ITEM,
+    CatalogGardenStarterItem.CatalogGardenStarterItem: GARDENSTARTER_ITEM,
+    CatalogNametagItem.CatalogNametagItem: NAMETAG_ITEM,
+    CatalogToonStatueItem.CatalogToonStatueItem: TOON_STATUE_ITEM,
+    CatalogAnimatedFurnitureItem.CatalogAnimatedFurnitureItem: ANIMATED_FURNITURE_ITEM,
+    CatalogAccessoryItem.CatalogAccessoryItem: ACCESSORY_ITEM}
 CatalogItemType2multipleAllowed = {INVALID_ITEM: False,
- FURNITURE_ITEM: True,
- CHAT_ITEM: False,
- CLOTHING_ITEM: False,
- EMOTE_ITEM: False,
- WALLPAPER_ITEM: True,
- WINDOW_ITEM: True,
- FLOORING_ITEM: True,
- MOULDING_ITEM: True,
- WAINSCOTING_ITEM: True,
- POLE_ITEM: False,
- PET_TRICK_ITEM: False,
- BEAN_ITEM: False,
- GARDEN_ITEM: False,
- RENTAL_ITEM: False,
- GARDENSTARTER_ITEM: False,
- NAMETAG_ITEM: False,
- TOON_STATUE_ITEM: False,
- ANIMATED_FURNITURE_ITEM: True,
- ACCESSORY_ITEM: False}
+                                   FURNITURE_ITEM: True,
+                                   CHAT_ITEM: False,
+                                   CLOTHING_ITEM: False,
+                                   EMOTE_ITEM: False,
+                                   WALLPAPER_ITEM: True,
+                                   WINDOW_ITEM: True,
+                                   FLOORING_ITEM: True,
+                                   MOULDING_ITEM: True,
+                                   WAINSCOTING_ITEM: True,
+                                   POLE_ITEM: False,
+                                   PET_TRICK_ITEM: False,
+                                   BEAN_ITEM: False,
+                                   GARDEN_ITEM: False,
+                                   RENTAL_ITEM: False,
+                                   GARDENSTARTER_ITEM: False,
+                                   NAMETAG_ITEM: False,
+                                   TOON_STATUE_ITEM: False,
+                                   ANIMATED_FURNITURE_ITEM: True,
+                                   ACCESSORY_ITEM: False}
 SingleCodeRedemption = (BEAN_ITEM,)
 CatalogItemTypeMask = 31
 CatalogItemSaleFlag = 128

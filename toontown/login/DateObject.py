@@ -1,5 +1,6 @@
 import time
 
+
 class DateObject:
 
     def getYear(self):
@@ -11,7 +12,14 @@ class DateObject:
     def getDay(self):
         return time.localtime(time.time())[2]
 
-    def getDetailedAge(self, dobMonth, dobYear, dobDay = None, curMonth = None, curYear = None, curDay = None):
+    def getDetailedAge(
+            self,
+            dobMonth,
+            dobYear,
+            dobDay=None,
+            curMonth=None,
+            curYear=None,
+            curDay=None):
         if curMonth is None:
             curMonth = self.getMonth()
         if curYear is None:
@@ -27,10 +35,23 @@ class DateObject:
         ageMonths = curMonths - dobMonths
         return (int(ageMonths / 12), ageMonths % 12)
 
-    def getAge(self, dobMonth, dobYear, dobDay = None, curMonth = None, curYear = None, curDay = None):
-        return self.getDetailedAge(dobMonth, dobYear, dobDay=dobDay, curMonth=curMonth, curYear=curYear, curDay=curDay)[0]
+    def getAge(
+            self,
+            dobMonth,
+            dobYear,
+            dobDay=None,
+            curMonth=None,
+            curYear=None,
+            curDay=None):
+        return self.getDetailedAge(
+            dobMonth,
+            dobYear,
+            dobDay=dobDay,
+            curMonth=curMonth,
+            curYear=curYear,
+            curDay=curDay)[0]
 
-    def getNumDaysInMonth(self, month = None, year = None):
+    def getNumDaysInMonth(self, month=None, year=None):
 
         def isLeapYear(year):
             if year % 4 == 0:

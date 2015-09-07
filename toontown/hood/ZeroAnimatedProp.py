@@ -9,6 +9,7 @@ from toontown.hood import AnimatedProp
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 
+
 class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('ZeroAnimatedProp')
 
@@ -33,7 +34,7 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
     def loadPhaseAnims(self):
         animDict = {}
         for key, info in self.phaseInfo.iteritems():
-            if type(info[0]) == types.TupleType:
+            if isinstance(info[0], types.TupleType):
                 for index, anims in enumerate(info[0]):
                     fullPath = self.path + '/' + anims
                     animName = 'phase%d_%d' % (key, index)
@@ -53,13 +54,14 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         self.phaseIvals = []
         for key, info in self.phaseInfo.iteritems():
             self.notify.debug('key=%s' % key)
-            if type(info[0]) == types.TupleType:
+            if isinstance(info[0], types.TupleType):
                 ival = Sequence()
                 for index, anims in enumerate(info[0]):
                     animName = 'phase%d_%d' % (key, index)
                     animIval = self.node.actorInterval(animName)
                     animIvalDuration = animIval.getDuration()
-                    soundIval = self.createSoundInterval(anims, animIvalDuration)
+                    soundIval = self.createSoundInterval(
+                        anims, animIvalDuration)
                     soundIvalDuration = soundIval.getDuration()
                     animAndSound = Parallel(soundIval, animIval)
                     ival.append(animAndSound)
@@ -82,7 +84,10 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         numFrames = defaultAnim.getNumFrames()
         self.node.pose('phase0', 0)
         self.accept('%sZeroPhase' % self.propString, self.handleNewPhase)
-        self.accept('%sZeroIsRunning' % self.propString, self.handleNewIsRunning)
+        self.accept(
+            '%sZeroIsRunning' %
+            self.propString,
+            self.handleNewIsRunning)
         self.startIfNeeded()
 
     def startIfNeeded(self):
@@ -102,15 +107,23 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
 
             sum = math.pow(2, self.curPhase + 1) - 1
             result = weightedChoice(pairs, sum=sum)
-            self.notify.debug('chooseAnimToRun curPhase=%s pairs=%s result=%s' % (self.curPhase, pairs, result))
+            self.notify.debug(
+                'chooseAnimToRun curPhase=%s pairs=%s result=%s' %
+                (self.curPhase, pairs, result))
         return result
 
     def createAnimSequence(self, animPhase):
-        result = Sequence(self.phaseIvals[animPhase], Wait(self.phaseInfo[self.curPhase][1]), Func(self.startNextAnim))
+        result = Sequence(
+            self.phaseIvals[animPhase], Wait(
+                self.phaseInfo[
+                    self.curPhase][1]), Func(
+                self.startNextAnim))
         return result
 
     def startNextAnim(self):
-        self.notify.debug('startNextAnim self.okToStartNextAnim=%s' % self.okToStartNextAnim)
+        self.notify.debug(
+            'startNextAnim self.okToStartNextAnim=%s' %
+            self.okToStartNextAnim)
         self.curIval = None
         if self.okToStartNextAnim:
             self.notify.debug('got pass okToStartNextAnim')
@@ -118,10 +131,14 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
             self.notify.debug('whichAnim=%s' % whichAnim)
             self.lastPlayingAnimPhase = whichAnim
             self.curIval = self.createAnimSequence(whichAnim)
-            self.notify.debug('starting curIval of length %s' % self.curIval.getDuration())
+            self.notify.debug(
+                'starting curIval of length %s' %
+                self.curIval.getDuration())
             self.curIval.start()
         else:
-            self.notify.debug('false self.okToStartNextAnim=%s' % self.okToStartNextAnim)
+            self.notify.debug(
+                'false self.okToStartNextAnim=%s' %
+                self.okToStartNextAnim)
         return
 
     def enterDoAnim(self):
@@ -156,7 +173,10 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
             curPhase = zeroMgr.getCurPhase()
             if curPhase >= len(self.phaseIvals):
                 curPhase = len(self.phaseIvals) - 1
-                self.notify.warning('zero mgr says to go to phase %d, but we only have %d ivals.  forcing curPhase to %d' % (curPhase, len(self.phaseIvals), curPhase))
+                self.notify.warning(
+                    'zero mgr says to go to phase %d, but we only have %d ivals.  forcing curPhase to %d' %
+                    (curPhase, len(
+                        self.phaseIvals), curPhase))
             result = curPhase
         return result
 

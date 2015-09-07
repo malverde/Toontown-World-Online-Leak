@@ -32,7 +32,8 @@ class DistributedTrunkAI(DistributedClosetAI):
                 self.shoesList = owner.shoesList
                 self.gender = owner.dna.gender
             else:
-                self.air.dbInterface.queryObject(self.air.dbId, self.furnitureMgr.ownerId, self.__gotOwner)
+                self.air.dbInterface.queryObject(
+                    self.air.dbId, self.furnitureMgr.ownerId, self.__gotOwner)
 
     def __gotOwner(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonAI']:
@@ -49,27 +50,44 @@ class DistributedTrunkAI(DistributedClosetAI):
     def __verifyAvatarInMyZone(self, av):
         return av.getLocation() == self.getLocation()
 
-    def setState(self, mode, avId, ownerId, gender, hatList, glassesList, backpackList, shoesList):
-        self.sendUpdate('setState', [mode, avId, ownerId, gender, hatList, glassesList, backpackList, shoesList])
+    def setState(
+            self,
+            mode,
+            avId,
+            ownerId,
+            gender,
+            hatList,
+            glassesList,
+            backpackList,
+            shoesList):
+        self.sendUpdate(
+            'setState', [
+                mode, avId, ownerId, gender, hatList, glassesList, backpackList, shoesList])
 
     def removeItem(self, itemIdx, textureIdx, colorIdx, which):
         avId = self.air.getAvatarIdFromSender()
 
         if avId != self.furnitureMgr.ownerId:
-            self.air.writeServerEvent('suspicious', avId=avId,
-                                      issue='Tried to remove item from someone else\'s closet!')
+            self.air.writeServerEvent(
+                'suspicious',
+                avId=avId,
+                issue='Tried to remove item from someone else\'s closet!')
             return
 
         if not self.verifyCustomer(avId):
-            self.air.writeServerEvent('suspicious', avId=avId,
-                                      issue='Tried to remove item while not interacting with closet!')
+            self.air.writeServerEvent(
+                'suspicious',
+                avId=avId,
+                issue='Tried to remove item while not interacting with closet!')
             return
 
         av = self.air.doId2do.get(avId)
 
         if not av:
-            self.air.writeServerEvent('suspicious', avId=avId,
-                                      issue='Tried to interact with a closet from another shard!')
+            self.air.writeServerEvent(
+                'suspicious',
+                avId=avId,
+                issue='Tried to interact with a closet from another shard!')
             return
 
         if which == HAT:
@@ -81,22 +99,39 @@ class DistributedTrunkAI(DistributedClosetAI):
         elif which == SHOES:
             self.removedShoes.append((itemIdx, textureIdx, colorIdx))
 
-    def setDNA(self, hatIdx, hatTexture, hatColor, glassesIdx, glassesTexture, glassesColor, backpackIdx,
-               backpackTexture, backpackColor, shoesIdx, shoesTexture, shoesColor, finished, which):
+    def setDNA(
+            self,
+            hatIdx,
+            hatTexture,
+            hatColor,
+            glassesIdx,
+            glassesTexture,
+            glassesColor,
+            backpackIdx,
+            backpackTexture,
+            backpackColor,
+            shoesIdx,
+            shoesTexture,
+            shoesColor,
+            finished,
+            which):
         avId = self.air.getAvatarIdFromSender()
 
         if not self.verifyCustomer(avId):
-            self.air.writeServerEvent('suspicious', avId, 'Tried to set DNA from closet while not using it!')
+            self.air.writeServerEvent(
+                'suspicious', avId, 'Tried to set DNA from closet while not using it!')
             return
 
         av = self.air.doId2do.get(avId)
 
         if not av:
-            self.air.writeServerEvent('suspicious', avId, 'Interacted with a closet from another shard!')
+            self.air.writeServerEvent(
+                'suspicious', avId, 'Interacted with a closet from another shard!')
             return
 
         if not self.__verifyAvatarInMyZone(av):
-            self.air.writeServerEvent('suspicious', avId, 'Tried to setDNA while in another zone!')
+            self.air.writeServerEvent(
+                'suspicious', avId, 'Tried to setDNA while in another zone!')
             return
 
         if not finished:
@@ -123,16 +158,26 @@ class DistributedTrunkAI(DistributedClosetAI):
             self.removedShoes = []
             self.avId = None
             # Free the user.
-            self.d_setMovie(ClosetGlobals.CLOSET_MOVIE_COMPLETE, avId, globalClockDelta.getRealNetworkTime())
+            self.d_setMovie(
+                ClosetGlobals.CLOSET_MOVIE_COMPLETE,
+                avId,
+                globalClockDelta.getRealNetworkTime())
             self.resetMovie()
-            self.setState(ClosetGlobals.CLOSED, 0, self.furnitureMgr.ownerId, self.gender, self.hatList,
-                          self.glassesList, self.backpackList, self.shoesList)
+            self.setState(
+                ClosetGlobals.CLOSED,
+                0,
+                self.furnitureMgr.ownerId,
+                self.gender,
+                self.hatList,
+                self.glassesList,
+                self.backpackList,
+                self.shoesList)
         elif finished == 2:
             # They are done using the trunk. Update their removed items.
             # Is the user actually the owner?
             if avId != self.furnitureMgr.ownerId:
-                self.air.writeServerEvent('suspicious', avId,
-                                          'Tried to set their clothes from somebody else\'s closet!')
+                self.air.writeServerEvent(
+                    'suspicious', avId, 'Tried to set their clothes from somebody else\'s closet!')
                 return
 
             # Put on the accessories they want...
@@ -170,26 +215,49 @@ class DistributedTrunkAI(DistributedClosetAI):
             self.releaseCustomer()
 
             # We are done, free the user!
-            self.d_setMovie(ClosetGlobals.CLOSET_MOVIE_COMPLETE, avId, globalClockDelta.getRealNetworkTime())
+            self.d_setMovie(
+                ClosetGlobals.CLOSET_MOVIE_COMPLETE,
+                avId,
+                globalClockDelta.getRealNetworkTime())
             self.resetMovie()
-            self.setState(ClosetGlobals.CLOSED, 0, self.furnitureMgr.ownerId, self.gender, self.hatList,
-                          self.glassesList, self.backpackList, self.shoesList)
+            self.setState(
+                ClosetGlobals.CLOSED,
+                0,
+                self.furnitureMgr.ownerId,
+                self.gender,
+                self.hatList,
+                self.glassesList,
+                self.backpackList,
+                self.shoesList)
 
     def enterAvatar(self):
         avId = self.air.getAvatarIdFromSender()
         av = self.air.doId2do.get(avId)
 
         if not av:
-            self.air.writeServerEvent('suspicious', avId=avId, issue='Not in same shard as closet!')
+            self.air.writeServerEvent(
+                'suspicious',
+                avId=avId,
+                issue='Not in same shard as closet!')
             return
 
         if not self.__verifyAvatarInMyZone(av):
-            self.air.writeServerEvent('suspicious', avId=avId, issue='Not in same zone as closet!')
+            self.air.writeServerEvent(
+                'suspicious',
+                avId=avId,
+                issue='Not in same zone as closet!')
             return
 
         if not self.occupy(avId):
             self.sendUpdateToAvatarId(avId, 'freeAvatar', [])
             return
 
-        self.setState(ClosetGlobals.OPEN, avId, self.furnitureMgr.ownerId, self.gender, self.hatList, self.glassesList,
-                      self.backpackList, self.shoesList)
+        self.setState(
+            ClosetGlobals.OPEN,
+            avId,
+            self.furnitureMgr.ownerId,
+            self.gender,
+            self.hatList,
+            self.glassesList,
+            self.backpackList,
+            self.shoesList)

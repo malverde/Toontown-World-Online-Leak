@@ -4,6 +4,7 @@ from toontown.safezone.DistributedBoatAI import DistributedBoatAI
 from toontown.toon import NPCToons
 from SZHoodAI import SZHoodAI
 
+
 class DDHoodAI(SZHoodAI):
     HOOD = ToontownGlobals.DonaldsDock
 

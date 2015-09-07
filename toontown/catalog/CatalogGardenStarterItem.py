@@ -1,4 +1,4 @@
-#Embedded file name: toontown.catalog.CatalogGardenStarterItem
+# Embedded file name: toontown.catalog.CatalogGardenStarterItem
 import CatalogItem
 import time
 from toontown.toonbase import ToontownGlobals
@@ -7,6 +7,7 @@ from otp.otpbase import OTPLocalizer
 from direct.interval.IntervalGlobal import *
 from toontown.toontowngui import TTDialog
 from toontown.estate import GardenTutorial
+
 
 class CatalogGardenStarterItem(CatalogItem.CatalogItem):
 
@@ -17,7 +18,8 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
         return 0
 
     def reachedPurchaseLimit(self, avatar):
-        if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder or hasattr(avatar, 'gardenStarted') and avatar.getGardenStarted():
+        if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder or hasattr(
+                avatar, 'gardenStarted') and avatar.getGardenStarted():
             return 1
         return 0
 
@@ -56,7 +58,7 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
         heading = 45
         return self.makeFrameModel(model, spin)
 
-    def output(self, store = -1):
+    def output(self, store=-1):
         return 'CatalogGardenStarterItem(%s)' % self.formatOptionalData(store)
 
     def compareTo(self, other):
@@ -84,7 +86,15 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
         return 0
 
     def acceptItem(self, mailbox, index, callback):
-        self.confirmGarden = TTDialog.TTGlobalDialog(doneEvent='confirmGarden', message=TTLocalizer.MessageConfirmGarden, command=Functor(self.handleGardenConfirm, mailbox, index, callback), style=TTDialog.TwoChoice)
+        self.confirmGarden = TTDialog.TTGlobalDialog(
+            doneEvent='confirmGarden',
+            message=TTLocalizer.MessageConfirmGarden,
+            command=Functor(
+                self.handleGardenConfirm,
+                mailbox,
+                index,
+                callback),
+            style=TTDialog.TwoChoice)
         self.confirmGarden.show()
 
     def handleGardenConfirm(self, mailbox, index, callback, choice):
@@ -94,7 +104,8 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
                 self.gardenTutorial.destroy()
                 self.gardenTutorial = None
 
-            self.gardenTutorial = GardenTutorial.GardenTutorial(callback=handleTutorialDone)
+            self.gardenTutorial = GardenTutorial.GardenTutorial(
+                callback=handleTutorialDone)
             if hasattr(mailbox, 'mailboxGui') and mailbox.mailboxGui:
                 mailbox.acceptItem(self, index, callback)
                 mailbox.mailboxGui.justExit()

@@ -3,14 +3,16 @@ from direct.distributed.ClockDelta import *
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
 from toontown.parties import PartyGlobals
-#fireworks
+# fireworks
 from toontown.effects.DistributedFireworkShowAI import DistributedFireworkShowAI
 from toontown.effects import FireworkShows
 import random
 import time
 
+
 class HolidayManagerAI:
     notify = directNotify.newCategory('HolidayManagerAI')
+
     def __init__(self, air):
         self.air = air
         self.currentHolidays = []
@@ -22,12 +24,16 @@ class HolidayManagerAI:
     """
     Fireworks Stuff
     """
+
     def __startFireworksTick(self):
         # Check seconds until next hour.
         ts = time.time()
         nextHour = 3600 - (ts % 3600)
-        taskMgr.doMethodLater(nextHour, self.__fireworksTick, 'hourly-fireworks')
-        
+        taskMgr.doMethodLater(
+            nextHour,
+            self.__fireworksTick,
+            'hourly-fireworks')
+
     def __fireworksTick(self, task):
         # The next tick will occur in exactly an hour.
         task.delayTime = 3600
@@ -44,7 +50,10 @@ class HolidayManagerAI:
             showType = PartyGlobals.FireworkShows.Summer
 
         elif showName == 'random':
-            shows = [ToontownGlobals.JULY4_FIREWORKS, ToontownGlobals.NEWYEARS_FIREWORKS, PartyGlobals.FireworkShows.Summer]
+            shows = [
+                ToontownGlobals.JULY4_FIREWORKS,
+                ToontownGlobals.NEWYEARS_FIREWORKS,
+                PartyGlobals.FireworkShows.Summer]
             showType = random.choice(shows)
         else:
             raise AttributeError('%s is an invalid firework type' % showName)
@@ -57,10 +66,12 @@ class HolidayManagerAI:
                 continue
             fireworksShow = DistributedFireworkShowAI(self.air)
             fireworksShow.generateWithRequired(hood.HOOD)
-            fireworksShow.b_startShow(showType, showIndex, globalClockDelta.getRealNetworkTime())
-            self.notify.info('Oh! A fireworks show has started in this District - next one in exactly 1 hours time!')
+            fireworksShow.b_startShow(
+                showType, showIndex, globalClockDelta.getRealNetworkTime())
+            self.notify.info(
+                'Oh! A fireworks show has started in this District - next one in exactly 1 hours time!')
         return task.again
 
     def isHolidayRunning(self, *args):
         return True
-        #TODO: this function needs to actually check holidays
+        # TODO: this function needs to actually check holidays

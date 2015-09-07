@@ -1,42 +1,43 @@
-#Embedded file name: toontown.catalog.CatalogFlooringItem
+# Embedded file name: toontown.catalog.CatalogFlooringItem
 from CatalogSurfaceItem import *
 FTTextureName = 0
 FTColor = 1
 FTBasePrice = 2
 FlooringTypes = {1000: ('phase_5.5/maps/floor_wood_neutral.jpg', CTBasicWoodColorOnWhite, 150),
- 1010: ('phase_5.5/maps/flooring_carpetA_neutral.jpg', CTFlatColorDark, 150),
- 1020: ('phase_4/maps/flooring_tile_neutral.jpg', CTFlatColorDark, 150),
- 1030: ('phase_5.5/maps/flooring_tileB2.jpg', None, 150),
- 1040: ('phase_4/maps/grass.jpg', None, 150),
- 1050: ('phase_4/maps/floor_tile_brick_diagonal2.jpg', None, 150),
- 1060: ('phase_4/maps/floor_tile_brick_diagonal.jpg', None, 150),
- 1070: ('phase_4/maps/plazz_tile.jpg', None, 150),
- 1080: ('phase_4/maps/sidewalk.jpg', CTFlatColorDark, 150),
- 1090: ('phase_3.5/maps/boardwalk_floor.jpg', None, 150),
- 1100: ('phase_3.5/maps/dustroad.jpg', None, 150),
- 1110: ('phase_5.5/maps/floor_woodtile_neutral.jpg', CTBasicWoodColorOnWhite, 150),
- 1120: ('phase_5.5/maps/floor_tile_neutral.jpg', CTBasicWoodColorOnWhite + CTFlatColorDark, 150),
- 1130: ('phase_5.5/maps/floor_tile_honeycomb_neutral.jpg', CTBasicWoodColorOnWhite, 150),
- 1140: ('phase_5.5/maps/UWwaterFloor1.jpg', None, 150),
- 1150: ('phase_5.5/maps/UWtileFloor4.jpg', None, 150),
- 1160: ('phase_5.5/maps/UWtileFloor3.jpg', None, 150),
- 1170: ('phase_5.5/maps/UWtileFloor2.jpg', None, 150),
- 1180: ('phase_5.5/maps/UWtileFloor1.jpg', None, 150),
- 1190: ('phase_5.5/maps/UWsandyFloor1.jpg', None, 150),
- 10000: ('phase_5.5/maps/floor_icecube.jpg', CTWhite, 225),
- 10010: ('phase_5.5/maps/floor_snow.jpg', CTWhite, 225),
- 11000: ('phase_5.5/maps/StPatsFloor1.jpg', CTWhite, 225),
- 11010: ('phase_5.5/maps/StPatsFloor2.jpg', CTWhite, 225)}
+                 1010: ('phase_5.5/maps/flooring_carpetA_neutral.jpg', CTFlatColorDark, 150),
+                 1020: ('phase_4/maps/flooring_tile_neutral.jpg', CTFlatColorDark, 150),
+                 1030: ('phase_5.5/maps/flooring_tileB2.jpg', None, 150),
+                 1040: ('phase_4/maps/grass.jpg', None, 150),
+                 1050: ('phase_4/maps/floor_tile_brick_diagonal2.jpg', None, 150),
+                 1060: ('phase_4/maps/floor_tile_brick_diagonal.jpg', None, 150),
+                 1070: ('phase_4/maps/plazz_tile.jpg', None, 150),
+                 1080: ('phase_4/maps/sidewalk.jpg', CTFlatColorDark, 150),
+                 1090: ('phase_3.5/maps/boardwalk_floor.jpg', None, 150),
+                 1100: ('phase_3.5/maps/dustroad.jpg', None, 150),
+                 1110: ('phase_5.5/maps/floor_woodtile_neutral.jpg', CTBasicWoodColorOnWhite, 150),
+                 1120: ('phase_5.5/maps/floor_tile_neutral.jpg', CTBasicWoodColorOnWhite + CTFlatColorDark, 150),
+                 1130: ('phase_5.5/maps/floor_tile_honeycomb_neutral.jpg', CTBasicWoodColorOnWhite, 150),
+                 1140: ('phase_5.5/maps/UWwaterFloor1.jpg', None, 150),
+                 1150: ('phase_5.5/maps/UWtileFloor4.jpg', None, 150),
+                 1160: ('phase_5.5/maps/UWtileFloor3.jpg', None, 150),
+                 1170: ('phase_5.5/maps/UWtileFloor2.jpg', None, 150),
+                 1180: ('phase_5.5/maps/UWtileFloor1.jpg', None, 150),
+                 1190: ('phase_5.5/maps/UWsandyFloor1.jpg', None, 150),
+                 10000: ('phase_5.5/maps/floor_icecube.jpg', CTWhite, 225),
+                 10010: ('phase_5.5/maps/floor_snow.jpg', CTWhite, 225),
+                 11000: ('phase_5.5/maps/StPatsFloor1.jpg', CTWhite, 225),
+                 11010: ('phase_5.5/maps/StPatsFloor2.jpg', CTWhite, 225)}
+
 
 class CatalogFlooringItem(CatalogSurfaceItem):
 
-    def makeNewItem(self, patternIndex, colorIndex = None):
+    def makeNewItem(self, patternIndex, colorIndex=None):
         self.patternIndex = patternIndex
         self.colorIndex = colorIndex
         CatalogSurfaceItem.makeNewItem(self)
 
     def needsCustomize(self):
-        return self.colorIndex == None
+        return self.colorIndex is None
 
     def getTypeName(self):
         return TTLocalizer.SurfaceNames[STFlooring]
@@ -66,8 +67,9 @@ class CatalogFlooringItem(CatalogSurfaceItem):
         self.hasPicture = True
         return (frame, None)
 
-    def output(self, store = -1):
-        return 'CatalogFlooringItem(%s, %s%s)' % (self.patternIndex, self.colorIndex, self.formatOptionalData(store))
+    def output(self, store=-1):
+        return 'CatalogFlooringItem(%s, %s%s)' % (
+            self.patternIndex, self.colorIndex, self.formatOptionalData(store))
 
     def getFilename(self):
         return FlooringTypes[self.patternIndex][FTTextureName]
@@ -92,7 +94,7 @@ class CatalogFlooringItem(CatalogSurfaceItem):
         return texture
 
     def getColor(self):
-        if self.colorIndex == None:
+        if self.colorIndex is None:
             colorIndex = 0
         else:
             colorIndex = self.colorIndex
@@ -107,7 +109,8 @@ class CatalogFlooringItem(CatalogSurfaceItem):
             return CT_WHITE
 
     def decodeDatagram(self, di, versionNumber, store):
-        CatalogAtticItem.CatalogAtticItem.decodeDatagram(self, di, versionNumber, store)
+        CatalogAtticItem.CatalogAtticItem.decodeDatagram(
+            self, di, versionNumber, store)
         if versionNumber < 3:
             self.patternIndex = di.getUint8()
         else:

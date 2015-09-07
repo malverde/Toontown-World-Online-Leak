@@ -6,8 +6,10 @@ from direct.task.Task import Task
 from toontown.coghq import DistributedCrushableEntityAI
 import random
 
+
 class DistributedGridGoonAI(DistributedGoonAI.DistributedGoonAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedGridGoonAI')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedGridGoonAI')
 
     def __init__(self, level, entId):
         self.grid = None
@@ -17,7 +19,8 @@ class DistributedGridGoonAI(DistributedGoonAI.DistributedGoonAI):
 
     def generate(self):
         self.notify.debug('generate')
-        DistributedCrushableEntityAI.DistributedCrushableEntityAI.generate(self)
+        DistributedCrushableEntityAI.DistributedCrushableEntityAI.generate(
+            self)
 
     def initGridDependents(self):
         taskMgr.doMethodLater(2, self.goToNextPoint, self.taskName('walkTask'))
@@ -38,15 +41,18 @@ class DistributedGridGoonAI(DistributedGoonAI.DistributedGoonAI):
             self.grid.doMoveDir(self.entId, self.h)
             ptB = Point3(*self.getPosition())
             self.sendUpdate('setPathPts', [ptA[0],
-             ptA[1],
-             ptA[2],
-             ptB[0],
-             ptB[1],
-             ptB[2]])
+                                           ptA[1],
+                                           ptA[2],
+                                           ptB[0],
+                                           ptB[1],
+                                           ptB[2]])
             tPathSegment = Vec3(ptA - ptB).length() / self.velocity
         else:
             turn = int(random.randrange(1, 4) * 90)
             self.h = (self.h + turn) % 360
             tPathSegment = 0.1
-        taskMgr.doMethodLater(tPathSegment, self.goToNextPoint, self.taskName('walkTask'))
+        taskMgr.doMethodLater(
+            tPathSegment,
+            self.goToNextPoint,
+            self.taskName('walkTask'))
         return Task.done
