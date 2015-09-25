@@ -1,19 +1,10 @@
 before_script:
-- source ci/prepare
-- source ci/build
+  - python -m pip install -e .
 
-Bleeding Edge:
+python2.4 tests:
   script:
-  
+    - toontown.toonbase.TootownStart.py
   tags:
-  - cross
-  only:
-  - branches
+    - python2.4
 
-Stable Release:
-  script:
-  
-  tags:
-  - cross
-  only:
-  - tags
+  allow_failure: true
