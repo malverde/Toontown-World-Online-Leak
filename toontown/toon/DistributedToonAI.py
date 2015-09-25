@@ -5605,6 +5605,7 @@ def fishingRod(rod):
     target.b_setFishingRod(rod)
     return "Set {0}'s fishing rod to {1}!".format(target.getName(), rod)
 
+# A very undocumented MW that I always need to use but never can.
 @magicWord(category=CATEGORY_ADMIN, types=[str, int])
 def bank(command, value):
     """
@@ -6195,4 +6196,3 @@ def allSummons():
     allSummons = numSuits * [fullSetForSuit]
     invoker.b_setCogSummonsEarned(allSummons)
     return 'Lots of summons!'
-
