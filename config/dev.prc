@@ -80,7 +80,7 @@ default-directnotify-level info
 estate-day-night #t
 want-instant-parties #f
 show-total-population #t
-want-toontorial #t
+want-toontorial #f
 want-doomsday #f
 
 # Chat stuff
@@ -91,21 +91,26 @@ force-player-understandable #t
 
 want-suit-planners #t
 want-cogbuildings #t
+
+
 # Holidays and Events
 want-arg-manager #f
 want-mega-invasions #f
 mega-invasion-cog-type dt
+
+
+
 want-speedhack-fix #f 
 
-
-# Cog battles :
-#gag-bonus 2
+# Cog battles:
+# gag-bonus 2
 base-xp-multiplier 4
-#group merges
+# group merges
 boarding-group-merges #t
-#other
+
+# other
 
 want-speedhack-fix #t
 want-cogdominiums #f
 want-game-tables #f
-force-skip-tutorial #f
+# force-skip-tutorial #f
