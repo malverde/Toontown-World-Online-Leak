@@ -3,7 +3,7 @@
 # as well as deployment/server.prc if necessary.
 
 # Client settings
-window-title Toontown World [Pre-Alpha]
+window-title Toontown World Online [Pre-Alpha]
 server-version ttw-pre-alpha-2.5.2
 audio-library-name p3fmod_audio
 sync-video #f
@@ -18,7 +18,7 @@ icon-filename resources/phase_3/etc/icon.ico
 audio-library-name p3fmod_audio
 #audio-library-name p3openal_audio
 
-# Useless Variables
+# Extra debug tools/variables
 show-frame-rate-meter #f
 cursor-hidden #f
 undecorated #f
@@ -41,21 +41,22 @@ vfs-mount resources/server /server
 model-path /
 default-model-extension .bam
 
+# Debug mode and sensitivity level
+default-directnotify-level info
 
 # Server settings
-want-rpc-server #t
+want-rpc-server #f
 rpc-server-endpoint http://localhost:8080/
-rpc-server-secret 0123456789abcdef
+# rpc-server-secret 0123456789abcdef
 eventlog-host 127.0.0.1
 want-cheesy-expirations #t
-
+show-total-population #t
 
 # DC Files
 # This is, oddly enough, in *reverse* order of their loading...
 dc-file config/toontown.dc
 
-
-# Beta Modifications
+# Systems and Beta Modifications
 # Temporary modifications for unimplemented features go here.
 want-pets #t
 want-news-tab #f
@@ -70,47 +71,38 @@ want-fishing #t
 want-checkers-table #f
 want-findfour-table #f
 want-keep-alive #f
-want-hourly-fireworks #t
-want-flippy-pet-intro #f
-want-hourly-fireworks-type summer
-default-directnotify-level info
+want-speedhack-fix #t
+want-cogdominiums #f
+want-game-tables #f
 
-# Developer Modifications
-# A few fun things for our developer build. These shouldn't go in public_client.
+# A few fun things.
 estate-day-night #t
 want-instant-parties #f
-show-total-population #t
 want-toontorial #f
 want-doomsday #f
 
-# Chat stuff
+# Chat filter
 want-whitelist #t
 want-blacklist-sequence #f
 force-avatar-understandable #t
 force-player-understandable #t
 
-want-suit-planners #t
-want-cogbuildings #t
-
-
 # Holidays and Events
 want-arg-manager #f
-want-mega-invasions #f
-mega-invasion-cog-type dt
+want-mega-invasions #t
+mega-invasion-cog-type bw
+want-hourly-fireworks #t
+# want-flippy-pet-intro #f
+want-hourly-fireworks-type summer
 
-
-
+# Cog battling and multipliers
+base-xp-multiplier 4
+want-suit-planners #t
+want-cogbuildings #t
 want-speedhack-fix #f 
 
-# Cog battles:
-# gag-bonus 2
-base-xp-multiplier 4
 # group merges
 boarding-group-merges #t
 
-# other
-
-want-speedhack-fix #t
-want-cogdominiums #f
-want-game-tables #f
+# Misc
 # force-skip-tutorial #f
