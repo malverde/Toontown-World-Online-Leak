@@ -1,3 +1,4 @@
+#Embedded file name: toontown.safezone.DistributedFishingSpotAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.fishing import FishGlobals
@@ -5,24 +6,29 @@ from toontown.fishing.FishBase import FishBase
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
 
-
-
 class DistributedFishingSpotAI(DistributedObjectAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedFishingSpotAI")
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedFishingSpotAI')
 
     def __init__(self, air):
         DistributedObjectAI.__init__(self, air)
         self.avId = None
         self.pondDoId = None
-        self.posHpr = [None, None, None, None, None, None]
+        self.posHpr = [None,
+         None,
+         None,
+         None,
+         None,
+         None]
         self.cast = False
-        self.lastFish = [None, None, None, None]
+        self.lastFish = [None,
+         None,
+         None,
+         None]
 
     def generate(self):
         DistributedObjectAI.generate(self)
         pond = self.air.doId2do[self.pondDoId]
         pond.addSpot(self)
-
 
     def setPondDoId(self, pondDoId):
         self.pondDoId = pondDoId
@@ -31,7 +37,12 @@ class DistributedFishingSpotAI(DistributedObjectAI):
         return self.pondDoId
 
     def setPosHpr(self, x, y, z, h, p, r):
-        self.posHpr = [x, y, z, h, p, r]
+        self.posHpr = [x,
+         y,
+         z,
+         h,
+         p,
+         r]
 
     def getPosHpr(self):
         return self.posHpr
@@ -61,7 +72,7 @@ class DistributedFishingSpotAI(DistributedObjectAI):
     def requestExit(self):
         avId = self.air.getAvatarIdFromSender()
         if self.avId != avId:
-            self.air.writeServerEvent('suspicious', avId=avId, issue='Toon requested to exit a pier they\'re not on!')
+            self.air.writeServerEvent('suspicious', avId=avId, issue="Toon requested to exit a pier they're not on!")
             return
         self.ignore(self.air.getAvatarExitEvent(avId))
         self.removeFromPierWithAnim()
@@ -79,7 +90,7 @@ class DistributedFishingSpotAI(DistributedObjectAI):
     def doCast(self, p, h):
         avId = self.air.getAvatarIdFromSender()
         if self.avId != avId:
-            self.air.writeServerEvent('suspicious', avId=avId, issue='Toon tried to cast from a pier they\'re not on!')
+            self.air.writeServerEvent('suspicious', avId=avId, issue="Toon tried to cast from a pier they're not on!")
             return
         av = self.air.doId2do.get(avId)
         if not av:
@@ -104,7 +115,7 @@ class DistributedFishingSpotAI(DistributedObjectAI):
     def sellFish(self):
         avId = self.air.getAvatarIdFromSender()
         if self.avId != avId:
-            self.air.writeServerEvent('suspicious', avId=avId, issue='Toon tried to sell fish at a pier they\'re not using!')
+            self.air.writeServerEvent('suspicious', avId=avId, issue="Toon tried to sell fish at a pier they're not using!")
             return
         if self.air.doId2do[pondDoId].getArea() != ToontownGlobals.MyEstate:
             self.air.writeServerEvent('suspicious', avId=avId, issue='Toon tried to sell fish at a pier not in their estate!')
@@ -125,7 +136,13 @@ class DistributedFishingSpotAI(DistributedObjectAI):
         pass
 
     def d_setMovie(self, mode, code, genus, species, weight, p, h):
-        self.sendUpdate('setMovie', [mode, code, genus, species, weight, p, h])
+        self.sendUpdate('setMovie', [mode,
+         code,
+         genus,
+         species,
+         weight,
+         p,
+         h])
 
     def removeFromPier(self):
         taskMgr.remove('timeOut%d' % self.doId)
@@ -143,15 +160,10 @@ class DistributedFishingSpotAI(DistributedObjectAI):
             self.air.writeServerEvent('suspicious', avId=self.avId, issue='Toon tried to fish without casting!')
             return
         av = self.air.doId2do[self.avId]
-
         catch = self.air.fishManager.generateCatch(av, self.air.doId2do[self.pondDoId].getArea())
-
         self.lastFish = catch
-
         self.d_setMovie(FishGlobals.PullInMovie, catch[0], catch[1], catch[2], catch[3], 0, 0)
         self.cast = False
-
-
 
     def cancelAnimation(self):
         self.d_setMovie(FishGlobals.NoMovie, 0, 0, 0, 0, 0, 0)

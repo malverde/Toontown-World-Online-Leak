@@ -1,3 +1,4 @@
+#Embedded file name: toontown.safezone.DistributedPicnicBasketAI
 from otp.ai.AIBase import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.distributed.ClockDelta import *
@@ -12,7 +13,6 @@ from direct.showbase import RandomNumGen
 from toontown.minigame import MinigameCreatorAI
 from toontown.quest import Quests
 from toontown.golf import GolfGlobals
-
 from toontown.dna.DNASpawnerAI import *
 from toontown.dna.DNANode import DNANode
 
@@ -21,24 +21,22 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
 
     def __init__(self, air, tableNumber, x, y, z, h, p, r):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
-        self.seats = [
-            None,
-            None,
-            None,
-            None]
-        self.posHpr = (x, y, z, h, p, r)
+        self.seats = [None,
+         None,
+         None,
+         None]
+        self.posHpr = (x,
+         y,
+         z,
+         h,
+         p,
+         r)
         self.tableNumber = int(tableNumber)
         self.seed = RandomNumGen.randHash(globalClock.getRealTime())
         self.accepting = 0
         self.numPlayersExiting = 0
         self.trolleyCountdownTime = config.GetFloat('picnic-countdown-time', ToontownGlobals.PICNIC_COUNTDOWN_TIME)
-        self.fsm = ClassicFSM.ClassicFSM('DistributedPicnicBasketAI', [
-            State.State('off', self.enterOff, self.exitOff, [
-                'waitEmpty']),
-            State.State('waitEmpty', self.enterWaitEmpty, self.exitWaitEmpty, [
-                'waitCountdown']),
-            State.State('waitCountdown', self.enterWaitCountdown, self.exitWaitCountdown, [
-                'waitEmpty'])], 'off', 'off')
+        self.fsm = ClassicFSM.ClassicFSM('DistributedPicnicBasketAI', [State.State('off', self.enterOff, self.exitOff, ['waitEmpty']), State.State('waitEmpty', self.enterWaitEmpty, self.exitWaitEmpty, ['waitCountdown']), State.State('waitCountdown', self.enterWaitCountdown, self.exitWaitCountdown, ['waitEmpty'])], 'off', 'off')
         self.fsm.enterInitialState()
 
     def delete(self):
@@ -50,13 +48,11 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
         for i in range(len(self.seats)):
             if self.seats[i] == None:
                 return i
-                continue
-            
+
     def findAvatar(self, avId):
         for i in range(len(self.seats)):
             if self.seats[i] == avId:
                 return i
-                continue
 
     def countFullSeats(self):
         avCounter = 0
@@ -64,17 +60,15 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
             if i:
                 avCounter += 1
                 continue
-        
-        return avCounter
 
+        return avCounter
 
     def rejectingBoardersHandler(self, avId, si):
         self.rejectBoarder(avId)
 
     def rejectBoarder(self, avId):
-        self.sendUpdateToAvatarId(avId, 'rejectBoard', [
-            avId])
-        
+        self.sendUpdateToAvatarId(avId, 'rejectBoard', [avId])
+
     def acceptingBoardersHandler(self, avId, si):
         self.notify.debug('acceptingBoardersHandler')
         seatIndex = si
@@ -84,14 +78,11 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
     def acceptBoarder(self, avId, seatIndex):
         self.notify.debug('acceptBoarder %d' % avId)
         if self.findAvatar(avId) != None:
-            return None
-        
+            return
         self.seats[seatIndex] = avId
-        self.acceptOnce(self.air.getAvatarExitEvent(avId), self._DistributedPicnicBasketAI__handleUnexpectedExit, extraArgs = [
-            avId])
+        self.acceptOnce(self.air.getAvatarExitEvent(avId), self.__handleUnexpectedExit, extraArgs=[avId])
         self.timeOfBoarding = globalClock.getRealTime()
-        self.sendUpdate('fillSlot' + str(seatIndex), [
-            avId])
+        self.sendUpdate('fillSlot' + str(seatIndex), [avId])
         self.waitCountdown()
 
     def _DistributedPicnicBasketAI__handleUnexpectedExit(self, avId):
@@ -99,16 +90,13 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
         seatIndex = self.findAvatar(avId)
         if seatIndex == None:
             pass
-        1
         self.clearFullNow(seatIndex)
         self.clearEmptyNowUnexpected(seatIndex)
         if self.countFullSeats() == 0:
             self.waitEmpty()
 
     def clearEmptyNowUnexpected(self, seatIndex):
-        self.sendUpdate('emptySlot' + str(seatIndex), [
-            1,
-            globalClockDelta.getRealNetworkTime()])
+        self.sendUpdate('emptySlot' + str(seatIndex), [1, globalClockDelta.getRealNetworkTime()])
 
     def rejectingExitersHandler(self, avId):
         self.rejectExiter(avId)
@@ -123,18 +111,13 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
         seatIndex = self.findAvatar(avId)
         if seatIndex == None:
             pass
-        1
         self.clearFullNow(seatIndex)
-        self.sendUpdate('emptySlot' + str(seatIndex), [
-            avId,
-            globalClockDelta.getRealNetworkTime()])
-        taskMgr.doMethodLater(TOON_EXIT_TIME, self.clearEmptyNow, self.uniqueName('clearEmpty-%s' % seatIndex), extraArgs = (seatIndex,))
+        self.sendUpdate('emptySlot' + str(seatIndex), [avId, globalClockDelta.getRealNetworkTime()])
+        taskMgr.doMethodLater(TOON_EXIT_TIME, self.clearEmptyNow, self.uniqueName('clearEmpty-%s' % seatIndex), extraArgs=(seatIndex,))
 
     def clearEmptyNow(self, seatIndex):
         self.notify.debugStateCall(self)
-        self.sendUpdate('emptySlot' + str(seatIndex), [
-            0,
-            globalClockDelta.getRealNetworkTime()])
+        self.sendUpdate('emptySlot' + str(seatIndex), [0, globalClockDelta.getRealNetworkTime()])
 
     def clearFullNow(self, seatIndex):
         avId = self.seats[seatIndex]
@@ -142,15 +125,11 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
             self.notify.warning('Clearing an empty seat index: ' + str(seatIndex) + ' ... Strange...')
         else:
             self.seats[seatIndex] = None
-            self.sendUpdate('fillSlot' + str(seatIndex), [
-                0])
+            self.sendUpdate('fillSlot' + str(seatIndex), [0])
             self.ignore(self.air.getAvatarExitEvent(avId))
 
     def d_setState(self, state, seed):
-        self.sendUpdate('setState', [
-            state,
-            seed,
-            globalClockDelta.getRealNetworkTime()])
+        self.sendUpdate('setState', [state, seed, globalClockDelta.getRealNetworkTime()])
 
     def getState(self):
         return self.fsm.getCurrentState().getName()
@@ -160,8 +139,7 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
         avId = self.air.getAvatarIdFromSender()
         if self.findAvatar(avId) != None:
             self.notify.warning('Ignoring multiple requests from %s to board.' % avId)
-            return None
-        
+            return
         av = self.air.doId2do.get(avId)
         if av:
             if av.hp > 0 and self.accepting and self.seats[si] == None:
@@ -218,11 +196,10 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
     def enterWaitEmpty(self):
         self.notify.debugStateCall(self)
         self.d_setState('waitEmpty', self.seed)
-        self.seats = [
-            None,
-            None,
-            None,
-            None]
+        self.seats = [None,
+         None,
+         None,
+         None]
         self.accepting = 1
 
     def exitWaitEmpty(self):
@@ -248,6 +225,7 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
                     self.acceptExiter(self.seats[x])
                     self.numPlayersExiting += 1
                     continue
+
         self.waitEmpty()
         return Task.done
 
@@ -262,6 +240,7 @@ class DistributedPicnicBasketAI(DistributedObjectAI.DistributedObjectAI):
     def getTableNumber(self):
         return self.tableNumber
 
+
 @dnaSpawn(DNANode, 'picnic_table_([0-9]+)')
 def spawn(air, zone, element, match):
     if config.GetBool('want-picnic-tables', True):
@@ -272,4 +251,3 @@ def spawn(air, zone, element, match):
             picnic = DistributedPicnicBasketAI(air, index, x, y, z, h, p, r)
             picnic.generateWithRequired(zone)
             picnic.start()
-

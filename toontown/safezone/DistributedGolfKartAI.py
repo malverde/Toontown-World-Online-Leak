@@ -1,3 +1,4 @@
+#Embedded file name: toontown.safezone.DistributedGolfKartAI
 from otp.ai.AIBase import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.distributed.ClockDelta import *
@@ -12,7 +13,6 @@ from toontown.quest import Quests
 from toontown.golf import GolfGlobals
 from toontown.golf.DistributedGolfCourseAI import DistributedGolfCourseAI
 import random
-
 from toontown.dna.DNASpawnerAI import *
 from toontown.dna.DNANode import DNANode
 
@@ -47,7 +47,6 @@ class DistributedGolfKartAI(DistributedObjectAI.DistributedObjectAI):
          State.State('allAboard', self.enterAllAboard, self.exitAllAboard, ['leaving', 'waitEmpty']),
          State.State('leaving', self.enterLeaving, self.exitLeaving, ['entering'])], 'off', 'off')
         self.fsm.enterInitialState()
-        return
 
     def delete(self):
         self.fsm.requestFinalState()
@@ -59,14 +58,10 @@ class DistributedGolfKartAI(DistributedObjectAI.DistributedObjectAI):
             if self.seats[i] == None:
                 return i
 
-        return
-
     def findAvatar(self, avId):
         for i in range(len(self.seats)):
             if self.seats[i] == avId:
                 return i
-
-        return None
 
     def countFullSeats(self):
         avCounter = 0
@@ -89,7 +84,6 @@ class DistributedGolfKartAI(DistributedObjectAI.DistributedObjectAI):
             self.rejectBoarder(avId)
         else:
             self.acceptBoarder(avId, seatIndex)
-        return
 
     def acceptBoarder(self, avId, seatIndex):
         self.notify.debug('acceptBoarder')
@@ -100,7 +94,6 @@ class DistributedGolfKartAI(DistributedObjectAI.DistributedObjectAI):
         self.timeOfBoarding = globalClock.getRealTime()
         self.sendUpdate('fillSlot' + str(seatIndex), [avId])
         self.waitCountdown()
-        return
 
     def __handleUnexpectedExit(self, avId):
         self.notify.warning('Avatar: ' + str(avId) + ' has exited unexpectedly')
@@ -112,7 +105,6 @@ class DistributedGolfKartAI(DistributedObjectAI.DistributedObjectAI):
             self.clearEmptyNow(seatIndex)
             if self.countFullSeats() == 0:
                 self.waitEmpty()
-        return
 
     def rejectingExitersHandler(self, avId):
         self.rejectExiter(avId)
@@ -133,7 +125,6 @@ class DistributedGolfKartAI(DistributedObjectAI.DistributedObjectAI):
             if self.countFullSeats() == 0:
                 self.waitEmpty()
             taskMgr.doMethodLater(TOON_EXIT_TIME, self.clearEmptyNow, self.uniqueName('clearEmpty-%s' % seatIndex), extraArgs=(seatIndex,))
-        return
 
     def clearEmptyNow(self, seatIndex):
         self.sendUpdate('emptySlot' + str(seatIndex), [0, globalClockDelta.getRealNetworkTime()])
@@ -146,7 +137,6 @@ class DistributedGolfKartAI(DistributedObjectAI.DistributedObjectAI):
             self.seats[seatIndex] = None
             self.sendUpdate('fillSlot' + str(seatIndex), [0])
             self.ignore(self.air.getAvatarExitEvent(avId))
-        return
 
     def d_setState(self, state):
         self.sendUpdate('setState', [state, globalClockDelta.getRealNetworkTime()])
@@ -169,7 +159,6 @@ class DistributedGolfKartAI(DistributedObjectAI.DistributedObjectAI):
                 self.rejectingBoardersHandler(*newArgs)
         else:
             self.notify.warning('avid: %s does not exist, but tried to board a trolley' % avId)
-        return
 
     def requestExit(self, *args):
         self.notify.debug('requestExit')
@@ -207,7 +196,6 @@ class DistributedGolfKartAI(DistributedObjectAI.DistributedObjectAI):
          None,
          None]
         taskMgr.doMethodLater(TROLLEY_ENTER_TIME, self.waitEmptyTask, self.uniqueName('entering-timer'))
-        return
 
     def exitEntering(self):
         self.accepting = 0
@@ -320,6 +308,7 @@ class DistributedGolfKartAI(DistributedObjectAI.DistributedObjectAI):
 
     def getColor(self):
         return self.color
+
 
 @dnaSpawn(DNANode, 'golf_kart_([0-9]+)_([0-9]+)')
 def spawn(air, zone, element, match):

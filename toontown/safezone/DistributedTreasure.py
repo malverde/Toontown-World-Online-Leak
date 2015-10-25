@@ -1,10 +1,10 @@
+#Embedded file name: toontown.safezone.DistributedTreasure
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.safezone import TreasureGlobals
-from random import choice
 
 class DistributedTreasure(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedTreasure')
@@ -23,7 +23,6 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         self.zOffset = 0.0
         self.billboard = 0
         self.treasureType = None
-        return
 
     def disable(self):
         self.ignoreAll()
@@ -36,7 +35,6 @@ class DistributedTreasure(DistributedObject.DistributedObject):
             self.treasureFlyTrack = None
         DistributedObject.DistributedObject.delete(self)
         self.nodePath.removeNode()
-        return
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
@@ -59,24 +57,14 @@ class DistributedTreasure(DistributedObject.DistributedObject):
 
     def loadModel(self):
         modelPath, grabSoundPath = TreasureGlobals.TreasureModels[self.treasureType]
-
         self.grabSound = base.loadSfx(grabSoundPath)
         self.rejectSound = base.loadSfx(self.rejectSoundPath)
-        
         if self.nodePath == None:
             self.makeNodePath()
         else:
             self.treasure.getChildren().detach()
-        
-        # Determine the model to use. Sometimes we'll have more than one.
-        modelList = []
-        for model in modelPath:
-            modelList.append(model)
-            modelChoice = choice(modelList)
-            self.loadedModel = loader.loadModel(modelChoice)
-
-        self.loadedModel.instanceTo(self.treasure)
-        return
+        model = loader.loadModel(modelPath)
+        model.instanceTo(self.treasure)
 
     def makeNodePath(self):
         self.nodePath = NodePath(self.uniqueName('treasure'))
@@ -126,7 +114,6 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         base.playSfx(self.rejectSound, node=self.nodePath)
         self.treasureFlyTrack = Sequence(LerpColorScaleInterval(self.nodePath, 0.8, colorScale=VBase4(0, 0, 0, 0), startColorScale=VBase4(1, 1, 1, 1), blendType='easeIn'), LerpColorScaleInterval(self.nodePath, 0.2, colorScale=VBase4(1, 1, 1, 1), startColorScale=VBase4(0, 0, 0, 0), blendType='easeOut'), name=self.uniqueName('treasureFlyTrack'))
         self.treasureFlyTrack.start()
-        return
 
     def handleGrab(self, avId):
         self.collNodePath.stash()
@@ -155,14 +142,12 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         else:
             self.treasureFlyTrack = Sequence(track, name=self.uniqueName('treasureFlyTrack'))
         self.treasureFlyTrack.start()
-        return
 
     def handleUnexpectedExit(self):
         self.notify.warning('While getting treasure, ' + str(self.avId) + ' disconnected.')
         if self.treasureFlyTrack:
             self.treasureFlyTrack.finish()
             self.treasureFlyTrack = None
-        return
 
     def getStareAtNodeAndOffset(self):
         return (self.nodePath, Point3())
