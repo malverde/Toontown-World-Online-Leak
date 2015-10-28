@@ -1,27 +1,46 @@
 # This is the PRC configuration file for developer servers and clients.
-# If making a change here, please remember to add it to public_client.prc
-# as well as deployment/server.prc if necessary.
+# Please remember to update public_client.prc if necessary.
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
 server-version ttw-pre-alpha-2.5.2
-audio-library-name p3fmod_audio
+texture-anisotropic-degree 16
+preload-avatars #t
+
+# Debug settings
+# Codebase
+default-directnotify-level info
+default-directnotify-level warning
+default-directnotify-level spam
+# Panda
+notify-level warning
 sync-video #f
 want-dev #f
-preload-avatars #t
 want-keep-alive #f
-texture-anisotropic-degree 16
-cursor-filename resources/phase_3/etc/toonmono.cur
-icon-filename resources/phase_3/etc/icon.ico
 
-# Audio...
-audio-library-name p3fmod_audio
-#audio-library-name p3openal_audio
 
 # Extra debug tools/variables
 show-frame-rate-meter #f
 cursor-hidden #f
 undecorated #f
+
+
+# Game server address and authentication address
+# game-server http://localhost
+# server-port 7198
+# account-server localhost
+
+
+# Cursor and Icon
+
+# cursor-filename resources/phase_3/etc/toonmono.cur
+# icon-filename resources/phase_3/etc/icon.ico
+
+
+# Audio
+audio-library-name p3fmod_audio
+# audio-library-name p3openal_audio
+
 
 # Resource settings
 vfs-mount resources/phase_3 /phase_3
@@ -38,56 +57,63 @@ vfs-mount resources/phase_11 /phase_11
 vfs-mount resources/phase_12 /phase_12
 vfs-mount resources/phase_13 /phase_13
 vfs-mount resources/server /server
+
 model-path /
 default-model-extension .bam
 
-# Debug mode and sensitivity level
-default-directnotify-level info
 
-# Server settings
+# Main Server Settings
+
+# RPC settings - never used
 want-rpc-server #f
 rpc-server-endpoint http://localhost:8080/
 # rpc-server-secret 0123456789abcdef
 eventlog-host 127.0.0.1
+# Cheesy Effects and POP
 want-cheesy-expirations #t
 show-total-population #t
 
-# DC Files
-# This is, oddly enough, in *reverse* order of their loading...
+
+# DC Files (server and client-sided)
 dc-file config/toontown.dc
 
+
 # Systems and Beta Modifications
-# Temporary modifications for unimplemented features go here.
-want-pets #t
+# Modifications/temporary for unimplemented features go here.
+want-accessories #t
+# Newsmanager
 want-news-tab #f
 want-news-page #f
-want-accessories #t
+want-fishing #t
 want-parties #t
+# Estates
+want-pets #t
 want-gardening #f
 want-gifting #t
-want-picnic-games #f
-want-chinese-table #f
-want-fishing #t
+# Table games
+want-game-tables #f
 want-checkers-table #f
 want-findfour-table #f
 want-keep-alive #f
+want-picnic-games #f
+want-chinese-table #f
+# Security
 want-speedhack-fix #t
-want-cogdominiums #f
-want-game-tables #f
-
-# A few fun things.
+# A few fun things for unfinished events and settings
 estate-day-night #t
 want-instant-parties #f
 want-toontorial #f
 want-doomsday #f
+want-cogdominiums #f
 
-# Chat filter
+
+# Chat system (server-sided/client-sided)
 want-whitelist #t
 want-blacklist-sequence #f
 force-avatar-understandable #t
 force-player-understandable #t
 
-# Holidays and Events
+# Holidays and Events (server-sided/client-sided)
 want-arg-manager #f
 want-mega-invasions #t
 mega-invasion-cog-type bw
@@ -99,10 +125,9 @@ want-hourly-fireworks-type summer
 base-xp-multiplier 4
 want-suit-planners #t
 want-cogbuildings #t
-want-speedhack-fix #f 
 
-# group merges
+# Group merges
 boarding-group-merges #t
 
 # Misc
-# force-skip-tutorial #f
+# force-skip-tutorial #t

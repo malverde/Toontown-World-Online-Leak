@@ -39,7 +39,7 @@ from toontown.effects import FireworkShows
 from direct.distributed.ClockDelta import *
 from toontown.parties import PartyGlobals
 
-# pets!
+# Pets!
 from toontown.pets.PetManagerAI import PetManagerAI
 
 # Tasks!
@@ -118,7 +118,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         return False
 
     def handleConnected(self):
-        self.notify.info('Yarn, Waking up (This may take a while)')
+        self.notify.info('Yarn. Waking up (This may take a while!).')
         ToontownInternalRepository.handleConnected(self)
         self.districtId = self.allocateChannel()
         self.distributedDistrict = ToontownDistrictAI(self)
@@ -135,7 +135,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         dg.addChannel(self.ourChannel)
         self.send(dg)
 
-        self.notify.info('Creating managers')
+        self.notify.info('Creating Global Managers')
         self.createGlobals()
         self.notify.info('Creating Toontown')
         self.createZones()
@@ -181,24 +181,24 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.districtStats.settoontownDistrictId(self.districtId)
         self.districtStats.generateWithRequiredAndId(self.allocateChannel(),
                                                      self.getGameDoId(), 3)
-        self.notify.info('Creating Time')
+        self.notify.info('Creating Time Manager')
         self.timeManager = TimeManagerAI(self)
         self.timeManager.generateWithRequired(2)
 
-        self.notify.info('Creating News')
+        self.notify.info('Creating News Manager')
         self.newsManager = NewsManagerAI(self)
         self.newsManager.generateWithRequired(2)
 
-        self.notify.info('Creating Magic Words')
+        self.notify.info('Creating Magic Words Manager')
         self.magicWordManager = MagicWordManagerAI(self)
         self.magicWordManager.generateWithRequired(2)
 
-        self.notify.info('Creating Friends')
+        self.notify.info('Creating Friends Manager')
         self.friendManager = FriendManagerAI(self)
         self.friendManager.generateWithRequired(2)
 
         if config.GetBool('want-parties', True):
-            self.notify.info('Creating Partys')
+            self.notify.info('Creating Parties Manager')
             self.partyManager = DistributedPartyManagerAI(self)
             self.partyManager.generateWithRequired(2)
 
@@ -210,22 +210,22 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.estateManager = EstateManagerAI(self)
         self.estateManager.generateWithRequired(2)
 
-        self.notify.info('Creating Trophys')
+        self.notify.info('Creating TrophyMgr')
         self.trophyMgr = DistributedTrophyMgrAI(self)
         self.trophyMgr.generateWithRequired(2)
 
-        self.notify.info('Creating Toontorial')
+        self.notify.info('Creating Toontorial Manager')
         self.tutorialManager = TutorialManagerAI(self)
         self.tutorialManager.generateWithRequired(2)
 
-        self.notify.info('Creating catalog')
+        self.notify.info('Creating Catalog Manager')
         self.catalogManager = CatalogManagerAI(self)
         self.catalogManager.generateWithRequired(2)
 
-        self.notify.info('Creating Pets')
+        self.notify.info('Creating Pets Manager')
         self.PetManager = PetManagerAI(self)
 
-        self.notify.info('Creating Code Redemption')
+        self.notify.info('Creating Code Redemption Manager')
         self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
         self.codeRedemptionManager.generateWithRequired(2)
 
@@ -239,22 +239,22 @@ class ToontownAIRepository(ToontownInternalRepository):
             '''So the TCP window doesn't fill up and we get the axe'''
             while self.readerPollOnce():
                 pass
-        self.notify.info('Creating TTC')
+        self.notify.info('Creating TTC (Toontown Central) ')
         self.hoods.append(TTHoodAI.TTHoodAI(self))
         clearQueue()
-        self.notify.info('Creating DD')
+        self.notify.info('Creating DD (Donalds Dock)' )
         self.hoods.append(DDHoodAI.DDHoodAI(self))
         clearQueue()
-        self.notify.info('Creating DG')
+        self.notify.info('Creating DG (Daisy Gardens) ')
         self.hoods.append(DGHoodAI.DGHoodAI(self))
         clearQueue()
         self.notify.info('Creating BR')
         self.hoods.append(BRHoodAI.BRHoodAI(self))
         clearQueue()
-        self.notify.info('Creating MML')
+        self.notify.info('Creating MML (Minnie Melody Land) ')
         self.hoods.append(MMHoodAI.MMHoodAI(self))
         clearQueue()
-        self.notify.info('Creating DDL')
+        self.notify.info('Creating DDL (Donalds Dream Land) ')
         self.hoods.append(DLHoodAI.DLHoodAI(self))
         clearQueue()
         self.notify.info('Creating GZ')
@@ -266,27 +266,27 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.notify.info('Creating GZ')
         self.hoods.append(GZHoodAI.GZHoodAI(self))
         clearQueue()
-        self.notify.info('Creating TF')
+        self.notify.info('Creating TF (Toonfest) ')
         self.hoods.append(TFHoodAI.TFHoodAI(self))
         clearQueue()
 
         if config.GetBool('want-sbhq', True):
-            self.notify.info('Creating SBHQ')
+            self.notify.info('Creating SBHQ (Sellbot HQ) ')
             self.hoods.append(SellbotHQAI.SellbotHQAI(self))
             clearQueue()
 
         if config.GetBool('want-cbhq', True):
-            self.notify.info('Creating CBHQ')
+            self.notify.info('Creating CBHQ (Cashbot HQ) ')
             self.hoods.append(CashbotHQAI.CashbotHQAI(self))
             clearQueue()
 
         if config.GetBool('want-lbhq', True):
-            self.notify.info('Creating LBHQ')
+            self.notify.info('Creating LBHQ (Lawbot HQ) ')
             self.hoods.append(LawbotHQAI.LawbotHQAI(self))
             clearQueue()
 
         if config.GetBool('want-bbhq', True):
-            self.notify.info('Creating BBHQ')
+            self.notify.info('Creating BBHQ (Bossbot HQ) ')
             self.hoods.append(BossbotHQAI.BossbotHQAI(self))
             clearQueue()
 
