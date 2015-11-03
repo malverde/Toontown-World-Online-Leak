@@ -120,6 +120,8 @@ mega-invasion-cog-type bw
 want-hourly-fireworks #t
 # want-flippy-pet-intro #f
 want-hourly-fireworks-type summer
+# Alternative than nerfing VP?
+easy-vp #t
 
 # Cog battling and multipliers
 base-xp-multiplier 4
