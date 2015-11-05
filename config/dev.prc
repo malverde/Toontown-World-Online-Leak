@@ -72,6 +72,7 @@ eventlog-host 127.0.0.1
 # Cheesy Effects and POP
 want-cheesy-expirations #t
 show-total-population #t
+csmud-secret Yvv4Jr5TUDkX5M8gh64Z9Q4AUAQYdFNecyGgl2I5GOQf8CBh7LUZWpzKB9FBF
 
 
 # DC Files (server and client-sided)
