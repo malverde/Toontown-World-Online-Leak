@@ -27,7 +27,7 @@ class Spellbook:
         self.currentTarget = None
 
     def addWord(self, word):
-        self.words[word.name.lower()] = word
+        self.words[word.name.lower()] = word # # Let's make this stuff case insensitive
         for alias in word.aliases:
             self.alias2word[alias.lower()] = word
 
@@ -50,9 +50,14 @@ class Spellbook:
             self.currentTarget = None
 
     def doWord(self, wordName, args):
-        word = self.words.get(wordName.lower()) or self.alias2word.get(wordName.lower())
+        word = self.words.get(wordName.lower()) or self.alias2word.get(wordName.lower()) # Look it up by its lower case value
         if not word:
-            return ('Unknown magic word!', False)
+            wname = wordName.lower()
+            for key in self.words:
+                if wname in key:
+                    return 'Did you mean %s' % (self.words.get(key).name)
+            if not word:
+                return ('Unknown magic word!', False)
 
         ensureAccess(word.access)
 
