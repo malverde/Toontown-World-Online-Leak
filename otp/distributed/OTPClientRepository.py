@@ -768,7 +768,7 @@ class OTPClientRepository(ClientRepositoryBase):
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def _shardsAreReady(self):
-        maxPop = config.GetInt('shard-mid-pop', 300)
+        maxPop = config.GetInt('shard-mid-pop', 3)
         for shard in self.activeDistrictMap.values():
             if shard.available:
                 if shard.avatarCount < maxPop:
@@ -1616,6 +1616,8 @@ class OTPClientRepository(ClientRepositoryBase):
         if len(self.activeDistrictMap.keys()) == 0:
             self.notify.info('no shards')
             return
+        maxPop = config.GetInt('shard-mid-pop', 3)
+
         if base.fillShardsToIdealPop:
             lowPop, midPop, highPop = base.getShardPopLimits()
             self.notify.debug('low: %s mid: %s high: %s' % (lowPop, midPop, highPop))
