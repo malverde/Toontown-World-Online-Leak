@@ -34,6 +34,14 @@ class HolidayManagerAI:
             self.__fireworksTick,
             'hourly-fireworks')
 
+    # TODO: Make a function that tells players when an admin logins
+    # def _adminlogins(self, task):
+    #     if __playerOnline(self, playerId):
+    #         playerInfo = base.cr.playerFriendsManager.playerId2Info[playerId]
+    #     if playerInfo:
+    #         self.setSystemMessage(playerId,
+    #                               OTPLocalizer.WhisperPlayerOnline % (playerInfo.playerName, playerInfo.location))
+
     def __fireworksTick(self, task):
         # The next tick will occur in exactly an hour.
         task.delayTime = 3600

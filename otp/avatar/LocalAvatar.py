@@ -1192,6 +1192,9 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
                 return
         if friend != None:
             self.setSystemMessage(doId, OTPLocalizer.WhisperFriendComingOnline % friend.getName())
+        if not friend:
+            if AdminAccess < 200:
+                self.setSystemMessage(doId, OTPLocalizer.WhisperAdminComingOnline % friend.getName())
 
     def __friendOffline(self, doId):
         friend = base.cr.identifyFriend(doId)

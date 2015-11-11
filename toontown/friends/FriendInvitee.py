@@ -11,15 +11,21 @@ from otp.otpbase import OTPGlobals
 class FriendInvitee(ToonHeadDialog.ToonHeadDialog):
     notify = DirectNotifyGlobal.directNotify.newCategory('FriendInvitee')
 
-    def __init__(self, avId, avName, avDNA, context, **kw):
+    def __init__(self, avId, avName, avDNA, context, adminAccess, **kw):
         self.avId = avId
         self.avDNA = avDNA
         self.context = context
         self.avName = avName
+        self.adminAccess = adminAccess
         if len(base.localAvatar.friendsList) >= MaxFriends:
             base.cr.friendManager.up_inviteeFriendResponse(3, self.context)
             self.context = None
             text = OTPLocalizer.FriendInviteeTooManyFriends % self.avName
+            style = TTDialog.Acknowledge
+            buttonTextList = [OTPLocalizer.FriendInviteeOK]
+            command = self.__handleOhWell
+        if self.adminAccess < 200:
+            text = FriendInviteeCannotAddAdmin
             style = TTDialog.Acknowledge
             buttonTextList = [OTPLocalizer.FriendInviteeOK]
             command = self.__handleOhWell
