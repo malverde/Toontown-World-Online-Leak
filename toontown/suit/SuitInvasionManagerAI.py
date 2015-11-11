@@ -130,6 +130,7 @@ class SuitInvasionManagerAI:
         self.invading = 0
         self.suitName = None
         self.__spAllCogsSupaFly()
+        self.__spCogSupaFly()
 
     def __checkInvasionOver(self):
         """ Test if the current invasion has created all the suits. """
@@ -178,6 +179,7 @@ class SuitInvasionManagerAI:
             self.stopInvasion,
             'invasion-timeout')
         self.__spAllCogsSupaFly()
+        self.__spCogSupaFly()
         return True
 
 

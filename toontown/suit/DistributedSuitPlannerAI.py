@@ -1432,6 +1432,11 @@ class DistributedSuitPlannerAI(
             if suit.pathState == 1:
                 suit.flyAwayNow()
 
+    def flySuit(self):
+        for suit in self.suitList:
+            if suit.pathState == 1:
+                suit.flyAwayNow()
+
     def requestBattle(self, zoneId, suit, toonId):
         self.notify.debug(
             'requestBattle() - zone: %d suit: %d toon: %d' %
@@ -1645,3 +1650,15 @@ def spawn(name, level, specialSuit=0):
         suitLevel=level,
         specialSuit=0)
     return "Spawned %s in current zone." % name
+
+@magicWord(category=CATEGORY_OVERRIDE, types=[str, str])
+def desuit(command):
+    invoker = spellbook.getInvoker()
+    command = command.lower()
+    if command == 'now':
+        name = self.taskName('flyAwayNow')
+        taskMgr.remove(name)
+        self.__spCogSupaFly()
+        taskMgr.doMethodLater(SuitTimings.toSky, self.finishFlyAwayNow, name)
+        if returnCode[0] == 'success':
+            return 'Successfully de-spawned a Cog'
