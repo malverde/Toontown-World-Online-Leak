@@ -72,6 +72,8 @@ eventlog-host 127.0.0.1
 # Cheesy Effects and POP
 want-cheesy-expirations #t
 show-total-population #t
+shard-low-pop 1
+shard-mid-pop 3
 
 
 # DC Files (server and client-sided)
