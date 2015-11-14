@@ -21,9 +21,9 @@ class ClientServicesManager(DistributedObjectGlobal):
         cookie = self.cr.playToken or 'dev'
 
         # Sign the login cookie
-        key = config.GetString('csmud-secret', 'Yvv4Jr5TUDkX5M8gh64Z9Q4AUAQYdFNecyGgl2I5GOQf8CBh7LUZWpzKB9FBF') + config.GetString('server-version', 'no_version_set') + FIXED_KEY
+        key = config.GetString('csmud-secret', 'no_key_set') + config.GetString('server-version', 'no_version_set') + FIXED_KEY
         sig = hmac.new(key, cookie, hashlib.sha256).digest()
-        secret = config.GetString('csmud-secret', 'Yvv4Jr5TUDkX5M8gh64Z9Q4AUAQYdFNecyGgl2I5GOQf8CBh7LUZWpzKB9FBF')
+        secret = config.GetString('csmud-secret', 'no_key_set')
 
         self.notify.debug('Sending login cookie: ' + cookie)
         self.sendUpdate('login', [cookie, sig, secret])
