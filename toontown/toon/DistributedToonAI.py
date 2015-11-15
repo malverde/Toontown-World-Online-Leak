@@ -5873,7 +5873,7 @@ def spawnToon(name):
         if name.lower() == npcName.lower():
             if npcId not in NPCToons.npcFriends:
                 continue
-    Toon = NPCToons.createLocalNPC[npcId]
+    Toon = NPCToons.createLocalNPC(npcId)
     Toon.initializeBodyCollisions('toon')
     Toon.setPickable(0)
     Toon.addActive()
