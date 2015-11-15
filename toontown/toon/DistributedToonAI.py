@@ -5866,6 +5866,22 @@ def inventory(a, b=None, c=None):
         invoker.b_setInventory(inventory.makeNetString())
         return 'Restored {0} Gags to: {1}, {2}'.format(c, targetTrack, maxLevelIndex)
     
+@magicWord(category=CATEGORY_ADMIN, types=[str])
+def spawnToon(name):
+    from otp.nametag.NametagConstants import *
+    for npcId, npcName in TTLocalizer.NPCToonNames.items():
+        if name.lower() == npcName.lower():
+            if npcId not in NPCToons.npcFriends:
+                continue
+    Toon = NPCToons.createLocalNPC[npcId]
+    Toon.initializeBodyCollisions('toon')
+    Toon.setPickable(0)
+    Toon.addActive()
+    Toon.startBlink()
+    Toon.loop('neutral')
+    Toon.reparentTo(render)
+    Toon.setScale(1)
+
 @magicWord(category=CATEGORY_ADMIN, types=[str, str])
 def dnav1(part, value):
     """Modify a DNA part on the target."""
