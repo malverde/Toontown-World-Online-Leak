@@ -52,7 +52,8 @@ class Spellbook:
     def doWord(self, wordName, args):
         word = self.words.get(wordName.lower()) or self.alias2word.get(wordName.lower()) # Look it up by its lower case value
         if not word:
-            wname = wordName.lower()
+            if process == 'ai':
+                wname = wordName.lower()
             for key in self.words:
                 if wname in key:
                     return 'Did you mean %s' % (self.words.get(key).name)
