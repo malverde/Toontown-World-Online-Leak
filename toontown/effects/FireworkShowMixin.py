@@ -74,6 +74,8 @@ class FireworkShowMixin:
             delay = Wait(max(0, self.fireworkShow.getShowDuration() - max(0, t)))
             if eventId == JULY4_FIREWORKS:
                 delay = Wait(max(0, self.fireworkShow.getShowDuration() - max(0, t)) - 9.5)
+            elif eventId == VICTORY_RELEASE_FIREWORKS:
+                delay = Wait(max(0, self.fireworkShow.getShowDuration() - max(0, t)) - 9.5)
             elif eventId == NEWYEARS_FIREWORKS:
                 delay = Wait(max(0, self.fireworkShow.getShowDuration() - max(0, t)) + 1.0)
             elif eventId == PartyGlobals.FireworkShows.Summer:
@@ -86,6 +88,12 @@ class FireworkShowMixin:
             instructionMessage = TTLocalizer.FireworksInstructions
             startMessage = TTLocalizer.FireworksJuly4Beginning
             endMessage = TTLocalizer.FireworksJuly4Ending
+            songs = ['tt_summer', 'firework_music']
+            musicFile = 'phase_4/audio/bgm/%s.ogg' % songs[songId]
+        elif eventId == VICTORY_RELEASE_FIREWORKS:
+            instructionMessage = TTLocalizer.FireworksVictoryReleaseInstructions
+            startMessage = TTLocalizer.FireworksVictoryReleaseBeginning
+            endMessage = TTLocalizer.FireworksVictoryReleaseEnding
             songs = ['tt_summer', 'firework_music']
             musicFile = 'phase_4/audio/bgm/%s.ogg' % songs[songId]
         elif eventId == NEWYEARS_FIREWORKS:

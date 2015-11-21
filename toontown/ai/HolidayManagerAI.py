@@ -43,6 +43,9 @@ class HolidayManagerAI:
         if showName == 'july4':
             showType = ToontownGlobals.JULY4_FIREWORKS
 
+        elif showName =='victoryreleasefireworks':
+            showType = ToontownGlobals.VICTORY_RELEASE_FIREWORKS
+
         elif showName == 'newyears':
             showType = ToontownGlobals.NEWYEARS_FIREWORKS
 
@@ -53,7 +56,8 @@ class HolidayManagerAI:
             shows = [
                 ToontownGlobals.JULY4_FIREWORKS,
                 ToontownGlobals.NEWYEARS_FIREWORKS,
-                PartyGlobals.FireworkShows.Summer]
+                PartyGlobals.FireworkShows.Summer,
+                ToontownGlobals.VICTORY_RELEASE_FIREWORKS]
             showType = random.choice(shows)
         else:
             raise AttributeError('%s is an invalid firework type' % showName)
