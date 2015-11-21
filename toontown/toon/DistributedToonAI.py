@@ -6308,3 +6308,27 @@ def suitv1(command, suitIndex, cogType=0, isSkelecog=0, isV2=0, isWaiter=0):
         return 'Invalid command.'
 
         #Envd of V 1 #
+
+@magicWord(category=CATEGORY_OVERRIDE, types=[str, int])
+def spawnFO(track, difficulty = 0):
+    tracks = ['s', 'l']
+    if track not in tracks:
+        return 'Invalid Field Office type! Supported types are "s" and "l"'
+    av = spellbook.getInvoker()
+    try:
+        building = av.findClosestDoor()
+    except KeyError:
+        return "You're not on a street!"
+
+    if building == None:
+        return 'Unable to spawn "%s" Field Office with difficulty %d.' % (track, difficulty)
+    building.cogdoTakeOver(difficulty, 2, track)
+    return 'Successfully spawned "%s" Field Office with difficulty %d!' % (track, difficulty)
+
+@magicWord(category=CATEGORY_CHARACTERSTATS)
+def tricks():
+    """Unlock all pet tricks."""
+    if not config.GetBool('want-pets', False):
+        return 'You cannot unlock pet tricks when pets are disabled!'
+    spellbook.getInvoker().b_setPetTrickPhrases(range(7))
+    return 'Unlocked pet tricks!'
