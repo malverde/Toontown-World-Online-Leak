@@ -2,16 +2,20 @@ from pandac.PandaModules import *
 from otp.chat.SequenceList import SequenceList
 from direct.directnotify import DirectNotifyGlobal
 
+
 class TTSequenceList(SequenceList):
 
     def __init__(self):
-        self.notify = DirectNotifyGlobal.directNotify.newCategory('TTSequenceList')
+        self.notify = DirectNotifyGlobal.directNotify.newCategory(
+            'TTSequenceList')
         sequenceListURL = config.GetString('blacklist-sequence-url', '')
         if sequenceListURL == '':
-            self.notify.warning('No Sequence BL URL specified! Continuing with local sequence.')
+            self.notify.warning(
+                'No Sequence BL URL specified! Continuing with local sequence.')
             SequenceList.__init__(self, self.loadSquencesLocally())
         else:
-            SequenceList.__init__(self, self.downloadSequences(sequenceListURL))
+            SequenceList.__init__(
+                self, self.downloadSequences(sequenceListURL))
 
     def downloadSequences(self, url):
         fs = Ramfile()

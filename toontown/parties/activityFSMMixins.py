@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.activityFSMMixins
 from BaseActivityFSM import BaseActivityFSM
 
 class IdleMixin:
@@ -15,7 +16,6 @@ class IdleMixin:
             return None
         else:
             return self.defaultFilter(request, args)
-        return None
 
     def exitIdle(self):
         BaseActivityFSM.notify.debug("exitIdle: '%s' -> '%s'" % (self.oldState, self.newState))
@@ -37,7 +37,6 @@ class ActiveMixin:
             return None
         else:
             return self.defaultFilter(request, args)
-        return None
 
     def exitActive(self):
         BaseActivityFSM.notify.debug("exitActive: '%s' -> '%s'" % (self.oldState, self.newState))
@@ -59,7 +58,6 @@ class DisabledMixin:
             return None
         else:
             return self.defaultFilter(request, args)
-        return None
 
     def exitDisabled(self):
         BaseActivityFSM.notify.debug("exitDisabled: '%s' -> '%s'" % (self.oldState, self.newState))
@@ -81,7 +79,6 @@ class RulesMixin:
             return None
         else:
             return self.defaultFilter(request, args)
-        return None
 
     def exitRules(self):
         BaseActivityFSM.notify.debug("exitRules: '%s' -> '%s'" % (self.oldState, self.newState))
@@ -103,7 +100,6 @@ class WaitForEnoughMixin:
             return None
         else:
             return self.defaultFilter(request, args)
-        return None
 
     def exitWaitForEnough(self):
         BaseActivityFSM.notify.debug("exitWaitForEnough: '%s' -> '%s'" % (self.oldState, self.newState))
@@ -125,7 +121,6 @@ class WaitToStartMixin:
             return None
         else:
             return self.defaultFilter(request, args)
-        return None
 
     def exitWaitToStart(self):
         BaseActivityFSM.notify.debug("exitWaitToStart: '%s' -> '%s'" % (self.oldState, self.newState))
@@ -147,7 +142,6 @@ class WaitClientsReadyMixin:
             return None
         else:
             return self.defaultFilter(request, args)
-        return None
 
     def exitWaitClientsReady(self):
         BaseActivityFSM.notify.debug("exitWaitClientsReady: '%s' -> '%s'" % (self.oldState, self.newState))
@@ -169,7 +163,6 @@ class WaitForServerMixin:
             return None
         else:
             return self.defaultFilter(request, args)
-        return None
 
     def exitWaitForServer(self):
         BaseActivityFSM.notify.debug("exitWaitForServer: '%s' -> '%s'" % (self.oldState, self.newState))
@@ -191,7 +184,6 @@ class ConclusionMixin:
             return None
         else:
             return self.defaultFilter(request, args)
-        return None
 
     def exitConclusion(self):
         BaseActivityFSM.notify.debug("exitConclusion: '%s' -> '%s'" % (self.oldState, self.newState))

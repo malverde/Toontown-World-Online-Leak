@@ -9,8 +9,10 @@ from toontown.toonbase.ToontownGlobals import *
 import random
 import cPickle
 
+
 class DistributedLeaderBoard(DistributedObject.DistributedObject):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DisributedLeaderBoard')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DisributedLeaderBoard')
 
     def __init__(self, cr):
         self.notify.debug('__init__: initialization of local leaderboard')
@@ -34,8 +36,14 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
         self.board.reparentTo(render)
-        self.accept('decorator-holiday-%d-ending' % ToontownGlobals.CRASHED_LEADERBOARD, self.showLists)
-        self.accept('decorator-holiday-%d-starting' % ToontownGlobals.CRASHED_LEADERBOARD, self.hideLists)
+        self.accept(
+            'decorator-holiday-%d-ending' %
+            ToontownGlobals.CRASHED_LEADERBOARD,
+            self.showLists)
+        self.accept(
+            'decorator-holiday-%d-starting' %
+            ToontownGlobals.CRASHED_LEADERBOARD,
+            self.hideLists)
         newsManager = base.cr.newsManager
         if newsManager:
             if ToontownGlobals.CRASHED_LEADERBOARD in newsManager.holidayIdList:
@@ -51,7 +59,8 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
         self.surface.setPosHpr(x, y, z, h, p, r)
 
     def setDisplay(self, pData):
-        self.notify.debug('setDisplay: changing leaderboard text on local side')
+        self.notify.debug(
+            'setDisplay: changing leaderboard text on local side')
         trackName, recordTitle, scores = cPickle.loads(pData)
         self.display(trackName, recordTitle, scores)
 
@@ -88,7 +97,11 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
 
         self.surface.flattenLight()
 
-    def display(self, pTrackTitle = 'Track Title', pPeriodTitle = 'Period Title', pLeaderList = []):
+    def display(
+            self,
+            pTrackTitle='Track Title',
+            pPeriodTitle='Period Title',
+            pLeaderList=[]):
         self.titleTextNode.setText(pPeriodTitle)
         self.trackNameNode.setText(pTrackTitle)
         self.updateCount += 1
@@ -102,7 +115,9 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
                 secs, hundredths = divmod(time, 1)
                 min, sec = divmod(secs, 60)
                 self.nameTextNodes[i].setText(name[:22])
-                self.timeTextNodes[i].setText('%02d:%02d:%02d' % (min, sec, hundredths * 100))
+                self.timeTextNodes[i].setText(
+                    '%02d:%02d:%02d' %
+                    (min, sec, hundredths * 100))
 
     def buildTitleRow(self):
         row = hidden.attachNewNode('TitleRow')
@@ -158,9 +173,9 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
         placePath.setScale(0.3)
         placePath.setDepthWrite(0)
         return (row,
-         nameText,
-         timeText,
-         placeText)
+                nameText,
+                timeText,
+                placeText)
 
     def delete(self):
         self.notify.debug('delete: deleting local leaderboard')

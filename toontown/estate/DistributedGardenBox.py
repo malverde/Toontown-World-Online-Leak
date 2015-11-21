@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.DistributedGardenBox
 import DistributedLawnDecor
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
@@ -45,7 +46,6 @@ class DistributedGardenBox(DistributedLawnDecor.DistributedLawnDecor):
         self.model.setScale(self.plotScale)
         self.model.reparentTo(self.rotateNode)
         self.stick2Ground()
-        return
 
     def handleEnterPlot(self, entry = None):
         pass

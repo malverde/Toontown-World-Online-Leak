@@ -7,6 +7,7 @@ from toontown.toon import NPCToons
 
 
 class LibraryBuildingAI:
+
     def __init__(self, air, exteriorZone, interiorZone, blockNumber):
         self.air = air
         self.exteriorZone = exteriorZone
@@ -43,4 +44,3 @@ class LibraryBuildingAI:
         insideDoor.generateWithRequired(self.interiorZone)
         self.door = door
         self.insideDoor = insideDoor
-

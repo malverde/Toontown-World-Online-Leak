@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.activityFSMs
 from direct.directnotify import DirectNotifyGlobal
 from BaseActivityFSM import BaseActivityFSM
 from activityFSMMixins import IdleMixin

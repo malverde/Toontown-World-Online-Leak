@@ -13,24 +13,26 @@ from toontown.toonbase import TTLocalizer
 from direct.fsm.FSM import FSM
 from direct.task import Task
 
+
 class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedElevatorFloor')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedElevatorFloor')
     defaultTransitions = {'Off': ['Opening', 'Closed'],
-     'Opening': ['WaitEmpty',
-                 'WaitCountdown',
-                 'Opening',
-                 'Closing'],
-     'WaitEmpty': ['WaitCountdown', 'Closing'],
-     'WaitCountdown': ['WaitEmpty',
-                       'AllAboard',
-                       'Closing',
-                       'WaitCountdown'],
-     'AllAboard': ['WaitEmpty', 'Closing'],
-     'Closing': ['Closed',
-                 'WaitEmpty',
-                 'Closing',
-                 'Opening'],
-     'Closed': ['Opening']}
+                          'Opening': ['WaitEmpty',
+                                      'WaitCountdown',
+                                      'Opening',
+                                      'Closing'],
+                          'WaitEmpty': ['WaitCountdown', 'Closing'],
+                          'WaitCountdown': ['WaitEmpty',
+                                            'AllAboard',
+                                            'Closing',
+                                            'WaitCountdown'],
+                          'AllAboard': ['WaitEmpty', 'Closing'],
+                          'Closing': ['Closed',
+                                      'WaitEmpty',
+                                      'Closing',
+                                      'Opening'],
+                          'Closed': ['Opening']}
     id = 0
 
     def __init__(self, cr):
@@ -50,7 +52,8 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
         return
 
     def setupElevator2(self):
-        self.elevatorModel = loader.loadModel('phase_4/models/modules/elevator')
+        self.elevatorModel = loader.loadModel(
+            'phase_4/models/modules/elevator')
         self.elevatorModel.reparentTo(hidden)
         self.elevatorModel.setScale(1.05)
         self.leftDoor = self.elevatorModel.find('**/left-door')
@@ -62,9 +65,11 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
         DistributedElevatorFSM.DistributedElevatorFSM.setupElevator(self)
 
     def setupElevator(self):
-        self.elevatorModel = loader.loadModel('phase_11/models/lawbotHQ/LB_ElevatorScaled')
+        self.elevatorModel = loader.loadModel(
+            'phase_11/models/lawbotHQ/LB_ElevatorScaled')
         if not self.elevatorModel:
-            self.notify.error('No Elevator Model in DistributedElevatorFloor.setupElevator. Please inform JML. Fool!')
+            self.notify.error(
+                'No Elevator Model in DistributedElevatorFloor.setupElevator. Please inform JML. Fool!')
         self.leftDoor = self.elevatorModel.find('**/left-door')
         if self.leftDoor.isEmpty():
             self.leftDoor = self.elevatorModel.find('**/left_door')
@@ -103,19 +108,24 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
     def setLatch(self, markerId):
         self.notify.info('Setting latch')
         marker = self.cr.doId2do.get(markerId)
-        self.latchRequest = self.cr.relatedObjectMgr.requestObjects([markerId], allCallback=self.set2Latch, timeout=5)
+        self.latchRequest = self.cr.relatedObjectMgr.requestObjects(
+            [markerId], allCallback=self.set2Latch, timeout=5)
         self.latch = markerId
 
-    def set2Latch(self, taskMgrFooler = None):
+    def set2Latch(self, taskMgrFooler=None):
         if hasattr(self, 'cr'):
             marker = self.cr.doId2do.get(self.latch)
             if marker:
                 self.elevatorModel.reparentTo(marker)
                 return
-            taskMgr.doMethodLater(10.0, self._repart2Marker, 'elevatorfloor-markerReparent')
-            self.notify.warning('Using backup, do method later version of latch')
+            taskMgr.doMethodLater(
+                10.0,
+                self._repart2Marker,
+                'elevatorfloor-markerReparent')
+            self.notify.warning(
+                'Using backup, do method later version of latch')
 
-    def _repart2Marker(self, taskFoolio = 0):
+    def _repart2Marker(self, taskFoolio=0):
         if hasattr(self, 'cr'):
             marker = self.cr.doId2do.get(self.latch)
             if marker:
@@ -154,7 +164,8 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
     def setFloor(self, floorNumber):
         if self.currentFloor >= 0:
             if self.bldg.floorIndicator[self.currentFloor]:
-                self.bldg.floorIndicator[self.currentFloor].setColor(LIGHT_OFF_COLOR)
+                self.bldg.floorIndicator[
+                    self.currentFloor].setColor(LIGHT_OFF_COLOR)
         if floorNumber >= 0:
             if self.bldg.floorIndicator[floorNumber]:
                 self.bldg.floorIndicator[floorNumber].setColor(LIGHT_ON_COLOR)
@@ -168,14 +179,20 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
             toon = base.localAvatar
             self.sendUpdate('requestBoard', [])
         else:
-            self.notify.warning('Tried to board elevator with hp: %d' % base.localAvatar.hp)
+            self.notify.warning(
+                'Tried to board elevator with hp: %d' %
+                base.localAvatar.hp)
 
     def enterWaitEmpty(self, ts):
         self.lastState = self.state
         self.elevatorSphereNodePath.unstash()
         self.forceDoorsOpen()
-        self.accept(self.uniqueName('enterelevatorSphere'), self.handleEnterSphere)
-        self.accept(self.uniqueName('enterElevatorOK'), self.handleEnterElevator)
+        self.accept(
+            self.uniqueName('enterelevatorSphere'),
+            self.handleEnterSphere)
+        self.accept(
+            self.uniqueName('enterElevatorOK'),
+            self.handleEnterElevator)
         DistributedElevatorFSM.DistributedElevatorFSM.enterWaitEmpty(self, ts)
 
     def exitWaitEmpty(self):
@@ -187,9 +204,12 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
 
     def enterWaitCountdown(self, ts):
         self.lastState = self.state
-        DistributedElevatorFSM.DistributedElevatorFSM.enterWaitCountdown(self, ts)
+        DistributedElevatorFSM.DistributedElevatorFSM.enterWaitCountdown(
+            self, ts)
         self.forceDoorsOpen()
-        self.accept(self.uniqueName('enterElevatorOK'), self.handleEnterElevator)
+        self.accept(
+            self.uniqueName('enterElevatorOK'),
+            self.handleEnterElevator)
         self.startCountdownClock(self.countdownTime, ts)
 
     def exitWaitCountdown(self):
@@ -202,7 +222,7 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
         taskMgr.doMethodLater(1.0, self._delayIris, 'delayedIris')
         DistributedElevatorFSM.DistributedElevatorFSM.enterClosing(self, ts)
 
-    def _delayIris(self, tskfooler = 0):
+    def _delayIris(self, tskfooler=0):
         base.transitions.irisOut(1.0)
         base.localAvatar.pauseGlitchKiller()
         return Task.done
@@ -210,13 +230,12 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
     def kickToonsOut(self):
         if not self.localToonOnBoard:
             zoneId = self.cr.playGame.hood.hoodId
-            self.cr.playGame.getPlace().fsm.request('teleportOut', [{'loader': ZoneUtil.getLoaderName(zoneId),
-              'where': ZoneUtil.getToonWhereName(zoneId),
-              'how': 'teleportIn',
-              'hoodId': zoneId,
-              'zoneId': zoneId,
-              'shardId': None,
-              'avId': -1}])
+            self.cr.playGame.getPlace().fsm.request(
+                'teleportOut',
+                [{'loader': ZoneUtil.getLoaderName(zoneId),
+                  'where': ZoneUtil.getToonWhereName(zoneId),
+                  'how': 'teleportIn', 'hoodId': zoneId, 'zoneId': zoneId,
+                  'shardId': None, 'avId': -1}])
         return
 
     def exitClosing(self):
@@ -266,7 +285,11 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
     def kickEveryoneOut(self):
         bailFlag = 0
         for avId, slot in self.boardedAvIds.items():
-            self.emptySlot(slot, avId, bailFlag, globalClockDelta.getRealNetworkTime())
+            self.emptySlot(
+                slot,
+                avId,
+                bailFlag,
+                globalClockDelta.getRealNetworkTime())
             if avId == base.localAvatar.doId:
                 pass
 
@@ -319,8 +342,8 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
         if self.localToonOnBoard:
             hoodId = self.cr.playGame.hood.hoodId
             doneStatus = {'loader': 'cogHQLoader',
-             'where': 'factoryInterior',
-             'how': 'teleportIn',
-             'zoneId': zoneId,
-             'hoodId': hoodId}
+                          'where': 'factoryInterior',
+                          'how': 'teleportIn',
+                          'zoneId': zoneId,
+                          'hoodId': hoodId}
             self.cr.playGame.getPlace().elevator.signalDone(doneStatus)

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.safezone.BRSafeZoneLoader
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 import SafeZoneLoader
@@ -26,7 +27,6 @@ class BRSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         self.snowRender.setDepthWrite(0)
         self.snowRender.setBin('fixed', 1)
         self.snowFade = None
-        return
 
     def unload(self):
         del self.wind1Sound
@@ -59,7 +59,6 @@ class BRSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         if self.snowFade != None:
             self.snowFade.stop()
             self.snowFade = None
-        return
 
     def fadeInSnow(self):
         self.resetSnowLerp()

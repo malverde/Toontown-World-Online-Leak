@@ -1,4 +1,5 @@
 class InteractableAI:
+
     def __init__(self):
         self.customerId = None
 

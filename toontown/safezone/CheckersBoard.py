@@ -1,6 +1,7 @@
+#Embedded file name: toontown.safezone.CheckersBoard
 
 
-class CheckersBoard:
+class CheckersBoard():
 
     def __init__(self):
         self.squareList = []
@@ -263,7 +264,6 @@ class CheckersBoard:
          None,
          None,
          None])
-        return
 
     def delete(self):
         for x in self.squareList:
@@ -299,7 +299,7 @@ class CheckersBoard:
         return self.squareList[squareNum].jumps
 
 
-class CheckersTile:
+class CheckersTile():
 
     def __init__(self, tileNum):
         self.tileNum = tileNum

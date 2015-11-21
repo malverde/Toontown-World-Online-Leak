@@ -11,6 +11,7 @@ from direct.directnotify import DirectNotifyGlobal
 # All numbers/values in here are hard-coded. Maybe we should move them to
 # ToontownGlobals or something?
 
+
 class SuitInvasionManagerAI:
     """
     This is a very basic AI class to handle Suit Invasions in Toontown.
@@ -18,7 +19,8 @@ class SuitInvasionManagerAI:
     when an invasion starts and stops.
     """
 
-    notify = DirectNotifyGlobal.directNotify.newCategory('SuitInvasionManagerAI')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'SuitInvasionManagerAI')
 
     def __init__(self, air):
         self.air = air
@@ -28,22 +30,39 @@ class SuitInvasionManagerAI:
         self.numSuits = 0
         self.spawnedSuits = 0
 
-        if config.GetBool('want-mega-invasions', False): # TODO - config for this
+        if config.GetBool(
+                'want-mega-invasions',
+                False):  # TODO - config for this
             # Mega invasion configuration.
-            self.randomInvasionProbability = config.GetFloat('mega-invasion-probability', 0.4)
-            self.megaInvasionCog = config.GetString('mega-invasion-cog-type', '')
+            self.randomInvasionProbability = config.GetFloat(
+                'mega-invasion-probability', 0.4)
+            self.megaInvasionCog = config.GetString(
+                'mega-invasion-cog-type', '')
             if not self.megaInvasionCog:
-                raise AttributeError("No mega invasion cog specified, but mega invasions are on!")
+                raise AttributeError(
+                    "No mega invasion cog specified, but mega invasions are on!")
             if self.megaInvasionCog not in SuitDNA.suitHeadTypes:
-                raise AttributeError("Invalid cog type specified for mega invasion!")
+                raise AttributeError(
+                    "Invalid cog type specified for mega invasion!")
             # Start ticking.
-            taskMgr.doMethodLater(randint(1800, 5400), self.__randomInvasionTick, 'random-invasion-tick')
+            taskMgr.doMethodLater(
+                randint(
+                    1800,
+                    5400),
+                self.__randomInvasionTick,
+                'random-invasion-tick')
 
         elif config.GetBool('want-random-invasions', True):
             # Random invasion configuration.
-            self.randomInvasionProbability = config.GetFloat('random-invasion-probability', 0.3)
+            self.randomInvasionProbability = config.GetFloat(
+                'random-invasion-probability', 0.3)
             # Start ticking.
-            taskMgr.doMethodLater(randint(1800, 5400), self.__randomInvasionTick, 'random-invasion-tick')
+            taskMgr.doMethodLater(
+                randint(
+                    1800,
+                    5400),
+                self.__randomInvasionTick,
+                'random-invasion-tick')
 
     def __randomInvasionTick(self, task=None):
         """
@@ -69,7 +88,9 @@ class SuitInvasionManagerAI:
             # Take the mega invasion probability and test it. If we get lucky
             # a second time, spawn a mega invasion, otherwise spawn a normal
             # invasion.
-            if config.GetBool('want-mega-invasions', False) and random() <= self.randomInvasionProbability:
+            if config.GetBool(
+                    'want-mega-invasions',
+                    False) and random() <= self.randomInvasionProbability:
                 # N.B.: randomInvasionProbability = mega invasion probability.
                 suitName = self.megaInvasionCog
                 numSuits = randint(2000, 15000)
@@ -140,7 +161,8 @@ class SuitInvasionManagerAI:
         self.suitName = suitName
         self.numSuits = numSuits
         self.specialSuit = specialSuit
-        # Tell all the client's that an invasion has started via the NewsManager.
+        # Tell all the client's that an invasion has started via the
+        # NewsManager.
         self.air.newsManager.sendUpdate('setInvasionStatus', [
             ToontownGlobals.SuitInvasionBegin, self.suitName,
             self.numSuits, self.specialSuit
@@ -148,20 +170,25 @@ class SuitInvasionManagerAI:
         # If the cogs aren't defeated in a set amount of time, the invasion will
         # simply timeout. This was calculated by judging that 1000 cogs should
         # take around 20 minutes, becoming 1.2 seconds per cog.
-        # We added in a bit of a grace period, making it 1.5 seconds per cog, or 25 minutes.
+        # We added in a bit of a grace period, making it 1.5 seconds per cog,
+        # or 25 minutes.
         timePerCog = config.GetFloat('invasion-time-per-cog', 1.5)
-        taskMgr.doMethodLater(timePerCog * numSuits, self.stopInvasion, 'invasion-timeout')
+        taskMgr.doMethodLater(
+            timePerCog * numSuits,
+            self.stopInvasion,
+            'invasion-timeout')
         self.__spAllCogsSupaFly()
         return True
 
+
 @magicWord(types=[str, str, int, int], category=CATEGORY_OVERRIDE)
-def invasion(cmd, name='f', num=1000, specialSuit = 0):
+def invasion(cmd, name='f', num=1000, specialSuit=0):
     """ Spawn an invasion on the current AI if one doesn't exist. """
     invMgr = simbase.air.suitInvasionManager
     if cmd == 'start':
         if invMgr.getInvading():
             return "There is already an invasion on the current AI!"
-        if not name in SuitDNA.suitHeadTypes:
+        if name not in SuitDNA.suitHeadTypes:
             return "This cog does not exist!"
         invMgr.startInvasion(name, num, specialSuit)
     elif cmd == 'stop':

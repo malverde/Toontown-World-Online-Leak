@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.CannonGui
 from direct.showbase.DirectObject import DirectObject
 from direct.gui.DirectGui import DirectFrame, DirectButton
 import direct.gui.DirectGuiGlobals as DGG
@@ -20,7 +21,6 @@ class CannonGui(DirectObject):
         self.downPressed = 0
         self.__aimPad = None
         self.__timerPad = None
-        return
 
     def load(self):
         if self.__loaded:
@@ -46,7 +46,6 @@ class CannonGui(DirectObject):
         bindButton(self.leftButton, self.__leftPressed, self.__leftReleased)
         bindButton(self.rightButton, self.__rightPressed, self.__rightReleased)
         self.__loaded = True
-        return
 
     def unload(self):
         self.ignoreAll()
@@ -75,8 +74,8 @@ class CannonGui(DirectObject):
 
     def enable(self, timer = 0):
         self.__aimPad.show()
-        base.setCellsActive([base.bottomCells[2], base.bottomCells[3]], 1)
-        base.setCellsActive([base.rightCells[1]], 1)
+        base.setCellsAvailable([base.bottomCells[3], base.bottomCells[4]], 0)
+        base.setCellsAvailable([base.rightCells[1]], 0)
         if timer > 0:
             self.__timerPad.setTime(timer)
             self.__timerPad.countdown(timer)
@@ -85,8 +84,8 @@ class CannonGui(DirectObject):
 
     def disable(self):
         self.__aimPad.hide()
-        base.setCellsActive([base.bottomCells[2], base.bottomCells[3]], 1)
-        base.setCellsActive([base.rightCells[1]], 1)
+        base.setCellsAvailable([base.bottomCells[3], base.bottomCells[4]], 1)
+        base.setCellsAvailable([base.rightCells[1]], 1)
         self.__timerPad.hide()
         self.disableKeys()
 

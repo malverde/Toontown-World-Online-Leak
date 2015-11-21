@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.DistributedHouseInterior
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase.ToonBaseGlobal import *
 from pandac.PandaModules import *
@@ -35,7 +36,6 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
         self.houseIndex = 0
         self.interior = None
         self.exteriorWindowsHidden = 0
-        return
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
@@ -88,7 +88,6 @@ class DistributedHouseInterior(DistributedObject.DistributedObject):
         self.__colorWalls()
         self.__setupWindows()
         messenger.send('houseInteriorLoaded-%d' % self.zoneId)
-        return None
 
     def __colorWalls(self):
         if not self.wallpaper:

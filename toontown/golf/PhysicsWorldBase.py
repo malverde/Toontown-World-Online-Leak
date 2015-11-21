@@ -1,3 +1,4 @@
+#Embedded file name: toontown.golf.PhysicsWorldBase
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
@@ -60,7 +61,6 @@ class PhysicsWorldBase:
         self.refFPS = 60.0
         self.DTAStep = 1.0 / self.FPS
         self.refCon = 1.2
-
         self.collisionEventName = 'ode-collision-%d' % id(self)
         self.space.setCollisionEvent(self.collisionEventName)
         self.accept(self.collisionEventName, self.__collisionHandler)
@@ -110,7 +110,6 @@ class PhysicsWorldBase:
         self.space.destroy()
         self.world = None
         self.space = None
-
         self.ignore(self.collisionEventName)
 
     def setupSimulation(self):
@@ -205,7 +204,6 @@ class PhysicsWorldBase:
     def simulate(self):
         self.colEntries = []
         self.space.autoCollide()
-        # We need the callbacks processed now, before we try to look at colEntries, so:
         eventMgr.doEvents()
         self.colCount = len(self.colEntries)
         if self.maxColCount < self.colCount:
@@ -246,7 +244,7 @@ class PhysicsWorldBase:
             if key not in self.commonObjectInfoDict:
                 self.commonObjectInfoDict[key] = None
             entry = self.commonObjectDict[key]
-            if entry[1] in [2, 4]:
+            if entry[1] in (2, 4):
                 type = entry[1]
                 body = entry[2]
                 motor = entry[3]
@@ -264,8 +262,6 @@ class PhysicsWorldBase:
                             self.commonObjectInfoDict[key] = event
 
                 motor.setParamVel(force)
-
-        return
 
     def commonObjectEvent(self, key, model, type, force, event):
         self.notify.debug('commonObjectForceEvent %s %s %s %s %s' % (key,

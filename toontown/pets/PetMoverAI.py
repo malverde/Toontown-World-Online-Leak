@@ -1,20 +1,22 @@
-#Embedded file name: toontown.pets.PetMoverAI
+# Embedded file name: toontown.pets.PetMoverAI
 from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm.FSM import *
-import random, math
+import random
+import math
 estateRadius = 130
 estateCenter = (0, -40)
 houseRadius = 15
 houses = ((60, 10),
- (42, 75),
- (-37, 35),
- (80, -80),
- (-70, -120),
- (-55, -40))
+          (42, 75),
+          (-37, 35),
+          (80, -80),
+          (-70, -120),
+          (-55, -40))
 dist = 2
 
-def inCircle(x, y, c = estateCenter, r = estateRadius):
+
+def inCircle(x, y, c=estateCenter, r=estateRadius):
     center_x, center_y = c
     square_dist = (center_x - x) ** 2 + (center_y - y) ** 2
     return square_dist <= r ** 2
@@ -45,7 +47,7 @@ def generatePos():
     return p
 
 
-def lineInCircle(pt1, pt2, circlePoint, circleRadius = houseRadius):
+def lineInCircle(pt1, pt2, circlePoint, circleRadius=houseRadius):
     x1, y1 = pt1
     x2, y2 = pt2
     dist = math.hypot(x2 - x1, y2 - y1)
@@ -105,12 +107,17 @@ class PetMoverAI(FSM):
         self.__chaseCallback = None
 
     def enterStill(self):
-        taskMgr.doMethodLater(random.randint(15, 60), self.__moveFromStill, self.pet.uniqueName('next-state'))
+        taskMgr.doMethodLater(
+            random.randint(
+                15,
+                60),
+            self.__moveFromStill,
+            self.pet.uniqueName('next-state'))
 
     def exitStill(self):
         taskMgr.remove(self.pet.uniqueName('next-state'))
 
-    def __moveFromStill(self, task = None):
+    def __moveFromStill(self, task=None):
         choices = ['Wander']
         nextState = random.choice(choices)
         self.request(nextState)
@@ -126,7 +133,20 @@ class PetMoverAI(FSM):
     def walkToPoint(self, target):
         here = self.pet.getPos()
         dist = Vec3(here - target).length()
-        self.__seq = Sequence(Func(self.pet.lookAt, target), Func(self.pet.setP, 0), self.pet.posInterval(dist / self.fwdSpeed, target, here), Func(self.__stateComplete))
+        self.__seq = Sequence(
+            Func(
+                self.pet.lookAt,
+                target),
+            Func(
+                self.pet.setP,
+                0),
+            self.pet.posInterval(
+                dist /
+                self.fwdSpeed,
+                target,
+                here),
+            Func(
+                self.__stateComplete))
         self.__seq.start()
 
     def exitWander(self):
@@ -159,7 +179,7 @@ class PetMoverAI(FSM):
         if self.state != 'Still':
             self.demand('Still')
 
-    def enterChase(self, target = None):
+    def enterChase(self, target=None):
         if not target:
             target = hidden.attachNewNode('target')
             target.setPos(self.getPoint())
@@ -177,7 +197,7 @@ class PetMoverAI(FSM):
             self.__seq.pause()
         self.__seq = None
 
-    def walkToAvatar(self, av, callback = None):
+    def walkToAvatar(self, av, callback=None):
         if callback:
             self.__chaseCallback = callback
         self.demand('Chase', av)

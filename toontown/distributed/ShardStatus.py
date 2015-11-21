@@ -27,6 +27,7 @@ shard_status_timeout = ConfigVariableInt(
 
 
 class ShardStatusSender:
+
     def __init__(self, air):
         self.air = air
 
@@ -48,12 +49,13 @@ class ShardStatusSender:
 
     def start(self):
         # Set the average frame rate interval to match shard status interval.
-        globalClock.setAverageFrameRateInterval(shard_status_interval.getValue())
+        globalClock.setAverageFrameRateInterval(
+            shard_status_interval.getValue())
 
         # Prepare an "offline status" to register as a postremove:
         offlineStatus = {'channel': self.air.ourChannel,
                          'offline': True
-                        }
+                         }
         dg = self.air.netMessenger.prepare('shardStatus', [offlineStatus])
         self.air.addPostRemove(dg)
 
@@ -74,18 +76,23 @@ class ShardStatusSender:
                 cogName += ' (' + TTLocalizer.Skeleton + ')'
             elif self.air.suitInvasionManager.specialSuit == 2:
                 # Invasion is a v2.0 invasion, use 2.0 name.
-                cogName = TTLocalizer.SkeleReviveCogName % {'cog_name':cogName}
+                cogName = TTLocalizer.SkeleReviveCogName % {
+                    'cog_name': cogName}
             # Return tuple of (name, cogsDefeated / totalCogs)
-            invasion = (cogName, '%d/%d' % (self.air.suitInvasionManager.spawnedSuits, self.air.suitInvasionManager.numSuits))
+            invasion = (
+                cogName,
+                '%d/%d' %
+                (self.air.suitInvasionManager.spawnedSuits,
+                 self.air.suitInvasionManager.numSuits))
 
-        status = {'channel': self.air.ourChannel,
-                  'districtId': self.air.distributedDistrict.doId,
-                  'districtName': self.air.distributedDistrict.name,
-                  'population': self.air.districtStats.getAvatarCount(),
-                  'avg-frame-rate': round(globalClock.getAverageFrameRate(), 5),
-                  'invasion': invasion,
-                  'heap': self.heap_status
-                 }
+        status = {
+            'channel': self.air.ourChannel,
+            'districtId': self.air.distributedDistrict.doId,
+            'districtName': self.air.distributedDistrict.name,
+            'population': self.air.districtStats.getAvatarCount(),
+            'avg-frame-rate': round(globalClock.getAverageFrameRate(),
+                                    5),
+            'invasion': invasion, 'heap': self.heap_status}
         if HAS_PSUTIL:
             status['cpu-usage'] = cpu_percent(interval=None, percpu=True)
             status['mem-usage'] = virtual_memory().percent
@@ -101,13 +108,15 @@ class ShardStatusSender:
             'ShardStatusInterval')
 
     def __interval(self, task):
-        self.interval = None # So we don't get removed twice.
+        self.interval = None  # So we don't get removed twice.
 
         self.sendStatus()
 
         return task.done
 
+
 class ShardStatusReceiver:
+
     def __init__(self, air):
         self.air = air
 
@@ -118,7 +127,7 @@ class ShardStatusReceiver:
     def _handleStatus(self, status):
         channel = status.get('channel')
         if channel is None:
-            return # ???
+            return  # ???
 
         if status.get('offline'):
             if channel in self.shards:

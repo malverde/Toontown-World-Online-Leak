@@ -5,6 +5,7 @@ from toontown.effects.Splash import *
 from toontown.effects.Ripples import *
 import random
 
+
 class FishAnimatedProp(AnimatedProp.AnimatedProp):
 
     def __init__(self, node):
@@ -15,17 +16,38 @@ class FishAnimatedProp(AnimatedProp.AnimatedProp):
         self.fish.setTransform(node.getTransform())
         node.clearMat()
         self.fish.loadAnims({'jump': 'phase_4/models/props/SZ_fish-jump',
-         'swim': 'phase_4/models/props/SZ_fish-swim'})
-        self.splashSfxList = (loader.loadSfx('phase_4/audio/sfx/TT_splash1.ogg'), loader.loadSfx('phase_4/audio/sfx/TT_splash2.ogg'))
+                             'swim': 'phase_4/models/props/SZ_fish-swim'})
+        self.splashSfxList = (
+            loader.loadSfx('phase_4/audio/sfx/TT_splash1.ogg'),
+            loader.loadSfx('phase_4/audio/sfx/TT_splash2.ogg'))
         self.node = self.fish
         self.geom = self.fish.getGeomNode()
         self.exitRipples = Ripples(self.geom)
         self.exitRipples.setBin('fixed', 25, 1)
-        self.exitRipples.setPosHprScale(-0.3, 0.0, 1.24, 0.0, 0.0, 0.0, 0.7, 0.7, 0.7)
+        self.exitRipples.setPosHprScale(-0.3,
+                                        0.0,
+                                        1.24,
+                                        0.0,
+                                        0.0,
+                                        0.0,
+                                        0.7,
+                                        0.7,
+                                        0.7)
         self.splash = Splash(self.geom, wantParticles=0)
         self.splash.setPosHprScale(-1, 0.0, 1.23, 0.0, 0.0, 0.0, 0.7, 0.7, 0.7)
         randomSplash = random.choice(self.splashSfxList)
-        self.track = Sequence(FunctionInterval(self.randomizePosition), Func(self.node.unstash), Parallel(self.fish.actorInterval('jump'), Sequence(Wait(0.25), Func(self.exitRipples.play, 0.75)), Sequence(Wait(1.14), Func(self.splash.play), SoundInterval(randomSplash, volume=0.8, node=self.node))), Wait(1), Func(self.node.stash), Wait(4 + 10 * random.random()), name=self.uniqueName('Fish'))
+        self.track = Sequence(
+            FunctionInterval(
+                self.randomizePosition), Func(
+                self.node.unstash), Parallel(
+                self.fish.actorInterval('jump'), Sequence(
+                    Wait(0.25), Func(
+                        self.exitRipples.play, 0.75)), Sequence(
+                            Wait(1.14), Func(
+                                self.splash.play), SoundInterval(
+                                    randomSplash, volume=0.8, node=self.node))), Wait(1), Func(
+                                        self.node.stash), Wait(
+                                            4 + 10 * random.random()), name=self.uniqueName('Fish'))
 
     def delete(self):
         self.exitRipples.destroy()

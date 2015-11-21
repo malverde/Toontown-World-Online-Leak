@@ -4,6 +4,7 @@ from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from otp.avatar import ShadowCaster
 
+
 class DroppedGag(NodePath, ShadowCaster.ShadowCaster):
 
     def __init__(self, name, geom):

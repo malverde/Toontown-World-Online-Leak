@@ -1,18 +1,22 @@
 import ClothesGUI
 from toontown.toon import ToonDNA
 
+
 class MakeClothesGUI(ClothesGUI.ClothesGUI):
     notify = directNotify.newCategory('MakeClothesGUI')
 
     def __init__(self, doneEvent):
-        ClothesGUI.ClothesGUI.__init__(self, ClothesGUI.CLOTHES_MAKETOON, doneEvent)
+        ClothesGUI.ClothesGUI.__init__(
+            self, ClothesGUI.CLOTHES_MAKETOON, doneEvent)
 
     def setupScrollInterface(self):
         self.dna = self.toon.getStyle()
         gender = self.dna.getGender()
         if gender != self.gender:
-            self.tops = ToonDNA.getRandomizedTops(gender, tailorId=ToonDNA.MAKE_A_TOON)
-            self.bottoms = ToonDNA.getRandomizedBottoms(gender, tailorId=ToonDNA.MAKE_A_TOON)
+            self.tops = ToonDNA.getRandomizedTops(
+                gender, tailorId=ToonDNA.MAKE_A_TOON)
+            self.bottoms = ToonDNA.getRandomizedBottoms(
+                gender, tailorId=ToonDNA.MAKE_A_TOON)
             self.gender = gender
             self.topChoice = 0
             self.bottomChoice = 0

@@ -10,6 +10,7 @@ import cPickle
 from toontown.toonbase import TTLocalizer
 from toontown.dna.DNADoor import DNADoor
 
+
 class DistributedHQInterior(DistributedObject.DistributedObject):
 
     def __init__(self, cr):
@@ -23,7 +24,8 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
-        self.interior = loader.loadModel('phase_3.5/models/modules/HQ_interior')
+        self.interior = loader.loadModel(
+            'phase_3.5/models/modules/HQ_interior')
         self.interior.reparentTo(render)
         self.interior.find('**/cream').hide()
         self.interior.find('**/crashed_piano').hide()
@@ -35,7 +37,7 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
         self.interior.flattenMedium()
         emptyBoard = self.interior.find('**/empty_board')
         self.leaderBoard.reparentTo(emptyBoard.getChild(0))
-        base.cr.hqLoaded = True #hack while a real fix is in the work
+        base.cr.hqLoaded = True  # hack while a real fix is in the work
         messenger.send('hqInternalDone')
 
     def setTutorial(self, flag):
@@ -119,13 +121,15 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
         trophyStar = self.buildTrophyStar()
         trophyStar.reparentTo(row)
         return (row,
-         nameText,
-         scoreText,
-         trophyStar)
+                nameText,
+                scoreText,
+                trophyStar)
 
     def setLeaderBoard(self, leaderData):
         avIds, names, scores = cPickle.loads(leaderData)
-        self.notify.debug('setLeaderBoard: avIds: %s, names: %s, scores: %s' % (avIds, names, scores))
+        self.notify.debug(
+            'setLeaderBoard: avIds: %s, names: %s, scores: %s' %
+            (avIds, names, scores))
         self.leaderAvIds = avIds
         self.leaderNames = names
         self.leaderScores = scores
@@ -159,7 +163,13 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
             doorOrigin.setPos(doorOrigin, 0, -0.025, 0)
             doorColor = self.randomGenerator.choice(self.colors['TI_door'])
             triggerId = str(self.block) + '_' + doorOriginIndexStr
-            DNADoor.setupDoor(doorNP, newNodePath, doorOrigin, self.dnaStore, triggerId, doorColor)
+            DNADoor.setupDoor(
+                doorNP,
+                newNodePath,
+                doorOrigin,
+                self.dnaStore,
+                triggerId,
+                doorColor)
             doorFrame = doorNP.find('door_*_flat')
             doorFrame.setColor(doorColor)
 
@@ -191,7 +201,9 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
             trophyStar.setScale(scale)
             trophyStar.setColor(ToontownGlobals.TrophyStarColors[4])
             if score >= ToontownGlobals.TrophyStarLevels[5]:
-                task = taskMgr.add(self.__starSpin, self.uniqueName('starSpinHQ'))
+                task = taskMgr.add(
+                    self.__starSpin,
+                    self.uniqueName('starSpinHQ'))
                 task.trophyStarSpeed = 15
                 task.trophyStar = trophyStar
         elif score >= ToontownGlobals.TrophyStarLevels[2]:
@@ -199,7 +211,9 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
             trophyStar.setScale(0.75 * scale)
             trophyStar.setColor(ToontownGlobals.TrophyStarColors[2])
             if score >= ToontownGlobals.TrophyStarLevels[3]:
-                task = taskMgr.add(self.__starSpin, self.uniqueName('starSpinHQ'))
+                task = taskMgr.add(
+                    self.__starSpin,
+                    self.uniqueName('starSpinHQ'))
                 task.trophyStarSpeed = 10
                 task.trophyStar = trophyStar
         elif score >= ToontownGlobals.TrophyStarLevels[0]:
@@ -207,7 +221,9 @@ class DistributedHQInterior(DistributedObject.DistributedObject):
             trophyStar.setScale(0.75 * scale)
             trophyStar.setColor(ToontownGlobals.TrophyStarColors[0])
             if score >= ToontownGlobals.TrophyStarLevels[1]:
-                task = taskMgr.add(self.__starSpin, self.uniqueName('starSpinHQ'))
+                task = taskMgr.add(
+                    self.__starSpin,
+                    self.uniqueName('starSpinHQ'))
                 task.trophyStarSpeed = 8
                 task.trophyStar = trophyStar
         else:

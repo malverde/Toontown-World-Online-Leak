@@ -1,14 +1,13 @@
+#Embedded file name: toontown.golf.DistributedPhysicsWorldAI
 from math import *
 import math
 import random, time
-
 import BuildGeometry
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObjectAI
 from pandac.PandaModules import *
 from toontown.golf import PhysicsWorldBase
 from toontown.toonbase import ToontownGlobals
-
 
 class DistributedPhysicsWorldAI(DistributedObjectAI.DistributedObjectAI, PhysicsWorldBase.PhysicsWorldBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPhysicsWorldAI')
@@ -19,7 +18,6 @@ class DistributedPhysicsWorldAI(DistributedObjectAI.DistributedObjectAI, Physics
         self.commonHoldData = None
         self.storeAction = None
         self.holdingUpObjectData = 0
-        return
 
     def generate(self):
         DistributedObjectAI.DistributedObjectAI.generate(self)
@@ -38,7 +36,6 @@ class DistributedPhysicsWorldAI(DistributedObjectAI.DistributedObjectAI, Physics
     def createCommonObject(self, type, pos, hpr, sizeX = 0, sizeY = 0, moveDistance = 0):
         commonObjectDatam = PhysicsWorldBase.PhysicsWorldBase.createCommonObject(self, type, None, pos, hpr, sizeX, sizeY, moveDistance)
         self.sendUpdate('clientCommonObject', commonObjectDatam)
-        return
 
     def updateCommonObjects(self):
         self.sendUpdate('setCommonObjects', [self.getCommonObjectData()])
@@ -47,7 +44,6 @@ class DistributedPhysicsWorldAI(DistributedObjectAI.DistributedObjectAI, Physics
         self.performReadyAction()
         self.storeAction = None
         self.commonHoldData = None
-        return
 
     def upSetCommonObjects(self, objectData):
         self.holdingUpObjectData = 1
@@ -59,7 +55,7 @@ class DistributedPhysicsWorldAI(DistributedObjectAI.DistributedObjectAI, Physics
         print self.commonHoldData
         if not self.commonHoldData:
             return
-        elif self.commonHoldData[0][1] == 99:
+        if self.commonHoldData[0][1] == 99:
             print 'no common objects'
         else:
             self.useCommonObjectData(self.commonHoldData, 0)

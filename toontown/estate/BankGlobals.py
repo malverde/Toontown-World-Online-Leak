@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.BankGlobals
 BANK_MOVIE_CLEAR = 1
 BANK_MOVIE_GUI = 2
 BANK_MOVIE_DEPOSIT = 3

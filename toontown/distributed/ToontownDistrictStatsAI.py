@@ -1,8 +1,10 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
+
 class ToontownDistrictStatsAI(DistributedObjectAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("ToontownDistrictStatsAI")
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        "ToontownDistrictStatsAI")
     districtId = 0
     avatarCount = 0
     newAvatarCount = 0

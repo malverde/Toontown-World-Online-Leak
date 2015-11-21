@@ -3,6 +3,7 @@ from direct.directnotify import DirectNotifyGlobal
 zoneUtilNotify = DirectNotifyGlobal.directNotify.newCategory('ZoneUtil')
 tutorialDict = None
 
+
 def isGoofySpeedwayZone(zoneId):
     return zoneId == 8000
 
@@ -104,7 +105,9 @@ def getWhereName(zoneId, isToon):
                 elif getHoodId(zoneId) == CashbotHQ:
                     where = 'mintInterior'
                 else:
-                    zoneUtilNotify.error('unknown cogHQ interior for hood: ' + str(getHoodId(zoneId)))
+                    zoneUtilNotify.error(
+                        'unknown cogHQ interior for hood: ' +
+                        str(getHoodId(zoneId)))
             else:
                 zoneUtilNotify.error('unknown cogHQ where: ' + str(zoneId))
         elif suffix == 0:
@@ -202,8 +205,8 @@ def overrideOn(branch, exteriorList, interiorList):
     if tutorialDict:
         zoneUtilNotify.warning('setTutorialDict: tutorialDict is already set!')
     tutorialDict = {'branch': branch,
-     'exteriors': exteriorList,
-     'interiors': interiorList}
+                    'exteriors': exteriorList,
+                    'interiors': interiorList}
 
 
 def overrideOff():
@@ -212,7 +215,7 @@ def overrideOff():
     return
 
 
-def getWakeInfo(hoodId = None, zoneId = None):
+def getWakeInfo(hoodId=None, zoneId=None):
     wakeWaterHeight = 0
     showWake = 0
     try:

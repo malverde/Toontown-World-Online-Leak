@@ -1,3 +1,4 @@
+#Embedded file name: toontown.golf.GolfHoleBase
 from direct.distributed import DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
@@ -25,7 +26,6 @@ class GolfHoleBase:
         self.frame = 0
         self.onSlick = 0
         self.didHoleBreak = 0
-        return
 
     def loadLevel(self):
         tm = self.holeInfo['terrainModel']
@@ -145,7 +145,6 @@ class GolfHoleBase:
         self.recording = None
         self.avRecording = None
         self.llv = None
-        return
 
     def initRecord(self):
         del self.recording
@@ -174,7 +173,7 @@ class GolfHoleBase:
 
     def checkCommonObjectsNeedPass(self):
         for index in self.commonObjectDict:
-            if self.commonObjectDict[index][1] in [4]:
+            if self.commonObjectDict[index][1] in (4,):
                 return 1
 
         return 0
@@ -182,7 +181,7 @@ class GolfHoleBase:
     def checkInRadius(self, ball):
         smallestDist = None
         for index in self.commonObjectDict:
-            if self.commonObjectDict[index][1] in [4]:
+            if self.commonObjectDict[index][1] in (4,):
                 radius = self.commonObjectDict[index][8]
                 mover = self.commonObjectDict[index][2]
                 diffX = ball.getPosition()[0] - mover.getPosition()[0]
@@ -368,7 +367,7 @@ class GolfHoleBase:
             if c0 == GolfGlobals.GRASS_COLLIDE_ID and c1 == GolfGlobals.SKY_RAY_COLLIDE_ID:
                 self.lastSkyContactPoint = (x, y, z)
                 if self.curGolfBall().getPosition()[2] < z + 0.2 and rayCount == 0:
-                    if self.skyContact in [1, 2]:
+                    if self.skyContact in (1, 2):
                         skyRayHitPos = Vec3(x, y, z)
                         self.skyContact += 1
             if self.doingRecording:
@@ -466,7 +465,6 @@ class GolfHoleBase:
                 self.ballFirstTouchedHoleFrame = 0
             if self.ballLastTouchedGrass > self.frame:
                 self.ballLastTouchedGrass = 0
-        return
 
     def processRecording(self, errorMult = 1.0):
         self.notify.debug('processRecording')

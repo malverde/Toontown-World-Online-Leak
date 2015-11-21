@@ -7,7 +7,9 @@ import DoorTypes
 from toontown.toon import NPCToons
 from toontown.toonbase import ToontownGlobals
 from toontown.quest import Quests
+from toontown.pets import DistributedPetAI, PetTraits, PetUtil
 from toontown.hood import ZoneUtil
+
 
 class PetshopBuildingAI:
 
@@ -30,11 +32,15 @@ class PetshopBuildingAI:
         del self.interior
 
     def setup(self, blockNumber):
-        self.interior = DistributedPetshopInteriorAI.DistributedPetshopInteriorAI(blockNumber, self.air, self.interiorZone)
+        self.interior = DistributedPetshopInteriorAI.DistributedPetshopInteriorAI(
+            blockNumber, self.air, self.interiorZone)
         self.npcs = NPCToons.createNpcsInZone(self.air, self.interiorZone)
+        seeds = self.air.PetManager.getAvailablePets(len(self.npcs))
         self.interior.generateWithRequired(self.interiorZone)
-        door = DistributedDoorAI.DistributedDoorAI(self.air, blockNumber, DoorTypes.EXT_STANDARD)
-        insideDoor = DistributedDoorAI.DistributedDoorAI(self.air, blockNumber, DoorTypes.INT_STANDARD)
+        door = DistributedDoorAI.DistributedDoorAI(
+            self.air, blockNumber, DoorTypes.EXT_STANDARD)
+        insideDoor = DistributedDoorAI.DistributedDoorAI(
+            self.air, blockNumber, DoorTypes.INT_STANDARD)
         door.setOtherDoor(insideDoor)
         insideDoor.setOtherDoor(door)
         door.zoneId = self.exteriorZone
@@ -45,14 +51,14 @@ class PetshopBuildingAI:
         self.insideDoor = insideDoor
 
     def createPet(self, ownerId, seed):
-        return
         zoneId = self.interiorZone
         safeZoneId = ZoneUtil.getCanonicalSafeZoneId(zoneId)
         name, dna, traitSeed = PetUtil.getPetInfoFromSeed(seed, safeZoneId)
         pet = DistributedPetAI.DistributedPetAI(self.air, dna=dna)
         pet.setOwnerId(ownerId)
         pet.setPetName(name)
-        pet.traits = PetTraits.PetTraits(traitSeed=traitSeed, safeZoneId=safeZoneId)
+        pet.traits = PetTraits.PetTraits(
+            traitSeed=traitSeed, safeZoneId=safeZoneId)
         pet.generateWithRequired(zoneId)
         pet.setPos(0, 0, 0)
         pet.b_setParent(ToontownGlobals.SPRender)

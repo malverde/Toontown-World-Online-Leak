@@ -1,3 +1,4 @@
+#Embedded file name: toontown.golf.DistributedGolfCourse
 from direct.interval.IntervalGlobal import Sequence, Func, Wait, LerpColorScaleInterval, Parallel
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
@@ -53,7 +54,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         self.scoreBoard = None
         self.exit = False
         self.drivingToons = []
-        return
 
     def generate(self):
         self.notify.debug('GOLF COURSE: generate, %s' % self.getTitle())
@@ -81,7 +81,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         if self.__delayDelete:
             self.__delayDelete.destroy()
             self.__delayDelete = None
-        return
 
     def delete(self):
         self.ignore('clientCleanup')
@@ -103,8 +102,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
             av = base.cr.doId2do.get(avId)
             if av:
                 av.show()
-
-        return
 
     def load(self):
         self.music = base.loadMusic('phase_6/audio/bgm/GZ_PlayGolf.ogg')
@@ -142,8 +139,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                     av = base.cr.doId2do.get(avId)
                     if av:
                         tPanels = ToonHeadFrame.ToonHeadFrame(av, GolfGlobals.PlayerColors[color], headPanel)
-                        tPanels.reparentTo(aspect2d)
-                        tPanels.setPos(base.a2dTopLeft.getPos()[0] + 0.1875, 0, toonPanelsStart + whichToon * tpDiff)
+                        tPanels.setPos(-1.17, 0, toonPanelsStart + whichToon * tpDiff)
                         tPanels.setScale(0.3, 1, 0.7)
                         tPanels.head.setPos(0, 10, 0.18)
                         tPanels.head.setScale(0.47, 0.2, 0.2)
@@ -157,18 +153,15 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                 else:
                     color += 1
 
-            base.setCellsActive(base.leftCells, 0)
-
         else:
             self.toonPanels = None
         for avId in self.exitedAvIdList:
             if avId not in self.exitedToonsWithPanels:
                 self.exitMessageForToon(avId)
 
-
     def setPlayHole(self):
         self.notify.debug('GOLF COURSE: received setPlayHole')
-        if self.state not in ['PlayHole', 'Cleanup']:
+        if self.state not in ('PlayHole', 'Cleanup'):
             self.request('PlayHole')
 
     def getTitle(self):
@@ -200,8 +193,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                 self.request('Cleanup')
             else:
                 self.notify.warning('GOLF COURSE: Attempting to clean up twice')
-
-            base.setCellsActive(base.leftCells, 1)
 
     def onstage(self):
         self.notify.debug('GOLF COURSE: onstage')
@@ -235,8 +226,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                     toonPanel.removeAvKeep()
                 elif not self.avIdList[x] == self.localAvId:
                     y += 1
-
-        return
 
     def enterJoin(self):
         self.sendUpdate('setAvatarJoined', [])
@@ -284,7 +273,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         if self.hasLocalToon:
             messenger.send('leavingGolf')
             self._destroyDelayDelete()
-        return
 
     def exitCleanup(self):
         pass
@@ -334,7 +322,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                 return av.currentGolfer
         else:
             return None
-        return None
 
     def getStrokesForCurHole(self, avId):
         retval = 0
@@ -360,7 +347,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
          aim1,
          aim2,
          aim3]
-        if self.state not in ['Cleanup']:
+        if self.state not in ('Cleanup',):
             self.demand('WaitReward')
 
     def enterWaitReward(self):
@@ -394,7 +381,6 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         if self.rewardIval:
             self.rewardIval.pause()
             self.rewardIval = None
-        return
 
     def updateScoreBoard(self):
         if self.scoreBoard:

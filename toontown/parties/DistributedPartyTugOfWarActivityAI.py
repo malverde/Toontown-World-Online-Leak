@@ -1,8 +1,9 @@
+#Embedded file name: toontown.parties.DistributedPartyTugOfWarActivityAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.parties.DistributedPartyTeamActivityAI import DistributedPartyTeamActivityAI
 
 class DistributedPartyTugOfWarActivityAI(DistributedPartyTeamActivityAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPartyTugOfWarActivityAI")
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPartyTugOfWarActivityAI')
 
     def reportKeyRateForce(self, todo0, todo1):
         pass
@@ -18,4 +19,3 @@ class DistributedPartyTugOfWarActivityAI(DistributedPartyTeamActivityAI):
 
     def updateToonPositions(self, todo0):
         pass
-

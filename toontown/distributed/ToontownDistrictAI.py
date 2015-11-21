@@ -1,6 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from otp.distributed.DistributedDistrictAI import DistributedDistrictAI
 
+
 class ToontownDistrictAI(DistributedDistrictAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("ToontownDistrictAI")
     ahnnLog = 0
@@ -20,4 +21,3 @@ class ToontownDistrictAI(DistributedDistrictAI):
 
     def rpcSetAvailable(self, available):
         self.b_setAvailable(available)
-

@@ -2,9 +2,10 @@ from pandac.PandaModules import *
 from direct.showbase.PythonUtil import reduceAngle
 from otp.movement import Impulse
 
+
 class PetFlee(Impulse.Impulse):
 
-    def __init__(self, chaser = None, maxDist = 50.0, moveAngle = 20.0):
+    def __init__(self, chaser=None, maxDist=50.0, moveAngle=20.0):
         Impulse.Impulse.__init__(self)
         self.chaser = chaser
         self.maxDist = maxDist

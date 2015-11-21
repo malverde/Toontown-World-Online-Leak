@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.FlowerSellGUI
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
@@ -29,7 +30,6 @@ class FlowerSellGUI(DirectFrame):
         buttons.removeNode()
         self.__updateFlowerValue()
         base.cr.playGame.getPlace().detectedFlowerSellUse()
-        return
 
     def destroy(self):
         DirectFrame.destroy(self)

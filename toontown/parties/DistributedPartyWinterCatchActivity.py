@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.DistributedPartyWinterCatchActivity
 from pandac.PandaModules import NodePath
 from toontown.toonbase import TTLocalizer
 from toontown.parties.DistributedPartyCatchActivity import DistributedPartyCatchActivity
@@ -27,20 +28,18 @@ class DistributedPartyWinterCatchActivity(DistributedPartyCatchActivity):
             self.dropObjModels[objType.name] = model
             model.flattenStrong()
 
-        return
-
     def handleToonJoined(self, toonId):
-        if toonId not in self.toonSDs:
+        if not self.toonSDs.has_key(toonId):
             toonSD = WinterPartyCatchActivityToonSD.WinterPartyCatchActivityToonSD(toonId, self)
             self.toonSDs[toonId] = toonSD
             toonSD.load()
         self.notify.debug('handleToonJoined : currentState = %s' % self.activityFSM.state)
         self.cr.doId2do[toonId].useLOD(500)
         if self.activityFSM.state == 'Active':
-            if toonId in self.toonSDs:
+            if self.toonSDs.has_key(toonId):
                 self.toonSDs[toonId].enter()
             if base.localAvatar.doId == toonId:
                 base.localAvatar.b_setParent(self._avatarNodePathParentToken)
                 self.putLocalAvatarInActivity()
-            if toonId in self.toonSDs:
+            if self.toonSDs.has_key(toonId):
                 self.toonSDs[toonId].fsm.request('rules')

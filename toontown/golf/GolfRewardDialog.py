@@ -1,3 +1,4 @@
+#Embedded file name: toontown.golf.GolfRewardDialog
 from pandac.PandaModules import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
@@ -25,7 +26,6 @@ class GolfRewardDialog:
         self.endMovieCallback = endMovieCallback
         self.aimTimesList = aimTimesList
         self.setup(localAvId)
-        return
 
     def calcTrophyTextListForOnePlayer(self, avId):
         retval = []
@@ -94,9 +94,9 @@ class GolfRewardDialog:
                         fraction = str(time)[2:4]
                         fraction = fraction + '0' * (2 - len(fraction))
                         timeStr = "%d'%s%d''%s" % (minutes,
-                            padding,
-                            seconds,
-                            fraction)
+                         padding,
+                         seconds,
+                         fraction)
                         text += ' - ' + timeStr
                     retval.append(text)
                     if self.avIdList[avIndex] == localAvId:
@@ -251,11 +251,10 @@ class GolfRewardDialog:
 
     def setup(self, localAvId):
         self.rewardBoard = DirectFrame(parent=aspect2d, relief=None, geom=DGG.getDefaultDialogGeom(), geom_color=ToontownGlobals.GlobalDialogColor, geom_scale=(1.75, 1, 0.6), pos=(0, 0, -0.6))
-        self.rewardLabel = DirectLabel(parent=self.rewardBoard, relief=None, pos=(-0, 0, 0), text_align=TextNode.ACenter, text='', text_scale=0.05, text_wordwrap=30)
-        self.rankLabel = DirectLabel(parent=self.rewardBoard, relief=None, pos=(-0, 0, 0.17), text_align=TextNode.ACenter, text='', text_scale=0.06)
+        self.rewardLabel = DirectLabel(parent=self.rewardBoard, relief=None, pos=(0, 0, 0), text_align=TextNode.ACenter, text='', text_scale=0.05, text_wordwrap=30)
+        self.rankLabel = DirectLabel(parent=self.rewardBoard, relief=None, pos=(0, 0, 0.17), text_align=TextNode.ACenter, text='', text_scale=0.06)
         self.trophyLabel = DirectLabel(parent=self.rewardBoard, relief=None, pos=(-0.7, 0, 0.05), text_align=TextNode.ALeft, text='', text_scale=0.06, text_wordwrap=20)
         self.movie = self.createRewardMovie(localAvId)
-        return
 
     def delete(self):
         self.movie.pause()
@@ -264,7 +263,6 @@ class GolfRewardDialog:
         self.notify.debug('Reward board is destroyed')
         self.movie = None
         self.notify.debug('Movie is deleted')
-        return
 
     def getMovie(self):
         return self.movie

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.GameSprite
 import math
 
 class GameSprite:

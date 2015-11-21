@@ -12,8 +12,10 @@ from toontown.battle import BattleProps
 from toontown.toonbase import TTLocalizer
 import string
 
+
 class DistributedStageSuit(DistributedFactorySuit.DistributedFactorySuit):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedStageSuit')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedStageSuit')
 
     def setCogSpec(self, spec):
         self.spec = spec

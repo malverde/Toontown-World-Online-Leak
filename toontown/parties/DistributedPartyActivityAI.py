@@ -1,30 +1,15 @@
+#Embedded file name: toontown.parties.DistributedPartyActivityAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.parties import PartyGlobals, PartyUtils
-"""
-dclass DistributedPartyActivity : DistributedObject {
-  setX(int16/10) broadcast required;
-  setY(int16/10) broadcast required;
-  setH(uint16%360/100) broadcast required;
-  setPartyDoId(uint32) broadcast required;
-  toonJoinRequest() airecv clsend;
-  toonExitRequest() airecv clsend;
-  toonExitDemand() airecv clsend;
-  toonReady() airecv clsend;
-  joinRequestDenied(uint8);
-  exitRequestDenied(uint8);
-  setToonsPlaying(uint32 []) broadcast ram;
-  setState(string, int16) broadcast ram;
-  showJellybeanReward(uint32, uint8, string);
-};
-"""
+
 class DistributedPartyActivityAI(DistributedObjectAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPartyActivityAI")
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPartyActivityAI')
 
     def __init__(self, air, parent, activityTuple):
         DistributedObjectAI.__init__(self, air)
         self.parent = parent
-        x, y, h = activityTuple[1:] # ignore activity ID
+        x, y, h = activityTuple[1:]
         self.x = PartyUtils.convertDistanceFromPartyGrid(x, 0)
         self.y = PartyUtils.convertDistanceFromPartyGrid(y, 1)
         self.h = h * PartyGlobals.PartyGridHeadingConverter
@@ -46,23 +31,22 @@ class DistributedPartyActivityAI(DistributedObjectAI):
         self.sendUpdate('setToonsPlaying', [self.toonsPlaying])
 
     def toonJoinRequest(self):
-        print 'toon join request'
+        self.notify.info('Toon join request')
         avId = self.air.getAvatarIdFromSender()
-        #todo hackyfun i should FSM
         self.toonsPlaying.append(avId)
         self.updateToonsPlaying()
 
     def toonExitRequest(self):
-        print 'toon exit request'
+        self.notify.info('Toon exit request')
 
     def toonExitDemand(self):
-        print 'toon exit demand'
+        self.notify.info('Toon exit demand')
         avId = self.air.getAvatarIdFromSender()
         self.toonsPlaying.remove(avId)
         self.updateToonsPlaying()
 
     def toonReady(self):
-        print 'toon ready'
+        self.notify.info('Toon is ready')
 
     def joinRequestDenied(self, todo0):
         pass
@@ -78,4 +62,3 @@ class DistributedPartyActivityAI(DistributedObjectAI):
 
     def showJellybeanReward(self, todo0, todo1, todo2):
         pass
-

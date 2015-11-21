@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.ClosetGlobals
 SHIRT = 1
 SHORTS = 2
 CLOSET_MOVIE_COMPLETE = 1

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.CalendarGuiDay
 import datetime
 import time
 from pandac.PandaModules import TextNode, Vec3, Vec4, PlaneNode, Plane, Point3
@@ -34,7 +35,7 @@ class CalendarGuiDay(DirectFrame):
         self.partiesInvitedToToday = []
         self.hostedPartiesToday = []
         self.yearlyHolidaysToday = []
-        self.showMarkers = base.config.GetBool('show-calendar-markers', 0)
+        self.showMarkers = config.GetBool('show-calendar-markers', 0)
         self.filter = ToontownGlobals.CalendarFilterShowAll
         self.load()
         self.createGuiObjects()
@@ -116,7 +117,6 @@ class CalendarGuiDay(DirectFrame):
         clipper.setPlane(Plane(Vec3(-1, 0, 0), Point3(0.23, 0, 0)))
         clipNP = self.scrollList.component('itemFrame').attachNewNode(clipper)
         self.scrollList.component('itemFrame').setClipPlane(clipNP)
-        return
 
     def scrollButtonPressed(self):
         self.__clickedOnDay()
@@ -141,7 +141,6 @@ class CalendarGuiDay(DirectFrame):
         else:
             self.defaultBox.show()
             self.todayBox.hide()
-        return
 
     def destroy(self):
         if self.dayClickCallback is not None:
@@ -163,7 +162,6 @@ class CalendarGuiDay(DirectFrame):
         self.scrollList.destroy()
         self.dayButton.destroy()
         DirectFrame.destroy(self)
-        return
 
     def addWeeklyHolidays(self):
         if not self.filter == ToontownGlobals.CalendarFilterShowAll and not self.filter == ToontownGlobals.CalendarFilterShowOnlyHolidays:
@@ -181,7 +179,7 @@ class CalendarGuiDay(DirectFrame):
                 self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 
             self.scrollList.refresh()
-        if base.config.GetBool('calendar-test-items', 0):
+        if config.GetBool('calendar-test-items', 0):
             if self.myDate.date() + datetime.timedelta(days=-1) == base.cr.toontownTimeManager.getCurServerDateTime().date():
                 testItems = ('1:00 AM Party', '2:00 AM CEO', '11:15 AM Party', '5:30 PM CJ', '11:00 PM Party', 'Really Really Long String')
                 for text in testItems:
@@ -428,7 +426,6 @@ class CalendarGuiDay(DirectFrame):
         newItem.bind(DGG.ENTER, self.enteredTextItem, extraArgs=[newItem, desc, descUnderItemZAdjust])
         newItem.bind(DGG.EXIT, self.exitedTextItem, extraArgs=[newItem])
         self.scrollList.addItem(newItem)
-        return
 
     def exitedTextItem(self, newItem, mousepos):
         newItem.description.hide()
@@ -472,7 +469,6 @@ class CalendarGuiDay(DirectFrame):
         newItem.description.hide()
         newItem.bind(DGG.ENTER, self.enteredTextItem, extraArgs=[newItem, newItem.description, descUnderItemZAdjust])
         newItem.bind(DGG.EXIT, self.exitedTextItem, extraArgs=[newItem])
-        return
 
     def __clickedOnScrollItem(self):
         self.__clickedOnDay()
@@ -543,7 +539,6 @@ class MiniInviteVisual(DirectFrame):
         self.whosePartyLabel = DirectLabel(parent=self, relief=None, pos=(0.07, 0.0, -0.04), text=' ', text_scale=0.04, text_wordwrap=8, textMayChange=True)
         self.whenTextLabel = DirectLabel(parent=self, relief=None, text=' ', pos=(0.07, 0.0, -0.13), text_scale=0.04, textMayChange=True)
         self.partyStatusLabel = DirectLabel(parent=self, relief=None, text=' ', pos=(0.07, 0.0, -0.175), text_scale=0.04, textMayChange=True)
-        return
 
     def show(self):
         self.reparentTo(self.parent)

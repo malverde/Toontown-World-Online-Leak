@@ -1,8 +1,13 @@
-from otp.ai.AIBaseGlobal import *
+import random
+import re
 import time
-from pandac.PandaModules import *
+
+from direct.distributed import DistributedSmoothNodeAI
+from direct.task import Task
+from direct.distributed.ClockDelta import *
+
+from otp.ai.AIBaseGlobal import *
 from otp.otpbase import OTPGlobals
-from direct.directnotify import DirectNotifyGlobal
 import ToonDNA
 from toontown.suit import SuitDNA
 import InventoryBase
@@ -10,26 +15,18 @@ import Experience
 from otp.avatar import DistributedAvatarAI
 from otp.avatar import DistributedPlayerAI
 from otp.otpbase import OTPLocalizer
-from direct.distributed import DistributedSmoothNodeAI
 from toontown.toonbase import ToontownGlobals
 from toontown.quest import QuestRewardCounter
 from toontown.quest import Quests
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.battle import SuitBattleGlobals
-from direct.task import Task
 from toontown.catalog import CatalogItemList
 from toontown.catalog import CatalogItem
-from direct.showbase import PythonUtil
-from direct.distributed.ClockDelta import *
 from toontown.toonbase.ToontownGlobals import *
-import types
-from toontown.fishing import FishGlobals
 from toontown.fishing import FishCollection
 from toontown.fishing import FishTank
-from NPCToons import npcFriends, isZoneProtected
+from NPCToons import npcFriends
 from toontown.coghq import CogDisguiseGlobals
-import random
-import re
 from toontown.chat import ResistanceChat
 from toontown.racing import RaceGlobals
 from toontown.hood import ZoneUtil
@@ -44,17 +41,14 @@ from toontown.parties.InviteInfo import InviteInfoBase
 from toontown.parties.PartyReplyInfo import PartyReplyInfoBase
 from toontown.parties.PartyGlobals import InviteStatus
 from toontown.toonbase import ToontownAccessAI
-from toontown.toonbase import TTLocalizer
 from toontown.catalog import CatalogAccessoryItem
 from toontown.minigame import MinigameCreatorAI
 import ModuleListAI
-import time
+
 
 # Magic Word imports
 from otp.ai.MagicWordGlobal import *
 from direct.distributed.PyDatagram import PyDatagram
-from direct.distributed.MsgTypes import *
-import shlex
 
 if simbase.wantPets:
     from toontown.pets import PetLookerAI, PetObserve
@@ -442,7 +436,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def announceZoneChange(self, newZoneId, oldZoneId):
         from toontown.pets import PetObserve
-        self.air.welcomeValleyManager.toonSetZone(self.doId, newZoneId)
         broadcastZones = [oldZoneId, newZoneId]
         if self.isInEstate() or self.wasInEstate():
             broadcastZones = union(broadcastZones, self.estateZones)
@@ -3201,7 +3194,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
         def setKartAccessoriesOwned(self, accessories):
             if (__debug__):
-                import pdb
+                pass
             self.accessories = accessories
 
         def getKartAccessoriesOwned(self):
@@ -3510,6 +3503,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     return ['success', suitIndex, 0]
         return ['badlocation', suitIndex, 0]
 
+    # def unSummonSingleCog(self, invoker):
+        # Pass
+
     def doBuildingTakeover(self, suitIndex):
         streetId = ZoneUtil.getBranchZone(self.zoneId)
         if not self.air.suitPlanners.has_key(streetId):
@@ -3534,19 +3530,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
          building.block,
          self.zoneId))
         return ['success', suitIndex, building.doId]
-    
-    def doCogdoTakeOver(self, difficulty, buildingHeight, track):
-        streetId = ZoneUtil.getBranchZone(self.zoneId)
-        if streetId not in self.air.suitPlanners:
-            self.notify.warning('Street %d is not known.' % streetId)
-            return ['badlocation', difficulty, 0]
-        building = self.findClosestDoor()
-        if building is None:
-            return ['badlocation', difficulty, 0]
-        building.cogdoTakeOver(difficulty, buildingHeight, track)
-        self.notify.info('cogdoTakeOver {0}, {1}, {2}'.format(difficulty, buildingHeight, track))
-        return ['success', difficulty, building.doId]
-        
+
     def doCogInvasion(self, suitIndex):
         invMgr = self.air.suitInvasionManager
         if invMgr.getInvading():
@@ -4618,7 +4602,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         toon = self.air.doId2do.get(requesterId)
         if toon:
             toon.magicTeleportInitiate(self.getDoId(), hoodId, self.getLocation()[1])
-            
+
     def magicTeleportInitiate(self, targetId, hoodId, zoneId):
         if targetId not in self.magicWordTeleportRequests:
             return
@@ -4668,7 +4652,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def b_setHouseType(self, houseType):
         self.setHouseType(houseType)
         self.d_setHouseType(houseType)
-        
+
     def b_setHouseType(self, houseType):
         self.setHouseType(houseType)
         self.d_setHouseType(houseType)
@@ -4706,7 +4690,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def b_setBuffs(self, buffs):
         self.setBuffs(buffs)
         self.d_setBuffs(buffs)
-        
+
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int])
 def setCE(CEValue, CEHood=0, CEExpire=0):
@@ -5203,6 +5187,54 @@ def locate(avIdShort=0, returnType=''):
         return "%s has been located %s %s, inside a building." % (av.getName(), where[1], where[2])
     return "%s has been located %s %s." % (av.getName(), where[1], where[2])
 
+@magicWord(category=CATEGORY_MODERATION, types=[int, str])
+def locatelongav(avid=0, returnType=''):
+    """Locate an avatar anywhere on the [CURRENT] AI."""
+    # TODO: Use Astron msgs to get location of avId from anywhere in the Astron cyber-space.
+    # NOTE: The avIdShort concept needs changing, especially when we start entering 200000000's for avIds
+    if len(str(doId)) >= 9:
+        simbase.air.getActivated(doId,
+                                 lambda x, y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
+    else:
+        doId = 100000000 + doId
+        simbase.air.getActivated(doId,
+                                 lambda x, y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
+    if not av:
+        return "Could not find the avatar on the current AI."
+
+    # Get the avatar's location.
+    zoneId = av.getLocation()[1] # This returns: (parentId, zoneId)
+    trueZoneId = zoneId
+    interior = False
+
+    if returnType == 'zone':
+        # The avatar that called the MagicWord wants a zoneId... Provide them with the untouched zoneId.
+        return "%s is in zoneId %d." % (av.getName(), trueZoneId)
+
+    if returnType == 'playground':
+        # The avatar that called the MagicWord wants the playground name that the avatar is currently in.
+        zoneId = ZoneUtil.getCanonicalHoodId(zoneId)
+
+    if ZoneUtil.isInterior(zoneId):
+        # If we're in an interior, we want to fetch the street/playground zone, since there isn't
+        # any mapping for interiorId -> shop name (afaik).
+        zoneId -= 500
+        interior = True
+
+    if ZoneUtil.isPlayground(zoneId):
+        # If it's a playground, TTG contains a map of all hoodIds -> playground names.
+        where = ToontownGlobals.hoodNameMap.get(zoneId, None)
+    else:
+        # If it's not a playground, the TTL contains a list of all streetId -> street names.
+        zoneId = zoneId - zoneId % 100 # This essentially truncates the last 2 digits.
+        where = TTLocalizer.GlobalStreetNames.get(zoneId, None)
+
+    if not where:
+        return "Failed to map the zoneId %d [trueZoneId: %d] to a location..." % (zoneId, trueZoneId)
+
+    if interior:
+        return "%s has been located %s %s, inside a building." % (av.getName(), where[1], where[2])
+    return "%s has been located %s %s." % (av.getName(), where[1], where[2])
 
 @magicWord(category=CATEGORY_MODERATION, types=[int])
 def online(doId):
@@ -5210,6 +5242,16 @@ def online(doId):
     av = spellbook.getTarget()
     doId = 100000000 + doId
     simbase.air.getActivated(doId, lambda x,y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
+
+@magicWord(category=CATEGORY_MODERATION, types=[int])
+def onlinelongav(doId):
+    if len(str(doId)) >= 9:
+        simbase.air.getActivated(doId,
+                                 lambda x, y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
+    else:
+        doId = 100000000 + doId
+        simbase.air.getActivated(doId,
+                                 lambda x, y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
 
 @magicWord(category=CATEGORY_OVERRIDE)
 def unlimitedGags():
@@ -5407,7 +5449,19 @@ def goto(avIdShort):
         return "Unable to teleport to target, they are not currently on this district."
     spellbook.getInvoker().magicWordTeleportRequests.append(avId)
     toon.sendUpdate('magicTeleportRequest', [spellbook.getInvoker().getDoId()])
-    
+
+@magicWord(category=CATEGORY_MODERATION, types=[int])
+def gotolongav(avIdShort):
+    if len(str(avId)) >= 9:
+        targetAvId = avId
+    else:
+        targetAvId = 100000000 + avId  # To get target doId.
+        toon = simbase.air.doId2do.get(targetAvId)
+    if not toon:
+        return "Unable to teleport to target, they are not currently on this district."
+    spellbook.getInvoker().magicWordTeleportRequests.append(targetAvId)
+    toon.sendUpdate('magicTeleportRequest', [spellbook.getInvoker().getDoId()])
+
 @magicWord(category=CATEGORY_SYSADMIN)
 def dump_doId2do():
     """
@@ -5561,7 +5615,7 @@ def sos(count, name):
         invoker.NPCFriendsDict[npcId] = count
     invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
     return "You were given {0} {1} SOS cards.".format(count, name)
-    
+
 
 @magicWord(category=CATEGORY_ADMIN, types=[str])
 def trackBonus(track):
@@ -5598,15 +5652,15 @@ def gloves(c1, c2=None):
 
     dna.gloveColor = value
     target.b_setDNAString(dna.makeNetString())
-    return 'Glove color set to: {0}'.format(TTLocalizer.NumToColor[value])    
-    
+    return 'Glove color set to: {0}'.format(TTLocalizer.NumToColor[value])
+
 #Our Version 1.0 Magic Words
 @magicWord(category=CATEGORY_ADMIN)
 def getZone():
     invoker = spellbook.getInvoker()
     zone = invoker.zoneId
     return 'The ZoneID is: %s' % (zone)
-    
+
 @magicWord(category=CATEGORY_ADMIN, types=[int])
 def fishingRod(rod):
     """
@@ -5618,6 +5672,7 @@ def fishingRod(rod):
     target.b_setFishingRod(rod)
     return "Set {0}'s fishing rod to {1}!".format(target.getName(), rod)
 
+# A very undocumented MW that I always need to use but never can.
 @magicWord(category=CATEGORY_ADMIN, types=[str, int])
 def bank(command, value):
     """
@@ -5760,7 +5815,7 @@ def skipMovie():
     battle = simbase.air.doId2do.get(battleId)
     battle._DistributedBattleBaseAI__movieDone()
     return 'Battle movie skipped.'
-    
+
 
 @magicWord(category=CATEGORY_ADMIN, types=[str, int, int])
 def inventory(a, b=None, c=None):
@@ -5810,7 +5865,7 @@ def inventory(a, b=None, c=None):
             inventory.addItem(targetTrack, maxLevelIndex)
         invoker.b_setInventory(inventory.makeNetString())
         return 'Restored {0} Gags to: {1}, {2}'.format(c, targetTrack, maxLevelIndex)
-    
+
 @magicWord(category=CATEGORY_ADMIN, types=[str, str])
 def dnav1(part, value):
     """Modify a DNA part on the target."""
@@ -6023,8 +6078,8 @@ def dnav1(part, value):
             target.getName(), value)
 
     return 'Invalid part: {0}'.format(part)
-    
-    
+
+
 #END OF our Version 1.0 Magic Words
 
 @magicWord(category=CATEGORY_MODERATION, types=[int])
@@ -6042,7 +6097,7 @@ def bringTheMadness():
 
     dna.topTexColor = 26
     invoker.b_setDNAString(dna.makeNetString())
- 
+
     dna.sleeveTex = 135
     invoker.b_setDNAString(dna.makeNetString())
 
@@ -6090,7 +6145,7 @@ def resistanceRanger():
 
     target = spellbook.getTarget()
     target.b_setNametagStyle(6)
-    
+
 @magicWord(category=CATEGORY_OVERRIDE, types=[str, str])
 def suit(command, suitName):
     invoker = spellbook.getInvoker()
@@ -6126,7 +6181,7 @@ def captainTheGod():
 
     dna.topTexColor = 27
     invoker.b_setDNAString(dna.makeNetString())
-    
+
     dna.Glasses = 19
     invoker.b_setGlasses(dna.setGlasses())
 
@@ -6208,116 +6263,3 @@ def allSummons():
     allSummons = numSuits * [fullSetForSuit]
     invoker.b_setCogSummonsEarned(allSummons)
     return 'Lots of summons!'
-
-@magicWord(category=CATEGORY_OVERRIDE, types=[str, int])
-def spawnFO(track, difficulty = 0):
-    tracks = ['s', 'l']
-    if track not in tracks:
-        return 'Invalid Field Office type! Supported types are "s" and "l"'
-    av = spellbook.getInvoker()
-    try:
-        building = av.findClosestDoor()
-    except KeyError:
-        return "You're not on a street!"
-
-    if building == None:
-        return 'Unable to spawn "%s" Field Office with difficulty %d.' % (track, difficulty)
-    building.cogdoTakeOver(6, 2, track)
-    return 'Successfully spawned "%s" Field Office with difficulty %d!' % (track, difficulty)
-    
-@magicWord(category=CATEGORY_SYSADMIN, types=[str, str])
-def freeBldg(f = None, l = None):
-    """
-    Given a shopkeepr's firstname (f) and lastname (l), free
-    the shop associated with their id.
-    
-    Examples:
-    ~freeBldg Connie Ferris
-    ~freeBldg Bootsy
-    """
-
-    def _freeBldg(shopkeeperId, sp):
-        suitBuildings = sp.buildingMgr.getEstablishedSuitBlocks()
-        bldgInteriorZone = None
-        for zone, ids in NPCToons.zone2NpcDict.items():
-            if shopkeeperId in ids:
-                bldgInteriorZone = zone
-                break
-
-        for b in suitBuildings:
-            building = sp.buildingMgr.getBuilding(b)
-            if bldgInteriorZone == building.zoneId + 500 + building.block:
-                if hasattr(building, 'elevator'):
-                    building.toonTakeOver()
-                    return NPCToons.getBuildingTitle(bldgInteriorZone)
-                else:
-                    return False
-
-    if f:
-        shopkeeper = f.title() + ' ' + l.title() if l else f.title()
-    else:
-        shopkeeper = None
-    av = spellbook.getInvoker()
-    zoneId = av.getLocation()[1]
-    streetId = ZoneUtil.getBranchZone(zoneId)
-    try:
-        sp = simbase.air.suitPlanners[streetId]
-    except KeyError:
-        return "You're not on a street!"
-
-    shopkeepers = []
-    foundAnyCogBldgs = []
-    if shopkeeper:
-        for id, npcDesc in NPCToons.NPCToonDict.items():
-            if npcDesc[1] == shopkeeper:
-                shopkeepers.append(id)
-                break
-
-    else:
-        for index in range(len(av.quests)):
-            toNpcId = av.quests[index][2]
-            if zoneId == NPCToons.getNPCZone(toNpcId):
-                shopkeepers.append(toNpcId)
-
-    if not shopkeepers:
-        return 'Unable to find Building!'
-    else:
-        for id in shopkeepers:
-            foundAnyCogBldgs.append(_freeBldg(id, sp))
-
-        if any((bldg for bldg in foundAnyCogBldgs)):
-            return 'Recovering: {0}'.format(foundAnyCogBldgs)
-        return 'Not a Cog building!'
-
-#V1 Suit Spawn MW #
-@magicWord(category=CATEGORY_ADMIN, types=[str, int, int, int, int, int])
-def suitv1(command, suitIndex, cogType=0, isSkelecog=0, isV2=0, isWaiter=0):
-    invoker = spellbook.getInvoker()
-    command = command.lower()
-    if command == 'spawn':
-        returnCode = invoker.doSummonSingleCog(int(suitIndex))
-        if returnCode[0] == 'success':
-            return 'Successfully spawned suit with index {0}!'.format(suitIndex)
-        return "Couldn't spawn suit with index {0}.".format(suitIndex)
-    elif command == 'building':
-        returnCode = invoker.doBuildingTakeover(suitIndex)
-        if returnCode[0] == 'success':
-            return 'Successfully spawned building with index {0}!'.format(suitIndex)
-        return "Couldn't spawn building with index {0}.".format(suitIndex)
-    elif command == 'do':
-        returnCode = invoker.doCogdoTakeOver(suitIndex, 1)
-        if returnCode[0] == 'success':
-            return 'Successfully spawned Cogdo with difficulty {0}!'.format(suitIndex)
-        return "Couldn't spawn Cogdo with difficulty {0}.".format(suitIndex)
-    elif command == 'invasion':
-        returnCode = invoker.doCogInvasion(suitIndex, cogType, isSkelecog, isV2, isWaiter)
-        return returnCode
-    elif command == 'invasionend':
-        returnCode = 'Ending Invasion..'
-        simbase.air.suitInvasionManager.cleanupTasks()
-        simbase.air.suitInvasionManager.cleanupInvasion()
-        return returnCode
-    else:
-        return 'Invalid command.'
-        
-        #Envd of V 1 #

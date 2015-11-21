@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.JellybeanRewardGui
 from pandac.PandaModules import TextNode
 from direct.gui.DirectGui import DirectFrame
 from direct.gui.DirectGui import DirectButton
@@ -40,7 +41,6 @@ class JellybeanRewardGui(DirectFrame):
         del publicPartyGui
         self.countSound = base.loadSfx('phase_13/audio/sfx/tick_counter_short.ogg')
         self.overMaxSound = base.loadSfx('phase_13/audio/sfx/tick_counter_overflow.ogg')
-        return
 
     def showReward(self, earnedAmount, jarAmount, message):
         JellybeanRewardGui.notify.debug('showReward( earnedAmount=%d, jarAmount=%d, ...)' % (earnedAmount, jarAmount))

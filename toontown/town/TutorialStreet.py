@@ -1,3 +1,4 @@
+#Embedded file name: toontown.town.TutorialStreet
 import TTStreet
 
 class TutorialStreet(TTStreet.TTStreet):

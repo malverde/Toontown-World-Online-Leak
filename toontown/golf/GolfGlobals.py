@@ -1,3 +1,4 @@
+#Embedded file name: toontown.golf.GolfGlobals
 from direct.directnotify import DirectNotifyGlobal
 import random
 MAX_PLAYERS_PER_HOLE = 4
@@ -30,17 +31,7 @@ KICKOUT_SWINGS = 2
 TIME_TIE_BREAKER = True
 CourseInfo = {0: {'name': '',
      'numHoles': 3,
-     'holeIds': (2,
-                 3,
-                 4,
-                 5,
-                 6,
-                 7,
-                 8,
-                 12,
-                 13,
-                 15,
-                 16)},
+     'holeIds': (2, 3, 4, 5, 6, 7, 8, 12, 13, 15, 16)},
  1: {'name': '',
      'numHoles': 6,
      'holeIds': ((0, 5),
@@ -328,10 +319,7 @@ HoleInfo = {0: {'name': '',
       'maxSwing': 6,
       'terrainModel': 'phase_6/models/golf/hole16.bam',
       'physicsData': 'golfGreen16',
-      'blockers': (1,
-                   2,
-                   5,
-                   6),
+      'blockers': (1, 2, 5, 6),
       'optionalMovers': 1},
  35: {'name': '',
       'par': 4,
@@ -366,32 +354,20 @@ MaxHistoryIndex = 9
 NumHistory = MaxHistoryIndex + 1
 CalcOtherHoleBest = False
 CalcOtherCourseBest = False
-TrophyRequirements = {CoursesCompleted: (2, 20, 200),
+TrophyRequirements = {CoursesCompleted: (4, 40, 400),
  CoursesUnderPar: (1, 10, 100),
  HoleInOneShots: (1, 10, 100),
  EagleOrBetterShots: (2, 20, 200),
  BirdieOrBetterShots: (3, 30, 300),
  ParOrBetterShots: (4, 40, 400),
- MultiPlayerCoursesCompleted: (3, 30, 300),
- CourseZeroWins: (1, 5, 50),
- CourseOneWins: (1, 5, 50),
- CourseTwoWins: (1, 5, 50)}
-PlayerColors = [(0.925,
-  0.168,
-  0.168,
-  1),
- (0.13,
-  0.59,
-  0.973,
-  1),
- (0.973,
-  0.809,
-  0.129,
-  1),
- (0.598,
-  0.402,
-  0.875,
-  1)]
+ MultiPlayerCoursesCompleted: (6, 60, 600),
+ CourseZeroWins: (1, 10, 100),
+ CourseOneWins: (1, 10, 100),
+ CourseTwoWins: (1, 10, 100)}
+PlayerColors = [(0.925, 0.168, 0.168, 1),
+ (0.13, 0.59, 0.973, 1),
+ (0.973, 0.809, 0.129, 1),
+ (0.598, 0.402, 0.875, 1)]
 KartColors = [[[0, 50], [90, 255], [0, 85]], [[160, 255], [-15, 15], [0, 120]], [[160, 255], [0, 110], [0, 110]]]
 NumTrophies = 0
 for key in TrophyRequirements:

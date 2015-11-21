@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.PartyDanceActivityToonFSM
 from pandac.PandaModules import *
 from direct.fsm.FSM import FSM
 from direct.showbase import PythonUtil
@@ -23,7 +24,6 @@ class PartyDanceActivityToonFSM(FSM):
          'Run': ['Run', 'DanceMove', 'Cleanup'],
          'Cleanup': []}
         self.enteredAlready = False
-        return
 
     def destroy(self):
         self.toon = None
@@ -32,7 +32,6 @@ class PartyDanceActivityToonFSM(FSM):
             self.danceNode = None
         self.activity = None
         self.avId = None
-        return
 
     def enterInit(self, *args):
         if not self.enteredAlready:
@@ -59,7 +58,6 @@ class PartyDanceActivityToonFSM(FSM):
             self.danceNode.removeNode()
             self.danceNode = None
         self.enteredAlready = False
-        return
 
     def exitCleanup(self):
         pass
@@ -76,13 +74,11 @@ class PartyDanceActivityToonFSM(FSM):
             else:
                 self.toon.loop(anim)
             self.lastAnim = anim
-        return
 
     def exitDanceMove(self):
         if self.danceMoveSequence and self.danceMoveSequence.isPlaying():
             self.danceMoveSequence.pause()
             self.danceMoveSequence = None
-        return
 
     def enterRun(self, *args):
         if self.toon.getCurrentAnim() != 'run':

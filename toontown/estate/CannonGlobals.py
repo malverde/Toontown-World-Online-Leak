@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.CannonGlobals
 CANNON_TIMEOUT = 20
 CANNON_MOVIE_LOAD = 1
 CANNON_MOVIE_CLEAR = 2

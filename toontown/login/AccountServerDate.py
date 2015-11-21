@@ -6,6 +6,7 @@ import DateObject
 import TTDateObject
 import time
 
+
 class AccountServerDate:
     notify = DirectNotifyGlobal.directNotify.newCategory('AccountServerDate')
 
@@ -15,7 +16,7 @@ class AccountServerDate:
     def getServer(self):
         return TTAccount.getAccountServer().cStr()
 
-    def grabDate(self, force = 0):
+    def grabDate(self, force=0):
         if self.__grabbed and not force:
             self.notify.debug('using cached account server date')
             return
@@ -28,12 +29,16 @@ class AccountServerDate:
         response = getHTTPResponse(url, http)
         if response[0] != 'ACCOUNT SERVER DATE':
             self.notify.debug('invalid response header')
-            raise UnexpectedResponse, 'unexpected response, response=%s' % response
+            raise UnexpectedResponse(
+                'unexpected response, response=%s' %
+                response)
         try:
             epoch = int(response[1])
-        except ValueError, e:
+        except ValueError as e:
             self.notify.debug(str(e))
-            raise UnexpectedResponse, 'unexpected response, response=%s' % response
+            raise UnexpectedResponse(
+                'unexpected response, response=%s' %
+                response)
 
         timeTuple = time.gmtime(epoch)
         self.year = timeTuple[0]

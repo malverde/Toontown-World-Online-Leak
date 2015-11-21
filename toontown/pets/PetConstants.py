@@ -1,4 +1,4 @@
-#Embedded file name: toontown.pets.PetConstants
+# Embedded file name: toontown.pets.PetConstants
 from pandac.PandaModules import *
 from direct.showbase.PythonUtil import Enum, invertDictLossless
 import math
@@ -46,17 +46,17 @@ FEED_TIME = 10.0
 SCRATCH_TIME = 8.042
 CALL_TIME = 8.0 / 3
 FEED_DIST = {'long': 4.0,
- 'medium': 4.0,
- 'short': 4.0}
+             'medium': 4.0,
+             'short': 4.0}
 FEED_AMOUNT = 1
 SCRATCH_DIST = {'long': 2.0,
- 'medium': 1.5,
- 'short': 1.0}
+                'medium': 1.5,
+                'short': 1.0}
 TELEPORT_IN_DURATION = 2.34
 TELEPORT_OUT_DURATION = 4.5
 ZoneToCostRange = {ToontownGlobals.ToontownCentral: (100, 500),
- ToontownGlobals.DonaldsDock: (600, 1700),
- ToontownGlobals.DaisyGardens: (1000, 2500),
- ToontownGlobals.MinniesMelodyland: (1500, 3000),
- ToontownGlobals.TheBrrrgh: (2500, 4000),
- ToontownGlobals.DonaldsDreamland: (3000, 5000)}
+                   ToontownGlobals.DonaldsDock: (600, 1700),
+                   ToontownGlobals.DaisyGardens: (1000, 2500),
+                   ToontownGlobals.MinniesMelodyland: (1500, 3000),
+                   ToontownGlobals.TheBrrrgh: (2500, 4000),
+                   ToontownGlobals.DonaldsDreamland: (3000, 5000)}

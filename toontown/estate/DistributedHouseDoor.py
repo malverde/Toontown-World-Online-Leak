@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.DistributedHouseDoor
 from toontown.toonbase.ToonBaseGlobal import *
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
@@ -120,4 +121,3 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
              'allowRedirect': 0,
              'doorDoId': self.otherDoId}
             messenger.send('doorDoneEvent', [request])
-        return

@@ -1,6 +1,7 @@
 from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
 
+
 class AnimatedProp(DirectObject.DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('AnimatedProp')
 

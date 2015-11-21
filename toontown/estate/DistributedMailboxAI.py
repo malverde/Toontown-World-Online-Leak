@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.DistributedMailboxAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.toonbase import ToontownGlobals
@@ -5,8 +6,8 @@ from toontown.catalog import CatalogItem
 import MailboxGlobals
 
 class DistributedMailboxAI(DistributedObjectAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedMailboxAI")
-    
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedMailboxAI')
+
     def __init__(self, air, house):
         DistributedObjectAI.__init__(self, air)
         self.house = house
@@ -19,7 +20,7 @@ class DistributedMailboxAI(DistributedObjectAI):
 
     def getHousePos(self):
         return self.housePos
-        
+
     def getName(self):
         return self.name
 
@@ -29,10 +30,10 @@ class DistributedMailboxAI(DistributedObjectAI):
     def b_setFullIndicator(self, fullIndicator):
         self.setFullIndicator(fullIndicator)
         self.d_setFullIndicator(fullIndicator)
-        
+
     def d_setFullIndicator(self, fullIndicator):
         self.sendUpdate('setFullIndicator', [fullIndicator])
-        
+
     def avatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
         if avId != self.house.avatarId:
@@ -40,7 +41,6 @@ class DistributedMailboxAI(DistributedObjectAI):
             taskMgr.doMethodLater(2, self.__resetMovie, 'resetMovie-%d' % self.getDoId(), extraArgs=[])
             return
         if self.avId:
-            # We're using the mailbox twice! Burn!
             self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to use a mailbox twice at one time!')
             return
         av = self.air.doId2do.get(avId)
@@ -73,10 +73,10 @@ class DistributedMailboxAI(DistributedObjectAI):
 
     def setMovie(self, todo0, todo1):
         pass
-        
+
     def d_setMovie(self, mode, avId):
         self.sendUpdate('setMovie', [mode, avId])
-        
+
     def __resetMovie(self):
         self.d_setMovie(MailboxGlobals.MAILBOX_MOVIE_CLEAR, 0)
 
@@ -94,7 +94,6 @@ class DistributedMailboxAI(DistributedObjectAI):
         del av.mailboxContents[index]
         av.b_setMailboxContents(av.mailboxContents)
         self.sendUpdateToAvatarId(avId, 'acceptItemResponse', [context, item.recordPurchase(av, optional)])
-        
 
     def acceptItemResponse(self, todo0, todo1):
         pass
@@ -124,4 +123,3 @@ class DistributedMailboxAI(DistributedObjectAI):
 
     def markInviteReadButNotReplied(self, todo0):
         pass
-

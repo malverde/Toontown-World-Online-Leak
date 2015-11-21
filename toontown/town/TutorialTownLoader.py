@@ -1,3 +1,4 @@
+#Embedded file name: toontown.town.TutorialTownLoader
 import TownLoader
 import TTTownLoader
 import TutorialStreet

@@ -1,16 +1,18 @@
 from direct.distributed.DistributedObject import DistributedObject
 import random
-from toontown.building import  ToonInteriorColors
+from toontown.building import ToonInteriorColors
 from toontown.dna import DNADoor
 from toontown.hood import ZoneUtil
 from toontown.toon.DistributedNPCToonBase import DistributedNPCToonBase
 
 
 class DistributedLibraryInterior(DistributedObject):
+
     def announceGenerate(self):
         DistributedObject.announceGenerate(self)
 
-        self.interior = loader.loadModel('phase_4/models/modules/ttc_library_interior.bam')
+        self.interior = loader.loadModel(
+            'phase_4/models/modules/ttc_library_interior.bam')
         self.interior.reparentTo(render)
 
         generator = random.Random()
@@ -54,11 +56,14 @@ class DistributedLibraryInterior(DistributedObject):
             category = name[11:]
 
             if name[7] in ('m', 't'):
-                codeCount = self.cr.playGame.dnaStore.getNumCatalogCodes(category)
+                codeCount = self.cr.playGame.dnaStore.getNumCatalogCodes(
+                    category)
                 index = generator.randint(0, codeCount - 1)
-                code = self.cr.playGame.dnaStore.getCatalogCode(category, index)
+                code = self.cr.playGame.dnaStore.getCatalogCode(
+                    category, index)
                 if name[7] == 'm':
-                    _nodePath = self.cr.playGame.dnaStore.findNode(code).copyTo(nodePath)
+                    _nodePath = self.cr.playGame.dnaStore.findNode(
+                        code).copyTo(nodePath)
                     if name[8] == 'r':
                         self.replaceRandom(_nodePath, generator=generator)
                 else:
@@ -70,4 +75,3 @@ class DistributedLibraryInterior(DistributedObject):
                 hoodId = ZoneUtil.getCanonicalHoodId(self.zoneId)
                 colors = ToonInteriorColors.colors[hoodId]
                 _nodePath.setColorScale(generator.choice(colors[category]))
-

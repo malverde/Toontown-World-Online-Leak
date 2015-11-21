@@ -1,3 +1,4 @@
+#Embedded file name: otp.avatar.LocalAvatar
 from pandac.PandaModules import *
 from direct.gui.DirectGui import *
 from direct.showbase.PythonUtil import *
@@ -88,7 +89,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.showNametag2d()
         self.setPickable(0)
         self.neverSleep = False
-        return
 
     def useSwimControls(self):
         self.controlManager.use('swim', self)
@@ -159,7 +159,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         if hasattr(self, 'soundWhisper'):
             del self.soundWhisper
         DistributedAvatar.DistributedAvatar.delete(self)
-        return
 
     def shadowReach(self, state):
         if base.localAvatar.shadowPlacer:
@@ -354,7 +353,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         if self.jumpLandAnimFixTask:
             self.jumpLandAnimFixTask.remove()
             self.jumpLandAnimFixTask = None
-        return
 
     def jumpStart(self):
         if not self.sleepFlag and self.hp > 0:
@@ -371,23 +369,22 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.b_setAnimState(state, 1.0)
         return Task.done
 
-    if 1:
-        def jumpLandAnimFix(self, jumpTime):
-            if self.playingAnim != 'run' and self.playingAnim != 'walk':
-                return taskMgr.doMethodLater(jumpTime, self.returnToWalk, self.uniqueName('walkReturnTask'))
+    def jumpLandAnimFix(self, jumpTime):
+        if self.playingAnim != 'run' and self.playingAnim != 'walk':
+            return taskMgr.doMethodLater(jumpTime, self.returnToWalk, self.uniqueName('walkReturnTask'))
 
-        def jumpHardLand(self):
-            if self.allowHardLand():
-                self.b_setAnimState('jumpLand', 1.0)
-                self.stopJumpLandTask()
-                self.jumpLandAnimFixTask = self.jumpLandAnimFix(1.0)
-            if self.d_broadcastPosHpr:
-                self.d_broadcastPosHpr()
+    def jumpHardLand(self):
+        if self.allowHardLand():
+            self.b_setAnimState('jumpLand', 1.0)
+            self.stopJumpLandTask()
+            self.jumpLandAnimFixTask = self.jumpLandAnimFix(1.0)
+        if self.d_broadcastPosHpr:
+            self.d_broadcastPosHpr()
 
-        def jumpLand(self):
-            self.jumpLandAnimFixTask = self.jumpLandAnimFix(0.01)
-            if self.d_broadcastPosHpr:
-                self.d_broadcastPosHpr()
+    def jumpLand(self):
+        self.jumpLandAnimFixTask = self.jumpLandAnimFix(0.01)
+        if self.d_broadcastPosHpr:
+            self.d_broadcastPosHpr()
 
     def setupAnimationEvents(self):
         self.accept('jumpStart', self.jumpStart, [])
@@ -574,7 +571,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
             lookAtNP.removeNode()
         self.auxCameraPositions.append(camPos)
         self.cameraPositions.append(camPos)
-        return
 
     def resetCameraPosition(self):
         self.cameraIndex = 0
@@ -624,7 +620,8 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
             camera.setPos(savePos)
             camera.setHpr(saveHpr)
             taskMgr.remove('posCamera')
-            camera.lerpPosHpr(x, y, z, h, p, r, time, task='posCamera')
+            self.cameraLerp = LerpPosHprInterval(camera, time, Point3(x, y, z), Point3(h, p, r), other=self, name='posCamera')
+            self.cameraLerp.start()
 
     def getClampedAvatarHeight(self):
         return max(self.getHeight(), 3.0)
@@ -777,8 +774,12 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         if not self.__disableSmartCam:
             self.ccTrav.traverse(self.__geom)
             if self.camCollisionQueue.getNumEntries() > 0:
-                self.camCollisionQueue.sortEntries()
-                self.handleCameraObstruction(self.camCollisionQueue.getEntry(0))
+                try:
+                    self.camCollisionQueue.sortEntries()
+                    self.handleCameraObstruction(self.camCollisionQueue.getEntry(0))
+                # TODO: FIXME: Hacky.
+                except AssertionError:
+                    pass
             if not self.__onLevelGround:
                 self.handleCameraFloorInteraction()
         if not self.__idealCameraObstructed:
@@ -808,8 +809,8 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         camera.lookAt(targetCamLookAt)
         targetCamHpr = camera.getHpr()
         for x in xrange(3):
-            # This function is from PythonUtil:
             targetCamHpr[x] = fitDestAngle2Src(curCamHpr[x], targetCamHpr[x])
+
         hprDone = 0
         if Vec3(curCamHpr - targetCamHpr).length() <= CLOSE_ENOUGH:
             hprDone = 1
@@ -862,7 +863,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         if abs(fov - oldFov) > 0.1:
 
             def setCamFov(fov):
-                base.camLens.setMinFov(fov/(4./3.))
+                base.camLens.setMinFov(fov / (4.0 / 3.0))
 
             self.camLerpInterval = LerpFunctionInterval(setCamFov, fromData=oldFov, toData=fov, duration=time, name='cam-fov-lerp')
             self.camLerpInterval.start()
@@ -870,7 +871,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
     def setCameraFov(self, fov):
         self.fov = fov
         if not (self.isPageDown or self.isPageUp):
-            base.camLens.setMinFov(self.fov/(4./3.))
+            base.camLens.setMinFov(self.fov / (4.0 / 3.0))
 
     def gotoNode(self, node, eyeHeight = 3):
         possiblePoints = (Point3(3, 6, 0),
@@ -926,7 +927,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
             whisper.setClickable(sender.getName(), fromId)
         whisper.manage(base.marginManager)
         base.playSfx(sfx)
-        return
 
     def displayWhisperPlayer(self, fromId, chatString, whisperType):
         sender = None
@@ -943,7 +943,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
             whisper.setClickable(senderName, fromId)
         whisper.manage(base.marginManager)
         base.playSfx(sfx)
-        return
 
     def setAnimMultiplier(self, value):
         self.animMultiplier = value
@@ -1011,7 +1010,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.lastMoved = globalClock.getFrameTime()
         if self.sleepFlag:
             self.sleepFlag = 0
-        return
 
     def gotoSleep(self):
         if self.neverSleep:
@@ -1032,7 +1030,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
     def stopSleepWatch(self):
         taskMgr.remove(self.uniqueName('sleepwatch'))
         self.sleepCallback = None
-        return
 
     def startSleepSwimTest(self):
         taskName = self.taskName('sleepSwimTest')
@@ -1043,7 +1040,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.lastAction = None
         self.sleepSwimTest(task)
         taskMgr.add(self.sleepSwimTest, taskName, 35)
-        return
 
     def stopSleepSwimTest(self):
         taskName = self.taskName('sleepSwimTest')
@@ -1141,7 +1137,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.lastAction = None
         self.trackAnimToSpeed(task)
         taskMgr.add(self.trackAnimToSpeed, taskName, 35)
-        return
 
     def stopTrackAnimToSpeed(self):
         taskName = self.taskName('trackAnimToSpeed')
@@ -1178,19 +1173,16 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         if n == None:
             n = self.__geom
         self.ccTrav.traverse(n)
-        return
 
     def travCollisionsFloor(self, n = None):
         if n == None:
             n = self.__geom
         self.ccTravFloor.traverse(n)
-        return
 
     def travCollisionsPusher(self, n = None):
         if n == None:
             n = self.__geom
         self.ccPusherTrav.traverse(n)
-        return
 
     def __friendOnline(self, doId, commonChatFlags = 0, whitelistChatFlags = 0):
         friend = base.cr.identifyFriend(doId)
@@ -1204,13 +1196,11 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
                 return
         if friend != None:
             self.setSystemMessage(doId, OTPLocalizer.WhisperFriendComingOnline % friend.getName())
-        return
 
     def __friendOffline(self, doId):
         friend = base.cr.identifyFriend(doId)
         if friend != None:
             self.setSystemMessage(0, OTPLocalizer.WhisperFriendLoggedOut % friend.getName())
-        return
 
     def __playerOnline(self, playerId):
         playerInfo = base.cr.playerFriendsManager.playerId2Info[playerId]
@@ -1233,7 +1223,6 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
             if friend:
                 messenger.send('clickedNametagPlayer', [None, doId])
                 self.chatMgr.whisperTo(friend.getName(), None, doId)
-        return
 
     def d_setParent(self, parentToken):
         DistributedSmoothNode.DistributedSmoothNode.d_setParent(self, parentToken)
@@ -1245,10 +1234,12 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
     def canChat(self):
         return 0
 
+
 @magicWord(category=CATEGORY_MOBILITY)
 def run():
     """Toggle "running", which makes you move much faster."""
     inputState.set('debugRunning', inputState.isSet('debugRunning') != True)
+
 
 @magicWord(category=CATEGORY_MOBILITY)
 def collisionsOff():
@@ -1257,12 +1248,14 @@ def collisionsOff():
         return 'No localAvatar!'
     base.localAvatar.collisionsOff()
 
+
 @magicWord(category=CATEGORY_MOBILITY)
 def collisionsOn():
     """Re-enable collisions."""
     if not base.localAvatar:
         return 'No localAvatar!'
     base.localAvatar.collisionsOn()
+
 
 @magicWord(category=CATEGORY_MOBILITY)
 def enableAFGravity():
@@ -1271,14 +1264,16 @@ def enableAFGravity():
         return 'No localAvatar!'
     base.localAvatar.controlManager.currentControls.setGravity(ToontownGlobals.GravityValue * 0.75)
 
+
 @magicWord(category=CATEGORY_MOBILITY, types=[int, bool])
-def setGravity(gravityValue, overrideWarning=False):
+def setGravity(gravityValue, overrideWarning = False):
     """Set your gravity value!"""
     if not base.localAvatar:
         return 'No localAvatar!'
     if gravityValue < 1 and not overrideWarning:
         return 'A value lower than 1 may crash your client.'
     base.localAvatar.controlManager.currentControls.setGravity(gravityValue)
+
 
 @magicWord(category=CATEGORY_MOBILITY)
 def normalGravity():
@@ -1287,12 +1282,14 @@ def normalGravity():
         return 'No localAvatar!'
     base.localAvatar.controlManager.currentControls.setGravity(ToontownGlobals.GravityValue * 2.0)
 
+
 @magicWord(category=CATEGORY_DEBUG)
 def getPos():
     """Get current position of your toon."""
     if not base.localAvatar:
         return 'No localAvatar!'
     return base.localAvatar.getPos()
+
 
 @magicWord(category=CATEGORY_DEBUG, types=[float, float, float])
 def setPos(toonX, toonY, toonZ):

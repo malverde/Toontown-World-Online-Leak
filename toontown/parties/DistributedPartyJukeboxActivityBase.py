@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.DistributedPartyJukeboxActivityBase
 from direct.actor.Actor import Actor
 from direct.task.Task import Task
 from pandac.PandaModules import *
@@ -22,7 +23,6 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
         self.currentSongData = None
         self.localQueuedSongInfo = None
         self.localQueuedSongListItem = None
-        return
 
     def generateInit(self):
         self.gui = JukeboxGui(self.phaseToMusicData)
@@ -50,7 +50,6 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
         self.jukebox.delete()
         self.jukebox = None
         self.ignoreAll()
-        return
 
     def getCollisionName(self):
         return self.uniqueName('jukeboxCollision')
@@ -91,7 +90,6 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
         self.accept(JukeboxGui.ADD_SONG_CLICK_EVENT, self.__handleQueueSong)
         if self.isUserHost():
             self.accept(JukeboxGui.MOVE_TO_TOP_CLICK_EVENT, self.__handleMoveSongToTop)
-        return
 
     def __localToonWillExitTask(self, task):
         self.localToonExiting()
@@ -103,7 +101,6 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
         if self.currentSongData is not None:
             self.gui.setSongCurrentlyPlaying(self.currentSongData[0], self.currentSongData[1])
         self.d_queuedSongsRequest()
-        return
 
     def __deactivateGui(self):
         self.ignore(JukeboxGui.CLOSE_EVENT)
@@ -123,7 +120,7 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
 
     def queuedSongsResponse(self, songInfoList, index):
         if self.gui.isLoaded():
-            for i in xrange(len(songInfoList)):
+            for i in range(len(songInfoList)):
                 songInfo = songInfoList[i]
                 self.__addSongToQueue(songInfo, isLocalQueue=index >= 0 and i == index)
 
@@ -149,7 +146,6 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
                     self.localQueuedSongListItem['text'] = data[0]
                 else:
                     self.__addSongToQueue(songInfo, isLocalQueue=True)
-        return
 
     def __addSongToQueue(self, songInfo, isLocalQueue = False):
         isHost = isLocalQueue and self.isUserHost()
@@ -163,7 +159,6 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
     def __localClearQueuedSong(self):
         self.localQueuedSongInfo = None
         self.localQueuedSongListItem = None
-        return
 
     def __play(self, phase, filename, length):
         self.music = base.loadMusic((MUSIC_PATH + '%s') % (phase, filename))
@@ -181,7 +176,6 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
             self.music.stop()
         if self.gui.isLoaded():
             self.gui.clearSongCurrentlyPlaying()
-        return
 
     def setSongPlaying(self, songInfo, toonId):
         phase = sanitizePhase(songInfo[0])
@@ -204,7 +198,6 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
     def __handleMoveSongToTop(self):
         if self.isUserHost() and self.localQueuedSongListItem is not None:
             self.d_moveHostSongToTopRequest()
-        return
 
     def d_moveHostSongToTopRequest(self):
         self.notify.debug('d_moveHostSongToTopRequest')

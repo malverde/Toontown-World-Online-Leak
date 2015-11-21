@@ -19,6 +19,10 @@ if (os.path.exists('GameLaunch.py')):
 if (os.path.exists('phase_2.mf')):
 	os.unlink('phase_2.mf')
 
+if (os.path.exists('Toontown World Online Launcher.exe')):
+	os.unlink('Toontown World Online Launcher.exe')
+
+
 print 'updating phase updater'
 f = open('phaseupdater.py','wb'); f.write(urllib.urlopen('https://ttw-live-gamedata-virginia.s3.amazonaws.com/syst/phaseupdater.py').read()); f.close()
 print 'patched phase updater!'
@@ -36,5 +40,10 @@ f = open('Gamelaunch.py','wb'); f.write(urllib.urlopen('https://ttw-live-gamedat
 print 'patched game launcher!'
 
 print 'updating phase_2'
-f = open('phase_2.mf','wb'); f.write(urllib.urlopen('https://ttw-live-gamedata-virginia.s3.amazonaws.com//phase_2.mf').read()); f.close()
+f = open('phase_2.mf','wb'); f.write(urllib.urlopen('https://ttw-live-gamedata-virginia.s3.amazonaws.com/phase_2.mf').read()); f.close()
 print 'patched phase_2!'
+
+print 'updating start file'
+f = open('Toontown World Online Launcher.exe','wb'); f.write(urllib.urlopen('https://ttw-live-gamedata-virginia.s3.amazonaws.com/win/Toontown World Online Launcher.exe').read()); f.close()
+print 'updated some launcher files'
+

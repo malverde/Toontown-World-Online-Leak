@@ -1,8 +1,9 @@
+#Embedded file name: toontown.safezone.DistributedDGFlowerAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
 class DistributedDGFlowerAI(DistributedObjectAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedDGFlowerAI")
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedDGFlowerAI')
     BASE_HEIGHT = 2.0
     MAX_HEIGHT = 10.0
     HEIGHT_PER_AV = 0.5
@@ -29,7 +30,7 @@ class DistributedDGFlowerAI(DistributedObjectAI):
         self.adjustHeight()
 
     def adjustHeight(self):
-        height = self.BASE_HEIGHT + self.HEIGHT_PER_AV*len(self.avatars)
+        height = self.BASE_HEIGHT + self.HEIGHT_PER_AV * len(self.avatars)
         height = min(height, self.MAX_HEIGHT)
         self.b_setHeight(height)
 

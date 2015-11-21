@@ -1,3 +1,4 @@
+#Embedded file name: toontown.safezone.DistributedGolfKart
 from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
@@ -106,7 +107,6 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
         self.trolleyExitTrack.pause()
         self.trolleyExitTrack = None
         del self.trolleyExitTrack
-        return
 
     def delete(self):
         self.notify.debug('Golf kart getting deleted: %s' % self.getDoId())
