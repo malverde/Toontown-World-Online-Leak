@@ -6263,3 +6263,11 @@ def allSummons():
     allSummons = numSuits * [fullSetForSuit]
     invoker.b_setCogSummonsEarned(allSummons)
     return 'Lots of summons!'
+
+@magicWord(category=CATEGORY_CHARACTERSTATS)
+def tricks():
+    """Unlock all pet tricks."""
+    if not config.GetBool('want-pets', False):
+        return 'You cannot unlock pet tricks when pets are disabled!'
+    spellbook.getInvoker().b_setPetTrickPhrases(range(7))
+    return 'Unlocked pet tricks!'
