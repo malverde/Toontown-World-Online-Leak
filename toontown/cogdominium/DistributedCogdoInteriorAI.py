@@ -42,6 +42,11 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
         self.toonLevels = 0
         self.extZoneId, self.zoneId = exterior.getExteriorAndInteriorZoneId()
         npcIdList = NPCToons.zone2NpcDict.get(self.zoneId, [])
+        if not self.npcIdList:
+            self.notify.warning('No npcIdList in this cogdominium, using FunnyFarm, Sellbot, FO, NPCToons')
+            random.seed(self.doId)
+            npcIdList = random.randint(7001, 7009)
+            self.npcIdList = NPCToons.createLocalNPC(npcIdList)
         if len(npcIdList) == 0:
             if len(npcIdList) > 1:
                 pass
