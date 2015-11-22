@@ -150,7 +150,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
             return
         self.shopOwnerNpc = NPCToons.createLocalNPC(self.shopOwnerNpcId)
         if not self.shopOwnerNpc:
-            self.notify.warning('No shopkeeper in this cogdominium, using FunnyFarm Sellbot FO NPCToons')
+            self.notify.warning('No shopkeeper in this cogdominium, using FunnyFarm, Sellbot, FO, NPCToons')
             random.seed(self.doId)
             shopkeeper = random.randint(7001, 7009)
             self.shopOwnerNpc = NPCToons.createLocalNPC(shopkeeper)
