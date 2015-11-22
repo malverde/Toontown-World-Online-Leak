@@ -145,7 +145,7 @@ class CogdoMazeGame(DirectObject):
 
         del self.players
         del self.toonId2Player
-        del self.localPlayer
+        # del self.localPlayer
         for pickup in self.pickups:
             pickup.destroy()
 
