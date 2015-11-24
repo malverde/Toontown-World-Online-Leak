@@ -43,3 +43,38 @@ class MagicWordManagerAI(DistributedObjectAI):
                                   invokerId=invokerId, invokerAccess=invoker.getAdminAccess(),
                                   targetId=targetId, targetAccess=targetAccess,
                                   word=word, response=response[0])
+
+@magicWord(category=CATEGORY_MODERATION, types=[str])
+def help(wordName=None):
+    print 'help called with %s' % (wordName)
+    if not wordName:
+        return "What were you interested getting help for?"
+    word = spellbook.words.get(wordName.lower())  # look it up by its lower case value
+    if not word:
+        accessLevel = spellbook.getInvoker().getAdminAccess()
+        wname = wordName.lower()
+        for key in spellbook.words:
+            if spellbook.words.get(key).access <= accessLevel:
+                if wname in key:
+                    return 'Did you mean %s' % (spellbook.words.get(key).name)
+                return 'I have no clue what %s is refering to' % (wordName)
+            return word.doc
+
+@magicWord(category=CATEGORY_MODERATION, types=[])
+def words():
+    accessLevel = spellbook.getInvoker().getAdminAccess()
+    wordString = None
+    for key in spellbook.words:
+        word = spellbook.words.get(key)
+        if word.access <= accessLevel:
+            if wordString is None:
+                wordString = key
+            else:
+                wordString += ", ";
+                wordString += key;
+    if wordString is None:
+        return "You are chopped liver"
+    else:
+        return wordString
+
+

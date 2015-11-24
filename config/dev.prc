@@ -90,8 +90,6 @@ shard-low-pop 1
 shard-mid-pop 3
 csmud-secret Yvv4Jr5TUDkX5M8gh64Z9Q4AUAQYdFNecyGgl2I5GOQf8CBh7LUZWpzKB9FBF
 
-
-
 # DC Files (server and client-sided)
 dc-file config/toontown.dc
 

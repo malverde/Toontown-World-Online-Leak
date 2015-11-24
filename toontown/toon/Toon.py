@@ -667,12 +667,12 @@ class Toon(Avatar.Avatar, ToonHead):
 
     def setLODs(self):
         self.setLODNode()
-        levelOneIn = config.GetInt('lod1-in', 20)
+        levelOneIn = config.GetInt('lod1-in', 500)
         levelOneOut = config.GetInt('lod1-out', 0)
-        levelTwoIn = config.GetInt('lod2-in', 80)
-        levelTwoOut = config.GetInt('lod2-out', 20)
-        levelThreeIn = config.GetInt('lod3-in', 280)
-        levelThreeOut = config.GetInt('lod3-out', 80)
+        levelTwoIn = config.GetInt('lod2-in', 700)
+        levelTwoOut = config.GetInt('lod2-out', 500)
+        levelThreeIn = config.GetInt('lod3-in', 1000)
+        levelThreeOut = config.GetInt('lod3-out', 700)
         self.addLOD(1000, levelOneIn, levelOneOut)
         self.addLOD(500, levelTwoIn, levelTwoOut)
         self.addLOD(250, levelThreeIn, levelThreeOut)
@@ -2791,9 +2791,11 @@ class Toon(Avatar.Avatar, ToonHead):
         if effect == ToontownGlobals.CEVirtual:
             return self.__doVirtual()
         if effect == ToontownGlobals.CEGhost:
-            alpha = 0
-            if localAvatar.seeGhosts:
-                alpha = 0.2
+            alpha = 0.25
+            if base.localAvatar.getAdminAccess() < self.adminAccess:
+                alpha = 0
+        # if localAvatar.seeGhosts:
+        #         alpha = 0.2
             return Sequence(self.__doToonGhostColorScale(VBase4(1, 1, 1, alpha), lerpTime, keepDefault=1), Func(self.nametag3d.hide))
         return Sequence()
 

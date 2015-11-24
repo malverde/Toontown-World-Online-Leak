@@ -10,6 +10,12 @@
 settings.json
 Thumbs.db
 .DS_Store
+*.so
+*.pyd
+ai-crash.txt
+dev-accounts.db
+*.yaml
+panel_save.mp
 
 # Directories that don't need to be pushed.
 
@@ -17,12 +23,10 @@ Thumbs.db
 logs/
 astron/database
 backups/blockinfo/
+backups/toondna/
 backups/
 screenshots/
 tools/build
 tools/ttw-dev-launcher/resources/
 tools/ttw-dev-launcher/resources/logs/
 tools/ttw-dev-launcher/GameData.pyd
-ai-crash.txt
-dev-accounts.db
-*.yaml
