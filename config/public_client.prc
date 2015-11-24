@@ -3,25 +3,57 @@
 # Config.prc should be reproduced here.
 
 # Client settings
-window-title Toontown World [Pre-Alpha]
+window-title Toontown World Online [Pre-Alpha]
 server-version ttw-pre-alpha-2.5.2
+texture-anisotropic-degree 16
+preload-avatars #f
+
+
+# Graphics:
+aux-display pandagl
+aux-display pandadx9
+aux-display p3tinydisplay
+
+
+# Performance
+sync-video #f
+smooth-lag 0.4
+texture-power-2 none
+gl-check-errors #f
+garbage-collect-states #f
+
+
+# Debug settings
+# Codebase
+default-directnotify-level info
+default-directnotify-level warning
+# Panda
+notify-level warning
+want-dev #f
+want-keep-alive #f
+
+
+# Game server address and authentication address
+game-server 158.69.210.54
+server-port 7198
+# account-server localhost
+
 
 # Audio
-#audio-library-name p3openal_audio
 audio-library-name p3fmod_audio
+# audio-library-name p3openal_audio
 
-sync-video #f
-want-dev #f
-preload-avatars #t
-want-keep-alive #f
-texture-anisotropic-degree 16
-cursor-filename /phase_3/etc/toonmono.cur
-icon-filename /phase_3/etc/icon.ico
+
+# Cursor and Icon
+# cursor-filename resources/phase_3/etc/toonmono.cur
+# icon-filename resources/phase_3/etc/icon.ico
+
 
 # Useless Variables
 show-frame-rate-meter #f
 cursor-hidden #f
 undecorated #f
+
 
 # Resources settings
 model-path /
@@ -42,12 +74,6 @@ vfs-mount phase_12.mf /
 vfs-mount phase_13.mf /
 default-model-extension .bam
 
-# Server settings
-want-rpc-server #t
-rpc-server-endpoint http://localhost:8080/
-rpc-server-secret 0123456789abcdef
-eventlog-host 127.0.0.1
-want-cheesy-expirations #t
 
 # Now that we've loaded the phase files, tell panda to trust the TTRCA
 # ssl-certificates /phase_3/etc/TTRCA.crt
@@ -58,60 +84,64 @@ want-cheesy-expirations #t
 # server-force-ssl #f
 
 
-
 # DC files are NOT configured.
 # They're wrapped up into the code automatically.
 
-# Beta Modifications
-# Temporary modifications for unimplemented features go here.
-want-pets #t
+
+# Systems and Beta Modifications
+# Modifications/temporary for unimplemented features go here.
+want-accessories #t
+# Newsmanager
 want-news-tab #f
 want-news-page #f
+want-fishing #t
+want-parties #t
+# Estates
+want-pets #t
 want-gardening #f
-want-gifting #f
-want-flippy-pet-intro #t
-default-directnotify-level info
+want-gifting #t
+# Table games
+want-game-tables #f
+want-checkers-table #f
+want-findfour-table #f
+want-keep-alive #f
+want-picnic-games #f
+want-chinese-table #f
+# Security
+want-speedhack-fix #t
+# A few fun things for unfinished events and settings
+estate-day-night #t
+want-instant-parties #f
+want-toontorial #f
+want-doomsday #f
+want-cogdominiums #f
 
 
-# Chat Settings
+# Chat system (server-sided/client-sided)
+want-whitelist #t
+want-blacklist-sequence #f
 force-avatar-understandable #t
 force-player-understandable #t
 
 
-# Holidays and Events
-force-holiday-decorations 
+# Holidays and Events (server-sided/client-sided)
 want-arg-manager #f
-show-total-population #t
+want-mega-invasions #f
+mega-invasion-cog-type bw
 want-hourly-fireworks #t
+# want-flippy-pet-intro #f
 want-hourly-fireworks-type summer
+# Alternative than nerfing VP?
+easy-vp #t
+
+
+# Cog battling and multipliers
+base-xp-multiplier 4
+want-suit-planners #t
+want-cogbuildings #t
+
 
 # Server:
 server-timezone BST/EDT/-5
 server-port 7198
 account-server-endpoint https://toontownworldonline.com/api/
-
-# Cog battles:
-base-xp-multiplier 4.0
-want-accessories #t
-want-parties #f
-want-picnic-games #t
-want-fishing #t
-estate-day-night #t 
-show-total-population #t
-want-toontorial #t
-want-doomsday #f
-want-whitelist #t
-want-suit-planners #t
-# Holidays and Events
-want-mega-invasions #f
-mega-invasion-cog-type dt
-boarding-group-merges #t 
-want-speedhack-fix #t 
-want-cogdominiums #f
-want-game-tables #t
-force-skip-tutorial #f
-want-cogbuildings #t
-
-
-
-

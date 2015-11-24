@@ -5,7 +5,22 @@
 window-title Toontown World Online [Pre-Alpha]
 server-version ttw-pre-alpha-2.5.2
 texture-anisotropic-degree 16
-preload-avatars #t
+preload-avatars #f
+
+
+# Graphics:
+aux-display pandagl
+aux-display pandadx9
+aux-display p3tinydisplay
+
+
+# Performance
+sync-video #f
+smooth-lag 0.4
+texture-power-2 none
+gl-check-errors #f
+garbage-collect-states #f
+
 
 # Debug settings
 # Codebase
@@ -14,7 +29,6 @@ default-directnotify-level warning
 default-directnotify-level spam
 # Panda
 notify-level warning
-sync-video #f
 want-dev #f
 want-keep-alive #f
 
@@ -72,6 +86,8 @@ eventlog-host 127.0.0.1
 # Cheesy Effects and POP
 want-cheesy-expirations #t
 show-total-population #t
+shard-low-pop 1
+shard-mid-pop 3
 
 
 # DC Files (server and client-sided)

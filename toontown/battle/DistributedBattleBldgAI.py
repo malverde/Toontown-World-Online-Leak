@@ -41,6 +41,10 @@ class DistributedBattleBldgAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
         self.elevatorPos = Point3(0, -30, 0)
         self.resumeNeedUpdate = 0
 
+    def announceGenerate(self):
+        DistributedBattleBaseAI.DistributedBattleBaseAI.announceGenerate(self)
+        self.registerToons()
+
     def setInitialMembers(self, toonIds, suits):
         for suit in suits:
             self.addSuit(suit)
@@ -49,6 +53,11 @@ class DistributedBattleBldgAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
             self.addToon(toonId)
 
         self.fsm.request('FaceOff')
+
+    def registerToons(self):
+        for toonId in self.toons:
+            toon = simbase.air.doId2do.get(toonId)
+            toon.b_setBattleId(self.doId)
 
     def delete(self):
         del self.roundCallback
