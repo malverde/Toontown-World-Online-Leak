@@ -150,7 +150,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             beans = CatalogBeanItem(1500, tagCode=2)
             return [beans]    
         # Pre-Alpha shirt?
-        if code == "PreAlpha":
+        if code == 'PreAlpha':
             shirt = CatalogClothingItem(1763, 0)
             return [shirt]
         # StormSellbot Shirt?
@@ -158,18 +158,18 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             shirt = CatalogClothingItem(111, 0)
             return [shirt]
         # Trunk, shouldn't REALLY be enabled... but... we'll add it back for later
-        if code == "TRUNK":
+        if code == 'TRUNK':
             object = CatalogFurnitureItem(4000, 0)
             return [object]
             # Uh? Mgracer?
             return [CatalogInvalidItem()]
         # Sue me - Sir Kippy
-        if code == "ALPHA":
+        if code == 'ALPHA':
             shirt = CatalogClothingItem(1403, 0)
             shorts = CatalogClothingItem(1404, 0)
             return [shirt, shorts] # TODO: Give the correct alpha reward
         # Sue me - Sir Kippy
-        if code == "BETA":
+        if code == 'BETA':
             return CatalogClothingItem(118, 0) # TODO: Give it the correct item
             shirt = CatalogClothingItem(1405, 0)
             shorts = CatalogClothingItem(1406, 0)
