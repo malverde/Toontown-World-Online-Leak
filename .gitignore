@@ -15,6 +15,7 @@ Thumbs.db
 ai-crash.txt
 dev-accounts.db
 *.yaml
+panel_save.mp
 
 # Directories that don't need to be pushed.
 
