@@ -42,7 +42,6 @@ from toontown.parties.PartyReplyInfo import PartyReplyInfoBase
 from toontown.parties.PartyGlobals import InviteStatus
 from toontown.toonbase import ToontownAccessAI
 from toontown.catalog import CatalogAccessoryItem
-from toontown.toon.ModPanel import ModPanel
 from toontown.minigame import MinigameCreatorAI
 import ModuleListAI
 
@@ -6272,12 +6271,6 @@ def tricks():
         return 'You cannot unlock pet tricks when pets are disabled!'
     spellbook.getInvoker().b_setPetTrickPhrases(range(7))
     return 'Unlocked pet tricks!'
-
-@magicWord(category=CATEGORY_MODERATION)
-def modPanel():
-    invoker = spellbook.getInvoker()
-    ModPanel(invoker)
-    return 'Moderator Panel Enabled'
 
 @magicWord(category=CATEGORY_ADMIN)
 def unlocks():
