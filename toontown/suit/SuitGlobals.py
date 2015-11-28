@@ -32,7 +32,6 @@ suitProperties = {'f': (4.0 / cSize, SuitDNA.corpPolyColor, ['flunky', 'glasses'
                   'bs': (4.5 / aSize, SuitDNA.legalPolyColor, ['backstabber'], '', 6.71),
                   'sd': (5.65 / bSize, VBase4(0.5, 0.8, 0.75, 1.0), ['telemarketer'], 'spin-doctor.jpg', 7.9),
                   'le': (7.125 / aSize, VBase4(0.25, 0.25, 0.5, 1.0), ['legaleagle'], '', 8.27),
-                  'md': (6.5 / bSize, VBase4(0.5, 0.85, 0.75, 1.0), ['loanshark'], '', 8.58),
                   'bw': (7.0 / aSize, SuitDNA.legalPolyColor, ['bigwig'], '', 8.69),
                   # Cashbots
                   'sc': (3.6 / cSize, SuitDNA.moneyPolyColor, ['coldcaller'], '', 4.77),
@@ -42,6 +41,8 @@ suitProperties = {'f': (4.0 / cSize, SuitDNA.corpPolyColor, ['flunky', 'glasses'
                   'nc': (5.25 / aSize, SuitDNA.moneyPolyColor, ['numbercruncher'], '', 7.22),
                   'mb': (5.3 / cSize, SuitDNA.moneyPolyColor, ['moneybags'], '', 6.97),
                   'ls': (6.5 / bSize, VBase4(0.5, 0.85, 0.75, 1.0), ['loanshark'], '', 8.58),
+                  # Temporary test version of MD
+                  'md': (6.5 / bSize, VBase4(0.5, 0.85, 0.75, 1.0), ['loanshark'], '', 8.58),
                   'rb': (7.0 / aSize, SuitDNA.moneyPolyColor, ['yesman'], 'robber-baron.jpg', 8.95),
                   # Sellbots
                   'cc': (3.5 / cSize, VBase4(0.55, 0.65, 1.0, 1.0), ['coldcaller'], '', 4.63),
