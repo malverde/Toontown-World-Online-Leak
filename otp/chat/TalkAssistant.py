@@ -28,7 +28,7 @@ class TalkAssistant(DirectObject.DirectObject):
         self.zeroTimeDay = time.time()
         self.zeroTimeGame = globalClock.getRealTime()
         self.floodThreshold = 10.0
-        self.useWhiteListFilter = base.config.GetBool('white-list-filter-openchat', 0)
+        self.useWhiteListFilter = config.GetBool('white-list-filter-openchat', 0)
         self.lastWhisperDoId = None
         self.lastWhisperPlayerId = None
         self.lastWhisper = None
@@ -574,7 +574,7 @@ class TalkAssistant(DirectObject.DirectObject):
     def sendOpenTalk(self, message):
         error = None
         doId = base.localAvatar.doId
-        if base.config.GetBool('want-talkative-tyler', False):
+        if config.GetBool('want-talkative-tyler', False):
             if base.localAvatar.zoneId == 2000:
                 tyler = base.cr.doFind('Talkative Tyler')
                 if tyler:

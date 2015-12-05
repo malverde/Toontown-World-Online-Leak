@@ -6271,3 +6271,33 @@ def tricks():
         return 'You cannot unlock pet tricks when pets are disabled!'
     spellbook.getInvoker().b_setPetTrickPhrases(range(7))
     return 'Unlocked pet tricks!'
+
+@magicWord(category=CATEGORY_ADMIN)
+def unlocks():
+    """
+    Unlocks the invoker's teleport access, emotions, and pet trick phrases.
+    """
+    invoker = spellbook.getInvoker()
+
+    # First, unlock their teleport access:
+    hoods = list(ToontownGlobals.HoodsForTeleportAll)
+    invoker.b_setHoodsVisited(hoods)
+    invoker.b_setTeleportAccess(hoods)
+
+    # Next, unlock all of their emotions:
+    emotes = list(invoker.getEmoteAccess())
+    for emoteId in OTPLocalizer.EmoteFuncDict.values():
+        if emoteId >= len(emotes):
+            continue
+        # The following emotions are ignored because they are unable to be
+        # obtained:
+        if emoteId in (17, 18, 19):
+            continue
+        emotes[emoteId] = 1
+    invoker.b_setEmoteAccess(emotes)
+
+    # Finally, unlock all of their pet phrases:
+    if simbase.wantPets:
+        invoker.b_setPetTrickPhrases(range(7))
+
+    return 'Unlocked teleport access, emotions, and pet trick phrases!'

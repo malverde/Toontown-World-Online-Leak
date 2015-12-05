@@ -14,6 +14,7 @@ from otp.chat import TalkAssistant
 from otp.otpbase import OTPGlobals
 from otp.avatar.Avatar import teleportNotify
 from otp.distributed.TelemetryLimited import TelemetryLimited
+from toontown.modpanel.ModPanel import ModPanel
 from otp.ai.MagicWordGlobal import *
 if config.GetBool('want-chatfilter-hacks', 0):
     from otp.switchboard import badwordpy
@@ -463,7 +464,8 @@ class DistributedPlayer(DistributedAvatar.DistributedAvatar, PlayerBase.PlayerBa
         self.adminAccess = access
         if self.isLocal():
             self.cr.wantMagicWords = self.adminAccess >= MINIMUM_MAGICWORD_ACCESS
-
+        if self.cr.wantMagicWords:
+            self.modPanel = ModPanel()
     def getAdminAccess(self):
         return self.adminAccess
 
