@@ -135,7 +135,7 @@ want-mega-invasions #f
 mega-invasion-cog-type bw
 want-hourly-fireworks #t
 # want-flippy-pet-intro #f
-want-hourly-fireworks-type summer
+want-hourly-fireworks-type victoryreleasefireworks
 # Alternative than nerfing VP?
 easy-vp #t
 force-holiday-decorations 1, 6
