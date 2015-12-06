@@ -174,6 +174,8 @@ class FireworkShowMixin:
     def postShow(self, eventId):
         if eventId == JULY4_FIREWORKS:
             endMessage = TTLocalizer.FireworksJuly4Ending
+        elif eventId == VICTORY_RELEASE_FIREWORKS:
+            endMessage = TTLocalizer.FireworksVictoryReleaseEnding
         elif eventId == NEWYEARS_FIREWORKS:
             endMessage = TTLocalizer.FireworksNewYearsEveEnding
         elif eventId == PartyGlobals.FireworkShows.Summer:
