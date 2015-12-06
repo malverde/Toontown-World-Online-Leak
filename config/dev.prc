@@ -140,6 +140,7 @@ want-hourly-fireworks-type victoryreleasefireworks
 easy-vp #t
 force-holiday-decorations 1, 6
 want-blueprint4-ARG #f
+want-april-toons #f
 
 # Cog battling and multipliers
 base-xp-multiplier 4
