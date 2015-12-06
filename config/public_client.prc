@@ -130,15 +130,26 @@ want-mega-invasions #f
 mega-invasion-cog-type bw
 want-hourly-fireworks #t
 # want-flippy-pet-intro #f
-want-hourly-fireworks-type summer
+want-hourly-fireworks-type victoryreleasefireworks
 # Alternative than nerfing VP?
-easy-vp #t
+easy-vp #f
+force-holiday-decorations 1, 6
+want-blueprint4-ARG #f
+want-april-toons #f
 
 
 # Cog battling and multipliers
 base-xp-multiplier 4
 want-suit-planners #t
 want-cogbuildings #t
+
+
+# Group merges
+boarding-group-merges #t
+
+
+# Misc
+# force-skip-tutorial #t
 
 
 # Server:
