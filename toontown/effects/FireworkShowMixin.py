@@ -75,7 +75,7 @@ class FireworkShowMixin:
             if eventId == JULY4_FIREWORKS:
                 delay = Wait(max(0, self.fireworkShow.getShowDuration() - max(0, t)) - 9.5)
             elif eventId == VICTORY_RELEASE_FIREWORKS:
-                delay = Wait(max(0, self.fireworkShow.getShowDuration() - max(0, t)) - 9.5)
+                delay = Wait(max(0, self.fireworkShow.getShowDuration() - max(0, t)) - 15.5)
             elif eventId == NEWYEARS_FIREWORKS:
                 delay = Wait(max(0, self.fireworkShow.getShowDuration() - max(0, t)) + 1.0)
             elif eventId == PartyGlobals.FireworkShows.Summer:
