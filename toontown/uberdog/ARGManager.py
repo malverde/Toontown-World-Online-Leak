@@ -1,4 +1,4 @@
-"""from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
+from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 from toontown.toonbase import ToontownGlobals
 from otp.speedchat import SpeedChatGlobals
 from direct.directnotify.DirectNotifyGlobal import directNotify
@@ -8,13 +8,13 @@ from pandac.PandaModules import Vec3
 # Portable Hole settings
 Hood2Details = {
     # hood : [pos, speedchatIndex, destination]
-    2665: [(6, 7, 9), 103, 2665], # TTC, Howdy!
+    2665: [(6, 7, 9), 103, 2665], # TTC, Howdy! Location: Mary's Go Around Travel Company, Toontown Central, Silly Street
     1832: [(6, 7, 9), 103, 1832], # Howdy!
     5502: [(6, 7, 9), 103, 5502], # Howdy!
     4612: [(6, 7, 9), 103, 4612], # Howdy!
     3636: [(6, 7, 9), 103, 3636], # Howdy!
-    9705: [(6, 7, 9), 103, 9705], # Howdy!
-    3823: [(6, 7, 9), 103, 3823], # Howdy!
+    9705: [(6, 7, 9), 103, 9705], # Howdy! Location: Asleep At The Wheel Car Repair, Donald's Dreamland, Pajama Place
+    3823: [(6, 7, 9), 103, 3823], # Howdy! Location: Precipitation Foundation, The Brrgh, Polar Place
 }
 Interior2Messages = {
     2665: ["Mary: Oh, Hello! Oh, Hello! Say, that's the keyword that Doctor Surlee told myself and other shopkeepers just like me to remember. I take it he sent you?", "Mary: The word I'm supposed to remember is 'Sillyness'"], # DD to TTC
@@ -27,12 +27,8 @@ Interior2Messages = {
 }
 
 class ARGManager(DistributedObjectGlobal):
-    """
-"""
-    This is a client-view of the manager that handles everything to do
-    with the portable hole ARG event.
-    """
-"""
+    # This is a client-view of the manager that handles everything to do
+    # with the portable hole ARG event.
 
     notify = directNotify.newCategory('ARGManager')
 
@@ -67,4 +63,3 @@ class ARGManager(DistributedObjectGlobal):
 
     def cleanupPortableHoleEvent(self):
         self.ignore(SpeedChatGlobals.SCStaticTextMsgEvent)
-        """
