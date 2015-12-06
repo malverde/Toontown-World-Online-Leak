@@ -138,6 +138,8 @@ want-hourly-fireworks #t
 want-hourly-fireworks-type victoryreleasefireworks
 # Alternative than nerfing VP?
 easy-vp #t
+force-holiday-decorations 1, 6
+want-blueprint4-ARG #f
 
 # Cog battling and multipliers
 base-xp-multiplier 4
