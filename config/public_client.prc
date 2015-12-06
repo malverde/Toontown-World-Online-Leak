@@ -145,3 +145,4 @@ want-cogbuildings #t
 server-timezone BST/EDT/-5
 server-port 7198
 account-server-endpoint https://toontownworldonline.com/api/
+csmud-secret Yvv4Jr5TUDkX5M8gh64Z9Q4AUAQYdFNecyGgl2I5GOQf8CBh7LUZWpzKB9FBF

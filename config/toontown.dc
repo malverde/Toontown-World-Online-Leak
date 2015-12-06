@@ -3728,7 +3728,7 @@ struct PotentialToon {
 };
 
 dclass ClientServicesManager : DistributedObjectGlobal {
-  login(string cookie, blob sig) clsend;
+  login(string cookie, blob sig, string secret) clsend;
   acceptLogin();
 
   requestAvatars() clsend;
@@ -3881,5 +3881,3 @@ dclass DistributedTrashcanZeroMgr : DistributedPhaseEventMgr {
 
 dclass DistributedSillyMeterMgr : DistributedPhaseEventMgr {
 };
-
-

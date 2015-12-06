@@ -88,7 +88,7 @@ want-cheesy-expirations #t
 show-total-population #t
 shard-low-pop 1
 shard-mid-pop 3
-
+csmud-secret Yvv4Jr5TUDkX5M8gh64Z9Q4AUAQYdFNecyGgl2I5GOQf8CBh7LUZWpzKB9FBF
 
 # DC Files (server and client-sided)
 dc-file config/toontown.dc
@@ -138,6 +138,8 @@ want-hourly-fireworks #t
 want-hourly-fireworks-type summer
 # Alternative than nerfing VP?
 easy-vp #t
+force-holiday-decorations 1, 6
+want-blueprint4-ARG #f
 
 # Cog battling and multipliers
 base-xp-multiplier 4
