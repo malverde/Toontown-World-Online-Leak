@@ -11604,7 +11604,7 @@ NPC_REGULAR),
 try:
     config = simbase.config
 except:
-    config = base.config
+    config = config
 
 if config.GetBool('want-new-toonhall', 1):
     NPCToonDict[2001] = (2513,

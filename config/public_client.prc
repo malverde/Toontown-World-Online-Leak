@@ -130,9 +130,12 @@ want-mega-invasions #f
 mega-invasion-cog-type bw
 want-hourly-fireworks #t
 # want-flippy-pet-intro #f
-want-hourly-fireworks-type summer
+want-hourly-fireworks-type victoryreleasefireworks
 # Alternative than nerfing VP?
-easy-vp #t
+easy-vp #f
+force-holiday-decorations 1, 6
+want-blueprint4-ARG #f
+want-april-toons #f
 
 
 # Cog battling and multipliers
@@ -141,7 +144,16 @@ want-suit-planners #t
 want-cogbuildings #t
 
 
+# Group merges
+boarding-group-merges #t
+
+
+# Misc
+# force-skip-tutorial #t
+
+
 # Server:
 server-timezone BST/EDT/-5
 server-port 7198
 account-server-endpoint https://toontownworldonline.com/api/
+csmud-secret Yvv4Jr5TUDkX5M8gh64Z9Q4AUAQYdFNecyGgl2I5GOQf8CBh7LUZWpzKB9FBF

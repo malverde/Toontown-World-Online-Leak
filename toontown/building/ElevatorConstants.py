@@ -23,7 +23,7 @@ if __dev__:
     try:
         config = simbase.config
     except:
-        config = base.config
+        config = config
 
     elevatorCountdown = config.GetFloat('elevator-countdown', -1)
     if elevatorCountdown != -1:

@@ -2,10 +2,8 @@ from pandac.PandaModules import *
 import __builtin__
 import os
 
-
+# __debug__ is only 1 in dev builds; Mirai's builder will set it to 0 (and it will, in fact, remove entire if __debug__: sections)
 if __debug__:
-    # __debug__ is only 1 in dev builds; Mirai's builder will set it to 0
-    # (and it will, in fact, remove entire if __debug__: sections)
     loadPrcFile('config/dev.prc')
 
 # The VirtualFileSystem, which has already initialized, doesn't see the mount

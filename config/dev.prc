@@ -88,6 +88,7 @@ want-cheesy-expirations #t
 show-total-population #t
 shard-low-pop 1
 shard-mid-pop 3
+csmud-secret Yvv4Jr5TUDkX5M8gh64Z9Q4AUAQYdFNecyGgl2I5GOQf8CBh7LUZWpzKB9FBF
 
 
 # DC Files (server and client-sided)
@@ -129,23 +130,30 @@ want-blacklist-sequence #f
 force-avatar-understandable #t
 force-player-understandable #t
 
+
 # Holidays and Events (server-sided/client-sided)
 want-arg-manager #f
 want-mega-invasions #f
 mega-invasion-cog-type bw
 want-hourly-fireworks #t
 # want-flippy-pet-intro #f
-want-hourly-fireworks-type summer
+want-hourly-fireworks-type victoryreleasefireworks
 # Alternative than nerfing VP?
 easy-vp #t
+force-holiday-decorations 1, 6
+want-blueprint4-ARG #f
+want-april-toons #f
+
 
 # Cog battling and multipliers
 base-xp-multiplier 4
 want-suit-planners #t
 want-cogbuildings #t
 
+
 # Group merges
 boarding-group-merges #t
+
 
 # Misc
 # force-skip-tutorial #t
