@@ -1,5 +1,6 @@
 import os
 
+
 class ModuleList:
     serverDataFolder = config.GetString('server-data-folder', '')
 

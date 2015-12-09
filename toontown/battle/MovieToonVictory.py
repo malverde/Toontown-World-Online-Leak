@@ -9,6 +9,7 @@ from otp.nametag.NametagConstants import *
 from otp.nametag import NametagGlobals
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieToonVictory')
 
+
 def __findToonReward(rewards, toon):
     for r in rewards:
         if r['toon'] == toon:
@@ -43,7 +44,7 @@ class ToonVictorySkipper(DirectObject):
     def setStartTime(self, index, startT):
         self._startTimes[index] = startT
 
-    def setIvals(self, ivals, timeOffset = 0.0):
+    def setIvals(self, ivals, timeOffset=0.0):
         for index in self._startTimes:
             self._startTimes[index] += timeOffset
 
@@ -73,7 +74,17 @@ class ToonVictorySkipper(DirectObject):
                 ival.setT(self._startTimes[nextIndex])
 
 
-def doToonVictory(localToonActive, toons, rewardToonIds, rewardDicts, deathList, rpanel, allowGroupShot = 1, uberList = [], helpfulToonsList = [], noSkip = False):
+def doToonVictory(
+        localToonActive,
+        toons,
+        rewardToonIds,
+        rewardDicts,
+        deathList,
+        rpanel,
+        allowGroupShot=1,
+        uberList=[],
+        helpfulToonsList=[],
+        noSkip=False):
     track = Sequence()
     if localToonActive == 1:
         track.append(Func(rpanel.show))
@@ -106,8 +117,18 @@ def doToonVictory(localToonActive, toons, rewardToonIds, rewardDicts, deathList,
     for tIndex in range(len(toonList)):
         t = toonList[tIndex]
         rdict = __findToonReward(rewardDicts, t)
-        if rdict != None:
-            expTrack = rpanel.getExpTrack(t, rdict['origExp'], rdict['earnedExp'], deathList, rdict['origQuests'], rdict['items'], rdict['missedItems'], rdict['origMerits'], rdict['merits'], rdict['parts'], rewardToonList, uberListNew[tIndex], helpfulToonsList, noSkip=noSkip)
+        if rdict is not None:
+            expTrack = rpanel.getExpTrack(
+                t, rdict['origExp'],
+                rdict['earnedExp'],
+                deathList, rdict['origQuests'],
+                rdict['items'],
+                rdict['missedItems'],
+                rdict['origMerits'],
+                rdict['merits'],
+                rdict['parts'],
+                rewardToonList, uberListNew[tIndex],
+                helpfulToonsList, noSkip=noSkip)
             if expTrack:
                 skipper.setStartTime(tIndex, track.getDuration())
                 track.append(skipper.getTeardownFunc(lastListenIndex))
@@ -116,7 +137,9 @@ def doToonVictory(localToonActive, toons, rewardToonIds, rewardDicts, deathList,
                 track.append(expTrack)
                 camDuration = expTrack.getDuration()
                 camExpTrack = MovieCamera.chooseRewardShot(t, camDuration)
-                camTrack.append(MovieCamera.chooseRewardShot(t, camDuration, allowGroupShot=allowGroupShot))
+                camTrack.append(
+                    MovieCamera.chooseRewardShot(
+                        t, camDuration, allowGroupShot=allowGroupShot))
 
     track.append(skipper.getTeardownFunc(lastListenIndex))
     track.append(Func(skipper.destroy))

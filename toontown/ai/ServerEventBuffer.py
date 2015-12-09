@@ -2,7 +2,7 @@
 
 class ServerEventBuffer:
 
-    def __init__(self, air, name, avId, period = None):
+    def __init__(self, air, name, avId, period=None):
         self.air = air
         self.name = name
         self.avId = avId
@@ -32,7 +32,7 @@ class ServerEventBuffer:
 
 class ServerEventAccumulator(ServerEventBuffer):
 
-    def __init__(self, air, name, avId, period = None):
+    def __init__(self, air, name, avId, period=None):
         ServerEventBuffer.__init__(self, air, name, avId, period)
         self.count = 0
 
@@ -50,7 +50,7 @@ class ServerEventAccumulator(ServerEventBuffer):
 
 class ServerEventMultiAccumulator(ServerEventBuffer):
 
-    def __init__(self, air, name, avId, period = None):
+    def __init__(self, air, name, avId, period=None):
         ServerEventBuffer.__init__(self, air, name, avId, period)
         self.events = {}
 
@@ -59,8 +59,7 @@ class ServerEventMultiAccumulator(ServerEventBuffer):
         if not len(self.events):
             return
         msg = ''
-        eventNames = self.events.keys()
-        eventNames.sort()
+        eventNames = sorted(self.events.keys())
         for eventName in eventNames:
             msg += '%s:%s' % (eventName, self.events[eventName])
             if eventName != eventNames[-1]:

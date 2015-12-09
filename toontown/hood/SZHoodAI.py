@@ -9,21 +9,22 @@ from toontown.town.StreetAI import StreetAI
 from toontown.safezone.SZTreasurePlannerAI import SZTreasurePlannerAI
 from toontown.toon import NPCToons
 
+
 class SZHoodAI(HoodAI):
     """
     AI-side representation of everything in a single safezone neighborhood.
 
     One subclass of this class exists for every neighborhood in the game.
-    HoodAIs are responsible for spawning all TreasurePlanners, ponds, 
+    HoodAIs are responsible for spawning all TreasurePlanners, ponds,
     and other hood objects, etc.
     """
-    
+
     def __init__(self, air):
         HoodAI.__init__(self, air)
 
         self.safezone = self.HOOD
         self.streets = {}
-        
+
         self.trolley = None
         self.pond = None
         self.buildingMgr = None
@@ -33,10 +34,13 @@ class SZHoodAI(HoodAI):
 
     def createZone(self):
         HoodAI.createZone(self)
-        self.air.dnaStoreMap[self.HOOD] = self.air.loadDNA(self.air.genDNAFileName(self.HOOD)).generateData()
+        self.air.dnaStoreMap[self.HOOD] = self.air.loadDNA(
+            self.air.genDNAFileName(self.HOOD)).generateData()
         self.createTrolley()
         self.createTreasurePlanner()
-        self.buildingMgr = DistributedBuildingMgrAI(self.air, self.HOOD, self.air.dnaStoreMap[self.HOOD], self.air.trophyMgr)
+        self.buildingMgr = DistributedBuildingMgrAI(
+            self.air, self.HOOD, self.air.dnaStoreMap[
+                self.HOOD], self.air.trophyMgr)
         NPCToons.createNpcsInZone(self.air, self.HOOD)
 
     def createStreets(self):
@@ -50,8 +54,15 @@ class SZHoodAI(HoodAI):
         self.trolley.generateWithRequired(self.safezone)
 
     def createTreasurePlanner(self):
-        treasureType, healAmount, spawnPoints, spawnRate, maxTreasures = TreasureGlobals.SafeZoneTreasureSpawns[self.HOOD]
-        self.treasurePlanner = SZTreasurePlannerAI(self.safezone, treasureType, healAmount, spawnPoints, spawnRate, maxTreasures)
+        treasureType, healAmount, spawnPoints, spawnRate, maxTreasures = TreasureGlobals.SafeZoneTreasureSpawns[
+            self.HOOD]
+        self.treasurePlanner = SZTreasurePlannerAI(
+            self.safezone,
+            treasureType,
+            healAmount,
+            spawnPoints,
+            spawnRate,
+            maxTreasures)
         self.treasurePlanner.start()
 
     def spawnObjects(self):

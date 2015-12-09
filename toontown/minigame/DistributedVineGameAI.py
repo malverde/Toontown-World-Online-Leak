@@ -77,17 +77,18 @@ class DistributedVineGameAI(DistributedMinigameAI):
             timeLeftList.append(self.finishedTimeLeft[avId])
 
         totalBats = len(VineGameGlobals.BatInfo[self.getSafezoneId()])
-        #self.air.writeServerEvent('minigame_vine', self.doId, '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s' % (ToontownGlobals.VineGameId,
-        # self.getSafezoneId(),
-        # self.avIdList,
-        # scoreList,
-        # self.vineSections,
-        # finishedList,
-        # timeLeftList,
-        # vineReached,
-        # self.totalSpiders,
-        # totalBats))
-        # jjkoletar: i don't want minigame data
+       # Logging
+        self.air.writeServerEvent('minigame_vine', self.doId, '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s' % (ToontownGlobals.VineGameId,
+        self.getSafezoneId(),
+        self.avIdList,
+        scoreList,
+        self.vineSections,
+        finishedList,
+        timeLeftList,
+        vineReached,
+        self.totalSpiders,
+        totalBats))
+
         self.gameFSM.request('cleanup')
         DistributedMinigameAI.gameOver(self)
 

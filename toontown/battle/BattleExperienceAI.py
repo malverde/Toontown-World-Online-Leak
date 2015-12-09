@@ -2,56 +2,70 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.suit import SuitDNA
 from toontown.toonbase import ToontownGlobals
-BattleExperienceAINotify = DirectNotifyGlobal.directNotify.newCategory('BattleExprienceAI')
+BattleExperienceAINotify = DirectNotifyGlobal.directNotify.newCategory(
+    'BattleExprienceAI')
+
 
 def getSkillGained(toonSkillPtsGained, toonId, track):
     exp = 0
     expList = toonSkillPtsGained.get(toonId, None)
-    if expList != None:
+    if expList is not None:
         exp = expList[track]
     return int(exp + 0.5)
 
 
-def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toonOrigQuests, toonItems, toonOrigMerits, toonMerits, toonParts, suitsKilled, helpfulToonsList = None):
-    if helpfulToonsList == None:
-        BattleExperienceAINotify.warning('=============\nERROR ERROR helpfulToons=None in assignRewards , tell Red')
+def getBattleExperience(
+        numToons,
+        activeToons,
+        toonExp,
+        toonSkillPtsGained,
+        toonOrigQuests,
+        toonItems,
+        toonOrigMerits,
+        toonMerits,
+        toonParts,
+        suitsKilled,
+        helpfulToonsList=None):
+    if helpfulToonsList is None:
+        BattleExperienceAINotify.warning(
+            '=============\nERROR ERROR helpfulToons=None in assignRewards , tell Red')
     p = []
     for k in range(numToons):
         toon = None
         if k < len(activeToons):
             toonId = activeToons[k]
             toon = simbase.air.doId2do.get(toonId)
-        if toon == None:
+        if toon is None:
             p.append(-1)
             p.append([0,
-             0,
-             0,
-             0,
-             0,
-             0,
-             0])
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0])
             p.append([0,
-             0,
-             0,
-             0,
-             0,
-             0,
-             0])
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0])
             p.append([])
             p.append([])
             p.append([])
             p.append([0,
-             0,
-             0,
-             0])
+                      0,
+                      0,
+                      0])
             p.append([0,
-             0,
-             0,
-             0])
+                      0,
+                      0,
+                      0])
             p.append([0,
-             0,
-             0,
-             0])
+                      0,
+                      0,
+                      0])
         else:
             p.append(toonId)
             origExp = toonExp[toonId]
@@ -69,14 +83,14 @@ def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toon
             origMerits = toonOrigMerits.get(toonId, [])
             p.append(origMerits)
             merits = toonMerits.get(toonId, [0,
-             0,
-             0,
-             0])
+                                             0,
+                                             0,
+                                             0])
             p.append(merits)
             parts = toonParts.get(toonId, [0,
-             0,
-             0,
-             0])
+                                           0,
+                                           0,
+                                           0])
             p.append(parts)
 
     deathList = []
@@ -114,14 +128,14 @@ def getBattleExperience(numToons, activeToons, toonExp, toonSkillPtsGained, toon
         if 'hasRevies' in deathRecord and deathRecord['hasRevives']:
             flags |= ToontownBattleGlobals.DLF_REVIVES
         deathList.extend([typeNum,
-         level,
-         toonBits,
-         flags])
+                          level,
+                          toonBits,
+                          flags])
 
     p.append(deathList)
     uberStats = getToonUberStatus(activeToons, numToons)
     p.append(uberStats)
-    if helpfulToonsList == None:
+    if helpfulToonsList is None:
         helpfulToonsList = []
     p.append(helpfulToonsList)
     return p
@@ -133,7 +147,7 @@ def getToonUberStatus(toons, numToons):
     for toonId in toons:
         toonList = []
         toon = simbase.air.doId2do.get(toonId)
-        if toon == None:
+        if toon is None:
             fieldList.append(-1)
         else:
             for trackIndex in range(ToontownBattleGlobals.MAX_TRACK_INDEX + 1):
@@ -149,13 +163,19 @@ def getToonUberStatus(toons, numToons):
     return fieldList
 
 
-def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulToons = None):
-    if helpfulToons == None:
-        BattleExperienceAINotify.warning('=============\nERROR ERROR helpfulToons=None in assignRewards , tell Red')
+def assignRewards(
+        activeToons,
+        toonSkillPtsGained,
+        suitsKilled,
+        zoneId,
+        helpfulToons=None):
+    if helpfulToons is None:
+        BattleExperienceAINotify.warning(
+            '=============\nERROR ERROR helpfulToons=None in assignRewards , tell Red')
     activeToonList = []
     for t in activeToons:
         toon = simbase.air.doId2do.get(t)
-        if toon != None:
+        if toon is not None:
             activeToonList.append(toon)
 
     for toon in activeToonList:
@@ -166,8 +186,9 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
             # Check if the toon has a gag experience buff...
             if toon.hasBuff(ToontownGlobals.BGagExperience):
                 exp *= ToontownGlobals.BGagExperienceMultiplier
-            
-            needed = ToontownBattleGlobals.Levels[i][ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1] + ToontownBattleGlobals.UberSkill
+
+            needed = ToontownBattleGlobals.Levels[i][
+                ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1] + ToontownBattleGlobals.UberSkill
             hasUber = 0
             totalExp = exp + toon.experience.getExp(i)
             if toon.inventory.numItem(i, uberIndex) > 0:
@@ -176,7 +197,9 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
                 if toon.inventory.totalProps < toon.getMaxCarry() and not hasUber:
                     uberLevel = ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1
                     toon.inventory.addItem(i, uberLevel)
-                    toon.experience.setExp(i, ToontownBattleGlobals.Levels[i][ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1])
+                    toon.experience.setExp(
+                        i, ToontownBattleGlobals.Levels[i][
+                            ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL + 1])
                 else:
                     toon.experience.setExp(i, ToontownBattleGlobals.MaxSkill)
             else:
@@ -190,12 +213,18 @@ def assignRewards(activeToons, toonSkillPtsGained, suitsKilled, zoneId, helpfulT
 
         if simbase.air.config.GetBool('battle-passing-no-credit', True):
             if helpfulToons and toon.doId in helpfulToons:
-                simbase.air.questManager.toonKilledCogs(toon, suitsKilled, zoneId, activeToonList)
-                simbase.air.cogPageManager.toonKilledCogs(toon, suitsKilled, zoneId)
+                simbase.air.questManager.toonKilledCogs(
+                    toon, suitsKilled, zoneId, activeToonList)
+                simbase.air.cogPageManager.toonKilledCogs(
+                    toon, suitsKilled, zoneId)
             else:
-                BattleExperienceAINotify.debug('toon=%d unhelpful not getting killed cog quest credit' % toon.doId)
+                BattleExperienceAINotify.debug(
+                    'toon=%d unhelpful not getting killed cog quest credit' %
+                    toon.doId)
         else:
-            simbase.air.questManager.toonKilledCogs(toon, suitsKilled, zoneId, activeToonList)
-            simbase.air.cogPageManager.toonKilledCogs(toon, suitsKilled, zoneId)
+            simbase.air.questManager.toonKilledCogs(
+                toon, suitsKilled, zoneId, activeToonList)
+            simbase.air.cogPageManager.toonKilledCogs(
+                toon, suitsKilled, zoneId)
 
     return

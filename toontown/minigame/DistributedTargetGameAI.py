@@ -218,10 +218,10 @@ class DistributedTargetGameAI(DistributedMinigameAI):
         for entry in self.scoreDict:
             if self.scoreDict[entry] == 0:
                 self.scoreDict[entry] = 1
-
+        # Logging
         self.scoreTrack.append(self.getScoreList())
         statMessage = 'MiniGame Stats : Target Game' + '\nScores' + '%s' % self.scoreTrack + '\nAvIds' + '%s' % self.scoreDict.keys() + '\nSafeZone' + '%s' % self.getSafezoneId()
-        # jjkoletar: not interested in data atm self.air.writeServerEvent('MiniGame Stats', None, statMessage)
+        self.air.writeServerEvent('MiniGame Stats', None, statMessage)
         self.sendUpdate('setGameDone', [])
         self.gameFSM.request('cleanup')
         DistributedMinigameAI.gameOver(self)

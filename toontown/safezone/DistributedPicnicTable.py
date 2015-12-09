@@ -1,3 +1,4 @@
+#Embedded file name: toontown.safezone.DistributedPicnicTable
 from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
@@ -79,7 +80,6 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         self.clockNode.setPos(1.16, 0, -0.83)
         self.clockNode.setScale(0.3)
         self.clockNode.hide()
-        return
 
     def announceGenerate(self):
         DistributedNode.DistributedNode.announceGenerate(self)
@@ -105,9 +105,8 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         unitVec *= 30.0
         self.endPos = self.getPos() + unitVec
         dist = Vec3(self.endPos - self.getPos()).length()
-        wheelAngle = dist / (0.5 * 1.4 * math.pi) * 360
+        wheelAngle = dist / (0.7 * math.pi) * 360
         self.__enableCollisions()
-        return
 
     def handleSleep(self, task = None):
         if self.fsm.getCurrentState().getName() == 'chooseMode':
@@ -120,7 +119,6 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             self.gameMenu = None
         if task != None:
             task.done
-        return
 
     def disable(self):
         DistributedNode.DistributedNode.disable(self)
@@ -130,7 +128,6 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         self.disableChoiceButtons()
         self.picnicTable.removeNode()
         self.cameraBoardTrack = None
-        return
 
     def delete(self):
         self.__disableCollisions()
@@ -144,7 +141,6 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         self.gameZone = None
         self.clearToonTracks()
         self.cameraBoardTrack = None
-        return
 
     def setName(self, name):
         self.name = name
@@ -166,7 +162,6 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         self.timeLeft = int(time - globalClock.getRealTime())
         if self.gameWantTimer and self.game != None:
             self.showTimer()
-        return
 
     def showTimer(self):
         self.clockNode.stop()
@@ -223,7 +218,6 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                 self.gameMenu.Checkers.setColor(0.7, 0.7, 0.7, 0.7)
                 self.gameMenu.Checkers['command'] = self.doNothing
                 self.gameMenu.checkersText['fg'] = (0.7, 0.7, 0.7, 0.7)
-        return
 
     def setIsPlaying(self, isPlaying):
         if isPlaying == 0:
@@ -274,64 +268,18 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
 
     def enableChoiceButtons(self):
         if self.tableState[self.seatBumpForObserve] == None and self.isPlaying == False:
-            self.joinButton = DirectButton(
-                relief=None,
-                text=TTLocalizer.PicnicTableJoinButton,
-                text_fg=(1, 1, 0.65, 1),
-                text_pos=(0, -.23),
-                text_scale=0.8,
-                image=(self.upButton, self.downButton, self.rolloverButton),
-                image_color=(1, 0, 0, 1),
-                image_scale=(20, 1, 11),
-                pos=(0, 0, 0.8),
-                scale=0.15,
-                command=lambda self = self: self.joinButtonPushed())
+            self.joinButton = DirectButton(relief=None, text=TTLocalizer.PicnicTableJoinButton, text_fg=(1, 1, 0.65, 1), text_pos=(0, -0.23), text_scale=0.8, image=(self.upButton, self.downButton, self.rolloverButton), image_color=(1, 0, 0, 1), image_scale=(20, 1, 11), pos=(0, 0, 0.8), scale=0.15, command=lambda self = self: self.joinButtonPushed())
         if self.isPlaying == True:
-            self.observeButton = DirectButton(
-                relief=None,
-                text=TTLocalizer.PicnicTableObserveButton,
-                text_fg=(1, 1, 0.65, 1),
-                text_pos=(0, -.23),
-                text_scale=0.8,
-                image=(self.upButton, self.downButton, self.rolloverButton),
-                image_color=(1, 0, 0, 1),
-                image_scale=(20, 1, 11),
-                pos=(0, 0, 0.6),
-                scale=0.15,
-                command=lambda self = self: self.observeButtonPushed())
-        self.exitButton = DirectButton(
-            relief=None,
-            text=TTLocalizer.PicnicTableCancelButton,
-            text_fg=(1, 1, 0.65, 1),
-            text_pos=(0, -.23),
-            text_scale=0.8,
-            image=(self.upButton, self.downButton, self.rolloverButton),
-            image_color=(1, 0, 0, 1),
-            image_scale=(20, 1, 11),
-            pos=(1, 0, 0.6),
-            scale=0.15,
-            command=lambda self = self: self.cancelButtonPushed())
-        self.tutorialButton = DirectButton(
-            relief=None,
-            text=TTLocalizer.PicnicTableTutorial,
-            text_fg=(1, 1, 0.65, 1),
-            text_pos=(-.05, -.13),
-            text_scale=0.55,
-            image=(self.upButton, self.downButton, self.rolloverButton),
-            image_color=(1, 0, 0, 1),
-            image_scale=(20, 1, 11),
-            pos=(-1, 0, 0.6),
-            scale=0.15,
-            command=lambda self = self: self.tutorialButtonPushed())
+            self.observeButton = DirectButton(relief=None, text=TTLocalizer.PicnicTableObserveButton, text_fg=(1, 1, 0.65, 1), text_pos=(0, -0.23), text_scale=0.8, image=(self.upButton, self.downButton, self.rolloverButton), image_color=(1, 0, 0, 1), image_scale=(20, 1, 11), pos=(0, 0, 0.6), scale=0.15, command=lambda self = self: self.observeButtonPushed())
+        self.exitButton = DirectButton(relief=None, text=TTLocalizer.PicnicTableCancelButton, text_fg=(1, 1, 0.65, 1), text_pos=(0, -0.23), text_scale=0.8, image=(self.upButton, self.downButton, self.rolloverButton), image_color=(1, 0, 0, 1), image_scale=(20, 1, 11), pos=(1, 0, 0.6), scale=0.15, command=lambda self = self: self.cancelButtonPushed())
+        self.tutorialButton = DirectButton(relief=None, text=TTLocalizer.PicnicTableTutorial, text_fg=(1, 1, 0.65, 1), text_pos=(-0.05, -0.13), text_scale=0.55, image=(self.upButton, self.downButton, self.rolloverButton), image_color=(1, 0, 0, 1), image_scale=(20, 1, 11), pos=(-1, 0, 0.6), scale=0.15, command=lambda self = self: self.tutorialButtonPushed())
         base.cr.playGame.getPlace().setState('stopped')
-        return
 
     def tutorialButtonPushed(self):
         self.disableChoiceButtons()
         self.gameMenu = GameMenu(self.tutorialFunction, 1)
         self.tutorialButton.destroy()
         self.tutorialButton = None
-        return
 
     def tutorialFunction(self, tutVal):
         if tutVal == 1:
@@ -340,13 +288,11 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             self.tutorial = CheckersTutorial(self.tutorialDone)
         self.gameMenu.picnicFunction = None
         self.gameMenu = None
-        return
 
     def tutorialDone(self):
         self.requestSeat = None
         self.fsm.request('off')
         self.tutorial = None
-        return
 
     def joinButtonPushed(self):
         toon = base.localAvatar
@@ -359,7 +305,6 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
          toon.getR()])
         self.requestSeat = None
         self.fsm.request('sitting')
-        return
 
     def rejectJoin(self):
         self.fsm.request('off')
@@ -369,7 +314,6 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         base.cr.playGame.getPlace().setState('walk')
         self.requestSeat = None
         self.fsm.request('off')
-        return
 
     def disableChoiceButtons(self):
         if self.joinButton:
@@ -400,7 +344,6 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                     self.gameMenu.removeButtons()
                     self.gameMenu.picnicFunction = None
                     self.gameMenu = None
-        return
 
     def fillSlot(self, avId, index, x, y, z, h, p, r, timestamp, parentDoId):
         self.notify.debug('fill Slot: %d for %d' % (index, avId))
@@ -409,9 +352,8 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         if avId == base.localAvatar.getDoId():
             if self.inGame == True:
                 return
-            else:
-                self.inGame = True
-                self.seatPos = index
+            self.inGame = True
+            self.seatPos = index
         if self.cr.doId2do.has_key(avId):
             toon = self.cr.doId2do[avId]
             toon.stopSmooth()
@@ -428,7 +370,6 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             track.append(Func(self.clearToonTrack, avId))
             self.storeToonTrack(avId, track)
             track.start()
-        return
 
     def emptySlot(self, avId, index, timestamp):
         self.notify.debug('### seat %s now empty' % index)
@@ -458,7 +399,6 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             self.outTrack.append(Func(toon.setPos, val))
             self.outTrack.append(Func(toon.startSmooth))
             self.outTrack.start()
-        return
 
     def stopToWalk(self):
         base.cr.playGame.getPlace().setState('stopped')
@@ -529,7 +469,6 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
 
     def exitSitting(self):
         self.gameMenu = None
-        return
 
     def setGameZone(self, zoneId, gamestate):
         self.gameZone = base.cr.addInterest(base.localAvatar.defaultShard, zoneId, 'gameBoard')
@@ -538,22 +477,9 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
     def observeButtonPushed(self):
         self.requestSeat = None
         self.fsm.request('observing')
-        return
 
     def enableStopObserveButton(self):
-        self.stopObserveButton = DirectButton(
-            relief=None,
-            text='Stop Observing',
-            text_fg=(1, 1, 0.65, 1),
-            text_pos=(0, -.23),
-            text_scale=0.45,
-            image=(self.upButton, self.downButton, self.rolloverButton),
-            image_color=(1, 0, 0, 1),
-            image_scale=(20, 1, 11),
-            pos=(0.92, 0, 0.4),
-            scale=0.15,
-            command=lambda self = self: self.stopObserveButtonPushed())
-        return
+        self.stopObserveButton = DirectButton(relief=None, text='Stop Observing', text_fg=(1, 1, 0.65, 1), text_pos=(0, -0.23), text_scale=0.45, image=(self.upButton, self.downButton, self.rolloverButton), image_color=(1, 0, 0, 1), image_scale=(20, 1, 11), pos=(0.92, 0, 0.4), scale=0.15, command=lambda self = self: self.stopObserveButtonPushed())
 
     def stopObserveButtonPushed(self):
         self.sendUpdate('leaveObserve', [])
@@ -562,7 +488,6 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             self.game.fsm.request('gameOver')
             base.cr.removeInterest(self.gameZone)
         self.fsm.request('off')
-        return
 
     def generateToonReverseJumpTrack(self, av, seatIndex):
         self.notify.debug('av.getH() = %s' % av.getH())

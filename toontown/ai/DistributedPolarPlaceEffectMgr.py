@@ -4,8 +4,10 @@ from direct.interval.IntervalGlobal import *
 from otp.speedchat import SpeedChatGlobals
 from toontown.toonbase import TTLocalizer
 
+
 class DistributedPolarPlaceEffectMgr(DistributedObject.DistributedObject):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPolarPlaceEffectMgr')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedPolarPlaceEffectMgr')
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
@@ -29,5 +31,9 @@ class DistributedPolarPlaceEffectMgr(DistributedObject.DistributedObject):
         DistributedPolarPlaceEffectMgr.notify.debug('addResitanceEffect')
         av = base.localAvatar
         self.sendUpdate('addPolarPlaceEffect', [])
-        msgTrack = Sequence(Func(av.setSystemMessage, 0, TTLocalizer.PolarPlaceEffect1), Wait(2), Func(av.setSystemMessage, 0, TTLocalizer.PolarPlaceEffect2), Wait(4), Func(av.setSystemMessage, 0, TTLocalizer.PolarPlaceEffect3))
+        msgTrack = Sequence(
+            Func(
+                av.setSystemMessage, 0, TTLocalizer.PolarPlaceEffect1), Wait(2), Func(
+                av.setSystemMessage, 0, TTLocalizer.PolarPlaceEffect2), Wait(4), Func(
+                av.setSystemMessage, 0, TTLocalizer.PolarPlaceEffect3))
         msgTrack.start()

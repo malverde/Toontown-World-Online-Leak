@@ -1,10 +1,11 @@
-#Embedded file name: toontown.pets.PetTutorial
+# Embedded file name: toontown.pets.PetTutorial
 from direct.gui.DirectGui import *
 from pandac.PandaModules import *
 from direct.fsm import FSM
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
+
 
 class PetTutorial(DirectFrame, FSM.FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory('PetTutorial')
@@ -13,27 +14,66 @@ class PetTutorial(DirectFrame, FSM.FSM):
         FSM.FSM.__init__(self, 'PetTutorial')
         self.doneEvent = doneEvent
         self.setStateArray(['Page1', 'Page2', 'Page3'])
-        DirectFrame.__init__(self, pos=(0.0, 0.0, 0.0), image_color=ToontownGlobals.GlobalDialogColor, image_scale=(1.5, 1.5, 0.9), text='', text_scale=0.06)
+        DirectFrame.__init__(
+            self, pos=(0.0, 0.0, 0.0),
+            image_color=ToontownGlobals.GlobalDialogColor,
+            image_scale=(1.5, 1.5, 0.9),
+            text='', text_scale=0.06)
         self['image'] = DGG.getDefaultDialogGeom()
-        self.title = DirectLabel(self, relief=None, text='', text_pos=(0.0, 0.32), text_fg=(1, 0, 0, 1), text_scale=TTLocalizer.PTtitle, text_font=ToontownGlobals.getSignFont())
+        self.title = DirectLabel(
+            self, relief=None, text='', text_pos=(0.0, 0.32),
+            text_fg=(1, 0, 0, 1),
+            text_scale=TTLocalizer.PTtitle,
+            text_font=ToontownGlobals.getSignFont())
         images = loader.loadModel('phase_5.5/models/gui/PetTutorial')
-        self.iPage1 = DirectFrame(self, image=images.find('**/PetTutorialPanel'), scale=0.75, pos=(-0.55, -0.1, 0))
+        self.iPage1 = DirectFrame(
+            self, image=images.find('**/PetTutorialPanel'),
+            scale=0.75, pos=(-0.55, -0.1, 0))
         self.iPage1.hide()
-        self.iPage2 = DirectFrame(self, image=images.find('**/PetTutorialSpeedChat'), scale=0.75, pos=(0.43, -0.1, 0.05))
+        self.iPage2 = DirectFrame(
+            self, image=images.find('**/PetTutorialSpeedChat'),
+            scale=0.75, pos=(0.43, -0.1, 0.05))
         self.iPage2.hide()
-        self.iPage3 = DirectFrame(self, image=images.find('**/PetTutorialCattlelog'), scale=0.75, pos=(-0.55, -0.1, 0))
+        self.iPage3 = DirectFrame(
+            self, image=images.find('**/PetTutorialCattlelog'),
+            scale=0.75, pos=(-0.55, -0.1, 0))
         self.iPage3.hide()
         buttons = loader.loadModel('phase_3/models/gui/dialog_box_buttons_gui')
         gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
-        self.bNext = DirectButton(self, image=(gui.find('**/Horiz_Arrow_UP'),
-         gui.find('**/Horiz_Arrow_DN'),
-         gui.find('**/Horiz_Arrow_Rllvr'),
-         gui.find('**/Horiz_Arrow_UP')), image3_color=Vec4(1, 1, 1, 0.5), relief=None, text=TTLocalizer.PetTutorialNext, text3_fg=Vec4(0, 0, 0, 0.5), text_scale=0.05, text_pos=(0.0, -0.1), pos=(0.2, -0.3, -0.25), command=self.requestNext)
-        self.bPrev = DirectButton(self, image=(gui.find('**/Horiz_Arrow_UP'),
-         gui.find('**/Horiz_Arrow_DN'),
-         gui.find('**/Horiz_Arrow_Rllvr'),
-         gui.find('**/Horiz_Arrow_UP')), image3_color=Vec4(1, 1, 1, 0.5), image_scale=(-1.0, 1.0, 1.0), relief=None, text=TTLocalizer.PetTutorialPrev, text3_fg=Vec4(0, 0, 0, 0.5), text_scale=0.05, text_pos=(0.0, -0.1), pos=(-0.2, -0.3, -0.25), command=self.requestPrev)
-        self.bQuit = DirectButton(self, image=(buttons.find('**/ChtBx_OKBtn_UP'), buttons.find('**/ChtBx_OKBtn_DN'), buttons.find('**/ChtBx_OKBtn_Rllvr')), relief=None, text=TTLocalizer.PetTutorialDone, text_scale=0.05, text_pos=(0.0, -0.1), pos=(0.55, -0.3, -0.25), command=self.__handleQuit)
+        self.bNext = DirectButton(
+            self,
+            image=(gui.find('**/Horiz_Arrow_UP'),
+                   gui.find('**/Horiz_Arrow_DN'),
+                   gui.find('**/Horiz_Arrow_Rllvr'),
+                   gui.find('**/Horiz_Arrow_UP')),
+            image3_color=Vec4(1, 1, 1, 0.5),
+            relief=None, text=TTLocalizer.PetTutorialNext,
+            text3_fg=Vec4(0, 0, 0, 0.5),
+            text_scale=0.05, text_pos=(0.0, -0.1),
+            pos=(0.2, -0.3, -0.25),
+            command=self.requestNext)
+        self.bPrev = DirectButton(
+            self,
+            image=(gui.find('**/Horiz_Arrow_UP'),
+                   gui.find('**/Horiz_Arrow_DN'),
+                   gui.find('**/Horiz_Arrow_Rllvr'),
+                   gui.find('**/Horiz_Arrow_UP')),
+            image3_color=Vec4(1, 1, 1, 0.5),
+            image_scale=(-1.0, 1.0, 1.0),
+            relief=None, text=TTLocalizer.PetTutorialPrev,
+            text3_fg=Vec4(0, 0, 0, 0.5),
+            text_scale=0.05, text_pos=(0.0, -0.1),
+            pos=(-0.2, -0.3, -0.25),
+            command=self.requestPrev)
+        self.bQuit = DirectButton(
+            self,
+            image=(buttons.find('**/ChtBx_OKBtn_UP'),
+                   buttons.find('**/ChtBx_OKBtn_DN'),
+                   buttons.find('**/ChtBx_OKBtn_Rllvr')),
+            relief=None, text=TTLocalizer.PetTutorialDone, text_scale=0.05,
+            text_pos=(0.0, -0.1),
+            pos=(0.55, -0.3, -0.25),
+            command=self.__handleQuit)
         self.bQuit.hide()
         buttons.removeNode()
         gui.removeNode()

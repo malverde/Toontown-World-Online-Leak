@@ -4,6 +4,7 @@ from direct.task.Task import Task
 from direct.directnotify import DirectNotifyGlobal
 notify = DirectNotifyGlobal.directNotify.newCategory('SkyUtil')
 
+
 def cloudSkyTrack(task):
     task.h += globalClock.getDt() * 0.25
     if task.cloud1.isEmpty() or task.cloud2.isEmpty():
@@ -14,7 +15,10 @@ def cloudSkyTrack(task):
     return Task.cont
 
 
-def startCloudSky(hood, parent = camera, effects = CompassEffect.PRot | CompassEffect.PZ):
+def startCloudSky(
+        hood,
+        parent=camera,
+        effects=CompassEffect.PRot | CompassEffect.PZ):
     hood.sky.reparentTo(parent)
     hood.sky.setDepthTest(0)
     hood.sky.setDepthWrite(0)

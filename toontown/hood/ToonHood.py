@@ -12,6 +12,7 @@ from toontown.building import SuitInterior
 from toontown.cogdominium import CogdoInterior
 from toontown.toon.Toon import teleportDebug
 
+
 class ToonHood(Hood.Hood):
     notify = DirectNotifyGlobal.directNotify.newCategory('ToonHood')
 
@@ -21,26 +22,25 @@ class ToonHood(Hood.Hood):
         self.minigameDoneEvent = 'minigameDone'
         self.safeZoneLoaderClass = None
         self.townLoaderClass = None
-        self.fsm = ClassicFSM.ClassicFSM('Hood', [State.State('start', self.enterStart, self.exitStart, ['townLoader', 'safeZoneLoader']),
-         State.State('townLoader', self.enterTownLoader, self.exitTownLoader, ['quietZone',
-          'safeZoneLoader',
-          'suitInterior',
-          'cogdoInterior']),
-         State.State('safeZoneLoader', self.enterSafeZoneLoader, self.exitSafeZoneLoader, ['quietZone',
-          'suitInterior',
-          'cogdoInterior',
-          'townLoader',
-          'minigame']),
-         State.State('purchase', self.enterPurchase, self.exitPurchase, ['quietZone', 'minigame', 'safeZoneLoader']),
-         State.State('suitInterior', self.enterSuitInterior, self.exitSuitInterior, ['quietZone', 'townLoader', 'safeZoneLoader']),
-         State.State('cogdoInterior', self.enterCogdoInterior, self.exitCogdoInterior, ['quietZone', 'townLoader', 'safeZoneLoader']),
-         State.State('minigame', self.enterMinigame, self.exitMinigame, ['purchase']),
-         State.State('quietZone', self.enterQuietZone, self.exitQuietZone, ['safeZoneLoader',
-          'townLoader',
-          'suitInterior',
-          'cogdoInterior',
-          'minigame']),
-         State.State('final', self.enterFinal, self.exitFinal, [])], 'start', 'final')
+        self.fsm = ClassicFSM.ClassicFSM(
+            'Hood', [
+                State.State(
+                    'start', self.enterStart, self.exitStart, [
+                        'townLoader', 'safeZoneLoader']), State.State(
+                    'townLoader', self.enterTownLoader, self.exitTownLoader, [
+                        'quietZone', 'safeZoneLoader', 'suitInterior', 'cogdoInterior']), State.State(
+                            'safeZoneLoader', self.enterSafeZoneLoader, self.exitSafeZoneLoader, [
+                                'quietZone', 'suitInterior', 'cogdoInterior', 'townLoader', 'minigame']), State.State(
+                                    'purchase', self.enterPurchase, self.exitPurchase, [
+                                        'quietZone', 'minigame', 'safeZoneLoader']), State.State(
+                                            'suitInterior', self.enterSuitInterior, self.exitSuitInterior, [
+                                                'quietZone', 'townLoader', 'safeZoneLoader']), State.State(
+                                                    'cogdoInterior', self.enterCogdoInterior, self.exitCogdoInterior, [
+                                                        'quietZone', 'townLoader', 'safeZoneLoader']), State.State(
+                                                            'minigame', self.enterMinigame, self.exitMinigame, ['purchase']), State.State(
+                                                                'quietZone', self.enterQuietZone, self.exitQuietZone, [
+                                                                    'safeZoneLoader', 'townLoader', 'suitInterior', 'cogdoInterior', 'minigame']), State.State(
+                                                                        'final', self.enterFinal, self.exitFinal, [])], 'start', 'final')
         self.fsm.enterInitialState()
         return
 
@@ -55,14 +55,20 @@ class ToonHood(Hood.Hood):
     def loadLoader(self, requestStatus):
         loaderName = requestStatus['loader']
         if loaderName == 'safeZoneLoader':
-            self.loader = self.safeZoneLoaderClass(self, self.fsm.getStateNamed('safeZoneLoader'), self.loaderDoneEvent)
+            self.loader = self.safeZoneLoaderClass(
+                self, self.fsm.getStateNamed('safeZoneLoader'),
+                self.loaderDoneEvent)
             self.loader.load()
         elif loaderName == 'townLoader':
-            self.loader = self.townLoaderClass(self, self.fsm.getStateNamed('townLoader'), self.loaderDoneEvent)
+            self.loader = self.townLoaderClass(
+                self, self.fsm.getStateNamed('townLoader'),
+                self.loaderDoneEvent)
             self.loader.load(requestStatus['zoneId'])
 
     def enterTownLoader(self, requestStatus):
-        teleportDebug(requestStatus, 'ToonHood.enterTownLoader, status=%s' % (requestStatus,))
+        teleportDebug(
+            requestStatus, 'ToonHood.enterTownLoader, status=%s' %
+            (requestStatus,))
         self.accept(self.loaderDoneEvent, self.handleTownLoaderDone)
         self.loader.enter(requestStatus)
         self.spawnTitleText(requestStatus['zoneId'])
@@ -77,7 +83,9 @@ class ToonHood(Hood.Hood):
 
     def handleTownLoaderDone(self):
         doneStatus = self.loader.getDoneStatus()
-        teleportDebug(doneStatus, 'handleTownLoaderDone, doneStatus=%s' % (doneStatus,))
+        teleportDebug(
+            doneStatus, 'handleTownLoaderDone, doneStatus=%s' %
+            (doneStatus,))
         if self.isSameHood(doneStatus):
             teleportDebug(doneStatus, 'same hood')
             self.fsm.request('quietZone', [doneStatus])
@@ -86,13 +94,30 @@ class ToonHood(Hood.Hood):
             self.doneStatus = doneStatus
             messenger.send(self.doneEvent)
 
-    def enterPurchase(self, pointsAwarded, playerMoney, playerIds, playerStates, remain, metagameRound = -1, votesArray = None):
+    def enterPurchase(
+            self,
+            pointsAwarded,
+            playerMoney,
+            playerIds,
+            playerStates,
+            remain,
+            metagameRound=-1,
+            votesArray=None):
         messenger.send('enterSafeZone')
         DistributedAvatar.DistributedAvatar.HpTextEnabled = 0
         base.localAvatar.laffMeter.start()
         self.purchaseDoneEvent = 'purchaseDone'
         self.accept(self.purchaseDoneEvent, self.handlePurchaseDone)
-        self.purchase = Purchase.Purchase(base.localAvatar, pointsAwarded, playerMoney, playerIds, playerStates, remain, self.purchaseDoneEvent, metagameRound, votesArray)
+        self.purchase = Purchase.Purchase(
+            base.localAvatar,
+            pointsAwarded,
+            playerMoney,
+            playerIds,
+            playerStates,
+            remain,
+            self.purchaseDoneEvent,
+            metagameRound,
+            votesArray)
         self.purchase.load()
         self.purchase.enter()
 
@@ -109,22 +134,23 @@ class ToonHood(Hood.Hood):
         doneStatus = self.purchase.getDoneStatus()
         if doneStatus['where'] == 'playground':
             self.fsm.request('quietZone', [{'loader': 'safeZoneLoader',
-              'where': 'playground',
-              'how': 'teleportIn',
-              'hoodId': self.hoodId,
-              'zoneId': self.hoodId,
-              'shardId': None,
-              'avId': -1}])
+                                            'where': 'playground',
+                                            'how': 'teleportIn',
+                                            'hoodId': self.hoodId,
+                                            'zoneId': self.hoodId,
+                                            'shardId': None,
+                                            'avId': -1}])
         elif doneStatus['loader'] == 'minigame':
             self.fsm.request('minigame')
         else:
             self.notify.error('handlePurchaseDone: unknown mode')
         return
 
-    def enterSuitInterior(self, requestStatus = None):
+    def enterSuitInterior(self, requestStatus=None):
         self.placeDoneEvent = 'suit-interior-done'
         self.acceptOnce(self.placeDoneEvent, self.handleSuitInteriorDone)
-        self.place = SuitInterior.SuitInterior(self, self.fsm, self.placeDoneEvent)
+        self.place = SuitInterior.SuitInterior(
+            self, self.fsm, self.placeDoneEvent)
         self.place.load()
         self.place.enter(requestStatus)
         base.cr.playGame.setPlace(self.place)
@@ -146,10 +172,11 @@ class ToonHood(Hood.Hood):
             self.doneStatus = doneStatus
             messenger.send(self.doneEvent)
 
-    def enterCogdoInterior(self, requestStatus = None):
+    def enterCogdoInterior(self, requestStatus=None):
         self.placeDoneEvent = 'cogdo-interior-done'
         self.acceptOnce(self.placeDoneEvent, self.handleCogdoInteriorDone)
-        self.place = CogdoInterior.CogdoInterior(self, self.fsm, self.placeDoneEvent)
+        self.place = CogdoInterior.CogdoInterior(
+            self, self.fsm, self.placeDoneEvent)
         self.place.load()
         self.place.enter(requestStatus)
         base.cr.playGame.setPlace(self.place)
@@ -171,7 +198,7 @@ class ToonHood(Hood.Hood):
             self.doneStatus = doneStatus
             messenger.send(self.doneEvent)
 
-    def enterMinigame(self, ignoredParameter = None):
+    def enterMinigame(self, ignoredParameter=None):
         messenger.send('enterSafeZone')
         DistributedAvatar.DistributedAvatar.HpTextEnabled = 0
         base.localAvatar.laffMeter.start()

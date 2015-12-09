@@ -1,3 +1,4 @@
+#Embedded file name: toontown.safezone.DistributedBoat
 from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
@@ -25,7 +26,6 @@ class DistributedBoat(DistributedObject.DistributedObject):
          State.State('DockedWest', self.enterDockedWest, self.exitDockedWest, ['SailingEast', 'SailingWest', 'DockedEast']),
          State.State('SailingEast', self.enterSailingEast, self.exitSailingEast, ['DockedEast', 'DockedWest', 'SailingWest'])], 'off', 'off')
         self.fsm.enterInitialState()
-        return
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
@@ -101,7 +101,6 @@ class DistributedBoat(DistributedObject.DistributedObject):
 
     def enterDockedEast(self, ts):
         self.weTrack.finish()
-        return None
 
     def exitDockedEast(self):
         return None
@@ -114,7 +113,6 @@ class DistributedBoat(DistributedObject.DistributedObject):
 
     def enterDockedWest(self, ts):
         self.ewTrack.finish()
-        return None
 
     def exitDockedWest(self):
         return None
@@ -124,4 +122,3 @@ class DistributedBoat(DistributedObject.DistributedObject):
 
     def exitSailingEast(self):
         self.weTrack.finish()
-        return None

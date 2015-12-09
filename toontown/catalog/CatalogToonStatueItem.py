@@ -1,4 +1,4 @@
-#Embedded file name: toontown.catalog.CatalogToonStatueItem
+# Embedded file name: toontown.catalog.CatalogToonStatueItem
 import CatalogGardenItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -6,13 +6,15 @@ from otp.otpbase import OTPLocalizer
 from direct.interval.IntervalGlobal import *
 from toontown.estate import GardenGlobals
 
+
 class CatalogToonStatueItem(CatalogGardenItem.CatalogGardenItem):
     pictureToonStatue = None
 
-    def makeNewItem(self, itemIndex = 105, count = 1, tagCode = 1, endPoseIndex = 108):
+    def makeNewItem(self, itemIndex=105, count=1, tagCode=1, endPoseIndex=108):
         self.startPoseIndex = itemIndex
         self.endPoseIndex = endPoseIndex
-        CatalogGardenItem.CatalogGardenItem.makeNewItem(self, itemIndex, count, tagCode)
+        CatalogGardenItem.CatalogGardenItem.makeNewItem(
+            self, itemIndex, count, tagCode)
 
     def needsCustomize(self):
         return self.endPoseIndex - self.startPoseIndex > 0
@@ -34,7 +36,8 @@ class CatalogToonStatueItem(CatalogGardenItem.CatalogGardenItem):
         CatalogGardenItem.CatalogGardenItem.cleanupPicture(self)
 
     def decodeDatagram(self, di, versionNumber, store):
-        CatalogGardenItem.CatalogGardenItem.decodeDatagram(self, di, versionNumber, store)
+        CatalogGardenItem.CatalogGardenItem.decodeDatagram(
+            self, di, versionNumber, store)
         self.startPoseIndex = di.getUint8()
         self.endPoseIndex = di.getUint8()
 
@@ -51,7 +54,9 @@ class CatalogToonStatueItem(CatalogGardenItem.CatalogGardenItem):
     def getAllToonStatues(self):
         self.statueList = []
         for index in range(self.startPoseIndex, self.endPoseIndex + 1):
-            self.statueList.append(CatalogToonStatueItem(index, 1, endPoseIndex=index))
+            self.statueList.append(
+                CatalogToonStatueItem(
+                    index, 1, endPoseIndex=index))
 
         return self.statueList
 

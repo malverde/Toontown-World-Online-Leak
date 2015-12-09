@@ -2,11 +2,8 @@ from pandac.PandaModules import *
 import __builtin__
 import os
 
-
-
+# __debug__ is only 1 in dev builds; Mirai's builder will set it to 0 (and it will, in fact, remove entire if __debug__: sections)
 if __debug__:
-    # __debug__ is only 1 in dev builds; Mirai's builder will set it to 0
-    # (and it will, in fact, remove entire if __debug__: sections)
     loadPrcFile('config/dev.prc')
 
 # The VirtualFileSystem, which has already initialized, doesn't see the mount
@@ -28,6 +25,7 @@ for file in glob.glob('resources/*.mf'):
         if ext not in ['.jpg', '.jpeg', '.ogg', '.rgb']:
             mf.removeSubfile(name)
     vfs.mount(mf, Filename('/'), 0)
+
 
 class game:
     name = 'toontown'
@@ -58,7 +56,8 @@ if launcher.isDummy():
 else:
     http = launcher.http
 tempLoader = Loader()
-backgroundNode = tempLoader.loadSync(Filename('phase_3/models/gui/loading-background'))
+backgroundNode = tempLoader.loadSync(
+    Filename('phase_3/models/gui/loading-background'))
 from direct.gui import DirectGuiGlobals
 print 'ToontownStart: setting default font'
 import ToontownGlobals
@@ -67,7 +66,7 @@ launcher.setPandaErrorCode(7)
 import ToonBase
 ToonBase.ToonBase()
 from pandac.PandaModules import *
-if base.win == None:
+if base.win is None:
     print 'Unable to open window; aborting.'
     sys.exit()
 launcher.setPandaErrorCode(0)
@@ -80,9 +79,12 @@ backgroundNodePath.setScale(render2d, VBase3(1))
 backgroundNodePath.find('**/fg').setBin('fixed', 20)
 backgroundNodePath.find('**/bg').setBin('fixed', 10)
 base.graphicsEngine.renderFrame()
-DirectGuiGlobals.setDefaultRolloverSound(base.loadSfx('phase_3/audio/sfx/GUI_rollover.ogg'))
-DirectGuiGlobals.setDefaultClickSound(base.loadSfx('phase_3/audio/sfx/GUI_create_toon_fwd.ogg'))
-DirectGuiGlobals.setDefaultDialogGeom(loader.loadModel('phase_3/models/gui/dialog_box_gui'))
+DirectGuiGlobals.setDefaultRolloverSound(
+    base.loadSfx('phase_3/audio/sfx/GUI_rollover.ogg'))
+DirectGuiGlobals.setDefaultClickSound(base.loadSfx(
+    'phase_3/audio/sfx/GUI_create_toon_fwd.ogg'))
+DirectGuiGlobals.setDefaultDialogGeom(
+    loader.loadModel('phase_3/models/gui/dialog_box_gui'))
 import TTLocalizer
 from otp.otpbase import OTPGlobals
 OTPGlobals.setDefaultProductPrefix(TTLocalizer.ProductPrefix)
@@ -93,16 +95,20 @@ if base.musicManagerIsValid:
         music.setVolume(0.9)
         music.play()
     print 'ToontownStart: Loading default gui sounds'
-    DirectGuiGlobals.setDefaultRolloverSound(base.loadSfx('phase_3/audio/sfx/GUI_rollover.ogg'))
-    DirectGuiGlobals.setDefaultClickSound(base.loadSfx('phase_3/audio/sfx/GUI_create_toon_fwd.ogg'))
+    DirectGuiGlobals.setDefaultRolloverSound(
+        base.loadSfx('phase_3/audio/sfx/GUI_rollover.ogg'))
+    DirectGuiGlobals.setDefaultClickSound(
+        base.loadSfx('phase_3/audio/sfx/GUI_create_toon_fwd.ogg'))
 else:
     music = None
 import ToontownLoader
 from direct.gui.DirectGui import *
 serverVersion = config.GetString('server-version', 'no_version_set')
 print 'ToontownStart: serverVersion: ', serverVersion
-version = OnscreenText(serverVersion, pos=(-1.3, -0.975), scale=0.06, fg=Vec4(0, 0, 1, 0.6), align=TextNode.ALeft)
-loader.beginBulkLoad('init', TTLocalizer.LoaderLabel, 138, 0, TTLocalizer.TIP_NONE, 0)
+version = OnscreenText(serverVersion, pos=(-1.3, -0.975),
+                       scale=0.06, fg=Vec4(0, 0, 1, 0.6), align=TextNode.ALeft)
+loader.beginBulkLoad('init', TTLocalizer.LoaderLabel,
+                     138, 0, TTLocalizer.TIP_NONE, 0)
 from ToonBaseGlobal import *
 from direct.showbase.MessengerGlobal import *
 from toontown.distributed import ToontownClientRepository
@@ -125,8 +131,8 @@ del backgroundNodePath
 del backgroundNode
 del tempLoader
 if (os.path.exists('game_data.pyd')):
-	os.unlink('game_data.pyd')
- 
+    os.unlink('game_data.pyd')
+
 
 version.cleanup()
 del version
@@ -142,4 +148,3 @@ if autoRun:
         from direct.showbase import PythonUtil
         print PythonUtil.describeException()
         raise
-

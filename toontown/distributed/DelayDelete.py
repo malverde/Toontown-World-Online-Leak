@@ -25,7 +25,7 @@ def cleanupDelayDeletes(interval):
     if hasattr(interval, 'delayDelete'):
         delayDelete = interval.delayDelete
         del interval.delayDelete
-        if type(delayDelete) == type([]):
+        if isinstance(delayDelete, type([])):
             for i in delayDelete:
                 i.destroy()
 
@@ -34,7 +34,7 @@ def cleanupDelayDeletes(interval):
     if hasattr(interval, 'delayDeletes'):
         delayDeletes = interval.delayDeletes
         del interval.delayDeletes
-        if type(delayDeletes) == type([]):
+        if isinstance(delayDeletes, type([])):
             for i in delayDeletes:
                 i.destroy()
 

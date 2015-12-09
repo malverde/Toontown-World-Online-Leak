@@ -1,7 +1,8 @@
-#Embedded file name: toontown.pets.PetManager
+# Embedded file name: toontown.pets.PetManager
 from pandac.PandaModules import *
 from toontown.toonbase import ToontownGlobals
 from direct.task import Task
+
 
 def acquirePetManager():
     if not hasattr(base, 'petManager'):
@@ -20,7 +21,8 @@ class PetManager:
         base.petManager = self
         self.refCount = 0
         self.cTrav = CollisionTraverser('petFloorCollisions')
-        taskMgr.add(self._doCollisions, PetManager.CollTaskName, priority=ToontownGlobals.PetFloorCollPriority)
+        taskMgr.add(self._doCollisions, PetManager.CollTaskName,
+                    priority=ToontownGlobals.PetFloorCollPriority)
 
     def _destroy(self):
         taskMgr.remove(PetManager.CollTaskName)

@@ -2,8 +2,10 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 import datetime
 
+
 class DistributedPhaseEventMgr(DistributedObject.DistributedObject):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPhaseEventMgr')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedPhaseEventMgr')
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
@@ -29,4 +31,11 @@ class DistributedPhaseEventMgr(DistributedObject.DistributedObject):
 
     def setDates(self, holidayDates):
         for holidayDate in holidayDates:
-            self.holidayDates.append(datetime.datetime(holidayDate[0], holidayDate[1], holidayDate[2], holidayDate[3], holidayDate[4], holidayDate[5]))
+            self.holidayDates.append(
+                datetime.datetime(
+                    holidayDate[0],
+                    holidayDate[1],
+                    holidayDate[2],
+                    holidayDate[3],
+                    holidayDate[4],
+                    holidayDate[5]))

@@ -1,27 +1,60 @@
 # This is the PRC configuration file for developer servers and clients.
-# If making a change here, please remember to add it to public_client.prc
-# as well as deployment/server.prc if necessary.
+# Please remember to update public_client.prc if necessary.
 
 # Client settings
-window-title Toontown World [Pre-Alpha]
+window-title Toontown World Online [Pre-Alpha]
 server-version ttw-pre-alpha-2.5.2
-audio-library-name p3fmod_audio
-sync-video #f
-want-dev #f
-preload-avatars #t
-want-keep-alive #f
 texture-anisotropic-degree 16
-cursor-filename resources/phase_3/etc/toonmono.cur
-icon-filename resources/phase_3/etc/icon.ico
+preload-avatars #f
 
-# Audio...
-audio-library-name p3fmod_audio
-#audio-library-name p3openal_audio
 
-# Useless Variables
+# Graphics:
+aux-display pandagl
+aux-display pandadx9
+aux-display p3tinydisplay
+
+
+# Performance
+sync-video #f
+smooth-lag 0.4
+texture-power-2 none
+gl-check-errors #f
+garbage-collect-states #f
+
+
+# Debug settings
+# Codebase
+default-directnotify-level info
+default-directnotify-level warning
+default-directnotify-level spam
+# Panda
+notify-level warning
+want-dev #f
+want-keep-alive #f
+
+
+# Extra debug tools/variables
 show-frame-rate-meter #f
 cursor-hidden #f
 undecorated #f
+
+
+# Game server address and authentication address
+game-server 158.69.210.54
+server-port 7198
+# account-server localhost
+
+
+# Cursor and Icon
+
+# cursor-filename resources/phase_3/etc/toonmono.cur
+# icon-filename resources/phase_3/etc/icon.ico
+
+
+# Audio
+audio-library-name p3fmod_audio
+# audio-library-name p3openal_audio
+
 
 # Resource settings
 vfs-mount resources/phase_3 /phase_3
@@ -38,74 +71,89 @@ vfs-mount resources/phase_11 /phase_11
 vfs-mount resources/phase_12 /phase_12
 vfs-mount resources/phase_13 /phase_13
 vfs-mount resources/server /server
+
 model-path /
 default-model-extension .bam
 
 
-# Server settings
-want-rpc-server #t
+# Main Server Settings
+
+# RPC settings - never used
+want-rpc-server #f
 rpc-server-endpoint http://localhost:8080/
-rpc-server-secret 0123456789abcdef
+# rpc-server-secret 0123456789abcdef
 eventlog-host 127.0.0.1
+# Cheesy Effects and POP
 want-cheesy-expirations #t
+show-total-population #t
+shard-low-pop 1
+shard-mid-pop 3
+csmud-secret Yvv4Jr5TUDkX5M8gh64Z9Q4AUAQYdFNecyGgl2I5GOQf8CBh7LUZWpzKB9FBF
 
 
-# DC Files
-# This is, oddly enough, in *reverse* order of their loading...
+# DC Files (server and client-sided)
 dc-file config/toontown.dc
 
 
-# Beta Modifications
-# Temporary modifications for unimplemented features go here.
-want-pets #t
+# Systems and Beta Modifications
+# Modifications/temporary for unimplemented features go here.
+want-accessories #t
+# Newsmanager
 want-news-tab #f
 want-news-page #f
-want-accessories #t
+want-fishing #t
 want-parties #t
+# Estates
+want-pets #t
 want-gardening #f
 want-gifting #t
-want-picnic-games #f
-want-chinese-table #f
-want-fishing #t
+# Table games
+want-game-tables #f
 want-checkers-table #f
 want-findfour-table #f
 want-keep-alive #f
-want-hourly-fireworks #t
-want-flippy-pet-intro #f
-want-hourly-fireworks-type summer
-default-directnotify-level info
-
-# Developer Modifications
-# A few fun things for our developer build. These shouldn't go in public_client.
+want-picnic-games #f
+want-chinese-table #f
+# Security
+want-speedhack-fix #t
+# A few fun things for unfinished events and settings
 estate-day-night #t
 want-instant-parties #f
-show-total-population #t
-want-toontorial #t
+want-toontorial #f
 want-doomsday #f
+want-cogdominiums #f
 
-# Chat stuff
+
+# Chat system (server-sided/client-sided)
 want-whitelist #t
 want-blacklist-sequence #f
 force-avatar-understandable #t
 force-player-understandable #t
 
-want-suit-planners #t
-want-cogbuildings #t
-# Holidays and Events
+
+# Holidays and Events (server-sided/client-sided)
 want-arg-manager #f
 want-mega-invasions #f
-mega-invasion-cog-type dt
-want-speedhack-fix #f 
+mega-invasion-cog-type bw
+want-hourly-fireworks #t
+# want-flippy-pet-intro #f
+want-hourly-fireworks-type victoryreleasefireworks
+# Alternative than nerfing VP?
+easy-vp #t
+force-holiday-decorations 1, 6
+want-blueprint4-ARG #f
+want-april-toons #f
 
 
-# Cog battles :
-#gag-bonus 2
+# Cog battling and multipliers
 base-xp-multiplier 4
-#group merges
-boarding-group-merges #t
-#other
+want-suit-planners #t
+want-cogbuildings #t
 
-want-speedhack-fix #t
-want-cogdominiums #f
-want-game-tables #f
-force-skip-tutorial #f
+
+# Group merges
+boarding-group-merges #t
+
+
+# Misc
+# force-skip-tutorial #t

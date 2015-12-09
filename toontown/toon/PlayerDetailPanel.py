@@ -14,17 +14,19 @@ import AvatarPanelBase
 import PlayerDetailPanel
 from otp.otpbase import OTPGlobals
 GAME_LOGO_NAMES = {'Default': 'GameLogo_Unknown',
- 'Disney XD': 'GameLogo_XD',
- 'Toontown': 'GameLogo_Toontown',
- 'Pirates': 'GameLogo_Pirates'}
+                   'Disney XD': 'GameLogo_XD',
+                   'Toontown': 'GameLogo_Toontown',
+                   'Pirates': 'GameLogo_Pirates'}
 GAME_LOGO_FILE = 'phase_3/models/misc/game_logo_card'
+
 
 class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('PlayerInfoPanel')
 
     def __init__(self, playerId):
         from toontown.friends import FriendsListPanel
-        AvatarPanelBase.AvatarPanelBase.__init__(self, None, FriendsListPanel=FriendsListPanel)
+        AvatarPanelBase.AvatarPanelBase.__init__(
+            self, None, FriendsListPanel=FriendsListPanel)
         self.setup(playerId)
         self.avId = 0
         self.avName = None
@@ -33,7 +35,8 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
     def setup(self, playerId):
         from toontown.friends import FriendsListPanel
         self.playerId = playerId
-        self.playerInfo = base.cr.playerFriendsManager.playerId2Info.get(playerId)
+        self.playerInfo = base.cr.playerFriendsManager.playerId2Info.get(
+            playerId)
         if not self.playerInfo:
             return
         avId = None
@@ -77,7 +80,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
             logoImageName = GAME_LOGO_NAMES['Default']
             if not self.playerInfo.onlineYesNo:
                 logoImageName = GAME_LOGO_NAMES['Default']
-            elif GAME_LOGO_NAMES.has_key(self.playerInfo.location):
+            elif self.playerInfo.location in GAME_LOGO_NAMES:
                 logoImageName = GAME_LOGO_NAMES[self.playerInfo.location]
             model = loader.loadModel(GAME_LOGO_FILE)
             logoImage = model.find('**/' + logoImageName)
@@ -287,17 +290,21 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
         messenger.send('avPanelDone')
         self.accept('playerOnline', self.__handlePlayerChanged)
         self.accept('playerOffline', self.__handlePlayerChanged)
-        self.accept(OTPGlobals.PlayerFriendUpdateEvent, self.__handlePlayerChanged)
-        self.accept(OTPGlobals.PlayerFriendRemoveEvent, self.__handlePlayerUnfriend)
+        self.accept(
+            OTPGlobals.PlayerFriendUpdateEvent,
+            self.__handlePlayerChanged)
+        self.accept(
+            OTPGlobals.PlayerFriendRemoveEvent,
+            self.__handlePlayerUnfriend)
         return
 
     def disableAll(self):
         self.detailButton['state'] = DGG.DISABLED
         self.ignoreButton['state'] = DGG.DISABLED
         if base.cr.productName not in ['JP',
-         'DE',
-         'BR',
-         'FR']:
+                                       'DE',
+                                       'BR',
+                                       'FR']:
             self.reportButton['state'] = DGG.DISABLED
         self.goToButton['state'] = DGG.DISABLED
         self.secretsButton['state'] = DGG.DISABLED
@@ -314,7 +321,7 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
         AvatarPanelBase.AvatarPanelBase.cleanup(self)
 
     def unsetup(self):
-        if not hasattr(self, 'frame') or self.frame == None:
+        if not hasattr(self, 'frame') or self.frame is None:
             return
         PlayerDetailPanel.unloadPlayerDetail()
         self.frame.destroy()
@@ -330,13 +337,16 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
     def __handleGoto(self):
         if base.localAvatar.isTeleportAllowed():
             base.localAvatar.chatMgr.noWhisper()
-            messenger.send('gotoAvatar', [self.avId, self.avName, self.avDisableName])
+            messenger.send(
+                'gotoAvatar', [
+                    self.avId, self.avName, self.avDisableName])
 
     def __handleWhisper(self):
         if self.noAv:
             base.localAvatar.chatMgr.whisperTo(self.listName, 0, self.playerId)
         else:
-            base.localAvatar.chatMgr.whisperTo(self.avName, self.avId, self.playerId)
+            base.localAvatar.chatMgr.whisperTo(
+                self.avName, self.avId, self.playerId)
 
     def __handleSecrets(self):
         base.localAvatar.chatMgr.noWhisper()
@@ -345,7 +355,9 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
     def __handleFriend(self):
         base.localAvatar.chatMgr.noWhisper()
         self.__getAvInfo()
-        messenger.send('friendAvatar', [self.avId, self.avName, self.avDisableName])
+        messenger.send(
+            'friendAvatar', [
+                self.avId, self.avName, self.avDisableName])
 
     def __getAvInfo(self):
         if self.playerId:
@@ -360,12 +372,14 @@ class PlayerInfoPanel(AvatarPanelBase.AvatarPanelBase):
     def __handleDetails(self):
         base.localAvatar.chatMgr.noWhisper()
         self.__getAvInfo()
-        messenger.send('playerDetails', [self.avId, self.avName, self.playerId])
+        messenger.send(
+            'playerDetails', [
+                self.avId, self.avName, self.playerId])
 
     def handleDisableAvatar(self):
         pass
 
-    def __handlePlayerChanged(self, playerId, info = None):
+    def __handlePlayerChanged(self, playerId, info=None):
         if playerId == self.playerId:
             self.unsetup()
             self.setup(playerId)

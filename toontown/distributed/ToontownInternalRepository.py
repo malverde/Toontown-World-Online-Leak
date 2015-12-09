@@ -4,22 +4,34 @@ from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.MsgTypes import *
 from panda3d.core import *
 
-ai_watchdog = ConfigVariableInt('ai-watchdog', 15,
-                                'Specifies the maximum amount of time that a'
-                                ' frame may take before the process kills itself.')
+ai_watchdog = ConfigVariableInt(
+    'ai-watchdog', 15,
+    'Specifies the maximum amount of time that a'
+    ' frame may take before the process kills itself.')
 
-class WatchdogError(Exception): pass
+
+class WatchdogError(Exception):
+    pass
+
+
 def watchdogExhausted(signum, frame):
     raise WatchdogError('The process has stalled!')
+
 
 class ToontownInternalRepository(AstronInternalRepository):
     GameGlobalsId = OTP_DO_ID_TOONTOWN
     dbId = 4003
 
-    def __init__(self, baseChannel, serverId=None, dcFileNames = None,
+    def __init__(self, baseChannel, serverId=None, dcFileNames=None,
                  dcSuffix='AI', connectMethod=None, threadedNet=None):
-        AstronInternalRepository.__init__(self, baseChannel, serverId, dcFileNames,
-                                 dcSuffix, connectMethod, threadedNet)
+        AstronInternalRepository.__init__(
+            self,
+            baseChannel,
+            serverId,
+            dcFileNames,
+            dcSuffix,
+            connectMethod,
+            threadedNet)
         self._callbacks = {}
 
     def handleConnected(self):
@@ -37,11 +49,14 @@ class ToontownInternalRepository(AstronInternalRepository):
         return self.getMsgSender() & 0xFFFFFFFF
 
     def getAccountIdFromSender(self):
-        return (self.getMsgSender()>>32) & 0xFFFFFFFF
-        
+        return (self.getMsgSender() >> 32) & 0xFFFFFFFF
+
     def setAllowClientSend(self, avId, dObj, fieldNameList=[]):
         dg = PyDatagram()
-        dg.addServerHeader(dObj.GetPuppetConnectionChannel(avId), self.ourChannel, CLIENTAGENT_SET_FIELDS_SENDABLE)
+        dg.addServerHeader(
+            dObj.GetPuppetConnectionChannel(avId),
+            self.ourChannel,
+            CLIENTAGENT_SET_FIELDS_SENDABLE)
         fieldIds = []
         for fieldName in fieldNameList:
             field = dObj.dclass.getFieldByName(fieldName)

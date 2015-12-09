@@ -1,8 +1,10 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
+
 class DistributedProjectileAI(DistributedObjectAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedProjectileAI")
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        "DistributedProjectileAI")
 
     def setInitTime(self, todo0):
         pass
@@ -21,4 +23,3 @@ class DistributedProjectileAI(DistributedObjectAI):
 
     def hitSomebody(self, todo0, todo1):
         pass
-

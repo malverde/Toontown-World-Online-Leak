@@ -8,6 +8,7 @@ import ToonInteriorColors
 from toontown.dna.DNADoor import DNADoor
 from toontown.hood import ZoneUtil
 
+
 class DistributedGagshopInterior(DistributedObject.DistributedObject):
 
     def __init__(self, cr):
@@ -43,15 +44,20 @@ class DistributedGagshopInterior(DistributedObject.DistributedObject):
                 if key2 == 'r':
                     self.replaceRandomInModel(newNP)
             elif key1 == 't':
-                texture = self.randomDNAItem(category, self.dnaStore.findTexture)
+                texture = self.randomDNAItem(
+                    category, self.dnaStore.findTexture)
                 np.setTexture(texture, 100)
                 newNP = np
             if key2 == 'c':
                 if category == 'TI_wallpaper' or category == 'TI_wallpaper_border':
                     self.randomGenerator.seed(self.zoneId)
-                    newNP.setColorScale(self.randomGenerator.choice(self.colors[category]))
+                    newNP.setColorScale(
+                        self.randomGenerator.choice(
+                            self.colors[category]))
                 else:
-                    newNP.setColorScale(self.randomGenerator.choice(self.colors[category]))
+                    newNP.setColorScale(
+                        self.randomGenerator.choice(
+                            self.colors[category]))
 
     def setZoneIdAndBlock(self, zoneId, block):
         self.zoneId = zoneId
@@ -70,7 +76,8 @@ class DistributedGagshopInterior(DistributedObject.DistributedObject):
         self.dnaStore = base.cr.playGame.dnaStore
         self.randomGenerator = random.Random()
         self.randomGenerator.seed(self.zoneId)
-        self.interior = loader.loadModel('phase_4/models/modules/gagShop_interior')
+        self.interior = loader.loadModel(
+            'phase_4/models/modules/gagShop_interior')
         self.interior.reparentTo(render)
         hoodId = ZoneUtil.getCanonicalHoodId(self.zoneId)
         self.colors = ToonInteriorColors.colors[hoodId]
@@ -81,7 +88,8 @@ class DistributedGagshopInterior(DistributedObject.DistributedObject):
         doorOrigin.setScale(0.8, 0.8, 0.8)
         doorOrigin.setPos(doorOrigin, 0, -0.025, 0)
         doorColor = self.randomGenerator.choice(self.colors['TI_door'])
-        DNADoor.setupDoor(doorNP, self.interior, doorOrigin, self.dnaStore, str(self.block), doorColor)
+        DNADoor.setupDoor(doorNP, self.interior, doorOrigin,
+                          self.dnaStore, str(self.block), doorColor)
         doorFrame = doorNP.find('door_*_flat')
         doorFrame.wrtReparentTo(self.interior)
         doorFrame.setColor(doorColor)

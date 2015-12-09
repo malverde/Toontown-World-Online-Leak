@@ -1,4 +1,4 @@
-#Embedded file name: toontown.catalog.CatalogSurfaceColors
+# Embedded file name: toontown.catalog.CatalogSurfaceColors
 CT_WHITE = (1.0, 1.0, 1.0, 1.0)
 CT_RED = (1.0, 0.5, 0.5, 1.0)
 CT_BROWN = (0.641, 0.355, 0.27, 1.0)
@@ -45,32 +45,32 @@ CT_PINE = (1.0, 0.812, 0.49, 1.0)
 CT_CHERRY = (0.71, 0.408, 0.267, 1.0)
 CT_BEECH = (0.961, 0.659, 0.4, 1.0)
 CTFlatColor = [CT_BEIGE,
- CT_TEAL,
- CT_BLUE2,
- CT_PINK2,
- CT_BEIGE2,
- CT_RED]
+               CT_TEAL,
+               CT_BLUE2,
+               CT_PINK2,
+               CT_BEIGE2,
+               CT_RED]
 CTValentinesColors = [CT_PINK2, CT_RED]
 CTUnderwaterColors = [CT_WHITE,
- CT_TEAL,
- CT_SEA_GREEN,
- CT_LIGHT_BLUE,
- CT_PALE_GREEN,
- CT_AQUA,
- CT_CORAL,
- CT_PEACH]
+                      CT_TEAL,
+                      CT_SEA_GREEN,
+                      CT_LIGHT_BLUE,
+                      CT_PALE_GREEN,
+                      CT_AQUA,
+                      CT_CORAL,
+                      CT_PEACH]
 CTFlatColorDark = []
 tint = 0.75
 for color in CTFlatColor:
     CTFlatColorDark.append((color[0] * tint,
-     color[1] * tint,
-     color[2] * tint,
-     1.0))
+                            color[1] * tint,
+                            color[2] * tint,
+                            1.0))
 
 CTFlatColorAll = CTFlatColor + CTFlatColorDark
 CTBasicWoodColorOnWhite = [CT_DARK_WALNUT,
- CT_GENERIC_DARK,
- CT_PINE,
- CT_CHERRY,
- CT_BEECH]
+                           CT_GENERIC_DARK,
+                           CT_PINE,
+                           CT_CHERRY,
+                           CT_BEECH]
 CTWhite = [CT_WHITE]

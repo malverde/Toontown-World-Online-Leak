@@ -25,8 +25,10 @@ from toontown.toontowngui.TeaserPanel import TeaserPanel
 if (__debug__):
     import pdb
 
+
 class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedStartingBlock')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedStartingBlock')
     sphereRadius = 1.5
     id = 0
     cameraPos = Point3(0, -23, 10)
@@ -34,9 +36,9 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
     SFX_BaseDir = 'phase_6/audio/sfx/'
     SFX_KartAppear = SFX_BaseDir + 'KART_Appear.ogg'
     defaultTransitions = {'Off': ['EnterMovie'],
-     'EnterMovie': ['Off', 'Waiting', 'ExitMovie'],
-     'Waiting': ['ExitMovie', 'Off'],
-     'ExitMovie': ['Off', 'ExitMovie']}
+                          'EnterMovie': ['Off', 'Waiting', 'ExitMovie'],
+                          'Waiting': ['ExitMovie', 'Off'],
+                          'ExitMovie': ['Off', 'ExitMovie']}
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
@@ -108,7 +110,9 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
         self.notify.debugStateCall(self)
         DistributedObject.DistributedObject.announceGenerate(self)
         self.nodePath.reparentTo(render)
-        self.accept(self.uniqueName('enterStartingBlockSphere'), self.__handleEnterSphere)
+        self.accept(
+            self.uniqueName('enterStartingBlockSphere'),
+            self.__handleEnterSphere)
         if (__debug__):
             if self.testLOD:
                 self.__generateKartAppearTrack()
@@ -129,7 +133,8 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
 
     def setPadLocationId(self, padLocationId):
         self.notify.debugStateCall(self)
-        self.movieNode = self.nodePath.attachNewNode(self.uniqueName('MovieNode'))
+        self.movieNode = self.nodePath.attachNewNode(
+            self.uniqueName('MovieNode'))
         self.exitMovieNode = self.movieNode
         if padLocationId % 2:
             self.movieNode.setPosHpr(3.0, 0, 0, 90.0, 0, 0)
@@ -140,19 +145,23 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
         self.collSphere.setTangible(isTangible)
 
     def __handleEnterSphere(self, collEntry):
-        if base.localAvatar.doId == self.lastAvId and globalClock.getFrameCount() <= self.lastFrame + 1:
+        if base.localAvatar.doId == self.lastAvId and globalClock.getFrameCount(
+        ) <= self.lastFrame + 1:
             self.notify.debug('Ignoring duplicate entry for avatar.')
             return
         if base.localAvatar.hp > 0:
 
-            def handleEnterRequest(self = self):
+            def handleEnterRequest(self=self):
                 self.ignore('stoppedAsleep')
-                if hasattr(self.dialog, 'doneStatus') and self.dialog.doneStatus == 'ok':
+                if hasattr(
+                        self.dialog,
+                        'doneStatus') and self.dialog.doneStatus == 'ok':
                     self.d_requestEnter(base.cr.isPaid())
                 elif self.cr and not self.isDisabled():
                     self.cr.playGame.getPlace().setState('walk')
                 else:
-                    self.notify.warning('Warning! Object has already been disabled.')
+                    self.notify.warning(
+                        'Warning! Object has already been disabled.')
                 self.dialog.ignoreAll()
                 self.dialog.cleanup()
                 del self.dialog
@@ -163,9 +172,12 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
             if self.kartPad.isPractice():
                 msg = TTLocalizer.StartingBlock_EnterPractice
             else:
-                raceName = TTLocalizer.KartRace_RaceNames[self.kartPad.trackType]
-                numTickets = RaceGlobals.getEntryFee(self.kartPad.trackId, self.kartPad.trackType)
-                msg = TTLocalizer.StartingBlock_EnterNonPractice % (raceName, numTickets)
+                raceName = TTLocalizer.KartRace_RaceNames[
+                    self.kartPad.trackType]
+                numTickets = RaceGlobals.getEntryFee(
+                    self.kartPad.trackId, self.kartPad.trackType)
+                msg = TTLocalizer.StartingBlock_EnterNonPractice % (
+                    raceName, numTickets)
             self.dialog = TTGlobalDialog(msg, doneEvent, 4)
             self.dialog.accept(doneEvent, handleEnterRequest)
 
@@ -186,7 +198,7 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
     def rejectEnter(self, errCode):
         self.notify.debugStateCall(self)
 
-        def handleTicketError(self = self):
+        def handleTicketError(self=self):
             self.ignore('stoppedAsleep')
             self.dialog.ignoreAll()
             self.dialog.cleanup()
@@ -220,7 +232,8 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
             self.dialog.accept(doneEvent, handleTicketError)
             self.accept('stoppedAsleep', handleTicketError)
         elif errCode == KartGlobals.ERROR_CODE.eUnpaid:
-            self.dialog = TeaserPanel(pageName='karting', doneFunc=handleTicketError)
+            self.dialog = TeaserPanel(
+                pageName='karting', doneFunc=handleTicketError)
         else:
             self.cr.playGame.getPlace().setState('walk')
 
@@ -232,7 +245,7 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
 
     def setOccupied(self, avId):
         self.notify.debug('%d setOccupied: %d' % (self.doId, avId))
-        if self.av != None:
+        if self.av is not None:
             self.finishMovie()
             if not self.av.isEmpty() and not self.av.isDisabled():
                 self.av.loop('neutral')
@@ -262,13 +275,18 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
             self.placedAvatar = 0
             if self.avId == base.localAvatar.doId:
                 self.localToonKarting = 1
-            if av != None:
+            if av is not None:
                 self.av = av
                 self.av.stopSmooth()
                 self.placedAvatar = 0
-                self.acceptOnce(self.av.uniqueName('disable'), self.__avatarGone)
-                self.kartNode = render.attachNewNode(self.av.uniqueName('KartNode'))
-                self.kartNode.setPosHpr(self.nodePath.getPos(render), self.nodePath.getHpr(render))
+                self.acceptOnce(
+                    self.av.uniqueName('disable'),
+                    self.__avatarGone)
+                self.kartNode = render.attachNewNode(
+                    self.av.uniqueName('KartNode'))
+                self.kartNode.setPosHpr(
+                    self.nodePath.getPos(render),
+                    self.nodePath.getHpr(render))
                 self.kart = Kart()
                 self.kart.baseScale = 1.6
                 self.kart.setDNA(self.av.getKartDNA())
@@ -281,7 +299,9 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
                     self.__placeAvatar()
                 self.avParent = av.getParent()
             else:
-                self.notify.warning('Unknown avatar %d in kart block %d ' % (self.avId, self.doId))
+                self.notify.warning(
+                    'Unknown avatar %d in kart block %d ' %
+                    (self.avId, self.doId))
                 self.avId = 0
         if wasLocalToon and not self.localToonKarting:
             place = base.cr.playGame.getPlace()
@@ -290,7 +310,7 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
                     place.setState('walk')
                 else:
 
-                    def handleDialogOK(self = self):
+                    def handleDialogOK(self=self):
                         self.ignore('stoppedAsleep')
                         place.setState('walk')
                         self.dialog.ignoreAll()
@@ -331,7 +351,18 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
         if hasattr(self, 'cancelButton'):
             return
         fishGui = loader.loadModel('phase_4/models/gui/fishingGui')
-        self.cancelButton = DirectGui.DirectButton(relief=None, scale=0.67, pos=(1.16, 0, -0.9), text=('', TTLocalizer.FishingExit, TTLocalizer.FishingExit), text_align=TextNode.ACenter, text_fg=Vec4(1, 1, 1, 1), text_shadow=Vec4(0, 0, 0, 1), text_pos=(0.0, -0.12), textMayChange=0, text_scale=0.1, image=(fishGui.find('**/exit_buttonUp'), fishGui.find('**/exit_buttonDown'), fishGui.find('**/exit_buttonRollover')), text_font=ToontownGlobals.getInterfaceFont(), command=self.d_requestExit)
+        self.cancelButton = DirectGui.DirectButton(
+            relief=None, scale=0.67, pos=(1.16, 0, -0.9),
+            text=('', TTLocalizer.FishingExit, TTLocalizer.FishingExit),
+            text_align=TextNode.ACenter, text_fg=Vec4(1, 1, 1, 1),
+            text_shadow=Vec4(0, 0, 0, 1),
+            text_pos=(0.0, -0.12),
+            textMayChange=0, text_scale=0.1,
+            image=(fishGui.find('**/exit_buttonUp'),
+                   fishGui.find('**/exit_buttonDown'),
+                   fishGui.find('**/exit_buttonRollover')),
+            text_font=ToontownGlobals.getInterfaceFont(),
+            command=self.d_requestExit)
         self.cancelButton.hide()
         return
 
@@ -353,14 +384,24 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
         heading = PythonUtil.fitDestAngle2Src(self.av.getH(render), hpr[0])
         hpr.setX(heading)
         self.av.setAnimState('run', 1.0)
-        toonTrack = Sequence(Wait(0.5), Parallel(LerpPosInterval(self.av, 1.0, Point3(self.movieNode.getX(self.avParent), self.movieNode.getY(self.avParent), 0)), LerpHprInterval(self.av, 1.0, hpr=hpr, other=render)), Func(self.av.loop, 'neutral'))
+        toonTrack = Sequence(
+            Wait(0.5), Parallel(
+                LerpPosInterval(
+                    self.av, 1.0, Point3(
+                        self.movieNode.getX(
+                            self.avParent), self.movieNode.getY(
+                            self.avParent), 0)), LerpHprInterval(
+                    self.av, 1.0, hpr=hpr, other=render)), Func(
+                self.av.loop, 'neutral'))
         return toonTrack
 
     def generateKartAppearTrack(self):
         if not self.av:
             if not self.kartNode:
                 self.kartNode = render.attachNewNode(str(self) + 'kartNode')
-                self.kartNode.setPosHpr(self.nodePath.getPos(render), self.nodePath.getHpr(render))
+                self.kartNode.setPosHpr(
+                    self.nodePath.getPos(render),
+                    self.nodePath.getHpr(render))
             self.kart.setScale(0.85)
             self.kart.reparentTo(self.kartNode)
             return Parallel()
@@ -376,7 +417,7 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
                 Func(self.kart.wrtReparentTo, render),
                 Func(self.kart.setShear, 0, 0, 0),
                 Parallel(
-                    LerpHprInterval(self.kart,  hpr=self.kartNode.getHpr(render), duration=1.2),
+                    LerpHprInterval(self.kart, hpr=self.kartNode.getHpr(render), duration=1.2),
                     ProjectileInterval(self.kart, endPos=self.kartNode.getPos(render), duration=1.2, gravityMult=0.45)),
                 Wait(0.2),
                 Func(self.kart.setActiveShadow, True),
@@ -395,24 +436,27 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
 
         def getToonJumpTrack(av, kart):
 
-            def getJumpDest(av = av, node = kart.toonNode[0]):
+            def getJumpDest(av=av, node=kart.toonNode[0]):
                 dest = node.getPos(av.getParent())
                 return dest
 
-            def getJumpHpr(av = av, node = kart.toonNode[0]):
+            def getJumpHpr(av=av, node=kart.toonNode[0]):
                 hpr = node.getHpr(av.getParent())
                 return hpr
 
             toonJumpTrack = Parallel(
-                ActorInterval(av, 'jump'),
-                Sequence(Wait(0.43),
-                         Parallel(
-                             LerpHprInterval(av, hpr=getJumpHpr, duration=0.9),
-                             ProjectileInterval(av, endPos=getJumpDest, duration=0.9))))
+                ActorInterval(
+                    av, 'jump'), Sequence(
+                    Wait(0.43), Parallel(
+                        LerpHprInterval(
+                            av, hpr=getJumpHpr, duration=0.9), ProjectileInterval(
+                            av, endPos=getJumpDest, duration=0.9))))
             return toonJumpTrack
 
         def getToonSitTrack(av):
-            toonSitTrack = Sequence(ActorInterval(av, 'sit-start'), Func(av.loop, 'sit'))
+            toonSitTrack = Sequence(
+                ActorInterval(av, 'sit-start'),
+                Func(av.loop, 'sit'))
             return toonSitTrack
 
         toonJumpTrack = getToonJumpTrack(self.av, self.kart)
@@ -423,38 +467,52 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
                 Sequence(
                     Wait(1),
                     toonSitTrack)),
-                Func(self.av.setPosHpr, 0, 0.45, -.25, 0, 0, 0),
-                Func(self.av.reparentTo, self.kart.toonSeat))
+            Func(self.av.setPosHpr, 0, 0.45, -.25, 0, 0, 0),
+            Func(self.av.reparentTo, self.kart.toonSeat))
         return jumpTrack
 
     def generateToonReverseJumpTrack(self):
 
         def getToonJumpTrack(av, destNode):
 
-            def getJumpDest(av = av, node = destNode):
+            def getJumpDest(av=av, node=destNode):
                 dest = node.getPos(av.getParent())
                 return dest
 
-            def getJumpHpr(av = av, node = destNode):
+            def getJumpHpr(av=av, node=destNode):
                 hpr = node.getHpr(av.getParent())
                 return hpr
 
-            toonJumpTrack = Parallel(ActorInterval(av, 'jump'), Sequence(Wait(0.1), Parallel(LerpHprInterval(av, hpr=getJumpHpr, duration=0.9), ProjectileInterval(av, endPos=getJumpDest, duration=0.9))))
+            toonJumpTrack = Parallel(
+                ActorInterval(
+                    av, 'jump'), Sequence(
+                    Wait(0.1), Parallel(
+                        LerpHprInterval(
+                            av, hpr=getJumpHpr, duration=0.9), ProjectileInterval(
+                            av, endPos=getJumpDest, duration=0.9))))
             return toonJumpTrack
 
         toonJumpTrack = getToonJumpTrack(self.av, self.exitMovieNode)
-        jumpTrack = Sequence(toonJumpTrack, Func(self.av.loop, 'neutral'), Func(self.av.reparentTo, render), Func(self.av.setPosHpr, self.exitMovieNode, 0, 0, 0, 0, 0, 0))
+        jumpTrack = Sequence(
+            toonJumpTrack, Func(
+                self.av.loop, 'neutral'), Func(
+                self.av.reparentTo, render), Func(
+                self.av.setPosHpr, self.exitMovieNode, 0, 0, 0, 0, 0, 0))
         return jumpTrack
 
     def generateCameraMoveTrack(self):
         self.cPos = camera.getPos(self.av)
         self.cHpr = camera.getHpr(self.av)
         camera.wrtReparentTo(self.nodePath)
-        cameraTrack = LerpPosHprInterval(camera, 1.5, self.cameraPos, self.cameraHpr)
+        cameraTrack = LerpPosHprInterval(
+            camera, 1.5, self.cameraPos, self.cameraHpr)
         return cameraTrack
 
     def generateCameraReturnMoveTrack(self):
-        cameraTrack = Sequence(Func(camera.wrtReparentTo, self.av), LerpPosHprInterval(camera, 1.5, self.cPos, self.cHpr))
+        cameraTrack = Sequence(
+            Func(
+                camera.wrtReparentTo, self.av), LerpPosHprInterval(
+                camera, 1.5, self.cPos, self.cHpr))
         return cameraTrack
 
     def generateKartDisappearTrack(self):
@@ -475,11 +533,28 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
         def getKartShrinkTrack(kart):
             pos = kart.getPos()
             pos.addZ(-1.0)
-            kartTrack = Sequence(LerpScaleInterval(kart, scale=Point3(1.0, 1.0, 0.9), duration=0.1), LerpScaleInterval(kart, scale=Point3(1.0, 1.0, 1.1), duration=0.1), LerpScaleInterval(kart, scale=Point3(1.0, 1.0, 0.1), duration=0.2), LerpScaleInterval(kart, scale=Point3(0.9, 0.9, 0.1), duration=0.1), LerpScaleInterval(kart, scale=Point3(1.1, 1.1, 0.1), duration=0.1), LerpScaleInterval(kart, scale=Point3(0.1, 0.1, 0.1), duration=0.2), Wait(0.2), LerpPosInterval(kart, pos=pos, duration=0.2), Func(kart.hide))
+            kartTrack = Sequence(
+                LerpScaleInterval(
+                    kart, scale=Point3(
+                        1.0, 1.0, 0.9), duration=0.1), LerpScaleInterval(
+                    kart, scale=Point3(
+                        1.0, 1.0, 1.1), duration=0.1), LerpScaleInterval(
+                    kart, scale=Point3(
+                        1.0, 1.0, 0.1), duration=0.2), LerpScaleInterval(
+                    kart, scale=Point3(
+                        0.9, 0.9, 0.1), duration=0.1), LerpScaleInterval(
+                    kart, scale=Point3(
+                        1.1, 1.1, 0.1), duration=0.1), LerpScaleInterval(
+                    kart, scale=Point3(
+                        0.1, 0.1, 0.1), duration=0.2), Wait(0.2), LerpPosInterval(
+                    kart, pos=pos, duration=0.2), Func(
+                    kart.hide))
             return kartTrack
 
         if not self.holeActor:
-            self.holeActor = Actor.Actor('phase_3.5/models/props/portal-mod', {'hole': 'phase_3.5/models/props/portal-chan'})
+            self.holeActor = Actor.Actor(
+                'phase_3.5/models/props/portal-mod',
+                {'hole': 'phase_3.5/models/props/portal-chan'})
         holeTrack = getHoleTrack(self.holeActor, self.kartNode)
         shrinkTrack = getKartShrinkTrack(self.kart)
         kartTrack = Parallel(shrinkTrack, holeTrack)
@@ -493,7 +568,9 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
         self.notify.debug('%d exitOff: Exiting the Off State.' % self.doId)
 
     def enterEnterMovie(self):
-        self.notify.debug('%d enterEnterMovie: Entering the Enter Movie State.' % self.doId)
+        self.notify.debug(
+            '%d enterEnterMovie: Entering the Enter Movie State.' %
+            self.doId)
         if config.GetBool('want-qa-regression', 0):
             raceName = TTLocalizer.KartRace_RaceNames[self.kartPad.trackType]
             self.notify.info('QA-REGRESSION: KARTING: %s' % raceName)
@@ -506,30 +583,53 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
             cameraTrack = self.generateCameraMoveTrack()
             engineStartTrack = self.kart.generateEngineStartTrack()
             self.finishMovie()
-            self.movieTrack = Sequence(Parallel(cameraTrack, toonTrack), Parallel(SoundInterval(kartAppearSfx), Sequence(kartTrack, jumpTrack, engineStartTrack, Func(self.makeGui), Func(self.showGui), Func(self.request, 'Waiting'), Func(self.d_movieFinished))), name=name, autoFinish=1)
+            self.movieTrack = Sequence(
+                Parallel(
+                    cameraTrack, toonTrack), Parallel(
+                    SoundInterval(kartAppearSfx), Sequence(
+                        kartTrack, jumpTrack, engineStartTrack, Func(
+                            self.makeGui), Func(
+                            self.showGui), Func(
+                            self.request, 'Waiting'), Func(
+                                self.d_movieFinished))), name=name, autoFinish=1)
             self.exitRequested = False
         else:
             self.finishMovie()
-            self.movieTrack = Sequence(toonTrack, kartTrack, jumpTrack, name=name, autoFinish=1)
+            self.movieTrack = Sequence(
+                toonTrack, kartTrack, jumpTrack, name=name, autoFinish=1)
         self.movieTrack.start()
         return
 
     def exitEnterMovie(self):
-        self.notify.debug('%d exitEnterMovie: Exiting the Enter Movie State.' % self.doId)
+        self.notify.debug(
+            '%d exitEnterMovie: Exiting the Enter Movie State.' %
+            self.doId)
 
     def enterWaiting(self):
-        self.notify.debug('%d enterWaiting: Entering the Waiting State.' % self.doId)
+        self.notify.debug(
+            '%d enterWaiting: Entering the Waiting State.' %
+            self.doId)
 
     def exitWaiting(self):
-        self.notify.debug('%d exitWaiting: Exiting the Waiting State.' % self.doId)
+        self.notify.debug(
+            '%d exitWaiting: Exiting the Waiting State.' %
+            self.doId)
 
     def enterExitMovie(self):
-        self.notify.debug('%d enterExitMovie: Entering the Exit Movie State.' % self.doId)
+        self.notify.debug(
+            '%d enterExitMovie: Entering the Exit Movie State.' %
+            self.doId)
         self.hideGui()
         jumpTrack = self.generateToonReverseJumpTrack()
         kartTrack = self.generateKartDisappearTrack()
         self.finishMovie()
-        self.movieTrack = Sequence(Func(self.kart.kartLoopSfx.stop), jumpTrack, kartTrack, name=self.av.uniqueName('ExitRaceTrack'), autoFinish=1)
+        self.movieTrack = Sequence(
+            Func(
+                self.kart.kartLoopSfx.stop),
+            jumpTrack,
+            kartTrack,
+            name=self.av.uniqueName('ExitRaceTrack'),
+            autoFinish=1)
         if self.av is not None and self.localToonKarting:
             cameraTrack = self.generateCameraReturnMoveTrack()
             self.movieTrack.append(cameraTrack)
@@ -538,7 +638,9 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
         return
 
     def exitExitMovie(self):
-        self.notify.debug('%d exitExitMovie: Exiting the Exit Movie State.' % self.doId)
+        self.notify.debug(
+            '%d exitExitMovie: Exiting the Exit Movie State.' %
+            self.doId)
 
     def doExitToRaceTrack(self):
         self.hideGui()
@@ -549,8 +651,10 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
         oldBlockScale = self.kartNode.getScale()
         self.kart.LODnode.setSwitch(0, 60, 0)
         self.kartNode.setPos(render, oldBlockPos)
-        blockLerpIval = LerpPosInterval(self.kartNode, pos=newBlockPos, duration=2.0)
-        scaleLerpIval = LerpScaleInterval(self.kartNode, scale=oldBlockScale * 0.2, duration=2.0)
+        blockLerpIval = LerpPosInterval(
+            self.kartNode, pos=newBlockPos, duration=2.0)
+        scaleLerpIval = LerpScaleInterval(
+            self.kartNode, scale=oldBlockScale * 0.2, duration=2.0)
         engineStopTrack = self.kart.generateEngineStopTrack(2)
         self.finishMovie()
         self.movieTrack = Parallel()
@@ -558,16 +662,29 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
             self.movieTrack.insert(0, Func(base.transitions.irisOut, 1.5, 0))
             (self.movieTrack.append(engineStopTrack),)
             taskMgr.doMethodLater(1.6, self.bulkLoad, 'loadIt', extraArgs=[])
-        self.movieTrack.append(Sequence(Parallel(blockLerpIval, scaleLerpIval), Func(self.kartNode.hide), Func(self.kartNode.setPos, render, oldBlockPos), Func(self.kartNode.setScale, oldBlockScale)))
+        self.movieTrack.append(
+            Sequence(
+                Parallel(
+                    blockLerpIval, scaleLerpIval), Func(
+                    self.kartNode.hide), Func(
+                    self.kartNode.setPos, render, oldBlockPos), Func(
+                        self.kartNode.setScale, oldBlockScale)))
         self.movieTrack.start()
 
     def bulkLoad(self):
-    	zoneId = 0 
-        base.loader.beginBulkLoad('atRace', TTLocalizer.StartingBlock_Loading, 60, 1, TTLocalizer.TIP_KARTING, zoneId)
+        zoneId = 0
+        base.loader.beginBulkLoad(
+            'atRace',
+            TTLocalizer.StartingBlock_Loading,
+            60,
+            1,
+            TTLocalizer.TIP_KARTING,
+            zoneId)
 
 
 class DistributedViewingBlock(DistributedStartingBlock):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedViewingBlock')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedViewingBlock')
     sphereRadius = 6
 
     def __init__(self, cr):
@@ -597,15 +714,19 @@ class DistributedViewingBlock(DistributedStartingBlock):
         self.notify.debugStateCall(self)
         DistributedObject.DistributedObject.announceGenerate(self)
         self.nodePath.reparentTo(render)
-        self.accept(self.uniqueName('enterStartingBlockSphere'), self.__handleEnterSphere)
+        self.accept(
+            self.uniqueName('enterStartingBlockSphere'),
+            self.__handleEnterSphere)
         if (__debug__):
             if self.testLOD:
                 self.__generateKartAppearTrack()
 
     def setPadLocationId(self, padLocationId):
         self.notify.debugStateCall(self)
-        self.movieNode = self.nodePath.attachNewNode(self.uniqueName('MovieNode'))
-        self.exitMovieNode = self.nodePath.attachNewNode(self.uniqueName('ExitMovieNode'))
+        self.movieNode = self.nodePath.attachNewNode(
+            self.uniqueName('MovieNode'))
+        self.exitMovieNode = self.nodePath.attachNewNode(
+            self.uniqueName('ExitMovieNode'))
         if padLocationId % 2:
             self.movieNode.setPosHpr(0, 6.5, 0, 0, 0, 0)
         else:
@@ -614,14 +735,17 @@ class DistributedViewingBlock(DistributedStartingBlock):
         self.collNodePath.reparentTo(self.movieNode)
 
     def __handleEnterSphere(self, collEntry):
-        if base.localAvatar.doId == self.lastAvId and globalClock.getFrameCount() <= self.lastFrame + 1:
+        if base.localAvatar.doId == self.lastAvId and globalClock.getFrameCount(
+        ) <= self.lastFrame + 1:
             self.notify.debug('Ignoring duplicate entry for avatar.')
             return
         if base.localAvatar.hp > 0:
 
-            def handleEnterRequest(self = self):
+            def handleEnterRequest(self=self):
                 self.ignore('stoppedAsleep')
-                if hasattr(self.dialog, 'doneStatus') and self.dialog.doneStatus == 'ok':
+                if hasattr(
+                        self.dialog,
+                        'doneStatus') and self.dialog.doneStatus == 'ok':
                     self.d_requestEnter(base.cr.isPaid())
                 else:
                     self.cr.playGame.getPlace().setState('walk')
@@ -671,11 +795,14 @@ class DistributedViewingBlock(DistributedStartingBlock):
         return
 
     def countdown(self):
-        countdownTime = KartGlobals.COUNTDOWN_TIME - globalClockDelta.localElapsedTime(self.kartPad.getTimestamp(self.avId))
+        countdownTime = KartGlobals.COUNTDOWN_TIME - \
+            globalClockDelta.localElapsedTime(self.kartPad.getTimestamp(self.avId))
         self.timer.countdown(countdownTime)
 
     def enterEnterMovie(self):
-        self.notify.debug('%d enterEnterMovie: Entering the Enter Movie State.' % self.doId)
+        self.notify.debug(
+            '%d enterEnterMovie: Entering the Enter Movie State.' %
+            self.doId)
         if config.GetBool('want-qa-regression', 0):
             raceName = TTLocalizer.KartRace_RaceNames[self.kartPad.trackType]
             self.notify.info('QA-REGRESSION: KARTING: %s' % raceName)
@@ -691,10 +818,18 @@ class DistributedViewingBlock(DistributedStartingBlock):
         if self.av is not None and self.localToonKarting:
             cameraTrack = self.generateCameraMoveTrack()
             self.finishMovie()
-            self.movieTrack = Sequence(Parallel(cameraTrack, Sequence()), kartTrack, jumpTrack, Func(self.makeGui), Func(self.showGui), Func(self.countdown), Func(self.request, 'Waiting'), Func(self.d_movieFinished), name=name, autoFinish=1)
+            self.movieTrack = Sequence(
+                Parallel(
+                    cameraTrack, Sequence()), kartTrack, jumpTrack, Func(
+                    self.makeGui), Func(
+                    self.showGui), Func(
+                    self.countdown), Func(
+                        self.request, 'Waiting'), Func(
+                            self.d_movieFinished), name=name, autoFinish=1)
         else:
             self.finishMovie()
-            self.movieTrack = Sequence(toonTrack, kartTrack, jumpTrack, name=name, autoFinish=1)
+            self.movieTrack = Sequence(
+                toonTrack, kartTrack, jumpTrack, name=name, autoFinish=1)
         self.movieTrack.start()
         self.exitRequested = True
         return

@@ -12,8 +12,12 @@ from direct.distributed.PyDatagram import *
 if (__debug__):
     import pdb
 
-class DistributedVehicleAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, FSM.FSM):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedVehicleAI')
+
+class DistributedVehicleAI(
+        DistributedSmoothNodeAI.DistributedSmoothNodeAI,
+        FSM.FSM):
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedVehicleAI')
 
     def __init__(self, air, avId):
         self.ownerId = avId
@@ -43,7 +47,9 @@ class DistributedVehicleAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, FSM.
             self.kartDNA[KartDNA.rimsType] = owner.getKartRimType()
             self.kartDNA[KartDNA.decalType] = owner.getKartDecalType()
         else:
-            self.notify.warning('__initDNA - OWNER %s OF KART NOT FOUND!' % self.ownerId)
+            self.notify.warning(
+                '__initDNA - OWNER %s OF KART NOT FOUND!' %
+                self.ownerId)
 
     def d_setState(self, state, avId):
         self.sendUpdate('setState', [state, avId])
@@ -78,27 +84,27 @@ class DistributedVehicleAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, FSM.
     def enterControlled(self, avId):
         self.driverId = avId
         fieldList = ['setComponentL',
-         'setComponentX',
-         'setComponentY',
-         'setComponentZ',
-         'setComponentH',
-         'setComponentP',
-         'setComponentR',
-         'setComponentT',
-         'setSmStop',
-         'setSmH',
-         'setSmZ',
-         'setSmXY',
-         'setSmXZ',
-         'setSmPos',
-         'setSmHpr',
-         'setSmXYH',
-         'setSmXYZH',
-         'setSmPosHpr',
-         'setSmPosHprL',
-         'clearSmoothing',
-         'suggestResync',
-         'returnResync']
+                     'setComponentX',
+                     'setComponentY',
+                     'setComponentZ',
+                     'setComponentH',
+                     'setComponentP',
+                     'setComponentR',
+                     'setComponentT',
+                     'setSmStop',
+                     'setSmH',
+                     'setSmZ',
+                     'setSmXY',
+                     'setSmXZ',
+                     'setSmPos',
+                     'setSmHpr',
+                     'setSmXYH',
+                     'setSmXYZH',
+                     'setSmPosHpr',
+                     'setSmPosHprL',
+                     'clearSmoothing',
+                     'suggestResync',
+                     'returnResync']
         self.air.setAllowClientSend(avId, self, fieldNameList=fieldList)
         self.d_setState('C', self.driverId)
 
@@ -106,7 +112,9 @@ class DistributedVehicleAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, FSM.
         pass
 
     def handleUnexpectedExit(self):
-        self.notify.warning('toon: %d exited unexpectedly, resetting vehicle %d' % (self.driverId, self.doId))
+        self.notify.warning(
+            'toon: %d exited unexpectedly, resetting vehicle %d' %
+            (self.driverId, self.doId))
         self.request('Parked')
         self.requestDelete()
 

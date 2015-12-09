@@ -1,11 +1,21 @@
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import DistributedBattleFinalAI
 
-class DistributedBattleDinersAI(DistributedBattleFinalAI.DistributedBattleFinalAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleDinersAI')
 
-    def __init__(self, air, bossCog, roundCallback, finishCallback, battleSide):
-        DistributedBattleFinalAI.DistributedBattleFinalAI.__init__(self, air, bossCog, roundCallback, finishCallback, battleSide)
+class DistributedBattleDinersAI(
+        DistributedBattleFinalAI.DistributedBattleFinalAI):
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedBattleDinersAI')
+
+    def __init__(
+            self,
+            air,
+            bossCog,
+            roundCallback,
+            finishCallback,
+            battleSide):
+        DistributedBattleFinalAI.DistributedBattleFinalAI.__init__(
+            self, air, bossCog, roundCallback, finishCallback, battleSide)
 
     def startBattle(self, toonIds, suits):
         self.joinableFsm.request('Joinable')

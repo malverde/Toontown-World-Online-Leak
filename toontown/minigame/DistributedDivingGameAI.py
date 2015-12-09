@@ -347,7 +347,7 @@ class DistributedDivingGameAI(DistributedMinigameAI):
              self.scoreTracking[avId][4],
              self.scoreDict[avId])
 
-        #jjkoletar: why. do we care atm? self.air.writeServerEvent('MiniGame Stats', None, trackingString)
+        self.air.writeServerEvent('MiniGame Stats', None, trackingString)
         return
 
     def enterInactive(self):

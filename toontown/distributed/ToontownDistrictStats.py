@@ -8,6 +8,7 @@ _ToonTownDistrictStatInterest = None
 _ToonTownDistrictStatInterestComplete = 0
 _trashObject = DirectObject.DirectObject()
 
+
 def EventName():
     return 'ShardPopulationSet'
 
@@ -22,7 +23,7 @@ def isComplete():
     return _ToonTownDistrictStatInterestComplete
 
 
-def open(event = None):
+def open(event=None):
     global _trashObject
     global _ToonTownDistrictStatInterest
     if not isOpen():
@@ -35,12 +36,13 @@ def open(event = None):
             return
 
         _trashObject.acceptOnce(EventName(), _CompleteProc)
-        _ToonTownDistrictStatInterest = base.cr.addInterest(OTP_DO_ID_TOONTOWN, OTP_ZONE_ID_DISTRICTS_STATS, EventName(), EventName())
+        _ToonTownDistrictStatInterest = base.cr.addInterest(
+            OTP_DO_ID_TOONTOWN, OTP_ZONE_ID_DISTRICTS_STATS, EventName(), EventName())
     elif isComplete():
         messenger.send(EventName())
 
 
-def refresh(event = None):
+def refresh(event=None):
     global _ToonTownDistrictStatInterest
     if isOpen():
         if isComplete():
@@ -58,7 +60,8 @@ def refresh(event = None):
             return
 
         _trashObject.acceptOnce(EventName(), _CompleteProc, [event])
-        _ToonTownDistrictStatInterest = base.cr.addInterest(OTP_DO_ID_TOONTOWN, OTP_ZONE_ID_DISTRICTS_STATS, EventName(), EventName())
+        _ToonTownDistrictStatInterest = base.cr.addInterest(
+            OTP_DO_ID_TOONTOWN, OTP_ZONE_ID_DISTRICTS_STATS, EventName(), EventName())
 
 
 def close():
@@ -82,12 +85,14 @@ class ToontownDistrictStats(DistributedObject.DistributedObject):
         self.toontownDistrictId = value
 
     def setAvatarCount(self, avatarCount):
-        if self.cr.activeDistrictMap.has_key(self.toontownDistrictId):
-            self.cr.activeDistrictMap[self.toontownDistrictId].avatarCount = avatarCount
+        if self.toontownDistrictId in self.cr.activeDistrictMap:
+            self.cr.activeDistrictMap[
+                self.toontownDistrictId].avatarCount = avatarCount
 
     def setNewAvatarCount(self, newAvatarCount):
-        if self.cr.activeDistrictMap.has_key(self.toontownDistrictId):
-            self.cr.activeDistrictMap[self.toontownDistrictId].newAvatarCount = newAvatarCount
+        if self.toontownDistrictId in self.cr.activeDistrictMap:
+            self.cr.activeDistrictMap[
+                self.toontownDistrictId].newAvatarCount = newAvatarCount
 
     def setStats(self, avatarCount, newAvatarCount):
         self.setAvatarCount(avatarCount)

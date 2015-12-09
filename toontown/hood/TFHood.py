@@ -2,8 +2,9 @@ from ToonHood import ToonHood
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from toontown.toonbase import ToontownGlobals
 from toontown.safezone.TFSafeZoneLoader import TFSafeZoneLoader
-from toontown.town.TTTownLoader import TTTownLoader # Temporary
+from toontown.town.TTTownLoader import TTTownLoader  # Temporary
 import SkyUtil
+
 
 class TFHood(ToonHood):
     notify = directNotify.newCategory('TFHood')
@@ -11,7 +12,7 @@ class TFHood(ToonHood):
     def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
         ToonHood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
         self.id = ToontownGlobals.FunnyFarm
-        self.townLoaderClass = TTTownLoader # Temporary
+        self.townLoaderClass = TTTownLoader  # Temporary
         self.safeZoneLoaderClass = TFSafeZoneLoader
         self.storageDNAFile = 'phase_6/dna/storage_TF.xml'
         self.skyFile = 'phase_3.5/models/props/TT_sky'
@@ -23,10 +24,14 @@ class TFHood(ToonHood):
 
     def enter(self, *args):
         ToonHood.enter(self, *args)
-        base.camLens.setNearFar(ToontownGlobals.SpeedwayCameraNear, ToontownGlobals.SpeedwayCameraFar)
+        base.camLens.setNearFar(
+            ToontownGlobals.SpeedwayCameraNear,
+            ToontownGlobals.SpeedwayCameraFar)
 
     def exit(self):
-        base.camLens.setNearFar(ToontownGlobals.DefaultCameraNear, ToontownGlobals.DefaultCameraFar)
+        base.camLens.setNearFar(
+            ToontownGlobals.DefaultCameraNear,
+            ToontownGlobals.DefaultCameraFar)
         ToonHood.exit(self)
 
     def unload(self):

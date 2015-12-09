@@ -2,8 +2,10 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from operator import itemgetter
 
+
 class DistributedTrophyMgrAI(DistributedObjectAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedTrophyMgrAI")
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        "DistributedTrophyMgrAI")
 
     def __init__(self, air):
         DistributedObjectAI.__init__(self, air)
@@ -14,26 +16,30 @@ class DistributedTrophyMgrAI(DistributedObjectAI):
         avId = self.air.getAvatarIdFromSender()
         if avId in self.scores:
             if avId in self.air.doId2do:
-                self.air.doId2do[avId].sendUpdate('setTrophyScore', [self.scores[avId][1]])
+                self.air.doId2do[avId].sendUpdate(
+                    'setTrophyScore', [self.scores[avId][1]])
 
     def removeTrophy(self, avId, numFloors):
-        if not avId in self.scores:
-            self.notify.warning("avId %d is not in scores"%avId)
+        if avId not in self.scores:
+            self.notify.warning("avId %d is not in scores" % avId)
             return
         self.scores[avId][1] -= numFloors
         if self.scores[avId][1] < 0:
-            self.notify.warning("avId %d has a negative scorevalue?~?~?!"%avId)
+            self.notify.warning(
+                "avId %d has a negative scorevalue?~?~?!" %
+                avId)
             self.scores[avId][1] = 0
         self.sort()
         messenger.send('leaderboardChanged')
         messenger.send('leaderboardFlush')
         if avId in self.air.doId2do:
-            self.air.doId2do[avId].sendUpdate('setTrophyScore', [self.scores[avId][1]])
+            self.air.doId2do[avId].sendUpdate(
+                'setTrophyScore', [self.scores[avId][1]])
 
     def addTrophy(self, avId, name, numFloors):
-        if not avId in self.scores:
-            if not self.air.doId2do.has_key(avId):
-                    return
+        if avId not in self.scores:
+            if avId not in self.air.doId2do:
+                return
             self.scores[avId] = ['', 0]
             self.scores[avId][1] = 0
             av = self.air.doId2do[avId]
@@ -43,7 +49,8 @@ class DistributedTrophyMgrAI(DistributedObjectAI):
         messenger.send('leaderboardChanged')
         messenger.send('leaderboardFlush')
         if avId in self.air.doId2do:
-            self.air.doId2do[avId].sendUpdate('setTrophyScore', [self.scores[avId][1]])
+            self.air.doId2do[avId].sendUpdate(
+                'setTrophyScore', [self.scores[avId][1]])
 
     def sort(self):
         scoreList = []
@@ -58,7 +65,7 @@ class DistributedTrophyMgrAI(DistributedObjectAI):
             names.append(name)
             scores.append(score)
             if len(scores) == 10:
-                break # We're done!
+                break  # We're done!
         self.scoreLists = (avIds, names, scores)
 
     def getLeaderInfo(self):
