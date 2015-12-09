@@ -26,24 +26,17 @@ from random import randint
 
 class TownLoader(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('TownLoader')
-    #For build access
+    # For build access
+    # For source access
     zone2music = {
-        ToontownCentral : '/phase_9/audio/bgm/encntr_suit_ttc.ogg',
-        DonaldsDock : '/phase_9/audio/bgm/encntr_suit_dd.ogg',
-        DaisyGardens : '/phase_9/audio/bgm/encntr_suit_dg.ogg',
-        MinniesMelodyland : '/phase_9/audio/bgm/encntr_suit_mml.ogg',
-        TheBrrrgh : '/phase_9/audio/bgm/encntr_suit_tb.ogg',
-        DonaldsDreamland : '/phase_9/audio/bgm/encntr_suit_ddl.ogg'
+        ToontownCentral: 'phase_9/audio/bgm/encntr_suit_ttc.ogg' or 'resources/phase_9/audio/bgm/encntr_suit_ttc.ogg' ,
+        DonaldsDock: 'phase_9/audio/bgm/encntr_suit_dd.ogg' or 'resources/phase_9/audio/bgm/encntr_suit_dd.ogg',
+        DaisyGardens: 'phase_9/audio/bgm/encntr_suit_dg.ogg' or 'resources/audio/bgm/encntr_suit_dg.ogg',
+        MinniesMelodyland: 'phase_9/audio/bgm/encntr_suit_mml.ogg' or 'resources/phase_9/audio/bgm/encntr_suit_mml.ogg',
+        TheBrrrgh: 'phase_9/audio/bgm/encntr_suit_tb.ogg' or 'resources/phase_9/audio/bgm/encntr_suit_mml.ogg',
+        DonaldsDreamland: 'phase_9/audio/bgm/encntr_suit_ddl.ogg' or 'resources/phase_9/audio/bgm/encntr_suit_ddl.ogg'
     }
-	#For source access
-    zone2music = {
-        ToontownCentral : 'resources/phase_9/audio/bgm/encntr_suit_ttc.ogg',
-        DonaldsDock : 'resources/phase_9/audio/bgm/encntr_suit_dd.ogg',
-        DaisyGardens : 'resources/audio/bgm/encntr_suit_dg.ogg',
-        MinniesMelodyland : 'resources/phase_9/audio/bgm/encntr_suit_mml.ogg',
-        TheBrrrgh : 'resources/phase_9/audio/bgm/encntr_suit_tb.ogg',
-        DonaldsDreamland : 'resources/phase_9/audio/bgm/encntr_suit_ddl.ogg'
-    }
+
     
     def __init__(self, hood, parentFSMState, doneEvent):
         StateData.StateData.__init__(self, doneEvent)
@@ -74,8 +67,8 @@ class TownLoader(StateData.StateData):
         self.canonicalBranchZone = ZoneUtil.getCanonicalBranchZone(zoneId)
         self.music = base.loadMusic(self.musicFile)
         self.activityMusic = base.loadMusic(self.activityMusicFile)
-        self.battleMusic = base.loadMusic(self.zone2music.get(ZoneUtil.getHoodId(zoneId), 'phase_9/audio/bgm/encntr_suit_ttc.ogg'))#'phase_3.5/audio/bgm/encntr_general_bg.ogg'))
-        #self.battleMusic = base.loadMusic('phase_3.5/audio/bgm/encntr_general_tt.ogg')
+        self.battleMusic = base.loadMusic(self.zone2music.get(ZoneUtil.getHoodId(zoneId))) #, 'phase_9/audio/bgm/encntr_suit_ttc.ogg')) # 'phase_3.5/audio/bgm/encntr_general_bg.ogg'))
+        # self.battleMusic = base.loadMusic('phase_3.5/audio/bgm/encntr_general_tt.ogg') # We don't want this boring track all the time
         self.townBattle = TownBattle.TownBattle(self.townBattleDoneEvent)
         self.townBattle.load()
 
