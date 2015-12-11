@@ -25,7 +25,9 @@ DNA2Furniture = {'house_interiorA': None,
  'bookcase': 1120,
  'bookcase_low': 1130,
  'ending_table': 1200,
- 'jellybeanBank': 1300}
+ 'jellybeanBank': 1300,
+ 'TrunkBoy' : 4000,
+ TrunkGirl': 4010}
 
 class DNAFurnitureReaderAI:
     notify = DirectNotifyGlobal.directNotify.newCategory('DNAFurnitureReaderAI')
