@@ -10,6 +10,7 @@ from toontown.catalog.CatalogChatItem import CatalogChatItem
 from toontown.catalog.CatalogClothingItem import CatalogClothingItem, getAllClothes
 from toontown.catalog.CatalogAccessoryItem import CatalogAccessoryItem
 from toontown.catalog.CatalogRentalItem import CatalogRentalItem
+from toontown.catalog.CatalogFurnitureItem import CatalogFurnitureItem
 from toontown.catalog.CatalogInvalidItem import CatalogInvalidItem
 import time
 
