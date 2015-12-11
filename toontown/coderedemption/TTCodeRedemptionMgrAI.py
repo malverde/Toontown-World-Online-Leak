@@ -162,7 +162,6 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             object = CatalogFurnitureItem(4000, 0)
             return [object]
             # Uh? Mgracer?
-            return [CatalogInvalidItem()]
         # Sue me - Sir Kippy
         if code == 'ALPHA':
             shirt = CatalogClothingItem(1403, 0)
@@ -182,7 +181,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             else:
                 bot = CatalogClothingItem(2005, 0)
             return [shirt, bot]
-        return []
+        return [CatalogInvalidItem()]
 
     def requestCodeRedeem(self, todo0, todo1):
         pass
