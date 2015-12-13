@@ -14,6 +14,7 @@ import hmac
 import hashlib
 import json
 from ClientServicesManager import FIXED_KEY
+import mysql.connector
 
 def judgeName(name):
     return True
@@ -25,6 +26,166 @@ REPORT_REASONS = [
 
 
 # --- ACCOUNT DATABASES ---
+class MySQLAccountDB(AccountDB):
+    notify = directNotify.newCategory('MySQLAccountDB')
+
+    def get_hashed_password(self, plain_text_password):
+        newpass = bcrypt.encrypt(plain_text_password)
+        return newpass
+
+    def create_database(self, cursor):
+      try:
+          cursor.execute(
+            "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(self.db))
+      except mysql.connector.Error as err:
+          print("Failed creating database: {}".format(err))
+          exit(1)
+
+    def auto_migrate_semidbm(self):
+        self.cur.execute(self.count_account)
+        row = self.cur.fetchone()
+        if row[0] != 0:
+            return
+
+        filename = simbase.config.GetString(
+            'account-bridge-filename', 'account-bridge')
+        dbm = semidbm.open(filename, 'c')
+
+        for account in dbm.keys():
+            accountid = dbm[account]
+            print "%s maps to %s"%(account, accountid)
+            self.cur.execute(self.add_account, (account,  "", accountid, 0))
+        self.cnx.commit()
+        dbm.close()
+
+    def __init__(self, csm):
+        self.csm = csm
+
+        # Just a few configuration options
+        self.username = simbase.config.GetString('mysql-username', 'toontown')
+        self.password = simbase.config.GetString('mysql-password', 'password')
+        self.db = simbase.config.GetString('mysql-db', 'toontown')
+        self.host = simbase.config.GetString('mysql-host', '127.0.0.1')
+        self.port = simbase.config.GetInt('mysql-port', 3306)
+        self.auto_migrate = True
+
+        # Lets try connection to the db
+        self.config = {
+          'user': 'DBUSER',
+          'password': 'DBPASS',
+          'db': 'DBTABLE',
+          'host': 'DBHOST',
+          'port': 'PORT',
+        }
+
+        self.cnx = mysql.connector.connect(**self.config)
+        self.cur = self.cnx.cursor(buffered=True)
+
+        # First we try to change the the particular db using the
+        # database property.  If there is an error, we try to
+        # create the database and then switch to it.
+
+        try:
+            self.cnx.database = self.db
+        except mysql.connector.Error as err:
+            if err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
+                self.create_database(self.cur)
+                self.cnx.database = self.db
+            else:
+                print(err)
+                exit(1)
+
+        self.count_account = ("SELECT COUNT(*) from Accounts")
+        self.select_account = ("SELECT * FROM Accounts where username = %s")
+        self.findAccount = ("SELECT AccountID FROM Accounts where username = %s")
+        self.add_account = ("REPLACE INTO Accounts (username, password, accountId, accessLevel) VALUES (%s, %s, %s, %s)")
+        self.update_avid = ("UPDATE Accounts SET accountId = %s where username = %s")
+        self.count_avid = ("SELECT COUNT(*) from Accounts WHERE username = %s")
+        self.insert_avoid = ("INSERT IGNORE Toons SET accountId = %s,toonid=%s")
+
+
+        self.select_name = ("SELECT status FROM NameApprovals where avId = %s")
+        self.add_name_request = ("REPLACE INTO NameApprovals (avId, name, status) VALUES (%s, %s, %s)")
+        self.delete_name_query = ("DELETE FROM NameApprovals where avId = %s")
+
+        if self.auto_migrate:
+            self.auto_migrate_semidbm()
+
+    def __del__(self):
+        try:
+            this.cur.close()
+        except:
+            pass
+
+        try:
+            this.cnx.close()
+        except:
+            pass
+            
+    def addNameRequest(self, avId, name):
+       self.cur.execute(self.add_name_request, (avId, name, "PENDING"))
+       self.cnx.commit()
+       return 'Success'
+        
+    def getNameStatus(self, avId):
+        self.cur.execute(self.select_name, (avId,))
+        row = self.cur.fetchone()
+        if row:
+            return row[0]
+        return "REJECTED"
+
+    def removeNameRequest(self, avId):
+        self.cur.execute(self.delete_name_query, (avId,))
+        return 'Success'
+
+    def __handleRetrieve(self, dclass, fields):
+        if dclass != self.csm.air.dclassesByName['AccountUD']:
+            return
+        self.account = fields
+        if self.account:
+            self.avList = self.account['ACCOUNT_AV_SET']
+            print self.avList
+            for avId in self.avList:
+                if avId:
+                    self.cur.execute(self.insert_avoid, (self.accountid, avId))
+                    self.cnx.commit()
+
+    def lookup(self, cookie, callback):
+        self.cur.execute(self.findAccount, (cookie,))
+        row = self.cur.fetchone()
+        if cookie.startswith('.'):
+            # Beginning a cookie with . symbolizes "invalid"
+            callback({'success': False,
+                      'reason': 'Invalid cookie specified!'})
+            return
+
+        # See if the cookie is in the DB:
+        if cookie in self.dbm:
+            # Return it w/ account ID!
+            callback({'success': True,
+                      'accountId': int(self.findAccount),
+                      'databaseId': cookie,
+                      'adminAccess': 0})
+        else:
+            # Nope, let's return w/o account ID:
+            callback({'success': True,
+                      'accountId': 0,
+                      'databaseId': cookie,
+                      'adminAccess': 0})
+
+    def storeAccountID(self, userId, accountId, callback):
+        self.cur.execute(self.count_avid, (userId,))
+        row = self.cur.fetchone()
+    
+        if row[0] >= 1:
+            self.cur.execute(self.update_avid, (accountId, userId))
+            self.cnx.commit()
+            callback(True)
+        else:
+            print ("storeAccountId", self.update_avid, (aceountId, userId))
+            self.notify.warning('Unable to associate user %s with account %d!' % (userId, accountId))
+            callback(False)
+
 class LocalAccountDB:
     def __init__(self, csm):
         self.csm = csm
