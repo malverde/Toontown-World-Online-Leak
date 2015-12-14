@@ -21,7 +21,7 @@ from otp.avatar import Emote
 from toontown.hood import ZoneUtil
 from direct.task import Task
 FO_DICT = {'s': 'tt_m_ara_cbe_fieldOfficeMoverShaker',
- 'l': 'tt_m_ara_cbe_fieldOfficeLegalEagle',
+ # 'l': 'tt_m_ara_cbe_fieldOfficeLegalEagle',
  'm': 'tt_m_ara_cbe_fieldOfficeMoverShaker',
  'c': 'tt_m_ara_cbe_fieldOfficeMoverShaker'}
 

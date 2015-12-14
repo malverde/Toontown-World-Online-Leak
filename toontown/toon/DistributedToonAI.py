@@ -6311,9 +6311,10 @@ def suitv1(command, suitIndex, cogType=0, isSkelecog=0, isV2=0, isWaiter=0):
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[str, int])
 def spawnFO(track, difficulty = 0):
-    tracks = ['s', 'l']
+    # tracks = ['s', 'l']
+    tracks = ['s']
     if track not in tracks:
-        return 'Invalid Field Office type! Supported types are "s" and "l"'
+        return 'Invalid Field Office type! Supported types are "s"'
     av = spellbook.getInvoker()
     try:
         building = av.findClosestDoor()
