@@ -1,4 +1,3 @@
-# Embedded file name: toontown.catalog.CatalogGardenItem
 import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -129,7 +128,7 @@ class CatalogGardenItem(CatalogItem.CatalogItem):
 
     def getDeliveryTime(self):
         if self.gardenIndex == GardenGlobals.GardenAcceleratorSpecial:
-            return 1
+            return 24 * 60
         else:
             return 0
 
