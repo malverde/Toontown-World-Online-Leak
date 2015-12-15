@@ -10,11 +10,13 @@ from otp.speedchat import SCDecoders
 from otp.chat import TalkAssistant
 from otp.nametag.NametagConstants import *
 from otp.margins.WhisperPopup import *
+from otp.chat import ChatInputNormal
 import Toon
 from direct.task.Task import Task
 from direct.distributed import DistributedSmoothNode
 from direct.distributed import DistributedObject
 from direct.fsm import ClassicFSM
+from direct.showbase.DirectObject import DirectObject
 from toontown.hood import ZoneUtil
 from toontown.distributed import DelayDelete
 from toontown.distributed.DelayDeletable import DelayDeletable
@@ -54,6 +56,7 @@ from direct.interval.IntervalGlobal import Sequence, Wait, Func, Parallel, Sound
 from direct.controls.GravityWalker import GravityWalker
 from toontown.distributed import DelayDelete
 from toontown.toon.ModPanel import ModPanel
+from toontown.toon.AdminPanel import AdminPanel
 from otp.ai.MagicWordGlobal import *
 import time
 import operator
@@ -2801,6 +2804,11 @@ def zone(zoneId):
     return 'You have been moved to zone {0}.'.format(zoneId)
     
     #End of V1 MW
+@magicWord(category=CATEGORY_MODERATION)
+def adminPanel():
+    invoker = spellbook.getInvoker()
+    AdminPanel(DirectObject, invoker)
+    return 'Admin Panel Enabled'
 
 @magicWord(category=CATEGORY_MODERATION)
 def modPanel():
