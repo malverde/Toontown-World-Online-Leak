@@ -88,7 +88,7 @@ class AdminPanel(DirectObject, ChatInputNormal.ChatInputNormal):
 		exec 'from toontown.toonbase.ToonBaseGlobal import *' in globals(), self.ExecNamespace
 
 	def typeCallback(self, extraArgs):
-        self.text = "~" + self.chatEntry.get() 
+		self.text = "~" + self.chatEntry.get()
 		messenger.send('magicWord', [self.text])
 
 	def checkForOverRide(self):
