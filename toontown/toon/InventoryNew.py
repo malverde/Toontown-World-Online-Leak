@@ -36,7 +36,7 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
 
 	def __init__(self, toon, invStr = None, ShowSuperGags = 1):
 		InventoryBase.InventoryBase.__init__(self, toon, invStr)
-		self.XpMultiplier = HolidayGlobals.WhatIsXp()
+		XpMultiplier = HolidayGlobals.WhatIsXp()
 		DirectFrame.__init__(self, relief=None)
 		self.initialiseoptions(InventoryNew)
 		self.battleCreditLevel = None

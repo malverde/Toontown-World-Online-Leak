@@ -34,10 +34,10 @@ class NewsInvasionAI:
 		if invMgr.getInvading():
 			print "There is already an invasion on this AI, cannot spawn Cogs!"
 		else:
-		    try:
-                invMgr.startInvasion(HolidayGlobals.IsItInvasion())
-            except:
-                pass
+			try:
+				invMgr.startInvasion(HolidayGlobals.IsItInvasion())
+			except:
+				pass
 
 			
 		return task.again

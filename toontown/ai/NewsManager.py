@@ -60,13 +60,13 @@ class NewsManager(DistributedObject.DistributedObject):
 			base.localAvatar.inventory.setInvasionCreditMultiplier(1)
 		if hasattr(base, 'localAvatar') and base.localAvatar is not None:
 			base.localAvatar.chatMgr.chatInputSpeedChat.addSellbotFieldOfficeMenu()
-            if HolidayGlobals.WhatHolidayIsIt() == 'Winter':
-                self.startChristmas()
-                print "starting christmas"
-            if HolidayGlobals.WhatHolidayIsIt() == 'Halloween':
-                self.startHalloween()
-            if HolidayGlobals.WhatHolidayIsIt() == 'April Toons':
-                self.startApril()
+			if HolidayGlobals.WhatHolidayIsIt() == 'Winter':
+				self.startChristmas()
+				print "starting christmas"
+			if HolidayGlobals.WhatHolidayIsIt() == 'Halloween':
+				self.startHalloween()
+			if HolidayGlobals.WhatHolidayIsIt() == 'April Toons':
+				self.startApril()
 		self.weeklyCalendarHolidays = []
 		self.yearlyCalendarHolidays = []
 		return

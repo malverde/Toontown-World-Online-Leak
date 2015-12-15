@@ -42,7 +42,7 @@ class HolidayManagerAI:
 
 		#if showName == 'july4':
 		 #   showType = ToontownGlobals.JULY4_FIREWORKS
-        show = HolidayGlobals.IsItFireworks()
+		show = HolidayGlobals.IsItFireworks()
 		if show == 'Nyear':
 				showType = ToontownGlobals.NEWYEARS_FIREWORKS
 		elif show == 'Summer':
@@ -50,7 +50,7 @@ class HolidayManagerAI:
 		elif show == 'Release':
 			showType = ToontownGlobals.VICTORY_RELEASE_FIREWORKS
 		elif show == 'None':
-            return
+			return
 	#	elif showName == 'random':
 	#		shows = [
 	#			ToontownGlobals.JULY4_FIREWORKS,
