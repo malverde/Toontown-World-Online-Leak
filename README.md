@@ -13,6 +13,7 @@ Ensure a client version has been made/modified and download it. Edit the connect
 ### Deployment instructions ###
 
 ### Contribution guidelines ###
+See: http://45.55.49.27/root/ToontownWorldOnline/blob/feature/2.4.9/CONTRIBUTING.md
 
 ### Writing tests ###
 Commits will be made in the **Branch** - features that are new or **VERY** **unstable** will go in a **new** Branch titled "TTW-DEV-Cluster-" followed by the feature name.
