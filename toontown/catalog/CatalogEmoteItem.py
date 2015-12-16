@@ -62,7 +62,7 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         else:
             toon = Toon.Toon()
             toon.setDNA(avatar.style)
-            toon.loop('neutral')
+            toon.pose('neutral')
         toon.setH(180)
         model, ival = self.makeFrameModel(toon, 0)
         track, duration = Emote.globalEmote.doEmote(
