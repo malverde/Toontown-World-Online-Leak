@@ -24,7 +24,7 @@ REPORT_REASONS = [
     'MODERATION_RUDE_BEHAVIOR', 'MODERATION_BAD_NAME', 'MODERATION_HACKING',
 ]
 
-
+# REMOTE DATABASE
 # --- ACCOUNT DATABASES ---
 class MySQLAccountDB(AccountDB):
     notify = directNotify.newCategory('MySQLAccountDB')
@@ -48,7 +48,7 @@ class MySQLAccountDB(AccountDB):
             return
 
         filename = simbase.config.GetString(
-            'account-bridge-filename', 'account-bridge')
+            'account-bridge-filename', 'dev-accounts')
         dbm = semidbm.open(filename, 'c')
 
         for account in dbm.keys():
