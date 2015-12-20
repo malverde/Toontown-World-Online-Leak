@@ -1,25 +1,25 @@
-import random
-import time
-import math
-from direct.directnotify import DirectNotifyGlobal
-from direct.distributed import DistributedObjectAI
-from direct.task import Task
-
-import DistributedSuitAI
-import SuitDNA
-import SuitPlannerBase
-import SuitTimings
-from SuitLegList import *
 from otp.ai.AIBaseGlobal import *
 from otp.ai.MagicWordGlobal import *
+from direct.distributed import DistributedObjectAI
+import SuitPlannerBase
+import DistributedSuitAI
 from toontown.battle import BattleManagerAI
+from direct.task import Task
+from direct.directnotify import DirectNotifyGlobal
+import SuitDNA
 from toontown.battle import SuitBattleGlobals
-from toontown.building import HQBuildingAI
-from toontown.building import SuitBuildingGlobals
-from toontown.dna import *
-from toontown.hood import ZoneUtil
+import SuitTimings
 from toontown.toon import NPCToons
+from toontown.building import HQBuildingAI
+from toontown.hood import ZoneUtil
+from toontown.building import SuitBuildingGlobals
 from toontown.toonbase import ToontownBattleGlobals
+from toontown.toonbase import ToontownGlobals
+import math
+import time
+import random
+from SuitLegList import *
+from toontown.dna import *
 
 # We only want Movers and Shakers for now
 ALLOWED_FO_TRACKS = ['s']
@@ -1149,11 +1149,11 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         building = self.buildingMgr.getBuilding(blockNumber)
         building.suitTakeOver(suitTrack, difficulty, buildingHeight)
 
-        def cogdoTakeOver(self, blockNumber, difficulty, buildingHeight, dept):
-            if self.pendingBuildingHeights.count(buildingHeight) > 0:
-                self.pendingBuildingHeights.remove(buildingHeight)
-        building = self.buildingMgr.getBuilding(blockNumber)
-        building.cogdoTakeOver(difficulty, buildingHeight, dept)
+    def cogdoTakeOver(self, blockNumber, difficulty, buildingHeight, dept):
+        if self.pendingBuildingHeights.count(buildingHeight) > 0:
+            self.pendingBuildingHeights.remove(buildingHeight)
+            building = self.buildingMgr.getBuilding(blockNumber)
+            building.cogdoTakeOver(difficulty, buildingHeight, dept)
 
     def recycleBuilding(self):
         bmin = self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_BMIN]
