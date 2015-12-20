@@ -93,7 +93,7 @@ class SuitInvasionManagerAI:
                 # N.B.: randomInvasionProbability = mega invasion probability.
                 suitName = self.megaInvasionCog
                 numSuits = randint(2000, 15000)
-                specialSuit = random.random.choice([0, 0, 0, 1, 2])
+                specialSuit = choice([0, 0, 0, 1, 2])
             else:
                 suitName = choice(SuitDNA.suitHeadTypes)
                 numSuits = randint(1500, 5000)
