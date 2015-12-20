@@ -5,6 +5,7 @@ from toontown.chat.TTWhiteList import TTWhiteList
 from otp.distributed import OtpDoGlobals
 import time
 
+
 class ChatAgentUD(DistributedObjectGlobalUD):
     notify = DirectNotifyGlobal.directNotify.newCategory("ChatAgentUD")
 
@@ -13,26 +14,25 @@ class ChatAgentUD(DistributedObjectGlobalUD):
 
         self.whiteList = TTWhiteList()
         self.muted = {}
+        self.chatMode2channel = {
+            1: OtpDoGlobals.OTP_MOD_CHANNEL,
+            2: OtpDoGlobals.OTP_ADMIN_CHANNEL,
+            3: OtpDoGlobals.OTP_SYSADMIN_CHANNEL,
+        }
+        self.chatMode2prefix = {
+            1: "[MOD] ",
+            2: "[ADMIN] ",
+            3: "[SYSADMIN] ",
+        }
 
     def muteAccount(self, account, howLong):
         print ['muteAccount', account, howLong]
-        self.muted[account] = int(time.time()/60) + howLong
+        self.muted[account] = int(time.time() / 60) + howLong
 
     def unmuteAccount(self, account):
         print ['unuteAccount', account]
         if account in self.muted:
             del self.muted[account]
-
-    self.chatMode2channel = {
-        1: OtpDoGlobals.OTP_MOD_CHANNEL,
-        2: OtpDoGlobals.OTP_ADMIN_CHANNEL,
-        3: OtpDoGlobals.OTP_SYSADMIN_CHANNEL,
-    }
-    self.chatMode2prefix = {
-        1: "[MOD] ",
-        2: "[ADMIN] ",
-        3: "[SYSADMIN] ",
-    }
 
     def chatMessage(self, message, chatMode):
         sender = self.air.getAvatarIdFromSender()
