@@ -79,6 +79,7 @@ lDonaldsDreamland = "Donald's Dreamland"
 lMinniesMelodyland = "Minnie's Melodyland"
 lToontownCentral = 'Toontown Central'
 lToonHQ = 'Toon HQ'
+lAdministrator = 'Toon Administration'
 lSellbotHQ = 'Sellbot HQ'
 lFunnyFarm = 'Toonfest'
 lGoofySpeedway = 'Goofy Speedway'
@@ -8383,6 +8384,7 @@ PetTrait2descriptions = {'hungerThreshold': ('Always Hungry',
 
 # Regular fireworks stuff
 FireworksInstructions = lToonHQ + ': Hit the "Page Up" key to see better.'
+FireworksVictoryReleaseInstructions = lToonHQ + ': Get in a good position! Because things will start lighting up in the sky.'
 startFireworksResponse = "Usage: startFireworksShow ['num']\n 'num' = %s - New Years\n %s - Party Summer \n %s - 4th of July"
 FireworksJuly4Beginning = lToonHQ + ': Welcome to summer fireworks! Enjoy the show!'
 FireworksJuly4Ending = lToonHQ + ': Hope you enjoyed the show! Have a great summer!'
@@ -8390,6 +8392,9 @@ FireworksNewYearsEveBeginning = lToonHQ + ': Happy New Year! Enjoy the fireworks
 FireworksNewYearsEveEnding = lToonHQ + ': Hope you enjoyed the show! Have a Toontastic New Year!'
 FireworksComboBeginning = lToonHQ + ': Enjoy lots of Laffs with Toon fireworks!'
 FireworksComboEnding = lToonHQ + ': Thank you, Toons! Hope you enjoyed the show!'
+# Victory Release Fireworks
+FireworksVictoryReleaseBeginning =  lAdministrator + ': Thank you, Toons! Happy new Release! Here is a Victory Party Fireworks Show!'
+FireworksVictoryReleaseEnding =  lAdministrator + ': Thank you, Toons! We hope you enjoyed the show and the new release!'
 
 BlockerTitle = 'LOADING TOONTOWN...'
 BlockerLoadingTexts = ['Rewriting history',

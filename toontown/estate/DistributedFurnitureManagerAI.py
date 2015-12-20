@@ -241,7 +241,14 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
          h,
          p,
          r)
-        if item.getFlags() & FLCloset:
+        if item.getFlags() & FLTrunk:
+            if self.house.gender is 0:
+                if item.furnitureType - 4000 < 10:
+                    item.furnitureType += 10
+            elif item.furnitureType - 4000 > 10:
+                item.furnitureType -= 10
+            do = DistributedTrunkAI(self.air, self, item)
+        elif item.getFlags() & FLCloset:
             if self.house.gender is 0:
                 if item.furnitureType - 500 < 10:
                     item.furnitureType += 10
@@ -252,15 +259,9 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
             do = DistributedBankAI(self.air, self, item)
         elif item.getFlags() & FLPhone:
             do = DistributedPhoneAI(self.air, self, item)
-        elif item.getFlags() & FLTrunk:
-            if self.house.gender is 0:
-                if item.furnitureType - 500 > 10:
-                    item.furnitureType += 10
-                elif item.furnitureType - 500 > 10:
-                    item.furnitureType -= 10
-                do = DistributedTrunkAI(self.air, self, item)
         else:
             do = DistributedFurnitureItemAI(self.air, self, item)
+
         do.generateWithRequired(self.zoneId)
         self.items.append(do)
         return (ToontownGlobals.FM_MovedItem, do.doId)
@@ -301,7 +302,7 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
         return retcode
 
     def deleteWallpaperFromAttic(self, blob, index):
-        wallpaper = self.getAtticFurniture(blob, index)
+        wallpaper = self.getAtticFurniture(self.atticWallpaper, index)
         self.atticWallpaper.remove(wallpaper)
         self.b_setAtticWallpaper(self.getAtticWallpaper())
 

@@ -1,8 +1,13 @@
-from otp.ai.AIBaseGlobal import *
+import random
+import re
 import time
-from pandac.PandaModules import *
+
+from direct.distributed import DistributedSmoothNodeAI
+from direct.task import Task
+from direct.distributed.ClockDelta import *
+
+from otp.ai.AIBaseGlobal import *
 from otp.otpbase import OTPGlobals
-from direct.directnotify import DirectNotifyGlobal
 import ToonDNA
 from toontown.suit import SuitDNA
 import InventoryBase
@@ -10,26 +15,18 @@ import Experience
 from otp.avatar import DistributedAvatarAI
 from otp.avatar import DistributedPlayerAI
 from otp.otpbase import OTPLocalizer
-from direct.distributed import DistributedSmoothNodeAI
 from toontown.toonbase import ToontownGlobals
 from toontown.quest import QuestRewardCounter
 from toontown.quest import Quests
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.battle import SuitBattleGlobals
-from direct.task import Task
 from toontown.catalog import CatalogItemList
 from toontown.catalog import CatalogItem
-from direct.showbase import PythonUtil
-from direct.distributed.ClockDelta import *
 from toontown.toonbase.ToontownGlobals import *
-import types
-from toontown.fishing import FishGlobals
 from toontown.fishing import FishCollection
 from toontown.fishing import FishTank
-from NPCToons import npcFriends, isZoneProtected
+from NPCToons import npcFriends
 from toontown.coghq import CogDisguiseGlobals
-import random
-import re
 from toontown.chat import ResistanceChat
 from toontown.racing import RaceGlobals
 from toontown.hood import ZoneUtil
@@ -44,17 +41,14 @@ from toontown.parties.InviteInfo import InviteInfoBase
 from toontown.parties.PartyReplyInfo import PartyReplyInfoBase
 from toontown.parties.PartyGlobals import InviteStatus
 from toontown.toonbase import ToontownAccessAI
-from toontown.toonbase import TTLocalizer
 from toontown.catalog import CatalogAccessoryItem
 from toontown.minigame import MinigameCreatorAI
 import ModuleListAI
-import time
+
 
 # Magic Word imports
 from otp.ai.MagicWordGlobal import *
 from direct.distributed.PyDatagram import PyDatagram
-from direct.distributed.MsgTypes import *
-import shlex
 
 if simbase.wantPets:
     from toontown.pets import PetLookerAI, PetObserve
@@ -3200,7 +3194,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
         def setKartAccessoriesOwned(self, accessories):
             if (__debug__):
-                import pdb
+                pass
             self.accessories = accessories
 
         def getKartAccessoriesOwned(self):
@@ -3508,6 +3502,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 if suit:
                     return ['success', suitIndex, 0]
         return ['badlocation', suitIndex, 0]
+
+    # def unSummonSingleCog(self, invoker):
+        # Pass
 
     def doBuildingTakeover(self, suitIndex):
         streetId = ZoneUtil.getBranchZone(self.zoneId)
@@ -5190,6 +5187,54 @@ def locate(avIdShort=0, returnType=''):
         return "%s has been located %s %s, inside a building." % (av.getName(), where[1], where[2])
     return "%s has been located %s %s." % (av.getName(), where[1], where[2])
 
+@magicWord(category=CATEGORY_MODERATION, types=[int, str])
+def locatelongav(avid=0, returnType=''):
+    """Locate an avatar anywhere on the [CURRENT] AI."""
+    # TODO: Use Astron msgs to get location of avId from anywhere in the Astron cyber-space.
+    # NOTE: The avIdShort concept needs changing, especially when we start entering 200000000's for avIds
+    if len(str(doId)) >= 9:
+        simbase.air.getActivated(doId,
+                                 lambda x, y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
+    else:
+        doId = 100000000 + doId
+        simbase.air.getActivated(doId,
+                                 lambda x, y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
+    if not av:
+        return "Could not find the avatar on the current AI."
+
+    # Get the avatar's location.
+    zoneId = av.getLocation()[1] # This returns: (parentId, zoneId)
+    trueZoneId = zoneId
+    interior = False
+
+    if returnType == 'zone':
+        # The avatar that called the MagicWord wants a zoneId... Provide them with the untouched zoneId.
+        return "%s is in zoneId %d." % (av.getName(), trueZoneId)
+
+    if returnType == 'playground':
+        # The avatar that called the MagicWord wants the playground name that the avatar is currently in.
+        zoneId = ZoneUtil.getCanonicalHoodId(zoneId)
+
+    if ZoneUtil.isInterior(zoneId):
+        # If we're in an interior, we want to fetch the street/playground zone, since there isn't
+        # any mapping for interiorId -> shop name (afaik).
+        zoneId -= 500
+        interior = True
+
+    if ZoneUtil.isPlayground(zoneId):
+        # If it's a playground, TTG contains a map of all hoodIds -> playground names.
+        where = ToontownGlobals.hoodNameMap.get(zoneId, None)
+    else:
+        # If it's not a playground, the TTL contains a list of all streetId -> street names.
+        zoneId = zoneId - zoneId % 100 # This essentially truncates the last 2 digits.
+        where = TTLocalizer.GlobalStreetNames.get(zoneId, None)
+
+    if not where:
+        return "Failed to map the zoneId %d [trueZoneId: %d] to a location..." % (zoneId, trueZoneId)
+
+    if interior:
+        return "%s has been located %s %s, inside a building." % (av.getName(), where[1], where[2])
+    return "%s has been located %s %s." % (av.getName(), where[1], where[2])
 
 @magicWord(category=CATEGORY_MODERATION, types=[int])
 def online(doId):
@@ -5197,6 +5242,16 @@ def online(doId):
     av = spellbook.getTarget()
     doId = 100000000 + doId
     simbase.air.getActivated(doId, lambda x,y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
+
+@magicWord(category=CATEGORY_MODERATION, types=[int])
+def onlinelongav(doId):
+    if len(str(doId)) >= 9:
+        simbase.air.getActivated(doId,
+                                 lambda x, y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
+    else:
+        doId = 100000000 + doId
+        simbase.air.getActivated(doId,
+                                 lambda x, y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
 
 @magicWord(category=CATEGORY_OVERRIDE)
 def unlimitedGags():
@@ -5394,7 +5449,19 @@ def goto(avIdShort):
         return "Unable to teleport to target, they are not currently on this district."
     spellbook.getInvoker().magicWordTeleportRequests.append(avId)
     toon.sendUpdate('magicTeleportRequest', [spellbook.getInvoker().getDoId()])
-    
+
+@magicWord(category=CATEGORY_MODERATION, types=[int])
+def gotolongav(avIdShort):
+    if len(str(avId)) >= 9:
+        targetAvId = avId
+    else:
+        targetAvId = 100000000 + avId  # To get target doId.
+        toon = simbase.air.doId2do.get(targetAvId)
+    if not toon:
+        return "Unable to teleport to target, they are not currently on this district."
+    spellbook.getInvoker().magicWordTeleportRequests.append(targetAvId)
+    toon.sendUpdate('magicTeleportRequest', [spellbook.getInvoker().getDoId()])
+
 @magicWord(category=CATEGORY_SYSADMIN)
 def dump_doId2do():
     """
@@ -6196,3 +6263,41 @@ def allSummons():
     allSummons = numSuits * [fullSetForSuit]
     invoker.b_setCogSummonsEarned(allSummons)
     return 'Lots of summons!'
+
+@magicWord(category=CATEGORY_CHARACTERSTATS)
+def tricks():
+    """Unlock all pet tricks."""
+    if not config.GetBool('want-pets', False):
+        return 'You cannot unlock pet tricks when pets are disabled!'
+    spellbook.getInvoker().b_setPetTrickPhrases(range(7))
+    return 'Unlocked pet tricks!'
+
+@magicWord(category=CATEGORY_ADMIN)
+def unlocks():
+    """
+    Unlocks the invoker's teleport access, emotions, and pet trick phrases.
+    """
+    invoker = spellbook.getInvoker()
+
+    # First, unlock their teleport access:
+    hoods = list(ToontownGlobals.HoodsForTeleportAll)
+    invoker.b_setHoodsVisited(hoods)
+    invoker.b_setTeleportAccess(hoods)
+
+    # Next, unlock all of their emotions:
+    emotes = list(invoker.getEmoteAccess())
+    for emoteId in OTPLocalizer.EmoteFuncDict.values():
+        if emoteId >= len(emotes):
+            continue
+        # The following emotions are ignored because they are unable to be
+        # obtained:
+        if emoteId in (17, 18, 19):
+            continue
+        emotes[emoteId] = 1
+    invoker.b_setEmoteAccess(emotes)
+
+    # Finally, unlock all of their pet phrases:
+    if simbase.wantPets:
+        invoker.b_setPetTrickPhrases(range(7))
+
+    return 'Unlocked teleport access, emotions, and pet trick phrases!'

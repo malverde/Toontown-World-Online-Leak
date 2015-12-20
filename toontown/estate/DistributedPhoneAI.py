@@ -133,6 +133,9 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
                 issue='Used phone from other shard!')
             return
         item = CatalogItem.getItem(item)
+        if item.loyaltyRequirement(): # These items aren't purchasable! Hacker alert!
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to purchase an unimplemented loyalty item!')
+            return 
         if isinstance(item, CatalogInvalidItem):
             self.air.writeServerEvent(
                 'suspicious',

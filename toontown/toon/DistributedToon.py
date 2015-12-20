@@ -53,6 +53,7 @@ from toontown.golf import GolfGlobals
 from direct.interval.IntervalGlobal import Sequence, Wait, Func, Parallel, SoundInterval
 from direct.controls.GravityWalker import GravityWalker
 from toontown.distributed import DelayDelete
+from toontown.toon.ModPanel import ModPanel
 from otp.ai.MagicWordGlobal import *
 import time
 import operator
@@ -2800,3 +2801,9 @@ def zone(zoneId):
     return 'You have been moved to zone {0}.'.format(zoneId)
     
     #End of V1 MW
+
+@magicWord(category=CATEGORY_MODERATION)
+def modPanel():
+    invoker = spellbook.getInvoker()
+    ModPanel(invoker)
+    return 'Moderator Panel Enabled'

@@ -4,84 +4,113 @@ from otp.launcher.LauncherBase import LauncherBase
 import os
 import sys
 import time
+import httplib, urllib, json
 
 class LogAndOutput:
-    def __init__(self, orig, log):
-        self.orig = orig
-        self.log = log
+	def __init__(self, orig, log):
+		self.orig = orig
+		self.log = log
 
-    def write(self, str):
-        self.log.write(str)
-        self.log.flush()
-        self.orig.write(str)
-        self.orig.flush()
+	def write(self, str):
+		self.log.write(str)
+		self.log.flush()
+		self.orig.write(str)
+		self.orig.flush()
 
-    def flush(self):
-        self.log.flush()
-        self.orig.flush()
+	def flush(self):
+		self.log.flush()
+		self.orig.flush()
 
 class TTRLauncher(LauncherBase):
-    notify = DirectNotifyGlobal.directNotify.newCategory('ToontownDummyLauncher')
+	notify = DirectNotifyGlobal.directNotify.newCategory('ToontownDummyLauncher')
 
-    def __init__(self):
-        self.http = HTTPClient()
 
-        self.logPrefix = 'ttw-'
+	def __init__(self):
+		username = self.getPlayToken()
+		password = raw_input('Password:   ')
+		passwordencode = urllib.quote_plus(password)
+		print passwordencode
+		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+		print ("Sending username/password to server...")
+		connection = httplib.HTTPConnection("www.toontownworldonline.com")
+		connection.request("GET", "/api/login/login.php?username="+ username + "&password=" + passwordencode)
+		response = connection.getresponse()
 
-        ltime = 1 and time.localtime()
-        logSuffix = '%02d%02d%02d_%02d%02d%02d' % (ltime[0] - 2000,  ltime[1], ltime[2],
-                                                   ltime[3], ltime[4], ltime[5])
+		data = response.read()
+		# turn json into pythonic format
+		formattedData = json.loads(data)
+		if formattedData.get("success", True):
+			# we now have a login, we can log in now.
+			print("Success! Starting the game...")
+			connection.close()
+		elif formattedData.get("banned"): # We are banned RIP
+			print("Sorry, you are banned from TTW!") # Lets be nice
+			connection.close() # Close connection TO our API
+			sys.exit() # And kill them so they cant log in
+		else:
+			# can't log in, probably because of invalid password
+			print("Unable to log into the game. Reason: " + formattedData.get("reason", {}))
+			connection.close()
+			sys.exit()
+			
+		self.http = HTTPClient()
 
-        
-        if not os.path.exists('logs/'):
-            os.mkdir('logs/')
-            self.notify.info('Made new directory to save logs.')
-        
-        logfile = os.path.join('logs', self.logPrefix + logSuffix + '.log')
+		self.logPrefix = 'ttw-'
 
-        log = open(logfile, 'a')
-        logOut = LogAndOutput(sys.stdout, log)
-        logErr = LogAndOutput(sys.stderr, log)
-        sys.stdout = logOut
-        sys.stderr = logErr
+		ltime = 1 and time.localtime()
+		logSuffix = '%02d%02d%02d_%02d%02d%02d' % (ltime[0] - 2000,  ltime[1], ltime[2],
+												   ltime[3], ltime[4], ltime[5])
 
-    def getPlayToken(self):
-        return self.getValue('TTR_PLAYCOOKIE')
+		
+		if not os.path.exists('logs/'):
+			os.mkdir('logs/')
+			self.notify.info('Made new directory to save logs.')
+		
+		logfile = os.path.join('logs', self.logPrefix + logSuffix + '.log')
 
-    def getGameServer(self):
-        return self.getValue('TTR_GAMESERVER')
+		log = open(logfile, 'a')
+		logOut = LogAndOutput(sys.stdout, log)
+		logErr = LogAndOutput(sys.stderr, log)
+		sys.stdout = logOut
+		sys.stderr = logErr
 
-    def setPandaErrorCode(self, code):
-        pass
+	def getPlayToken(self):
+		return self.getValue('TTR_PLAYCOOKIE')
 
-    def getGame2Done(self):
-        return True
+	def getGameServer(self):
+		return self.getValue('TTR_GAMESERVER')
 
-    def getLogFileName(self):
-        return 'toontown'
+	def setPandaErrorCode(self, code):
+		pass
 
-    def getValue(self, key, default = None):
-        return os.environ.get(key, default)
+	def getGame2Done(self):
+		return True
 
-    def setValue(self, key, value):
-        os.environ[key] = str(value)
+	def getLogFileName(self):
+		return 'toontown'
 
-    def getVerifyFiles(self):
-        return config.GetInt('launcher-verify', 0)
+	def getValue(self, key, default = None):
+		return os.environ.get(key, default)
 
-    def getTestServerFlag(self):
-        return self.getValue('IS_TEST_SERVER', 0)
+	def setValue(self, key, value):
+		os.environ[key] = str(value)
 
-    def isDownloadComplete(self):
-        return 1
+	def getVerifyFiles(self):
+		return config.GetInt('launcher-verify', 0)
 
-    def isTestServer(self):
-        return 0
+	def getTestServerFlag(self):
+		return self.getValue('IS_TEST_SERVER', 0)
 
-    def getPhaseComplete(self, phase):
-        return 1
+	def isDownloadComplete(self):
+		return 1
 
-    def startGame(self):
-        self.newTaskManager()
-        eventMgr.restart()
-        from toontown.toonbase import ToontownStart
+	def isTestServer(self):
+		return 0
+
+	def getPhaseComplete(self, phase):
+		return 1
+
+	def startGame(self):
+		self.newTaskManager()
+		eventMgr.restart()
+		from toontown.toonbase import ToontownStart
