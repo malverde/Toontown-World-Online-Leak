@@ -112,7 +112,24 @@ class Street(BattlePlace.BattlePlace):
         NametagGlobals.setMasterArrowsOn(arrowsOn)
 
         def __lightDecorationOn__():
-            geom = base.cr.playGame.getPlace().loader.geom
+            try:
+                geom = base.cr.playGame.getPlace().loader.geom
+            else:
+                # TEMP hack. This will port you to ttc if ^ fails
+                loaderId = ZoneUtil.getBranchLoaderName(2000)
+                whereId = ZoneUtil.getToonWhereName(200)
+                how = 'teleportIn'
+                print ("This Should not happen.")
+                requestStatus = [{
+                'loader': loaderId,
+                'where': whereId,
+                'how': how,
+                'hoodId': 2000,
+                'zoneId': 2000,
+                'shardId': None,
+                'avId': -1
+                }]
+                base.cr.playGame.getPlace().fsm.forceTransition('teleportOut', requestStatus)
             self.loader.hood.eventLights = geom.findAllMatches('**/*light*')
             self.loader.hood.eventLights += geom.findAllMatches('**/*lamp*')
             self.loader.hood.eventLights += geom.findAllMatches('**/prop_snow_tree*')
