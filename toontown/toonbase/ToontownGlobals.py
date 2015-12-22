@@ -13,6 +13,7 @@ DatabaseIdFromClassName = {'Account': AccountDatabaseChannelId}
 CogHQCameraFov = 60.0
 BossBattleCameraFov = 72.0
 MakeAToonCameraFov = 52.0
+CogdoFov = 56.9
 WantPromotion = 0
 PendingPromotion = 1
 

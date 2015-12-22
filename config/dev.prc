@@ -121,7 +121,7 @@ estate-day-night #t
 want-instant-parties #f
 want-toontorial #f
 want-doomsday #f
-want-cogdominiums #f
+want-cogdominiums #t
 
 
 # Chat system (server-sided/client-sided)
