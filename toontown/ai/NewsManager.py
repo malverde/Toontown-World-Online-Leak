@@ -146,7 +146,7 @@ class NewsManager(DistributedObject.DistributedObject):
 			base.localAvatar.setSystemMessage(0, TTLocalizer.WinterDecorationsStart)
 			base.localAvatar.chatMgr.chatInputSpeedChat.addWinterMenu()
 			print ("ITS WINTER!!!")
-		elif str(datetime.datetime.now().strftime("%m")) == "11":
+		elif str(datetime.datetime.now().strftime("%m")) == "10":
 			self.holidayDecorator = HalloweenHolidayDecorator.HalloweenHolidayDecorator()
 			base.localAvatar.chatMgr.chatInputSpeedChat.addHalloweenMenu()
 			base.localAvatar.setSystemMessage(0, TTLocalizer.HalloweenPropsHolidayStart)
