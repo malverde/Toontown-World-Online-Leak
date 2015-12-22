@@ -1885,7 +1885,7 @@ hood2Coords = {
         (296.844, 0, 0)]}
 
 
-# Gag Buffs variables...
+# Gag Buffs variables... Touching these variables can significantly impact fair-game-play.
 
 BMovementSpeed = 0
 BMovementSpeedMultiplier = 2.3
