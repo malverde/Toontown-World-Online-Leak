@@ -53,7 +53,7 @@ class HolidayManagerAI:
 				showType = ToontownGlobals.NEWYEARS_FIREWORKS
 
 		if str(datetime.datetime.now().strftime("%m")) == "6":
-			if  day == ==  "29" or day == "30":
+			if  day ==  "29" or day == "30":
 				showType = PartyGlobals.FireworkShows.Summer
 		
 		if str(datetime.datetime.now().strftime("%m")) == "7":
