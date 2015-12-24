@@ -23,6 +23,7 @@ def myStrftime(myTime):
 class CalendarGuiDay(DirectFrame):
 	notify = directNotify.newCategory('CalendarGuiDay')
 	ScrollListTextSize = 0.03
+	LargeTextSize = 0.0232
 
 	def __init__(self, parent, myDate, startDate, dayClickCallback = None, onlyFutureDaysClickable = False):
 		self.origParent = parent
@@ -224,25 +225,44 @@ class CalendarGuiDay(DirectFrame):
 		if base.cr.newsManager and (self.filter == ToontownGlobals.CalendarFilterShowAll or self.filter == ToontownGlobals.CalendarFilterShowOnlyHolidays):
 			if self.myDate.month == 12 and self.myDate.day == 1:
 				holidayName = 'Winter Holiday'
-				textSize = self.ScrollListTextSize
-				newItem = DirectLabel(relief=None, text=holidayName, text_scale=textSize, text_align=TextNode.ALeft)
-				self.scrollList.addItem(newItem)
+				holidayDesc = 'Celebrate the Winter Holiday with Toontastic decorations, party and Cattlelog items, and more!'
+				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
+			
 			if self.myDate.month == 12 and self.myDate.day == 31:
-				holidayName = 'Winter Holiday End'
-				textSize = self.ScrollListTextSize
-				newItem = DirectLabel(relief=None, text=holidayName, text_scale=textSize, text_align=TextNode.ALeft)
-				self.scrollList.addItem(newItem)
+				holidayName = "Top Toons New Year's Day Marathon"
+				holidayDesc = "Chances to win every hour! See the What's New Blog for details!"
+				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 				
-			if self.myDate.month == 10 and self.myDate.day == 1:
-				holidayName = 'Halloween Holiday'
-				textSize = self.ScrollListTextSize
-				newItem = DirectLabel(relief=None, text=holidayName, text_scale=textSize, text_align=TextNode.ALeft)
-				self.scrollList.addItem(newItem)
-			if self.myDate.month == 10 and self.myDate.day == 31:
-				holidayName = 'Halloween Holiday End'
-				textSize = self.ScrollListTextSize
-				newItem = DirectLabel(relief=None, text=holidayName, text_scale=textSize, text_align=TextNode.ALeft)
-				self.scrollList.addItem(newItem)
+			if self.myDate.month == 10 and self.myDate.day == 21:
+				holidayName = "Halloween Decor"
+				holidayDesc = "Celebrate Halloween as spooky trees and streetlights transform Toontown!"
+				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
+			
+			if self.myDate.month == 3 and self.myDate.day == 14:
+				holidayName = "Ides of March"
+				holidayDesc = "Beware the Ides of March! Stop the Backstabber Cogs from invading Toontown!"
+				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
+				
+			if self.myDate.month == 3 and self.myDate.day == 29:
+				holidayName = "April Toons' Week"
+				holidayDesc = "Celebrate April Toons' Week - a holiday built by Toons for Toons!!"
+				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
+				
+			if self.myDate.month == 5 and self.myDate.day == 5:
+				holidayName = "Enhanced Xp Week"
+				holidayDesc = "Celebrate Toontown with extra Xp on ALL wacky gags!"
+				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
+				
+			if self.myDate.month == 12 and self.myDate.day == 30:
+				holidayName = "New Year Fireworks"
+				holidayDesc = "Celebrate New Years with a fireworks show every hour in each playground!"
+				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
+				
+			if self.myDate.month == 6 and self.myDate.day == 329:
+				holidayName = "Summer Fireworks"
+				holidayDesc = "Celebrate Summer with a fireworks show every hour in each playground!"
+				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
+
 
 
 			oncelyHolidays = base.cr.newsManager.getOncelyHolidaysForDate(self.myDate)
