@@ -174,11 +174,11 @@ class NewsManager(DistributedObject.DistributedObject):
 			
 	def setFireworks(self, FireworkName):
 			
-		if HolidayName == 'New Years Fireworks':
+		if FireworkName == 'New Years Fireworks':
 			msg1 = TTLocalizer.lResistance + ' Happy New Years Toons Enjoy fireworks in all areas of Toontown!'
 			
 			
-		elif HolidayName == 'Summer Fireworks':
+		elif FireworkName == 'Summer Fireworks':
 			msg1 = TTLocalizer.lResistance + ' Enjoy some summer Fireworks on us!'
 		
 		Sequence(
