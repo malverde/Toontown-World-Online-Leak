@@ -31,12 +31,13 @@ class NewsManager(DistributedObject.DistributedObject):
 	OncelyHolidayType = 2
 	RelativelyHolidayType = 3
 	OncelyMultipleStartHolidayType = 4
+	WantBingo = False
+	
 
 	def __init__(self, cr):
 		DistributedObject.DistributedObject.__init__(self, cr)
 		self.population = 0
 		self.invading = 0
-
 		forcedHolidayDecorations = config.GetString(
 			'force-holiday-decorations', '')
 		self.decorationHolidayIds = []
@@ -57,8 +58,7 @@ class NewsManager(DistributedObject.DistributedObject):
 		if hasattr(base, 'localAvatar') and base.localAvatar is not None:
 			base.localAvatar.inventory.setInvasionCreditMultiplier(1)
 		self.weeklyCalendarHolidays = []
-		if hasattr(base, 'localAvatar') and base.localAvatar is not None:
-			self.announceHoliday()
+		self.yearlyCalendarHolidays = []
 		return
 
 	def delete(self):
@@ -139,16 +139,48 @@ class NewsManager(DistributedObject.DistributedObject):
 	def getInvading(self):
 		return self.invading
 		
+		
 	def setHolidays(self, HolidayName):
-		if HolidayName == 'Winter':
-			msg1 = TTLocalizer.WinterDecorationsStart
+		if HolidayName == 'Winter': 
+			msg1 = TTLocalizer.lResistance + TTLocalizer.WinterDecorationsStart
+			self.startChristmas()
 			
 		elif HolidayName == 'Halloween':
-			msg1 = TTLocalizer.HalloweenPropsHolidayStart
+			msg1 = TTLocalizer.lResistance + TTLocalizer.HalloweenPropsHolidayStart
+			self.startHalloween()
 			
-		elif HloidayName == 'March':
-			msg1 = TTLocalizer.IdesOfMarchStart
+		elif HolidayName == 'March':
+			msg1 = TTLocalizer.lResistance + TTLocalizer.IdesOfMarchStart
 			
+		elif HolidayName == 'Tax Day':
+			msg1 = TTLocalizer.lResistance + 'The Cogs are invading! Help save Toontown!'
+			
+		elif HolidayName == 'New Years Fireworks':
+			msg1 = TTLocalizer.lResistance + ' Happy New Years Toons Enjoy fireworks in all areas of Toontown!'
+			
+		elif HolidayName == 'New Years Marathon':
+			msg1 = TTLocalizer.lResistance + TTLocalizer.TopToonsMarathonStart
+			
+		elif HolidayName == 'Victory Partys':
+			base.localAvatar.chatMgr.chatInputSpeedChat.addVictoryPartiesMenu()
+			
+		elif HolidayName == 'April Toons':
+			base.localAvatar.chatMgr.chatInputSpeedChat.addAprilToonsMenu()
+			self.startApril()
+
+		elif HolidayName == 'Xp Booster':
+			msg1 = TTLocalizer.lResistance + ' Enjoy an XP Boost on us for busting those cogs!'
+			
+			
+	def setFireworks(self, FireworkName):
+			
+		if HolidayName == 'New Years Fireworks':
+			msg1 = TTLocalizer.lResistance + ' Happy New Years Toons Enjoy fireworks in all areas of Toontown!'
+			
+			
+		elif HolidayName == 'Summer Fireworks':
+			msg1 = TTLocalizer.lResistance + ' Enjoy some summer Fireworks on us!'
+		
 		Sequence(
 			Wait(1.0),
 			Func(
@@ -159,32 +191,25 @@ class NewsManager(DistributedObject.DistributedObject):
 			name='newsManagerWait',
 			autoPause=1).start()
 					
-	def announceHoliday(self):
-		if str(datetime.datetime.now().strftime("%m")) == "12":
-			#Add Decorations
-			self.decorationHolidayIds.append(decorationHolidays[1])
-			self.decorationHolidayIds.append(decorationHolidays[6])
-			#Add menus
-			base.localAvatar.chatMgr.chatInputSpeedChat.addCarolMenu()
-			base.localAvatar.chatMgr.chatInputSpeedChat.addWinterMenu()
-			
-		elif str(datetime.datetime.now().strftime("%m")) == "10":
-			self.decorationHolidayIds.append(decorationHolidays[3])
-			self.decorationHolidayIds.append(decorationHolidays[4])
-			self.decorationHolidayIds.append(decorationHolidays[5])
-			self.decorationHolidayIds.append(decorationHolidays[6])
-			base.localAvatar.chatMgr.chatInputSpeedChat.addHalloweenMenu()
-			print ("Its Too Spooky!")
-		elif str(datetime.datetime.now().strftime("%m")) == "4":
-			base.localAvatar.chatMgr.chatInputSpeedChat.addAprilToonsMenu()
-			base.localAvatar.controlManager.currentControls.setGravity(ToontownGlobals.GravityValue * 0.75)
-			print ("April Toons!")
-		elif str(datetime.datetime.now().strftime("%m")) == "12":
-			base.localAvatar.chatMgr.chatInputSpeedChat.addVictoryPartiesMenu()
-			print ("Victory partys!")
-		elif str(datetime.datetime.now().strftime("%m")) == "3":
-			base.localAvatar.chatMgr.chatInputSpeedChat.addIdesOfMarchMenu()
-			self.setIdesOfMarchStart()
+	def startChristmas(self):
+		#		#Add Decorations
+		self.decorationHolidayIds.append(decorationHolidays[1])
+		self.decorationHolidayIds.append(decorationHolidays[6])
+		#Add menus
+		base.localAvatar.chatMgr.chatInputSpeedChat.addCarolMenu()
+		base.localAvatar.chatMgr.chatInputSpeedChat.addWinterMenu()
+		
+	def startHalloween(self):
+		self.decorationHolidayIds.append(decorationHolidays[3])
+		self.decorationHolidayIds.append(decorationHolidays[4])
+		self.decorationHolidayIds.append(decorationHolidays[5])
+		self.decorationHolidayIds.append(decorationHolidays[6])
+		base.localAvatar.chatMgr.chatInputSpeedChat.addHalloweenMenu()
+		print ("Its Too Spooky!")
+		
+	def startApril(self):
+		base.localAvatar.controlManager.currentControls.setGravity(ToontownGlobals.GravityValue * 0.75)
+		print ("April Toons!")
 		
 
 	
@@ -448,18 +473,6 @@ class NewsManager(DistributedObject.DistributedObject):
 	def getHolidayIdList(self):
 		return self.holidayIdList
 
-	def setBingoWin(self, zoneId):
-		base.localAvatar.setSystemMessage(0, 'Bingo congrats!')
-
-	def setBingoStart(self):
-		base.localAvatar.setSystemMessage(0, TTLocalizer.FishBingoStart)
-
-	def setBingoOngoing(self):
-		base.localAvatar.setSystemMessage(0, TTLocalizer.FishBingoOngoing)
-
-	def setBingoEnd(self):
-		base.localAvatar.setSystemMessage(0, TTLocalizer.FishBingoEnd)
-
 	def setCircuitRaceStart(self):
 		base.localAvatar.setSystemMessage(0, TTLocalizer.CircuitRaceStart)
 
@@ -566,10 +579,6 @@ class NewsManager(DistributedObject.DistributedObject):
 		base.localAvatar.setSystemMessage(
 			0, TTLocalizer.BankUpgradeHolidayStart)
 
-	def setHalloweenPropsHolidayEnd(self):
-		base.localAvatar.setSystemMessage(
-			0, TTLocalizer.HalloweenPropsHolidayEnd)
-
 	def setBlackCatHolidayStart(self):
 		base.localAvatar.setSystemMessage(0, TTLocalizer.BlackCatHolidayStart)
 
@@ -631,17 +640,7 @@ class NewsManager(DistributedObject.DistributedObject):
 		self.yearlyCalendarHolidays = self.yearlyCalendarHolidays
 
 	def getYearlyHolidaysForDate(self, theDate):
-		result = []
-		for item in self.yearlyCalendarHolidays:
-			if item[1][0] == theDate.month and item[1][1] == theDate.day:
-				newItem = [self.YearlyHolidayType] + list(item)
-				result.append(tuple(newItem))
-				continue
-			if item[2][0] == theDate.month and item[2][1] == theDate.day:
-				newItem = [self.YearlyHolidayType] + list(item)
-				result.append(tuple(newItem))
-
-		return result
+		return self.yearlyCalendarHolidays
 
 	def setMultipleStartHolidays(self, multipleStartHolidays):
 		self.multipleStartHolidays = multipleStartHolidays
