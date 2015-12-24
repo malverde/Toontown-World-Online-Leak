@@ -174,6 +174,7 @@ class NewsManager(DistributedObject.DistributedObject):
 			
 	def setFireworks(self, FireworkName):
 			
+		global msg1
 		if FireworkName == 'New Years Fireworks':
 			msg1 = TTLocalizer.lResistance + ' Happy New Years Toons Enjoy fireworks in all areas of Toontown!'
 			
