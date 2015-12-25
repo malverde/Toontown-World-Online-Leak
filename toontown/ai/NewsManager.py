@@ -174,23 +174,31 @@ class NewsManager(DistributedObject.DistributedObject):
 			
 	def setFireworks(self, FireworkName):
 			
-		global msg1
 		if FireworkName == 'New Years Fireworks':
 			msg1 = TTLocalizer.lResistance + ' Happy New Years Toons Enjoy fireworks in all areas of Toontown!'
-			
+            Sequence(
+            	Wait(1.0),
+            	Func(
+            		base.localAvatar.setSystemMessage,
+            		0,
+            		msg1),
+            	Wait(5.0),
+            	name='newsManagerWait',
+            	autoPause=1).start()
+    			
 			
 		elif FireworkName == 'Summer Fireworks':
 			msg1 = TTLocalizer.lResistance + ' Enjoy some summer Fireworks on us!'
 		
-		Sequence(
-			Wait(1.0),
-			Func(
-				base.localAvatar.setSystemMessage,
-				0,
-				msg1),
-			Wait(5.0),
-			name='newsManagerWait',
-			autoPause=1).start()
+    		Sequence(
+    			Wait(1.0),
+    			Func(
+    				base.localAvatar.setSystemMessage,
+    				0,
+    				msg1),
+    			Wait(5.0),
+    			name='newsManagerWait',
+    			autoPause=1).start()
 					
 	def startChristmas(self):
 		#		#Add Decorations
