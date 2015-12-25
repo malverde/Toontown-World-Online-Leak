@@ -9,6 +9,7 @@ from toontown.pets import PetTricks, DistributedPetProxyAI
 from direct.showbase.PythonUtil import lerp
 from otp.ai.MagicWordGlobal import *
 from toontown.hood import ZoneUtil
+import datetime
 
 battleSkip = 0
 

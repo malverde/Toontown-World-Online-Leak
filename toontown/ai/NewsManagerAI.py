@@ -19,13 +19,12 @@ class NewsManagerAI(DistributedObjectAI):
 		self.accept('avatarEntered', self.__announceIfHoliday)
 		self.accept('avatarEntered', self.__announceIfFireworks)
 		self.HolidayManagerAI = HolidayManagerAI.HolidayManagerAI(air)
-		self.FireworkName = [ ]
+		self.FireworkName = []
 		day = str(datetime.datetime.now().strftime("%d"))
 		if str(datetime.datetime.now().strftime("%m")) == "12":
 			if day == "14" or day == "15" or day == "16" or day == "17" or day == "18" or day == "19" or day == "20" or day == "21" or day == "22" or day == "23" or day == "24" or day == "25" or day == "26" or day == "27" or "28" or day == "29" or day == "30":
 				self.HolidayName = 'Winter'
-			if day ==  "31":
-				self.HolidayName = 'New Years Marathon'
+				print "its winter"
 			if day ==  "30" or day == "31":
 				self.FireworkName = 'New Years Fireworks'
 				self.HolidayManagerAI.startFireworksTick()
@@ -33,6 +32,7 @@ class NewsManagerAI(DistributedObjectAI):
 		if str(datetime.datetime.now().strftime("%m")) == "1":
 			if  day == "1" or day == "2" or day == "3" or day == "4":
 				self.HolidayName = 'Winter'
+				print "its winter"
 		
 		if str(datetime.datetime.now().strftime("%m")) == "4":
 			if day == "15":
@@ -40,6 +40,7 @@ class NewsManagerAI(DistributedObjectAI):
 			
 			if day == "1" or day == "2" or day == "3" or day == "4" or day == "5" or day == "6" or day == "7" or day == "9" or day == "10" or day == "11":
 				self.HolidayName = 'April Toons'
+				print "April Toons"
 		
 		
 		if str(datetime.datetime.now().strftime("%m")) == "10":

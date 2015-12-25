@@ -57,6 +57,27 @@ class NewsManager(DistributedObject.DistributedObject):
 		base.cr.newsManager = self
 		if hasattr(base, 'localAvatar') and base.localAvatar is not None:
 			base.localAvatar.inventory.setInvasionCreditMultiplier(1)
+		if hasattr(base, 'localAvatar') and base.localAvatar is not None:
+			day = str(datetime.datetime.now().strftime("%d"))
+			if str(datetime.datetime.now().strftime("%m")) == "12":
+				if day == "14" or day == "15" or day == "16" or day == "17" or day == "18" or day == "19" or day == "20" or day == "21" or day == "22" or day == "23" or day == "24" or day == "25" or day == "26" or day == "27" or "28" or day == "29" or day == "30":
+					self.startChristmas()
+					print "starting christmas"
+			if str(datetime.datetime.now().strftime("%m")) == "1":
+				if  day == "1" or day == "2" or day == "3" or day == "4":
+					self.startChristmas()
+			if str(datetime.datetime.now().strftime("%m")) == "10":
+				if day ==  "21" or day == "22" or day == "23" or day == "25" or day == "26" or day == "27" or day == "28" or day == "29" or day == "30" or day == "31":
+					self.startHalloween()
+			if str(datetime.datetime.now().strftime("%m")) == "11":
+				if  day == "1":
+					self.startHalloween()
+			if str(datetime.datetime.now().strftime("%m")) == "4":
+				if day == "1" or day == "2" or day == "3" or day == "4" or day == "5" or day == "6" or day == "7" or day == "9" or day == "10" or day == "11":
+					self.startApril()
+			if str(datetime.datetime.now().strftime("%m")) == "3":
+				if day ==  "29" or day == "30" or day == "31":
+					self.startApril()
 		self.weeklyCalendarHolidays = []
 		self.yearlyCalendarHolidays = []
 		return
@@ -143,11 +164,10 @@ class NewsManager(DistributedObject.DistributedObject):
 	def setHolidays(self, HolidayName):
 		if HolidayName == 'Winter': 
 			msg1 = TTLocalizer.lResistance + TTLocalizer.WinterDecorationsStart
-			self.startChristmas()
+		
 			
 		elif HolidayName == 'Halloween':
 			msg1 = TTLocalizer.lResistance + TTLocalizer.HalloweenPropsHolidayStart
-			self.startHalloween()
 			
 		elif HolidayName == 'March':
 			msg1 = TTLocalizer.lResistance + TTLocalizer.IdesOfMarchStart
@@ -165,40 +185,48 @@ class NewsManager(DistributedObject.DistributedObject):
 			base.localAvatar.chatMgr.chatInputSpeedChat.addVictoryPartiesMenu()
 			
 		elif HolidayName == 'April Toons':
-			base.localAvatar.chatMgr.chatInputSpeedChat.addAprilToonsMenu()
-			self.startApril()
+			msg1 = TTLocalizer.lResistance + 'Things are getting silly here in toontown!'
 
 		elif HolidayName == 'Xp Booster':
 			msg1 = TTLocalizer.lResistance + ' Enjoy an XP Boost on us for busting those cogs!'
+		Sequence(
+			Wait(1.0),
+			Func(
+				base.localAvatar.setSystemMessage,
+				0,
+				msg1),
+			Wait(5.0),
+			name='newsManagerWait',
+			autoPause=1).start()
 			
 			
 	def setFireworks(self, FireworkName):
 			
 		if FireworkName == 'New Years Fireworks':
 			msg1 = TTLocalizer.lResistance + ' Happy New Years Toons Enjoy fireworks in all areas of Toontown!'
-            Sequence(
-            	Wait(1.0),
-            	Func(
-            		base.localAvatar.setSystemMessage,
-            		0,
-            		msg1),
-            	Wait(5.0),
-            	name='newsManagerWait',
-            	autoPause=1).start()
-    			
+			Sequence(
+				Wait(1.0),
+				Func(
+					base.localAvatar.setSystemMessage,
+					0,
+					msg1),
+				Wait(5.0),
+				name='newsManagerWait',
+				autoPause=1).start()
+				
 			
 		elif FireworkName == 'Summer Fireworks':
 			msg1 = TTLocalizer.lResistance + ' Enjoy some summer Fireworks on us!'
 		
-    		Sequence(
-    			Wait(1.0),
-    			Func(
-    				base.localAvatar.setSystemMessage,
-    				0,
-    				msg1),
-    			Wait(5.0),
-    			name='newsManagerWait',
-    			autoPause=1).start()
+			Sequence(
+				Wait(1.0),
+				Func(
+					base.localAvatar.setSystemMessage,
+					0,
+					msg1),
+				Wait(5.0),
+				name='newsManagerWait',
+				autoPause=1).start()
 					
 	def startChristmas(self):
 		#		#Add Decorations
@@ -215,9 +243,11 @@ class NewsManager(DistributedObject.DistributedObject):
 		self.decorationHolidayIds.append(decorationHolidays[6])
 		base.localAvatar.chatMgr.chatInputSpeedChat.addHalloweenMenu()
 		print ("Its Too Spooky!")
+	
 		
 	def startApril(self):
 		base.localAvatar.controlManager.currentControls.setGravity(ToontownGlobals.GravityValue * 0.75)
+		base.localAvatar.chatMgr.chatInputSpeedChat.addAprilToonsMenu()
 		print ("April Toons!")
 		
 
