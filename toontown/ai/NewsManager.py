@@ -162,33 +162,28 @@ class NewsManager(DistributedObject.DistributedObject):
 		
 		
 	def setHolidays(self, HolidayName):
+		print HolidayName
 		if HolidayName == 'Winter': 
 			msg1 = TTLocalizer.lResistance + TTLocalizer.WinterDecorationsStart
 		
-			
-		elif HolidayName == 'Halloween':
+		if HolidayName == 'Halloween':
 			msg1 = TTLocalizer.lResistance + TTLocalizer.HalloweenPropsHolidayStart
 			
-		elif HolidayName == 'March':
+		if HolidayName == 'March':
 			msg1 = TTLocalizer.lResistance + TTLocalizer.IdesOfMarchStart
+		if HolidayName == 'April Toons':
+			msg1 = TTLocalizer.lResistance + 'Things are getting silly here in toontown!'
 			
+		if HolidayName == 'Xp Booster':
+			msg1 = TTLocalizer.lResistance + ' Enjoy an XP Boost on us for busting those cogs!'
+		"""
 		elif HolidayName == 'Tax Day':
 			msg1 = TTLocalizer.lResistance + 'The Cogs are invading! Help save Toontown!'
-			
-		elif HolidayName == 'New Years Fireworks':
-			msg1 = TTLocalizer.lResistance + ' Happy New Years Toons Enjoy fireworks in all areas of Toontown!'
-			
-		elif HolidayName == 'New Years Marathon':
-			msg1 = TTLocalizer.lResistance + TTLocalizer.TopToonsMarathonStart
-			
+
 		elif HolidayName == 'Victory Partys':
 			base.localAvatar.chatMgr.chatInputSpeedChat.addVictoryPartiesMenu()
+		"""	
 			
-		elif HolidayName == 'April Toons':
-			msg1 = TTLocalizer.lResistance + 'Things are getting silly here in toontown!'
-
-		elif HolidayName == 'Xp Booster':
-			msg1 = TTLocalizer.lResistance + ' Enjoy an XP Boost on us for busting those cogs!'
 		Sequence(
 			Wait(1.0),
 			Func(
