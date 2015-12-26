@@ -5,6 +5,7 @@ from otp.ai.MagicWordGlobal import *
 from toontown.toonbase import TTLocalizerEnglish as TTLocalizer
 import datetime
 from toontown.ai import HolidayManagerAI
+from toontown.ai import NewsInvasionAI
 
 class NewsManagerAI(DistributedObjectAI):
 	notify = DirectNotifyGlobal.directNotify.newCategory("NewsManagerAI")
@@ -15,9 +16,12 @@ class NewsManagerAI(DistributedObjectAI):
 		self.accept('avatarEntered', self.__announceIfHoliday)
 		day = str(datetime.datetime.now().strftime("%d"))
 		self.HolidayManagerAI = HolidayManagerAI.HolidayManagerAI(air)
+		self.NewsInvasionAI = NewsInvasionAI.NewsInvasionAI(air)
+		self.NewsInvasionAI.startInvTick()
 		
 		if str(datetime.datetime.now().strftime("%m")) == "12" and day ==  "30" or day == "31":
 			self.HolidayManagerAI.startFireworksTick()
+
 		
 		elif str(datetime.datetime.now().strftime("%m")) == "12" and day == "14" or day == "15" or day == "16" or day == "17" or day == "18" or day == "19" or day == "20" or day == "21" or day == "22" or day == "23" or day == "24" or day == "25" or day == "26" or day == "27" or "28" or day == "29" or day == "30" or day == "31":
 			self.HolidayName = 'Winter'
