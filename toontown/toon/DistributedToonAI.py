@@ -3531,6 +3531,18 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
          self.zoneId))
         return ['success', suitIndex, building.doId]
 
+    def doCogdoTakeOver(difficulty, buildingHeight, track):
+        streetId = ZoneUtil.getBranchZone(self.zoneId)
+        if streetId not in self.air.suitPlanners:
+            self.notify.warning('Street %d is not known.' % streetId)
+            return ['badlocation', difficulty, 0]
+        building = self.findClosestDoor()
+        if building is None:
+            return ['badlocation', difficulty, 0]
+        building.cogdoTakeOver(difficulty, buildingHeight, track)
+        self.notify.info('cogdoTakeOver {0}, {1}, {2}'.format(difficulty, buildingHeight, track))
+        return ['success', difficulty, building.doId]
+
     def doCogInvasion(self, suitIndex):
         invMgr = self.air.suitInvasionManager
         if invMgr.getInvading():
@@ -4602,7 +4614,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         toon = self.air.doId2do.get(requesterId)
         if toon:
             toon.magicTeleportInitiate(self.getDoId(), hoodId, self.getLocation()[1])
-            
+
     def magicTeleportInitiate(self, targetId, hoodId, zoneId):
         if targetId not in self.magicWordTeleportRequests:
             return
@@ -4652,7 +4664,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def b_setHouseType(self, houseType):
         self.setHouseType(houseType)
         self.d_setHouseType(houseType)
-        
+
     def b_setHouseType(self, houseType):
         self.setHouseType(houseType)
         self.d_setHouseType(houseType)
@@ -4690,7 +4702,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def b_setBuffs(self, buffs):
         self.setBuffs(buffs)
         self.d_setBuffs(buffs)
-        
+
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int])
 def setCE(CEValue, CEHood=0, CEExpire=0):
@@ -5678,7 +5690,7 @@ def sos(count, name):
         invoker.NPCFriendsDict[npcId] = count
     invoker.d_setNPCFriendsDict(invoker.NPCFriendsDict)
     return "You were given {0} {1} SOS cards.".format(count, name)
-    
+
 
 @magicWord(category=CATEGORY_ADMIN, types=[str])
 def trackBonus(track):
@@ -5715,15 +5727,15 @@ def gloves(c1, c2=None):
 
     dna.gloveColor = value
     target.b_setDNAString(dna.makeNetString())
-    return 'Glove color set to: {0}'.format(TTLocalizer.NumToColor[value])    
-    
+    return 'Glove color set to: {0}'.format(TTLocalizer.NumToColor[value])
+
 #Our Version 1.0 Magic Words
 @magicWord(category=CATEGORY_ADMIN)
 def getZone():
     invoker = spellbook.getInvoker()
     zone = invoker.zoneId
     return 'The ZoneID is: %s' % (zone)
-    
+
 @magicWord(category=CATEGORY_ADMIN, types=[int])
 def fishingRod(rod):
     """
@@ -5878,7 +5890,7 @@ def skipMovie():
     battle = simbase.air.doId2do.get(battleId)
     battle._DistributedBattleBaseAI__movieDone()
     return 'Battle movie skipped.'
-    
+
 
 @magicWord(category=CATEGORY_ADMIN, types=[str, int, int])
 def inventory(a, b=None, c=None):
@@ -5928,7 +5940,7 @@ def inventory(a, b=None, c=None):
             inventory.addItem(targetTrack, maxLevelIndex)
         invoker.b_setInventory(inventory.makeNetString())
         return 'Restored {0} Gags to: {1}, {2}'.format(c, targetTrack, maxLevelIndex)
-    
+
 @magicWord(category=CATEGORY_ADMIN, types=[str, str])
 def dnav1(part, value):
     """Modify a DNA part on the target."""
@@ -6141,8 +6153,8 @@ def dnav1(part, value):
             target.getName(), value)
 
     return 'Invalid part: {0}'.format(part)
-    
-    
+
+
 #END OF our Version 1.0 Magic Words
 
 @magicWord(category=CATEGORY_MODERATION, types=[int])
@@ -6160,7 +6172,7 @@ def bringTheMadness():
 
     dna.topTexColor = 26
     invoker.b_setDNAString(dna.makeNetString())
- 
+
     dna.sleeveTex = 135
     invoker.b_setDNAString(dna.makeNetString())
 
@@ -6208,7 +6220,7 @@ def resistanceRanger():
 
     target = spellbook.getTarget()
     target.b_setNametagStyle(6)
-    
+
 @magicWord(category=CATEGORY_OVERRIDE, types=[str, str])
 def suit(command, suitName):
     invoker = spellbook.getInvoker()
@@ -6244,7 +6256,7 @@ def captainTheGod():
 
     dna.topTexColor = 27
     invoker.b_setDNAString(dna.makeNetString())
-    
+
     dna.Glasses = 19
     invoker.b_setGlasses(dna.setGlasses())
 
@@ -6326,6 +6338,56 @@ def allSummons():
     allSummons = numSuits * [fullSetForSuit]
     invoker.b_setCogSummonsEarned(allSummons)
     return 'Lots of summons!'
+
+#V1 Suit Spawn MW #
+@magicWord(category=CATEGORY_ADMIN, types=[str, int, int, int, int, int])
+def suitv1(command, suitIndex, cogType=0, isSkelecog=0, isV2=0, isWaiter=0):
+    invoker = spellbook.getInvoker()
+    command = command.lower()
+    if command == 'spawn':
+        returnCode = invoker.doSummonSingleCog(int(suitIndex))
+        if returnCode[0] == 'success':
+            return 'Successfully spawned suit with index {0}!'.format(suitIndex)
+        return "Couldn't spawn suit with index {0}.".format(suitIndex)
+    elif command == 'building':
+        returnCode = invoker.doBuildingTakeover(suitIndex)
+        if returnCode[0] == 'success':
+            return 'Successfully spawned building with index {0}!'.format(suitIndex)
+        return "Couldn't spawn building with index {0}.".format(suitIndex)
+    elif command == 'do':
+        returnCode = invoker.doCogdoTakeOver(suitIndex, 1)
+        if returnCode[0] == 'success':
+            return 'Successfully spawned Cogdo with difficulty {0}!'.format(suitIndex)
+        return "Couldn't spawn Cogdo with difficulty {0}.".format(suitIndex)
+    elif command == 'invasion':
+        returnCode = invoker.doCogInvasion(suitIndex, cogType, isSkelecog, isV2, isWaiter)
+        return returnCode
+    elif command == 'invasionend':
+        returnCode = 'Ending Invasion..'
+        simbase.air.suitInvasionManager.cleanupTasks()
+        simbase.air.suitInvasionManager.cleanupInvasion()
+        return returnCode
+    else:
+        return 'Invalid command.'
+
+        #Envd of V 1 #
+
+@magicWord(category=CATEGORY_OVERRIDE, types=[str, int])
+def spawnFO(track, difficulty = 0):
+    # tracks = ['s', 'l']
+    tracks = ['s']
+    if track not in tracks:
+        return 'Invalid Field Office type! Supported types are "s"'
+    av = spellbook.getInvoker()
+    try:
+        building = av.findClosestDoor()
+    except KeyError:
+        return "You're not on a street!"
+
+    if building == None:
+        return 'Unable to spawn "%s" Field Office with difficulty %d.' % (track, difficulty)
+    building.cogdoTakeOver(difficulty, 2, track)
+    return 'Successfully spawned "%s" Field Office with difficulty %d!' % (track, difficulty)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS)
 def tricks():

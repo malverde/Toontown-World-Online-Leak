@@ -113,7 +113,7 @@ class DistributedBossbotBossAI(
                              (1, 1),
                              (1, 1, 1, 1, 1))
             listVersion = list(SuitBuildingGlobals.SuitBuildingInfo)
-            if simbase.config.GetBool('bossbot-boss-cheat', 0):
+            if simbase.config.GetBool('want-bossbot-boss-cheat', 0):
                 listVersion[14] = weakenedValue
                 SuitBuildingGlobals.SuitBuildingInfo = tuple(listVersion)
 
@@ -403,10 +403,10 @@ class DistributedBossbotBossAI(
         diners = []
         for i in xrange(
             2 if simbase.config.GetBool(
-                'bossbot-boss-cheat',
+                'want-bossbot-boss-cheat',
                 0) else len(
                 self.notDeadList)):
-            if simbase.config.GetBool('bossbot-boss-cheat', 0):
+            if simbase.config.GetBool('want-bossbot-boss-cheat', 0):
                 suit = self.__genSuitObject(self.zoneId, 2, 'c', 2, 0)
             else:
                 info = self.notDeadList[i]
@@ -418,7 +418,7 @@ class DistributedBossbotBossAI(
 
         active = []
         for i in xrange(2):
-            if simbase.config.GetBool('bossbot-boss-cheat', 0):
+            if simbase.config.GetBool('want-bossbot-boss-cheat', 0):
                 suit = self.__genSuitObject(self.zoneId, 1, 'c', 1, 0)
             else:
                 suitType = 8
@@ -1175,3 +1175,41 @@ def feedCogs():
             if table.getDinerStatus(i) in (table.HUNGRY, table.ANGRY):
                 table.foodServed(i)
     return 'Serving cogs...'
+
+@magicWord(category=CATEGORY_ADMIN)
+def restartCEOBattle1():
+    """
+    Restarts the crane round in the CFO.
+    """
+    invoker = spellbook.getInvoker()
+    boss = None
+    for do in simbase.air.doId2do.values():
+        if isinstance(do, DistributedBossbotBossAI):
+            if invoker.doId in do.involvedToons:
+                boss = do
+                break
+    if not boss:
+        return "You aren't in a CEO!"
+    boss.exitIntroduction()
+    boss.b_setState('PrepareBattleOne')
+    boss.b_setState('BattleOne')
+    return 'Restarting the CEO Battle 1 round...'
+
+@magicWord(category=CATEGORY_ADMIN)
+def bombCEO():
+    """
+    Damages the CEO by 1 hitpoint.
+    """
+    invoker = spellbook.getInvoker()
+    boss = None
+    for do in simbase.air.doId2do.values():
+        if isinstance(do, DistributedBossbotBossAI):
+            if invoker.doId in do.involvedToons:
+                boss = do
+                break
+    if not boss:
+        return "You aren't in a CEO!"
+    if boss.state not in ('BattleThree'):
+        return "The CFO can't be destroyed yet. Try using skipCFO."
+    boss.magicWordHit(boss.bossDamage +1, invoker)
+    return 'Bombed the CFO'

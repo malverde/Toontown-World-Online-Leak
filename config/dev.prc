@@ -121,7 +121,7 @@ estate-day-night #t
 want-instant-parties #f
 want-toontorial #f
 want-doomsday #f
-want-cogdominiums #f
+want-cogdominiums #t
 
 
 # Chat system (server-sided/client-sided)
@@ -133,7 +133,7 @@ force-player-understandable #t
 
 # Holidays and Events (server-sided/client-sided)
 want-arg-manager #f
-want-mega-invasions #f
+want-mega-invasions #t
 mega-invasion-cog-type bw
 want-hourly-fireworks #t
 # want-flippy-pet-intro #f

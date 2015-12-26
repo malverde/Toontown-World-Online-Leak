@@ -69,7 +69,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.onscreenMessage = None
         self.toonMopathInterval = []
         # We want to be able to NERF the VP with or without the HolidayManager, just via config
-        self.nerfed = config.GetBool('want-vp-nerf', True)
+        self.nerfed = config.GetBool('want-vp-nerf', False)
         self.nerfed = ToontownGlobals.SELLBOT_NERF_HOLIDAY in base.cr.newsManager.getHolidayIdList()
         self.localToonPromoted = True
         self.resetMaxDamage()

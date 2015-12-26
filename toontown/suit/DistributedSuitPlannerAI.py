@@ -1,4 +1,5 @@
 from otp.ai.AIBaseGlobal import *
+from otp.ai.MagicWordGlobal import *
 from direct.distributed import DistributedObjectAI
 import SuitPlannerBase
 import DistributedSuitAI
@@ -19,14 +20,14 @@ import time
 import random
 from SuitLegList import *
 from toontown.dna import *
-from otp.ai.MagicWordGlobal import *
 
+# We only want Movers and Shakers for now
+ALLOWED_FO_TRACKS = ['s']
+DEFAULT_COGDO_RATIO = 0.5
 
-class DistributedSuitPlannerAI(
-        DistributedObjectAI.DistributedObjectAI,
-        SuitPlannerBase.SuitPlannerBase):
+class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
     CogdoPopFactor = config.GetFloat('cogdo-pop-factor', 1.5)
-    CogdoRatio = min(1.0, max(0.0, config.GetFloat('cogdo-ratio', 0.5)))
+    CogdoRatio = min(1.0, max(0.0, config.GetFloat('cogdo-ratio', DEFAULT_COGDO_RATIO)))
     SuitHoodInfo = [[2100,
                      5,
                      15,
@@ -562,7 +563,7 @@ class DistributedSuitPlannerAI(
         self.air = air
         self.zoneId = zoneId
         self.canonicalZoneId = ZoneUtil.getCanonicalZoneId(zoneId)
-        if config.GetBool('want-cogdos', False):
+        if config.GetBool('want-cogdominiums', False):
             if not hasattr(self.__class__, 'CogdoPopAdjusted'):
                 self.__class__.CogdoPopAdjusted = True
                 for index in xrange(len(self.SuitHoodInfo)):
@@ -907,18 +908,12 @@ class DistributedSuitPlannerAI(
             (self.getDoId(), self.zoneId))
         return 1
 
-    def chooseDestination(
-            self,
-            suit,
-            startTime,
-            toonBlockTakeover=None,
-            cogdoTakeover=None,
-            minPathLen=None,
-            maxPathLen=None):
+    def chooseDestination(self, suit, startTime, toonBlockTakeover=None, cogdoTakeover=None, minPathLen=None, maxPathLen=None):
         possibles = []
         backup = []
         if cogdoTakeover is None:
-            cogdoTakeover = False
+            if suit.dna.dept in ALLOWED_FO_TRACKS:
+                cogdoTakeover = random.random() < self.CogdoRatio
         if toonBlockTakeover is not None:
             suit.attemptingTakeover = 1
             blockNumber = toonBlockTakeover
@@ -1154,11 +1149,11 @@ class DistributedSuitPlannerAI(
         building = self.buildingMgr.getBuilding(blockNumber)
         building.suitTakeOver(suitTrack, difficulty, buildingHeight)
 
-    def cogdoTakeOver(self, blockNumber, difficulty, buildingHeight):
+    def cogdoTakeOver(self, blockNumber, difficulty, buildingHeight, dept):
         if self.pendingBuildingHeights.count(buildingHeight) > 0:
             self.pendingBuildingHeights.remove(buildingHeight)
-        building = self.buildingMgr.getBuilding(blockNumber)
-        building.cogdoTakeOver(difficulty, buildingHeight)
+            building = self.buildingMgr.getBuilding(blockNumber)
+            building.cogdoTakeOver(difficulty, buildingHeight, dept)
 
     def recycleBuilding(self):
         bmin = self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_BMIN]

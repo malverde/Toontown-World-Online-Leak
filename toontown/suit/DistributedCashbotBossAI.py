@@ -565,6 +565,9 @@ def skipCFO():
 
 @magicWord(category=CATEGORY_ADMIN, types=[])
 def endcfo():
+    """
+    Defeats the CFO and ends Battle.
+    """
     toon = spellbook.getTarget()
     if toon:
         z = toon.zoneId
@@ -579,7 +582,7 @@ def endcfo():
 
     return "Error!"
     
-@magicWord(category=CATEGORY_MODERATION)
+@magicWord(category=CATEGORY_ADMIN)
 def restartCraneRound():
     """
     Restarts the crane round in the CFO.
@@ -597,3 +600,43 @@ def restartCraneRound():
     boss.b_setState('PrepareBattleThree')
     boss.b_setState('BattleThree')
     return 'Restarting the crane round...'
+
+@magicWord(category=CATEGORY_ADMIN)
+def bombCFO():
+    """
+    Damages the CFO by 1 hitpoint.
+    """
+    invoker = spellbook.getInvoker()
+    boss = None
+    for do in simbase.air.doId2do.values():
+        if isinstance(do, DistributedCashbotBossAI):
+            if invoker.doId in do.involvedToons:
+                boss = do
+                break
+    if not boss:
+        return "You aren't in a CFO!"
+    if boss.state not in ('BattleThree'):
+        return "The CFO can't be destroyed yet. Try using skipCFO."
+    boss.magicWordHit(boss.bossDamage +1, invoker)
+    return 'Bombed the CFO'
+
+@magicWord(category=CATEGORY_ADMIN)
+def bombCFOMax():
+        """
+        Damages the CFO by MaxDamage.
+        """
+        invoker = spellbook.getInvoker()
+        boss = None
+        for do in simbase.air.doId2do.values():
+            if isinstance(do, DistributedCashbotBossAI):
+                if invoker.doId in do.involvedToons:
+                    boss = do
+                    break
+        if not boss:
+            return "You aren't in a CFO!"
+        if boss.state not in ('BattleThree'):
+            return "The CFO can't be destroyed yet. Try using skipCFO."
+        boss.magicWordHit(boss.bossMaxDamage, invoker)
+        return 'Bombed the CFO'
+
+# TODO: Make a MW for stunning all Goons
