@@ -4704,7 +4704,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.d_setBuffs(buffs)
 
 
-@magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int])
+@magicWord(category=CATEGORY_SYSADMIN, types=[int, int, int])
 def setCE(CEValue, CEHood=0, CEExpire=0):
     """Set Cheesy Effect of the target."""
     CEHood = CEHood * 1000 #So the invoker only has to use '1' for DonaldsDock, '2' for TTC etc.

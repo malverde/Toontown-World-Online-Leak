@@ -140,7 +140,7 @@ want-hourly-fireworks #t
 want-hourly-fireworks-type victoryreleasefireworks
 # Alternative than nerfing VP?
 easy-vp #t
-force-holiday-decorations 1, 6
+# force-holiday-decorations 0
 want-blueprint4-ARG #f
 want-april-toons #f
 
