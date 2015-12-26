@@ -18,16 +18,6 @@ class NewsInvasionAI:
 	"""
 	Fireworks Stuff
 	"""
-	def InvTick(self, task):
-		day = str(datetime.datetime.now().strftime("%d"))
-		task.delayTime = 1800
-		invMgr = simbase.air.suitInvasionManager
-		# The next tick will occur in exactly an hour.
-		if str(datetime.datetime.now().strftime("%m")) == "12" and day ==  "25" or day == "26":
-			self.SuitInvasionManagerAI.startInvasion(sutName='ls', numSuits=1000,specialSuit=1)
-		
-		return task.again
-		
 	def startInvTick(self):
 		# Check seconds until next hour.
 		ts = time.time()
@@ -47,8 +37,8 @@ class NewsInvasionAI:
 		else:
 		# The next tick will occur in exactly an hour.
 			if str(datetime.datetime.now().strftime("%m")) == "12" and day ==  "25" or day == "26":
-				name = 'ls'
-				num = 1000
+				name = 'nc'
+				num = 2500
 				special = 0
 				invMgr.startInvasion(name, num,special)
 				print "Loan invasion made"

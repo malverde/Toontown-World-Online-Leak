@@ -52,6 +52,9 @@ class NewsManagerAI(DistributedObjectAI):
 			
 		elif str(datetime.datetime.now().strftime("%m")) == "4" and day == "1" or day == "2" or day == "3" or day == "4" or day == "5" or day == "6" or day == "7" or day == "9" or day == "10" or day == "11":
 			self.HolidayName = 'April Toons'
+			
+		elif str(datetime.datetime.now().strftime("%m")) == "4" and day == "15":
+			self.HolidayName = 'Tax Day'
 
 
 	def __announceIfInvasion(self, avatar):
