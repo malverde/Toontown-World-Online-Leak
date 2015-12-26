@@ -36,7 +36,7 @@ class NewsInvasionAI:
 			return "There is an invasaion!!"
 		else:
 		# The next tick will occur in exactly an hour.
-			if str(datetime.datetime.now().strftime("%m")) == "12" and day ==  "25" or day == "26":
+			if str(datetime.datetime.now().strftime("%m")) == "4" and day ==  "15":
 				name = 'nc'
 				num = 2500
 				special = 0

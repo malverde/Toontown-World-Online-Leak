@@ -6,19 +6,18 @@ from toontown.toonbase import TTLocalizerEnglish as TTLocalizer
 import datetime
 from toontown.ai import HolidayManagerAI
 from toontown.ai import NewsInvasionAI
+import time
 
 class NewsManagerAI(DistributedObjectAI):
 	notify = DirectNotifyGlobal.directNotify.newCategory("NewsManagerAI")
 
 	def __init__(self, air):
 		DistributedObjectAI.__init__(self, air)
-		self.accept('avatarEntered', self.__announceIfInvasion)
 		self.accept('avatarEntered', self.__announceIfHoliday)
-		day = str(datetime.datetime.now().strftime("%d"))
 		self.HolidayManagerAI = HolidayManagerAI.HolidayManagerAI(air)
 		self.NewsInvasionAI = NewsInvasionAI.NewsInvasionAI(air)
 		self.NewsInvasionAI.startInvTick()
-		
+		day = str(datetime.datetime.now().strftime("%d"))
 		if str(datetime.datetime.now().strftime("%m")) == "12" and day ==  "30" or day == "31":
 			self.HolidayManagerAI.startFireworksTick()
 
@@ -56,8 +55,13 @@ class NewsManagerAI(DistributedObjectAI):
 		elif str(datetime.datetime.now().strftime("%m")) == "4" and day == "15":
 			self.HolidayName = 'Tax Day'
 
-
-	def __announceIfInvasion(self, avatar):
+	
+	def __announceIfHoliday(self, avatar):
+		self.sendUpdateToAvatarId(avatar.getDoId(),
+								  'setHolidays',
+								  [
+								   self.HolidayName])
+		time.sleep(5)
 		if self.air.suitInvasionManager.getInvading():
 			self.sendUpdateToAvatarId(avatar.getDoId(),
 									  'setInvasionStatus',
@@ -65,13 +69,6 @@ class NewsManagerAI(DistributedObjectAI):
 									   self.air.suitInvasionManager.suitName,
 									   self.air.suitInvasionManager.numSuits,
 									   self.air.suitInvasionManager.specialSuit])
-
-	
-	def __announceIfHoliday(self, avatar):
-		self.sendUpdateToAvatarId(avatar.getDoId(),
-								  'setHolidays',
-								  [
-								   self.HolidayName])
 
 	def setPopulation(self, todo0):
 		pass

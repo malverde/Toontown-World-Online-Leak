@@ -179,7 +179,7 @@ class NewsManager(DistributedObject.DistributedObject):
 			msg1 = TTLocalizer.lResistance + ' ' + ' Enjoy an XP Boost on us for busting those cogs!'
 
 		elif HolidayName == 'Tax Day':
-			msg1 = TTLocalizer.lResistance + ' ' + 'The Loan Sharks are invading! Help save Toontown!'
+			msg1 = TTLocalizer.lResistance + ' ' + 'The Number Crunchers are invading! Help save Toontown!'
 		"""
 		elif HolidayName == 'Victory Partys':
 			base.localAvatar.chatMgr.chatInputSpeedChat.addVictoryPartiesMenu()
