@@ -33,7 +33,7 @@ class NewsInvasionAI:
 		task.delayTime = 1800
 		invMgr = simbase.air.suitInvasionManager
 		if invMgr.getInvading():
-			return "There is an invasaion!!"
+			print "there is an invasion on this AI, cant spawn cogs!"
 		else:
 		# The next tick will occur in exactly an hour.
 			if str(datetime.datetime.now().strftime("%m")) == "4" and day ==  "15":
@@ -41,7 +41,7 @@ class NewsInvasionAI:
 				num = 2500
 				special = 0
 				invMgr.startInvasion(name, num,special)
-				print "Loan invasion made"
+				print "Number Cruncher invasion spawned"
 		
 		return task.again
 
