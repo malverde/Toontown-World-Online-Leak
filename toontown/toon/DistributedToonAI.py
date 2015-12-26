@@ -4704,7 +4704,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.d_setBuffs(buffs)
 
 
-@magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int])
+@magicWord(category=CATEGORY_SYSADMIN, types=[int, int, int])
 def setCE(CEValue, CEHood=0, CEExpire=0):
     """Set Cheesy Effect of the target."""
     CEHood = CEHood * 1000 #So the invoker only has to use '1' for DonaldsDock, '2' for TTC etc.
@@ -5473,6 +5473,69 @@ def gotolongav(avIdShort):
         return "Unable to teleport to target, they are not currently on this district."
     spellbook.getInvoker().magicWordTeleportRequests.append(targetAvId)
     toon.sendUpdate('magicTeleportRequest', [spellbook.getInvoker().getDoId()])
+
+@magicWord(category=CATEGORY_SYSADMIN, types=[str, str])
+def freeBldg(f = None, l = None):
+    """
+    Given a shopkeepr's firstname (f) and lastname (l), free
+    the shop associated with their id.
+    Examples:
+    ~freeBldg Connie Ferris
+    ~freeBldg Bootsy
+    """
+    
+    def _freeBldg(shopkeeperId, sp):
+        suitBuildings = sp.buildingMgr.getEstablishedSuitBlocks()
+        bldgInteriorZone = None
+        for zone, ids in NPCToons.zone2NpcDict.items():
+            if shopkeeperId in ids:
+                bldgInteriorZone = zone
+                break
+                
+        for b in suitBuildings:
+            building = sp.buildingMgr.getBuilding(b)
+            if bldgInteriorZone == building.zoneId + 500 + building.block:
+                if hasattr(building, 'elevator'):
+                    building.toonTakeOver()
+                    return NPCToons.getBuildingTitle(bldgInteriorZone)
+                else:
+                    return False
+                    
+    if f:
+        shopkeeper = f.title() + ' ' + l.title() if l else f.title()
+    else:
+        shopkeeper = None
+    av = spellbook.getInvoker()
+    zoneId = av.getLocation()[1]
+    streetId = ZoneUtil.getBranchZone(zoneId)
+    try:
+        sp = simbase.air.suitPlanners[streetId]
+    except KeyError:
+        return "You're not on a street!"
+        
+    shopkeepers = []
+    foundAnyCogBldgs = []
+    if shopkeeper:
+        for id, npcDesc in NPCToons.NPCToonDict.items():
+            if npcDesc[1] == shopkeeper:
+                shopkeepers.append(id)
+                break
+                
+    else:
+        for index in range(len(av.quests)):
+            toNpcId = av.quests[index][2]
+            if zoneId == NPCToons.getNPCZone(toNpcId):
+                shopkeepers.append(toNpcId)
+    
+    if not shopkeepers:
+        return 'Unable to find Building!'
+    else:
+        for id in shopkeepers:
+            foundAnyCogBldgs.append(_freeBldg(id, sp))
+            
+        if any((bldg for bldg in foundAnyCogBldgs)):
+            return 'Recovering: {0}'.format(foundAnyCogBldgs)
+        return 'Not a Cog building!'
 
 @magicWord(category=CATEGORY_SYSADMIN)
 def dump_doId2do():
