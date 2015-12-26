@@ -54,6 +54,8 @@ class NewsManagerAI(DistributedObjectAI):
 			
 		elif str(datetime.datetime.now().strftime("%m")) == "4" and day == "15":
 			self.HolidayName = 'Tax Day'
+		else:
+			self.HolidayName = 'None'
 
 	
 	def __announceIfHoliday(self, avatar):

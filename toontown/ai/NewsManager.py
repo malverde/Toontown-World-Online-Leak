@@ -163,23 +163,25 @@ class NewsManager(DistributedObject.DistributedObject):
 		
 		
 	def setHolidays(self, HolidayName):
-		print HolidayName
 		if HolidayName == 'Winter': 
 			msg1 =  TTLocalizer.WinterDecorationsStart
 		
-		if HolidayName == 'Halloween':
+		elif HolidayName == 'Halloween':
 			msg1 =  TTLocalizer.HalloweenPropsHolidayStart
 			
-		if HolidayName == 'March':
+		elif HolidayName == 'March':
 			msg1 =  TTLocalizer.IdesOfMarchStart
-		if HolidayName == 'April Toons':
+		elif HolidayName == 'April Toons':
 			msg1 =  'Things are getting silly here in toontown!'
 			
-		if HolidayName == 'Xp Booster':
+		elif HolidayName == 'Xp Booster':
 			msg1 = TTLocalizer.lResistance + ' ' + ' Enjoy an XP Boost on us for busting those cogs!'
 
 		elif HolidayName == 'Tax Day':
 			msg1 = TTLocalizer.lResistance + ' ' + 'The Number Crunchers are invading! Help save Toontown!'
+		else:
+			self.notify.warning('setHoliday: There is no urrent holidays active!')
+			return
 		"""
 		elif HolidayName == 'Victory Partys':
 			base.localAvatar.chatMgr.chatInputSpeedChat.addVictoryPartiesMenu()
