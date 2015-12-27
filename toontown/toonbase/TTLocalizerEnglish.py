@@ -79,6 +79,7 @@ lDonaldsDreamland = "Donald's Dreamland"
 lMinniesMelodyland = "Minnie's Melodyland"
 lToontownCentral = 'Toontown Central'
 lToonHQ = 'Toon HQ'
+lResistance = 'Toon Resistance:'
 lAdministrator = 'Toon Administration'
 lSellbotHQ = 'Sellbot HQ'
 lFunnyFarm = 'Toonfest'

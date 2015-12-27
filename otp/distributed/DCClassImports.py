@@ -2,7 +2,7 @@
 from pandac.PandaModules import *
 
 
-hashVal = 3610132366L
+hashVal = 2623957616L
 
 
 from toontown.cogdominium import DistributedCogdoInterior, DistributedCogdoBattleBldg, DistributedCogdoElevatorExt, DistributedCogdoElevatorInt, DistributedCogdoBarrel, DistCogdoGame, DistCogdoLevelGame, DistCogdoBoardroomGame, DistCogdoCraneGame, DistCogdoMazeGame, DistCogdoFlyingGame, DistCogdoCrane, DistCogdoCraneMoneyBag, DistCogdoCraneCog
@@ -25,6 +25,7 @@ from toontown.uberdog import TTSpeedchatRelay
 from toontown.parties.GlobalPartyManager import GlobalPartyManager
 from toontown.racing.DistributedStartingBlock import DistributedViewingBlock
 from toontown.ai.DistributedPhaseEventMgr import DistributedPhaseEventMgr
+from toontown.uberdog.DistributedWhitelistMgr import DistributedWhitelistMgr
 from toontown.pets.PetDCImports import *
 from toontown.suit import DistributedSuitPlanner, DistributedSuitBase, DistributedSuit, DistributedTutorialSuit, DistributedFactorySuit, DistributedMintSuit, DistributedStageSuit, DistributedSellbotBoss, DistributedCashbotBoss, DistributedCashbotBossGoon, DistributedGoon, DistributedGridGoon, DistributedLawbotBoss, DistributedLawbotBossSuit, DistributedBossbotBoss
 from toontown.distributed import ToontownDistrict, ToontownDistrictStats, DistributedTimer
@@ -56,7 +57,7 @@ from toontown.ai.DistributedMailboxZeroMgr import DistributedMailboxZeroMgr
 from toontown.rpc.RATManager import RATManager
 from toontown.uberdog.DistributedDeliveryManager import DistributedDeliveryManager
 from direct.distributed import DistributedObject, DistributedNode, DistributedSmoothNode, DistributedCartesianGrid, DistributedCamera, DistributedObjectGlobal
-from toontown.uberdog.DistributedWhitelistMgr import DistributedWhitelistMgr
+from toontown.election import DistributedFlippyStand, DistributedHotAirBalloon, DistributedToonfestBalloon, DistributedToonfestTower, DistributedToonfestTowerBase, DistributedToonfestCog
 from otp.ai import TimeManager, MagicWordManager
 from otp.avatar import DistributedAvatar, DistributedPlayer, AvatarHandle
 from toontown.battle import DistributedBattleBase, DistributedBattle, DistributedBattleBldg, DistributedBattleFinal, DistributedBattleWaiters, DistributedBattleDiners

@@ -6,7 +6,7 @@ from pandac.PandaModules import *
 parser = argparse.ArgumentParser()
 parser.add_argument('--output', '-o', default='DCClassImports.py',
                     help='The filename of the generated Python module.')
-parser.add_argument('filenames', nargs='+', default=['otp.dc', 'toon.dc'],
+parser.add_argument('filenames', nargs='+', default=['toontown.dc'],
                     help='The DC class files to be included in the generated Python module.')
 args = parser.parse_args()
 
