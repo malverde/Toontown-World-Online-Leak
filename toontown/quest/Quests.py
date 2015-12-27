@@ -17995,7 +17995,8 @@ def chooseBestQuests(tier, currentNpc, av):
         bestQuestId = chooseMatchingQuest(tier, validQuestPool, rewardId, currentNpc, av)
         if bestQuestId is None:
             continue
-        validQuestPool.remove(bestQuestId)
+        try:
+            validQuestPool.remove(bestQuestId)
         bestQuestToNpcId = getQuestToNpcId(bestQuestId)
         if bestQuestToNpcId == Any:
             bestQuestToNpcId = 2003
