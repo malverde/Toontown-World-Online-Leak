@@ -58,12 +58,6 @@ class NewsInvasionAI:
 				invMgr.startInvasion(name, num,special)
 				print "Skeletal legal eagle invasion spawned"
 				
-			elif month == "1" or month == "3" or month == "5" or month == "7" or month == "8" or month == "10" or month == "12" and day ==  "31":
-				name = 'le'
-				num = 2500
-				special = 1
-				invMgr.startInvasion(name, num,special)
-				print "Skeletal legal eagle invasion spawned"
 				
 			elif month == "4" or month == "6" or month == "9" or month == "11" and day ==  "30":
 				name = 'le'
