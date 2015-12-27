@@ -169,18 +169,18 @@ class NewsManager(DistributedObject.DistributedObject):
 		elif HolidayName == 'Halloween':
 			msg1 =  TTLocalizer.HalloweenPropsHolidayStart
 			
-		elif HolidayName == 'March':
+		elif HolidayName == 'Ides of March':
 			msg1 =  TTLocalizer.IdesOfMarchStart
 		elif HolidayName == 'April Toons':
 			msg1 =  'Things are getting silly here in toontown!'
-			
+		# XP booster config is in battlecalculator - X3
 		elif HolidayName == 'Xp Booster':
 			msg1 = TTLocalizer.lResistance + ' ' + ' Enjoy an XP Boost on us for busting those cogs!'
 
 		elif HolidayName == 'Tax Day':
 			msg1 = TTLocalizer.lResistance + ' ' + 'The Number Crunchers are invading! Help save Toontown!'
 		else:
-			self.notify.warning('setHoliday: There is no urrent holidays active!')
+			self.notify.warning('setHoliday: There is no current holidays active!')
 			return
 		"""
 		elif HolidayName == 'Victory Partys':
@@ -227,10 +227,10 @@ class NewsManager(DistributedObject.DistributedObject):
 				autoPause=1).start()
 					
 	def startChristmas(self):
-		#		#Add Decorations
+		# Add Decorations
 		self.decorationHolidayIds.append(decorationHolidays[1])
 		self.decorationHolidayIds.append(decorationHolidays[6])
-		#Add menus
+		# Add menus
 		base.localAvatar.chatMgr.chatInputSpeedChat.addCarolMenu()
 		base.localAvatar.chatMgr.chatInputSpeedChat.addWinterMenu()
 		

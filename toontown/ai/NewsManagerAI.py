@@ -35,7 +35,7 @@ class NewsManagerAI(DistributedObjectAI):
 			self.HolidayName = 'Halloween'
 			
 		elif str(datetime.datetime.now().strftime("%m")) == "3" and day ==  "14" or day == "15":
-			self.HolidayName = 'March'
+			self.HolidayName = 'Ides of March'
 			
 		elif str(datetime.datetime.now().strftime("%m")) == "7" and day ==  "29" or day == "30":
 				self.HolidayName = 'Xp Booster'

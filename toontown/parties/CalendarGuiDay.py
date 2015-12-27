@@ -223,140 +223,145 @@ class CalendarGuiDay(DirectFrame):
 					self.timedEvents.append((party.startTime.time(), party))
 
 		if base.cr.newsManager and (self.filter == ToontownGlobals.CalendarFilterShowAll or self.filter == ToontownGlobals.CalendarFilterShowOnlyHolidays):
+			# December 14th - Winter
 			if self.myDate.month == 12 and self.myDate.day == 14:
 				holidayName = 'Winter Holiday'
-				holidayDesc = 'Celebrate the Winter Holiday with Toontastic decorations, party and Cattlelog items, and more!'
+				holidayDesc = 'Celebrate the Winter Holiday with Toontastic decorations,Cattlelog items and more!'
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-				
+			# Janurary 4th - end of Winter
 			if self.myDate.month == 1 and self.myDate.day == 4:
 				holidayName = 'Winter Holiday End'
-				holidayDesc = 'The end of the winter holiday!'
+				holidayDesc = 'The end of the Winter Holiday!'
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-			
+			# December 30th - New year's fireworks
 			if self.myDate.month == 12 and self.myDate.day == 30:
 				holidayName = "New Year's Fireworks"
 				holidayDesc = "Let us light the skys with Toontastic fireworks!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-				
+			# December 31st - New year's fireworks
 			if self.myDate.month == 12 and self.myDate.day == 31:
 				holidayName = "New Year's Fireworks"
 				holidayDesc = "Let us light the skys with Toontastic fireworks!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-				
+			# October 21st - Halloween
 			if self.myDate.month == 10 and self.myDate.day == 21:
-				holidayName = "Halloween Decor"
+				holidayName = "Halloween Holiday"
 				holidayDesc = "Celebrate Halloween as spooky trees and streetlights transform Toontown!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-				
+			# November 1st - end of halloween
 			if self.myDate.month == 11 and self.myDate.day == 1:
-				holidayName = " End of Halloween Decor"
-				holidayDesc = "The end of the Halloween Decor!"
+				holidayName = " End of Halloween Holiday"
+				holidayDesc = "The end of the Halloween Holiday!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-			
+			# March 14th - Ides of March
 			if self.myDate.month == 3 and self.myDate.day == 14:
-				holidayName = "Ides of March"
+				holidayName = "Ides of March Invasion"
 				holidayDesc = "Beware the Ides of March! Stop the Backstabber Cogs from invading Toontown!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-				
-			if self.myDate.month == 3 and self.myDate.day == 29:
-				holidayName = "April Toons' Week"
-				holidayDesc = "Celebrate April Toons' Week - a holiday built by Toons for Toons!!"
+			# March 15th - Ides of March
+			if self.myDate.month == 3 and self.myDate.day == 15:
+				holidayName = "Ides of March Invasion"
+				holidayDesc = "Beware the Ides of March! Stop the Backstabber Cogs from invading Toontown!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-				
+			# July 29th - XP week
 			if self.myDate.month == 7 and self.myDate.day == 29:
-				holidayName = "Enhanced Xp Week"
-				holidayDesc = "Celebrate Toontown with extra Xp on ALL wacky gags!"
+				holidayName = "Triple XP Week"
+				holidayDesc = "Celebrate Toontown with extra XP on ALL wacky gags!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-				
-			if self.myDate.month == 7 and self.myDate.day == 30:
-				holidayName = "Enhanced Xp Week End"
-				holidayDesc = "The end of the enhanced Xp on gags"
+			# August 5th - end of XP week
+			if self.myDate.month == 8 and self.myDate.day == 5:
+				holidayName = "End of Triple XP Week"
+				holidayDesc = "The end of the triple XP on gags"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-				
+
 			if self.myDate.month == 6 and self.myDate.day == 29:
 				holidayName = "Summer Fireworks"
 				holidayDesc = "Celebrate Summer with a fireworks show every hour in each playground!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-				
+			# March 29th - April Toons' Week
+			if self.myDate.month == 3 and self.myDate.day == 29:
+				holidayName = "April Toons' Week"
+				holidayDesc = "Celebrate April Toons' Week - a holiday built by Toons for Toons!!"
+				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
+			# April 11th - April Toons end
 			if self.myDate.month == 4 and self.myDate.day == 11:
 				holidayName = "April Toons End"
-				holidayDesc = "Here lies then end of all the april toon sillyness!"
+				holidayDesc = "Here lies then end of all the April Toons' Sillyness!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 
 			if self.myDate.month == 7 and self.myDate.day == 15:
-				holidayName = "End of Summer Firewoks"
-				holidayDesc = "Here lies the end of the toontastic summer fireworks!"
+				holidayName = "End of Summer Fireworks"
+				holidayDesc = "Here lies the end of the Toontastic Summer Fireworks!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-				
+			# 15th of April
 			if self.myDate.month == 4 and self.myDate.day == 15:
-				holidayName = "Tax Day"
-				holidayDesc = "Those number crunchers are invading us. Apperntly we owe taxes! What are taxes?"
+				holidayName = "Tax Day Invasion"
+				holidayDesc = "Number Crunchers are invading us. Apperntly we owe taxes! What are taxes?"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-				
-				
+
 			if self.myDate.day == 15 and not self.myDate.month == 4:
 				holidayName = "V2.0 Mover & Shakers"
-				holidayDesc = "Those V2.0 Mover & Shakers are invading ToonTown in masses! Stop them!"
+				holidayDesc = "V2.0 Mover & Shakers Cogs are invading Toontown in masses! Stop them!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 				
 			if self.myDate.day == 31 and self.myDate.month == 1:
-				holidayName = "Sceletal Legal Eagles"
-				holidayDesc = "Those Sceletal Legal Eagles are invading ToonTown in masses! Stop them!"
+				holidayName = "Skelecog Legal Eagle"
+				holidayDesc = "Skelecog Legal Eagles are invading Toontown in masses! Stop them!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 				
 			if self.myDate.day == 31 and self.myDate.month == 3:
-				holidayName = "Sceletal Legal Eagles"
-				holidayDesc = "Those Sceletal Legal Eagles are invading ToonTown in masses! Stop them!"
+				holidayName = "Skelecog Legal Eagles"
+				holidayDesc = "Skelecog Legal Eagles are invading Toontown in masses! Stop them!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 				
 			if self.myDate.day == 31 and self.myDate.month == 5:
-				holidayName = "Sceletal Legal Eagles"
-				holidayDesc = "Those Sceletal Legal Eagles are invading ToonTown in masses! Stop them!"
+				holidayName = "Skelecog Legal Eagles"
+				holidayDesc = "Skelecog Legal Eagles are invading Toontown in masses! Stop them!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 
 			if self.myDate.day == 31 and self.myDate.month == 7:
-				holidayName = "Sceletal Legal Eagles"
-				holidayDesc = "Those Sceletal Legal Eagles are invading ToonTown in masses! Stop them!"
+				holidayName = "Skelecog Legal Eagles"
+				holidayDesc = "Skelecog Legal Eagles are invading Toontown in masses! Stop them!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 				
 			if self.myDate.day == 31 and self.myDate.month == 8:
-				holidayName = "Sceletal Legal Eagles"
-				holidayDesc = "Those Sceletal Legal Eagles are invading ToonTown in masses! Stop them!"
+				holidayName = "Skelecog Legal Eagles"
+				holidayDesc = "Skelecog Legal Eagles are invading Toontown in masses! Stop them!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 				
 			if self.myDate.day == 31 and self.myDate.month == 10 :
-				holidayName = "Sceletal Legal Eagles"
-				holidayDesc = "Those Sceletal Legal Eagles are invading ToonTown in masses! Stop them!"
+				holidayName = "Skelecog Legal Eagles"
+				holidayDesc = "Skelecog Legal Eagles are invading Toontown in masses! Stop them!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 				
 			if self.myDate.day == 31 and  self.myDate.month == 12:
-				holidayName = "Sceletal Legal Eagles"
-				holidayDesc = "Those Sceletal Legal Eagles are invading ToonTown in masses! Stop them!"
+				holidayName = "Skelecog Legal Eagles"
+				holidayDesc = "Skelecog Legal Eagles are invading Toontown in masses! Stop them!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 				
 			if self.myDate.day == 30 and self.myDate.month == 4:
-				holidayName = "Sceletal Legal Eagles"
-				holidayDesc = "Those Sceletal Legal Eagles are invading ToonTown in masses! Stop them!"
+				holidayName = "Skelecog Legal Eagles"
+				holidayDesc = "Skelecog Legal Eagles are invading Toontown in masses! Stop them!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 				
 			if self.myDate.day == 30 and self.myDate.month == 6:
-				holidayName = "Sceletal Legal Eagles"
-				holidayDesc = "Those Sceletal Legal Eagles are invading ToonTown in masses! Stop them!"
+				holidayName = "Skelecog Legal Eagles"
+				holidayDesc = "Skelecog Legal Eagles are invading Toontown in masses! Stop them!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 				
 			if self.myDate.day == 30 and self.myDate.month == 9:
-				holidayName = "Sceletal Legal Eagles"
-				holidayDesc = "Those Sceletal Legal Eagles are invading ToonTown in masses! Stop them!"
+				holidayName = "Skelecog Legal Eagles"
+				holidayDesc = "Skelecog Legal Eagles are invading Toontown in masses! Stop them!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 				
 			if self.myDate.day == 30 and self.myDate.month == 11:
-				holidayName = "Sceletal Legal Eagles"
-				holidayDesc = "Those Sceletal Legal Eagles are invading ToonTown in masses! Stop them!"
+				holidayName = "Skelecog Legal Eagles"
+				holidayDesc = "Skelecog Legal Eagles are invading Toontown in masses! Stop them!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 				
 			if self.myDate.day == 29 and self.myDate.month == 2:
-				holidayName = "Sceletal Legal Eagles"
-				holidayDesc = "Those Sceletal Legal Eagles are invading ToonTown in masses! Stop them!"
+				holidayName = "Skelecog Legal Eagles"
+				holidayDesc = "Skelecog Legal Eagles are invading Toontown in masses! Stop them!"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
 
 			oncelyHolidays = base.cr.newsManager.getOncelyHolidaysForDate(self.myDate)
