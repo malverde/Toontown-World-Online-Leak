@@ -181,6 +181,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.gmNameTagColor = 'whiteGM'
         self.gmNameTagString = ''
         self._lastZombieContext = None
+        self.achievements = []
+        self.canEarnAchievements = False
         self.promotionStatus = [0, 0, 0, 0]        
         self.lastSeen = 0
         self.buffs = []
@@ -2672,7 +2674,10 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         if len(self.buffs) <= id:
             return False
         return self.buffs[id] != 0
-        
+
+    def setAchievements(self, achievements):
+        self.achievements = achievements
+
     def setBuffs(self, buffs):
         self.buffs = buffs
         self.applyBuffs()

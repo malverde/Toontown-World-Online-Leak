@@ -4265,6 +4265,7 @@ PhotoPageClose = lClose
 PhotoPageDirectory = 'Open Folder'
 PhotoPageTutorial = 'You haven\'t taken any snapshots yet! Press TAB to change your camera angle, and press F9 to take a snapshot.\n\n Once you\'ve made a snapshot, come here to manage and name them.'
 AchievePageTitle = 'Achievements\n(Coming Soon)'
+AchievementsPageTitle = 'Achievements'
 BuildingPageTitle = 'Buildings\n(Coming Soon)'
 InventoryPageTitle = 'Gags'
 InventoryPageDeleteTitle = 'DELETE GAGS'

@@ -37,8 +37,10 @@ from toontown.shtiker import FishPage
 from toontown.shtiker import NPCFriendPage
 from toontown.shtiker import EventsPage
 from toontown.shtiker import TIPPage
+from toontown.shtiker import AchievementsPage
 from toontown.quest import Quests
 from toontown.quest import QuestParser
+from toontown.achievements import AchievementGui
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -361,6 +363,10 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.fishPage.setAvatar(self)
         self.fishPage.load()
         self.book.addPage(self.fishPage, pageName=TTLocalizer.FishPageTitle)
+        self.achievementsPage = AchievementsPage.AchievementsPage()
+        self.achievementsPage.setAvatar(self)
+        self.achievementsPage.load()
+        self.book.addPage(self.achievementsPage, pageName=TTLocalizer.AchievementsPageTitle)
         if base.wantKarts:
             self.addKartPage()
         if self.disguisePageFlag:
@@ -404,6 +410,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.accept('InputState-turnLeft', self.__toonMoved)
         self.accept('InputState-turnRight', self.__toonMoved)
         self.accept('InputState-slide', self.__toonMoved)
+
+        self.achievementGui = AchievementGui.AchievementGui()
+
         QuestParser.init()
 
     def __handlePurchase(self):
@@ -1915,6 +1924,16 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
 
     def hasPet(self):
         return self.petId != 0
+
+    def setAchievements(self, achievements):
+        if self.canEarnAchievements:
+            for achievementId in achievements:
+                if not achievementId in self.achievements:
+                    self.achievementGui.earnAchievement(achievementId)
+        else:
+            self.canEarnAchievements = True
+
+        DistributedToon.DistributedToon.setAchievements(self, achievements)
 
     def _startZombieCheck(self):
         pass

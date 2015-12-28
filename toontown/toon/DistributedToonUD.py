@@ -560,3 +560,6 @@ class DistributedToonUD(DistributedObjectUD):
 
     def pingresp(self, todo0):
         pass
+
+    def setAchievements(self, achievements):
+        pass

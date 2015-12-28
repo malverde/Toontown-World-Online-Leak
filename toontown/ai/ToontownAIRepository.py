@@ -6,6 +6,7 @@ from otp.ai.TimeManagerAI import TimeManagerAI
 from otp.ai.MagicWordManagerAI import MagicWordManagerAI
 from toontown.ai.HolidayManagerAI import HolidayManagerAI
 from toontown.ai.NewsManagerAI import NewsManagerAI
+from toontown.ai.AchievementsManagerAI import AchievementsManagerAI
 from toontown.ai.FishManagerAI import FishManagerAI
 from toontown.distributed.ToontownInternalRepository import ToontownInternalRepository
 from toontown.toon import NPCToons
@@ -98,6 +99,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.PetManager = PetManagerAI(self)
         self.fishManager = FishManagerAI()
         self.questManager = QuestManagerAI(self)
+        self.achievementsManager = AchievementsManagerAI(self)
         self.cogPageManager = CogPageManagerAI()
         self.factoryMgr = FactoryManagerAI(self)
         self.mintMgr = MintManagerAI(self)

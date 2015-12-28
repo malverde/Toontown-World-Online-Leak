@@ -120,6 +120,8 @@ def createMinigame(air, playerArray, trolleyZone, minigameZone = None, previousG
         toon = simbase.air.doId2do.get(id)
         if toon != None:
             toons.append(toon)
+        for toon in toons:
+            simbase.air.achievementsManager.toonPlayedMinigame(toon)
 
     retVal = {}
     retVal['minigameZone'] = minigameZone
