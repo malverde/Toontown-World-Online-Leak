@@ -14,6 +14,7 @@ import hmac
 import hashlib
 import json
 from ClientServicesManager import FIXED_KEY
+import urllib
 
 def judgeName(name):
     return True
@@ -965,7 +966,6 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         if len(REPORT_REASONS) <= category:
             self.air.writeServerEvent("suspicious", avId=reporterId, issue="Invalid report reason index (%d) sent by avatar." % category)
             return
-        self.air.writeServerEvent("player-reported", reporterId=reporterId, avId=avId, category=REPORT_REASONS[category])
-        # TODO: RPC call to web to say this person was reported.
-        # This will require a database query to fetch the webId associated with the reported player.
-        # Either that, or the web can make an RPC call to the server to get webId from avId.
+		#This connects to TTW.com and adds the entry in a DB table Reporter ID Reportee ID and the category of why they were reported
+        connection = httplib.HTTPConnection("www.toontownworldonline.com")
+        connection.request("GET", "/api/login/report.php?reporterId="+ reporterId + "&avId=" + avId + "&category=" + REPORT_REASONS[category])
