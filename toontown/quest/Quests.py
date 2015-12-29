@@ -17992,7 +17992,7 @@ def chooseBestQuests(tier, currentNpc, av):
         if len(rewards) == 0:
             break
         rewardId = rewards.pop(0)
-        bestQuestId = chooseMatchingQuest(tier, validQuestPool, rewardId, currentNpc, av)
+        bestQuestId = chooseTrackChoiceQuest(tier, av, fixed = 0)
         if bestQuestId is None:
             return
         validQuestPool.remove(bestQuestId)
