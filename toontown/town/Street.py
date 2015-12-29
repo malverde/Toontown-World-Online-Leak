@@ -6,6 +6,7 @@ from direct.gui.DirectGui import cleanupDialog
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import Place
 from toontown.battle import BattlePlace
+from direct.fsm import *
 from direct.showbase import DirectObject
 from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
@@ -114,9 +115,8 @@ class Street(BattlePlace.BattlePlace):
         def __lightDecorationOn__():
             try:
                 geom = base.cr.playGame.getPlace().loader.geom
-            else:
-                # TEMP hack. This will port you to ttc if ^ fails
-                loaderId = ZoneUtil.getBranchLoaderName(2000)
+            except:
+                loaderId = ZoneUtil.getBranchLoaderName(2000) # TEMP hack. This will port you to ttc if ^ fails
                 whereId = ZoneUtil.getToonWhereName(200)
                 how = 'teleportIn'
                 print ("This Should not happen.")
