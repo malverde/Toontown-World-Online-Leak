@@ -17992,25 +17992,26 @@ def chooseBestQuests(tier, currentNpc, av):
         if len(rewards) == 0:
             break
         rewardId = rewards.pop(0)
-        bestQuestId = chooseTrackChoiceQuest(tier, av, fixed = 0)
+        if hasattr(validQuestPool, bestQuestId):
         if bestQuestId is None:
             return
-        validQuestPool.remove(bestQuestId)
-        bestQuestToNpcId = getQuestToNpcId(bestQuestId)
-        if bestQuestToNpcId == Any:
-            bestQuestToNpcId = 2003
-        elif bestQuestToNpcId == Same:
-            if currentNpc.getHq():
+        if hasattr(validQuestPool, bestQuestId):
+            validQuestPool.remove(bestQuestId)
+            bestQuestToNpcId = getQuestToNpcId(bestQuestId)
+            if bestQuestToNpcId == Any:
+                bestQuestToNpcId = 2003
+            elif bestQuestToNpcId == Same:
+                if currentNpc.getHq():
+                    bestQuestToNpcId = ToonHQ
+                else:
+                    bestQuestToNpcId = currentNpc.getNpcId()
+            elif bestQuestToNpcId == ToonHQ:
                 bestQuestToNpcId = ToonHQ
-            else:
-                bestQuestToNpcId = currentNpc.getNpcId()
-        elif bestQuestToNpcId == ToonHQ:
-            bestQuestToNpcId = ToonHQ
-        bestQuests.append([bestQuestId, rewardId, bestQuestToNpcId])
-
-    for quest in bestQuests:
-        quest[1] = transformReward(quest[1], av)
-
+            bestQuests.append([bestQuestId, rewardId, bestQuestToNpcId])
+    
+        for quest in bestQuests:
+            quest[1] = transformReward(quest[1], av)
+        
     return bestQuests
 
 
