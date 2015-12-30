@@ -1,15 +1,17 @@
-#Embedded file name: toontown.estate.DistributedFlower
-from toontown.estate import DistributedPlantBase
 from direct.directnotify import DirectNotifyGlobal
+from toontown.estate import DistributedPlantBase
+from toontown.estate.DistributedGardenBox import DistributedGardenBox
 from toontown.estate import FlowerBase
 from toontown.estate import GardenGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
+
 DIRT_AS_WATER_INDICATOR = True
 DIRT_MOUND_HEIGHT = 0.3
 
 class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.FlowerBase):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedFlower')
+    deferFor = 2
 
     def __init__(self, cr):
         DistributedPlantBase.DistributedPlantBase.__init__(self, cr)
@@ -27,6 +29,7 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
 
     def delete(self):
         DistributedPlantBase.DistributedPlantBase.delete(self)
+
         del self.dirtMound
         del self.sandMound
 
@@ -49,7 +52,7 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
             desat = wilt.find('**/*desat*')
             bloom.hide()
             leaves = wilt.findAllMatches('**/*leaf*')
-            for leafIndex in range(leaves.getNumPaths()):
+            for leafIndex in xrange(leaves.getNumPaths()):
                 leaf = leaves.getPath(leafIndex)
                 leaf.setColorScale(1.0, 0.3, 0.1, 1.0)
 
@@ -61,6 +64,7 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
             desat.setColorScale(colorTuple[0], colorTuple[1], colorTuple[2], 1.0)
         elif not self.isSeedling():
             nodePath.setColorScale(colorTuple[0], colorTuple[1], colorTuple[2], 1.0)
+        return
 
     def loadModel(self):
         DistributedPlantBase.DistributedPlantBase.loadModel(self)
@@ -70,7 +74,7 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
         invFlowerScale = 1.0 / flowerScale
         self.model.setScale(flowerScale)
         if DIRT_AS_WATER_INDICATOR:
-            dirtMoundScale = invFlowerScale * 0.73
+            dirtMoundScale = invFlowerScale * 0.63
             self.dirtMound = loader.loadModel('phase_5.5/models/estate/dirt_mound')
             self.dirtMound.reparentTo(self.model)
             self.dirtMound.setScale(dirtMoundScale)
@@ -118,6 +122,7 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
             self.doPicking()
         else:
             self.finishInteraction()
+        return
 
     def doPicking(self):
         if not self.canBePicked():
@@ -141,6 +146,9 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
         if origGrowthLevel > -1:
             self.loadModel()
             self.makeMovieNode()
+            
+        if hasattr(self, '_boxDoId'):
+            self.setBoxDoId(*self._boxDoId)
 
     def makeMovieNode(self):
         self.movieNode = self.rotateNode.attachNewNode('moviePos')
@@ -189,3 +197,17 @@ class DistributedFlower(DistributedPlantBase.DistributedPlantBase, FlowerBase.Fl
             self.resultDialog.destroy()
             self.resultDialog = None
         self.finishInteraction()
+        
+    def setBoxDoId(self, boxId, index):
+        self._boxDoId = (boxId, index)
+        box = base.cr.doId2do[boxId]
+        x = GardenGlobals.FLOWER_POS[box.typeIndex][index]
+        
+        self.setPos(0, 0, 0)
+        self.reparentTo(box)
+        self.setZ(1.5)
+        self.setX(x)
+        
+    def stick2Ground(self):
+        pass
+        

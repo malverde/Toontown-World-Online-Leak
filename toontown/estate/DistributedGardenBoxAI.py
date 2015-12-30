@@ -1,16 +1,12 @@
-#Embedded file name: toontown.estate.DistributedGardenBoxAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.estate.DistributedLawnDecorAI import DistributedLawnDecorAI
 
 class DistributedGardenBoxAI(DistributedLawnDecorAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedGardenBoxAI')
-
-    def __init__(self, air):
-        DistributedLawnDecorAI.__init__(self, air)
-        self.typeIndex = 0
+    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedGardenBoxAI")
 
     def setTypeIndex(self, index):
-        self.typeIndex = index
+        self.index = index
 
     def getTypeIndex(self):
-        return self.typeIndex
+        return self.index
+        

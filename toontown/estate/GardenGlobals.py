@@ -1,4 +1,3 @@
-#Embedded file name: toontown.estate.GardenGlobals
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
 import random
@@ -34,7 +33,7 @@ WateringMult = 2
 
 def getWateringCanPower(wateringCan, wateringCanSkill):
     numBoxes = 0
-    for curWateringCan in range(wateringCan + 1):
+    for curWateringCan in xrange(wateringCan + 1):
         wateringCanAttrib = WateringCanAttributes[curWateringCan]
         curBoxes = wateringCanAttrib['numBoxes']
         skill = wateringCanAttrib['skillPts']
@@ -83,9 +82,9 @@ PlantAttributes = {49: {'name': TTLocalizer.FlowerSpeciesNames[49],
       'growthThresholds': (1, 1, 1),
       'maxWaterLevel': getMaxWateringCanPower(),
       'minWaterLevel': -2,
-      'seedlingModel': 'phase_5.5/models/estate/seedling',
-      'establishedModel': 'phase_5.5/models/estate/daisy',
-      'fullGrownModel': 'phase_5.5/models/estate/daisy',
+      'seedlingModel': 'phase_5.5/models/estate/seedling.bam',
+      'establishedModel': 'phase_5.5/models/estate/daisy.bam',
+      'fullGrownModel': 'phase_5.5/models/estate/daisy.bam',
       'photoPos': (0.0, -0.35, -0.361882),
       'photoScale': 1,
       'photoHeading': 0,
@@ -103,9 +102,9 @@ PlantAttributes = {49: {'name': TTLocalizer.FlowerSpeciesNames[49],
       'growthThresholds': (1, 1, 1),
       'maxWaterLevel': getMaxWateringCanPower(),
       'minWaterLevel': -2,
-      'seedlingModel': 'phase_5.5/models/estate/seedling',
-      'establishedModel': 'phase_5.5/models/estate/tulip',
-      'fullGrownModel': 'phase_5.5/models/estate/tulip',
+      'seedlingModel': 'phase_5.5/models/estate/seedling.bam',
+      'establishedModel': 'phase_5.5/models/estate/tulip.bam',
+      'fullGrownModel': 'phase_5.5/models/estate/tulip.bam',
       'photoPos': (0.0, -0.35, -0.35),
       'photoScale': 1,
       'photoHeading': 0,
@@ -116,9 +115,9 @@ PlantAttributes = {49: {'name': TTLocalizer.FlowerSpeciesNames[49],
       'growthThresholds': (1, 1, 1),
       'maxWaterLevel': getMaxWateringCanPower(),
       'minWaterLevel': -2,
-      'seedlingModel': 'phase_5.5/models/estate/seedling',
-      'establishedModel': 'phase_5.5/models/estate/carnation',
-      'fullGrownModel': 'phase_5.5/models/estate/carnation',
+      'seedlingModel': 'phase_5.5/models/estate/seedling.bam',
+      'establishedModel': 'phase_5.5/models/estate/carnation.bam',
+      'fullGrownModel': 'phase_5.5/models/estate/carnation.bam',
       'photoPos': (0.0, -0.35, -0.4),
       'photoScale': 1,
       'photoHeading': 0,
@@ -133,9 +132,9 @@ PlantAttributes = {49: {'name': TTLocalizer.FlowerSpeciesNames[49],
       'growthThresholds': (1, 1, 1),
       'maxWaterLevel': getMaxWateringCanPower(),
       'minWaterLevel': -2,
-      'seedlingModel': 'phase_5.5/models/estate/seedling',
-      'establishedModel': 'phase_5.5/models/estate/lily',
-      'fullGrownModel': 'phase_5.5/models/estate/lily',
+      'seedlingModel': 'phase_5.5/models/estate/seedling.bam',
+      'establishedModel': 'phase_5.5/models/estate/lily.bam',
+      'fullGrownModel': 'phase_5.5/models/estate/lily.bam',
       'photoPos': (0.0174745, -0.05, -0.670513),
       'photoScale': 1,
       'photoHeading': 0,
@@ -153,9 +152,9 @@ PlantAttributes = {49: {'name': TTLocalizer.FlowerSpeciesNames[49],
       'growthThresholds': (1, 1, 1),
       'maxWaterLevel': getMaxWateringCanPower(),
       'minWaterLevel': -2,
-      'seedlingModel': 'phase_5.5/models/estate/seedling',
-      'establishedModel': 'phase_5.5/models/estate/narcissi',
-      'fullGrownModel': 'phase_5.5/models/estate/narcissi',
+      'seedlingModel': 'phase_5.5/models/estate/seedling.bam',
+      'establishedModel': 'phase_5.5/models/estate/narcissi.bam',
+      'fullGrownModel': 'phase_5.5/models/estate/narcissi.bam',
       'photoPos': (-0.0403175, 0.060933, -0.548368),
       'photoScale': 1,
       'photoHeading': 20,
@@ -169,9 +168,9 @@ PlantAttributes = {49: {'name': TTLocalizer.FlowerSpeciesNames[49],
       'growthThresholds': (1, 1, 1),
       'maxWaterLevel': getMaxWateringCanPower(),
       'minWaterLevel': -2,
-      'seedlingModel': 'phase_5.5/models/estate/seedling',
-      'establishedModel': 'phase_5.5/models/estate/pansy',
-      'fullGrownModel': 'phase_5.5/models/estate/pansy',
+      'seedlingModel': 'phase_5.5/models/estate/seedling.bam',
+      'establishedModel': 'phase_5.5/models/estate/pansy.bam',
+      'fullGrownModel': 'phase_5.5/models/estate/pansy.bam',
       'photoScale': 2.5,
       'photoHeading': 0,
       'photoPitch': 0,
@@ -185,9 +184,9 @@ PlantAttributes = {49: {'name': TTLocalizer.FlowerSpeciesNames[49],
       'growthThresholds': (1, 1, 1),
       'maxWaterLevel': getMaxWateringCanPower(),
       'minWaterLevel': -2,
-      'seedlingModel': 'phase_5.5/models/estate/seedling',
-      'establishedModel': 'phase_5.5/models/estate/petunia',
-      'fullGrownModel': 'phase_5.5/models/estate/petunia',
+      'seedlingModel': 'phase_5.5/models/estate/seedling.bam',
+      'establishedModel': 'phase_5.5/models/estate/petunia.bam',
+      'fullGrownModel': 'phase_5.5/models/estate/petunia.bam',
       'photoPos': (0.02, -0.0324585, -0.167735),
       'photoScale': 1.5,
       'photoHeading': -20,
@@ -198,9 +197,9 @@ PlantAttributes = {49: {'name': TTLocalizer.FlowerSpeciesNames[49],
       'growthThresholds': (1, 1, 1),
       'maxWaterLevel': getMaxWateringCanPower(),
       'minWaterLevel': -1,
-      'seedlingModel': 'phase_5.5/models/estate/seedling',
-      'establishedModel': 'phase_5.5/models/estate/rose',
-      'fullGrownModel': 'phase_5.5/models/estate/rose',
+      'seedlingModel': 'phase_5.5/models/estate/seedling.bam',
+      'establishedModel': 'phase_5.5/models/estate/rose.bam',
+      'fullGrownModel': 'phase_5.5/models/estate/rose.bam',
       'photoPos': (0.04396, 0.124797, -0.877291),
       'photoScale': 1,
       'photoHeading': 0,
@@ -212,7 +211,7 @@ PlantAttributes = {49: {'name': TTLocalizer.FlowerSpeciesNames[49],
                     (4, FLOWER_BLUE, 8))},
  200: {'name': TTLocalizer.StatuaryDonald,
        'plantType': STATUARY_TYPE,
-       'model': 'phase_5.5/models/estate/garden_donald',
+       'model': 'phase_5.5/models/estate/garden_donald.bam',
        'worldScale': 0.05,
        'varieties': ((1000, 1, 0),),
        'pinballScore': (10, 1)},
@@ -308,8 +307,8 @@ def getTreeTypeIndex(track, level):
     return track * 7 + level
 
 
-NUM_GAGS = 49
-for i in range(NUM_GAGS):
+NUM_GAGS = 7 * 7
+for i in xrange(NUM_GAGS):
     track, level = getTreeTrackAndLevel(i)
     if level <= 6:
         name = TTLocalizer.BattleGlobalAvPropStrings[track][level] + TTLocalizer.GardenGagTree
@@ -321,7 +320,7 @@ for i in range(NUM_GAGS):
      'maxWaterLevel': getMaxWateringCanPower(),
      'minWaterLevel': -1,
      'maxFruit': 9,
-     'filename': 'phase_5.5/models/estate/gag_tree_stages',
+     'filename': 'phase_5.5/models/estate/gag_tree_stages.bam',
      'seedlingModel': 'gag_tree_small',
      'establishedModel': 'gag_tree_med',
      'fullGrownModel': 'gag_tree_large',
@@ -495,7 +494,7 @@ ShovelAttributes = {0: {'numBoxes': 2,
 
 def getShovelPower(shovel, shovelSkill):
     numBoxes = 0
-    for curShovel in range(shovel + 1):
+    for curShovel in xrange(shovel + 1):
         shovelAttrib = ShovelAttributes[curShovel]
         curBoxes = shovelAttrib['numBoxes']
         skill = shovelAttrib['skillPts']
@@ -597,8 +596,8 @@ def getSpeciesVarietyGivenRecipe(recipeKey):
         attrib = PlantAttributes[species]
         if attrib['plantType'] == GAG_TREE_TYPE:
             continue
-        if attrib.has_key('varieties'):
-            for variety in range(len(attrib['varieties'])):
+        if 'varieties' in attrib:
+            for variety in xrange(len(attrib['varieties'])):
                 if attrib['varieties'][variety][0] == recipeKey:
                     return (species, variety)
 
@@ -609,14 +608,14 @@ def getNumBeansRequired(species, variety):
     retval = -1
     if not PlantAttributes.get(species):
         return retval
-    if not PlantAttributes[species].has_key('varieties'):
+    if 'varieties' not in PlantAttributes[species]:
         return retval
     if variety >= len(PlantAttributes[species]['varieties']):
         return -1
     recipeKey = PlantAttributes[species]['varieties'][variety][0]
     recipe = Recipes.get(recipeKey)
     if recipe:
-        if recipe.has_key('beans'):
+        if 'beans' in recipe:
             retval = len(recipe['beans'])
     return retval
 
@@ -653,7 +652,7 @@ def validateRecipes(notify):
 def validatePlantAttributes(notify):
     uniqueRecipes = []
     flowerRecipeDistribution = []
-    for i in range(getNumberOfShovelBoxes() + 1):
+    for i in xrange(getNumberOfShovelBoxes() + 1):
         flowerRecipeDistribution.append([])
 
     for key in PlantAttributes.keys():
@@ -675,7 +674,7 @@ def validatePlantAttributes(notify):
                     newInfo = (getFlowerVarietyName(key, list(varieties).index(variety)), Recipes[recipeNum]['beans'], TTLocalizer.FlowerColorStrings[variety[1]])
                     flowerRecipeDistribution[recipeLength].append(newInfo)
 
-    for numBeans in range(len(flowerRecipeDistribution)):
+    for numBeans in xrange(len(flowerRecipeDistribution)):
         notify.debug('%d flowers with %d beans' % (len(flowerRecipeDistribution[numBeans]), numBeans))
         for flower in flowerRecipeDistribution[numBeans]:
             notify.debug('    %s,  beans = %s, color=%s' % (flower[0], flower[1], flower[2]))
@@ -1148,6 +1147,7 @@ estatePlots = (plots0,
 BOX_ONE = 1
 BOX_TWO = 2
 BOX_THREE = 3
+FLOWER_POS = (None, (0,), (-1.5, 1.5), (-3.5, 0, 3.5))
 flowerBoxes0 = ((-62.5,
   -52.5,
   182.0,

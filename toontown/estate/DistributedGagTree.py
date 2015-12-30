@@ -1,424 +1,222 @@
-#Embedded file name: toontown.estate.DistributedGagTree
-from toontown.estate import DistributedPlantBase
-from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
-from direct.showbase import PythonUtil
-from toontown.toonbase import ToontownBattleGlobals
-from toontown.toontowngui import TTDialog
-from toontown.toontowngui.TeaserPanel import TeaserPanel
-from toontown.toonbase import TTLocalizer
-import GardenGlobals
-import HouseGlobals
-from direct.task import Task
-from pandac.PandaModules import *
-from otp.otpbase import OTPGlobals
-from toontown.estate import DistributedLawnDecor
-DIRT_AS_WATER_INDICATOR = True
+from otp.ai.MagicWordGlobal import *
+from toontown.estate.DistributedPlantBaseAI import DistributedPlantBaseAI
+import GardenGlobals, time
 
-class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedGagTree')
+ONE_DAY = 86400
 
-    def __init__(self, cr):
-        DistributedPlantBase.DistributedPlantBase.__init__(self, cr)
-        base.tree = self
-        self.collSphereRadius = 4.2
-        self.confirmDialog = None
-        self.resultDialog = None
-        self.dirtMound = None
-        self.sandMound = None
-        self.needToPlant = 0
-        self.needToLoad = 0
-        self.backupFruits = []
-        self.signHasBeenStuck2Ground = False
-        self._teaserPanel = None
-        self.setName('DistributedGagTree')
+PROBLEM_WILTED = 1
+PROBLEM_NOT_GROWN = 2
+PROBLEM_HARVESTED_LATELY = 4
 
-    def delete(self):
-        DistributedPlantBase.DistributedPlantBase.delete(self)
-        if self._teaserPanel:
-            self._teaserPanel.destroy()
-            self._teaserPanel = None
-        del self.prop
-        del self.prop2
-        del self.dirtMound
-        del self.sandMound
-        self.signModel.removeNode()
-        self.signModel = None
+class DistributedGagTreeAI(DistributedPlantBaseAI):
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedGagTreeAI')
+    GrowRate = config.GetBool('trees-grow-rate', 2)
 
-    def setTypeIndex(self, typeIndex):
-        DistributedPlantBase.DistributedPlantBase.setTypeIndex(self, typeIndex)
-        track, level = GardenGlobals.getTreeTrackAndLevel(typeIndex)
-        self.gagTrack = track
-        self.gagLevel = level
-        invModel = loader.loadModel('phase_3.5/models/gui/inventory_icons')
-        propName = ToontownBattleGlobals.AvPropsNew[track][level]
-        self.prop = invModel.find('**/' + propName)
-        self.prop.setScale(7)
-        invModel.removeNode()
-        invModel2 = loader.loadModel('phase_3.5/models/gui/inventory_icons')
-        propName = ToontownBattleGlobals.AvPropsNew[track][level]
-        self.prop2 = invModel2.find('**/' + propName)
-        self.prop2.setScale(7)
-        self.filename = self.attributes['filename']
-        self.maxFruit = self.attributes['maxFruit']
-        if hasattr(self, 'needToLoad'):
-            if self.needToLoad:
-                self.loadModel()
+    def __init__(self, mgr):
+        DistributedPlantBaseAI.__init__(self, mgr)
+        self.wilted = 0
 
-    def loadModel(self):
-        if not hasattr(self, 'filename'):
-            self.needToLoad = 1
-            return
-        if not self.rotateNode:
-            self.rotateNode = self.plantPath.attachNewNode('rotate')
-        all = loader.loadModel(self.filename)
-        self.modelName = self.getModelName()
-        if self.isWilted():
-            self.modelName += '_wilt'
-        self.model = all.find('**/' + self.modelName)
-        all.detachNode()
-        shadow = self.model.find('**/shadow1')
-        if shadow:
-            shadow.hide()
-        self.model.reparentTo(self.rotateNode)
-        if self.isFruiting() and not self.isWilted():
-            self.fruits = []
-            for i in range(1, self.maxFruit + 1):
-                pos = self.model.find('**/locator' + str(i))
-                if pos and not pos.isEmpty():
-                    fruit = self.prop.copyTo(self.model)
-                    fruit.setPos(pos, 0, 0, 0)
-                    fruit.setScale(13)
-                    self.fruits.append(fruit)
-
-            self.createBackupFruits()
-        if DIRT_AS_WATER_INDICATOR:
-            self.dirtMound = loader.loadModel('phase_5.5/models/estate/dirt_mound')
-            self.dirtMound.reparentTo(self.model)
-            self.sandMound = loader.loadModel('phase_5.5/models/estate/sand_mound')
-            self.sandMound.reparentTo(self.model)
-        self.adjustGrowth()
-        self.signModel = loader.loadModel('phase_5.5/models/estate/garden_sign')
-        self.signModel.setPos(3.5, 0, 0.025)
-        self.signModel.reparentTo(self.rotateNode)
-        owner = self.getOwnerIndex()
-        color = HouseGlobals.houseColors[owner]
-        for geomName in ('sign', 'sign1'):
-            sign = self.signModel.find('**/' + geomName)
-            if sign:
-                sign.setColor(*color)
-
-        self.prop.setPos(0.1, -0.17, 1.63)
-        self.prop.reparentTo(self.signModel)
-        self.prop2.setPos(0.15, 0.17, 1.63)
-        self.prop2.setH(self.prop.getH() + 180)
-        self.prop2.reparentTo(self.signModel)
-        self.needToLoad = 0
-        if self.needToPlant:
-            self.stickParts()
-
-    def setupShadow(self):
-        DistributedPlantBase.DistributedPlantBase.setupShadow(self)
-        self.adjustGrowth()
-
-    def makeMovieNode(self):
-        self.movieNode = self.rotateNode.attachNewNode('moviePos')
-        self.movieNode.setPos(0, -5, 0)
-        self.createBackupFruits()
-
-    def handlePicking(self):
-        messenger.send('wakeup')
-        if self.isFruiting() and self.canBeHarvested():
-            if self.velvetRoped():
-                self._teaserPanel = TeaserPanel(pageName='pickGags')
-                localAvatar._gagTreeVelvetRoped = None
-            else:
-                self.startInteraction()
-                self.doHarvesting()
-            return
-        fullName = self.name
-        text = TTLocalizer.ConfirmRemoveTree % {'tree': fullName}
-        if self.hasDependentTrees():
-            text += TTLocalizer.ConfirmWontBeAbleToHarvest
-        self.confirmDialog = TTDialog.TTDialog(style=TTDialog.YesNo, text=text, command=self.confirmCallback)
-        self.confirmDialog.show()
-        self.startInteraction()
-
-    def confirmCallback(self, value):
-        self.confirmDialog.destroy()
-        self.confirmDialog = None
-        if value > 0:
-            self.doPicking()
-        else:
-            self.finishInteraction()
-
-    def doPicking(self):
-        if not self.canBePicked():
-            return
-        self.sendUpdate('removeItem', [])
-
-    def createBackupFruits(self):
-        if not hasattr(self, 'fruits'):
-            return
-        if not self.fruits:
-            return
-        if not hasattr(self, 'movieNode'):
-            return
-        if not self.movieNode:
-            return
-        if self.movieNode.isEmpty():
-            return
-        if not self.signHasBeenStuck2Ground:
-            return
-        if not self.backupFruits:
-            for fruit in self.fruits:
-                newFruit = fruit.copyTo(render)
-                newFruit.setPos(fruit.getPos(render))
-                newFruit.setH(self.movieNode.getH(render))
-                newFruit.hide()
-                self.backupFruits.append(newFruit)
-
-    def clearBackupFruits(self):
-        self.backupFruits = []
-
-    def doHarvesting(self):
-        if not self.canBePicked():
-            return
-        if hasattr(self, 'backupFruits'):
-            for fruit in self.backupFruits:
-                fruit.show()
-
-        self.sendUpdate('requestHarvest', [])
-
-    def getTrack(self):
-        return self.gagTrack
-
-    def getGagLevel(self):
-        return self.gagLevel
-
-    def setWaterLevel(self, waterLevel):
-        self.waterLevel = waterLevel
-        self.adjustWaterIndicator()
-
-    def setGrowthLevel(self, growthLevel):
-        self.growthLevel = growthLevel
-        if self.model:
-            newModelName = self.getModelName()
-            if True:
-                self.model.removeNode()
-                self.loadModel()
-                self.adjustWaterIndicator()
-                self.stick2Ground()
-            else:
-                self.adjustGrowth()
-
-    def adjustGrowth(self):
-        newScale = self.growthLevel + 1
-        if newScale > 1:
-            newScale = 1
-        shadowScale = 2.5
-        collScale = 1.5
-        if self.isSeedling():
-            shadowScale = 1
-            collScale = 1
-        if self.shadowJoint:
-            self.shadowJoint.setScale(shadowScale)
-        if DIRT_AS_WATER_INDICATOR:
-            dirtMoundScale = shadowScale * 1.5
-            dirtMoundDepth = 2.0
-            if self.isEstablished():
-                dirtMoundScale = shadowScale * 1.2
-            self.dirtMound.setScale(dirtMoundScale, dirtMoundScale, dirtMoundDepth)
-            self.sandMound.setScale(dirtMoundScale, dirtMoundScale, dirtMoundDepth)
-            self.adjustWaterIndicator()
+    def announceGenerate(self):
+        DistributedPlantBaseAI.announceGenerate(self)
+        messenger.send(self.getEventName('generate'))
 
     def setWilted(self, wilted):
         self.wilted = wilted
 
-    def isWilted(self):
+    def d_setWilted(self, wilted):
+        self.sendUpdate('setWilted', [wilted])
+
+    def b_setWilted(self, wilted):
+        self.setWilted(wilted)
+        self.d_setWilted(wilted)
+
+    def getWilted(self):
         return self.wilted
 
-    def setMovie(self, mode, avId):
-        if mode == GardenGlobals.MOVIE_HARVEST:
-            self.doHarvestTrack(avId)
-        elif mode == GardenGlobals.MOVIE_WATER:
-            self.doWaterTrack(avId)
-        elif mode == GardenGlobals.MOVIE_FINISHPLANTING:
-            self.doFinishPlantingTrack(avId)
-        elif mode == GardenGlobals.MOVIE_REMOVE:
-            self.doDigupTrack(avId)
+    def calculate(self, lastHarvested, lastCheck):
+        now = int(time.time())
+        if lastCheck == 0:
+            lastCheck = now
 
-    def doFinishPlantingTrack(self, avId):
-        toon = base.cr.doId2do.get(avId)
-        if not toon:
+        grown = 0
+
+        # Water level
+        elapsed = now - lastCheck
+        while elapsed > ONE_DAY:
+            if self.waterLevel >= 0:
+                grown += self.GrowRate
+
+            elapsed -= ONE_DAY
+            self.waterLevel -= 1
+
+        self.waterLevel = max(self.waterLevel, -2)
+
+        # Growth level
+        maxGrowth = self.growthThresholds[2]
+        newGL = min(self.growthLevel + grown, maxGrowth)
+        self.setGrowthLevel(newGL)
+
+        self.setWilted(self.waterLevel == -2)
+
+        self.lastCheck = now - elapsed
+        self.lastHarvested = lastHarvested
+        self.update()
+
+    def calcDependencies(self):
+        if self.getWilted():
             return
-        self.finishMovies()
-        self.movie = Sequence()
-        if self.model:
-            self.model.setTransparency(1)
-            self.model.setAlphaScale(0)
-            self.movie.append(LerpFunc(self.model.setAlphaScale, fromData=0, toData=1, duration=3))
-        if self.signModel:
-            self.signModel.hide()
-            self.movie.append(Func(self.signModel.show))
-            self.movie.append(LerpScaleInterval(self.signModel, 1, 1, 0))
-        self.movie.append(Func(toon.loop, 'neutral'))
-        if avId == localAvatar.doId:
-            self.movie.append(Func(self.finishInteraction))
-            self.movie.append(Func(self.movieDone))
-            self.movie.append(Func(self.doResultDialog))
-        self.movie.start()
 
-    def doHarvestTrack(self, avId):
-        toon = base.cr.doId2do.get(avId)
-        if not toon:
+        missingPrevIndex = 0
+        track, value = GardenGlobals.getTreeTrackAndLevel(self.typeIndex)
+        while value:
+            value -= 1
+            if not self.mgr.hasTree(track, value):
+                self.b_setWilted(1)
+                continue
+
+            tree = self.mgr.getTree(track, value)
+            if not tree:
+                self.b_setWilted(1)
+                continue
+
+            self.accept(self.getEventName('going-down', 666), self.ignoreAll)
+            self.accept(self.getEventName('remove', track * 7 + value), self.calcDependencies)
+
+    def getEventName(self, string, typeIndex=None):
+        typeIndex = typeIndex if typeIndex is not None else self.typeIndex
+        return 'garden-%d-%d-%s' % (self.ownerDoId, typeIndex, string)
+
+    def delete(self):
+        messenger.send(self.getEventName('remove'))
+        self.ignoreAll()
+        DistributedPlantBaseAI.delete(self)
+
+    def update(self):
+        mdata = map(list, self.mgr.data['trees'])
+        mdata[self.treeIndex] = [self.typeIndex, self.waterLevel, self.lastCheck, self.getGrowthLevel(), self.lastHarvested]
+        self.mgr.data['trees'] = mdata
+        self.mgr.update()
+
+    def isFruiting(self):
+        problem = 0
+        if self.getWilted():
+            problem |= PROBLEM_WILTED
+
+        if self.getGrowthLevel() < self.growthThresholds[2]:
+            problem |= PROBLEM_NOT_GROWN
+
+        if (self.lastCheck - self.lastHarvested) < ONE_DAY:
+            problem |= PROBLEM_HARVESTED_LATELY
+
+        return problem
+
+    def getFruiting(self):
+        return self.isFruiting() == 0
+
+    def requestHarvest(self):
+        avId = self.air.getAvatarIdFromSender()
+        av = self.air.doId2do.get(avId)
+        if not av:
             return
-        self.finishMovies()
-        moveTrack = self.generateToonMoveTrack(toon)
-        harvestTrack = self.generateHarvestTrack(toon)
-        self.movie = Sequence(self.startCamIval(avId), moveTrack, harvestTrack, self.stopCamIval(avId))
-        if avId == localAvatar.doId:
-            self.movie.append(Func(self.finishInteraction))
-            self.movie.append(Func(self.movieDone))
-        self.movie.start()
 
-    def setupShadow(self):
-        if DIRT_AS_WATER_INDICATOR:
-            pass
-        else:
-            DistributedPlantBase.DistributedPlantBase.setupShadow(self)
+        if avId != self.ownerDoId:
+            self.air.writeServerEvent('suspicious', avId, 'tried to harvest someone else\'s tree!')
+            return
 
-    def generateHarvestTrack(self, toon):
-        pos = toon.getPos(render)
-        pos.setZ(pos.getZ() + 2)
-        fruitTrack = Parallel()
-        for fruit in self.backupFruits:
-            fruitTrack.append(Sequence(Func(fruit.show), LerpPosInterval(fruit, 1.5, pos, startPos=Point3(fruit.getX(), fruit.getY(), fruit.getZ() + self.model.getZ())), Func(fruit.removeNode)))
+        problem = self.isFruiting()
+        if problem:
+            self.air.writeServerEvent('suspicious', avId, 'tried to harvest a tree that\'s not fruiting!', problem=problem)
+            return
 
-        self.fruits = None
-        harvestTrack = Sequence(fruitTrack, Func(self.clearBackupFruits))
-        return harvestTrack
+        harvested = 0
+        track, level = GardenGlobals.getTreeTrackAndLevel(self.typeIndex)
+        while av.inventory.addItem(track, level) > 0 and harvested < 10:
+            harvested += 1
 
-    def adjustWaterIndicator(self):
-        DistributedPlantBase.DistributedPlantBase.adjustWaterIndicator(self)
-        if self.dirtMound:
-            curWaterLevel = self.waterLevel
-            if curWaterLevel > self.maxWaterLevel:
-                curWaterLevel = self.maxWaterLevel
-            if curWaterLevel > 0:
-                darkestColorScale = 0.4
-                lightestColorScale = 1.0
-                scaleRange = lightestColorScale - darkestColorScale
-                scaleIncrement = scaleRange / self.maxWaterLevel
-                darker = lightestColorScale - scaleIncrement * curWaterLevel
-                self.dirtMound.setColorScale(darker, darker, darker, 1.0)
-                self.sandMound.hide()
-                self.dirtMound.show()
-            else:
-                self.sandMound.show()
-                self.dirtMound.hide()
+        av.d_setInventory(av.getInventory())
 
-    def stickParts(self):
-        if not hasattr(self, 'signModel'):
-            self.needToPlant = 1
-            return Task.done
-        if self.signModel.isEmpty():
-            return Task.done
-        testPath = NodePath('testPath')
-        testPath.reparentTo(render)
-        cRay = CollisionRay(0.0, 0.0, 40000.0, 0.0, 0.0, -1.0)
-        cRayNode = CollisionNode(self.uniqueName('estate-FloorRay'))
-        cRayNode.addSolid(cRay)
-        cRayNode.setFromCollideMask(OTPGlobals.FloorBitmask)
-        cRayNode.setIntoCollideMask(BitMask32.allOff())
-        cRayNodePath = testPath.attachNewNode(cRayNode)
-        queue = CollisionHandlerQueue()
-        picker = CollisionTraverser()
-        picker.addCollider(cRayNodePath, queue)
-        testPath.setPos(self.signModel.getX(render), self.signModel.getY(render), 0)
-        picker.traverse(render)
-        if queue.getNumEntries() > 0:
-            queue.sortEntries()
-            for index in range(queue.getNumEntries()):
-                entry = queue.getEntry(index)
-                if DistributedLawnDecor.recurseParent(entry.getIntoNode(), 'terrain_DNARoot'):
-                    self.signModel.wrtReparentTo(render)
-                    self.signModel.setZ(entry.getSurfacePoint(render)[2] + self.stickUp + 0.1)
-                    self.signModel.wrtReparentTo(self.rotateNode)
-                    self.signHasBeenStuck2Ground = True
-                    self.createBackupFruits()
-                    return Task.done
+        self.lastHarvested = int(time.time())
+        self.sendUpdate('setFruiting', [self.getFruiting()])
+        self.d_setMovie(GardenGlobals.MOVIE_HARVEST)
+        self.update()
 
-        return Task.done
+    def removeItem(self):
+        avId = self.air.getAvatarIdFromSender()
+        self.d_setMovie(GardenGlobals.MOVIE_REMOVE)
 
-    def canBeHarvested(self):
-        if not base.cr.isPaid():
-            if self.velvetRoped():
-                if hasattr(localAvatar, '_gagTreeVelvetRoped'):
-                    return False
-        myTrack, myLevel = GardenGlobals.getTreeTrackAndLevel(self.typeIndex)
-        levelsInTrack = []
-        levelTreeDict = {}
-        allGagTrees = base.cr.doFindAll('DistributedGagTree')
-        for gagTree in allGagTrees:
-            if gagTree.getOwnerId() == localAvatar.doId:
-                curTrack, curLevel = GardenGlobals.getTreeTrackAndLevel(gagTree.typeIndex)
-                if curTrack == myTrack:
-                    levelsInTrack.append(curLevel)
-                    levelTreeDict[curLevel] = gagTree
+        def _remove(task):
+            if not self.air:
+                return
 
-        for levelToTest in range(myLevel):
-            if levelToTest not in levelsInTrack:
-                return False
-            curTree = levelTreeDict[levelToTest]
-            if not curTree.isGTEFullGrown():
-                return False
+            plot = self.mgr.placePlot(self.treeIndex)
+            plot.setPlot(self.plot)
+            plot.setPos(self.getPos())
+            plot.setH(self.getH())
+            plot.setOwnerIndex(self.ownerIndex)
+            plot.generateWithRequired(self.zoneId)
 
-        return True
+            self.air.writeServerEvent('remove-tree', avId, plot=self.plot)
+            self.requestDelete()
 
-    def hasDependentTrees(self):
-        myTrack, myLevel = GardenGlobals.getTreeTrackAndLevel(self.typeIndex)
-        allGagTrees = base.cr.doFindAll('DistributedGagTree')
-        for gagTree in allGagTrees:
-            if gagTree.getOwnerId() == localAvatar.doId:
-                curTrack, curLevel = GardenGlobals.getTreeTrackAndLevel(gagTree.typeIndex)
-                if curTrack == myTrack:
-                    if myLevel < curLevel:
-                        return True
+            self.mgr.trees.remove(self)
 
-        return False
+            mdata = map(list, self.mgr.data['trees'])
+            mdata[self.treeIndex] = self.mgr.getNullPlant()
+            self.mgr.data['trees'] = mdata
+            self.mgr.update()
 
-    def doResultDialog(self):
-        self.startInteraction()
-        curTrack, curLevel = GardenGlobals.getTreeTrackAndLevel(self.typeIndex)
-        species = GardenGlobals.getTreeTypeIndex(curTrack, curLevel)
-        treeName = GardenGlobals.PlantAttributes[species]['name']
-        stringToShow = TTLocalizer.getResultPlantedSomethingSentence(treeName)
-        self.resultDialog = TTDialog.TTDialog(style=TTDialog.Acknowledge, text=stringToShow, command=self.resultsCallback)
+            self.mgr.reconsiderAvatarOrganicBonus()
 
-    def resultsCallback(self, value):
-        if self.resultDialog:
-            self.resultDialog.destroy()
-            self.resultDialog = None
-        self.finishInteraction()
+            return task.done
 
-    def velvetRoped(self):
-        return not base.cr.isPaid() and ToontownBattleGlobals.gagIsPaidOnly(self.gagTrack, self.gagLevel)
+        taskMgr.doMethodLater(7, _remove,  self.uniqueName('do-remove'))
 
-    def allowedToPick(self):
-        retval = True
-        if self.velvetRoped():
-            retval = False
-        return retval
+    def doGrow(self, grown):
+        maxGrowth = self.growthThresholds[2]
+        newGL = max(0, min(self.growthLevel + grown, maxGrowth))
+        oldGrowthLevel = self.growthLevel
 
-    def unlockPick(self):
-        retval = True
-        toon = base.localAvatar
-        inventory = toon.inventory
-        load = inventory.totalProps
-        maxCarry = toon.getMaxCarry()
-        if load >= maxCarry and not self.gagLevel > ToontownBattleGlobals.LAST_REGULAR_GAG_LEVEL:
-            retval = False
-        if inventory.numItem(self.gagTrack, self.gagLevel) >= inventory.getMax(self.gagTrack, self.gagLevel):
-            retval = False
-        return retval
+        self.b_setGrowthLevel(newGL)
+        self.update()
+
+        return newGL - oldGrowthLevel
+
+@magicWord(category=CATEGORY_SYSADMIN, types=[int, int, int])
+def satanGrow(track, index, grown=21):
+    av = spellbook.getTarget()
+    estate = av.air.estateManager._lookupEstate(av)
+
+    if not estate:
+        return 'Estate not found!'
+
+    garden = estate.gardenManager.gardens.get(av.doId)
+    if not garden:
+        return 'Garden not found!'
+
+    tree = garden.getTree(track, index)
+    if not tree:
+        return 'Tree not found!'
+
+    result = tree.doGrow(grown)
+    return 'Satan has grown %d units!' % result
+
+@magicWord(category=CATEGORY_SYSADMIN, types=[int, int])
+def satanFruit(track, index):
+    av = spellbook.getTarget()
+    estate = av.air.estateManager._lookupEstate(av)
+
+    if not estate:
+        return 'Estate not found!'
+
+    garden = estate.gardenManager.gardens.get(av.doId)
+    if not garden:
+        return 'Garden not found!'
+
+    tree = garden.getTree(track, index)
+    if not tree:
+        return 'Tree not found!'
+
+    tree.calculate(0, tree.lastCheck)
+    tree.sendUpdate('setFruiting', [tree.getFruiting()])
+    return 'Satan is now fruiting!'

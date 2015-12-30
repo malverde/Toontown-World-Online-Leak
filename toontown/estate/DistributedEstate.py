@@ -100,6 +100,10 @@ class DistributedEstate(DistributedObject.DistributedObject):
             self.flowerSellBox.removeNode()
             del self.flowerSellBox
             self.flowerSellBox = None
+        if self.fishSellBox:
+            self.fishSellBox.removeNode()
+            del self.fishSellBox
+            self.fishSellBox = None
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)

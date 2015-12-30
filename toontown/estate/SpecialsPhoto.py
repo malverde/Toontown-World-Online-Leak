@@ -125,9 +125,12 @@ class SpecialsPhoto(NodePath):
         rotate = pitch.attachNewNode('rotate')
         scale = rotate.attachNewNode('scale')
         actor.reparentTo(scale)
-        bMin, bMax = actor.getTightBounds()
-        center = (bMin + bMax) / 2.0
-        actor.setPos(-center[0], -center[1], -center[2])
+        if actor.getTightBounds():
+            bMin, bMax = actor.getTightBounds()
+            center = (bMin + bMax) / 2.0
+            actor.setPos(-center[0], -center[1], -center[2])
+        else:
+            actor.setPos(0, 0, 0)
         pitch.setY(2.5)
         return frame
 

@@ -1,4 +1,3 @@
-#Embedded file name: toontown.estate.DistributedStatuary
 import DistributedLawnDecor
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
@@ -18,6 +17,7 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
         DistributedLawnDecor.DistributedLawnDecor.__init__(self, cr)
         self.confirmDialog = None
         self.resultDialog = None
+        return
 
     def loadModel(self):
         self.rotateNode = self.plantPath.attachNewNode('rotate')
@@ -43,11 +43,12 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
         self.plantType = GardenGlobals.PlantAttributes[typeIndex]['plantType']
         self.modelPath = GardenGlobals.PlantAttributes[typeIndex]['model']
         self.pinballScore = None
-        if GardenGlobals.PlantAttributes[typeIndex].has_key('pinballScore'):
+        if 'pinballScore' in GardenGlobals.PlantAttributes[typeIndex]:
             self.pinballScore = GardenGlobals.PlantAttributes[typeIndex]['pinballScore']
         self.worldScale = 1.0
-        if GardenGlobals.PlantAttributes[typeIndex].has_key('worldScale'):
+        if 'worldScale' in GardenGlobals.PlantAttributes[typeIndex]:
             self.worldScale = GardenGlobals.PlantAttributes[typeIndex]['worldScale']
+        return
 
     def getTypeIndex(self):
         return self.typeIndex
@@ -107,6 +108,7 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
             self.doPicking()
         else:
             base.cr.playGame.getPlace().detectedGardenPlotDone()
+        return
 
     def doPicking(self):
         if not self.canBePicked():
@@ -130,3 +132,4 @@ class DistributedStatuary(DistributedLawnDecor.DistributedLawnDecor):
             self.resultDialog.destroy()
             self.resultDialog = None
         self.finishInteraction()
+        return

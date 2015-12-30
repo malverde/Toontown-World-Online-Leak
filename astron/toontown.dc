@@ -541,6 +541,7 @@ from toontown.fishing import DistributedFishingPond/AI
 from toontown.fishing import DistributedFishingTarget/AI
 from toontown.fishing import DistributedPondBingoManager/AI
 from toontown.safezone import DistributedFishingSpot/AI
+from toontown.estate import DistributedGarden/AI
 from toontown.estate import DistributedCannon/AI
 from toontown.estate import DistributedTarget/AI
 from toontown.minigame import DistributedMinigame/AI
@@ -1686,35 +1687,37 @@ struct lawnItem {
 };
 
 dclass DistributedEstate : DistributedObject {
+  string DcObjectType db;
   setEstateReady() broadcast;
   setClientReady() airecv clsend;
   setEstateType(uint8 type = 0) required broadcast db;
   setClosestHouse(uint8 house) airecv clsend;
   setTreasureIds(uint32 doIds[]) broadcast ram;
   requestServerTime() airecv clsend;
-  setServerTime(uint32 ts);
-  setDawnTime(uint32 ts) required broadcast ram;
-  placeOnGround(uint32 UNKNOWN) broadcast ram;
-  setDecorData(lawnItem items[] = []) required airecv db;
+  setServerTime(uint32);
+  setDawnTime(uint32) required broadcast ram;
+  placeOnGround(uint32) broadcast ram;
   setLastEpochTimeStamp(uint32 timestamp = 0) required airecv db;
   setRentalTimeStamp(uint32 timestamp = 0) required airecv db;
   setRentalType(uint8 type = 0) required airecv db;
   setSlot0ToonId(uint32 toonId = 0) required airecv db;
-  setSlot0Items(lawnItem items[] = []) required airecv db;
+  setSlot0Garden(blob g) required airecv db;
   setSlot1ToonId(uint32 toonId = 0) required airecv db;
-  setSlot1Items(lawnItem items[] = []) required airecv db;
+  setSlot1Garden(blob g) required airecv db;
   setSlot2ToonId(uint32 toonId = 0) required airecv db;
-  setSlot2Items(lawnItem items[] = []) required airecv db;
+  setSlot2Garden(blob g) required airecv db;
   setSlot3ToonId(uint32 toonId = 0) required airecv db;
-  setSlot3Items(lawnItem items[] = []) required airecv db;
+  setSlot3Garden(blob g) required airecv db;
   setSlot4ToonId(uint32 toonId = 0) required airecv db;
-  setSlot4Items(lawnItem items[] = []) required airecv db;
+  setSlot4Garden(blob g) required airecv db;
   setSlot5ToonId(uint32 toonId = 0) required airecv db;
-  setSlot5Items(lawnItem items[] = []) required airecv db;
-  setIdList(uint32 idList[]) broadcast ram;
-  completeFlowerSale(uint8 sell) airecv clsend;
-  awardedTrophy(uint32 avId) broadcast;
-  setClouds(uint8 clouds) required broadcast ram;
+  setSlot5Garden(blob g) required airecv db;
+  setIdList(uint32 []) broadcast ram;
+  completeFlowerSale(uint8) airecv clsend;
+  completeFishSale() airecv clsend;
+  thankSeller(int8, int8, int8);
+  awardedTrophy(uint32) broadcast;
+  setClouds(uint8) required broadcast ram;
   cannonsOver() broadcast;
   gameTableOver() broadcast;
 };
@@ -3160,23 +3163,24 @@ dclass DistributedLawbotChair : DistributedObject {
 };
 
 dclass DistributedLawnDecor : DistributedNode {
-  setPlot(int8 plot) required broadcast ram;
-  setHeading(int16/10 h) required broadcast ram;
-  setPosition(int16/10 x, int16/10 y, int16/10 z) required broadcast ram;
-  setOwnerIndex(int8 index) required broadcast ram;
+  setPlot(int8) required broadcast ram;
+  setHeading(int16/10) required broadcast ram;
+  setOwnerIndex(int8) required broadcast ram;
+  setPosition(int16/10, int16/10, int16/10) required broadcast ram;
   plotEntered() airecv clsend;
   removeItem() airecv clsend;
-  setMovie(uint8 mode, uint32 avId) broadcast ram;
+  setMovie(uint8, uint32) broadcast ram;
   movieDone() airecv clsend;
-  interactionDenied(uint32 avId) broadcast ram;
+  interactionDenied(uint32) broadcast ram;
+  setBoxDoId(uint32, uint8) broadcast ram;
 };
 
 dclass DistributedGardenPlot : DistributedLawnDecor {
-  plantFlower(uint8 todo0, uint8 todo1) airecv clsend;
-  plantGagTree(uint8 todo0, uint8 todo1) airecv clsend;
-  plantStatuary(uint8 todo0) airecv clsend;
-  plantToonStatuary(uint8 todo0, uint16 todo1) airecv clsend;
-  plantNothing(uint8 todo0) airecv clsend;
+  plantFlower(uint8, uint8) airecv clsend;
+  plantGagTree(uint8, uint8) airecv clsend;
+  plantStatuary(uint8) airecv clsend;
+  plantToonStatuary(uint8, uint16) airecv clsend;
+  plantNothing(uint8) airecv clsend;
 };
 
 dclass DistributedGardenBox : DistributedLawnDecor {
@@ -3184,9 +3188,9 @@ dclass DistributedGardenBox : DistributedLawnDecor {
 };
 
 dclass DistributedStatuary : DistributedLawnDecor {
-  setTypeIndex(uint8 typeIndex) required broadcast ram;
-  setWaterLevel(int8 waterLevel) required broadcast ram;
-  setGrowthLevel(int8 growthLevel) required broadcast ram;
+  setTypeIndex(uint8) required broadcast ram;
+  setWaterLevel(int8) required broadcast ram;
+  setGrowthLevel(int8) required broadcast ram;
 };
 
 dclass DistributedToonStatuary : DistributedStatuary {
@@ -3215,6 +3219,7 @@ dclass DistributedFlower : DistributedPlantBase {
 
 dclass DistributedGagTree : DistributedPlantBase {
   setWilted(int8 wilted) required broadcast ram;
+  setFruiting(bool) required broadcast ram;
   requestHarvest() airecv clsend;
 };
 

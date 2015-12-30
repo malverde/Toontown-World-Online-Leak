@@ -4797,6 +4797,22 @@ def squish(laff):
     target = spellbook.getTarget()
     target.squish(laff)
 
+@magicWord(category=CATEGORY_SYSADMIN, types=[int])
+def shovelSkill(skill):
+    """
+    Updates shovel skill
+    """
+    av = spellbook.getTarget()
+    av.b_setShovelSkill(skill)
+
+@magicWord(category=CATEGORY_SYSADMIN, types=[int])
+def canSkill(skill):
+    """
+    Update watering can skill.
+    """
+    av = spellbook.getTarget()
+    av.b_setWateringCanSkill(skill)
+
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int, int, int, int, int])
 def setTrackAccess(toonup, trap, lure, sound, throw, squirt, drop):
     """Set target's gag track access."""

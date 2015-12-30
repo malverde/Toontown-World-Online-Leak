@@ -105,7 +105,7 @@ want-fishing #t
 want-parties #t
 # Estates
 want-pets #t
-want-gardening #f
+want-gardening #t
 want-gifting #t
 # Table games
 want-game-tables #f
