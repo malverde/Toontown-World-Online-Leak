@@ -4,7 +4,7 @@ from SZHoodAI import SZHoodAI
 from toontown.toon import NPCToons
 from toontown.safezone import ButterflyGlobals
 from toontown.safezone.DistributedButterflyAI import DistributedButterflyAI
-
+from toontown.ai import DistributedTrickOrTreatTargetAI
 
 class DGHoodAI(SZHoodAI):
     HOOD = ToontownGlobals.DaisyGardens
@@ -17,6 +17,10 @@ class DGHoodAI(SZHoodAI):
         self.flower = DistributedDGFlowerAI(self.air)
         self.flower.generateWithRequired(self.HOOD)
         self.createButterflies()
+
+        if simbase.air.wantHalloween:
+            self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)
+            self.TrickOrTreatTargetManager.generateWithRequired(5620)
 
     def createButterflies(self):
         playground = ButterflyGlobals.DG
