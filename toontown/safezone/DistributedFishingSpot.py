@@ -669,6 +669,8 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             jar.setPos(0, 0, 0)
 
     def resetCastGui(self):
+        if not self.castGui:
+            return
         self.notify.debug('resetCastGui: Bingo Night Ends - resetting Gui')
         bucket = self.castGui.find('**/bucket')
         jar = self.castGui.find('**/jar')

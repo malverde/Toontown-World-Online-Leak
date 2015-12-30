@@ -5,6 +5,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.battle import SuitBattleGlobals
 from toontown.toonbase import TTLocalizer
+from toontown.ai import HolidayGlobals
 import HolidayDecorator
 import HalloweenHolidayDecorator
 import CrashedLeaderBoardDecorator
@@ -42,6 +43,9 @@ class NewsManager(DistributedObject.DistributedObject):
 			'force-holiday-decorations', '')
 		self.decorationHolidayIds = []
 		self.yearlyCalendarHolidays = []
+		self.activeHolidays = []
+		base.localAvatar.inventory.setInvasionCreditMultiplier(1)
+		base.cr.newsManager = self
 
 		if forcedHolidayDecorations != '':
 			forcedHolidayDecorations = forcedHolidayDecorations.split(',')
@@ -54,7 +58,6 @@ class NewsManager(DistributedObject.DistributedObject):
 
 		self.holidayDecorator = None
 		self.holidayIdList = []
-		base.cr.newsManager = self
 		if hasattr(base, 'localAvatar') and base.localAvatar is not None:
 			base.localAvatar.inventory.setInvasionCreditMultiplier(1)
 		if hasattr(base, 'localAvatar') and base.localAvatar is not None:
@@ -89,6 +92,51 @@ class NewsManager(DistributedObject.DistributedObject):
 			self.holidayDecorator.exit()
 		DistributedObject.DistributedObject.delete(self)
 		return
+
+	def isHolidayRunning(self, id):
+		return id in self.activeHolidays
+
+	def startHolidays(self, ids):
+		for id in ids:
+			self.startHoliday(id, True)
+
+	def getDecorationHolidayId(self):
+		return []
+
+	def broadcastHoliday(self, holiday, type):
+		if type in holiday:
+			base.localAvatar.setSystemMessage(0, holiday[type])
+
+	def startHoliday(self, id, ongoing=False):
+		if id in self.activeHolidays or id not in HolidayGlobals.Holidays:
+			return
+
+		holiday = HolidayGlobals.getHoliday(id)
+
+		self.activeHolidays.append(id)
+		self.broadcastHoliday(holiday, 'ongoingMessage' if ongoing else 'startMessage')
+		self.startSpecialHoliday(id)
+
+	def endHoliday(self, id):
+		if id not in self.activeHolidays or id not in HolidayGlobals.Holidays:
+			return
+
+		holiday = HolidayGlobals.getHoliday(id)
+
+		self.activeHolidays.remove(id)
+		self.broadcastHoliday(holiday, 'endMessage')
+		self.endSpecialHoliday(id)
+
+	def startSpecialHoliday(self, id):
+		if id == ToontownGlobals.LAUGHING_MAN:
+			for toon in base.cr.toons.values():
+				toon.generateLaughingMan()
+
+	def endSpecialHoliday(self, id):
+		if id == ToontownGlobals.LAUGHING_MAN:
+			for toon in base.cr.toons.values():
+				toon.swapToonHead(laughingMan=toon.getWantLaughingMan())
+
 
 	def setPopulation(self, population):
 		self.population = population
@@ -642,7 +690,7 @@ class NewsManager(DistributedObject.DistributedObject):
 	def setWackyWinterDecorationsStart(self):
 		base.localAvatar.setSystemMessage(
 			0, TTLocalizer.WackyWinterDecorationsStart)
-		
+
 	def setExpandedClosetsStart(self):
 		base.localAvatar.setSystemMessage(0, TTLocalizer.ExpandedClosetsStart)
 
@@ -830,7 +878,7 @@ class NewsManager(DistributedObject.DistributedObject):
 				self.weekDaysInMonth[startingWeekDay][0],
 				self.weekDaysInMonth[startingWeekDay][1] + 1)
 			startingWeekDay = (startingWeekDay + 1) % 7
-
-	def isHolidayRunning(self, holidayId):
-		result = holidayId in self.holidayIdList
-		return result
+    #
+	# def isHolidayRunning(self, holidayId):
+	# 	result = holidayId in self.holidayIdList
+	# 	return result
