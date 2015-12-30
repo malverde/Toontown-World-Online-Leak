@@ -17993,8 +17993,8 @@ def chooseBestQuests(tier, currentNpc, av):
             break
         rewardId = rewards.pop(0)
         if hasattr(validQuestPool, bestQuestId):
-        if bestQuestId is None:
-            return
+            if bestQuestId is None:
+                return
         if hasattr(validQuestPool, bestQuestId):
             validQuestPool.remove(bestQuestId)
             bestQuestToNpcId = getQuestToNpcId(bestQuestId)
