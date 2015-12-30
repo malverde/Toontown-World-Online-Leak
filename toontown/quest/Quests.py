@@ -17995,7 +17995,7 @@ def chooseBestQuests(tier, currentNpc, av):
         bestQuestId = chooseMatchingQuest(tier, validQuestPool, rewardId, currentNpc, av)
         if bestQuestId is None:
             return
-        if hasattr(validQuestPool, bestQuestId):
+        if hasattr(validQuestPool, 'bestQuestId'):
             validQuestPool.remove(bestQuestId)
             bestQuestToNpcId = getQuestToNpcId(bestQuestId)
             if bestQuestToNpcId == Any:
