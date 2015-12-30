@@ -17995,19 +17995,17 @@ def chooseBestQuests(tier, currentNpc, av):
         bestQuestId = chooseMatchingQuest(tier, validQuestPool, rewardId, currentNpc, av)
         if bestQuestId is None:
             return
-        if hasattr(validQuestPool, 'bestQuestId'):
-            validQuestPool.remove(bestQuestId)
-            bestQuestToNpcId = getQuestToNpcId(bestQuestId)
-            if bestQuestToNpcId == Any:
-                bestQuestToNpcId = 2003
-            elif bestQuestToNpcId == Same:
-                if currentNpc.getHq():
-                    bestQuestToNpcId = ToonHQ
-                else:
-                    bestQuestToNpcId = currentNpc.getNpcId()
-            elif bestQuestToNpcId == ToonHQ:
+        bestQuestToNpcId = getQuestToNpcId(bestQuestId)
+        if bestQuestToNpcId == Any:
+            bestQuestToNpcId = 2003
+        elif bestQuestToNpcId == Same:
+            if currentNpc.getHq():
                 bestQuestToNpcId = ToonHQ
-            bestQuests.append([bestQuestId, rewardId, bestQuestToNpcId])
+            else:
+                bestQuestToNpcId = currentNpc.getNpcId()
+        elif bestQuestToNpcId == ToonHQ:
+            bestQuestToNpcId = ToonHQ
+        bestQuests.append([bestQuestId, rewardId, bestQuestToNpcId])
     
         for quest in bestQuests:
             quest[1] = transformReward(quest[1], av)
