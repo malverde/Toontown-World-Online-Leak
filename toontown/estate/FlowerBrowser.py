@@ -1,8 +1,7 @@
-#Embedded file name: toontown.estate.FlowerBrowser
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 import FlowerSpeciesPanel
 import GardenGlobals
@@ -40,10 +39,12 @@ class FlowerBrowser(DirectScrolledList):
         self.defineoptions(kw, optiondefs)
         DirectScrolledList.__init__(self, parent)
         self.initialiseoptions(FlowerBrowser)
+        return None
 
     def destroy(self):
         DirectScrolledList.destroy(self)
         self.parent = None
+        return
 
     def update(self):
         pass

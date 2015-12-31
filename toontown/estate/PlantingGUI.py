@@ -1,6 +1,5 @@
-#Embedded file name: toontown.estate.PlantingGUI
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -55,6 +54,7 @@ class GenericBoxScrollList(DirectScrolledList):
         self.defineoptions(kw, optiondefs)
         DirectScrolledList.__init__(self, parent, forceHeight=self.forceHeight)
         self.initialiseoptions(GenericBoxScrollList)
+        return None
 
 
 class BoxItem(NodePath):
@@ -83,6 +83,7 @@ class JellyBeanPicker(DirectFrame):
         self.initialiseoptions(JellyBeanPicker)
         self.jellyBeanBoxList = []
         self.createJellyBeanBoxes()
+        return
 
     def jellyBeanBoxClicked(self, beanIndex):
         if JELLY_BEAN_PICKER_HAS_EMPTY_BOX:
@@ -103,9 +104,10 @@ class JellyBeanPicker(DirectFrame):
             beanParent = newBox.attachNewNode('bean_%d' % beanIndex)
             loadJellyBean(beanParent, beanIndex)
         self.jellyBeanBoxList.append(newBox)
+        return
 
     def setColorText(self):
-        for beanIndex in range(len(self.jellyBeanBoxList)):
+        for beanIndex in xrange(len(self.jellyBeanBoxList)):
             if JELLY_BEAN_PICKER_HAS_EMPTY_BOX:
                 if beanIndex:
                     box = self.jellyBeanBoxList[beanIndex]
@@ -122,7 +124,7 @@ class JellyBeanPicker(DirectFrame):
         if JELLY_BEAN_PICKER_HAS_EMPTY_BOX:
             maxBoxes += 1
         startingXCoord = -0.1 * float(maxBoxes) / 2.0 + 0.075
-        for activeBox in range(maxBoxes):
+        for activeBox in xrange(maxBoxes):
             xPos = xIncrement * activeBox + startingXCoord
             self.createJellyBeanBox(activeBox, xPos, zCoord)
 
@@ -187,6 +189,7 @@ class PlantingGUI(DirectFrame):
         self.matchBoxesToAvailableMoney()
         if PICKER_ALWAYS_UP:
             self.spiffyBeanBoxClicked(0)
+        return
 
     def destroy(self):
         if self.boxList:
@@ -207,6 +210,7 @@ class PlantingGUI(DirectFrame):
                 photo.destroy()
 
             self.specialPhotoList = []
+        return
 
     def __cancel(self):
         messenger.send(self.doneEvent, [0, '', -1])
@@ -247,14 +251,14 @@ class PlantingGUI(DirectFrame):
         xIncrement = 0.1
         xPos = 0
         startingXCoord = -0.1 * float(self.maxBoxes) / 2.0 + 0.05
-        for activeBox in range(self.availableBoxes):
+        for activeBox in xrange(self.availableBoxes):
             xPos = xIncrement * activeBox + startingXCoord
             if USE_SCROLLING_BEAN_BOX:
                 self.createScrollingBeanBox(activeBox, xPos, zCoord, True)
             else:
                 self.createSpiffyBeanBox(activeBox, xPos, zCoord, True)
 
-        for disabledBox in range(self.availableBoxes, self.maxBoxes):
+        for disabledBox in xrange(self.availableBoxes, self.maxBoxes):
             xPos = xIncrement * disabledBox + startingXCoord
             if USE_SCROLLING_BEAN_BOX:
                 self.createScrollingBeanBox(disabledBox, xPos, zCoord, False)
@@ -286,6 +290,7 @@ class PlantingGUI(DirectFrame):
                 self.specialPhotoList.append(specialsPhoto)
 
         self.specialButton = GenericBoxScrollList(self.specialButtonFrame, items, incButton_pos=(0, 0, -0.135), incButton_scale=(0.75, 1.0, -1.0), decButton_pos=(0, 0, 0.135), decButton_scale=(0.75, 1.0, 1.0), command=self.photoSpecialChanged)
+        return
 
     def photoSpecialChanged(self):
         if not hasattr(self, 'specialButton'):
@@ -313,13 +318,14 @@ class PlantingGUI(DirectFrame):
         if active:
             tempItem = BoxItem(self.attachNewNode('emptyBean'))
             items.append(tempItem)
-            for curBean in range(len(GardenGlobals.BeanColors)):
+            for curBean in xrange(len(GardenGlobals.BeanColors)):
                 tempItem = BoxItem(self.attachNewNode('bean-%d-%d' % (index, curBean)))
                 loadJellyBean(tempItem, curBean)
                 items.append(tempItem)
 
         box = GenericBoxScrollList(boxFrame, items, incButton_pos=(0, 0, -0.07), incButton_scale=(0.4, 1.0, -1.0), decButton_pos=(0, 0, 0.065), decButton_scale=(0.4, 1.0, 1.0))
         self.boxList.append(box)
+        return
 
     def spiffyBeanBoxClicked(self, index):
         if self.jellyBeanPicker:
@@ -356,7 +362,7 @@ class PlantingGUI(DirectFrame):
 
         if FORCE_LEFT_TO_RIGHT:
             boxIndexToEnable = len(self.getRecipeStr())
-            for i in range(0, boxIndexToEnable):
+            for i in xrange(0, boxIndexToEnable):
                 box = self.boxList[i]
                 if ONLY_ONE_SPIFFY_BOX_CAN_BE_CLICKED:
                     box['state'] = DGG.DISABLED
@@ -369,7 +375,7 @@ class PlantingGUI(DirectFrame):
                     box['state'] = DGG.DISABLED
                     box.setState()
                     box.setColorScale(0.5, 0.5, 0.5, 1)
-            for i in range(boxIndexToEnable + 1, len(self.boxList)):
+            for i in xrange(boxIndexToEnable + 1, len(self.boxList)):
                 box = self.boxList[i]
                 box['state'] = DGG.DISABLED
                 box.setState()
@@ -389,6 +395,7 @@ class PlantingGUI(DirectFrame):
             numBoxesFilled = len(self.getRecipeStr())
             if numBoxesFilled < self.availableBoxes:
                 self.spiffyBeanBoxClicked(numBoxesFilled)
+        return
 
     def createSpiffyBeanBox(self, index, xPos, zPos, active):
         geomColor = (1, 1, 1, 1)
@@ -400,3 +407,4 @@ class PlantingGUI(DirectFrame):
             state = DGG.DISABLED
         newBox = SpiffyBeanBox(index=index, parent=self, pos=(xPos, 0, zPos), geom=DGG.getDefaultDialogGeom(), geom_scale=(0.1, 1.0, 0.1), geom_color=geomColor, relief=None, state=state, command=command, extraArgs=[index])
         self.boxList.append(newBox)
+        return

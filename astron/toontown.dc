@@ -975,7 +975,7 @@ dclass DistributedToon : DistributedPlayer {
   setGlasses(uint8 idx = 0, uint8 textureIdx = 0, uint8 colorIdx = 0) required broadcast db ownrecv;
   setBackpack(uint8 idx = 0, uint8 textureIdx = 0, uint8 colorIdx = 0) required broadcast db ownrecv;
   setShoes(uint8 idx = 0, uint8 textureIdx = 0, uint8 colorIdx = 0) required broadcast db ownrecv;
-  setGardenSpecials(gardenSpecial specials[] = []) required ownrecv db airecv;
+  setGardenSpecials(gardenSpecial [] = []) required ownrecv db airecv;
   setEarnedExperience(uint16 earnedExp[]) ownrecv;
   setTunnelIn(int16 timestamp, int16/10 endX, int16/10 x, int16/10 y, int16/100 z, int32/100 h) ownsend broadcast;
   setTunnelOut(int16 timestamp, int16/10 startX, int16/10 startY, int16/10 x, int16/10 y, int16/100 z, int32/100 h) ownsend broadcast;
@@ -1040,7 +1040,7 @@ dclass DistributedToon : DistributedPlayer {
   setFlowerCollection(uint8 speciesList[] = [], uint8 varietyList[] = []) required ownrecv db;
   setFlowerBasket(uint8 speciesList[] = [], uint8 varietyList[] = []) required ownrecv db;
   setMaxFlowerBasket(uint8 maxFlowerBasket = 20) required ownrecv db;
-  setGardenTrophies(uint8 trophyList[] = []) required ownrecv db;
+  setGardenTrophies(uint8[] = []) required ownrecv db;
   setShovel(uint8 shovelId = 0) required broadcast ownrecv db;
   setShovelSkill(uint32 skillLevel = 0) required ownrecv db;
   setWateringCan(uint8 wateringCanId = 0) required broadcast ownrecv db;
@@ -1091,7 +1091,7 @@ dclass DistributedToon : DistributedPlayer {
   cogSummonsResponse(string returnCode, uint32 suitIndex, uint32 doId) ownrecv;
   reqUseSpecial(int32 special) ownsend airecv;
   useSpecialResponse(string returnCode) ownrecv;
-  setGardenStarted(uint8 bStarted = 0) required ownrecv db;
+  setGardenStarted(uint8 = 0) required ownrecv db;
   sendToGolfCourse(uint32 zoneId) ownrecv;
   setGolfHistory(uint16 history[18] = [0*18]) required ownrecv db;
   setPackedGolfHoleBest(uint8 packedHoleBest[18] = [0*18]) required ownrecv db;

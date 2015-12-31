@@ -1,4 +1,3 @@
-#Embedded file name: toontown.estate.DistributedAnimatedStatuary
 from pandac.PandaModules import NodePath
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals

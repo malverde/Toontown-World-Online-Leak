@@ -1,6 +1,5 @@
-#Embedded file name: toontown.estate.FlowerPhoto
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from toontown.fishing import FishGlobals
 import GardenGlobals
@@ -16,6 +15,7 @@ class DirectRegion(NodePath):
     def destroy(self):
         self.unload()
         self.parent = None
+        return
 
     def setBounds(self, *bounds):
         self.bounds = bounds
@@ -85,6 +85,7 @@ class FlowerPhoto(NodePath):
         self.soundTrack = None
         self.track = None
         self.flowerFrame = None
+        return
 
     def destroy(self):
         self.hide()
@@ -94,6 +95,7 @@ class FlowerPhoto(NodePath):
         del self.soundTrack
         del self.track
         self.parent = None
+        return
 
     def update(self, species, variety):
         self.species = species
@@ -124,7 +126,7 @@ class FlowerPhoto(NodePath):
         center = (bMin + bMax) / 2.0
         actor.setPos(-center[0], -center[1], -center[2])
         attrib = GardenGlobals.PlantAttributes[self.species]
-        if attrib.has_key('photoPos'):
+        if 'photoPos' in attrib:
             self.notify.debug('oldPos = %s' % actor.getPos())
             photoPos = attrib['photoPos']
             self.notify.debug('newPos = %s' % str(photoPos))
@@ -194,6 +196,7 @@ class FlowerPhoto(NodePath):
         if self.track:
             self.track.pause()
             self.track = None
+        return
 
     def changeVariety(self, variety):
         self.variety = variety

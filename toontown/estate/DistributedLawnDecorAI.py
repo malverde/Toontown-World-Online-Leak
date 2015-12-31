@@ -9,10 +9,10 @@ class DistributedLawnDecorAI(DistributedNodeAI):
         DistributedNodeAI.__init__(self, self.mgr.air)
         self.plot = 0
         self.ownerIndex = 0
-
+          
     def setPlot(self, plot):
         self.plot = plot
-
+          
     def getPlot(self):
         return self.plot
 
@@ -26,14 +26,14 @@ class DistributedLawnDecorAI(DistributedNodeAI):
         self.ownerIndex = ownerIndex
         self.ownerDoId = self.mgr.gardenMgr.mgr.toons[ownerIndex]
         self.owner = self.air.doId2do.get(self.ownerDoId)
-
+        
     def getOwnerIndex(self):
         return self.ownerIndex
 
     def d_setMovie(self, mode, avId=None):
         if avId is None:
             avId = self.air.getAvatarIdFromSender()
-
+            
         self.sendUpdate('setMovie', [mode, avId])
 
     def d_interactionDenied(self):

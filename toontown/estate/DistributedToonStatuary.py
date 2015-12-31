@@ -1,4 +1,3 @@
-#Embedded file name: toontown.estate.DistributedToonStatuary
 from toontown.estate import DistributedStatuary
 from toontown.estate import DistributedLawnDecor
 from direct.directnotify import DirectNotifyGlobal
@@ -40,6 +39,7 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
         self.notify.debug('constructing DistributedToonStatuary')
         DistributedStatuary.DistributedStatuary.__init__(self, cr)
         self.toon = None
+        return
 
     def loadModel(self):
         DistributedStatuary.DistributedStatuary.loadModel(self)
@@ -75,6 +75,7 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
         self.notify.debug('entering deleteToon')
         self.toon.delete()
         self.toon = None
+        return
 
     def copyLocalAvatarToon(self):
         self.toon = Toon.Toon()
@@ -111,7 +112,7 @@ class DistributedToonStatuary(DistributedStatuary.DistributedStatuary):
                 if sleeves:
                     sleeves.setTexture(desatSleeveTex, 1)
                 bottoms = torso.findAllMatches('**/torso-bot*')
-                for bottomNum in range(0, bottoms.getNumPaths()):
+                for bottomNum in xrange(0, bottoms.getNumPaths()):
                     bottom = bottoms.getPath(bottomNum)
                     if bottom:
                         if self.toon.style.torso[1] == 's':

@@ -40,6 +40,7 @@ class ToontownInternalRepository(AstronInternalRepository):
         self.netMessenger.register(2, 'avatarOnline')
         self.netMessenger.register(3, 'avatarOffline')
         self.netMessenger.register(4, 'enableLogins')
+        self.dbGlobalCursor = None
 
     def __resetWatchdog(self, task):
         signal.alarm(ai_watchdog.getValue())

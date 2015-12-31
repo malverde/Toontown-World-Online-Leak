@@ -20,8 +20,8 @@ class MagicWordManager(DistributedObject.DistributedObject):
     def handleMagicWord(self, magicWord):
         if not self.cr.wantMagicWords:
             return
-        if not base.localAvatar.isAdmin():
-            return
+        # if not base.localAvatar.isAdmin():
+        #     return
 
         if magicWord.startswith('~~'):
             if lastClickedNametag == None:

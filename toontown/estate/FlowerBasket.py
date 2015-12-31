@@ -1,4 +1,3 @@
-#Embedded file name: toontown.estate.FlowerBasket
 import GardenGlobals
 from direct.directnotify import DirectNotifyGlobal
 import FlowerBase
@@ -51,7 +50,7 @@ class FlowerBasket:
         import random
         numFish = random.randint(1, 20)
         self.flowerList = []
-        for i in range(numFish):
+        for i in xrange(numFish):
             species, variety = GardenGlobals.getRandomFlower()
             self.addFlower(species, variety)
 

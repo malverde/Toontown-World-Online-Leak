@@ -6,3 +6,4 @@ class DistributedToonStatuaryAI(DistributedStatuaryAI):
 
     def setOptional(self, todo0):
         pass
+

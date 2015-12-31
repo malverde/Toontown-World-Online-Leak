@@ -3,22 +3,16 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.toonbase import ToontownGlobals
 import HouseGlobals
-import GardenGlobals
 import time, random
-from toontown.fishing.DistributedFishingPondAI import DistributedFishingPondAI
-from toontown.fishing.DistributedFishingTargetAI import DistributedFishingTargetAI
-from toontown.fishing.DistributedPondBingoManagerAI import DistributedPondBingoManagerAI
-from toontown.fishing import FishingTargetGlobals
-from toontown.safezone.DistributedFishingSpotAI import DistributedFishingSpotAI
-from toontown.safezone.SZTreasurePlannerAI import SZTreasurePlannerAI
-from toontown.safezone import TreasureGlobals
-from toontown.safezone import DistributedTreasureAI
-from toontown.estate.DistributedGardenBoxAI import DistributedGardenBoxAI
-from toontown.estate.DistributedGardenPlotAI import DistributedGardenPlotAI
-from DistributedCannonAI import *
-from DistributedTargetAI import *
-import CannonGlobals
 
+from toontown.fishing.DistributedFishingPondAI import DistributedFishingPondAI
+from toontown.fishing import FishingTargetGlobals
+from toontown.fishing.DistributedPondBingoManagerAI import DistributedPondBingoManagerAI
+from toontown.fishing.DistributedFishingTargetAI import DistributedFishingTargetAI
+from toontown.safezone import TreasureGlobals
+from toontown.safezone.SZTreasurePlannerAI import SZTreasurePlannerAI
+
+from toontown.safezone.DistributedFishingSpotAI import DistributedFishingSpotAI
 
 from DistributedGardenBoxAI import *
 from DistributedGardenPlotAI import *
@@ -29,6 +23,10 @@ from DistributedToonStatuaryAI import *
 from DistributedAnimatedStatuaryAI import *
 from DistributedChangingStatuaryAI import *
 import GardenGlobals
+
+from DistributedCannonAI import *
+from DistributedTargetAI import *
+import CannonGlobals
 
 
 # planted, waterLevel, lastCheck, growthLevel, optional
@@ -55,6 +53,11 @@ class Garden:
         self.trees = set()
         self.flowers = set()
         self.objects = set()
+
+        self.data = NULL_DATA.copy()
+        self.data.pop('_id', None)
+
+    def destroy(self):
         messenger.send('garden-%d-666-going-down' % self.avId)
 
         for tree in self.trees:
@@ -345,7 +348,7 @@ class Garden:
 
         bonus = [-1] * 7
         for track in xrange(7):
-            for level in xrange(8):#7
+            for level in xrange(8):  # 7
                 if not self.hasTree(track, level):
                     break
 
@@ -358,8 +361,8 @@ class Garden:
         av.b_setTrackBonusLevel(bonus)
 
     def update(self):
-        if self.air.dbConn:
-            self.air.dbGlobalCursor.gardens.update({'avId': self.avId}, {'$set': self.data}, upsert=True)
+
+        self.air.dbGlobalCursor.gardens.update({'avId': self.avId}, {'$set': self.data}, upsert=True)
 
 class GardenManager:
     def __init__(self, mgr):
@@ -378,20 +381,6 @@ class GardenManager:
             garden.destroy()
 
         del self.gardens
-
-class Rental:
-    def __init__(self, estate):
-        self.estate = estate
-        self.objects = set()
-
-    def destroy(self):
-        del self.estate
-        for object in self.objects:
-            if not object.isDeleted():
-                object.requestDelete()
-                taskMgr.remove(object.uniqueName('delete'))
-        self.objects = set()
-
 
 
 class Rental:
@@ -476,17 +465,17 @@ class DistributedEstateAI(DistributedObjectAI):
     def __init__(self, air):
         DistributedObjectAI.__init__(self, air)
         self.toons = [0,
-         0,
-         0,
-         0,
-         0,
-         0]
+                      0,
+                      0,
+                      0,
+                      0,
+                      0]
         self.items = [[],
-         [],
-         [],
-         [],
-         [],
-         []]
+                      [],
+                      [],
+                      [],
+                      [],
+                      []]
         self.decorData = []
         self.estateType = 0
         self.cloudType = 0
@@ -569,6 +558,7 @@ class DistributedEstateAI(DistributedObjectAI):
             for target in self.targets:
                 target.requestDelete()
 
+        self.gardenManager.destroy()
         if self.treasurePlanner:
             self.treasurePlanner.stop()
         self.requestDelete()

@@ -6,3 +6,4 @@ class DistributedGardenAI(DistributedObjectAI):
 
     def sendNewProp(self, todo0, todo1, todo2, todo3):
         pass
+

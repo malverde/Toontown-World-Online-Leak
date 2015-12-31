@@ -1,8 +1,7 @@
-#Embedded file name: toontown.estate.FlowerPicker
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 import FlowerPanel
 
@@ -35,7 +34,10 @@ class FlowerPicker(DirectScrolledList):
          ('itemFrame_pos', (-0.025, 0, 0), None),
          ('itemFrame_scale', 0.54, None),
          ('itemFrame_relief', None, None),
-         ('itemFrame_frameSize', (-0.05, 0.75, -0.75, 0.05), None),
+         ('itemFrame_frameSize', (-0.05,
+           0.75,
+           -0.75,
+           0.05), None),
          ('numItemsVisible', 10, None),
          ('items', [], None))
         self.defineoptions(kw, optiondefs)
@@ -57,12 +59,14 @@ class FlowerPicker(DirectScrolledList):
         self.flowerPanel.setSwimBounds(-0.3, 0.3, -0.235, 0.25)
         self.flowerPanel.setSwimColor(1.0, 1.0, 0.74901, 1.0)
         gui.removeNode()
+        return None
 
     def destroy(self):
         DirectScrolledList.destroy(self)
         self.parent = None
         self.flowerList = []
         self.flowerPanel = None
+        return
 
     def hideFlowerPanel(self):
         self.flowerPanel.hide()
