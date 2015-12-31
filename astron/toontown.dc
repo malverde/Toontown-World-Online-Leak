@@ -1036,7 +1036,7 @@ dclass DistributedToon : DistributedPlayer {
   setMaxFishTank(uint8 = 20) required ownrecv db;
   setFishTank(uint8[] = [], uint8[] = [], uint16[] = []) required ownrecv db;
   setFishingRod(uint8 = 0) required broadcast ownrecv db;
-  setFishingTrophies(uint8[] = []) required ownrecv db; 
+  setFishingTrophies(uint8[] = []) required ownrecv db;
   setFlowerCollection(uint8 speciesList[] = [], uint8 varietyList[] = []) required ownrecv db;
   setFlowerBasket(uint8 speciesList[] = [], uint8 varietyList[] = []) required ownrecv db;
   setMaxFlowerBasket(uint8 maxFlowerBasket = 20) required ownrecv db;
@@ -1268,12 +1268,12 @@ dclass DistributedFlippyStand : DistributedObject {
   wheelbarrowAvatarEnter() clsend airecv;
 };
 
-dclass DistributedHotAirBalloon : DistributedObject {		
-  setState(string state, int32 timestamp, uint32 avId) required broadcast ram;		
-  requestEnter() clsend airecv;		
-  setFlightPath(uint8 flightPathIndex) required broadcast ram;		
-};		
-		
+dclass DistributedHotAirBalloon : DistributedObject {
+  setState(string state, int32 timestamp, uint32 avId) required broadcast ram;
+  requestEnter() clsend airecv;
+  setFlightPath(uint8 flightPathIndex) required broadcast ram;
+};
+
 
 dclass DistributedToonfestBalloon : DistributedObject {
   setState(string state, int32 timestamp, uint32 avId) required broadcast ram;
@@ -3188,7 +3188,7 @@ dclass DistributedGardenPlot : DistributedLawnDecor {
 };
 
 dclass DistributedGardenBox : DistributedLawnDecor {
-  setTypeIndex(uint8 typeIndex) required broadcast ram;
+  setTypeIndex(uint8) required broadcast ram;
 };
 
 dclass DistributedStatuary : DistributedLawnDecor {
@@ -3198,31 +3198,31 @@ dclass DistributedStatuary : DistributedLawnDecor {
 };
 
 dclass DistributedToonStatuary : DistributedStatuary {
-  setOptional(uint16 optional) required broadcast ram;
+  setOptional(uint16) required broadcast ram;
 };
 
 dclass DistributedAnimatedStatuary : DistributedStatuary {
 };
 
 dclass DistributedChangingStatuary : DistributedStatuary {
-  setGrowthLevel(int8 growthLevel) required broadcast ram;
+  setGrowthLevel(int8) required broadcast ram;
 };
 
 dclass DistributedPlantBase : DistributedLawnDecor {
-  setTypeIndex(uint8 typeIndex) required broadcast ram;
-  setWaterLevel(int8 waterLevel) required broadcast ram;
-  setGrowthLevel(int8 growthLevel) required broadcast ram;
+  setTypeIndex(uint8) required broadcast ram;
+  setWaterLevel(int8) required broadcast ram;
+  setGrowthLevel(int8) required broadcast ram;
   waterPlant() airecv clsend;
   waterPlantDone() airecv clsend;
 };
 
 dclass DistributedFlower : DistributedPlantBase {
-  setTypeIndex(uint8 typeIndex) required broadcast ram;
-  setVariety(uint8 variety) required broadcast ram;
+  setTypeIndex(uint8) required broadcast ram;
+  setVariety(uint8) required broadcast ram;
 };
 
 dclass DistributedGagTree : DistributedPlantBase {
-  setWilted(int8 wilted) required broadcast ram;
+  setWilted(int8) required broadcast ram;
   setFruiting(bool) required broadcast ram;
   requestHarvest() airecv clsend;
 };
