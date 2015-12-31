@@ -61,7 +61,7 @@ class NewsManager(DistributedObject.DistributedObject):
 			base.localAvatar.chatMgr.chatInputSpeedChat.addSellbotFieldOfficeMenu()
 			day = str(datetime.datetime.now().strftime("%d"))
 			if str(datetime.datetime.now().strftime("%m")) == "12":
-				if day == "14" or day == "15" or day == "16" or day == "17" or day == "18" or day == "19" or day == "20" or day == "21" or day == "22" or day == "23" or day == "24" or day == "25" or day == "26" or day == "27" or "28" or day == "29" or day == "30":
+				if day == "14" or day == "15" or day == "16" or day == "17" or day == "18" or day == "19" or day == "20" or day == "21" or day == "22" or day == "23" or day == "24" or day == "25" or day == "26" or day == "27" or "28" or day == "29" or day == "30" or day == "31":
 					self.startChristmas()
 					print "starting christmas"
 			if str(datetime.datetime.now().strftime("%m")) == "1":
