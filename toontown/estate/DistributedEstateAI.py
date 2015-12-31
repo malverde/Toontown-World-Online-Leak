@@ -361,8 +361,8 @@ class Garden:
         av.b_setTrackBonusLevel(bonus)
 
     def update(self):
-
-        self.air.dbGlobalCursor.gardens.update({'avId': self.avId}, {'$set': self.data}, upsert=True)
+        pass
+        # self.air.dbGlobalCursor.gardens.update({'avId': self.avId}, {'$set': self.data}, upsert=True)
 
 class GardenManager:
     def __init__(self, mgr):
