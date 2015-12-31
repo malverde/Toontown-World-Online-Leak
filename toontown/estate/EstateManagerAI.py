@@ -95,8 +95,6 @@ class LoadHouseFSM(FSM):
 
     def __gotHouse(self, house):
         self.house = house
-        house.initializeInterior()
-
         self.estate.houses[self.houseIndex] = self.house
 
         self.demand('Off')
@@ -468,21 +466,16 @@ class EstateManagerAI(DistributedObjectAI):
         self.estate2toons.setdefault(estate, []).append(toon)
         self.toon2estate[toon] = estate
 
-        if hasattr(toon, 'enterEstate'):
-            toon.enterEstate(estate.owner.doId, estate.zoneId)
-
     def _unmapFromEstate(self, toon):
         estate = self.toon2estate.get(toon)
-        if not estate: return
+        if not estate:
+            return
         del self.toon2estate[toon]
 
         try:
             self.estate2toons[estate].remove(toon)
         except (KeyError, ValueError):
             pass
-        
-        if hasattr(toon, 'exitEstate'):
-            toon.exitEstate()
 
     def _lookupEstate(self, toon):
         return self.toon2estate.get(toon)

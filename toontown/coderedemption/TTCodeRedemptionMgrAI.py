@@ -12,6 +12,9 @@ from toontown.catalog.CatalogAccessoryItem import CatalogAccessoryItem
 from toontown.catalog.CatalogRentalItem import CatalogRentalItem
 from toontown.catalog.CatalogFurnitureItem import CatalogFurnitureItem
 from toontown.catalog.CatalogInvalidItem import CatalogInvalidItem
+from toontown.catalog import CatalogGardenItem
+from toontown.catalog import CatalogGardenStarterItem
+from toontown.catalog.CatalogGardenStarterItem import CatalogGardenStarterItem
 import time
 
 class TTCodeRedemptionMgrAI(DistributedObjectAI):
@@ -168,6 +171,11 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             shirt = CatalogClothingItem(1403, 0)
             shorts = CatalogClothingItem(1404, 0)
             return [shirt, shorts] # TODO: Give the correct alpha reward
+        if code == 'garden': # TODO: Get Catalog to make this item purchasable
+            items = CatalogGardenStarterItem()
+            return [items]
+        # if code == 'garden2':
+        #     object = CatalogToonStatueItem(105)
         # Sue me - Sir Kippy
         if code == 'beta':
             return CatalogClothingItem(118, 0) # TODO: Give it the correct item

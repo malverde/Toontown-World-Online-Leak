@@ -52,27 +52,9 @@ class Garden:
     def __init__(self, air, avId):
         self.air = air
         self.avId = avId
-
         self.trees = set()
         self.flowers = set()
         self.objects = set()
-
-        if not self.air.dbConn:
-            self.notify.warning('Not using mongodb, garden data will be non-persistent')
-            self.data = NULL_DATA.copy()
-
-        else:
-            d = self.air.dbGlobalCursor.gardens.find_one({'avId': avId})
-            if d is None:
-                self.data = NULL_DATA.copy()
-                self.air.dbGlobalCursor.gardens.update({'avId': avId}, {'$set': NULL_DATA}, upsert=True)
-
-            else:
-                self.data = d
-
-        self.data.pop('_id', None)
-
-    def destroy(self):
         messenger.send('garden-%d-666-going-down' % self.avId)
 
         for tree in self.trees:
