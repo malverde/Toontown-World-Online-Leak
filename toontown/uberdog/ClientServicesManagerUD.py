@@ -13,6 +13,7 @@ import time
 import hmac
 import hashlib
 import json
+import httplib
 from ClientServicesManager import FIXED_KEY
 
 def judgeName(name):
