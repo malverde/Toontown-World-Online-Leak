@@ -972,3 +972,4 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         #This connects to TTW.com and adds the entry in a DB table Reporter ID Reportee ID and the category of why they were reported
         connection = httplib.HTTPConnection("www.toontownworldonline.com")
         connection.request("GET", "/api/login/report.php?reporterId="+ reporterId + "&avId=" + avId + "&category=" + REPORT_REASONS[category])
+        self.air.writeServerEvent("player-reported", reporterId=reporterId, avId=avId, category=REPORT_REASONS[category])
