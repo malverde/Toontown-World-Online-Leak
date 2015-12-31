@@ -909,7 +909,11 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
             # Oops, they have an account ID on their connection already!
             self.killConnection(sender, 'Client is already logged in.')
             return
-
+        # Test Server Secret
+        serversecret = config.GetString('csmud-secret', 'streetlamps')
+        if secret != serversecret:
+            self.killConnection(sender, 'The accounts database rejcts you secret key')
+            return
         # Test the signature
         key = config.GetString('csmud-secret', 'streetlamps') + config.GetString('server-version', 'no_version_set') + FIXED_KEY
         computedSig = hmac.new(key, cookie, hashlib.sha256).digest()
