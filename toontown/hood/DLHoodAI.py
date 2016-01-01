@@ -20,7 +20,7 @@ class DLHoodAI(SZHoodAI):
             self.WinterCarolingTargetManager = DistributedWinterCarolingTargetAI.DistributedWinterCarolingTargetAI(self.air)
             self.WinterCarolingTargetManager.generateWithRequired(9720)
             
-        elif str(datetime.datetime.now().strftime("%m")) == "1" and day == "2" or day == "3" or day == "4":
+        elif str(datetime.datetime.now().strftime("%m")) == "01" and day == "02" or day == "03" or day == "04":
             self.WinterCarolingTargetManager = DistributedWinterCarolingTargetAI.DistributedWinterCarolingTargetAI(self.air)
             self.WinterCarolingTargetManager.generateWithRequired(9720)
             
@@ -28,6 +28,6 @@ class DLHoodAI(SZHoodAI):
             self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)
             self.TrickOrTreatTargetManager.generateWithRequired(9619)
             
-        elif str(datetime.datetime.now().strftime("%m")) == "11" and day ==  "1":
+        elif str(datetime.datetime.now().strftime("%m")) == "11" and day ==  "01":
             self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)
             self.TrickOrTreatTargetManager.generateWithRequired(9619)
