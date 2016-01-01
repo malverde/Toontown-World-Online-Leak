@@ -421,6 +421,7 @@ def __throwPie(throw, delay, hitCount):
         suitResponseTrack.append(Wait(delay + tPieHitsSuit))
         suitResponseTrack.append(showDamage)
         suitResponseTrack.append(updateHealthBar)
+        notify.warning('Current HP:' + str(hp))
         suitResponseTrack.append(sival)
         bonusTrack = Sequence(Wait(delay + tPieHitsSuit))
         if kbbonus > 0:
@@ -429,12 +430,14 @@ def __throwPie(throw, delay, hitCount):
                 Func(
                     suit.showHpText, -kbbonus, 2, openEnded=0,
                     attackTrack=THROW_TRACK))
+            bonusTrack.append(Func(suit.updateHealthBar, kbbonus))
         if hpbonus > 0:
             bonusTrack.append(Wait(0.75))
             bonusTrack.append(
                 Func(
                     suit.showHpText, -hpbonus, 1, openEnded=0,
                     attackTrack=THROW_TRACK))
+            bonusTrack.append(Func(suit.updateHealthBar, kbbonus))
         if revived != 0:
             suitResponseTrack.append(
                 MovieUtil.createSuitReviveTrack(
@@ -693,12 +696,14 @@ def __throwGroupPie(throw, delay, groupHitDict):
                     Func(
                         suit.showHpText, -kbbonus, 2, openEnded=0,
                         attackTrack=THROW_TRACK))
+                bonusTrack.append(Func(suit.updateHealthBar, kbbonus))
             if hpbonus > 0:
                 bonusTrack.append(Wait(0.75))
                 bonusTrack.append(
                     Func(
                         suit.showHpText, -hpbonus, 1, openEnded=0,
                         attackTrack=THROW_TRACK))
+                bonusTrack.append(Func(suit.updateHealthBar, kbbonus))
             if revived != 0:
                 singleSuitResponseTrack.append(
                     MovieUtil.createSuitReviveTrack(

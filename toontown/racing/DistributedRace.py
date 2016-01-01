@@ -1352,6 +1352,7 @@ class DistributedRace(DistributedObject.DistributedObject):
 
     def setRaceZone(self, zoneId, trackId):
         hoodId = self.cr.playGame.hood.hoodId
+        # TODO: Comment this out (basse.load and kart cleanup)
         base.loader.endBulkLoad('atRace')
         self.kartCleanup()
         self.doneBarrier('waitingForExit')

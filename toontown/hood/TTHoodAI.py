@@ -4,6 +4,8 @@ from toontown.safezone import ButterflyGlobals
 from toontown.safezone.DistributedButterflyAI import DistributedButterflyAI
 from toontown.toon import NPCToons
 #from toontown.election.DistributedElectionEventAI import DistributedElectionEventAI
+from toontown.ai import DistributedTrickOrTreatTargetAI
+from toontown.ai import DistributedWinterCarolingTargetAI
 from direct.task import Task
 import time
 
@@ -19,6 +21,16 @@ class TTHoodAI(SZHoodAI):
 
         if self.air.config.GetBool('want-doomsday', False):
             self.spawnElection()
+
+        if simbase.air.wantHalloween:
+            self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)
+            self.TrickOrTreatTargetManager.generateWithRequired(4835)
+
+        if simbase.air.wantChristmas:
+            self.WinterCarolingTargetManager = DistributedWinterCarolingTargetAI.DistributedWinterCarolingTargetAI(
+                self.air)
+            self.WinterCarolingTargetManager.generateWithRequired(2659)
+
 
     def spawnElection(self):
         election = self.air.doFind('ElectionEvent')

@@ -2568,7 +2568,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         delivered, remaining = self.onOrder.extractDeliveryItems(now)
         self.notify.info('Delivery for %s: %s.' % (self.doId, delivered))
         self.b_setMailboxContents(self.mailboxContents + delivered)
-        self.b_setDeliverySchedule(remaining)
+        self.b_setDeliverySchedule(None, remaining) #TODO: Does this for sure fix crash when AI crashes?
         self.b_setCatalogNotify(self.catalogNotify, ToontownGlobals.NewItems)
         return Task.done
 
@@ -3531,6 +3531,24 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
          self.zoneId))
         return ['success', suitIndex, building.doId]
 
+    def doToonBuildingTakeover(self):
+        streetId = ZoneUtil.getBranchZone(self.zoneId)
+        if streetId not in self.air.suitPlanners:
+            self.notify.warning('Street %d is not known.' % streetId)
+            return ['badlocation', 'notknownstreet', 0]
+        sp = self.air.suitPlanners[streetId]
+        bm = sp.buildingMgr
+        building = self.findClosestSuitDoor()
+        if building == None:
+            return ['badlocation', 'nobuilding', 0]
+        if building.isToonBlock():
+            return ['badlocation', 'toonblock', 0]
+        building.toonTakeOver()
+        self.notify.warning('toonTakeOverFromStreet %s %d' % (building.block,
+                                                              self.zoneId))
+
+        return ['success', building.doId]
+
     def doCogdoTakeOver(difficulty, buildingHeight, track):
         streetId = ZoneUtil.getBranchZone(self.zoneId)
         if streetId not in self.air.suitPlanners:
@@ -3675,6 +3693,31 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 if not NPCToons.isZoneProtected(intZoneId):
                     if hasattr(building, 'door'):
                         if building.door.zoneId == zone:
+                            return building
+
+        return None
+
+    def findClosestSuitDoor(self):
+        zoneId = self.zoneId
+        streetId = ZoneUtil.getBranchZone(zoneId)
+        sp = self.air.suitPlanners[streetId]
+        if not sp:
+            return None
+        bm = sp.buildingMgr
+        if not bm:
+            return None
+        zones = [zoneId,
+                 zoneId - 1,
+                 zoneId + 1,
+                 zoneId - 2,
+                 zoneId + 2]
+        for zone in zones:
+            for i in bm.getSuitBlocks():
+                building = bm.getBuilding(i)
+                extZoneId, intZoneId = building.getExteriorAndInteriorZoneId()
+                if not NPCToons.isZoneProtected(intZoneId):
+                    if hasattr(building, 'elevator'):
+                        if building.elevator.zoneId == zone:
                             return building
 
         return None
@@ -4728,6 +4771,31 @@ def setMaxHp(hpVal):
         return 'Laff must be between 15 and 156!'
     spellbook.getTarget().b_setMaxHp(hpVal)
     spellbook.getTarget().toonUp(hpVal)
+
+# @magicWord(category=CATEGORY_SYSADMIN, types=[str])
+# def textColor(color):
+#     """
+#     Modify the target's text color.
+#     """
+#     spellbook.getTarget().b_setTextColor(color)
+#     return 'Set your color to: %s' % color
+
+# @magicWord(category=CATEGORY_SYSADMIN, types=[str])
+# def remCode(code):
+#     av = spellbook.getTarget()
+#     if av.isCodeRedeemed(code):
+#         av.removeCode(code)
+#         return 'Player can now reuse the code %s' % code
+#     else:
+#         return "Player hasn't redeemed this code!"
+
+@magicWord(category=CATEGORY_SYSADMIN, types=[int])
+def squish(laff):
+    """
+    Squish a toon.
+    """
+    target = spellbook.getTarget()
+    target.squish(laff)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int, int, int, int, int])
 def setTrackAccess(toonup, trap, lure, sound, throw, squirt, drop):
@@ -6222,7 +6290,7 @@ def resistanceRanger():
     target.b_setNametagStyle(6)
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[str, str])
-def suit(command, suitName):
+def suit(command, suitName = 'f'):
     invoker = spellbook.getInvoker()
     command = command.lower()
     if suitName not in SuitDNA.suitHeadTypes:
@@ -6238,6 +6306,11 @@ def suit(command, suitName):
         if returnCode[0] == 'success':
             return 'Successfully spawned a Cog building with: ' + suitFullName
         return "Couldn't spawn a Cog building with: " + suitFullName
+    elif command == 'nobuilding':
+        returnCode = invoker.doToonBuildingTakeover()
+        if returnCode[0] == 'success':
+            return 'Toons took over BLDG'
+        return "Couldn't because " + returnCode[1]
     else:
         return 'Invalid command.'
 
