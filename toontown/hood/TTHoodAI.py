@@ -8,8 +8,6 @@ from toontown.ai import DistributedTrickOrTreatTargetAI
 from toontown.ai import DistributedWinterCarolingTargetAI
 from direct.task import Task
 import time
-from toontown.ai import DistributedTrickOrTreatTargetAI
-from toontown.ai import DistributedWinterCarolingTargetAI
 import datetime
 
 
