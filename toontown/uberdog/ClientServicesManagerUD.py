@@ -15,6 +15,7 @@ import hashlib
 import json
 import httplib
 from ClientServicesManager import FIXED_KEY
+import urllib
 
 def judgeName(name):
     return True
