@@ -185,6 +185,7 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
     def __handlePhoneDone(self):
         self.sendUpdate('avatarExit', [])
         self.ignore(self.phoneGuiDoneEvent)
+        self.accept(self.phoneSphereEnterEvent, self.__handleEnterSphere)
         self.phoneGui = None
 
     def freeAvatar(self):
