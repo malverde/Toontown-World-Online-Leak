@@ -52,12 +52,12 @@ class HolidayManagerAI:
 			if day == "30" or day == "31":
 				showType = ToontownGlobals.NEWYEARS_FIREWORKS
 
-		elif str(datetime.datetime.now().strftime("%m")) == "6":
+		elif str(datetime.datetime.now().strftime("%m")) == "06":
 			if  day ==  "29" or day == "30":
 				showType = PartyGlobals.FireworkShows.Summer
 		
-		elif str(datetime.datetime.now().strftime("%m")) == "7":
-			if  day ==  "1" or day == "2" or day == "3" or day == "4" or day == "5" or day == "6" or  day =="7" or day == "8" or day == "9" or day == "10" or day == "11" or day == "12" or day == "14" or day == "15":
+		elif str(datetime.datetime.now().strftime("%m")) == "07":
+			if  day ==  "01" or day == "02" or day == "03" or day == "04" or day == "05" or day == "06" or  day =="07" or day == "08" or day == "09" or day == "10" or day == "11" or day == "12" or day == "14" or day == "15":
 				showType = PartyGlobals.FireworkShows.Summer
 		
 		elif showName == 'random':
