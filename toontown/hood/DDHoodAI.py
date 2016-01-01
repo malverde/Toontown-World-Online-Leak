@@ -19,9 +19,6 @@ class DDHoodAI(SZHoodAI):
         self.boat = DistributedBoatAI(self.air)
         self.boat.generateWithRequired(self.safezone)
 
-		if simbase.air.wantHalloween:
-            self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)
-            self.TrickOrTreatTargetManager.generateWithRequired(1834)
         
         day = str(datetime.datetime.now().strftime("%d"))
         

@@ -19,10 +19,10 @@ class TTHoodAI(SZHoodAI):
         self.spawnObjects()
         self.butterflies = []
         self.createButterflies()
-
+        day = str(datetime.datetime.now().strftime("%d"))
         if self.air.config.GetBool('want-doomsday', False):
             self.spawnElection()
-		day = str(datetime.datetime.now().strftime("%d"))
+
 		
         if str(datetime.datetime.now().strftime("%m")) == "12" and day == "14" or day == "15" or day == "16" or day == "17" or day == "18" or day == "19" or day == "20" or day == "21" or day == "22" or day == "23" or day == "24" or day == "25" or day == "26" or day == "27" or "28" or day == "29" or day == "30" or day == "31":
             self.WinterCarolingTargetManager = DistributedWinterCarolingTargetAI.DistributedWinterCarolingTargetAI(self.air)
@@ -39,15 +39,6 @@ class TTHoodAI(SZHoodAI):
         elif str(datetime.datetime.now().strftime("%m")) == "11" and day ==  "01":
             self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)
             self.TrickOrTreatTargetManager.generateWithRequired(2649)
-
-        if simbase.air.wantHalloween:
-            self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)
-            self.TrickOrTreatTargetManager.generateWithRequired(4835)
-
-        if simbase.air.wantChristmas:
-            self.WinterCarolingTargetManager = DistributedWinterCarolingTargetAI.DistributedWinterCarolingTargetAI(
-                self.air)
-            self.WinterCarolingTargetManager.generateWithRequired(2659)
 
 
     def spawnElection(self):

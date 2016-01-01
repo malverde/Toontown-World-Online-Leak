@@ -15,10 +15,6 @@ class DLHoodAI(SZHoodAI):
         self.resistanceEmoteManager = DistributedResistanceEmoteMgrAI.DistributedResistanceEmoteMgrAI(self.air)
         self.resistanceEmoteManager.generateWithRequired(9720)
 
-        if simbase.air.wantHalloween:
-        	self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)
-            self.TrickOrTreatTargetManager.generateWithRequired(9619)
-
         self.spawnObjects()
         
         day = str(datetime.datetime.now().strftime("%d"))

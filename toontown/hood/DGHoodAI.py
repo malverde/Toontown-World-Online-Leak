@@ -38,10 +38,6 @@ class DGHoodAI(SZHoodAI):
             self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)
             self.TrickOrTreatTargetManager.generateWithRequired(5620)
 
-        if simbase.air.wantHalloween:
-            self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)
-            self.TrickOrTreatTargetManager.generateWithRequired(5620)
-
     def createButterflies(self):
         playground = ButterflyGlobals.DG
         for area in range(ButterflyGlobals.NUM_BUTTERFLY_AREAS[playground]):
