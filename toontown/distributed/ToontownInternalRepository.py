@@ -82,13 +82,12 @@ class ToontownInternalRepository(AstronInternalRepository):
             return False
 
         return True
-        
+
     def readerPollOnce(self):
         try:
             return AstronInternalRepository.readerPollOnce(self)
         except SystemExit, KeyboardInterrupt:
-        raise
-        
+            raise
         except Exception as e:
             if self.getAvatarIdFromSender() > 100000000:
                 dg = PyDatagram()
@@ -96,8 +95,8 @@ class ToontownInternalRepository(AstronInternalRepository):
                 dg.addUint16(153)
                 dg.addString('You were disconnected to prevent a district reset.')
                 self.send(dg)
-            self.writeServerEvent('INTERNAL-EXCEPTION', self.getAvatarIdFromSender(), self.getAccountIdFromSender(), repr(e), traceback.format_exc())
-            self.notify.warning('INTERNAL-EXCEPTION: %s (%s)' % (repr(e), self.getAvatarIdFromSender()))
-            print traceback.format_exc()
-            sys.exc_clear()
-        return 1
+                self.writeServerEvent('INTERNAL-EXCEPTION', self.getAvatarIdFromSender(), self.getAccountIdFromSender(), repr(e), traceback.format_exc())
+                self.notify.warning('INTERNAL-EXCEPTION: %s (%s)' % (repr(e), self.getAvatarIdFromSender()))
+                print traceback.format_exc()
+                sys.exc_clear()
+                return 1
