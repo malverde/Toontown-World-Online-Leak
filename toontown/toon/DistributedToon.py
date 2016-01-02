@@ -181,8 +181,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.gmNameTagColor = 'whiteGM'
         self.gmNameTagString = ''
         self._lastZombieContext = None
-        self.promotionStatus = [0, 0, 0, 0]        
         self.lastSeen = 0
+        self.promotionStatus = [0, 0, 0, 0]
         self.buffs = []
         return
 

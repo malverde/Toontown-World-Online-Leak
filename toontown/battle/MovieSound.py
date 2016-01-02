@@ -152,7 +152,7 @@ def __getSuitTrack(
             if hpbonus > 0:
                 bonusTrack = Sequence(
                     Wait(delay + tSuitReact + delay + 0.75 + uberDelay),
-                    Func(suit.showHpText, -hpbonus, 1, openEnded=0))
+                    Func(suit.showHpText, -hpbonus, 1, openEnded=0), Func(suit.updateHealthBar, hpbonus))
             suitTrack.append(Func(suit.loop, 'neutral'))
             if bonusTrack is None:
                 tracks.append(suitTrack)

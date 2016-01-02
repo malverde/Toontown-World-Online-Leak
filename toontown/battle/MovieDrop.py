@@ -582,7 +582,7 @@ def __createSuitTrack(
         if hpbonus > 0:
             bonusTrack = Sequence(
                 Wait(delay + tObjectAppears + 0.75),
-                Func(suit.showHpText, -hpbonus, 1, openEnded=0))
+                Func(suit.showHpText, -hpbonus, 1, openEnded=0), Func(suit.updateHealthBar, hpbonus))
         if revived != 0:
             suitTrack.append(
                 MovieUtil.createSuitReviveTrack(
