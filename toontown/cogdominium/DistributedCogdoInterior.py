@@ -192,7 +192,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
         self.sendUpdate('setAvatarJoined', [])
 
     def disable(self):
-        #self.fsm.requestFinalState()
+        self.fsm.requestFinalState()
         self.__cleanupIntervals()
         self.ignoreAll()
         self.__cleanup()

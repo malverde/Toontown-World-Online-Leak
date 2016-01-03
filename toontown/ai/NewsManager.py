@@ -64,19 +64,19 @@ class NewsManager(DistributedObject.DistributedObject):
 				if day == "14" or day == "15" or day == "16" or day == "17" or day == "18" or day == "19" or day == "20" or day == "21" or day == "22" or day == "23" or day == "24" or day == "25" or day == "26" or day == "27" or "28" or day == "29" or day == "30" or day == "31":
 					self.startChristmas()
 					print "starting christmas"
-			if str(datetime.datetime.now().strftime("%m")) == "1":
-				if  day == "1" or day == "2" or day == "3" or day == "4":
+			if str(datetime.datetime.now().strftime("%m")) == "01":
+				if  day == "01" or day == "02" or day == "03" or day == "04":
 					self.startChristmas()
 			if str(datetime.datetime.now().strftime("%m")) == "10":
 				if day ==  "21" or day == "22" or day == "23" or day == "25" or day == "26" or day == "27" or day == "28" or day == "29" or day == "30" or day == "31":
 					self.startHalloween()
 			if str(datetime.datetime.now().strftime("%m")) == "11":
-				if  day == "1":
+				if  day == "01":
 					self.startHalloween()
-			if str(datetime.datetime.now().strftime("%m")) == "4":
-				if day == "1" or day == "2" or day == "3" or day == "4" or day == "5" or day == "6" or day == "7" or day == "9" or day == "10" or day == "11":
+			if str(datetime.datetime.now().strftime("%m")) == "04":
+				if day == "01" or day == "02" or day == "03" or day == "04" or day == "05" or day == "06" or day == "07" or day == "09" or day == "10" or day == "11":
 					self.startApril()
-			if str(datetime.datetime.now().strftime("%m")) == "3":
+			if str(datetime.datetime.now().strftime("%m")) == "03":
 				if day ==  "29" or day == "30" or day == "31":
 					self.startApril()
 		self.weeklyCalendarHolidays = []
