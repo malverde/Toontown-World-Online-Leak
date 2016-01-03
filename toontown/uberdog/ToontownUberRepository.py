@@ -4,6 +4,11 @@ from direct.distributed.PyDatagram import *
 from otp.distributed.DistributedDirectoryAI import DistributedDirectoryAI
 from otp.distributed.OtpDoGlobals import *
 
+# RPC
+if config.GetBool('want-rpc-server', False):
+    from toontown.rpc.ToontownRPCServer import ToontownRPCServer
+    from toontown.rpc.ToontownRPCHandler import ToontownRPCHandler
+
 class ToontownUberRepository(ToontownInternalRepository):
     def __init__(self, baseChannel, serverId):
         ToontownInternalRepository.__init__(self, baseChannel, serverId, dcSuffix='UD')
