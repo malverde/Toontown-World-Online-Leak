@@ -3209,21 +3209,21 @@ dclass DistributedChangingStatuary : DistributedStatuary {
 };
 
 dclass DistributedPlantBase : DistributedLawnDecor {
-  setTypeIndex(uint8) required broadcast ram db airecv;
-  setWaterLevel(int8) required broadcast ram db airecv;
-  setGrowthLevel(int8) required broadcast ram db airecv;
+  setTypeIndex(uint8) required broadcast db airecv;
+  setWaterLevel(int8) required broadcast db airecv;
+  setGrowthLevel(int8) required broadcast db airecv;
   waterPlant() airecv clsend;
   waterPlantDone() airecv clsend;
 };
 
 dclass DistributedFlower : DistributedPlantBase {
-  setTypeIndex(uint8) required broadcast ram db airecv;
-  setVariety(uint8) required broadcast ram db airecv;
+  setTypeIndex(uint8) required broadcast db airecv;
+  setVariety(uint8) required broadcast db airecv;
 };
 
 dclass DistributedGagTree : DistributedPlantBase {
-  setWilted(int8) required broadcast ram db ;
-  setFruiting(bool) required broadcast ram db;
+  setWilted(int8) required broadcast db ;
+  setFruiting(bool) required broadcast db;
   requestHarvest() airecv clsend;
 };
 
