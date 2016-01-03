@@ -19,8 +19,7 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
         return 1
 
     def reachedPurchaseLimit(self, avatar):
-        return 1
-        if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
+        if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or not hasattr(avatar, 'petTrickPhrases'):
             return 1
         return self.trickId in avatar.petTrickPhrases
 
@@ -47,7 +46,6 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
     def getPicture(self, avatar):
         from toontown.pets import PetDNA, Pet
         pet = Pet.Pet(forGui=1)
-        i
         dna = PetDNA.getRandomPetDNA()
         pet.setDNA(dna)
         pet.setH(180)

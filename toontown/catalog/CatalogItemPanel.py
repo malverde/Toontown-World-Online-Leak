@@ -521,12 +521,11 @@ class CatalogItemPanel(DirectFrame):
                 'item': self['item'].getName(),
                 'price': self['item'].getPrice(self['type'])}
         else:
-            friendIndex = self.parentCatalogScreen.friendGiftIndex
             friendText = 'Error'
             numFriends = len(
                 base.localAvatar.friendsList) + len(base.cr.avList) - 1
             if numFriends > 0:
-                friendText = self.parentCatalogScreen.receiverName
+                friendText = self.parentCatalogScreen.friendName
             message = TTLocalizer.CatalogVerifyGift % {
                 'item': self['item'].getName(),
                 'price': self['item'].getPrice(self['type']),
@@ -581,8 +580,8 @@ class CatalogItemPanel(DirectFrame):
                 auxText = TTLocalizer.CatalogNotAGift
                 self.auxText['text'] = auxText
                 return
-            if self.parentCatalogScreen.gotAvatar == 1:
-                avatar = self.parentCatalogScreen.giftAvatar
+            elif self.parentCatalogScreen.friend:
+                avatar = self.parentCatalogScreen.friend
                 if self['item'].forBoysOnly() and avatar.getStyle().getGender() == 'f' or self[
                         'item'].forGirlsOnly() and avatar.getStyle().getGender() == 'm':
                     self.giftButton.show()

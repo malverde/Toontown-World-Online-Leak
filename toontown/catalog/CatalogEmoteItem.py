@@ -20,7 +20,7 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         return 1
 
     def reachedPurchaseLimit(self, avatar):
-        if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
+        if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder:
             return 1
         if self.emoteIndex >= len(avatar.emoteAccess):
             return 0
@@ -146,9 +146,7 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         dg.addUint16(self.loyaltyDays)
 
     def isGift(self):
-        if self.getEmblemPrices():
-            return 0
-        elif self.loyaltyRequirement() > 0:
+        if self.loyaltyRequirement() > 0:
             return 0
         elif self.emoteIndex in LoyaltyEmoteItems:
             return 0

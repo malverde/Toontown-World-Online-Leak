@@ -3,6 +3,7 @@ from toontown.toonbase import ToontownGlobals
 import PhoneGlobals
 from toontown.catalog import CatalogScreen
 from toontown.catalog import CatalogItem
+from toontown.catalog import GiftAvatar
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
 import DistributedHouseInterior
@@ -372,3 +373,15 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
 
         ringIval = Parallel(Func(base.playSfx, self.ringSfx), shakeSeq, Func(phone.setR, 0))
         self.playInterval(ringIval, 0.0, None)
+
+    def requestGiftAvatar(self, doId):
+        if not self.phoneGui:
+            return
+
+        self.sendUpdate('requestGiftAvatar', [doId])
+
+    def setGiftAvatar(self, fields):
+        if not self.phoneGui:
+            return
+
+        self.phoneGui.setFriendReady(GiftAvatar.createFromJson(fields))

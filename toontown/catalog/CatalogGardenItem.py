@@ -23,11 +23,6 @@ class CatalogGardenItem(CatalogItem.CatalogItem):
         else:
             return 100
 
-    def reachedPurchaseLimit(self, avatar):
-        if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
-            return 1
-        return 0
-
     def getAcceptItemErrorText(self, retcode):
         if retcode == ToontownGlobals.P_ItemAvailable:
             return TTLocalizer.CatalogAcceptGarden

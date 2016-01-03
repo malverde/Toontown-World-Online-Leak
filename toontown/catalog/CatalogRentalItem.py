@@ -26,9 +26,7 @@ class CatalogRentalItem(CatalogItem.CatalogItem):
         return 0
 
     def reachedPurchaseLimit(self, avatar):
-        if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
-            return 1
-        return 0
+        return self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder
 
     def saveHistory(self):
         return 1

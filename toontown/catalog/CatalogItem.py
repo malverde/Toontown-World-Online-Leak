@@ -42,7 +42,7 @@ class CatalogItem():
             self.makeNewItem(*args, **kw)
 
     def isAward(self):
-        result = self.specialEventId != 0
+        # result = self.specialEventId != 0
         return result
 
     def makeNewItem(self):
@@ -115,9 +115,7 @@ class CatalogItem():
         return self.saleItem
 
     def isGift(self):
-        if self.getEmblemPrices():
-            return 0
-        return 1
+        return not self.getEmblemPrices()
 
     def isRental(self):
         return 0
@@ -300,7 +298,7 @@ class CatalogItem():
                            p,
                            r)
         if store & GiftTag:
-            self.giftTag = di.getString()
+            self.giftTag = di.getUint32()
         if versionNumber >= 8:
             self.specialEventId = di.getUint8()
         else:
@@ -317,7 +315,7 @@ class CatalogItem():
             dg.putArg(self.posHpr[4], STInt8, 256.0 / 360.0)
             dg.putArg(self.posHpr[5], STInt8, 256.0 / 360.0)
         if store & GiftTag:
-            dg.addString(self.giftTag)
+            dg.addUint32(self.giftTag)
         dg.addUint8(self.specialEventId)
 
     def getTypeCode(self):

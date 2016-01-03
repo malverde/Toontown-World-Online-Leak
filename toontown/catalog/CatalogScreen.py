@@ -16,7 +16,7 @@ import random
 from toontown.toon import DistributedToon
 from direct.directnotify import DirectNotifyGlobal
 from otp.nametag.ChatBalloon import ChatBalloon
-from otp.nametag import NametagGroup
+from otp.nametag import NametagGroup, NametagConstants
 NUM_CATALOG_ROWS = 3
 NUM_CATALOG_COLS = 2
 CatalogPanelCenters = [
@@ -40,6 +40,7 @@ class CatalogScreen(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('CatalogScreen')
 
     def __init__(self, parent=aspect2d, **kw):
+        self.gifting = -1
         guiItems = loader.loadModel('phase_5.5/models/gui/catalog_gui')
         background = guiItems.find('**/catalog_background')
         guiButton = loader.loadModel('phase_3/models/gui/quit_button')
@@ -53,19 +54,11 @@ class CatalogScreen(DirectFrame):
                       ('relief', None, None))
         self.defineoptions(kw, optiondefs)
         DirectFrame.__init__(self, parent)
-        self.friendGiftIndex = 0
-        self.friendGiftHandle = None
-        self.frienddoId = None
-        self.receiverName = 'Error Nameless Toon'
-        self.friends = {}
-        self.family = {}
-        self.ffList = []
-        self.textRolloverColor = Vec4(1, 1, 0, 1)
-        self.textDownColor = Vec4(0.5, 0.9, 1, 1)
-        self.textDisabledColor = Vec4(0.4, 0.8, 0.4, 1)
-        self.giftAvatar = None
-        self.gotAvatar = 0
-        self.allowGetDetails = 1
+        self.friend = None
+        self.friendAvId = None
+        self.friendName = 'Error Nameless Toon'
+        self.friendList = []
+        self.friends = []
         self.load(guiItems, guiButton, guiBack)
         self.initialiseoptions(CatalogScreen)
         self.enableBackorderCatalogButton()
@@ -79,7 +72,6 @@ class CatalogScreen(DirectFrame):
         self.clarabelleGoodbyeSfx = None
         self.clarabelleErrorSfx = None
         self.clarabelleChatterSfx = None
-        self.gifting = -1
         self.createdGiftGui = None
         self.viewing = None
 
@@ -111,18 +103,11 @@ class CatalogScreen(DirectFrame):
 
         taskMgr.doMethodLater(1.0, clarabelleGreeting, 'clarabelleGreeting')
         taskMgr.doMethodLater(12.0, clarabelleHelpText1, 'clarabelleHelpText1')
-        if hasattr(self, 'giftToggle'):
-            self.giftToggle['state'] = DGG.DISABLED
-            self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleWait
-        base.cr.deliveryManager.sendAck()
-        self.accept('DeliveryManagerAck', self.__handleUDack)
-        taskMgr.doMethodLater(10.0, self.__handleNoAck, 'ackTimeOut')
+
 
     def hide(self):
         self.ignore('CatalogItemPurchaseRequest')
         self.ignore('CatalogItemGiftPurchaseRequest')
-        self.ignore('DeliveryManagerAck')
-        taskMgr.remove('ackTimeOut')
         self.ignore(localAvatar.uniqueName('moneyChange'))
         self.ignore(localAvatar.uniqueName('bankMoneyChange'))
         self.ignore(localAvatar.uniqueName('emblemsChange'))
@@ -642,8 +627,8 @@ class CatalogScreen(DirectFrame):
             text_scale=0.065, text_fg=(0.353, 0.627, 0.627, 1.0),
             text2_fg=(0.353, 0.427, 0.427, 1.0))
         self.emblemCatalogButton2.hide()
-        self.__makeFFlist()
-        if len(self.ffList) > 0:
+        self.__makeFriendList()
+        if len(self.friendList) > 0:
             if config.GetBool('want-gifting', True):
                 self.giftToggle = DirectButton(
                     self.base, relief=None, pressEffect=0,
@@ -708,9 +693,6 @@ class CatalogScreen(DirectFrame):
             clipNP = self.scrollList.attachNewNode(clipper)
             self.scrollList.setClipPlane(clipNP)
             self.__makeScrollList()
-            friendId = self.ffList[0]
-            self.__chooseFriend(self.ffList[0][0], self.ffList[0][1])
-            self.update()
             self.createdGiftGui = 1
         for i in range(4):
             self.newCatalogButton.component('text%d' % i).setR(90)
@@ -1099,8 +1081,6 @@ class CatalogScreen(DirectFrame):
         taskMgr.remove('clarabelleGreeting')
         taskMgr.remove('clarabelleHelpText1')
         taskMgr.remove('clarabelleAskAnythingElse')
-        if self.giftAvatar:
-            base.cr.cancelAvatarDetailsRequest(self.giftAvatar)
         self.hide()
         self.hangup.hide()
         self.destroy()
@@ -1136,11 +1116,6 @@ class CatalogScreen(DirectFrame):
         if self.responseDialog:
             self.responseDialog.cleanup()
             self.responseDialog = None
-        if self.giftAvatar:
-            if hasattr(self.giftAvatar, 'doId'):
-                self.giftAvatar.delete()
-            else:
-                self.giftAvatar = None
 
     def unloadClarabelle(self):
         base.win.removeDisplayRegion(self.cDr)
@@ -1177,8 +1152,6 @@ class CatalogScreen(DirectFrame):
             del self.clarabelleChatterSfx
 
     def hangUp(self):
-        if hasattr(self, 'giftAvatar') and self.giftAvatar:
-            self.giftAvatar.disable()
         self.setClarabelleChat(
             random.choice(
                 TTLocalizer.CatalogGoodbyeList),
@@ -1210,9 +1183,8 @@ class CatalogScreen(DirectFrame):
         self.update()
 
     def update(self, lock=0):
-        if not hasattr(self.giftAvatar, 'doId'):
-            if self.gifting == 1:
-                self.__giftToggle()
+        if (not self.friend) and self.gifting == 1:
+            self.__giftToggle()
         if hasattr(self, 'beanBank'):
             self.beanBank['text'] = str(base.localAvatar.getTotalMoney())
             if lock == 0:
@@ -1225,10 +1197,7 @@ class CatalogScreen(DirectFrame):
         taskMgr.remove('clarabelleAskAnythingElse')
 
     def __handleGiftPurchaseRequest(self, item):
-        item.requestGiftPurchase(
-            self['phone'],
-            self.frienddoId,
-            self.__handleGiftPurchaseResponse)
+        item.requestGiftPurchase(self['phone'], self.friendAvId, self.__handleGiftPurchaseResponse)
         taskMgr.remove('clarabelleAskAnythingElse')
 
     def __handlePurchaseResponse(self, retCode, item):
@@ -1246,7 +1215,7 @@ class CatalogScreen(DirectFrame):
             return
         self.setClarabelleChat(
             item.getRequestGiftPurchaseErrorText(retCode) %
-            self.receiverName)
+            self.friendName)
         self.__loadFriend()
 
         def askAnythingElse(task):
@@ -1346,119 +1315,73 @@ class CatalogScreen(DirectFrame):
         self.silverLabel.hide()
         self.goldLabel.hide()
 
-    def checkFamily(self, doId):
-        test = 0
-        for familyMember in base.cr.avList:
-            if familyMember.id == doId:
-                test = 1
-
-        return test
-
-    def __makeFFlist(self):
-        for familyMember in base.cr.avList:
-            if familyMember.id != base.localAvatar.doId:
-                newFF = (
-                    familyMember.id,
-                    familyMember.name,
-                    NametagGroup.CCNonPlayer)
-                self.ffList.append(newFF)
-
-        for friendPair in base.localAvatar.friendsList:
-            friendId, flags = friendPair
-            handle = base.cr.identifyFriend(friendId)
-            if handle and not self.checkFamily(friendId):
-                if hasattr(handle, 'getName'):
-                    colorCode = NametagGroup.CCSpeedChat
-                    if flags & ToontownGlobals.FriendChat:
-                        colorCode = NametagGroup.CCFreeChat
-                    newFF = (friendPair[0], handle.getName(), colorCode)
-                    self.ffList.append(newFF)
-                else:
-                    self.notify.warning('Bad Handle for getName in makeFFlist')
-
-        hasManager = hasattr(base.cr, 'playerFriendsManager')
-        if hasManager:
-            for avatarId in base.cr.playerFriendsManager.getAllOnlinePlayerAvatars():
-                handle = base.cr.playerFriendsManager.getAvHandleFromId(
-                    avatarId)
-                playerId = base.cr.playerFriendsManager.findPlayerIdFromAvId(
-                    avatarId)
-                playerInfo = base.cr.playerFriendsManager.getFriendInfo(
-                    playerId)
-                freeChat = playerInfo.understandableYesNo
-                if handle and not self.checkFamily(avatarId):
-                    if hasattr(handle, 'getName'):
-                        colorCode = NametagGroup.CCSpeedChat
-                        if freeChat:
-                            colorCode = NametagGroup.CCFreeChat
-                        newFF = (avatarId, handle.getName(), colorCode)
-                        self.ffList.append(newFF)
-                    else:
-                        self.notify.warning(
-                            'Bad Handle for getName in makeFFlist')
+    def __makeFriendList(self):
+        for av in base.cr.avList:
+            if localAvatar.doId == av.id:
+                continue
+                self.friendList.append((av.id, av.name, NametagGlobals.CCNormal))
+        for id, handle in base.cr.friendsMap.items():
+            self.friendList.append((id, handle.getName(), NametagConstants.getFriendColor(handle)))
 
     def __makeScrollList(self):
-        for ff in self.ffList:
-            ffbutton = self.makeFamilyButton(ff[0], ff[1], ff[2])
-            if ffbutton:
-                self.scrollList.addItem(ffbutton, refresh=0)
-                self.friends[ff] = ffbutton
+        for friend in self.friendList:
+            button = self.makeFriendButton(*friend)
+            self.scrollList.addItem(button, refresh=0)
+            self.friends.append(button)
 
         self.scrollList.refresh()
 
-    def makeFamilyButton(self, familyId, familyName, colorCode):
+    def makeFriendButton(self, avId, avName, colorCode):
         return DirectButton(
             relief=None,
-            text=familyName,
+            text=avName,
             text_scale=0.04,
             text_align=TextNode.ALeft,
+            text_fg=NametagGlobals.NametagColors[colorCode][0][0],
             text1_bg=self.textDownColor,
             text2_bg=self.textRolloverColor,
             text3_fg=self.textDisabledColor,
             textMayChange=0,
             command=self.__chooseFriend,
             extraArgs=[
-                familyId,
-                familyName])
+                avId,
+                avName])
 
     def __chooseFriend(self, friendId, friendName):
+        if self.friendDoId and self.friendDoId == friendId:
+            return
         messenger.send('wakeup')
-        self.frienddoId = friendId
-        self.receiverName = friendName
-        self.friendLabel[
-            'text'] = TTLocalizer.CatalogGiftTo % self.receiverName
+        if self.friendAvId == avId:
+            return
+
+        self.friendAvId = avId
+        self.friendName = name
         self.__loadFriend()
 
-    def __loadFriend(self):
-        if self.allowGetDetails == 0:
-            CatalogScreen.notify.warning('smashing requests')
-        if self.frienddoId and self.allowGetDetails:
-            if self.giftAvatar:
-                if hasattr(self.giftAvatar, 'doId'):
-                    self.giftAvatar.disable()
-                    self.giftAvatar.delete()
-                self.giftAvatar = None
-            self.giftAvatar = DistributedToon.DistributedToon(base.cr)
-            self.giftAvatar.doId = self.frienddoId
-            self.giftAvatar.forceAllowDelayDelete()
-            self.giftAvatar.generate()
-            base.cr.getAvatarDetails(
-                self.giftAvatar,
-                self.__handleAvatarDetails,
-                'DistributedToon')
-            self.gotAvatar = 0
-            self.allowGetDetails = 0
-            self.scrollList['state'] = DGG.DISABLED
+    def unloadFriend(self):
+        if self.giftAvatar:
+            if hasattr(self.giftAvatar, 'doId'):
+                self.giftAvatar.disable()
+                self.giftAvatar.delete()
+            self.giftAvatar = None
 
-    def __handleAvatarDetails(self, gotData, avatar, dclass):
-        if self.giftAvatar.doId != avatar.doId or gotData == 0:
-            CatalogScreen.notify.error('Get Gift Avatar Failed')
-            self.gotAvatar = 0
+    def __loadFriend(self):
+        if not self.friendAvId:
             return
-        self.gotAvatar = 1
-        self.giftAvatar = avatar
-        self.scrollList['state'] = DGG.NORMAL
-        self.allowGetDetails = 1
+
+        for friendButton in self.friends:
+            friendButton['state'] = DGG.DISABLED
+
+        self.friend = None
+        self.friendLabel['text'] = TTLocalizer.CatalogGiftUpdating
+        self['phone'].requestGiftAvatar(self.friendAvId)
+
+    def setFriendReady(self, friend):
+        for friendButton in self.friends:
+            friendButton['state'] = DGG.NORMAL
+
+        self.friend = friend
+        self.friendLabel['text'] = TTLocalizer.CatalogGiftTo % self.friendName
         self.update()
 
     def __giftToggle(self):
@@ -1472,6 +1395,9 @@ class CatalogScreen(DirectFrame):
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOn
             self.__loadFriend()
         else:
+            self.friend = None
+            self.friendAvId = 0
+            self.friendName = None
             self.gifting = -1
             self.giftLabel.hide()
             self.friendLabel.hide()
@@ -1479,13 +1405,3 @@ class CatalogScreen(DirectFrame):
             self.showEmblems()
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOff
             self.update()
-
-    def __handleUDack(self, caller=None):
-        taskMgr.remove('ackTimeOut')
-        if hasattr(self, 'giftToggle') and self.giftToggle:
-            self.giftToggle['state'] = DGG.NORMAL
-            self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOff
-
-    def __handleNoAck(self, caller=None):
-        if hasattr(self, 'giftToggle') and self.giftToggle:
-            self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleNoAck

@@ -18,10 +18,7 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
         return 0
 
     def reachedPurchaseLimit(self, avatar):
-        if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder or hasattr(
-                avatar, 'gardenStarted') and avatar.getGardenStarted():
-            return 1
-        return 0
+        return self in avatar.onOrder or self in avatar.mailboxContents or hasattr(avatar, 'gardenStarted') and avatar.getGardenStarted()
 
     def saveHistory(self):
         return 1

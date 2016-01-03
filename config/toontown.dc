@@ -2646,6 +2646,8 @@ dclass DistributedPhone : DistributedFurnitureItem {
   requestPurchaseResponse(uint16 context, int8 retcode);
   requestGiftPurchaseMessage(uint16 context, uint32 targetDoID, blob data, int32 optional) airecv clsend;
   requestGiftPurchaseResponse(uint16 context, int8 retcode);
+  requestGiftAvatar(uint32) airecv clsend;
+  setGiftAvatar(blob);
 };
 
 dclass DistributedFireworkShow : DistributedObject {

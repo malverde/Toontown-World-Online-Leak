@@ -263,6 +263,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         from toontown.toon.DistributedNPCToonBaseAI import DistributedNPCToonBaseAI
         if not isinstance(self, DistributedNPCToonBaseAI):
             self.sendUpdate('setDefaultShard', [self.air.districtId])
+        self.accept('CATALOG_addGift_UD2Toon_%d' % self.doId, self.__handleAddGift)
+
         if self.isPlayerControlled():
             # Begin checking if clients are still alive
             if config.GetBool('want-keep-alive', True):
@@ -365,6 +367,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             PetLookerAI.PetLookerAI.destroy(self)
         del self.kart
         self._sendExitServerEvent()
+        self.ignore('CATALOG_addGift_UD2Toon_%d' % self.doId) # Gifting
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.delete(self)
         DistributedPlayerAI.DistributedPlayerAI.delete(self)
         return
@@ -413,6 +416,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.zoneId = None
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.delete(self)
         DistributedPlayerAI.DistributedPlayerAI.delete(self)
+
         return
 
     def handleLogicalZoneChange(self, newZoneId, oldZoneId):
@@ -2562,6 +2566,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         simbase.air.deliveryManager.sendDeliverGifts(self.getDoId(), now)
         self.b_setCatalogNotify(self.catalogNotify, ToontownGlobals.NewItems)
         return Task.done
+
+    def __handleAddGift(self, blob, ctx):
+        store = CatalogItem.Customization | CatalogItem.DeliveryDate | CatalogItem.GiftTag
+        self.onGiftOrder.append(CatalogItem.getItem(blob, store=store))
+        self.b_setBothSchedules(self.onOrder, self.onGiftOrder)
+        self.sendUpdate('CATALOG_addGift_UD2Toon_resp', [self.doId, ctx])
 
     def __deliverPurchase(self, task):
         now = int(time.time() / 60 + 0.5)

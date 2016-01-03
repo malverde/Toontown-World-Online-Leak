@@ -353,8 +353,6 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
             return 1
         if avatar.mailboxContents.count(self) != 0:
             return 1
-        if self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
-            return 1
         str = ClothingTypes[self.clothingType][CTString]
         dna = avatar.getStyle()
         if self.isShirt():

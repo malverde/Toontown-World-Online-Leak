@@ -4,10 +4,48 @@ from toontown.estate.DistributedFurnitureItemAI import DistributedFurnitureItemA
 from toontown.toonbase import ToontownGlobals
 from toontown.catalog import CatalogItem
 from toontown.catalog.CatalogInvalidItem import CatalogInvalidItem
+from toontown.catalog import GiftAvatar
 from toontown.catalog.CatalogItemList import CatalogItemList
 from direct.distributed.ClockDelta import *
 import time
 import PhoneGlobals
+
+import base64
+import json
+import time
+
+MAX_MAILBOX = 10
+MAX_ON_ORDER = 10
+
+class LoadGiftAvatar:
+
+    def __init__(self, phone, avId, targetId, optional, callback):
+        self.air = phone.air
+        self.phone = phone
+        self.avId = avId
+        self.targetId = targetId
+        self.optional = optional
+        self.callback = callback
+
+    def start(self):
+        self.air.dbInterface.queryObject(self.air.dbId, self.targetId, self.__gotAvatar)
+
+    def copyDict(self, dict, *keys):
+        return {key: dict[key] for key in keys}
+
+    def __gotAvatar(self, dclass, fields):
+        if dclass != self.air.dclassesByName['DistributedToonAI']:
+            return
+
+        for key in ('setDNAString', 'setMailboxContents', 'setGiftSchedule', 'setDeliverySchedule'):
+            fields[key] = base64.b64encode(fields[key][0])
+
+        newDict = self.copyDict(fields, 'setDNAString', 'setMailboxContents', 'setGiftSchedule', 'setDeliverySchedule', 'setHat', 'setGlasses', 'setBackpack',
+                                'setShoes', 'setHatList', 'setGlassesList', 'setBackpackList', 'setShoes', 'setShoesList', 'setCustomMessages', 'setEmoteAccess',
+                                'setClothesTopsList', 'setClothesBottomsList', 'setPetTrickPhrases')
+
+        self.callback(self.avId, self.targetId, newDict, self.optional)
+        del self.phone.fsms[self.avId]
 
 
 class DistributedPhoneAI(DistributedFurnitureItemAI):
@@ -16,6 +54,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
     def __init__(self, air, furnitureMgr, item):
         DistributedFurnitureItemAI.__init__(self, air, furnitureMgr, item)
         self.avId = None
+        self.fsms = {}
 
     def setInitialScale(self, sx, sy, sz):
         pass
@@ -117,7 +156,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
         self.d_setMovie(PhoneGlobals.PHONE_MOVIE_CLEAR, 0,
                         globalClockDelta.getRealNetworkTime())
 
-    def requestPurchaseMessage(self, context, item, optional):
+    def requestPurchaseMessage(self, context, item, optional, gifting=False):
         avId = self.air.getAvatarIdFromSender()
         if avId != self.avId:
             self.air.writeServerEvent(
@@ -160,12 +199,15 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
                     avId, 'requestPurchaseResponse', [
                         context, ToontownGlobals.P_OnOrderListFull])
                 return
+
             if len(av.mailboxContents) + \
                     len(av.onOrder) >= ToontownGlobals.MaxMailboxContents:
                 self.sendUpdateToAvatarId(
                     avId, 'requestPurchaseResponse', [
                         context, ToontownGlobals.P_MailboxFull])
             if not av.takeMoney(price):
+                return
+            if not av.subtractEmblems(eblems):
                 return
             item.deliveryDate = int(time.time() / 60) + item.getDeliveryTime()
             av.onOrder.append(item)
@@ -182,12 +224,29 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
             self.sendUpdateToAvatarId(
                 avId, 'requestPurchaseResponse', [
                     context, resp])
+    # TODO - take Emblem
+    def requestPurchaseResponse(self, context, targetId, blob, optional):
+        av = self.air.doId2do.get(avId)
 
-    def requestPurchaseResponse(self, todo0, todo1):
-        pass
+        if not av:
+            return
 
-    def requestGiftPurchaseMessage(self, todo0, todo1, todo2, todo3):
-        pass
+        returnCode = self.requestPurchaseMessage(context, av, blob, optional, gifting=targetId)
 
-    def requestGiftPurchaseResponse(self, todo0, todo1):
-        pass
+        if returnCode:
+            self.requestGiftPurchaseResponse(context, av.doId, returnCode)
+
+    def requestGiftPurchaseMessage(self, doId):
+        self.requestGiftAvatarOperation(self.air.getAvatarIdFromSender(), doId, None, self.requestGiftPurchaseResponse)
+
+    def requestGiftAvatarOperation(self, avId, doId, optional, callback):
+        if avId in self.fsms:
+            return
+
+        loadOperation = LoadGiftAvatar(self, avId, doId, optional, callback)
+        loadOperation.start()
+        self.fsms[avId] = loadOperation
+        return None
+
+    def requestGiftPurchaseResponse(self, avId, targetId, avatar, optional):
+        self.sendUpdateToAvatarId(avId, 'setGiftAvatar', [json.dumps(avatar)])
