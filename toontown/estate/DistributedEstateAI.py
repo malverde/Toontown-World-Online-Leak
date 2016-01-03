@@ -361,8 +361,9 @@ class Garden:
         av.b_setTrackBonusLevel(bonus)
 
     def update(self):
-        dclass = self.air.dclassesByName['DistributedGardenAI']:
-        self.air.dbInterface.updateObject(self.air.dbId, dclass, sendNewProp,data)
+        print self.data
+        # dclass = self.air.dclassesByName['DistributedGardenAI']
+        # self.air.dbInterface.updateObject(self.air.dbId, dclass, sendNewProp, data)
         # self.air.dbGlobalCursor.gardens.update({'avId': self.avId}, {'$set': self.data}, upsert=True)
 
 class GardenManager:
@@ -541,9 +542,6 @@ class DistributedEstateAI(DistributedObjectAI):
         spot.generateWithRequired(self.zoneId)
         self.spots.append(spot)
         self.createTreasurePlanner()
-
-    def rentItem(self, type, duration):
-        pass
 
     def destroy(self):
         for house in self.houses:
