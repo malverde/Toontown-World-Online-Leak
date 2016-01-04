@@ -994,7 +994,7 @@ dclass DistributedToon : DistributedPlayer {
   setAwardSchedule(blob onOrder = []) required ownrecv db airecv;
   setAwardNotify(uint8 awardNotify = 0) required ownrecv db;
   setCatalogNotify(uint8 catalogNotify = 0, uint8 mailboxNotify = 0) required ownrecv db;
-  setRedeemedCodes(uint16 redeemedCodes[] = []) required ownrecv db;
+  setRedeemedCodes(string [] = []) required ownrecv db;
   playSplashEffect(int16/10 x, int16/10 y, int16/10 z) broadcast ownsend;
   setWhisperSCToontaskFrom(uint32 fromId, uint32 taskId, uint32 toNpcId, uint32 toonProgress, uint8 msgIndex) ownrecv clsend;
   setSCToontask(uint32 taskId, uint32 toNpcId, uint32 toonProgress, uint8 msgIndex) broadcast ownsend;

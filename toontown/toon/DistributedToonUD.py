@@ -32,6 +32,9 @@ class DistributedToonUD(DistributedObjectUD):
     def toonUp(self, todo0):
         pass
 
+    def setRedeemedCodes(self, redeemedCodes):
+        pass
+
     def takeDamage(self, todo0):
         pass
 

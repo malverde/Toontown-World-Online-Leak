@@ -1149,9 +1149,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def d_catalogGenAccessories(self):
         self.sendUpdate('catalogGenAccessories', [self.doId])
 
-    def getRedeemedCodes(self):
-        return self.redeemedCodes
-
     def setRedeemedCodes(self, redeemedCodes):
         self.redeemedCodes = redeemedCodes
 
@@ -1161,6 +1158,22 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def d_setRedeemedCodes(self, redeemedCodes):
         self.sendUpdate('setRedeemedCodes', [redeemedCodes])
+
+    def getRedeemedCodes(self, redeemedCodes):
+        return self.redeemedCodes
+
+    def isCodeRedeemed(self, code):
+        return code in self.redeemedCodes
+
+    def redeemCode(self, code):
+        if not self.isCodeRedeemed(code):
+            self.redeemedCodes.append(code)
+            self.b_setRedeemedCodes(self.redeemedCodes)
+
+    def removeCode(self, code):
+        if self.isCodeRedeemed(code):
+            self.redeemedCodes.remove(code)
+            self.b_setRedeemedCodes(self.redeemedCodes)
 
     def takeDamage(self, hpLost, quietly = 0, sendTotal = 1):
         # Assume that if they took damage, they're not in a safe zone.
@@ -1204,12 +1217,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         DistributedPlayerAI.DistributedPlayerAI.setHp(self, hp)
         if hp <= 0:
             messenger.send(self.getGoneSadMessage())
-
-    def b_setMaxHp(self, maxHp):
-        if maxHp > ToontownGlobals.MaxHpLimit:
-            self.air.writeServerEvent('suspicious', avId=self.doId, issue='Toon tried to go over 137 laff.')
-        maxHp = min(maxHp, ToontownGlobals.MaxHpLimit)
-        DistributedAvatarAI.DistributedAvatarAI.b_setMaxHp(self, maxHp)
 
     def correctToonLaff(self):
         # Init our counters to 0.
@@ -4780,14 +4787,14 @@ def setMaxHp(hpVal):
 #     spellbook.getTarget().b_setTextColor(color)
 #     return 'Set your color to: %s' % color
 
-# @magicWord(category=CATEGORY_SYSADMIN, types=[str])
-# def remCode(code):
-#     av = spellbook.getTarget()
-#     if av.isCodeRedeemed(code):
-#         av.removeCode(code)
-#         return 'Player can now reuse the code %s' % code
-#     else:
-#         return "Player hasn't redeemed this code!"
+@magicWord(category=CATEGORY_SYSADMIN, types=[str])
+def remCode(code):
+    av = spellbook.getTarget()
+    if av.isCodeRedeemed(code):
+        av.removeCode(code)
+        return 'Player can now reuse the code %s' % code
+    else:
+        return "Player hasn't redeemed this code!"
 
 @magicWord(category=CATEGORY_SYSADMIN, types=[int])
 def squish(laff):
