@@ -129,7 +129,7 @@ class Nametag(ClickablePopup):
         t.node().setAlign(TextNode.ACenter)
         t.node().setWordwrap(self.wordWrap)
         t.node().setText(self.displayName)
-        t.setColor(self.nameFg)
+        t.node().setTextColor(self.nameFg)
         t.setTransparency(self.nameFg[3] < 1.0)
 
         width, height = t.node().getWidth(), t.node().getHeight()

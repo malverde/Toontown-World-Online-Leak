@@ -134,9 +134,13 @@ CATEGORY_MODERATION = MagicWordCategory('Moderation commands', defaultAccess=300
 CATEGORY_CAMERA = MagicWordCategory('Camera controls', defaultAccess=300,
     doc='These Magic Words manually control the camera system, originally implemented '
         'with Doomsday.')
+CATEGORY_COMMUNITYMANAGER = MagicWordCategory("Admin commands", defaultAccess=400,
+doc='These magic words are for executing admin commands')
 CATEGORY_ADMIN = MagicWordCategory("Admin commands", defaultAccess=400, 
-doc='These magic words are for executing admin commands')         
-CATEGORY_SYSADMIN = MagicWordCategory('Sysadmin commands', defaultAccess=500,
+doc='These magic words are for executing admin commands')
+CATEGORY_DEVELOPER = MagicWordCategory("Developer commands", defaultAccess=405,
+                                   doc='These magic words are for executing admin commands')
+CATEGORY_SYSADMIN = MagicWordCategory('Sysadmin commands', defaultAccess=507,
     doc='These Magic Words are useful for executing/viewing system information.'
         ' Note that these Magic Words may have an impact on the server\'s'
         ' stability and speed, and should be used with caution.')
