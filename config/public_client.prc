@@ -90,16 +90,16 @@ default-model-extension .bam
 
 # Systems and Beta Modifications
 # Modifications/temporary for unimplemented features go here.
-want-accessories #t
+want-accessories #f
 # Newsmanager
 want-news-tab #f
 want-news-page #f
 want-fishing #t
-want-parties #t
+want-parties #f
 # Estates
-want-pets #t
+want-pets #f
 want-gardening #f
-want-gifting #t
+want-gifting #f
 # Table games
 want-game-tables #f
 want-checkers-table #f
@@ -114,7 +114,7 @@ estate-day-night #t
 want-instant-parties #f
 want-toontorial #f
 want-doomsday #f
-want-cogdominiums #f
+want-cogdominiums #t
 
 
 # Chat system (server-sided/client-sided)
@@ -133,7 +133,7 @@ want-hourly-fireworks #t
 want-hourly-fireworks-type victoryreleasefireworks
 # Alternative than nerfing VP?
 easy-vp #f
-force-holiday-decorations 1, 6
+# force-holiday-decorations 0
 want-blueprint4-ARG #f
 want-april-toons #f
 
@@ -149,7 +149,7 @@ boarding-group-merges #t
 
 
 # Misc
-# force-skip-tutorial #t
+# force-skip-tutorial #f
 
 
 # Server:
