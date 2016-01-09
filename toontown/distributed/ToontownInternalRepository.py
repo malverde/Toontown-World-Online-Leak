@@ -6,7 +6,6 @@ from panda3d.core import *
 from direct.distributed.PyDatagram import PyDatagram
 import traceback
 import sys
-import signal
 
 ai_watchdog = ConfigVariableInt(
     'ai-watchdog', 15,
@@ -44,11 +43,6 @@ class ToontownInternalRepository(AstronInternalRepository):
         self.netMessenger.register(2, 'avatarOnline')
         self.netMessenger.register(3, 'avatarOffline')
         self.netMessenger.register(4, 'enableLogins')
-
-    if hasattr(signal, 'alarm'):
-        signal.signal(signal.SIGALRM, watchdogExhausted)
-        self.__watchdog = taskMgr.add(self.__resetWatchdog, 'watchdog')
-        
 
     def __resetWatchdog(self, task):
         signal.alarm(ai_watchdog.getValue())
