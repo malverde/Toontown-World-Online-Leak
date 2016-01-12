@@ -602,6 +602,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
                 self.acceptOnce('localToonLeft', self.__handleLocalToonLeftBarrelRoom)
                 self.barrelRoom.activate()
                 base.playMusic(self.waitMusic, looping=1, volume=0.7)
+                base.localAvatar.questMap.stop()
 
     def exitCollectBarrels(self):
         if self._wantBarrelRoom and not self.isBossFloor(self.currentFloor):
