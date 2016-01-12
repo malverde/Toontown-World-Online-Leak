@@ -3,6 +3,7 @@ from direct.interval.IntervalGlobal import *
 from direct.actor import Actor
 from otp.avatar import Avatar
 from otp.nametag.NametagGroup import NametagGroup
+from otp.nametag.NametagConstants import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from direct.fsm import FSM
@@ -15,6 +16,7 @@ import SuitDNA
 from toontown.battle import BattleProps
 from direct.showbase.PythonUtil import Functor
 import string
+import random
 import types
 GenericModel = 'phase_9/models/char/bossCog'
 ModelDict = {'s': 'phase_9/models/char/sellbotBoss',
@@ -688,15 +690,7 @@ class BossCog(Avatar.Avatar):
                         ival, self.pelvis.hprInterval(
                             0.5, self.pelvisForwardHpr,
                             blendType='easeInOut')))
-            ival = Sequence(
-                Track(
-                    (0, ival), (0, SoundInterval(
-                        self.spinSfx, node=self)), (0.9, Parallel(
-                            SoundInterval(
-                                self.rainGearsSfx, node=self), ParticleInterval(
-                                pe, self.frontAttack, worldRelative=0, duration=1.5, cleanup=True), duration=0)), (1.9, Func(
-                                    self.bubbleF.unstash))), Func(
-                    self.bubbleF.stash))
+            ival = Sequence(Track((0, ival), (0, Sequence(Func(self.setChatAbsolute, random.choice(TTLocalizer.VPSpinMessages), CFSpeech | CFTimeout), SoundInterval(self.spinSfx, node=self))), (0.9, Parallel(SoundInterval(self.rainGearsSfx, node=self), ParticleInterval(pe, self.frontAttack, worldRelative=0, duration=1.5, cleanup=True), duration=0)), (1.9, Func(self.bubbleF.unstash))), Func(self.bubbleF.stash))
             self.forward = 1
             self.happy = 0
             self.raised = 1
@@ -705,14 +699,7 @@ class BossCog(Avatar.Avatar):
                 self.doAnimate(None, raised=1, happy=0, queueNeutral=0)
             else:
                 self.doAnimate(None, raised=1, happy=1, queueNeutral=1)
-            ival = Parallel(
-                ActorInterval(
-                    self, 'Fb_jump'), Sequence(
-                    SoundInterval(
-                        self.swishSfx, duration=1.1, node=self), SoundInterval(
-                        self.boomSfx, duration=1.9)), Sequence(
-                        Wait(1.21), Func(
-                            self.announceAreaAttack)))
+            ival = Parallel(ActorInterval(self, 'Fb_jump'), Sequence(Func(self.setChatAbsolute, random.choice(TTLocalizer.JumpBossTaunts[self.dna.dept]), CFSpeech | CFTimeout), SoundInterval(self.swishSfx, duration=1.1, node=self), SoundInterval(self.boomSfx, duration=1.9)), Sequence(Wait(1.21), Func(self.announceAreaAttack)))
             if self.twoFaced:
                 self.happy = 0
             else:
