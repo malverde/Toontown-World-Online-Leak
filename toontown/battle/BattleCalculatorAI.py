@@ -1895,6 +1895,9 @@ class BattleCalculatorAI:
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[int])
 def setBattleSkip(bs):
+    """ 
+    Globally causes any gag to do max damage to targeted cogs and never miss
+    """
 	global battleSkip
 	battleSkip = bs
 	return "battleSkip = {0}".format(battleSkip)
