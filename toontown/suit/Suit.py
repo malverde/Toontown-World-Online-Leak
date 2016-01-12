@@ -736,6 +736,8 @@ class Suit(Avatar.Avatar):
             self.healthCondition = condition
 
     def __blinkRed(self, task):
+        if not self.healthBar:
+            return Task.done
         self.healthBar.setColor(self.healthColors[3], 1)
         self.healthBarGlow.setColor(self.healthGlowColors[3], 1)
         if self.healthCondition == 5:
@@ -744,7 +746,7 @@ class Suit(Avatar.Avatar):
 
     def __blinkGray(self, task):
         if not self.healthBar:
-            return
+            return Task.done
         self.healthBar.setColor(self.healthColors[4], 1)
         self.healthBarGlow.setColor(self.healthGlowColors[4], 1)
         if self.healthCondition == 5:

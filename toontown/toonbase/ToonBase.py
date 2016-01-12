@@ -182,6 +182,9 @@ class ToonBase(OTPBase.OTPBase):
         self.localAvatarStyle = None
         return
 
+    # TODO: Add settings to disable Cog Level GUI
+        wantCogLevelGui = config.GetBool('want-cog-level-gui', True)
+
     def openMainWindow(self, *args, **kw):
         result = OTPBase.OTPBase.openMainWindow(self, *args, **kw)
         self.setCursorAndIcon()
