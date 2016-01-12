@@ -156,22 +156,22 @@ def accId():
 @magicWord(category=CATEGORY_ADMIN, types=[str])
 def system(message):
     """
-    Broadcasts a message to the server.
+    Broadcast a <message> to the game server.
     """
-    for doId, do in simbase.air.doId2do.items():
-        if isinstance(do, DistributedPlayerAI):
-            if str(doId)[0] != str(simbase.air.districtId)[0]:
-                do.d_setSystemMessage(0, "System Message: %s"% message)
+    message = 'ADMIN: ' + message
+    dclass = simbase.air.dclassesByName['ClientServicesManager']
+    dg = dclass.aiFormatUpdate('systemMessage',
+                               OtpDoGlobals.OTP_DO_ID_CLIENT_SERVICES_MANAGER,
+                               10, 1000000, [message])
+    simbase.air.send(dg)
 
 @magicWord(category=CATEGORY_ADMIN, types=[int])
-
 def maintenance(minutes):
-
     """
     Initiate the maintenance message sequence. It will last for the specified
     amount of <minutes>.
     """
-
+    # TODO: Make this System Wide
     def disconnect(task):
         dg = PyDatagram()
         dg.addServerHeader(10, simbase.air.ourChannel, CLIENTAGENT_EJECT)
@@ -198,3 +198,34 @@ def maintenance(minutes):
             taskMgr.doMethodLater(next, countdown, 'maintenance-task',
                                   extraArgs=[minutes])
     countdown(minutes)
+
+@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+def disableGM():
+    """
+    Temporarily disable GM features.
+    """
+    target = spellbook.getTarget()
+
+    if hasattr(target, 'oldAccess'):
+        return 'GM features are already disabled!\nTo enable, use ~enableGM.'
+
+    if not target.isAdmin():
+        return 'Target is not an admin!'
+
+    target.oldAccess = target.adminAccess
+    target.d_setAdminAccess(100)
+    return 'GM features are disabled!'
+    
+@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+def enableGM():
+    """
+    Enable GM features.
+    """
+    target = spellbook.getTarget()
+
+    if not hasattr(target, 'oldAccess'):
+        return 'GM features are not disabled!'
+
+    target.d_setAdminAccess(target.oldAccess)
+    del target.oldAccess
+    return 'GM features are enabled!'
