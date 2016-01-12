@@ -1,6 +1,7 @@
 #Embedded file name: otp.friends.FriendManagerAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
+from direct.distributed.PyDatagram import *
 from otp.ai.MagicWordGlobal import *
 from otp.otpbase import OTPGlobals
 from datetime import datetime
