@@ -1193,7 +1193,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             if sendTotal:
                 self.d_setHp(self.hp)
     def b_setMaxHp(self, maxHp):
-        if (maxHp > ToontownGlobals.MaxHpLimit):
+        if maxHp > ToontownGlobals.MaxHpLimit:
             self.air.writeServerEvent('suspicious', self.doId, 'Toon tried to go over the HP limit.')
             self.d_setMaxHp(ToontownGlobals.MaxHpLimit)
             self.setMaxHp(ToontownGlobals.MaxHpLimit)
@@ -1202,7 +1202,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.setMaxHp(maxHp)
 
     def d_setMaxHp(self, maxHp):
-        if (maxHp > ToontownGlobals.MaxHpLimit):
+        if maxHp > ToontownGlobals.MaxHpLimit:
             self.air.writeServerEvent('suspicious', self.doId, 'Toon tried to go over the HP limit.')
         else:
             self.sendUpdate('setMaxHp', [maxHp])
@@ -1896,7 +1896,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.notify.debug('removeAllTracesOfQuest: reward history before: %s' % self.rewardHistory)
         removedRewardHistory = self.removeRewardFromHistory(rewardId)
         self.notify.debug('removeAllTracesOfQuest: reward history after: %s' % self.rewardHistory)
-        return (removedQuest, removedQuestHistory, removedRewardHistory)
+        return removedQuest, removedQuestHistory, removedRewardHistory
 
     def requestDeleteQuest(self, questDesc):
         if len(questDesc) != 5:
@@ -1971,7 +1971,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return
 
     def getCheesyEffect(self):
-        return (self.savedCheesyEffect, self.savedCheesyHoodId, self.savedCheesyExpireTime)
+        return self.savedCheesyEffect, self.savedCheesyHoodId, self.savedCheesyExpireTime
 
     def __undoCheesyEffect(self, task):
         self.b_setCheesyEffect(ToontownGlobals.CENormal, 0, 0)
@@ -2216,7 +2216,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.rewardHistory = rewardList
 
     def getRewardHistory(self):
-        return (self.rewardTier, self.rewardHistory)
+        return self.rewardTier, self.rewardHistory
 
     def getRewardTier(self):
         return self.rewardTier
@@ -2412,7 +2412,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             taskMgr.doMethodLater(duration, self.__deliverCatalog, taskName)
 
     def getCatalogSchedule(self):
-        return (self.catalogScheduleCurrentWeek, self.catalogScheduleNextTime)
+        return self.catalogScheduleCurrentWeek, self.catalogScheduleNextTime
 
     def __deliverCatalog(self, task):
         self.air.catalogManager.deliverCatalogFor(self)
@@ -2431,7 +2431,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.backCatalog = CatalogItemList.CatalogItemList(backCatalog)
 
     def getCatalog(self):
-        return (self.monthlyCatalog.getBlob(), self.weeklyCatalog.getBlob(), self.backCatalog.getBlob())
+        return self.monthlyCatalog.getBlob(), self.weeklyCatalog.getBlob(), self.backCatalog.getBlob()
 
     def b_setCatalogNotify(self, catalogNotify, mailboxNotify):
         self.setCatalogNotify(catalogNotify, mailboxNotify)
@@ -2445,7 +2445,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.mailboxNotify = mailboxNotify
 
     def getCatalogNotify(self):
-        return (self.catalogNotify, self.mailboxNotify)
+        return self.catalogNotify, self.mailboxNotify
 
     def b_setDeliverySchedule(self, onOrder, doUpdateLater = True):
         self.setDeliverySchedule(onOrder, doUpdateLater)
@@ -3201,7 +3201,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.sendUpdate('setKartAccessoriesOwned', [accessories])
 
         def setKartAccessoriesOwned(self, accessories):
-            if (__debug__):
+            if __debug__:
                 pass
             self.accessories = accessories
 
@@ -3678,7 +3678,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         if suitIndex >= len(SuitDNA.suitHeadTypes):
             self.notify.warning('Bad suit index: %s' % suitIndex)
         self.addCogSummonsEarned(suitIndex, type)
-        return (suitIndex, type)
+        return suitIndex, type
 
     def findClosestDoor(self):
         zoneId = self.zoneId
@@ -4427,8 +4427,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.setGM(type)
 
     def setGM(self, type):
-        wasGM = self._isGM
-        formerType = self._gmType
         self._isGM = type != 0
         self._gmType = None
         if self._isGM:
@@ -4437,7 +4435,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             if self._gmType > MaxGMType:
                 self.notify.warning('toon %s has invalid GM type: %s' % (self.doId, self._gmType))
                 self._gmType = MaxGMType
-        #self._updateGMName(formerType)
         return
 
     def isGM(self):
@@ -4471,7 +4468,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         if self.WantOldGMNameBan:
             if self.isGenerated():
                 self._checkOldGMName()
-        #self._updateGMName()
 
     def _checkOldGMName(self):
         if '$' in set(self.name):
@@ -4716,9 +4712,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.setHouseType(houseType)
         self.d_setHouseType(houseType)
 
-    def b_setHouseType(self, houseType):
-        self.setHouseType(houseType)
-        self.d_setHouseType(houseType)
     def addBuff(self, id, duration):
         buffCount = len(self.buffs)
         if buffCount <= id:
@@ -4758,7 +4751,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 @magicWord(category=CATEGORY_SYSADMIN, types=[int, int, int])
 def setCE(CEValue, CEHood=0, CEExpire=0):
     """Set Cheesy Effect of the target."""
-    CEHood = CEHood * 1000 #So the invoker only has to use '1' for DonaldsDock, '2' for TTC etc.
+    CEHood *= 1000  #So the invoker only has to use '1' for DonaldsDock, '2' for TTC etc.
     if not 0 <= CEValue <= 18:
         return 'Invalid value %s specified for Cheesy Effect.' % CEValue
     if CEHood != 0 and not 100 < CEHood < ToontownGlobals.DynamicZonesBegin:
@@ -5265,7 +5258,7 @@ def locate(avIdShort=0, returnType=''):
         where = ToontownGlobals.hoodNameMap.get(zoneId, None)
     else:
         # If it's not a playground, the TTL contains a list of all streetId -> street names.
-        zoneId = zoneId - zoneId % 100 # This essentially truncates the last 2 digits.
+        zoneId -= zoneId % 100  # This essentially truncates the last 2 digits.
         where = TTLocalizer.GlobalStreetNames.get(zoneId, None)
 
     if not where:
@@ -5284,7 +5277,7 @@ def locatelongav(avid=0, returnType=''):
         simbase.air.getActivated(doId,
                                  lambda x, y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
     else:
-        doId = 100000000 + doId
+        doId += 100000000
         simbase.air.getActivated(doId,
                                  lambda x, y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
     if not av:
@@ -5314,7 +5307,7 @@ def locatelongav(avid=0, returnType=''):
         where = ToontownGlobals.hoodNameMap.get(zoneId, None)
     else:
         # If it's not a playground, the TTL contains a list of all streetId -> street names.
-        zoneId = zoneId - zoneId % 100 # This essentially truncates the last 2 digits.
+        zoneId -= zoneId % 100  # This essentially truncates the last 2 digits.
         where = TTLocalizer.GlobalStreetNames.get(zoneId, None)
 
     if not where:
@@ -5328,7 +5321,7 @@ def locatelongav(avid=0, returnType=''):
 def online(doId):
     """ Check if a toon is online. """
     av = spellbook.getTarget()
-    doId = 100000000 + doId
+    doId += 100000000
     simbase.air.getActivated(doId, lambda x,y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
 
 @magicWord(category=CATEGORY_MODERATION, types=[int])
@@ -5337,7 +5330,7 @@ def onlinelongav(doId):
         simbase.air.getActivated(doId,
                                  lambda x, y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
     else:
-        doId = 100000000 + doId
+        doId += 100000000
         simbase.air.getActivated(doId,
                                  lambda x, y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
 
@@ -5810,7 +5803,7 @@ def gloves(c1, c2=None):
 def getZone():
     invoker = spellbook.getInvoker()
     zone = invoker.zoneId
-    return 'The ZoneID is: %s' % (zone)
+    return 'The ZoneID is: %s' % zone
 
 @magicWord(category=CATEGORY_ADMIN, types=[int])
 def fishingRod(rod):
@@ -5860,7 +5853,7 @@ def quests(command, arg0=0, arg1=0):
     carrying = len(currQuests) / 5
     canCarry = False
 
-    if (carrying < pocketSize):
+    if carrying < pocketSize:
         canCarry = True
 
     if command == 'clear':
@@ -5873,9 +5866,9 @@ def quests(command, arg0=0, arg1=0):
         if arg0:
             if canCarry:
                 if arg0 in Quests.QuestDict.keys():
-                    return 'Added QuestID %s'%(arg0)
+                    return 'Added QuestID %s' % arg0
                 else:
-                    return 'Invalid QuestID %s'%(arg0)
+                    return 'Invalid QuestID %s' % arg0
             else:
                 return 'Cannot take anymore quests'
         else:
@@ -5884,37 +5877,37 @@ def quests(command, arg0=0, arg1=0):
         if arg0:
             if arg0 in currentQuestIds:
                 target.removeQuest(arg0)
-                return 'Removed QuestID %s'%(arg0)
-            elif arg0 < pocketSize and arg0 > 0:
+                return 'Removed QuestID %s' % arg0
+            elif pocketSize > arg0 > 0:
                 if len(currentQuestIds) <= arg0:
                     questIdToRemove = currentQuestIds[arg0 - 1]
                     target.removeQuest(questIdToRemove)
-                    return 'Removed quest from slot %s'%(arg0)
+                    return 'Removed quest from slot %s' % arg0
                 else:
                     return 'Invalid quest slot'
             else:
-                return 'Cannot remove quest %s'%(arg0)
+                return 'Cannot remove quest %s' % arg0
         else:
             return 'remove needs 1 argument.'
     elif command == 'list':
         if arg0:
-            if arg0 > 0 and arg0 <= pocketSize:
+            if 0 < arg0 <= pocketSize:
                 start = (arg0 -1) * 5
                 questDesc = currQuests[start : start + 5]
                 return 'QuestDesc in slot %s: %s.'%(arg0, questDesc)
             else:
-                return 'Invalid quest slot %s.'%(arg0)
+                return 'Invalid quest slot %s.' % arg0
         else:
-            return 'CurrentQuests: %s'%(currentQuestIds)
+            return 'CurrentQuests: %s' % currentQuestIds
     elif command == 'bagSize':
-        if arg0 > 0 and arg0 < 5:
+        if 0 < arg0 < 5:
             target.b_setQuestCarryLimit(arg0)
-            return 'Set carry limit to %s'%(arg0)
+            return 'Set carry limit to %s' % arg0
         else:
             return 'Argument 0 must be between 1 and 4.'
     elif command == 'progress':
         if arg0 and arg1:
-            if arg0 > 0 and arg0 <= pocketSize:
+            if 0 < arg0 <= pocketSize:
                 questList = []
                 wantedQuestId = currentQuestIds[arg0 - 1]
 
@@ -5943,7 +5936,7 @@ def quests(command, arg0=0, arg1=0):
                     target.b_setQuests(questList)
                     return 'Set QuestID %s progress to %s'%(arg0, arg1)
                 else:
-                    return 'Cannot progress QuestID: %s.'%(arg0)
+                    return 'Cannot progress QuestID: %s.' % arg0
             else:
                 return 'Invalid quest or slot id'
         else:
@@ -5951,7 +5944,7 @@ def quests(command, arg0=0, arg1=0):
     elif command == 'tier':
         if arg0:
             target.b_setRewardHistory(arg0, target.getRewardHistory()[1])
-            return 'Set tier to %s'%(arg0)
+            return 'Set tier to %s' % arg0
         else:
             return 'tier needs 1 argument.'
     else:

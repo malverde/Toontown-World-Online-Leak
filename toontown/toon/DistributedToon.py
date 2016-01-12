@@ -61,7 +61,7 @@ import random
 import copy
 if base.wantKarts:
     from toontown.racing.KartDNA import *
-if (__debug__):
+if __debug__:
     import pdb
 
 class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, DistributedSmoothNode.DistributedSmoothNode, DelayDeletable):
@@ -422,8 +422,8 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.defaultShard = shard
 
     def setDefaultZone(self, zoneId):
-        if zoneId >= 20000 and zoneId < 22000:
-            zoneId = zoneId + 2000
+        if 20000 <= zoneId < 22000:
+            zoneId += 2000
         try:
             hoodPhase = base.cr.hoodMgr.getPhaseFromHood(zoneId)
         except:
@@ -1324,7 +1324,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.rewardHistory = rewardList
 
     def getRewardHistory(self):
-        return (self.rewardTier, self.rewardHistory)
+        return self.rewardTier, self.rewardHistory
 
     def doSmoothTask(self, task):
         self.smoother.computeAndApplySmoothPosHpr(self, self)
@@ -1360,7 +1360,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def b_setSpeedChatStyleIndex(self, index):
         realIndexToSend = 0
-        if type(index) == type(0) and 0 <= index and index < len(speedChatStyles):
+        if type(index) == type(0) and 0 <= index < len(speedChatStyles):
             realIndexToSend = index
         else:
             base.cr.centralLogger.writeClientEvent('Hacker alert b_setSpeedChatStyleIndex invalid')
@@ -1370,7 +1370,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def d_setSpeedChatStyleIndex(self, index):
         realIndexToSend = 0
-        if type(index) == type(0) and 0 <= index and index < len(speedChatStyles):
+        if type(index) == type(0) and 0 <= index < len(speedChatStyles):
             realIndexToSend = index
         else:
             base.cr.centralLogger.writeClientEvent('Hacker alert d_setSpeedChatStyleIndex invalid')
@@ -1378,7 +1378,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def setSpeedChatStyleIndex(self, index):
         realIndexToUse = 0
-        if type(index) == type(0) and 0 <= index and index < len(speedChatStyles):
+        if type(index) == type(0) and 0 <= index < len(speedChatStyles):
             realIndexToUse = index
         else:
             base.cr.centralLogger.writeClientEvent('Hacker victim setSpeedChatStyleIndex invalid attacking toon = %d' % self.doId)
@@ -2525,7 +2525,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
                     newwords.append(word)
 
         newText = ' '.join(newwords)
-        return (newText, scrubbed)
+        return newText, scrubbed
 
     def replaceBadWords(self, text):
         words = text.split(' ')
