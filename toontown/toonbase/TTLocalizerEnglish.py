@@ -9971,3 +9971,10 @@ MoreOptionsPageTitle = 'Other Options'
 ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'
 ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'
 
+# Boss Cog Taunts
+BossTaunts = [
+ "You can't stop this. We'll just keep on coming.",
+ 'Break time is over.',
+ "We can see you're having a Laff - but your Laff-ter can't stop our work.",
+ 'You toons need to be taught some manners.',
+ "We're only starting our business proposal."]

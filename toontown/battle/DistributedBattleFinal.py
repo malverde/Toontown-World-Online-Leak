@@ -10,6 +10,7 @@ from toontown.suit import Suit
 import SuitBattleGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
+from toontown.toonbase import TTLocalizer
 from direct.fsm import State
 import random
 from otp.nametag.NametagConstants import *
@@ -116,6 +117,9 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
     def showSuitsJoining(self, suits, ts, name, callback):
         if self.bossCog is None:
             return
+        # Boss Taunts
+        random.seed(suits[0].dna.name)
+        bossTaunt = Func(self.bossCog.setChatAbsolute, random.choice(TTLocalizer.BossTaunts), CFSpeech | CFTimeout)
         if self.battleSide:
             openDoor = Func(self.bossCog.doorB.request, 'open')
             closeDoor = Func(self.bossCog.doorB.request, 'close')
@@ -152,7 +156,7 @@ class DistributedBattleFinal(DistributedBattleBase.DistributedBattleBase):
             else:
                 camera.setPosHpr(-20, -4, 7, -60, 0, 0)
         done = Func(callback)
-        track = Sequence(openDoor, suitTrack, closeDoor, done, name=name)
+        track = Sequence(bossTaunt, openDoor, suitTrack, closeDoor, done, name=name)
         track.start(ts)
         self.storeInterval(track, name)
         return
