@@ -83,7 +83,7 @@ class ToontownInternalRepository(AstronInternalRepository):
         except SystemExit, KeyboardInterrupt:
             raise
         except Exception as e:
-            if self.getAvatarIdFromSender() > 100000000:
+            if self.getAvatarIdFromSender() > 100000000 and self.getAdminAccess() < 300: # We don't want staff to be booted, it's not worth booting them - all crashes are logged
                 dg = PyDatagram()
                 dg.addServerHeader(self.getMsgSender(), self.ourChannel, CLIENTAGENT_EJECT)
                 dg.addUint16(153)
