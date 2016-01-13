@@ -3,6 +3,7 @@ import NametagGlobals
 from otp.margins.ClickablePopup import ClickablePopup
 from otp.otpbase import OTPGlobals
 from pandac.PandaModules import *
+from direct.interval.IntervalGlobal import *
 
 class Nametag(ClickablePopup):
     CName = 1
@@ -108,7 +109,11 @@ class Nametag(ClickablePopup):
                                             self.DEFAULT_CHAT_WORDWRAP,
                                           button=self.getButton(),
                                           reversed=reversed)
+        balloon.setScale(0)
         balloon.reparentTo(self.innerNP)
+        scaleLerp = Sequence(Wait(0.10),
+                             LerpScaleInterval(balloon, 0.2, VBase3(1, 1, 1), VBase3(0, 0, 0), blendType='easeInOut'))
+        scaleLerp.start()
         self.frame = frame
 
     def showThought(self):
