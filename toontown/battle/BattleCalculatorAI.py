@@ -642,7 +642,7 @@ class BattleCalculatorAI:
 						attackDamage = suit = self.battle.findSuit(targetId).getHP()
 						result = attackDamage
 				except:
-						pass
+					pass
 				if atkTrack == HEAL:
 					if not self.__attackHasHit(attack, suit=0):
 						result = result * 0.2
