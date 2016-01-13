@@ -87,11 +87,11 @@ class Playground(Place.Place):
             State.State('doorIn',
                         self.enterDoorIn,
                         self.exitDoorIn, [
-                            'walk']),
+                            'walk', 'stopped']),
             State.State('doorOut',
                         self.enterDoorOut,
                         self.exitDoorOut, [
-                            'walk']),
+                            'walk', 'stopped']),
             State.State('TFA',
                         self.enterTFA,
                         self.exitTFA, [
