@@ -9971,3 +9971,53 @@ MoreOptionsPageTitle = 'Other Options'
 ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'
 ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'
 
+# Boss Cog Taunts
+BossTaunts = [
+ "You can't stop this. We'll just keep on coming.",
+ 'Break time is over.',
+ "We can see you're having a Laff - but your Laff-ter can't stop our work.",
+ 'You toons need to be taught some manners.',
+ "We've only just started our business proposal. Not bored are you?"]
+
+SendCogBossTaunts = {
+ 's': [
+  "We're going door to door to give you an dedious offer.",
+  "It's time for your estimated cost.",
+  'You toons never learn when to snatch up a great deal.',
+  "Call now and we'll reduce your laff, absolutely free of charge!",
+  'Sell, sell, sell!',
+  'Let us Sellbots give you a helping hand.',
+  'The deal has only just begun.',
+  'Going sad already? How about we settle a retirement plan.',
+  'Get them! Get them all!'
+ ]
+}
+VPRampMessage = "I don't have time for this, I'm late for my meeting!"
+
+VPDeathTaunt = "WAAAH!! YOU HAVEN'T SEEN THE LAST OF ME! WAIT UNTIL THE SELLBOT FACTORY PUTS ME BACK TOGETHER!"
+
+DirectedAttackBossTaunts = {
+ 's': [
+  'Have a free sample!',
+  'I see you over there!',
+  'My products are the best in all of Toontown!',
+  "Don't think I skipped you, %(toon)s!"
+  "Not even Flippy can save you!"
+ ]
+}
+
+VPSpinMessages = [
+ "Let's get these ideas going!",
+ "I wouldn't get too close. My patents protect these gears.",
+ 'Why worry about problems when you can shake them off?',
+ "I may be old, but I'm still reliable."
+]
+
+JumpBossTaunts = {
+ 's': [
+  'STOP!',
+  'Pay attention to my pitch!',
+  'This is a waste of my time!',
+  'Time to send you back to the playground!'
+ ]
+}

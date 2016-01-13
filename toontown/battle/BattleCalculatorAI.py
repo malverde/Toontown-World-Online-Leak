@@ -636,10 +636,13 @@ class BattleCalculatorAI:
 			if attackLevel == -1 and not atkTrack == FIRE:
 				result = LURE_SUCCEEDED
 			elif atkTrack != TRAP:
-				if battleSkip:
-					attackDamage = suit = self.battle.findSuit(
-						targetId).getHP()
-				result = attackDamage
+				# TODO: Try and fix this properly: Nonetype object has no attribute "getHP"
+				try:
+					if battleSkip:
+						attackDamage = suit = self.battle.findSuit(targetId).getHP()
+						result = attackDamage
+				except:
+						pass
 				if atkTrack == HEAL:
 					if not self.__attackHasHit(attack, suit=0):
 						result = result * 0.2
@@ -1639,7 +1642,7 @@ class BattleCalculatorAI:
 			self.__printSuitAtkStats()
 		return None
 
-	def __calculateFiredCogs():
+	def __calculateFiredCogs(self):
 		import pdb
 		pdb.set_trace()
 
