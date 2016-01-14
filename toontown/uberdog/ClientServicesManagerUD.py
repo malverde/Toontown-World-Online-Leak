@@ -762,6 +762,9 @@ class LoadAvatarFSM(AvatarOperationFSM):
         dg.addChannel(self.csm.GetAccountConnectionChannel(self.target)) # Set ownership channel to the connection's account channel.
         self.csm.air.send(dg)
 
+        # Tell the GlobalPartyManager as well:
+        self.csm.air.globalPartyMgr.avatarJoined(self.avId)
+
         # Tell everything that an avatar is coming online!
         friendsList = [x for x, y in self.avatar['setFriendsList'][0]]
         self.csm.air.netMessenger.send('avatarOnline', [self.avId, friendsList])
