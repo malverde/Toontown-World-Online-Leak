@@ -1,5 +1,6 @@
 from direct.distributed.AstronInternalRepository import AstronInternalRepository
 from otp.distributed.OtpDoGlobals import *
+from otp.ai.MagicWordGlobal import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.MsgTypes import *
 from panda3d.core import *
@@ -83,7 +84,7 @@ class ToontownInternalRepository(AstronInternalRepository):
         except SystemExit, KeyboardInterrupt:
             raise
         except Exception as e:
-            if self.getAvatarIdFromSender() > 100000000 and self.getAdminAccess() < 300: # We don't want staff to be booted, it's not worth booting them - all crashes are logged
+            if self.getAvatarIdFromSender() > 100000000 and spellbook.getInvoker().getAdminAccess() < 300: # We don't want staff to be booted, it's not worth booting them - all crashes are logged
                 dg = PyDatagram()
                 dg.addServerHeader(self.getMsgSender(), self.ourChannel, CLIENTAGENT_EJECT)
                 dg.addUint16(153)
