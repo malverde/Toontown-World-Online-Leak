@@ -4779,6 +4779,16 @@ def textColor(color):
     """
     spellbook.getTarget().b_setTextColor(color)
     return 'Set your color to: %s' % color
+# TODO: Toggle Staff Name Tags properly
+# @magicWord(category=CATEGORY_MODERATION, types=[str])
+# def staffnametag(command):
+#     spellbook.getTarget()
+#     if command == 'false':
+#         base.Avatar.getWantAdminTag = False
+#         return 'Staff NameTag Disabled.'
+#     elif command == 'true':
+#         base.Avatar.getWantAdminTag = True
+#         return 'Staff NameTag Enabled.'
 
 # @magicWord(category=CATEGORY_SYSADMIN, types=[str])
 # def remCode(code):
