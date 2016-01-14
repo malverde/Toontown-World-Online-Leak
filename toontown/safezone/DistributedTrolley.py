@@ -400,7 +400,7 @@ class DistributedTrolley(DistributedObject.DistributedObject):
             self.backWheels[i].setTransform(self.backWheelInit[i])
 
     def getStareAtNodeAndOffset(self):
-        return (self.trolleyCar, Point3(0, 0, 4))
+        return self.trolleyCar, Point3(0, 0, 4)
 
     def storeToonTrack(self, avId, track):
         self.clearToonTrack(avId)

@@ -164,7 +164,7 @@ class CogdoMazePlayer(FSM, CogdoMazeSplattable):
             return render.getRelativePoint(toon, Point3(0, Globals.ThrowDistance, 0))
 
         fly = Track((0, throwSoundIval), (toonThrowIval1.getDuration(), Sequence(Func(flyGag.reparentTo, render), Func(flyGag.setPosHpr, toon, 0.52, 0.97, 2.24, 0, -45, 0), ProjectileInterval(flyGag, endPos=getEndPos, duration=Globals.ThrowDuration), Func(flyGag.detachNode))))
-        return (toss, fly, flyGag)
+        return toss, fly, flyGag
 
     def _getToonAnimationIval(self, animName, startFrame = 0, duration = 1, nextState = None):
         totalFrames = self.toon.getNumFrames(animName)

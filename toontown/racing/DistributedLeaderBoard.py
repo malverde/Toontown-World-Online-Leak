@@ -129,7 +129,7 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
         namePath = row.attachNewNode(nameText)
         namePath.setScale(TTLocalizer.DLBbuildTitleRow)
         namePath.setDepthWrite(0)
-        return (row, nameText)
+        return row, nameText
 
     def buildTrackRow(self):
         row = hidden.attachNewNode('trackRow')
@@ -141,7 +141,7 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
         namePath = row.attachNewNode(nameText)
         namePath.setScale(0.55)
         namePath.setDepthWrite(0)
-        return (row, nameText)
+        return row, nameText
 
     def buildLeaderRow(self):
         row = hidden.attachNewNode('leaderRow')

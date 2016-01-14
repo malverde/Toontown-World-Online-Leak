@@ -366,7 +366,8 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         if distance < greaterDim * 0.75:
             if not self.isToonInRange:
                 self.doToonInRange()
-            if localAvatar.getPos(self)[0] > 0 and localAvatar.getPos(self)[0] < self.gridScaleX and localAvatar.getPos(self)[1] > 0 and localAvatar.getPos(self)[1] < self.gridScaleY:
+            if 0 < localAvatar.getPos(self)[0] < self.gridScaleX and 0 < \
+                    localAvatar.getPos(self)[1] < self.gridScaleY:
                 self.__toonHit()
             else:
                 if self.isToonIn:
@@ -416,7 +417,7 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         self.isToonIn = 1
 
     def __testTile(self):
-        if self.toonX >= 0 and self.toonY >= 0 and self.toonX < self.gridNumX and self.toonY < self.gridNumY:
+        if self.toonY >= 0 and 0 <= self.toonX < self.gridNumX and self.toonY < self.gridNumY:
             if self.gridData[self.toonX][self.toonY] < len(self.gridSymbols):
                 tileFunction = self.gridSymbols[self.gridData[self.toonX][self.toonY]][0]
                 if tileFunction:
@@ -611,7 +612,7 @@ class DistributedLaserField(BattleBlocker.BattleBlocker):
         self.genGrid()
 
     def getGrid(self):
-        return (self.gridNumX, self.gridNumY)
+        return self.gridNumX, self.gridNumY
 
     def setGridScaleX(self, gridScale):
         self.gridScaleX = gridScale

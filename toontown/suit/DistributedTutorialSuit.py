@@ -29,8 +29,6 @@ class DistributedTutorialSuit(
                                 'WaitForBattle', self.enterWaitForBattle, self.exitWaitForBattle, ['Battle'])], 'Off', 'Off')
             self.fsm.enterInitialState()
 
-        return None
-
     def generate(self):
         DistributedSuitBase.DistributedSuitBase.generate(self)
 

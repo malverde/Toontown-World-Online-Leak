@@ -513,37 +513,37 @@ class DistributedSuitBase(
                             ToontownGlobals.SILLY_SURGE_HOLIDAY):
                         self.sillySurgeText = True
                         absNum = abs(number)
-                        if absNum > 0 and absNum <= 10:
+                        if 0 < absNum <= 10:
                             self.HpTextGenerator.setText(
                                 str(number) + '\n' + TTLocalizer.SillySurgeTerms[1])
-                        elif absNum > 10 and absNum <= 20:
+                        elif 10 < absNum <= 20:
                             self.HpTextGenerator.setText(
                                 str(number) + '\n' + TTLocalizer.SillySurgeTerms[2])
-                        elif absNum > 20 and absNum <= 30:
+                        elif 20 < absNum <= 30:
                             self.HpTextGenerator.setText(
                                 str(number) + '\n' + TTLocalizer.SillySurgeTerms[3])
-                        elif absNum > 30 and absNum <= 40:
+                        elif 30 < absNum <= 40:
                             self.HpTextGenerator.setText(
                                 str(number) + '\n' + TTLocalizer.SillySurgeTerms[4])
-                        elif absNum > 40 and absNum <= 50:
+                        elif 40 < absNum <= 50:
                             self.HpTextGenerator.setText(
                                 str(number) + '\n' + TTLocalizer.SillySurgeTerms[5])
-                        elif absNum > 50 and absNum <= 60:
+                        elif 50 < absNum <= 60:
                             self.HpTextGenerator.setText(
                                 str(number) + '\n' + TTLocalizer.SillySurgeTerms[6])
-                        elif absNum > 60 and absNum <= 70:
+                        elif 60 < absNum <= 70:
                             self.HpTextGenerator.setText(
                                 str(number) + '\n' + TTLocalizer.SillySurgeTerms[7])
-                        elif absNum > 70 and absNum <= 80:
+                        elif 70 < absNum <= 80:
                             self.HpTextGenerator.setText(
                                 str(number) + '\n' + TTLocalizer.SillySurgeTerms[8])
-                        elif absNum > 80 and absNum <= 90:
+                        elif 80 < absNum <= 90:
                             self.HpTextGenerator.setText(
                                 str(number) + '\n' + TTLocalizer.SillySurgeTerms[9])
-                        elif absNum > 90 and absNum <= 100:
+                        elif 90 < absNum <= 100:
                             self.HpTextGenerator.setText(
                                 str(number) + '\n' + TTLocalizer.SillySurgeTerms[10])
-                        elif absNum > 100 and absNum <= 110:
+                        elif 100 < absNum <= 110:
                             self.HpTextGenerator.setText(
                                 str(number) + '\n' + TTLocalizer.SillySurgeTerms[11])
                         else:

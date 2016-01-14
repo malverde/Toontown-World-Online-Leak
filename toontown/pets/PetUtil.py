@@ -14,7 +14,7 @@ def getPetInfoFromSeed(seed, safezoneId):
         gender=gender, seed=seed + safezoneId)
     traitSeed = PythonUtil.randUint31()
     random.setstate(S)
-    return (nameString, dnaArray, traitSeed)
+    return nameString, dnaArray, traitSeed
 
 
 def getPetCostFromSeed(seed, safezoneId):

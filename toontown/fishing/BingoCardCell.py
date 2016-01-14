@@ -86,7 +86,7 @@ class BingoCardCell(DirectButton, FSM.FSM):
 
     def filterOff(self, request, args):
         if request == 'On':
-            return (request, args)
+            return request, args
         elif request == 'Off':
             return request
         else:

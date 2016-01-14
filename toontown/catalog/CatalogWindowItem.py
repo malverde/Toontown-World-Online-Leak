@@ -78,7 +78,7 @@ class CatalogWindowItem(CatalogAtticItem.CatalogAtticItem):
         model.setScale(0.4)
         model.reparentTo(frame)
         self.hasPicture = True
-        return (frame, None)
+        return frame, None
 
     def output(self, store=-1):
         return 'CatalogWindowItem(%s%s)' % (

@@ -15,4 +15,4 @@ class DistributedCogdoElevatorExt(DistributedElevatorExt):
         return self.bldg.getCogdoDoorOrigin()
 
     def _getDoorsClosedInfo(self):
-        return ('cogdoInterior', 'cogdoInterior')
+        return 'cogdoInterior', 'cogdoInterior'

@@ -265,7 +265,7 @@ class CatalogScreen(DirectFrame):
     def showNextPage(self):
         taskMgr.remove('clarabelleHelpText1')
         messenger.send('wakeup')
-        self.pageIndex = self.pageIndex + 1
+        self.pageIndex += 1
         if self.viewing is None:
             self.modeNewCatalog()
             self.viewing == 'New'
@@ -284,12 +284,12 @@ class CatalogScreen(DirectFrame):
     def showBackPage(self):
         taskMgr.remove('clarabelleHelpText1')
         messenger.send('wakeup')
-        self.pageIndex = self.pageIndex - 1
-        if self.viewing == 'Backorder' and self.pageIndex < 0 and self.numNewPages > 0:
+        self.pageIndex -= 1
+        if self.viewing == 'Backorder' and self.pageIndex < 0 < self.numNewPages:
             self.showNewItems(self.numNewPages - 1)
-        elif self.viewing == 'Loyalty' and self.pageIndex < 0 and self.numBackPages > 0:
+        elif self.viewing == 'Loyalty' and self.pageIndex < 0 < self.numBackPages:
             self.showBackorderItems(self.numBackPages - 1)
-        elif self.viewing == 'Emblem' and self.pageIndex < 0 and self.numLoyaltyPages > 0:
+        elif self.viewing == 'Emblem' and self.pageIndex < 0 < self.numLoyaltyPages:
             self.showLoyaltyItems(self.numLoyaltyPages - 1)
         else:
             self.pageIndex = max(self.pageIndex, -1)

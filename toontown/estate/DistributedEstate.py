@@ -303,7 +303,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         ts = 0
         if hasattr(task, 'ts'):
             ts = task.ts
-            if ts > HouseGlobals.HALF_DAY_PERIOD and ts < HouseGlobals.DAY_NIGHT_PERIOD - HouseGlobals.HALF_DAY_PERIOD:
+            if HouseGlobals.HALF_DAY_PERIOD < ts < HouseGlobals.DAY_NIGHT_PERIOD - HouseGlobals.HALF_DAY_PERIOD:
                 self.__stopBirds()
                 self.__startCrickets()
             else:

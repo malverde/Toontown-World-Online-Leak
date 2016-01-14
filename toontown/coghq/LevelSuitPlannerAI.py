@@ -48,16 +48,14 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
             pass
 
         def getSuitDict(spec, cogId, level = level, track = track):
-            suitDict = {}
-            suitDict['track'] = track
+            suitDict = {'track': track}
             suitDict.update(spec)
             suitDict['zoneId'] = self.level.getEntityZoneId(spec['parentEntId'])
             suitDict['level'] += level
             suitDict['cogId'] = cogId
             return suitDict
 
-        self.suitInfos = {}
-        self.suitInfos['activeSuits'] = []
+        self.suitInfos = {'activeSuits': []}
         for i in range(len(self.cogSpecs)):
             spec = self.cogSpecs[i]
             self.suitInfos['activeSuits'].append(getSuitDict(spec, i))

@@ -1322,7 +1322,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                     self.headsUp, toPos), self.hprInterval(
                     turnTime, toHpr, fromHpr), Func(
                     self.startMoveTask))
-        return (track, toHpr)
+        return track, toHpr
 
     def getCurTurnSpeed(self):
         result = ToontownGlobals.BossbotTurnSpeedMax - (

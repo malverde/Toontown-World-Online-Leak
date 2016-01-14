@@ -56,7 +56,7 @@ class PublicPartyGui(DirectFrame):
         strings = {'activities': TTLocalizer.EventsPageHostingTabActivityListTitle,
          'parties': TTLocalizer.PartyGatePartiesListTitle}
         label = DirectLabel(parent=self, relief=None, text=strings[typeString], text_scale=0.06, pos=self.gui.find('**/%sText_locator' % typeString).getPos())
-        return (list, label)
+        return list, label
 
     def refresh(self, partyInfoTupleList):
         PublicPartyGui.notify.debug('refresh : partyInfoTupleList = %s' % partyInfoTupleList)
@@ -228,7 +228,7 @@ class PublicPartyGui(DirectFrame):
         if not self.gui.find('**/partiesText_locator3').isEmpty():
             curPos = self.gui.find('**/partiesText_locator3').getPos()
         minLeftLabel = DirectLabel(parent=self, text_align=TextNode.ALeft, relief=None, text=TTLocalizer.PartyGatesPartiesListMinLeft, text_scale=TTLocalizer.PPGminLeftLabel, pos=curPos, hpr=hpr)
-        return (list, label)
+        return list, label
 
     def stash(self):
         base.setCellsAvailable(base.bottomCells, 1)

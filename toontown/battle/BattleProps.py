@@ -416,8 +416,7 @@ class PropPool:
             if name not in self.props:
                 prop = Actor.Actor()
                 prop.loadModel(self.propStrings[name][0])
-                animDict = {}
-                animDict[name] = self.propStrings[name][1]
+                animDict = {name: self.propStrings[name][1]}
                 prop.loadAnims(animDict)
                 prop.setName(name)
                 self.storeProp(name, prop)

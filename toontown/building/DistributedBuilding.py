@@ -765,7 +765,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             i += 1
 
         victoryRunTrack = Sequence(origPosTrack, openDoors, runOutAll)
-        return (victoryRunTrack, delayDeletes)
+        return victoryRunTrack, delayDeletes
 
     def animToCogdoFromCogdo(self, timeStamp):
         self.stopTransition()

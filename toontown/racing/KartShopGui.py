@@ -13,7 +13,7 @@ from toontown.racing.Kart import Kart
 from toontown.shtiker.KartPage import KartViewer
 from KartDNA import *
 from toontown.toontowngui.TeaserPanel import TeaserPanel
-if (__debug__):
+if __debug__:
     import pdb
 MENUS = PythonUtil.Enum(
     'MainMenu, BuyKart, BuyAccessory, ReturnKart, ConfirmBuyAccessory, ConfirmBuyKart, BoughtKart, BoughtAccessory, TeaserPanel')

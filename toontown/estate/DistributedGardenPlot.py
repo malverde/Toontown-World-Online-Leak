@@ -194,7 +194,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
                 if species >= 0 and variety >= 0:
                     if GardenGlobals.PlantAttributes[species]['plantType'] == GardenGlobals.STATUARY_TYPE:
                         successPlanting = True
-                        if species >= 205 and species <= 208:
+                        if 205 <= species <= 208:
                             successToonStatue = True
                         else:
                             self.sendUpdate('plantStatuary', [species])

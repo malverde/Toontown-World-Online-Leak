@@ -135,7 +135,7 @@ class SpecialsPhoto(NodePath):
         if specialsIndex == -1:
             nodePath = self.attachNewNode('blank')
             return nodePath
-        elif specialsIndex >= 105 and specialsIndex <= 108:
+        elif 105 <= specialsIndex <= 108:
             from toontown.estate import DistributedToonStatuary
             self.toonStatuary = DistributedToonStatuary.DistributedToonStatuary(None)
             self.toonStatuary.setupStoneToon(base.localAvatar.style)

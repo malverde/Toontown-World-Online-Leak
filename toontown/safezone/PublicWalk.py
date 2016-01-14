@@ -42,8 +42,7 @@ class PublicWalk(Walk.Walk):
         if base.localAvatar.book.isObscured():
             return
         else:
-            doneStatus = {}
-            doneStatus['mode'] = 'StickerBook'
+            doneStatus = {'mode': 'StickerBook'}
             messenger.send(self.doneEvent, [doneStatus])
             return
 
@@ -54,7 +53,6 @@ class PublicWalk(Walk.Walk):
         if base.localAvatar.book.isObscured():
             return
         else:
-            doneStatus = {}
-            doneStatus['mode'] = 'Options'
+            doneStatus = {'mode': 'Options'}
             messenger.send(self.doneEvent, [doneStatus])
             return

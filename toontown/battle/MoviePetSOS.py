@@ -25,7 +25,7 @@ offset = Point3(0, 4.0, 0)
 
 def doPetSOSs(PetSOSs):
     if len(PetSOSs) == 0:
-        return (None, None)
+        return None, None
     track = Sequence()
     textTrack = Sequence()
     for p in PetSOSs:
@@ -35,7 +35,7 @@ def doPetSOSs(PetSOSs):
 
     camDuration = track.getDuration()
     camTrack = MovieCamera.chooseHealShot(PetSOSs, camDuration)
-    return (track, camTrack)
+    return track, camTrack
 
 
 def __doPetSOS(sos):
@@ -94,7 +94,7 @@ def __doPet(attack, level, hp):
     pbpTrack = pbpText.getShowInterval(
         TTLocalizer.MovieNPCSOSCogsMiss,
         track.getDuration())
-    return (track, pbpTrack)
+    return track, pbpTrack
 
 
 def __healJuggle(heal):

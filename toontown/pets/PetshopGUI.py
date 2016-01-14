@@ -601,11 +601,9 @@ class PetshopGUI(DirectObject):
                 PetDNA.setGender(dna, gender)
                 self.petDNA.append(dna)
                 self.petName.append(TTLocalizer.PetshopUnknownName)
-                descList = []
-                descList.append(
-                    TTLocalizer.PetshopDescGender %
-                    PetDNA.getGenderString(
-                        gender=gender))
+                descList = [TTLocalizer.PetshopDescGender %
+                            PetDNA.getGenderString(
+                                gender=gender)]
                 if traitList:
                     descList.append(
                         TTLocalizer.PetshopDescTrait %

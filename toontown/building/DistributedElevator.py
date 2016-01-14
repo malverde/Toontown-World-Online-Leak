@@ -372,7 +372,7 @@ class DistributedElevator(DistributedObject.DistributedObject):
                 timeToSet = timeSent
             if avId in self.cr.doId2do:
                 if bailFlag == 1 and hasattr(self, 'clockNode'):
-                    if timestamp < timeToSet and timestamp >= 0:
+                    if timeToSet > timestamp >= 0:
                         self.countdown(timeToSet - timestamp)
                     else:
                         self.countdown(timeToSet)
@@ -569,7 +569,7 @@ class DistributedElevator(DistributedObject.DistributedObject):
             self.countdown(countdownTime - ts)
 
     def _getDoorsClosedInfo(self):
-        return ('suitInterior', 'suitInterior')
+        return 'suitInterior', 'suitInterior'
 
     def __doorsClosed(self, zoneId):
         if self.localToonOnBoard:
@@ -669,4 +669,4 @@ class DistributedElevator(DistributedObject.DistributedObject):
         track, trackType = self.boardingGroupShow.getBoardingTrack(
             self.getElevatorModel(), self.getOffsetPosWrtToonParent(
                 toon, seatIndex), self.getOffsetPosWrtRender(seatIndex), wantToonRotation)
-        return (track, trackType)
+        return track, trackType

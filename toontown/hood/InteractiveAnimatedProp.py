@@ -78,8 +78,7 @@ class InteractiveAnimatedProp(
         anim = node.getTag('DNAAnim')
         self.trashcan = Actor.Actor(node, copy=0)
         self.trashcan.reparentTo(node)
-        animDict = {}
-        animDict['anim'] = '%s/%s' % (self.path, anim)
+        animDict = {'anim': '%s/%s' % (self.path, anim)}
         for i in xrange(self.numIdles):
             baseAnim = self.ZoneToIdles[self.hoodId][i]
             if isinstance(baseAnim, tuple):

@@ -335,9 +335,6 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
     def enterOff(self):
         self.lastState = self.state
 
-    def exitOff(self):
-        pass
-
     def setLawOfficeInteriorZone(self, zoneId):
         if self.localToonOnBoard:
             hoodId = self.cr.playGame.hood.hoodId

@@ -458,7 +458,7 @@ class DistributedVineGame(DistributedMinigame):
 
         if self.toonInfo[avId][0] != retVine:
             self.notify.warning("getVineAndVineInfo don't agree, toonInfo[%d]=%s, retVine=%d" % (avId, self.toonInfo[avId][0], retVine))
-        return (retVine, curInfo)
+        return retVine, curInfo
 
     def setGameReady(self):
         if not self.hasLocalToon:

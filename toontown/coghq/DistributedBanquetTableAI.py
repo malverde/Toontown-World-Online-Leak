@@ -67,7 +67,7 @@ class DistributedBanquetTableAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM
             eatingDurations.append(self.dinerInfo[i][1])
             dinerLevels.append(self.dinerInfo[i][2])
 
-        return (hungryDurations, eatingDurations, dinerLevels)
+        return hungryDurations, eatingDurations, dinerLevels
 
     def d_setDinerStatus(self, chairIndex, newStatus):
         self.sendUpdate('setDinerStatus', [chairIndex, newStatus])

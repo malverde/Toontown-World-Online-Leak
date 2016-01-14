@@ -631,7 +631,7 @@ def canBeCaughtByRod(genus, species, rodIndex):
 
 def getRodWeightRange(rodIndex):
     rodProps = __rodDict[rodIndex]
-    return (rodProps[ROD_WEIGHT_MIN_INDEX], rodProps[ROD_WEIGHT_MAX_INDEX])
+    return rodProps[ROD_WEIGHT_MIN_INDEX], rodProps[ROD_WEIGHT_MAX_INDEX]
 
 
 def __rollRarityDice(rodId, rNumGen):
@@ -682,13 +682,13 @@ def getRandomFishVitals(zoneId, rodId, rNumGen = None):
          species,
          weight)
     else:
-        return (0, 0, 0, 0)
+        return 0, 0, 0, 0
     return
 
 
 def getWeightRange(genus, species):
     fishInfo = __fishDict[genus][species]
-    return (fishInfo[WEIGHT_MIN_INDEX], fishInfo[WEIGHT_MAX_INDEX])
+    return fishInfo[WEIGHT_MIN_INDEX], fishInfo[WEIGHT_MAX_INDEX]
 
 
 def getRarity(genus, species):
@@ -790,7 +790,7 @@ def testRarity(rodId = 0, numIter = 100000):
 def getRandomFish():
     genus = random.choice(__fishDict.keys())
     species = random.randint(0, len(__fishDict[genus]) - 1)
-    return (genus, species)
+    return genus, species
 
 
 def getPondInfo():

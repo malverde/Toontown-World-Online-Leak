@@ -9,7 +9,7 @@ from toontown.toon.DistributedToon import *
 from direct.gui.OnscreenText import OnscreenText
 from direct.gui.DirectGui import *
 
-class ModPanel():
+class ModPanel:
 
     def __init__(self, invoker):
             self.invoker = invoker

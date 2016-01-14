@@ -76,21 +76,21 @@ class BattleCalculatorAI:
 
 	def __calcToonAtkHit(self, attackIndex, atkTargets):
 		if len(atkTargets) == 0:
-			return (0, 0)
+			return 0, 0
 		if battleSkip:
-			return (1, 95)
+			return 1, 95
 		if self.tutorialFlag:
-			return (1, 95)
+			return 1, 95
 		if self.toonsAlways5050:
 			roll = random.randint(0, 99)
 			if roll < 50:
-				return (1, 95)
+				return 1, 95
 			else:
-				return (0, 0)
+				return 0, 0
 		if self.toonsAlwaysHit:
-			return (1, 95)
+			return 1, 95
 		elif self.toonsAlwaysMiss:
-			return (0, 0)
+			return 0, 0
 		debug = self.notify.getDebug()
 		attack = self.battle.toonAttacks[attackIndex]
 		atkTrack, atkLevel = self.__getActualTrackLevel(attack)
@@ -109,14 +109,14 @@ class BattleCalculatorAI:
 						hasAccuracyBuff = True
 
 		if atkTrack == NPCSOS:
-			return (1, 95)
+			return 1, 95
 		if atkTrack == FIRE:
-			return (1, 95)
+			return 1, 95
 		if atkTrack == TRAP:
 			if debug:
 				self.notify.debug('Attack is a trap, so it hits regardless')
 			attack[TOON_ACCBONUS_COL] = 0
-			return (1, 100)
+			return 1, 100
 		elif atkTrack == DROP and attack[TOON_TRACK_COL] == NPCSOS:
 			unluredSuits = 0
 			for tgt in atkTargets:
@@ -125,7 +125,7 @@ class BattleCalculatorAI:
 
 			if unluredSuits == 0:
 				attack[TOON_ACCBONUS_COL] = 1
-				return (0, 0)
+				return 0, 0
 		elif atkTrack == DROP:
 			allLured = True
 			for i in range(len(atkTargets)):
@@ -136,7 +136,7 @@ class BattleCalculatorAI:
 
 			if allLured:
 				attack[TOON_ACCBONUS_COL] = 1
-				return (0, 0)
+				return 0, 0
 		elif atkTrack == PETSOS:
 			return self.__calculatePetTrickSuccess(attack)
 		tgtDef = 0
@@ -222,7 +222,7 @@ class BattleCalculatorAI:
 					if debug:
 						self.notify.debug('HIT: Toon attack track hit')
 				attack[TOON_ACCBONUS_COL] = prevAttack[TOON_ACCBONUS_COL]
-				return (not attack[TOON_ACCBONUS_COL], attackAcc)
+				return not attack[TOON_ACCBONUS_COL], attackAcc
 		atkAccResult = attackAcc
 		if debug:
 			self.notify.debug('setting atkAccResult to %d' % atkAccResult)
@@ -233,7 +233,7 @@ class BattleCalculatorAI:
 					if debug:
 						self.notify.debug('all targets are lured, attack hits')
 					attack[TOON_ACCBONUS_COL] = 0
-					return (1, 100)
+					return 1, 100
 				else:
 					luredRatio = float(numLured) / float(len(atkTargets))
 					accAdjust = 100 * luredRatio
@@ -247,7 +247,7 @@ class BattleCalculatorAI:
 				if debug:
 					self.notify.debug('all targets are lured, attack misses')
 				attack[TOON_ACCBONUS_COL] = 0
-				return (0, 0)
+				return 0, 0
 		if acc > MaxToonAcc:
 			acc = MaxToonAcc
 		if randChoice < acc:
@@ -266,7 +266,7 @@ class BattleCalculatorAI:
 					'to hit with an accuracy of' +
 					str(acc))
 			attack[TOON_ACCBONUS_COL] = 1
-		return (not attack[TOON_ACCBONUS_COL], atkAccResult)
+		return not attack[TOON_ACCBONUS_COL], atkAccResult
 
 	def __toonTrackExp(self, toonId, track):
 		toon = self.battle.getToon(toonId)
@@ -274,7 +274,7 @@ class BattleCalculatorAI:
 			toonExpLvl = toon.experience.getExpLevel(track)
 			exp = self.AttackExpPerTrack[toonExpLvl]
 			if track == HEAL:
-				exp = exp * 0.5
+				exp *= 0.5
 			self.notify.debug(
 				'Toon track exp: ' +
 				str(toonExpLvl) +
@@ -646,7 +646,7 @@ class BattleCalculatorAI:
 					result = 0
 				if atkTrack == HEAL:
 					if not self.__attackHasHit(attack, suit=0):
-						result = result * 0.2
+						result *= 0.2
 					if self.notify.getDebug():
 						self.notify.debug(
 							'toon does ' + str(result) + ' healing to toon(s)')
@@ -668,7 +668,7 @@ class BattleCalculatorAI:
 					continue
 				targetIndex = targets.index(targetList[currTarget])
 				if atkTrack == HEAL:
-					result = result / len(targetList)
+					result /= len(targetList)
 					if self.notify.getDebug():
 						self.notify.debug(
 							'Splitting heal among ' + str(len(targetList)) +
@@ -886,9 +886,9 @@ class BattleCalculatorAI:
 					' at position ' + str(position) + ' from toon attack ' +
 					str(lastAtk[TOON_ID_COL]) + ' and setting it for ' +
 					str(currAtk[TOON_ID_COL]))
-			lastAtk[SUIT_DIED_COL] = lastAtk[SUIT_DIED_COL] ^ 1 << position
+			lastAtk[SUIT_DIED_COL] ^= 1 << position
 			self.suitLeftBattle(tgt.getDoId())
-			currAtk[SUIT_DIED_COL] = currAtk[SUIT_DIED_COL] | 1 << position
+			currAtk[SUIT_DIED_COL] |= 1 << position
 
 	def __addDmgToBonuses(self, dmg, attackIndex, hp=1):
 		toonId = self.toonAtkOrder[attackIndex]
@@ -1604,7 +1604,7 @@ class BattleCalculatorAI:
 		self.delayedUnlures = []
 		self.__initTraps()
 		self.successfulLures = {}
-		return (toonsHit, cogsMiss)
+		return toonsHit, cogsMiss
 
 	def calculateRound(self):
 		longest = max(
@@ -1846,12 +1846,12 @@ class BattleCalculatorAI:
 				toonAttack
 				[TOON_TGT_COL])
 			if track is not None:
-				return (track, level)
+				return track, level
 			else:
 				self.notify.warning(
 					'No NPC with id: %d' %
 					toonAttack[TOON_TGT_COL])
-		return (toonAttack[TOON_TRACK_COL], toonAttack[TOON_LVL_COL])
+		return toonAttack[TOON_TRACK_COL], toonAttack[TOON_LVL_COL]
 
 	def __getActualTrackLevelHp(self, toonAttack):
 		if toonAttack[TOON_TRACK_COL] == NPCSOS:
@@ -1859,7 +1859,7 @@ class BattleCalculatorAI:
 				toonAttack
 				[TOON_TGT_COL])
 			if track is not None:
-				return (track, level, hp)
+				return track, level, hp
 			else:
 				self.notify.warning(
 					'No NPC with id: %d' %
@@ -1879,22 +1879,22 @@ class BattleCalculatorAI:
 				self.notify.warning(
 					'pet proxy: %d not in doId2do!' %
 					petProxyId)
-			return (toonAttack[TOON_TRACK_COL], toonAttack[TOON_LVL_COL], hp)
-		return (toonAttack[TOON_TRACK_COL], toonAttack[TOON_LVL_COL], 0)
+			return toonAttack[TOON_TRACK_COL], toonAttack[TOON_LVL_COL], hp
+		return toonAttack[TOON_TRACK_COL], toonAttack[TOON_LVL_COL], 0
 
 	def __calculatePetTrickSuccess(self, toonAttack):
 		petProxyId = toonAttack[TOON_TGT_COL]
 		if petProxyId not in simbase.air.doId2do:
 			self.notify.warning('pet proxy %d not in doId2do!' % petProxyId)
 			toonAttack[TOON_ACCBONUS_COL] = 1
-			return (0, 0)
+			return 0, 0
 		petProxy = simbase.air.doId2do[petProxyId]
 		trickId = toonAttack[TOON_LVL_COL]
 		toonAttack[TOON_ACCBONUS_COL] = petProxy.attemptBattleTrick(trickId)
 		if toonAttack[TOON_ACCBONUS_COL] == 1:
-			return (0, 0)
+			return 0, 0
 		else:
-			return (1, 100)
+			return 1, 100
 
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[int])

@@ -914,7 +914,7 @@ class DistributedRace(DistributedObject.DistributedObject):
         for side in ['inner', 'outer']:
             numBldgGroups = len(self.buildingGroups[side])
             bldgInd = int(t * numBldgGroups)
-            bldgInd = bldgInd % numBldgGroups
+            bldgInd %= numBldgGroups
             if self.trackId in (
                     RaceGlobals.RT_Urban_2,
                     RaceGlobals.RT_Urban_2_rev):

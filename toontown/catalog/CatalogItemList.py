@@ -74,7 +74,7 @@ class CatalogItemList:
                 afterTime, store=self.store))
 
     def extractOldestItems(self, count):
-        return (self[0:count], self[count:])
+        return self[0:count], self[count:]
 
     def __encodeList(self):
         self.__blob = self.__makeBlob(self.store)

@@ -197,28 +197,28 @@ class DistributedTrunk(DistributedCloset.DistributedCloset):
             swapFunc = self.closetGUI.swapHat
             removeFunc = self.closetGUI.removeHat
             trashItem = self.av.getHat()
-            self.hatDeleted = self.hatDeleted | 1
+            self.hatDeleted |= 1
         elif which == ToonDNA.GLASSES:
             itemList = self.closetGUI.glasses
             trashIndex = self.closetGUI.glassesChoice
             swapFunc = self.closetGUI.swapGlasses
             removeFunc = self.closetGUI.removeGlasses
             trashItem = self.av.getGlasses()
-            self.glassesDeleted = self.glassesDeleted | 1
+            self.glassesDeleted |= 1
         elif which == ToonDNA.BACKPACK:
             itemList = self.closetGUI.backpacks
             trashIndex = self.closetGUI.backpackChoice
             swapFunc = self.closetGUI.swapBackpack
             removeFunc = self.closetGUI.removeBackpack
             trashItem = self.av.getBackpack()
-            self.backpackDeleted = self.backpackDeleted | 1
+            self.backpackDeleted |= 1
         elif which == ToonDNA.SHOES:
             itemList = self.closetGUI.shoes
             trashIndex = self.closetGUI.shoesChoice
             swapFunc = self.closetGUI.swapShoes
             removeFunc = self.closetGUI.removeShoes
             trashItem = self.av.getShoes()
-            self.shoesDeleted = self.shoesDeleted | 1
+            self.shoesDeleted |= 1
         else:
             self.notify.warning("we don't know about this item(type = %s)" % which)
             return

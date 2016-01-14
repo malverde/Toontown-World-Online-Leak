@@ -241,8 +241,8 @@ class GameSprite:
             self.prevZ = self.spriteBase.getZ()
             self.setX(self.getX() + self.velX * timeDelta)
             self.setZ(self.getZ() + self.velZ * timeDelta)
-            self.velX = self.velX * (1 - timeDelta * 4)
-            self.velZ = self.velZ * (1 - timeDelta * 4)
+            self.velX *= 1 - timeDelta * 4
+            self.velZ *= 1 - timeDelta * 4
             if self.accX != None:
                 self.velX = self.accX
                 self.velZ = self.accZ

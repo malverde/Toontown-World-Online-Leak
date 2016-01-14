@@ -877,7 +877,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
         taskMgr.doMethodLater(self.targetRateList[self.nextRateIndex][0], self.__updateIdealRateTask, self.taskName('targetRateTimer'))
 
     def __updateIdealRateTask(self, task):
-        self.nextRateIndex = self.nextRateIndex + 1
+        self.nextRateIndex += 1
         if self.nextRateIndex < len(self.targetRateList):
             if self.nextRateIndex == len(self.targetRateList) - 1:
                 self.allOutMode = 1
@@ -1118,7 +1118,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
         if avId == None:
             if self.suitId not in self.fallenList:
                 curPos = self.suit.getPos()
-                if curPos[0] < 0 and curPos[0] > -2 or curPos[0] > 0 and curPos[0] < 2:
+                if 0 > curPos[0] > -2 or 0 < curPos[0] < 2:
                     self.hideControls()
                     self.throwInWater()
                     losingSide = 1
@@ -1127,7 +1127,7 @@ class DistributedTugOfWarGame(DistributedMinigame):
             toon = self.getAvatar(avId)
             if toon:
                 curPos = toon.getPos()
-                if curPos[0] < 0 and curPos[0] > -2 or curPos[0] > 0 and curPos[0] < 2:
+                if 0 > curPos[0] > -2 or 0 < curPos[0] < 2:
                     self.hideControls()
                     losingSide = self.sides[avId]
                     for avId in self.avIdList:

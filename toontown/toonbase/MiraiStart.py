@@ -108,7 +108,7 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
                 className = dclass.getName()
                 classDef = dcImports.get(className)
             if classDef is None:
-                self.notify.debug("No class definition for %s." % (className))
+                self.notify.debug("No class definition for %s." % className)
             else:
                 if type(classDef) == types.ModuleType:
                     if not hasattr(classDef, className):
@@ -117,7 +117,7 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
                     classDef = getattr(classDef, className)
 
                 if type(classDef) != types.ClassType and type(classDef) != types.TypeType:
-                    self.notify.error("Symbol %s is not a class name." % (className))
+                    self.notify.error("Symbol %s is not a class name." % className)
                 else:
                     dclass.setClassDef(classDef)
 
@@ -161,7 +161,7 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
             # in the DC file.
             for i in range(dcFile.getNumClasses()):
                 dclass = dcFile.getClass(i)
-                if ((dclass.getName()+ownerDcSuffix) in ownerImportSymbols):
+                if (dclass.getName()+ownerDcSuffix) in ownerImportSymbols:
                     number = dclass.getNumber()
                     className = dclass.getName() + ownerDcSuffix
 

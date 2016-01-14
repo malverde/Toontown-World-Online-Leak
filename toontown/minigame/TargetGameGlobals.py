@@ -23,46 +23,14 @@ ringColorSelection = [(0, 1, 2),
  4,
  5,
  6]
-colorRed = {}
-colorRed['Red'] = 1.0
-colorRed['Green'] = 0.0
-colorRed['Blue'] = 0.0
-colorRed['Alpha'] = 0.5
-colorBlue = {}
-colorBlue['Red'] = 0.0
-colorBlue['Green'] = 0.0
-colorBlue['Blue'] = 1.0
-colorBlue['Alpha'] = 0.5
-colorGreen = {}
-colorGreen['Red'] = 0.0
-colorGreen['Green'] = 1.0
-colorGreen['Blue'] = 0.0
-colorGreen['Alpha'] = 0.5
-colorYellow = {}
-colorYellow['Red'] = 1.0
-colorYellow['Green'] = 1.0
-colorYellow['Blue'] = 0.0
-colorYellow['Alpha'] = 0.5
-colorPurple = {}
-colorPurple['Red'] = 0.75
-colorPurple['Green'] = 0.0
-colorPurple['Blue'] = 1.0
-colorPurple['Alpha'] = 0.5
-colorOrange = {}
-colorOrange['Red'] = 1.0
-colorOrange['Green'] = 0.6
-colorOrange['Blue'] = 0.0
-colorOrange['Alpha'] = 0.5
-colorBlack = {}
-colorBlack['Red'] = 0.0
-colorBlack['Green'] = 0.0
-colorBlack['Blue'] = 0.0
-colorBlack['Alpha'] = 1.0
-colorWhite = {}
-colorWhite['Red'] = 1.0
-colorWhite['Green'] = 1.0
-colorWhite['Blue'] = 1.0
-colorWhite['Alpha'] = 1.0
+colorRed = {'Red': 1.0, 'Green': 0.0, 'Blue': 0.0, 'Alpha': 0.5}
+colorBlue = {'Red': 0.0, 'Green': 0.0, 'Blue': 1.0, 'Alpha': 0.5}
+colorGreen = {'Red': 0.0, 'Green': 1.0, 'Blue': 0.0, 'Alpha': 0.5}
+colorYellow = {'Red': 1.0, 'Green': 1.0, 'Blue': 0.0, 'Alpha': 0.5}
+colorPurple = {'Red': 0.75, 'Green': 0.0, 'Blue': 1.0, 'Alpha': 0.5}
+colorOrange = {'Red': 1.0, 'Green': 0.6, 'Blue': 0.0, 'Alpha': 0.5}
+colorBlack = {'Red': 0.0, 'Green': 0.0, 'Blue': 0.0, 'Alpha': 1.0}
+colorWhite = {'Red': 1.0, 'Green': 1.0, 'Blue': 1.0, 'Alpha': 1.0}
 difficultyPatterns = {ToontownGlobals.ToontownCentral: [[8,
                                     4,
                                     2,

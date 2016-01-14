@@ -311,7 +311,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
             self.deferredSlots = newSlots
         elif avId in self.cr.doId2do:
             if bailFlag == 1 and hasattr(self, 'clockNode'):
-                if timestamp < self.countdownTime and timestamp >= 0:
+                if self.countdownTime > timestamp >= 0:
                     self.countdown(self.countdownTime - timestamp)
                 else:
                     self.countdown(self.countdownTime)

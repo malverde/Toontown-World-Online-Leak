@@ -514,7 +514,7 @@ class RaceGUI:
         padding = (seconds < 10 and ['0'] or [''])[0]
         t -= seconds
         fraction = str(t)[2:4]
-        fraction = fraction + '0' * (2 - len(fraction))
+        fraction += '0' * (2 - len(fraction))
         if self.timerEnabled and self.maxLapHit < self.race.lapCount:
             self.timeLabels[self.maxLapHit][0]['text'] = "%d'" % minutes
             self.timeLabels[self.maxLapHit][1][

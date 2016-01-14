@@ -33,7 +33,7 @@ class DateObject:
                 if dobDay > curDay:
                     curMonths -= 1
         ageMonths = curMonths - dobMonths
-        return (int(ageMonths / 12), ageMonths % 12)
+        return int(ageMonths / 12), ageMonths % 12
 
     def getAge(
             self,

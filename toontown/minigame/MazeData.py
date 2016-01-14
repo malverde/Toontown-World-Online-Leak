@@ -3,8 +3,7 @@ mazeNames = [['phase_4/models/minigames/maze_1player'],
  ['phase_4/models/minigames/maze_2player'],
  ['phase_4/models/minigames/maze_3player'],
  ['phase_4/models/minigames/maze_4player']]
-mazeData = {}
-mazeData['phase_4/models/minigames/maze_1player'] = {}
+mazeData = {'phase_4/models/minigames/maze_1player': {}}
 data = mazeData['phase_4/models/minigames/maze_1player']
 data['width'] = 28
 data['height'] = 22

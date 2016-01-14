@@ -9969,7 +9969,6 @@ def getBuffPosterString(buffId):
 MoreOptionsPageTitle = 'Other Options'
 
 ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'
-ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'
 
 # Boss Cog Taunts
 BossTaunts = [

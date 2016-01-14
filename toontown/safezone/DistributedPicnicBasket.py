@@ -280,7 +280,7 @@ class DistributedPicnicBasket(DistributedObject.DistributedObject):
         self.clockNode.reset()
 
     def getStareAtNodeAndOffset(self):
-        return (self.tablecloth, Point3(0, 0, 4))
+        return self.tablecloth, Point3(0, 0, 4)
 
     def storeToonTrack(self, avId, track):
         self.clearToonTrack(avId)

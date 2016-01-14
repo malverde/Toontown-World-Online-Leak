@@ -599,7 +599,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
                                         fromPos, deltaPos]), self.rollLeftTreads(
                                             rollTime, rollTreadRate), self.rollRightTreads(
                                                 rollTime, rollTreadRate)))
-        return (track, toHpr)
+        return track, toHpr
 
     def setupElevator(self, elevatorModel):
         self.elevatorModel = elevatorModel

@@ -40,7 +40,7 @@ WaterSprayColor = Point4(0.75, 0.75, 1.0, 0.8)
 
 def doSquirts(squirts):
     if len(squirts) == 0:
-        return (None, None)
+        return None, None
 
     suitSquirtsDict = {}
     doneUber = 0
@@ -87,7 +87,7 @@ def doSquirts(squirts):
     camDuration = mtrack.getDuration()
     camTrack = MovieCamera.chooseSquirtShot(
         squirts, suitSquirtsDict, camDuration)
-    return (mtrack, camTrack)
+    return mtrack, camTrack
 
 
 def __doSuitSquirts(squirts):

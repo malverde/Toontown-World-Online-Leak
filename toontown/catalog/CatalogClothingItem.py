@@ -575,7 +575,7 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         return self.colorIndex - other.colorIndex
 
     def getHashContents(self):
-        return (self.clothingType, self.colorIndex)
+        return self.clothingType, self.colorIndex
 
     def getBasePrice(self):
         return ClothingTypes[self.clothingType][CTBasePrice]

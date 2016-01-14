@@ -122,7 +122,7 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
         if self.gui.isLoaded():
             for i in range(len(songInfoList)):
                 songInfo = songInfoList[i]
-                self.__addSongToQueue(songInfo, isLocalQueue=index >= 0 and i == index)
+                self.__addSongToQueue(songInfo, isLocalQueue=0 <= index == i)
 
             self.gui.enableAddSongButton()
 

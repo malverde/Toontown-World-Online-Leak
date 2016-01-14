@@ -67,11 +67,8 @@ class SuitPlannerCogdoInteriorAI:
             for currActive in range(numActive - 1, -1, -1):
                 level = lvls[currActive]
                 type = self.__genNormalSuitType(level)
-                activeDict = {}
-                activeDict['type'] = type
-                activeDict['track'] = bldgTrack
-                activeDict['level'] = level
-                activeDict['revives'] = filterReviveChance(bldgTrack, revives)
+                activeDict = {'type': type, 'track': bldgTrack, 'level': level,
+                              'revives': filterReviveChance(bldgTrack, revives)}
                 activeDicts.append(activeDict)
 
             infoDict['activeSuits'] = activeDicts
@@ -81,12 +78,9 @@ class SuitPlannerCogdoInteriorAI:
             for currReserve in range(numReserve):
                 level = lvls[currReserve + numActive]
                 type = self.__genNormalSuitType(level)
-                reserveDict = {}
-                reserveDict['type'] = type
-                reserveDict['track'] = bldgTrack
-                reserveDict['level'] = level
-                reserveDict['revives'] = filterReviveChance(bldgTrack, revives)
-                reserveDict['joinChance'] = joinChances[currReserve]
+                reserveDict = {'type': type, 'track': bldgTrack, 'level': level,
+                               'revives': filterReviveChance(bldgTrack, revives),
+                               'joinChance': joinChances[currReserve]}
                 reserveDicts.append(reserveDict)
 
             infoDict['reserveSuits'] = reserveDicts

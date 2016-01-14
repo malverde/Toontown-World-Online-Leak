@@ -56,6 +56,6 @@ class DistributedFlippyStand(DistributedObject, FSM):
         DistributedObject.delete(self)
 
     def handleWheelbarrowCollisionSphereEnter(self, collEntry):
-        if base.localAvatar.numPies >= 0 and base.localAvatar.numPies < 20:
+        if 0 <= base.localAvatar.numPies < 20:
             self.sendUpdate('wheelbarrowAvatarEnter', [])
             self.restockSfx.play()

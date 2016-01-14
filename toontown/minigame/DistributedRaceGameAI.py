@@ -205,14 +205,14 @@ class DistributedRaceGameAI(DistributedMinigameAI):
             numWinners = 0
             for avId in self.avIdList:
                 if self.avatarPositions[avId] >= RaceGameGlobals.NumberToWin:
-                    numWinners = numWinners + 1
+                    numWinners += 1
 
             for avId in self.avIdList:
                 newJellybeans = ceil(self.avatarPositions[avId] * 0.5)
                 if self.avatarPositions[avId] >= RaceGameGlobals.NumberToWin:
                     newJellybeans = RaceGameGlobals.NumberToWin
                     if numWinners > 1:
-                        newJellybeans = newJellybeans - 3
+                        newJellybeans -= 3
                 self.scoreDict[avId] = self.scoreDict[avId] + newJellybeans
 
             taskMgr.doMethodLater(delay, self.rewardTimeoutTaskGameOver, self.taskName('reward-timeout'))
@@ -269,14 +269,14 @@ class DistributedRaceGameAI(DistributedMinigameAI):
                 numWinners = 0
                 for avId in self.avIdList:
                     if self.avatarPositions[avId] >= RaceGameGlobals.NumberToWin:
-                        numWinners = numWinners + 1
+                        numWinners += 1
 
                 for avId in self.avIdList:
                     newJellybeans = ceil(self.avatarPositions[avId] * 0.5)
                     if self.avatarPositions[avId] >= RaceGameGlobals.NumberToWin:
                         newJellybeans = RaceGameGlobals.NumberToWin
                         if numWinners > 1:
-                            newJellybeans = newJellybeans - 3
+                            newJellybeans -= 3
                     self.scoreDict[avId] = self.scoreDict[avId] + newJellybeans
 
                 taskMgr.doMethodLater(delay, self.rewardTimeoutTaskGameOver, self.taskName('reward-timeout'))

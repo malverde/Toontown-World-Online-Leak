@@ -66,7 +66,7 @@ class CatalogPoleItem(CatalogItem.CatalogItem):
         CatalogPoleItem.sequenceNumber += 1
         track = Sequence(Func(pole.pose, 'cast', 130), Wait(100), name=name)
         self.hasPicture = True
-        return (frame, track)
+        return frame, track
 
     def getAcceptItemErrorText(self, retcode):
         if retcode == ToontownGlobals.P_ItemAvailable:

@@ -17,7 +17,7 @@ notify = DirectNotifyGlobal.directNotify.newCategory('MovieTrap')
 
 def doTraps(traps):
     if len(traps) == 0:
-        return (None, None)
+        return None, None
     npcArrivals, npcDepartures, npcs = MovieNPCSOS.doNPCTeleports(traps)
     hasUberTrapConflict = False
     suitTrapsDict = {}
@@ -103,7 +103,7 @@ def doTraps(traps):
     exitDuration = npcDepartures.getDuration()
     camTrack = MovieCamera.chooseTrapShot(
         traps, camDuration, enterDuration, exitDuration)
-    return (trapTrack, camTrack)
+    return trapTrack, camTrack
 
 
 def __doTrapLevel(trap, trapProps, explode=0):
@@ -596,9 +596,7 @@ def createThrowingTrack(
         duration=1.0,
         parent=render,
         gravity=-32.144):
-    values = {}
-    values['origin'] = None
-    values['velocity'] = None
+    values = {'origin': None, 'velocity': None}
 
     def calcOriginAndVelocity(
             object=object,

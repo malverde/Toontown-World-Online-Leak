@@ -96,4 +96,4 @@ class FireworksGui(DirectFrame):
         pass
 
     def getCurColor(self):
-        return (self.curColor, self.fadeColor)
+        return self.curColor, self.fadeColor

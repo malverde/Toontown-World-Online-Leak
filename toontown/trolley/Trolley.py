@@ -64,7 +64,6 @@ class Trolley(StateData.StateData):
                 ['start'])],
             'start', 'final')
         self.parentFSM = parentFSM
-        return None
 
     def load(self):
         self.parentFSM.getStateNamed('trolley').addChild(self.fsm)
@@ -127,8 +126,7 @@ class Trolley(StateData.StateData):
     def __handleNoTrolleyAck(self):
         ntbDoneStatus = self.noTrolleyBox.doneStatus
         if ntbDoneStatus == 'ok':
-            doneStatus = {}
-            doneStatus['mode'] = 'reject'
+            doneStatus = {'mode': 'reject'}
             messenger.send(self.doneEvent, [doneStatus])
         else:
             self.notify.error('Unrecognized doneStatus: ' + str(ntbDoneStatus))
@@ -137,8 +135,7 @@ class Trolley(StateData.StateData):
         return None
 
     def handleRejectBoard(self):
-        doneStatus = {}
-        doneStatus['mode'] = 'reject'
+        doneStatus = {'mode': 'reject'}
         messenger.send(self.doneEvent, [doneStatus])
 
     def exitRequestBoard(self):
@@ -186,10 +183,7 @@ class Trolley(StateData.StateData):
 
     def handlePlayMinigame(self, zoneId, minigameId):
         base.localAvatar.b_setParent(ToontownGlobals.SPHidden)
-        doneStatus = {}
-        doneStatus['mode'] = 'minigame'
-        doneStatus['zoneId'] = zoneId
-        doneStatus['minigameId'] = minigameId
+        doneStatus = {'mode': 'minigame', 'zoneId': zoneId, 'minigameId': minigameId}
         messenger.send(self.doneEvent, [doneStatus])
 
     def exitTrolleyLeaving(self):
@@ -201,8 +195,7 @@ class Trolley(StateData.StateData):
         return None
 
     def handleOffTrolley(self):
-        doneStatus = {}
-        doneStatus['mode'] = 'exit'
+        doneStatus = {'mode': 'exit'}
         messenger.send(self.doneEvent, [doneStatus])
         return None
 

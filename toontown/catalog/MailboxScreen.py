@@ -311,7 +311,7 @@ class MailboxScreen(DirectObject.DirectObject):
             self.dialogBox.show()
 
     def __makeDiscardInterface(self):
-        if self.itemIndex >= 0 and self.itemIndex < len(self.items):
+        if 0 <= self.itemIndex < len(self.items):
             item = self.items[self.itemIndex]
             if isinstance(item, InviteInfoBase):
                 itemText = TTLocalizer.MailBoxRejectVerify % self.getItemName(

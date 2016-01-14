@@ -39,7 +39,6 @@ class FishBrowser(DirectScrolledList):
         self.defineoptions(kw, optiondefs)
         DirectScrolledList.__init__(self, parent)
         self.initialiseoptions(FishBrowser)
-        return None
 
     def destroy(self):
         DirectScrolledList.destroy(self)
