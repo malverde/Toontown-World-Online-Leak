@@ -201,8 +201,8 @@ def maintenance(minutes):
                                   extraArgs=[minutes])
     countdown(minutes)
 
-    @magicWord(category=CATEGORY_SYSADMIN, types=[str, str])
-    def setaccessLevel(accessLevel, storage='PERSISTENT'):
+@magicWord(category=CATEGORY_SYSADMIN, types=[str, str])
+def setaccessLevel(accessLevel, storage='PERSISTENT'):
         """
         Modify the target's access level.
         """
