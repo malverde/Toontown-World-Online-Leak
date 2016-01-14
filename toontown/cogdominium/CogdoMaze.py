@@ -179,7 +179,7 @@ class CogdoMazeFactory:
                 visited.append(data[ay][ax])
                 data[ay][ax][BARRIER_DATA_RIGHT] = 0
                 ax += 1
-            return (ax, ay)
+            return ax, ay
 
         def openBarriers(x, y):
             dirs = getAvailableDirections(x, y)
@@ -196,9 +196,8 @@ class CogdoMazeFactory:
     def _generateMazeData(self):
         if not hasattr(self, 'quadrantData'):
             self._gatherQuadrantData()
-        self._data = {}
-        self._data['width'] = (self.width + 1) * self.frameWallThickness + self.width * self.quadrantSize
-        self._data['height'] = (self.height + 1) * self.frameWallThickness + self.height * self.quadrantSize
+        self._data = {'width': (self.width + 1) * self.frameWallThickness + self.width * self.quadrantSize,
+                      'height': (self.height + 1) * self.frameWallThickness + self.height * self.quadrantSize}
         self._data['originX'] = int(self._data['width'] / 2)
         self._data['originY'] = int(self._data['height'] / 2)
         collisionTable = []

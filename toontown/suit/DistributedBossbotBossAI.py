@@ -1095,6 +1095,8 @@ def endceo():
 def skipCEO(battle='next'):
     """
     Skips to the indicated round of the CEO.
+    :param battle:
+    :type battle:
     """
     invoker = spellbook.getInvoker()
     boss = None
@@ -1209,7 +1211,7 @@ def bombCEO():
                 break
     if not boss:
         return "You aren't in a CEO!"
-    if boss.state not in ('BattleThree'):
+    if boss.state not in 'BattleThree':
         return "The CFO can't be destroyed yet. Try using skipCFO."
     boss.magicWordHit(boss.bossDamage +1, invoker)
     return 'Bombed the CFO'

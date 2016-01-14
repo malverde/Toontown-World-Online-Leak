@@ -13,8 +13,8 @@ class CogdoBarrelRoomRewardPanel(DirectFrame):
         self.avNameLabel = DirectLabel(parent=self, relief=None, pos=(0, 0, 0.3), text='Toon Ups', text_scale=0.08)
         self.rewardLines = []
         for i in xrange(CogdoBarrelRoomConsts.MaxToons):
-            rewardLine = {}
-            rewardLine['frame'] = DirectFrame(parent=self, relief=None, frameSize=(-0.5, 0.5, -0.045, 0.042), pos=(0, 0, 0.1 + -0.09 * i))
+            rewardLine = {'frame': DirectFrame(parent=self, relief=None, frameSize=(-0.5, 0.5, -0.045, 0.042),
+                                               pos=(0, 0, 0.1 + -0.09 * i))}
             rewardLine['name'] = DirectLabel(parent=rewardLine['frame'], relief=None, text='', text_scale=TTLocalizer.RPtrackLabels, text_align=TextNode.ALeft, pos=(-0.4, 0, 0), text_pos=(0, -0.02))
             rewardLine['laff'] = DirectLabel(parent=rewardLine['frame'], relief=None, text='', text_scale=0.05, text_align=TextNode.ARight, pos=(0.4, 0, 0), text_pos=(0, -0.02))
             self.rewardLines.append(rewardLine)

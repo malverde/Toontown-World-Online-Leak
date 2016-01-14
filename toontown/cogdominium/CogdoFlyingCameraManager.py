@@ -114,7 +114,7 @@ class CogdoFlyingCameraManager:
         spinAngle = Globals.Camera.MaxSpinAngle * toonWorldX * toonWorldX / (maxX * maxX)
         newH = 180.0 + spinAngle
         self._camParent.setH(newH)
-        spinAngle = spinAngle * (pi / 180.0)
+        spinAngle *= pi / 180.0
         distBehindToon = Globals.Camera.SpinRadius * cos(spinAngle)
         distToRightOfToon = Globals.Camera.SpinRadius * sin(spinAngle)
         d = self._camParent.getX() - clamp(toonPos[0], *self._bounds[0])

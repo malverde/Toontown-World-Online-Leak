@@ -42,7 +42,7 @@ NPCSOSfn_dict = {ToontownBattleGlobals.NPC_COGS_MISS: __cogsMiss,
 
 def doNPCSOSs(NPCSOSs):
     if len(NPCSOSs) == 0:
-        return (None, None)
+        return None, None
     track = Sequence()
     textTrack = Sequence()
     for n in NPCSOSs:
@@ -56,7 +56,7 @@ def doNPCSOSs(NPCSOSs):
         camTrack = MovieCamera.chooseHealShot(NPCSOSs, camDuration)
     else:
         camTrack = Sequence()
-    return (track, Parallel(camTrack, textTrack))
+    return track, Parallel(camTrack, textTrack)
 
 
 def __doNPCSOS(sos):
@@ -279,7 +279,7 @@ def __doToonsHit(attack, level, hp):
     pbpTrack = pbpText.getShowInterval(
         TTLocalizer.MovieNPCSOSToonsHit,
         track.getDuration())
-    return (track, pbpTrack)
+    return track, pbpTrack
 
 
 def __doCogsMiss(attack, level, hp):
@@ -288,7 +288,7 @@ def __doCogsMiss(attack, level, hp):
     pbpTrack = pbpText.getShowInterval(
         TTLocalizer.MovieNPCSOSCogsMiss,
         track.getDuration())
-    return (track, pbpTrack)
+    return track, pbpTrack
 
 
 def __doRestockGags(attack, level, hp):
@@ -313,7 +313,7 @@ def __doRestockGags(attack, level, hp):
     pbpTrack = pbpText.getShowInterval(
         TTLocalizer.MovieNPCSOSRestockGags %
         text, track.getDuration())
-    return (track, pbpTrack)
+    return track, pbpTrack
 
 
 def doNPCTeleports(attacks):
@@ -347,4 +347,4 @@ def doNPCTeleports(attacks):
 
     arrivals.append(turns)
     unturns.append(departures)
-    return (arrivals, unturns, npcs)
+    return arrivals, unturns, npcs

@@ -528,11 +528,11 @@ class BossCog(Avatar.Avatar):
         ival, changed = self.__doGetAnimIval(anim, raised, forward, happy)
         seq = Sequence(ival, name=self.animIvalName)
         seq.setDoneEvent(self.animDoneEvent)
-        return (seq, changed)
+        return seq, changed
 
     def __doGetAnimIval(self, anim, raised, forward, happy):
         if raised == self.raised and forward == self.forward and happy == self.happy:
-            return (self.getAnim(anim), anim is not None)
+            return self.getAnim(anim), anim is not None
         startsHappy = self.happy
         endsHappy = self.happy
         ival = Sequence()
@@ -588,7 +588,7 @@ class BossCog(Avatar.Avatar):
         self.happy = happy
         if anim is not None:
             ival = Sequence(ival, self.getAnim(anim))
-        return (ival, 1)
+        return ival, 1
 
     def setDizzy(self, dizzy):
         if dizzy and not self.dizzy:

@@ -40,7 +40,7 @@ AFTER_STARS = 1.75
 
 def doSounds(sounds):
     if len(sounds) == 0:
-        return (None, None)
+        return None, None
     npcArrivals, npcDepartures, npcs = MovieNPCSOS.doNPCTeleports(sounds)
     mtrack = Parallel()
     hitCount = 0
@@ -73,7 +73,7 @@ def doSounds(sounds):
     exitDuration = npcDepartures.getDuration()
     camTrack = MovieCamera.chooseSoundShot(
         sounds, targets, camDuration, enterDuration, exitDuration)
-    return (soundTrack, camTrack)
+    return soundTrack, camTrack
 
 
 def __getSuitTrack(

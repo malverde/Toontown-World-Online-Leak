@@ -130,7 +130,7 @@ backgroundNodePath.removeNode()
 del backgroundNodePath
 del backgroundNode
 del tempLoader
-if (os.path.exists('game_data.pyd')):
+if os.path.exists('game_data.pyd'):
     os.unlink('game_data.pyd')
 
 

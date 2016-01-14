@@ -321,7 +321,7 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
         self.trolleyExitTrack.finish()
 
     def getStareAtNodeAndOffset(self):
-        return (self.golfKart, Point3(0, 0, 4))
+        return self.golfKart, Point3(0, 0, 4)
 
     def storeToonTrack(self, avId, track):
         self.clearToonTrack(avId)

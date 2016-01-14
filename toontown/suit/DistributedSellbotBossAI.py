@@ -497,7 +497,7 @@ def bombVP():
                 break
     if not boss:
         return "You aren't in a VP!"
-    if boss.state not in ('BattleThree'):
+    if boss.state not in 'BattleThree':
         return "The VP can't be destroyed yet. Try using skipVP."
     boss.magicWordHit(boss.bossMaxDamage, invoker)
     return 'Bombed VP'

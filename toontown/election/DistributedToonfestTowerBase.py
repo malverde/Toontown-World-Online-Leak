@@ -115,7 +115,7 @@ class DistributedToonfestTowerBase(DistributedObject.DistributedObject):
         degreesPerSecond = rpm / 60.0 * 360.0
         now = globalClock.getFrameTime()
         oldHeading = self.degreesPerSecond * (now - self.spinStartTime) + self.offset
-        oldHeading = oldHeading % 360.0
+        oldHeading %= 360.0
         oldOffset = oldHeading - degreesPerSecond * (now - timestamp)
         self.rpm = rpm
         self.degreesPerSecond = degreesPerSecond

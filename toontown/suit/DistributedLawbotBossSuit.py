@@ -312,7 +312,7 @@ class DistributedLawbotBossSuit(DistributedSuitBase.DistributedSuitBase):
                     evidence.setZ, 1.3), evidence.posInterval(
                         inFlightDuration, hitPos, fluid=1), Func(
                             evidence.hide))
-        return (suitTrack, propTrack)
+        return suitTrack, propTrack
 
     def makePreThrowProsecuteTrack(self, evidence, inFlightDuration, hitPos):
         return self.makePreThrowAttackTrack(evidence, inFlightDuration, hitPos)
@@ -331,7 +331,7 @@ class DistributedLawbotBossSuit(DistributedSuitBase.DistributedSuitBase):
                 evidence.show), evidence.posInterval(
                     inFlightDuration, hitPos, fluid=1), Func(
                         evidence.hide))
-        return (suitTrack, propTrack)
+        return suitTrack, propTrack
 
     def getEvidence(self, usedForAttack=False):
         model = loader.loadModel('phase_5/models/props/lawbook')

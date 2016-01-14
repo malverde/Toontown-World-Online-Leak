@@ -19,8 +19,7 @@ def calcScore(t):
     return int(score + 0.5)
 
 
-AREA_DATA = {}
-AREA_DATA[ToontownGlobals.ToontownCentral] = {}
+AREA_DATA = {ToontownGlobals.ToontownCentral: {}}
 AREA_DATA[ToontownGlobals.ToontownCentral]['FILMCOUNT'] = 32
 AREA_DATA[ToontownGlobals.ToontownCentral]['TIME'] = 120
 AREA_DATA[ToontownGlobals.ToontownCentral]['CAMERA_INTIAL_POSTION'] = Point3(0, 50, 20)

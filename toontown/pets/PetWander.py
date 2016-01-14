@@ -52,7 +52,7 @@ class PetWander(DirectObject.DirectObject):
             heading = normalDistrib(-(90 + 45), 90 + 45)
             if self.gotCollision:
                 self.gotCollision = False
-                heading = heading + 180
+                heading += 180
             target = self.getTarget()
             target.setPos(self.getNodePath().getPos())
             target.setH(target, heading)

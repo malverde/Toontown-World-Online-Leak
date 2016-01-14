@@ -99,7 +99,11 @@ class PartyEditorGridElement(DirectButton):
         if mwn.hasMouse():
             vMouse2render2d = Point3(mwn.getMouse()[0], 0, mwn.getMouse()[1])
             newPos = vMouse2render2d
-            if newPos[0] > PartyGlobals.PartyEditorGridBounds[0][0] and newPos[0] < PartyGlobals.PartyEditorGridBounds[1][0] and newPos[2] < PartyGlobals.PartyEditorGridBounds[0][1] and newPos[2] > PartyGlobals.PartyEditorGridBounds[1][1]:
+            if \
+                                    PartyGlobals.PartyEditorGridBounds[0][0] < newPos[0] < \
+                                    PartyGlobals.PartyEditorGridBounds[1][0] and \
+                                            PartyGlobals.PartyEditorGridBounds[0][1] > newPos[2] > \
+                                    PartyGlobals.PartyEditorGridBounds[1][1]:
                 centerGridSquare = self.snapToGrid(newPos)
                 if centerGridSquare is not None:
                     self.centerGridSquare = centerGridSquare
@@ -108,7 +112,10 @@ class PartyEditorGridElement(DirectButton):
                     if self.mouseOverTrash:
                         self.setOverTrash(False)
                     return Task.cont
-            if self.id != PartyGlobals.ActivityIds.PartyClock and newPos[0] > PartyGlobals.PartyEditorTrashBounds[0][0] and newPos[0] < PartyGlobals.PartyEditorTrashBounds[1][0] and newPos[2] < PartyGlobals.PartyEditorTrashBounds[0][1] and newPos[2] > PartyGlobals.PartyEditorTrashBounds[1][1]:
+            if self.id != PartyGlobals.ActivityIds.PartyClock and PartyGlobals.PartyEditorTrashBounds[0][0] < newPos[
+                0] < PartyGlobals.PartyEditorTrashBounds[1][0] and \
+                                    PartyGlobals.PartyEditorTrashBounds[0][1] > newPos[2] > \
+                            PartyGlobals.PartyEditorTrashBounds[1][1]:
                 if not self.mouseOverTrash:
                     self.setOverTrash(True)
             elif self.mouseOverTrash:

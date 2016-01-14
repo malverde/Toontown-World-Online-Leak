@@ -336,9 +336,9 @@ class GolfHoleBase:
         c0 = self.space.getCollideId(entry.getGeom1())
         c1 = self.space.getCollideId(entry.getGeom2())
         if c0 > c1:
-            return (c1, c0)
+            return c1, c0
         else:
-            return (c0, c1)
+            return c0, c1
 
     def postStep(self):
         if self.canRender:

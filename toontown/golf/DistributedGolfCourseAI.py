@@ -432,7 +432,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
             if avId in self.newCups:
                 oneCupList = self.newCups[avId]
                 cupList.append(oneCupList)
-                self.cupListLen = self.cupListLen + 1
+                self.cupListLen += 1
             else:
                 cupList.append([])
 
@@ -571,7 +571,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
         holeId = self.currentHole.holeId
         holeDoId = self.currentHole.doId
         self.currentHole.finishHole()
-        return (holeId, holeDoId)
+        return holeId, holeDoId
 
     def calcHolesToUse(self):
         retval = []
@@ -767,7 +767,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
                         self.notify.debug('New Trophy %d' % index)
                         self.air.writeServerEvent('golf_trophy', avId, '%s' % index)
                         newTrophies.append(True)
-                        self.trophyListLen = self.trophyListLen + 1
+                        self.trophyListLen += 1
                     else:
                         newTrophies.append(False)
 
@@ -810,7 +810,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
                     if endingHoleBest[index] < oldHoleBest[index]:
                         self.notify.debug('New HoleBest %d' % index)
                         newHoleBest.append(True)
-                        longestHoleBestList = longestHoleBestList + 1
+                        longestHoleBestList += 1
                     else:
                         newHoleBest.append(False)
 
@@ -832,7 +832,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
                     if endingCourseBest[index] < oldCourseBest[index]:
                         self.notify.debug('New CourseBest %d' % index)
                         newCourseBest.append(True)
-                        longestCourseBestList = longestCourseBestList + 1
+                        longestCourseBestList += 1
                     else:
                         newCourseBest.append(False)
 

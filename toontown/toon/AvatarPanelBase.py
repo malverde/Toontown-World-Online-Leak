@@ -18,9 +18,9 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
 
     def getIgnoreButtonInfo(self):
         if base.cr.avatarFriendsManager.checkIgnored(self.avId):
-            return (TTLocalizer.AvatarPanelStopIgnoring, self.handleStopIgnoring, STOP_IGNORE_SCALE)
+            return TTLocalizer.AvatarPanelStopIgnoring, self.handleStopIgnoring, STOP_IGNORE_SCALE
         else:
-            return (TTLocalizer.AvatarPanelIgnore, self.handleIgnore, IGNORE_SCALE)
+            return TTLocalizer.AvatarPanelIgnore, self.handleIgnore, IGNORE_SCALE
 
     def handleIgnore(self):
         isAvatarFriend = base.cr.isFriend(self.avatar.doId)

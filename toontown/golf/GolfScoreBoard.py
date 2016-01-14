@@ -180,12 +180,12 @@ class GolfScoreBoard:
                     self.totalTags[x].setColor(0.7, 0.7, 0.7, 1)
                     playerExited = True
 
-            if playerExited == False:
+            if not playerExited:
                 for holeIndex in xrange(self.golfCourse.numHoles):
                     if holeIndex <= self.golfCourse.curHoleIndex:
                         self.getScoreLabel(avId, holeIndex)['text'] = '%s' % scoreDict[avId][holeIndex]
                         totScore = totScore + scoreDict[avId][holeIndex]
-                        if self.golfCourse.isGameDone() == False:
+                        if not self.golfCourse.isGameDone():
                             if holeIndex == self.golfCourse.curHoleIndex:
                                 self.getScoreLabel(avId, holeIndex).setColor(1, 0, 0, 1)
                                 self.holeLabels[holeIndex].setColor(1, 0, 0, 1)
@@ -201,7 +201,7 @@ class GolfScoreBoard:
             if self.golfCourse.isGameDone():
                 self.getScoreLabel(avId, self.golfCourse.numHoles - 1).setColor(0, 0, 0, 1)
                 self.totalTags[x].setColor(1, 0, 0, 1)
-            x = x + 1
+            x += 1
 
         y = 0
         if self.golfCourse.isGameDone():

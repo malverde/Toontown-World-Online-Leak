@@ -10,4 +10,4 @@ class DistributedLibraryInteriorAI(DistributedObjectAI):
         self.zoneId = zoneId
 
     def getZoneIdAndBlock(self):
-        return (self.zoneId, self.block)
+        return self.zoneId, self.block

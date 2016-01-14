@@ -66,7 +66,7 @@ class CatalogGardenItem(CatalogItem.CatalogItem):
             photoScale = GardenGlobals.Specials[self.gardenIndex]['photoScale']
             self.model.setScale(photoScale)
             self.hasPicture = True
-            return (frame, ival)
+            return frame, ival
         else:
             self.model = loader.loadModel(photoModel)
             frame = self.makeFrame()
@@ -76,7 +76,7 @@ class CatalogGardenItem(CatalogItem.CatalogItem):
             photoScale = GardenGlobals.Specials[self.gardenIndex]['photoScale']
             self.model.setScale(photoScale)
             self.hasPicture = True
-            return (frame, None)
+            return frame, None
 
     def cleanupPicture(self):
         CatalogItem.CatalogItem.cleanupPicture(self)

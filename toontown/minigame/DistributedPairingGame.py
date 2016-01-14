@@ -509,7 +509,7 @@ class DistributedPairingGame(DistributedMinigame):
         row = deckOrderIndex / self.cardsPerRow
         x = col * self.xCardInc
         y = row * self.yCardInc
-        return (x, y)
+        return x, y
 
     def getDeckOrderIndex(self, row, col):
         retval = row * self.cardsPerRow

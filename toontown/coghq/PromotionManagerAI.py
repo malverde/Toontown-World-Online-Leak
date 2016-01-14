@@ -45,7 +45,7 @@ class PromotionManagerAI:
                         merits = int(round(merits))
                         if cogDict['hasRevives']:
                             merits *= 2
-                        merits = merits * multiplier
+                        merits *= multiplier
                         merits = int(round(merits))
                         meritsRecovered[dept] += merits
                         self.notify.debug('recoverMerits: merits = %s' % merits)

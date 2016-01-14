@@ -216,14 +216,14 @@ def __getCurrentPos(playground, area, doId):
         unusedI = allocatedIndexes[doId][0][area]
         usedI = allocatedIndexes[doId][1][area]
     else:
-        return (ButterflyPoints[playground][area][0], 0)
+        return ButterflyPoints[playground][area][0], 0
     if len(unusedI) == 0:
         index = random.choice(usedI)
-        return (ButterflyPoints[playground][area][index], index)
+        return ButterflyPoints[playground][area][index], index
     index = random.choice(unusedI)
     unusedI.remove(index)
     usedI.append(index)
-    return (ButterflyPoints[playground][area][index], index)
+    return ButterflyPoints[playground][area][index], index
 
 
 def getNextPos(currentPos, playground, area, doId):
@@ -231,7 +231,7 @@ def getNextPos(currentPos, playground, area, doId):
         unusedI = allocatedIndexes[doId][0][area]
         usedI = allocatedIndexes[doId][1][area]
     else:
-        return (ButterflyPoints[playground][area][0], 0, 4.0)
+        return ButterflyPoints[playground][area][0], 0, 4.0
     nextPos = currentPos
     while nextPos == currentPos:
         if len(unusedI) == 0:
@@ -246,7 +246,7 @@ def getNextPos(currentPos, playground, area, doId):
 
     dist = Vec3(nextPos - currentPos).length()
     time = dist / BUTTERFLY_SPEED + BUTTERFLY_TAKEOFF[playground] + BUTTERFLY_LANDING[playground]
-    return (nextPos, index, time)
+    return nextPos, index, time
 
 
 def recycleIndex(index, playground, area, doId):

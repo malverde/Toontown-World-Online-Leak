@@ -231,7 +231,7 @@ class PartyCog(FSM):
         return task.cont
 
     def setAlongSpline(self, t):
-        t = t + 1.0
+        t += 1.0
         dist = (self.endPoint.getX() - self.startPoint.getX()) / 2.0
         x = self.startPoint.getX() + t * dist
         y = self.startPoint.getY() - math.sin(t * 2 * math.pi) * self.sinAmplitude

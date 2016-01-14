@@ -287,12 +287,8 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             hpr = toon.getHpr()
             toon.d_setPosHpr(startPos[0], startPos[1], startPos[2], hpr[0], hpr[1], hpr[2])
             self.localFlyingToon.wrtReparentTo(render)
-            info = {}
-            info['toonId'] = toonId
-            info['trajectory'] = trajectory
-            info['launchTime'] = launchTime
-            info['toon'] = self.localFlyingToon
-            info['hRot'] = cannon.getRotation()
+            info = {'toonId': toonId, 'trajectory': trajectory, 'launchTime': launchTime, 'toon': self.localFlyingToon,
+                    'hRot': cannon.getRotation()}
             camera.wrtReparentTo(self.localFlyingToon)
             flyTask = Task(self.__localFlyTask, self.taskNameFly)
             flyTask.info = info
@@ -509,7 +505,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
 
     def __moveFlyingToon(self, toon):
         toonP = toon.getP(render)
-        isToonFlyingHorizontal = toonP > -150 and toonP < -30
+        isToonFlyingHorizontal = -150 < toonP < -30
         OFFSET = 0.25
         rotVel = 0
         if self.gui.leftPressed:
@@ -825,7 +821,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
             centerVec.setZ(abs(centerVec.length() * math.sin(70.0)))
             centerVec.normalize()
             newVel = centerVec * d + normal * 0.2
-            newVel = newVel * (kr * speed)
+            newVel *= kr * speed
             self.initialFlyVel = kr * speed
         else:
             newVel = (normal * 2.0 + vel) * (kr * speed)

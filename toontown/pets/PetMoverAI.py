@@ -38,7 +38,7 @@ def generatePos():
         x = r + estateCenter[0]
         y = r2 + estateCenter[1]
         assert inCircle(x, y)
-        return (x, y)
+        return x, y
 
     p = get()
     while housePointCollision(*p):

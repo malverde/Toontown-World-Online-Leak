@@ -72,7 +72,7 @@ def encodeId(menuIndex, itemIndex):
 def decodeId(textId):
     menuIndex = int(textId / 100)
     itemIndex = textId % 100
-    return (menuIndex, itemIndex)
+    return menuIndex, itemIndex
 
 
 def validateId(textId):

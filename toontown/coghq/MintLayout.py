@@ -766,14 +766,10 @@ class MintLayout:
                 actionRoomIds.remove(roomId)
                 middleRoomIds.append(roomId)
 
-        roomIds = []
-
-        roomIds.append(rng.choice(startingRoomIDs))
+        roomIds = [rng.choice(startingRoomIDs), finalRoomId]
 
         rng.shuffle(middleRoomIds)
         roomIds.extend(middleRoomIds)
-
-        roomIds.append(finalRoomId)
 
         return roomIds
 

@@ -810,16 +810,9 @@ class DistributedCannon(DistributedObject.DistributedObject):
         avatar = self.av
         avatar.loop('swim')
         avatar.setPosHpr(0, 0, -(avatar.getHeight() / 2.0), 0, 0, 0)
-        info = {}
-        info['avId'] = avId
-        info['trajectory'] = trajectory
-        info['launchTime'] = launchTime
-        info['timeOfImpact'] = timeOfImpact
-        info['hitWhat'] = hitWhat
-        info['toon'] = self.toonModel
-        info['hRot'] = self.cannonPosition[0]
-        info['haveWhistled'] = 0
-        info['maxCamPullback'] = CAMERA_PULLBACK_MIN
+        info = {'avId': avId, 'trajectory': trajectory, 'launchTime': launchTime, 'timeOfImpact': timeOfImpact,
+                'hitWhat': hitWhat, 'toon': self.toonModel, 'hRot': self.cannonPosition[0], 'haveWhistled': 0,
+                'maxCamPullback': CAMERA_PULLBACK_MIN}
         if self.localToonShooting:
             camera.reparentTo(self.av)
             camera.setP(45.0)
@@ -1190,10 +1183,10 @@ class DistributedCannon(DistributedObject.DistributedObject):
     def __calcToonImpact(self, trajectory):
         t_groundImpact = trajectory.checkCollisionWithGround(GROUND_PLANE_MIN)
         if t_groundImpact >= trajectory.getStartTime():
-            return (t_groundImpact, self.HIT_GROUND)
+            return t_groundImpact, self.HIT_GROUND
         else:
             self.notify.error('__calcToonImpact: toon never impacts ground?')
-            return (0.0, self.HIT_GROUND)
+            return 0.0, self.HIT_GROUND
 
     def __calcHitTreasures(self, trajectory):
         estate = self.cr.doId2do.get(self.estateId)

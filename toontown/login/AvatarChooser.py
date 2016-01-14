@@ -271,8 +271,7 @@ class AvatarChooser(StateData.StateData):
         return None
 
     def __handlePanelDone(self, panelDoneStatus, panelChoice=0):
-        self.doneStatus = {}
-        self.doneStatus['mode'] = panelDoneStatus
+        self.doneStatus = {'mode': panelDoneStatus}
         self.choice = panelChoice
         if panelDoneStatus == 'chose':
             self.__handleChoice()

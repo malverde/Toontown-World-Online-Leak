@@ -379,5 +379,5 @@ def doFanfare(delay, toon, panel):
             Wait(0.5),
             trumpetsVanish))
     if panel is not None:
-        return (seq, panel)
-    return (seq, None)
+        return seq, panel
+    return seq, None

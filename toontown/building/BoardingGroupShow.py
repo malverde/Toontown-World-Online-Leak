@@ -107,7 +107,7 @@ class BoardingGroupShow:
                         offset,
                         wantToonRotation))
         boardingTrack.append(Func(self.cleanup))
-        return (boardingTrack, trackType)
+        return boardingTrack, trackType
 
     def __getOffsetPos(self, elevatorModel, offset):
         dest = elevatorModel.getPos(self.toon.getParent())

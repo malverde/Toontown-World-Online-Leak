@@ -426,12 +426,12 @@ class OptionsTabPage(DirectFrame):
 
     def __doSpeedChatStyleLeft(self):
         if self.speedChatStyleIndex > 0:
-            self.speedChatStyleIndex = self.speedChatStyleIndex - 1
+            self.speedChatStyleIndex -= 1
             self.updateSpeedChatStyle()
 
     def __doSpeedChatStyleRight(self):
         if self.speedChatStyleIndex < len(speedChatStyles) - 1:
-            self.speedChatStyleIndex = self.speedChatStyleIndex + 1
+            self.speedChatStyleIndex += 1
             self.updateSpeedChatStyle()
 
     def updateSpeedChatStyle(self):

@@ -194,9 +194,7 @@ class CountryClubLayout:
                 actionRoomIds.remove(roomId)
                 middleRoomIds.append(roomId)
 
-        roomIds = []
-
-        roomIds.append(rng.choice(startingRoomIDs))
+        roomIds = [rng.choice(startingRoomIDs)]
 
         middleRoomIds.sort()
         print 'middleRoomIds=%s' % middleRoomIds

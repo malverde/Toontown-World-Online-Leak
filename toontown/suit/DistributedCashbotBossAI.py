@@ -185,7 +185,7 @@ class DistributedCashbotBossAI(
         v = Vec3(pos[0], pos[1], 0.0)
         if not v.normalize():
             v = Vec3(1, 0, 0)
-        v = v * 27
+        v *= 27
         angle = random.uniform(0.0, 2.0 * math.pi)
         radius = 10
         dx = radius * math.cos(angle)
@@ -615,7 +615,7 @@ def bombCFO():
                 break
     if not boss:
         return "You aren't in a CFO!"
-    if boss.state not in ('BattleThree'):
+    if boss.state not in 'BattleThree':
         return "The CFO can't be destroyed yet. Try using skipCFO."
     boss.magicWordHit(boss.bossDamage +1, invoker)
     return 'Bombed the CFO'
@@ -634,7 +634,7 @@ def bombCFOMax():
                     break
         if not boss:
             return "You aren't in a CFO!"
-        if boss.state not in ('BattleThree'):
+        if boss.state not in 'BattleThree':
             return "The CFO can't be destroyed yet. Try using skipCFO."
         boss.magicWordHit(boss.bossMaxDamage, invoker)
         return 'Bombed the CFO'

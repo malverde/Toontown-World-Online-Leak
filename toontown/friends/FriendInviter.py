@@ -340,11 +340,11 @@ class FriendInviter(DirectFrame):
         if self.playerFriend:
             self['text'] = TTLocalizer.FriendInviterEndFriendshipPlayer % self.getName()
             if base.cr.isFriend(self.avId):
-                self['text'] = self['text'] + TTLocalizer.FriendInviterRemainToon % self.toonName
+                self['text'] += TTLocalizer.FriendInviterRemainToon % self.toonName
         else:
             self['text'] = TTLocalizer.FriendInviterEndFriendshipToon % self.getName()
             if base.cr.playerFriendsManager.isPlayerFriend(self.playerId):
-                self['text'] = self['text'] + TTLocalizer.FriendInviterRemainPlayer % self.playerName
+                self['text'] += TTLocalizer.FriendInviterRemainPlayer % self.playerName
         self.context = None
         self.bYes.show()
         self.bNo.show()

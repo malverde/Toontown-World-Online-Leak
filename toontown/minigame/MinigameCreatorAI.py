@@ -121,9 +121,7 @@ def createMinigame(air, playerArray, trolleyZone, minigameZone = None, previousG
         if toon != None:
             toons.append(toon)
 
-    retVal = {}
-    retVal['minigameZone'] = minigameZone
-    retVal['minigameId'] = mgId
+    retVal = {'minigameZone': minigameZone, 'minigameId': mgId}
     return retVal
 
 
@@ -176,7 +174,7 @@ def removeUnreleasedMinigames(startList, increaseChanceOfNewGames = 0):
                         randomList += [gameId] * 4
                 if doRemove:
                     randomList.remove(gameId)
-        if releaseTime < currentTime and currentTime < releaseTimePlus1Week and gameId in randomList and increaseChanceOfNewGames:
+        if releaseTime < currentTime < releaseTimePlus1Week and gameId in randomList and increaseChanceOfNewGames:
             randomList += [gameId] * 4
 
     return randomList
@@ -198,6 +196,10 @@ def requestMinigame(minigameName='remove', minigameKeep=False, minigameDiff=None
 def minigame(command, arg0=None):
     """
     A command set for Trolley minigames.
+    :param command:
+    :type command:
+    :param arg0:
+    :type arg0:
     """
     command = command.lower()
     invoker = spellbook.getInvoker()

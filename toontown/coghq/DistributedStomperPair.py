@@ -40,5 +40,5 @@ class DistributedStomperPair(BasicEntities.DistributedNodePathEntity):
         print 'tpos = %s' % tPos
         yRange = 3.0
         xRange = 3.0
-        if tPos[1] < yRange and tPos[1] > -yRange and tPos[0] < xRange and tPos[0] > -xRange:
+        if yRange > tPos[1] > -yRange and xRange > tPos[0] > -xRange:
             self.level.b_setOuch(3)

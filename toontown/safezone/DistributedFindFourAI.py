@@ -167,7 +167,7 @@ class DistributedFindFourAI(DistributedNodeAI):
         playerNum = self.playersGamePos.index(avId) + 1
         x = pieceNum[0]
         y = pieceNum[1]
-        if self.checkWin(x, y, playerNum) == True:
+        if self.checkWin(x, y, playerNum):
             self.sendUpdate('announceWinnerPosition', [x,
              y,
              self.winDirection,
@@ -229,7 +229,7 @@ class DistributedFindFourAI(DistributedNodeAI):
         numPlayers = 0
         for x in self.parent.seats:
             if x != None:
-                numPlayers = numPlayers + 1
+                numPlayers += 1
                 continue
 
         if len(self.wantStart) == numPlayers and numPlayers >= 2:
@@ -284,7 +284,7 @@ class DistributedFindFourAI(DistributedNodeAI):
                 continue
 
         self.board[movePos][moveColumn] = self.playersTurn + 1
-        if self.checkForTie() == True:
+        if self.checkForTie():
             self.sendUpdate('setGameState', [self.board,
              moveColumn,
              movePos,
@@ -378,13 +378,13 @@ class DistributedFindFourAI(DistributedNodeAI):
          1])
 
     def checkWin(self, rVal, cVal, playerNum):
-        if self.checkHorizontal(rVal, cVal, playerNum) == True:
+        if self.checkHorizontal(rVal, cVal, playerNum):
             self.winDirection = 0
             return True
-        elif self.checkVertical(rVal, cVal, playerNum) == True:
+        elif self.checkVertical(rVal, cVal, playerNum):
             self.winDirection = 1
             return True
-        elif self.checkDiagonal(rVal, cVal, playerNum) == True:
+        elif self.checkDiagonal(rVal, cVal, playerNum):
             self.winDirection = 2
             return True
         else:

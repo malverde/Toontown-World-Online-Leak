@@ -148,7 +148,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                         tPanels.tag2.setPos(0, 10, 0.43)
                         tPanels.tag2.setScale(0.117, 0.05, 0.05)
                         self.toonPanels.append(tPanels)
-                        whichToon = whichToon + 1
+                        whichToon += 1
                         color += 1
                 else:
                     color += 1
@@ -357,7 +357,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         av.cleanupPowerBar()
 
         def doneWithRewardMovie():
-            if self.exit == False:
+            if not self.exit:
                 self.notify.debug('doneWithRewardMovie')
                 self.sendUpdate('setDoneReward', [])
                 self._destroyDelayDelete()
@@ -368,7 +368,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         self.rewardIval.start()
 
     def exitEarly(self):
-        if self.exit == False:
+        if not self.exit:
             self.notify.debug('doneWithRewardMovie')
             self.sendUpdate('setDoneReward', [])
             self._destroyDelayDelete()

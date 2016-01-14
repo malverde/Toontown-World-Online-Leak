@@ -351,7 +351,7 @@ class DistributedElectionEvent(DistributedObject, FSM):
                     return
 
     def handleWheelbarrowCollisionSphereEnter(self, collEntry):
-        if base.localAvatar.numPies >= 0 and base.localAvatar.numPies < 20:
+        if 0 <= base.localAvatar.numPies < 20:
             # We need to give them more pies! Send a request to the server.
             self.sendUpdate('wheelbarrowAvatarEnter', [])
             self.restockSfx.play()
@@ -913,7 +913,8 @@ class DistributedElectionEvent(DistributedObject, FSM):
             Parallel(self.flippy.posHprInterval(1, (2, -10, 3.23), (75, 0, 0)), self.flippy.head.hprInterval(0.5, (-5, 0, 0), blendType='easeInOut')),
             Func(self.flippy.loop, 'neutral'),
             Wait(5.5),
-            Parallel(ActorInterval(self.flippy, 'throw', startFrame=0, endFrame=46), Func(pie.reparentTo, self.flippy.rightHand), pie.scaleInterval(0.5, (1))),
+            Parallel(ActorInterval(self.flippy, 'throw', startFrame=0, endFrame=46), Func(pie.reparentTo, self.flippy.rightHand), pie.scaleInterval(0.5,
+                                                                                                                                                    1)),
             Parallel(
                 Sequence(
                     ActorInterval(self.flippy, 'throw', startFrame=47, endFrame=91),
@@ -930,7 +931,8 @@ class DistributedElectionEvent(DistributedObject, FSM):
                 )
             ),
             Wait(1),
-            Parallel(ActorInterval(self.flippy, 'throw', startFrame=0, endFrame=46), Func(cake.reparentTo, self.flippy.rightHand), cake.scaleInterval(0.5, (1))),
+            Parallel(ActorInterval(self.flippy, 'throw', startFrame=0, endFrame=46), Func(cake.reparentTo, self.flippy.rightHand), cake.scaleInterval(0.5,
+                                                                                                                                                      1)),
             Parallel(
                 Sequence(
                     ActorInterval(self.flippy, 'throw', startFrame=47, endFrame=91),
@@ -948,7 +950,8 @@ class DistributedElectionEvent(DistributedObject, FSM):
                 )
             ),
             Wait(1),
-            Parallel(Func(base.playSfx, sfxCake, volume=0.9), ActorInterval(self.flippy, 'throw', startFrame=0, endFrame=46), Func(weddingcake.reparentTo, self.flippy.rightHand), weddingcake.scaleInterval(0.5, (1.4))),
+            Parallel(Func(base.playSfx, sfxCake, volume=0.9), ActorInterval(self.flippy, 'throw', startFrame=0, endFrame=46), Func(weddingcake.reparentTo, self.flippy.rightHand), weddingcake.scaleInterval(0.5,
+                                                                                                                                                                                                             1.4)),
             Parallel(
                 Sequence(
                     ActorInterval(self.flippy, 'throw', startFrame=47, endFrame=91),
@@ -1057,10 +1060,11 @@ class DistributedElectionEvent(DistributedObject, FSM):
             Func(self.wrapUpSequence.start),
             Wait(12),
             # Dramatically fade in the logo as the camera rises
-            Parallel(self.logo.posHprScaleInterval(6.5, (0, 0, 0.5), (0), (1), blendType='easeOut'), self.logo.colorScaleInterval(6.5, Vec4(1, 1, 1, 1), blendType='easeOut'), base.camera.posHprInterval(7.5, (70, 0.6, 42.2), (-90, 0, 0), blendType='easeInOut')),
+            Parallel(self.logo.posHprScaleInterval(6.5, (0, 0, 0.5), 0, 1, blendType='easeOut'), self.logo.colorScaleInterval(6.5, Vec4(1, 1, 1, 1), blendType='easeOut'), base.camera.posHprInterval(7.5, (70, 0.6, 42.2), (-90, 0, 0), blendType='easeInOut')),
             # Take a nosedive into a portable hole
             Parallel(self.logo.colorScaleInterval(0.3, Vec4(1, 1, 1, 0)), base.camera.posHprInterval(0.3, (85, 0, 42), (-90, -30, 0), blendType='easeIn')),
-            Parallel(base.camera.posHprInterval(0.9, (95, 0.6, 6), (-90, -90, 0), blendType='easeOut'), self.portal.scaleInterval(0.5, (2)))
+            Parallel(base.camera.posHprInterval(0.9, (95, 0.6, 6), (-90, -90, 0), blendType='easeOut'), self.portal.scaleInterval(0.5,
+                                                                                                                                  2))
         )
         self.cameraSequence.start()
         self.cameraSequence.setT(offset)

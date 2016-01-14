@@ -303,7 +303,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
     def _handleCannonLanded(self):
         x = base.localAvatar.getX()
         y = base.localAvatar.getY()
-        if x > self.x - self.StageHalfWidth and x < self.x + self.StageHalfWidth and y > self.y - self.StageHalfHeight and y < self.y + self.StageHalfHeight:
+        if self.x - self.StageHalfWidth < x < self.x + self.StageHalfWidth and self.y - self.StageHalfHeight < y < self.y + self.StageHalfHeight:
             self._toonEnteredTree(None)
 
     def _toonMayHaveEnteredTree(self, collEntry):
@@ -388,7 +388,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         y = y * 2.0 - 1.0
         x *= self.StageHalfWidth
         y *= self.StageHalfHeight
-        return (x, y)
+        return x, y
 
     def showPosts(self):
         self.hidePosts()
@@ -455,7 +455,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
         if newState == 'Active':
             if base.localAvatar.doId != self.party.partyInfo.hostId:
                 if globalClock.getFrameCount() > self._generateFrame:
-                    if base.localAvatar.getX() > self.x - self.StageHalfWidth and base.localAvatar.getX() < self.x + self.StageHalfWidth and base.localAvatar.getY() > self.y - self.StageHalfHeight and base.localAvatar.getY() < self.y + self.StageHalfHeight:
+                    if self.x - self.StageHalfWidth < base.localAvatar.getX() < self.x + self.StageHalfWidth and self.y - self.StageHalfHeight < base.localAvatar.getY() < self.y + self.StageHalfHeight:
                         self._toonEnteredTree(None)
 
     def putLocalAvatarInActivity(self):

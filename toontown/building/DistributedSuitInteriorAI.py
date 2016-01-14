@@ -445,7 +445,7 @@ class DistributedSuitInteriorAI(DistributedObjectAI.DistributedObjectAI):
         if numOfEmptySeats == 4:
             self.bldg.deleteSuitInterior()
             return
-        elif numOfEmptySeats >= 0 and numOfEmptySeats <= 3:
+        elif 0 <= numOfEmptySeats <= 3:
             pass
         else:
             self.error('Bad number of empty seats: %s' % numOfEmptySeats)

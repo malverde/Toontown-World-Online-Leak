@@ -165,7 +165,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         return
 
     def getStareAtNodeAndOffset(self):
-        return (self.nodePath, Point3())
+        return self.nodePath, Point3()
 
     def startAnimation(self):
         pass

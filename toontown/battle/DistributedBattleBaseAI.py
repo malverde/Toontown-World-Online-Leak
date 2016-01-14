@@ -245,10 +245,7 @@ class DistributedBattleBaseAI(
         return [self.pos[0], self.pos[1], self.pos[2]]
 
     def getInitialSuitPos(self):
-        p = []
-        p.append(self.initialSuitPos[0])
-        p.append(self.initialSuitPos[1])
-        p.append(self.initialSuitPos[2])
+        p = [self.initialSuitPos[0], self.initialSuitPos[1], self.initialSuitPos[2]]
         return p
 
     def setBossBattle(self, bossBattle):
@@ -376,9 +373,7 @@ class DistributedBattleBaseAI(
         for s in self.activeSuits:
             suitIds.append(s.doId)
 
-        p = [self.movieHasBeenMade]
-        p.append(self.activeToons)
-        p.append(suitIds)
+        p = [self.movieHasBeenMade, self.activeToons, suitIds]
         for t in self.activeToons:
             if t in self.toonAttacks:
                 ta = self.toonAttacks[t]
@@ -728,9 +723,9 @@ class DistributedBattleBaseAI(
 
     def __handleUnexpectedExit(self, avId):
         # TODO self.air.getAvatarDisconnectReason
-        '''disconnectCode = self.air.getAvatarDisconnectReason(avId)
+        """disconnectCode = self.air.getAvatarDisconnectReason(avId)
         self.notify.warning('toon: %d exited unexpectedly, reason %d' % (avId, disconnectCode))
-        userAborted = disconnectCode == ToontownGlobals.DisconnectCloseWindow'''
+        userAborted = disconnectCode == ToontownGlobals.DisconnectCloseWindow"""
         userAborted = False
         self.__handleSuddenExit(avId, userAborted)
 
@@ -1220,13 +1215,13 @@ class DistributedBattleBaseAI(
         else:
             if not self.validate(
                     toonId,
-                    track >= 0 and track <= MAX_TRACK_INDEX,
+                                    0 <= track <= MAX_TRACK_INDEX,
                     'requestAttack: invalid track %s' %
                     track):
                 return
             if not self.validate(
                     toonId,
-                    level >= 0 and level <= MAX_LEVEL_INDEX,
+                                    0 <= level <= MAX_LEVEL_INDEX,
                     'requestAttack: invalid level %s' %
                     level):
                 return
@@ -1909,9 +1904,7 @@ class DistributedBattleBaseAI(
         eventMsg = {}
         suitsLog = []
         for encounter in self.suitsKilledThisBattle:
-            suitLog = {}
-            suitLog['type'] = encounter['type']
-            suitLog['level'] = encounter['level']
+            suitLog = {'type': encounter['type'], 'level': encounter['level']}
             if encounter['isSkelecog']:
                 suitLog['isSkelecog'] = True
             suitsLog.append(suitLog)

@@ -98,7 +98,7 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
             self.d_denyBattle(toonId)
 
     def getConfrontPosHpr(self):
-        return (self.confrontPos, self.confrontHpr)
+        return self.confrontPos, self.confrontHpr
 
     def flyAwayNow(self):
         self.b_setPathState(2)
@@ -166,7 +166,7 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         self.pathPositionTimestamp = timestamp
 
     def getPathPosition(self):
-        return (self.pathPositionIndex, globalClockDelta.localToNetworkTime(self.pathPositionTimestamp))
+        return self.pathPositionIndex, globalClockDelta.localToNetworkTime(self.pathPositionTimestamp)
 
     def b_setPathState(self, state):
         self.setPathState(state)

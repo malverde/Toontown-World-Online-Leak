@@ -90,8 +90,7 @@ class Elevator(StateData.StateData):
             else:
                 self.fsm.request('requestBoard')
         elif DFAdoneStatus['mode'] == 'incomplete':
-            elevatorDoneStatus = {}
-            elevatorDoneStatus['where'] = 'reject'
+            elevatorDoneStatus = {'where': 'reject'}
             messenger.send(self.doneEvent, [elevatorDoneStatus])
         else:
             self.notify.error('Unrecognized doneStatus: ' + str(DFAdoneStatus))

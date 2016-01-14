@@ -65,7 +65,7 @@ class PurchaseManager(DistributedObject.DistributedObject):
 
     def calcHasLocalToon(self):
         retval = base.localAvatar.doId not in self.newbieIds and base.localAvatar.doId in self.playerIds
-        if self.metagameRound > -1 and self.metagameRound < TravelGameGlobals.FinalMetagameRoundIndex:
+        if -1 < self.metagameRound < TravelGameGlobals.FinalMetagameRoundIndex:
             retval = base.localAvatar.doId in self.playerIds
         self.notify.debug('calcHasLocalToon returning %s' % retval)
         return retval

@@ -212,7 +212,7 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
 
     def getMotionIval(self, mode = STOMPER_START):
         if self.range == 0.0:
-            return (None, 0)
+            return None, 0
         wantSound = self.soundOn
         if self.motion is MotionLinear:
             motionIval = Sequence(LerpPosInterval(self.model, self.period / 2.0, Point3(0, -self.range, 0), startPos=Point3(0, 0, 0), fluid=1), WaitInterval(self.period / 4.0), LerpPosInterval(self.model, self.period / 4.0, Point3(0, 0, 0), startPos=Point3(0, -self.range, 0), fluid=1))
@@ -229,7 +229,7 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             def motionFunc(t, self = self):
                 stickTime = 0.2
                 turnaround = 0.95
-                t = t % 1
+                t %= 1
                 if t < stickTime:
                     self.model.setFluidY(0)
                 elif t < turnaround:
@@ -244,12 +244,12 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
                 stickTime = 0.2
                 pauseAtTopTime = 0.5
                 turnaround = 0.85
-                t = t % 1
+                t %= 1
                 if t < stickTime:
                     self.model.setFluidY(0)
                 elif t <= turnaround - pauseAtTopTime:
                     self.model.setFluidY((t - stickTime) * -self.range / (turnaround - pauseAtTopTime - stickTime))
-                elif t > turnaround - pauseAtTopTime and t <= turnaround:
+                elif turnaround - pauseAtTopTime < t <= turnaround:
                     self.model.setFluidY(-self.range)
                 elif t > turnaround:
                     self.model.setFluidY(-self.range + (t - turnaround) * self.range / (1 - turnaround))
@@ -273,7 +273,7 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
                 self.model.setFluidY(math.sin(t * math.pi) * -self.range)
 
             motionIval = Sequence(LerpFunctionInterval(halfSinusFunc, duration=self.period))
-        return (motionIval, wantSound)
+        return motionIval, wantSound
 
     def startStomper(self, startTime, mode = STOMPER_START):
         if self.ival:
@@ -342,7 +342,8 @@ class DistributedStomper(DistributedCrusherEntity.DistributedCrusherEntity):
             zRange = self.headScale[2]
             xRange = self.headScale[0]
             yRange = 5
-            if tPos[2] < zRange and tPos[2] > -zRange and tPos[0] < xRange and tPos[0] > -xRange and tPos[1] < yRange / 10.0 and tPos[1] > -yRange:
+            if zRange > tPos[2] > -zRange and xRange > tPos[0] > -xRange and yRange / 10.0 > \
+                    tPos[1] > -yRange:
                 self.level.b_setOuch(self.damage, 'Squish')
                 base.localAvatar.setZ(self.getZ(render) + 0.025)
 

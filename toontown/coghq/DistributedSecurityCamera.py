@@ -73,16 +73,8 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
         self.lastTime = 0.0
         self.currentTime = 0.0
         self.delta = 0.0
-        self.Norm = {}
-        self.Norm['Red'] = 0.2
-        self.Norm['Green'] = 0.2
-        self.Norm['Blue'] = 0.2
-        self.Norm['Alpha'] = 1.0
-        self.Alert = {}
-        self.Alert['Red'] = 1.0
-        self.Alert['Green'] = 0.0
-        self.Alert['Blue'] = 0.0
-        self.Alert['Alpha'] = 1.0
+        self.Norm = {'Red': 0.2, 'Green': 0.2, 'Blue': 0.2, 'Alpha': 1.0}
+        self.Alert = {'Red': 1.0, 'Green': 0.0, 'Blue': 0.0, 'Alpha': 1.0}
         self.attackSound = loader.loadSfx('phase_9/audio/sfx/CHQ_GOON_tractor_beam_alarmed.ogg')
         self.onSound = loader.loadSfx('phase_11/audio/sfx/LB_camera_shutter_2.ogg')
         self.attackTrack = Parallel(SoundInterval(self.attackSound, node=self, volume=0.8), SoundInterval(self.onSound, node=self, volume=0.8))
@@ -179,7 +171,8 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
         if self.gridScaleY > self.gridScaleX:
             greaterDim = self.gridScaleY
         if distance < greaterDim * 1.6:
-            if localAvatar.getPos(self)[0] > 0 and localAvatar.getPos(self)[0] < self.gridScaleX and localAvatar.getPos(self)[1] > 0 and localAvatar.getPos(self)[1] < self.gridScaleY:
+            if 0 < localAvatar.getPos(self)[0] < self.gridScaleX and 0 < \
+                    localAvatar.getPos(self)[1] < self.gridScaleY:
                 self.__toonHit()
             else:
                 if self.isToonIn:
@@ -269,8 +262,8 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
         if self.targetY != self.trackY:
             dirY = distY / abs(distY)
         if trigDist < self.radius * 0.5 + 1.0:
-            self.vX = self.vX * deccel
-            self.vY = self.vY * deccel
+            self.vX *= deccel
+            self.vY *= deccel
             self.moveStopTrack.start()
             self.moveLoopTrack.finish()
         else:
@@ -325,11 +318,7 @@ class DistributedSecurityCamera(BasicEntities.DistributedNodePathEntity):
         beamGreen = 0.0
         beamBlue = 0.0
         beamAlpha = 1.0
-        origin = {}
-        origin['Red'] = 0.2
-        origin['Green'] = 0.2
-        origin['Blue'] = 0.2
-        origin['Alpha'] = 1.0
+        origin = {'Red': 0.2, 'Green': 0.2, 'Blue': 0.2, 'Alpha': 1.0}
         if self.canDamage:
             origin = self.Norm
         else:

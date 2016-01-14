@@ -201,7 +201,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
                 self.tableState[y] = x
             else:
                 self.tableState[y] = None
-            y = y + 1
+            y += 1
 
         numPlayers = 0
         for x in self.tableState:
@@ -269,7 +269,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
     def enableChoiceButtons(self):
         if self.tableState[self.seatBumpForObserve] == None and self.isPlaying == False:
             self.joinButton = DirectButton(relief=None, text=TTLocalizer.PicnicTableJoinButton, text_fg=(1, 1, 0.65, 1), text_pos=(0, -0.23), text_scale=0.8, image=(self.upButton, self.downButton, self.rolloverButton), image_color=(1, 0, 0, 1), image_scale=(20, 1, 11), pos=(0, 0, 0.8), scale=0.15, command=lambda self = self: self.joinButtonPushed())
-        if self.isPlaying == True:
+        if self.isPlaying:
             self.observeButton = DirectButton(relief=None, text=TTLocalizer.PicnicTableObserveButton, text_fg=(1, 1, 0.65, 1), text_pos=(0, -0.23), text_scale=0.8, image=(self.upButton, self.downButton, self.rolloverButton), image_color=(1, 0, 0, 1), image_scale=(20, 1, 11), pos=(0, 0, 0.6), scale=0.15, command=lambda self = self: self.observeButtonPushed())
         self.exitButton = DirectButton(relief=None, text=TTLocalizer.PicnicTableCancelButton, text_fg=(1, 1, 0.65, 1), text_pos=(0, -0.23), text_scale=0.8, image=(self.upButton, self.downButton, self.rolloverButton), image_color=(1, 0, 0, 1), image_scale=(20, 1, 11), pos=(1, 0, 0.6), scale=0.15, command=lambda self = self: self.cancelButtonPushed())
         self.tutorialButton = DirectButton(relief=None, text=TTLocalizer.PicnicTableTutorial, text_fg=(1, 1, 0.65, 1), text_pos=(-0.05, -0.13), text_scale=0.55, image=(self.upButton, self.downButton, self.rolloverButton), image_color=(1, 0, 0, 1), image_scale=(20, 1, 11), pos=(-1, 0, 0.6), scale=0.15, command=lambda self = self: self.tutorialButtonPushed())
@@ -350,7 +350,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
         if avId not in self.haveAnimated:
             self.haveAnimated.append(avId)
         if avId == base.localAvatar.getDoId():
-            if self.inGame == True:
+            if self.inGame:
                 return
             self.inGame = True
             self.seatPos = index
@@ -382,7 +382,7 @@ class DistributedPicnicTable(DistributedNode.DistributedNode):
             if avId == base.localAvatar.getDoId():
                 if self.gameZone:
                     base.cr.removeInterest(self.gameZone)
-                if self.inGame == True:
+                if self.inGame:
                     self.inGame = False
                 else:
                     return

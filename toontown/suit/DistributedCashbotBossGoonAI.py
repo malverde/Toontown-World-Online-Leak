@@ -150,10 +150,10 @@ class DistributedCashbotBossGoonAI(
                 heading, weight = self.directionTable[i]
                 seg = self.feelers[i]
                 dist = entries.get(seg, self.feelerLength)
-                return (heading, dist)
+                return heading, dist
 
         self.notify.warning('Fell off end of weighted table.')
-        return (0, self.legLength)
+        return 0, self.legLength
 
     def __startWalk(self):
         if self.arrivalTime is None:

@@ -10,7 +10,7 @@ notify = DirectNotifyGlobal.directNotify.newCategory('MovieSOS')
 
 def doSOSs(calls):
     if len(calls) == 0:
-        return (None, None)
+        return None, None
 
     def callerFunc(toon, handle):
         toon.setChatAbsolute(
@@ -48,4 +48,4 @@ def doSOSs(calls):
 
     camDuration = mtrack.getDuration()
     camTrack = MovieCamera.chooseSOSShot(toon, camDuration)
-    return (mtrack, camTrack)
+    return mtrack, camTrack

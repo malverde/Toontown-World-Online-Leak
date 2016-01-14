@@ -2231,4 +2231,4 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                     bonusWeight = 0
             newWeight = defaultWeight + bonusWeight
             self.notify.debug('toon %d has weight of %d' % (toonId, newWeight))
-        return (newWeight, bonusWeight, numJurors)
+        return newWeight, bonusWeight, numJurors

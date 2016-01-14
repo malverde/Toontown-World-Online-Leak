@@ -738,8 +738,7 @@ class NewsManager(DistributedObject.DistributedObject):
 		for holidayItem in self.relativelyCalendarHolidays:
 			item = deepcopy(holidayItem)
 
-			newItem = []
-			newItem.append(item[0])
+			newItem = [item[0]]
 
 			i = 1
 			while i < len(item):

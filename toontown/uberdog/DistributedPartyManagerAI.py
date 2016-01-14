@@ -34,9 +34,7 @@ class DistributedPartyManagerAI(DistributedObjectAI):
 
     def _makePartyDict(self, struct):
         PARTY_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
-        party = {}
-        party['partyId'] = struct[0]
-        party['hostId'] = struct[1]
+        party = {'partyId': struct[0], 'hostId': struct[1]}
         start = '%s-%s-%s %s:%s:00' % (struct[2], struct[3], struct[4], struct[5], struct[6])
         party['start'] = datetime.strptime(start, PARTY_TIME_FORMAT)
         end = '%s-%s-%s %s:%s:00' % (struct[7], struct[8], struct[9], struct[10], struct[11])

@@ -87,12 +87,10 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEn
         self.game.setGridSize(gridNumX, gridNumY)
 
     def getGrid(self):
-        return (self.game.gridNumX, self.game.gridNumY)
+        return self.game.gridNumX, self.game.gridNumY
 
     def getField(self):
-        fieldData = []
-        fieldData.append(self.game.gridNumX)
-        fieldData.append(self.game.gridNumY)
+        fieldData = [self.game.gridNumX, self.game.gridNumY]
         for column in range(0, self.game.gridNumX):
             for row in range(0, self.game.gridNumY):
                 fieldData.append(self.game.gridData[column][row])

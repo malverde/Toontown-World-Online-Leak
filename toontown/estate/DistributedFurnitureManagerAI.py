@@ -88,7 +88,7 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
         for item in items:
             if item.getHashContents() in (1300, 1310, 1320, 1330, 1340, 1350):
                 do = DistributedBankAI(self.air, self, item)
-            elif item.getHashContents() >= 500 and item.getHashContents() <= 518:
+            elif 500 <= item.getHashContents() <= 518:
                 do = DistributedClosetAI(self.air, self, item)
                 do.setOwnerId(self.avId)
             elif item.getHashContents() == 1399:
@@ -264,7 +264,7 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
 
         do.generateWithRequired(self.zoneId)
         self.items.append(do)
-        return (ToontownGlobals.FM_MovedItem, do.doId)
+        return ToontownGlobals.FM_MovedItem, do.doId
 
     def deleteItemFromAttic(self, blob, index):
         item = self.getAtticFurniture(self.atticItems, index)

@@ -43,16 +43,8 @@ class RubberBand:
         self.post1Pos = Point3(-width, 0, height)
         self.post2Pos = Point3(width, 0, height)
         taskMgr.add(self.redraw, 'recreateBand %s' % self.bandNumber, priority=self._taskPriority)
-        self.colorRelax = {}
-        self.colorRelax['Red'] = 1.0
-        self.colorRelax['Green'] = 0.3
-        self.colorRelax['Blue'] = 0.2
-        self.colorRelax['Alpha'] = 1.0
-        self.colorStrecth = {}
-        self.colorStrecth['Red'] = 1.0
-        self.colorStrecth['Green'] = 0.6
-        self.colorStrecth['Blue'] = 0.4
-        self.colorStrecth['Alpha'] = 1.0
+        self.colorRelax = {'Red': 1.0, 'Green': 0.3, 'Blue': 0.2, 'Alpha': 1.0}
+        self.colorStrecth = {'Red': 1.0, 'Green': 0.6, 'Blue': 0.4, 'Alpha': 1.0}
 
     def setPos(self, pos):
         self.baseNode.setPos(pos[0], pos[1], pos[2])
@@ -63,11 +55,7 @@ class RubberBand:
         self.baseNode.removeNode()
 
     def redraw(self, task):
-        color = {}
-        color['Red'] = 1.0
-        color['Green'] = 0.3
-        color['Blue'] = 0.2
-        color['Alpha'] = 0.5
+        color = {'Red': 1.0, 'Green': 0.3, 'Blue': 0.2, 'Alpha': 0.5}
         self.bandGN.removeAllGeoms()
         objPosX = self.heldObject.getX(self.baseNode) + self.heldOffset[0]
         objPosY = self.heldObject.getY(self.baseNode) + self.heldOffset[1]
@@ -86,11 +74,10 @@ class RubberBand:
         if bandThickness < 0.2:
             bandThickness = 0.2
         colorProp = bandThickness / self.bandHeight
-        color = {}
-        color['Red'] = colorProp * self.colorRelax['Red'] + (1 - colorProp) * self.colorStrecth['Red']
-        color['Green'] = colorProp * self.colorRelax['Green'] + (1 - colorProp) * self.colorStrecth['Green']
-        color['Blue'] = colorProp * self.colorRelax['Blue'] + (1 - colorProp) * self.colorStrecth['Blue']
-        color['Alpha'] = colorProp * self.colorRelax['Alpha'] + (1 - colorProp) * self.colorStrecth['Alpha']
+        color = {'Red': colorProp * self.colorRelax['Red'] + (1 - colorProp) * self.colorStrecth['Red'],
+                 'Green': colorProp * self.colorRelax['Green'] + (1 - colorProp) * self.colorStrecth['Green'],
+                 'Blue': colorProp * self.colorRelax['Blue'] + (1 - colorProp) * self.colorStrecth['Blue'],
+                 'Alpha': colorProp * self.colorRelax['Alpha'] + (1 - colorProp) * self.colorStrecth['Alpha']}
         bandBottomOrigin = self.post1Pos[2] - 0.5 * bandThickness
         bandTopOrigin = self.post1Pos[2] + 0.5 * bandThickness
         bandBottomHeld = objPosZ - 0.5 * bandThickness
@@ -99,9 +86,8 @@ class RubberBand:
         colorMultList = []
         colorHigh = 1.0
         colorLow = 0.5
-        shapeVertexs = []
-        shapeVertexs.append((self.post1Pos[0], self.post1Pos[1], bandBottomOrigin + 0.45))
-        shapeVertexs.append((self.post1Pos[0], self.post1Pos[1], bandTopOrigin + 0.45))
+        shapeVertexs = [(self.post1Pos[0], self.post1Pos[1], bandBottomOrigin + 0.45),
+                        (self.post1Pos[0], self.post1Pos[1], bandTopOrigin + 0.45)]
         colorMultList.append(colorLow)
         colorMultList.append(colorHigh)
         s2 = pow(2, 0.5)

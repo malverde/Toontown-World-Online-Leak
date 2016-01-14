@@ -77,7 +77,7 @@ def getAllChatItemsSold():
     return result
 
 
-class Sale():
+class Sale:
 
     def __init__(self, *args):
         self.args = args
@@ -1185,7 +1185,7 @@ WeeklySchedule = (
      nextAvailablePole))
 
 
-class CatalogGenerator():
+class CatalogGenerator:
     notify = DirectNotifyGlobal.directNotify.newCategory('CatalogGenerator')
 
     def __init__(self):
@@ -1217,7 +1217,7 @@ class CatalogGenerator():
         self.notify.debug(
             'Generating catalog for %s for week %s.' %
             (avatar.doId, week))
-        if week >= 1 and week <= len(WeeklySchedule):
+        if 1 <= week <= len(WeeklySchedule):
             saleItem = 0
             schedule = WeeklySchedule[week - 1]
             if isinstance(schedule, Sale):

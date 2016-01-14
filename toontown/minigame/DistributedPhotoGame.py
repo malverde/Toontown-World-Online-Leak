@@ -840,7 +840,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         subject.setPos(orgPos)
         subject.setQuat(orgQuat)
         subjectTrack.append(Func(self.regenerateToonTrack, subject, path, pathIndex))
-        return (subjectTrack, subjectTimeline)
+        return subjectTrack, subjectTimeline
 
     def slowDistance(self, point1, point2):
         dx = point1[0] - point2[0]
@@ -1066,7 +1066,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             self.starParentDict[model] = starParent
             star.hide()
 
-        return (model, screen, assignedToon)
+        return model, screen, assignedToon
 
     def makeFrameModel(self, model):
         frame = self.makeAssignmentFrame()
@@ -1082,7 +1082,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             corner = Vec3(bMax - center)
             scaleFactor = self.screenSizeX / PhotoGameGlobals.ONSCREENASSIGNMENTS
             scale.setScale(0.4 * scaleFactor / max(corner[0], corner[1], corner[2]))
-        return (frame, ival)
+        return frame, ival
 
     def makeAssignmentFrame(self):
         from direct.gui.DirectGui import DirectFrame

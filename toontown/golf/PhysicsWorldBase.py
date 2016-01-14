@@ -215,7 +215,7 @@ class PhysicsWorldBase:
 
         self.contactgroup.empty()
         self.commonObjectControl()
-        self.timingSimTime = self.timingSimTime + self.DTAStep
+        self.timingSimTime += self.DTAStep
 
     def placeBodies(self):
         for pair in self.odePandaRelationList:
@@ -254,7 +254,8 @@ class PhysicsWorldBase:
                 model = entry[7]
                 force = 0.0
                 for index in xrange(len(timeData)):
-                    if index == len(timeData) - 1 and timeData[index] < time or timeData[index] < time and timeData[index + 1] > time:
+                    if index == len(timeData) - 1 and timeData[index] < time or timeData[index] < time < \
+                            timeData[index + 1]:
                         force = forceData[index]
                         event = eventData[index]
                         if event != self.commonObjectInfoDict[key]:
@@ -521,7 +522,7 @@ class PhysicsWorldBase:
         else:
             testball = None
             self.bodyList.append((None, body))
-        return (testball, body, geom)
+        return testball, body, geom
 
     def createBox(self, world, space, density, lx, ly, lz, colOnlyBall = 0):
         body = OdeBody(self.world)
@@ -550,7 +551,7 @@ class PhysicsWorldBase:
         else:
             boxNodePathGeom = None
             self.bodyList.append((None, body))
-        return (boxNodePathGeom, body)
+        return boxNodePathGeom, body
 
     def createCross(self, world, space, density, lx, ly, lz, colOnlyBall = 0, attachedGeo = None, aHPR = None, aPos = None):
         body = OdeBody(self.world)
@@ -595,7 +596,7 @@ class PhysicsWorldBase:
         else:
             boxNodePathGeom = None
             self.bodyList.append((None, body))
-        return (boxNodePathGeom, body)
+        return boxNodePathGeom, body
 
     def createCross2(self, world, space, density, lx, ly, lz, latSlide, colOnlyBall = 0, attachedGeo = None, aHPR = None, aPos = None):
         body = OdeBody(self.world)
@@ -666,7 +667,7 @@ class PhysicsWorldBase:
         else:
             someNodePathGeom = None
             self.bodyList.append((None, body))
-        return (someNodePathGeom, body)
+        return someNodePathGeom, body
 
     def createPinWheel(self, world, space, density, lx, ly, lz, numBoxes, disV, disH, colOnlyBall = 0, attachedGeo = None, aHPR = None, aPos = None, offRot = 0):
         body = OdeBody(self.world)
@@ -715,7 +716,7 @@ class PhysicsWorldBase:
         else:
             someNodePathGeom = None
             self.bodyList.append((None, body))
-        return (someNodePathGeom, body)
+        return someNodePathGeom, body
 
     def attachMarker(self, body):
         if self.canRender:

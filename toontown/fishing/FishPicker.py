@@ -54,7 +54,6 @@ class FishPicker(DirectScrolledList):
         self.fishPanel.setSwimBounds(-0.3, 0.3, -0.235, 0.25)
         self.fishPanel.setSwimColor(1.0, 1.0, 0.74901, 1.0)
         gui.removeNode()
-        return None
 
     def destroy(self):
         DirectScrolledList.destroy(self)
