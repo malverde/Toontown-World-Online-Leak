@@ -21,39 +21,60 @@ class NewsManagerAI(DistributedObjectAI):
 		day = str(datetime.datetime.now().strftime("%d"))
 		if str(datetime.datetime.now().strftime("%m")) == "12" and day ==  "30" or day == "31":
 			self.HolidayManagerAI.startFireworksTick()
-
+		else:
+			HolidayName = 'None'
 		
-		elif str(datetime.datetime.now().strftime("%m")) == "12" and day == "14" or day == "15" or day == "16" or day == "17" or day == "18" or day == "19" or day == "20" or day == "21" or day == "22" or day == "23" or day == "24" or day == "25" or day == "26" or day == "27" or "28" or day == "29" or day == "30" or day == "31":
+		if str(datetime.datetime.now().strftime("%m")) == "12" and day == "14" or day == "15" or day == "16" or day == "17" or day == "18" or day == "19" or day == "20" or day == "21" or day == "22" or day == "23" or day == "24" or day == "25" or day == "26" or day == "27" or "28" or day == "29" or day == "30" or day == "31":
 			self.HolidayName = 'Winter'
+		else:
+			HolidayName = 'None'
 			
-		elif str(datetime.datetime.now().strftime("%m")) == "01" and day == "02" or day == "03" or day == "04":
+		if str(datetime.datetime.now().strftime("%m")) == "01" and day == "02" or day == "03" or day == "04":
 			self.HolidayName = 'Winter'
+		else:
+			HolidayName = 'None'
 		
-		elif str(datetime.datetime.now().strftime("%m")) == "10" and day ==  "21" or day == "22" or day == "23" or day == "25" or day == "26" or day == "27" or day == "28" or day == "29" or day == "30" or day == "31":
+		if str(datetime.datetime.now().strftime("%m")) == "10" and day ==  "21" or day == "22" or day == "23" or day == "25" or day == "26" or day == "27" or day == "28" or day == "29" or day == "30" or day == "31":
 			self.HolidayName = 'Halloween'
+		else:
+			HolidayName = 'None'
 			
-		elif str(datetime.datetime.now().strftime("%m")) == "11" and day ==  "01":
+		if str(datetime.datetime.now().strftime("%m")) == "11" and day ==  "01":
 			self.HolidayName = 'Halloween'
+		else:
+			HolidayName = 'None'
 			
-		elif str(datetime.datetime.now().strftime("%m")) == "03" and day ==  "14" or day == "15":
+		if str(datetime.datetime.now().strftime("%m")) == "03" and day ==  "14" or day == "15":
 			self.HolidayName = 'Ides of March'
+		else:
+			HolidayName = 'None'
 			
-		elif str(datetime.datetime.now().strftime("%m")) == "07" and day ==  "29" or day == "30":
+		if str(datetime.datetime.now().strftime("%m")) == "07" and day ==  "29" or day == "30":
 				self.HolidayName = 'Xp Booster'
+		else:
+			HolidayName = 'None'
 				
-		elif str(datetime.datetime.now().strftime("%m")) == "07" and day ==  "01" or day == "02" or day == "03" or day == "04" or day == "05" or day == "06" or day == "07" or day == "08" or day == "09" or day == "10" or day == "11" or day == "12" or day == "14" or day == "15":
+		if str(datetime.datetime.now().strftime("%m")) == "07" and day ==  "01" or day == "02" or day == "03" or day == "04" or day == "05" or day == "06" or day == "07" or day == "08" or day == "09" or day == "10" or day == "11" or day == "12" or day == "14" or day == "15":
 			self.HolidayManagerAI.startFireworksTick()
+		else:
+			HolidayName = 'None'
 				
-		elif str(datetime.datetime.now().strftime("%m")) == "06" and day ==  "29" or "30":
+		if str(datetime.datetime.now().strftime("%m")) == "06" and day ==  "29" or "30":
 			self.HolidayManagerAI.startFireworksTick()
+		else:
+			HolidayName = 'None'
 			
-		elif str(datetime.datetime.now().strftime("%m")) == "03" and day ==  "29" or day == "30" or day == "31":
+		if str(datetime.datetime.now().strftime("%m")) == "03" and day ==  "29" or day == "30" or day == "31":
 			self.HolidayName = 'April Toons'
+		else:
+			HolidayName = 'None'
 			
-		elif str(datetime.datetime.now().strftime("%m")) == "04" and day == "01" or day == "02" or day == "03" or day == "04" or day == "05" or day == "06" or day == "07" or day == "09" or day == "10" or day == "11":
+		if str(datetime.datetime.now().strftime("%m")) == "04" and day == "01" or day == "02" or day == "03" or day == "04" or day == "05" or day == "06" or day == "07" or day == "09" or day == "10" or day == "11":
 			self.HolidayName = 'April Toons'
+		else:
+			HolidayName = 'None'
 			
-		elif str(datetime.datetime.now().strftime("%m")) == "04" and day == "15":
+		if str(datetime.datetime.now().strftime("%m")) == "04" and day == "15":
 			self.HolidayName = 'Tax Day'
 		else:
 			self.HolidayName = 'None'
