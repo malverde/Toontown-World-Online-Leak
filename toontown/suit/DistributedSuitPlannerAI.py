@@ -1025,6 +1025,12 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 self.numAttemptingTakeover -= 1
         suit.requestDelete()
 
+    def unSummonSingleCog(self, suit):
+        for suit in self.suitList:
+            self.notify.warning('Suit is being told to fly away')
+            sp = self.air.suitPlanners
+            sp.removeSuit(suit)
+
     def countTakeovers(self):
         count = 0
         for suit in self.suitList:
@@ -1640,3 +1646,14 @@ def spawn(name, level, specialSuit=0):
         suitLevel=level,
         specialSuit=0)
     return "Spawned %s in current zone." % name
+
+@magicWord(category=CATEGORY_ADMIN)
+def desuit(command):
+    invoker = spellbook.getInvoker()
+    suit = spellbook.getTarget()
+    command = command.lower()
+
+    if command == 'confirm':
+        returnCode = invoker.unSummonSingleCog(suit)
+        if returnCode[0] == 'success':
+            return 'Success'

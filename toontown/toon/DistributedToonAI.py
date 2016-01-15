@@ -3498,9 +3498,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                     return ['success', suitIndex, 0]
         return ['badlocation', suitIndex, 0]
 
-    # def unSummonSingleCog(self, invoker):
-        # Pass
-
     def doBuildingTakeover(self, suitIndex):
         streetId = ZoneUtil.getBranchZone(self.zoneId)
         if not self.air.suitPlanners.has_key(streetId):
