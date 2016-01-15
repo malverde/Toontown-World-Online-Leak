@@ -135,7 +135,7 @@ force-player-understandable #t
 want-arg-manager #f
 want-mega-invasions #f
 mega-invasion-cog-type bw
-want-hourly-fireworks #t
+want-hourly-fireworks #f
 # want-flippy-pet-intro #f
 want-hourly-fireworks-type victoryreleasefireworks
 # Alternative than nerfing VP?
