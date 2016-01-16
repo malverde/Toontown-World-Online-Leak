@@ -9085,7 +9085,6 @@ LawbotBossTaunts = ['%s, I find you in contempt of court!',
  'Strike that from the record.',
  'Your appeal has been rejected. I sentence you to sadness!',
  'Order in the court!']
-LawbotBossAreaAttackTaunt = "You're all in contempt of court!"
 WitnessToonName = 'Bumpy Bumblebehr'
 WitnessToonPrepareBattleTwo = "Oh no! They're putting only Cogs on the jury!\x07Quick, use the cannons and shoot some Toon jurors into the jury chairs.\x07We need %d to get a balanced scale."
 WitnessToonNoJuror = 'Oh oh, no Toon jurors. This will be a tough trial.'
@@ -9979,7 +9978,7 @@ BossTaunts = [
  "We've only just started our business proposal. Not bored are you?"]
 
 SendCogBossTaunts = {
- 's': [
+ 's': [ # VP
   "We're going door to door to give you an dedious offer.",
   "It's time for your estimated cost.",
   'You toons never learn when to snatch up a great deal.',
@@ -9989,6 +9988,17 @@ SendCogBossTaunts = {
   'The deal has only just begun.',
   'Going sad already? How about we settle a retirement plan.',
   'Get them! Get them all!'
+ ],
+  'l': [ # CJ
+  'Order in the court!',
+  'The defendant is appearing to be proven guilty.',
+  'Justice is important to keep a stable society.',
+  'Toontown will be full of corruption and greed.',
+  'Toons do not understand the importance of the Cog order.',
+  'The state of your actions will prove you toons guilty.',
+  "Bah! Don't you tell me how to run a trial!",
+  'My decision will state what to legally do to you Toons.',
+  'This blindfold protects me from the horrible corruption!'
  ]
 }
 VPRampMessage = "I don't have time for this, I'm late for my meeting!"
@@ -9996,12 +10006,12 @@ VPRampMessage = "I don't have time for this, I'm late for my meeting!"
 VPDeathTaunt = "WAAAH!! YOU HAVEN'T SEEN THE LAST OF ME! WAIT UNTIL THE SELLBOT FACTORY PUTS ME BACK TOGETHER!"
 
 DirectedAttackBossTaunts = {
- 's': [
+ 's': [ # VP
   'Have a free sample!',
   'I see you over there!',
   'My products are the best in all of Toontown!',
   "Don't think I skipped you, %(toon)s!"
-  "Not even Flippy can save you!"
+  "Not even Flippy can save you!" # TODO: Make this separate (put a comma) on line above
  ]
 }
 
@@ -10013,10 +10023,15 @@ VPSpinMessages = [
 ]
 
 JumpBossTaunts = {
- 's': [
+ 's': [ # VP
   'STOP!',
   'Pay attention to my pitch!',
   'This is a waste of my time!',
   'Time to send you back to the playground!'
- ]
+ ],
+'l': [ # CJ
+  "You're all in contempt of court!"
+  ]
 }
+
+
