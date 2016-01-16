@@ -40,7 +40,7 @@ class HolidayManagerAI:
 		task.delayTime = 3600
 		day = str(datetime.datetime.now().strftime("%d"))
 
-		showName = config.GetString('hourly-fireworks-type', 'july4')
+		#showName = config.GetString('hourly-fireworks-type', 'july4')
 
 		#if showName == 'july4':
 		 #   showType = ToontownGlobals.JULY4_FIREWORKS
@@ -59,17 +59,17 @@ class HolidayManagerAI:
 		elif str(datetime.datetime.now().strftime("%m")) == "07":
 			if  day ==  "01" or day == "02" or day == "03" or day == "04" or day == "05" or day == "06" or  day =="07" or day == "08" or day == "09" or day == "10" or day == "11" or day == "12" or day == "14" or day == "15":
 				showType = PartyGlobals.FireworkShows.Summer
-		
-		elif showName == 'random':
-			shows = [
-				ToontownGlobals.JULY4_FIREWORKS,
-				ToontownGlobals.NEWYEARS_FIREWORKS,
-				PartyGlobals.FireworkShows.Summer,
-				ToontownGlobals.VICTORY_RELEASE_FIREWORKS]
-			showType = random.choice(shows)
 		else:
-			raise AttributeError('%s is an invalid firework type' % showName)
+			print('%s is an invalid firework type' % showName)
 			return
+	#	elif showName == 'random':
+	#		shows = [
+	#			ToontownGlobals.JULY4_FIREWORKS,
+	#			ToontownGlobals.NEWYEARS_FIREWORKS,
+	#			PartyGlobals.FireworkShows.Summer,
+	#			ToontownGlobals.VICTORY_RELEASE_FIREWORKS]
+	#		showType = random.choice(shows)
+
 
 		numShows = len(FireworkShows.shows.get(showType, []))
 		showIndex = random.randint(0, numShows - 1)
