@@ -8,7 +8,7 @@ import ToontownLoader
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import *
 from direct.showbase.Transitions import Transitions
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import Sequence, Func, Wait
 from otp.nametag.ChatBalloon import ChatBalloon
 from otp.nametag import NametagGlobals
