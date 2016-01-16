@@ -633,7 +633,6 @@ class BattleCalculatorAI:
 							'not setting validTargetAvail, since drop on a lured suit')
 					else:
 						validTargetAvail = 1
-			result = 0
 			if attackLevel == -1 and not atkTrack == FIRE:
 				result = LURE_SUCCEEDED
 			elif atkTrack != TRAP:
@@ -641,9 +640,9 @@ class BattleCalculatorAI:
 				try:
 					if battleSkip:
 						attackDamage = suit = self.battle.findSuit(targetId).getHP()
-						result = attackDamage
+					result = attackDamage
 				except:
-					result = 0
+					pass
 				if atkTrack == HEAL:
 					if not self.__attackHasHit(attack, suit=0):
 						result *= 0.2
