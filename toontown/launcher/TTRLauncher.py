@@ -1,10 +1,12 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from otp.launcher.LauncherBase import LauncherBase
 import os
 import sys
 import time
 import httplib, urllib, json
+import shutil
+import hashlib
 
 class LogAndOutput:
 	def __init__(self, orig, log):
@@ -108,7 +110,48 @@ class TTRLauncher(LauncherBase):
 		return 0
 
 	def getPhaseComplete(self, phase):
+		print (phase)
+		print "Checking for file patches!"
+		patchmanifestRaw = urllib.urlopen("http://toontownworldonline.com/api/patcher.json").read()
+		patchmanifest = json.loads(patchmanifestRaw)
+		newFileComp = urllib.URLopener()
+		if phase == 3.5:
+			print "Checking phase 3.5"
+			sha = hashlib.md5()
+			try:
+				file = open('phase_3.5.mf', "rb")
+				sha.update(file.read())
+				file.close()
+				sha.hexdigest()
+				if sha != patchmanifest["phase_3.5.mf"]["hash"]:
+					newFileComp.retrieve("PATCHER_BACKEND" + "phase_3.5.mf", 'phase_3.5.mf')
+				else:
+					contine
+				
+			except IOError:
+				newFileComp.retrieve("PATCHER_BACKEND" + "phase_3.mf", "phase_3.mf")
+		if phase == 4:
+			print "Checking phase 4"
+			sha = hashlib.md5()
+			try:
+				file = open('phase_4.mf', "rb")
+				sha.update(file.read())
+				file.close()
+				sha.hexdigest()
+				if sha != patchmanifest["phase_4.mf"]["hash"]:
+					newFileComp.retrieve("PATCHER_BACKEND" + "phase_4.mf", "phase_4.mf"
+				else:
+					continue
+				
+			except IOError:
+				newFileComp.retrieve("PATCHER_BACKEND" + "phase_4.mf", "phase_4.mf")
 		return 1
+
+	def getPercentPhaseComplete(self, bytesWritten):
+		if self.totalPatchDownload:
+			return LauncherBase.getPercentPatchComplete(self, bytesWritten)
+		else:
+			return 0
 
 	def startGame(self):
 		self.newTaskManager()
