@@ -48,7 +48,7 @@ class NewsInvasionAI:
 
 			# Ides of March
 			# Invasion scheduled for 15th of March - Back Stabbers - nomral, 2,500 Cogs
-			if str(datetime.datetime.now().strftime("%m")) == "03" and day == "15":
+			elif str(datetime.datetime.now().strftime("%m")) == "03" and day == "15":
 				name = 'bs'
 				num = 2500
 				special = 0
@@ -56,7 +56,7 @@ class NewsInvasionAI:
 				print "A Holiday Back Stabber Invasion Has Been Spawned"
 
 			# Invasion scheduled for 15th Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec- Mover & Shaker - 2.0 Cogs, 2,500 Cogs
-			if month == "01" or month == "02" or month == "03" or month == "05" or month == "06" or month == "07" or month == "08" or month == "09" or month == "10" or month == "11" or month == "12" and day ==  "15":
+			elif month == "01" or month == "02" or month == "03" or month == "05" or month == "06" or month == "07" or month == "08" or month == "09" or month == "10" or month == "11" or month == "12" and day ==  "15":
 				name = 'ms'
 				num = 2500
 				special = 2
@@ -64,7 +64,7 @@ class NewsInvasionAI:
 				print "A Holiday 2.0 M&S Invasion Has Been Spawned"
 
 			# Invasion scheduled for 31st Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec - Legal Eagle - Skelecog, 2,500 Cogs
-			if month == "01" or month == "03" or month == "05" or month == "07" or month == "08" or month == "10" or month == "12" and day ==  "31":
+			elif month == "01" or month == "03" or month == "05" or month == "07" or month == "08" or month == "10" or month == "12" and day ==  "31":
 				name = 'le'
 				num = 2500
 				special = 1
@@ -72,7 +72,7 @@ class NewsInvasionAI:
 				print "A Holiday Skelecog Legal Eagle Invasion Has Been Spawned"
 
 			# Invasion scheduled for 30th of April, Jun, Sep - Legal Eagle - Skelecog, 2,500 Cogs
-			if month == "04" or month == "06" or month == "09" or month == "11" and day ==  "30":
+			elif month == "04" or month == "06" or month == "09" or month == "11" and day ==  "30":
 				name = 'le'
 				num = 2500
 				special = 1
@@ -80,7 +80,7 @@ class NewsInvasionAI:
 				print "A Holiday Skelecog Legal Eagle Invasion Has Been Spawned"
 
 			# Invasion scheduled for 30th of Feb - Legal Eagle - Skelecog, 2,500 Cogs
-			if month == "02" and day ==  "29":
+			elif month == "02" and day ==  "29":
 				name = 'le'
 				num = 2500
 				special = 1
