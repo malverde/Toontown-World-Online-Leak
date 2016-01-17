@@ -60,7 +60,7 @@ class HolidayManagerAI:
 			if  day ==  "01" or day == "02" or day == "03" or day == "04" or day == "05" or day == "06" or  day =="07" or day == "08" or day == "09" or day == "10" or day == "11" or day == "12" or day == "14" or day == "15":
 				showType = PartyGlobals.FireworkShows.Summer
 		else:
-			print('Tried to spawn  a show with an invalid showType!!!')
+			#print('Tried to spawn  a show with an invalid showType!!!')
 			return
 	#	elif showName == 'random':
 	#		shows = [
