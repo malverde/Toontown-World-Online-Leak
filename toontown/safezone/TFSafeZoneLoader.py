@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from SafeZoneLoader import SafeZoneLoader
 from Playground import Playground
 from toontown.hood import ZoneUtil

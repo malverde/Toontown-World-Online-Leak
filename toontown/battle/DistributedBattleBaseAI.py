@@ -4,7 +4,7 @@ from BattleBase import *
 from BattleCalculatorAI import *
 from toontown.toonbase.ToontownBattleGlobals import *
 from SuitBattleGlobals import *
-from pandac.PandaModules import *
+from panda3d.core import *
 import BattleExperienceAI
 from direct.distributed import DistributedObjectAI
 from direct.fsm import ClassicFSM, State

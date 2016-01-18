@@ -1,5 +1,5 @@
 #Embedded file name: toontown.parties.Decoration
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.actor import Actor
 from toontown.toonbase import ToontownGlobals

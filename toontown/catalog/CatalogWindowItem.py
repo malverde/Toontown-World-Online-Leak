@@ -1,5 +1,5 @@
 # Embedded file name: toontown.catalog.CatalogWindowItem
-from pandac.PandaModules import *
+from panda3d.core import *
 import CatalogAtticItem
 import CatalogItem
 from toontown.toonbase import ToontownGlobals

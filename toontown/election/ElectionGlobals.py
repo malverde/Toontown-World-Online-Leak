@@ -1,6 +1,6 @@
 from direct.interval.IntervalGlobal import *
 from otp.nametag.NametagConstants import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from random import choice
 
 ########################

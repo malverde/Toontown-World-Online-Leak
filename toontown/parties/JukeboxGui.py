@@ -1,5 +1,5 @@
 #Embedded file name: toontown.parties.JukeboxGui
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.showbase.DirectObject import DirectObject
 from direct.gui.DirectGui import DirectFrame, DirectButton, DirectLabel
 from direct.gui.DirectGui import DirectScrolledListItem, DirectScrolledList

@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 import ShtikerPage
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 from toontown.estate import FlowerBrowser
 from toontown.estate import GardenGlobals

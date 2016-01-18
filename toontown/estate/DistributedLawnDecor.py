@@ -1,5 +1,5 @@
 #Embedded file name: toontown.estate.DistributedLawnDecor
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed import ClockDelta
 from direct.showbase.PythonUtil import lerp

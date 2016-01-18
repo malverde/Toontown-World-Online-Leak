@@ -1,5 +1,5 @@
 #Embedded file name: toontown.effects.EffectController
-from pandac.PandaModules import *
+from panda3d.core import *
 
 class EffectController:
     particleDummy = None

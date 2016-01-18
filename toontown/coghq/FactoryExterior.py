@@ -5,7 +5,7 @@ from direct.fsm import State
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.toonbase import ToontownGlobals
 from toontown.building import Elevator
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.dna import DNAUtil
 from otp.nametag import NametagGlobals
 

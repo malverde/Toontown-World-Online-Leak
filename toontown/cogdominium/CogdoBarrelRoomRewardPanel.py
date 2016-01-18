@@ -1,5 +1,5 @@
 #Embedded file name: toontown.cogdominium.CogdoBarrelRoomRewardPanel
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.gui.DirectGui import *
 from toontown.toon import DistributedToon
 from toontown.toonbase import ToontownGlobals, TTLocalizer

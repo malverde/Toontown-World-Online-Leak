@@ -1,7 +1,7 @@
 #Embedded file name: toontown.election.ToonfestBalloonGlobals
 from direct.interval.IntervalGlobal import *
 from otp.nametag.NametagConstants import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from random import choice
 BalloonBasePosition = [274, -263, 25]
 BalloonScale = 1.2

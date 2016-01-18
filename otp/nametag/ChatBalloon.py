@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 
 class ChatBalloon:
     TEXT_SHIFT = (0.1, -0.05, 1.1)

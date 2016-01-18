@@ -2,7 +2,7 @@ from direct.distributed.DistributedNode import DistributedNode
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from toontown.battle import BattleProps
-from pandac.PandaModules import *
+from panda3d.core import *
 import math
 
 class DistributedElectionCamera(DistributedNode):

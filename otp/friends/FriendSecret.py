@@ -1,5 +1,5 @@
 #Embedded file name: otp.friends.FriendSecret
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.gui.DirectGui import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
