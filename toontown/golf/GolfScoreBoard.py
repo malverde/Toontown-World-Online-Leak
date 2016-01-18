@@ -1,5 +1,5 @@
 #Embedded file name: toontown.golf.GolfScoreBoard
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *

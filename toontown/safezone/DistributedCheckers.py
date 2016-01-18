@@ -1,5 +1,5 @@
 #Embedded file name: toontown.safezone.DistributedCheckers
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *

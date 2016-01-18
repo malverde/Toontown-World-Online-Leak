@@ -1,6 +1,6 @@
 import bisect
 import math
-from pandac.PandaModules import *
+from panda3d.core import *
 
 class InvasionPathfinderAI:
     VERTEX_EXTRUSION = 0.15

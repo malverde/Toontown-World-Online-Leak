@@ -5,7 +5,7 @@ from direct.showbase import AppRunnerGlobal
 from direct.showbase import DirectObject
 from direct.showbase import PythonUtil
 import os
-from pandac.PandaModules import *
+from panda3d.core import *
 import re
 import sys
 import token

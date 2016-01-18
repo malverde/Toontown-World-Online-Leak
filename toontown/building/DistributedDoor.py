@@ -1,5 +1,5 @@
 from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.nametag.NametagGroup import NametagGroup
 from otp.nametag.Nametag import Nametag
 from direct.interval.IntervalGlobal import *

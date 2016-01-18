@@ -1,6 +1,6 @@
 # Embedded file name: toontown.catalog.CatalogItemList
 import CatalogItem
-from pandac.PandaModules import *
+from panda3d.core import *
 import types
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator

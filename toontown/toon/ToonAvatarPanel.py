@@ -1,7 +1,7 @@
 #Embedded file name: toontown.toon.ToonAvatarPanel
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.showbase import DirectObject
 import ToonHead
 from toontown.friends import FriendHandle

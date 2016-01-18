@@ -2,7 +2,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.task import Task
 from otp.distributed.OtpDoGlobals import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.parties.DistributedPartyAI import DistributedPartyAI
 from datetime import datetime
 from toontown.parties.PartyGlobals import *

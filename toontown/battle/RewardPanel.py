@@ -1,7 +1,7 @@
 import copy
 from direct.gui.DirectGui import *
 import math
-from pandac.PandaModules import *
+from panda3d.core import *
 import random
 import Fanfare
 from otp.otpbase import OTPGlobals
@@ -9,9 +9,9 @@ from toontown.coghq import CogDisguiseGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 import BattleBase
 from direct.directnotify import DirectNotifyGlobal

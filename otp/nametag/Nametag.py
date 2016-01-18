@@ -2,7 +2,7 @@ from NametagConstants import *
 import NametagGlobals
 from otp.margins.ClickablePopup import ClickablePopup
 from otp.otpbase import OTPGlobals
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 
 class Nametag(ClickablePopup):

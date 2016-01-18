@@ -22,7 +22,7 @@ from toontown.parties.InviteVisual import InviteVisual
 from toontown.parties.PartyInfo import PartyInfo
 from toontown.parties import PartyUtils
 from toontown.parties.PartyEditor import PartyEditor
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from otp.nametag.NametagGroup import NametagGroup
 from otp.nametag.Nametag import Nametag

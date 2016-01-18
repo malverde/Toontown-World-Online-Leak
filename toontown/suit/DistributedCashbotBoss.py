@@ -18,7 +18,7 @@ from toontown.battle import RewardPanel
 from toontown.distributed import DelayDelete
 from toontown.chat import ResistanceChat
 from toontown.coghq import CogDisguiseGlobals
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.nametag import NametagGroup
 from otp.nametag.NametagConstants import *
 from otp.nametag import NametagGlobals
