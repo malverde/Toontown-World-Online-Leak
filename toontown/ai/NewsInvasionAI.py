@@ -87,7 +87,7 @@ class NewsInvasionAI:
 				invMgr.startInvasion(name, num,special)
 				print "A Holiday Skelecog Legal Eagle Invasion Has Been Spawned"
 			else:
-                print "No Holiday Suit needed today!"
+				print "No Holiday Suit needed today!"
 		
 		return task.again
 
