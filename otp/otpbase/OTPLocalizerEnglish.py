@@ -115,7 +115,11 @@ grey = TextProperties()
 grey.setTextColor(0.5, 0.5, 0.5, 1)
 TextPropertiesManager.getGlobalPtr().setProperties('grey', grey)
 
-# New colors:
+# New nametag staff colours
+"""
+This section outlines
+the nametag colours of the staff
+"""
 # Orange
 amber = TextProperties()
 amber.setTextColor(1, 0.75, 0, 1)
@@ -3079,9 +3083,10 @@ def timeElapsedString(timeDelta):
 
 AccessToString = {
  200: '\x01amaranth\x01Artist\x02',
- 300: '\x01azure\x01Moderator\x02',
+ 300: '\x01green\x01Moderator\x02',
  400: '\x01amber\x01Community Manager\x02',
+ 401: '\x01yellow\x01Admin\x02',
  405: '\x01androidGreen\x01Developer\x02',
- 500: '\x01cobalt\x01Admin\x02',
- 507: '\x01caribbeanGreen\x01System Admin\x02'
+ 500: '\x01cobalt\x01Senior Admin\x02',
+ 507: '\x01red\x01System Admin\x02'
 }
