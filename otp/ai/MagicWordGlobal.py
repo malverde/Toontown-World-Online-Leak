@@ -140,7 +140,7 @@ CATEGORY_CAMERA = MagicWordCategory('Camera controls', defaultAccess=300,
 CATEGORY_COMMUNITYMANAGER = MagicWordCategory("CM commands", defaultAccess=400,
     doc='These magic words are for executing admin commands, '
         'Although a CM is an admin, they are ranked lower than a developer')
-CATEGORY_ADMIN = MagicWordCategory("Admin commands", defaultAccess=400, 
+CATEGORY_ADMIN = MagicWordCategory("Admin commands", defaultAccess=401,
     doc='These magic words are for executing admin commands')
 CATEGORY_DEVELOPER = MagicWordCategory("Developer commands", defaultAccess=405,
     doc='These magic words are for executing admin commands '
