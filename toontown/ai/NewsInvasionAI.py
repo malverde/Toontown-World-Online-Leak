@@ -46,7 +46,7 @@ class NewsInvasionAI:
 				invMgr.startInvasion(name, num,special)
 				print "A Holiday Number Cruncher Invasion Has Been Spawned"
 			else:
-			    pass
+			    break
 
 			# Ides of March
 			# Invasion scheduled for 15th of March - Back Stabbers - nomral, 2,500 Cogs
@@ -57,7 +57,7 @@ class NewsInvasionAI:
 				invMgr.startInvasion(name, num, special)
 				print "A Holiday Back Stabber Invasion Has Been Spawned"
 			else:
-			    pass
+			    break
 
 			# Invasion scheduled for 15th Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec- Mover & Shaker - 2.0 Cogs, 2,500 Cogs
 			if month == "01" or month == "02" or month == "03" or month == "05" or month == "06" or month == "07" or month == "08" or month == "09" or month == "10" or month == "11" or month == "12" and day ==  "15":
@@ -67,7 +67,7 @@ class NewsInvasionAI:
 				invMgr.startInvasion(name, num,special)
 				print "A Holiday 2.0 M&S Invasion Has Been Spawned"
 			else:
-			    pass
+			    break
 
 			# Invasion scheduled for 31st Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec - Legal Eagle - Skelecog, 2,500 Cogs
 			if month == "01" or month == "03" or month == "05" or month == "07" or month == "08" or month == "10" or month == "12" and day ==  "31":
@@ -77,7 +77,7 @@ class NewsInvasionAI:
 				invMgr.startInvasion(name, num,special)
 				print "A Holiday Skelecog Legal Eagle Invasion Has Been Spawned"
 			else:
-			    pass
+			    break
 
 			# Invasion scheduled for 30th of April, Jun, Sep - Legal Eagle - Skelecog, 2,500 Cogs
 			if month == "04" or month == "06" or month == "09" or month == "11" and day ==  "30":
@@ -87,7 +87,7 @@ class NewsInvasionAI:
 				invMgr.startInvasion(name, num,special)
 				print "A Holiday Skelecog Legal Eagle Invasion Has Been Spawned"
 			else:
-			    pass
+			    break
 
 			# Invasion scheduled for 30th of Feb - Legal Eagle - Skelecog, 2,500 Cogs
 			if month == "02" and day ==  "29":
@@ -97,7 +97,7 @@ class NewsInvasionAI:
 				invMgr.startInvasion(name, num,special)
 				print "A Holiday Skelecog Legal Eagle Invasion Has Been Spawned"
 			else:
-			    pass
+			    break
 		
 		return task.again
 
