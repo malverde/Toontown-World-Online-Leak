@@ -4745,6 +4745,15 @@ def setCE(CEValue, CEHood=0, CEExpire=0):
         return 'Invalid zoneId specified.'
     spellbook.getTarget().b_setCheesyEffect(CEValue, CEHood, time.time()+CEExpire)
 
+@magicWord(category=CATEGORY_SYSADMIN)
+def clearInventory():
+    """Clear target's Inventory"""
+    newInventory1 = InventoryBase.InventoryBase('inv')
+    inventory1 = newInventory1
+    inventory1.zeroInv()
+    spellbook.getTarget().d_setInventory(inventory1.makeNetString())
+    return "Cleared the inventory of %s" % (spellbook.getTarget().doId)
+
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int], targetClasses=[DistributedToonAI], aliases=['hp', 'toonHp', 'currHp'])
 def setHp(hpVal):
     """Set target's current laff"""
