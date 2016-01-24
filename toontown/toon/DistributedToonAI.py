@@ -415,6 +415,25 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         DistributedPlayerAI.DistributedPlayerAI.delete(self)
         return
 
+    # Enable/Disable GM features - functions for MW
+    
+    def setAdminAccess(self, access):
+        self.adminAccess = access
+
+    def d_setAdminAccess(self, access):
+        self.sendUpdate('setAdminAccess', [access])
+
+    def b_setAdminAccess(self, access):
+        self.setAdminAccess(access)
+        self.d_setAdminAccess(access)
+
+    def getAdminAccess(self):
+        return self.adminAccess
+    
+    # Not currently used at the moment.
+    # def isAdmin(self):
+    #    return self.adminAccess >= MINIMUM_MAGICWORD_ACCESS
+
     def handleLogicalZoneChange(self, newZoneId, oldZoneId):
         DistributedAvatarAI.DistributedAvatarAI.handleLogicalZoneChange(self, newZoneId, oldZoneId)
         if self.getAdminAccess() < 300: # If we don't have magic word access,
