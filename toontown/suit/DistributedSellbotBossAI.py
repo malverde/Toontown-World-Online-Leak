@@ -389,7 +389,7 @@ class DistributedSellbotBossAI(
             toon = self.air.doId2do.get(toonId)
             if toon:
                 if not toon.attemptAddNPCFriend(
-                        self.cagedToonNpcId, numCalls=2):
+                        self.cagedToonNpcId, numCalls=2): # The VP will always just give out two regardless of SOS reward config
                     self.notify.info(
                         '%s.unable to add NPCFriend %s to %s.' %
                         (self.doId, self.cagedToonNpcId, toonId))
