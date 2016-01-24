@@ -23,6 +23,9 @@ from toontown.dna import *
 
 # We only want Movers and Shakers for now
 ALLOWED_FO_TRACKS = ['s']
+if config.GetBool('want-lawbot-cogdo', False):
+    ALLOWED_FO_TRACKS += ['l']
+    
 DEFAULT_COGDO_RATIO = 0.5
 
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
