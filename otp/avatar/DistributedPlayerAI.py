@@ -199,7 +199,7 @@ def maintenance(minutes):
                                   extraArgs=[minutes])
     countdown(minutes)
     
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+@magicWord(category=CATEGORY_COMMUNITYMANAGER)
 def disableGM():
     """
     Temporarily disable GM features.
@@ -216,7 +216,7 @@ def disableGM():
     target.d_setAdminAccess(100)
     return 'GM features are disabled!'
     
-@magicWord(category=CATEGORY_COMMUNITY_MANAGER)
+@magicWord(category=CATEGORY_COMMUNITYMANAGER)
 def enableGM():
     """
     Enable GM features.
