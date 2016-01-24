@@ -209,7 +209,7 @@ def disableGM():
     if hasattr(target, 'oldAccess'):
         return 'GM features are already disabled!\nTo enable, use ~enableGM.'
 
-    if not target.isAdmin():
+    if not target.getAdminAccess():
         return 'Target is not an admin!'
 
     target.oldAccess = target.adminAccess
