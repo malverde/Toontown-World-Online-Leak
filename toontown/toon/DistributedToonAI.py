@@ -4818,7 +4818,7 @@ def textColor(color):
 @magicWord(category=CATEGORY_SYSADMIN, types=[int])
 def squish(laff):
     """
-    Squish a toon.
+    Squish (deduct HP) target toon.
     """
     target = spellbook.getTarget()
     target.squish(laff)
@@ -4828,9 +4828,9 @@ def setTrackAccess(toonup, trap, lure, sound, throw, squirt, drop):
     """Set target's gag track access."""
     spellbook.getTarget().b_setTrackAccess([toonup, trap, lure, sound, throw, squirt, drop])
 
-@magicWord(category=CATEGORY_CHARACTERSTATS, types=[str])
+@magicWord(category=CATEGORY_ADMIN, types=[str])
 def maxToon(hasConfirmed='UNCONFIRMED'):
-    """Max out the toons stats, for end-level gameplay. Should only be (and is restricted to) casting on Administrators only."""
+    """Max out the invoker toons stats, for end-level gameplay. Should only be (and is restricted to) casting on Administrators only."""
     toon = spellbook.getInvoker()
 
     if hasConfirmed != 'CONFIRM':
@@ -5048,7 +5048,7 @@ def togGM():
 
 @magicWord(category=CATEGORY_MODERATION)
 def ghost():
-    """Set toon to invisible."""
+    """Set invoker toon to invisible."""
     if spellbook.getInvoker().ghostMode == 0:
         spellbook.getInvoker().b_setGhostMode(2)
         return 'Time to ninja!'
@@ -5088,7 +5088,7 @@ def setTickets(tixVal):
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[int])
 def setCogIndex(indexVal):
-    """Transform into a cog/suit. THIS SHOULD ONLY BE USED WHERE NEEDED, E.G. ELECTIONS"""
+    """Transform into a cog/suit (target). THIS SHOULD ONLY BE USED WHERE NEEDED."""
     if not -1 <= indexVal <= 3:
         return 'CogIndex value %s is invalid.' % str(indexVal)
     spellbook.getTarget().b_setCogIndex(indexVal)
@@ -5218,7 +5218,7 @@ def setTrophyScore(value):
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[int, int])
 def givePies(pieType, numPies=0):
-    """Give target Y number of X pies."""
+    """Give target Y number of X pies for target."""
     av = spellbook.getTarget()
     if pieType == -1:
         av.b_setNumPies(0)
@@ -5361,7 +5361,7 @@ def onlinelongav(doId):
 
 @magicWord(category=CATEGORY_OVERRIDE)
 def unlimitedGags():
-    """ Restock avatar's gags at the start of each round. """
+    """ Restock avatar's gags at the start of each round for target. """
     av = spellbook.getTarget() if spellbook.getInvokerAccess() >= 500 else spellbook.getInvoker()
     av.setUnlimitedGags(not av.unlimitedGags)
     return 'Toggled unlimited gags %s for %s' % ('ON' if av.unlimitedGags else 'OFF', av.getName())
@@ -5375,19 +5375,19 @@ def immortal():
 
 @magicWord(category=CATEGORY_CHARACTERSTATS)
 def sostoons():
-    """Restock all *good* VP SOS toons."""
+    """Restock all *good* VP SOS toons for target."""
     spellbook.getTarget().restockAllNPCFriends(99)
     return 'Restocked all NPC SOS toons successfully!'
 
 @magicWord(category=CATEGORY_CHARACTERSTATS)
 def unites():
-    """Restock all CFO phrases."""
+    """Restock all CFO phrases for target."""
     spellbook.getTarget().restockAllResistanceMessages(9999)
     return 'Restocked all unites successfully!'
 
 @magicWord(category=CATEGORY_OVERRIDE)
 def summons():
-    """ Restock all CJ summons. """
+    """ Restock all CJ summons for invoker. """
     av = spellbook.getInvoker()
     # Make sure we have every cog in our Cog Page.
     cogCount = []
@@ -5402,7 +5402,7 @@ def summons():
 
 @magicWord(category=CATEGORY_OVERRIDE)
 def pinkslips():
-    """ Restock (to 255) CEO pink slips. """
+    """ Restock (to 255) CEO pink slips for target. """
     spellbook.getTarget().b_setPinkSlips(255)
     return 'Restocked 255 pink slips successfully!'
 
@@ -5420,13 +5420,13 @@ def questTier(tier):
     av.b_setRewardHistory(tier, [])
     return "Set %s's quest tier to %d." % (av.getName(), tier)
 
-@magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int, int, int, int, int])
+@magicWord(category=CATEGORY_ADMIN, types=[int, int, int, int, int, int, int])
 def tracks(toonup, trap, lure, sound, throw, squirt, drop):
     """ Set access for each of the 7 gag tracks. """
     spellbook.getTarget().b_setTrackAccess([toonup, trap, lure, sound, throw, squirt, drop])
     return "Set track access accordingly."
 
-@magicWord(category=CATEGORY_CHARACTERSTATS, types=[str, int])
+@magicWord(category=CATEGORY_ADMIN, types=[str, int])
 def exp(track, amt):
     """ Set your experience to the amount specified for a single track. """
     trackIndex = TTLocalizer.BattleGlobalTracks.index(track)
@@ -5437,7 +5437,7 @@ def exp(track, amt):
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[str, str, int])
 def disguise(corp, type, level=0):
-    """ Set disguise type and level. """
+    """ Set disguise type and level for target. """
     # Idk if this is defined anywhere, but laziness got the best of me.
     corps = ['bossbot', 'lawbot', 'cashbot', 'sellbot']
     if corp not in corps:
@@ -5766,9 +5766,9 @@ def phrase(phraseStringOrId):
 @magicWord(category=CATEGORY_ADMIN, types=[int, str])
 def sos(count, name):
     """
-    Modifies the invoker's specified SOS card count.
+    Modifies the target's specified SOS card count.
     """
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     if not 0 <= count <= 1000:
         return 'Your SOS count must be in xrange (0-999).'
     for npcId, npcName in TTLocalizer.NPCToonNames.items():
@@ -6254,7 +6254,7 @@ def dnav1(part, value):
 @magicWord(category=CATEGORY_MODERATION, types=[int])
 def bringTheMadness():
 
-     #Applies the Pegboard Nerds Clothes
+     #Applies the Pegboard Nerds Clothes on target.
 
     invoker = spellbook.getTarget()
 
@@ -6287,7 +6287,7 @@ def bringTheMadness():
 @magicWord(category=CATEGORY_MODERATION, types=[int])
 def resistanceRanger():
     """
-    Applies the Resistance Ranger Clothes
+    Applies the Resistance Ranger Clothes on target.
     """
     invoker = spellbook.getTarget()
 
@@ -6343,7 +6343,7 @@ def suit(command, suitName = 'f'):
 @magicWord(category=CATEGORY_ADMIN, types=[int])
 def captainTheGod():
     """
-    Let's you be a god like Captain.
+    Applies clothes to Target. Let's you be a god like Captain.
     """
     invoker = spellbook.getTarget()
 
