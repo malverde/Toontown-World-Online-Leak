@@ -2801,6 +2801,15 @@ def zone(zoneId):
     return 'You have been moved to zone {0}.'.format(zoneId)
     
     #End of V1 MW
+    
+@magicWord(category=CATEGORY_ADMIN, types=[int])
+def zoneuser(zoneId):
+    """
+    Changes the target's zone ID.
+    """
+    invoker = spellbook.getTarget()
+    spellbook.getTarget().base.cr.sendSetZoneMsg(zoneId, [zoneId])
+    return 'Moved to player to zone {0}.'.format(zoneId)
 
 @magicWord(category=CATEGORY_MODERATION)
 def modPanel():
