@@ -4755,7 +4755,7 @@ def clearInventory():
     return "Cleared the inventory of %s" % (spellbook.getTarget().doId)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int], targetClasses=[DistributedToonAI], aliases=['hp', 'toonHp', 'currHp'])
-d_setInventory
+def setHp(hpVal):
     """Set target's current laff"""
     if not -1 <= hpVal <= 156:
         return 'Laff must be between -1 and 156!'
