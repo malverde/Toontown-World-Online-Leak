@@ -1,5 +1,5 @@
 #Embedded file name: toontown.building.DistributedBuilding
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.directtools.DirectGeometry import *
@@ -7,7 +7,7 @@ from ElevatorConstants import *
 from ElevatorUtils import *
 from SuitBuildingGlobals import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
@@ -765,7 +765,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             i += 1
 
         victoryRunTrack = Sequence(origPosTrack, openDoors, runOutAll)
-        return (victoryRunTrack, delayDeletes)
+        return victoryRunTrack, delayDeletes
 
     def animToCogdoFromCogdo(self, timeStamp):
         self.stopTransition()

@@ -1,9 +1,9 @@
 import types
 import time
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import ivalMgr
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedSmoothNode

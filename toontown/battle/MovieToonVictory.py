@@ -151,4 +151,4 @@ def doToonVictory(
     soundTrack = SoundInterval(danceSound, duration=trackdur, loop=1)
     mtrack = Parallel(track, soundTrack)
     skipper.setIvals((mtrack, camTrack))
-    return (mtrack, camTrack, skipper)
+    return mtrack, camTrack, skipper

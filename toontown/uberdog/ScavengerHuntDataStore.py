@@ -13,11 +13,11 @@ class ScavengerHuntDataStore(DataStore):
         if qId == self.QueryTypes['GetGoals']:
             avId, goal = qData
             goals = self.__getGoalsForAvatarId(avId)
-            return (qId, (avId, goal, goals))
+            return qId, (avId, goal, goals)
         elif qId == self.QueryTypes['AddGoal']:
             avId, goal = qData
             self.__addGoalToAvatarId(avId, goal)
-            return (qId, (avId,))
+            return qId, (avId,)
         return None
 
     def __addGoalToAvatarId(self, avId, goal):

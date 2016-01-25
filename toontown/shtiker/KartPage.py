@@ -10,7 +10,7 @@ from toontown.racing import RaceGlobals
 from toontown.shtiker.ShtikerPage import ShtikerPage
 from toontown.toonbase import ToontownGlobals, TTLocalizer
 from FishPage import FishingTrophy
-if (__debug__):
+if __debug__:
     import pdb
 PageMode = PythonUtil.Enum('Customize, Records, Trophy')
 
@@ -504,7 +504,7 @@ class ItemSelector(DirectFrame):
                             self.currItem = self.itemList[-1]
                     else:
                         self.currItem = self.itemList[index]
-                elif self.itemList == []:
+                elif not self.itemList:
                     self.currItem = InvalidEntry
                 elif direction > 0:
                     self.currItem = self.itemList[0]

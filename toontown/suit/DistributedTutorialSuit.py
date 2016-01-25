@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.directnotify import DirectNotifyGlobal
@@ -28,8 +28,6 @@ class DistributedTutorialSuit(
                         'Battle', self.enterBattle, self.exitBattle, []), State.State(
                                 'WaitForBattle', self.enterWaitForBattle, self.exitWaitForBattle, ['Battle'])], 'Off', 'Off')
             self.fsm.enterInitialState()
-
-        return None
 
     def generate(self):
         DistributedSuitBase.DistributedSuitBase.generate(self)

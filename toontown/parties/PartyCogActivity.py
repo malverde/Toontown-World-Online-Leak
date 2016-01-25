@@ -151,7 +151,7 @@ class PartyCogActivity(DirectObject):
         noteText.setScale(0.2)
         noteText.setPos(position)
         noteText.stash()
-        return (text, noteText)
+        return text, noteText
 
     def createDistanceLabel(self, number, color):
         text = TextNode('distanceText-%d' % number)
@@ -163,7 +163,7 @@ class PartyCogActivity(DirectObject):
         node.setBillboardPointEye()
         node.setScale(2.5)
         node.setZ(5.0)
-        return (node, text)
+        return node, text
 
     def unload(self):
         self.disable()
@@ -259,12 +259,12 @@ class PartyCogActivity(DirectObject):
             pos = self._doorStartPos[team]
         else:
             pos = (self._doorStartPos[team] + Point3(0, 0, -7.0),)
-        ival = self._arenaDoors[team].posInterval(0.75, pos, blendType='easeIn')
+            ival = self._arenaDoors[team].posInterval(0.75, Point3(0, 0, -7.0), blendType='easeIn')
         self._arenaDoorIvals[team] = ival
         ival.start()
 
     def openArenaDoorForTeam(self, team):
-        self._playArenaDoorIval(team, opening=True)
+        self._playArenaDoorIval(team, opening=False)
 
     def closeArenaDoorForTeam(self, team):
         self._playArenaDoorIval(team, opening=False)
@@ -516,7 +516,7 @@ class PartyCogActivity(DirectObject):
 
         toss = Track((0, Sequence(Func(toon.setPosHpr, x, y, z, h, p, r), Func(pie.reparentTo, toon.rightHand), Func(pie.setPosHpr, 0, 0, 0, 0, 0, 0), animPie, Parallel(ActorInterval(toon, 'throw', startFrame=48, playRate=1.5, partName='torso'), animPie), Func(__safeSetAnimState, toon, 'Happy'))), (16.0 / 24.0, Func(pie.detachNode)))
         fly = Track((14.0 / 24.0, SoundInterval(sound, node=toon, cutOff=PartyGlobals.PARTY_COG_CUTOFF)), (16.0 / 24.0, Sequence(Func(flyPie.reparentTo, render), Func(flyPie.setPosHpr, toon, 0.52, 0.97, 2.24, 0, -45, 0), beginFlyIval, ProjectileInterval(flyPie, startVel=getVelocity, duration=6), Func(flyPie.detachNode))))
-        return (toss, fly, flyPie)
+        return toss, fly, flyPie
 
     def handlePieCollision(self, colEntry):
         if not self.activity.isState('Active') or self.player is None:

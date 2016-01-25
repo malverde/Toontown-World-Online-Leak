@@ -1,9 +1,9 @@
 # Embedded file name: toontown.estate.DistributedCloset
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import ToontownGlobals
@@ -321,7 +321,7 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
             trashIndex = self.closetGUI.topChoice
             swapFunc = self.closetGUI.swapTop
             removeFunc = self.closetGUI.removeTop
-            self.topDeleted = self.topDeleted | 1
+            self.topDeleted |= 1
 
             def setItemChoice(i):
                 self.closetGUI.topChoice = i
@@ -331,7 +331,7 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
             trashIndex = self.closetGUI.bottomChoice
             swapFunc = self.closetGUI.swapBottom
             removeFunc = self.closetGUI.removeBottom
-            self.bottomDeleted = self.bottomDeleted | 1
+            self.bottomDeleted |= 1
 
             def setItemChoice(i):
                 self.closetGUI.bottomChoice = i
@@ -378,9 +378,9 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
                     self.closetGUI,
                     'bottomChoice'):
                 if self.closetGUI.topChoice != 0 or self.topDeleted:
-                    which = which | 1
+                    which |= 1
                 if self.closetGUI.bottomChoice != 0 or self.bottomDeleted:
-                    which = which | 2
+                    which |= 2
             self.d_setDNA(self.av.getStyle().makeNetString(), 2, which)
 
     def d_setDNA(self, dnaString, finished, whichItems=3):

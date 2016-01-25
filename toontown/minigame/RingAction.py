@@ -8,7 +8,7 @@ class RingAction:
         pass
 
     def eval(self, t):
-        return (0, 0)
+        return 0, 0
 
 
 class RingActionStaticPos(RingAction):

@@ -192,7 +192,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
         self.sendUpdate('setAvatarJoined', [])
 
     def disable(self):
-        #self.fsm.requestFinalState()
+        self.fsm.requestFinalState()
         self.__cleanupIntervals()
         self.ignoreAll()
         self.__cleanup()
@@ -602,6 +602,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
                 self.acceptOnce('localToonLeft', self.__handleLocalToonLeftBarrelRoom)
                 self.barrelRoom.activate()
                 base.playMusic(self.waitMusic, looping=1, volume=0.7)
+                base.localAvatar.questMap.stop()
 
     def exitCollectBarrels(self):
         if self._wantBarrelRoom and not self.isBossFloor(self.currentFloor):

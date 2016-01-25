@@ -196,7 +196,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         zoneId = dnaStore.getBlock(blockNumber).zone
         zoneId = ZoneUtil.getTrueZoneId(zoneId, self.zoneId)
         interiorZoneId = zoneId - zoneId % 100 + 500 + blockNumber
-        return (zoneId, interiorZoneId)
+        return zoneId, interiorZoneId
 
     def d_setState(self, state):
         self.sendUpdate('setState', [state, globalClockDelta.getRealNetworkTime()])

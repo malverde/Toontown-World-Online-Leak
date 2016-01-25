@@ -436,6 +436,7 @@ class DistributedSuitInterior(DistributedObject.DistributedObject):
 
     def enterResting(self, ts=0):
         base.playMusic(self.waitMusic, looping=1, volume=0.7)
+        base.localAvatar.questMap.stop()
         self.__closeInElevator()
 
     def exitResting(self):

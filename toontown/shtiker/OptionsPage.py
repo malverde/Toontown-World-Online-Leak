@@ -1,8 +1,8 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 import ShtikerPage
 from toontown.toontowngui import TTDialog
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 import DisplaySettingsDialog
 from direct.task import Task
@@ -426,12 +426,12 @@ class OptionsTabPage(DirectFrame):
 
     def __doSpeedChatStyleLeft(self):
         if self.speedChatStyleIndex > 0:
-            self.speedChatStyleIndex = self.speedChatStyleIndex - 1
+            self.speedChatStyleIndex -= 1
             self.updateSpeedChatStyle()
 
     def __doSpeedChatStyleRight(self):
         if self.speedChatStyleIndex < len(speedChatStyles) - 1:
-            self.speedChatStyleIndex = self.speedChatStyleIndex + 1
+            self.speedChatStyleIndex += 1
             self.updateSpeedChatStyle()
 
     def updateSpeedChatStyle(self):

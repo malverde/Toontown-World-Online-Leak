@@ -1,8 +1,8 @@
 #Embedded file name: toontown.estate.GardenDropGame
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.gui.DirectScrolledList import *
 from direct.distributed.ClockDelta import *
 from toontown.toontowngui import TTDialog
@@ -221,8 +221,8 @@ class GardenDropGame(DirectObject.DirectObject):
                     self.massCount += 1
 
         if self.massCount > 0:
-            self.cogX = self.cogX / self.massCount
-            self.cogZ = self.cogZ / self.massCount
+            self.cogX /= self.massCount
+            self.cogZ /= self.massCount
             self.cogSprite.setX(self.cogX)
             self.cogSprite.setZ(self.cogZ)
         else:
@@ -243,7 +243,7 @@ class GardenDropGame(DirectObject.DirectObject):
         tileX = int(framedX / tileDimX)
         tileZ = int(framedZ / tileDimZ)
         print 'find Grid tileX%s tileZ%s' % (tileX, tileZ)
-        return (tileX, tileZ)
+        return tileX, tileZ
 
     def findPos(self, x, z):
         rangeX = self.maxX - self.minX
@@ -253,7 +253,7 @@ class GardenDropGame(DirectObject.DirectObject):
         posX = tileDimX * x + self.minX
         posZ = tileDimZ * z + self.minZ
         print 'find Pos X%s Z%s' % (posX, posZ)
-        return (posX, posZ)
+        return posX, posZ
 
     def placeIntoGrid(self, sprite, x, z):
         if self.grid[x][z][0] == None:
@@ -502,15 +502,15 @@ class GardenDropGame(DirectObject.DirectObject):
         if queHit:
             forceM = 0.1
             dist = self.testDistance(move.nodeObj, test.nodeObj)
-            if abs(dist) < self.queExtent * que.size and abs(dist) > 0:
+            if self.queExtent * que.size > abs(dist) > 0:
                 scaleSize = self.queExtent * que.size * 0.5
                 distFromPara = abs(abs(dist) - scaleSize)
                 force = (scaleSize - distFromPara) / scaleSize * (dist / abs(dist))
                 angle = self.angleTwoSprites(que, hit)
                 if angle < 0:
-                    angle = angle + 2 * pi
+                    angle += 2 * pi
                 if angle > pi * 2.0:
-                    angle = angle - 2 * pi
+                    angle -= 2 * pi
                 newAngle = pi * 1.0
                 if angle > pi * 1.5 or angle < pi * 0.5:
                     newAngle = pi * 0.0

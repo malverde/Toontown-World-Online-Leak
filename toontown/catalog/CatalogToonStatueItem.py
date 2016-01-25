@@ -28,7 +28,7 @@ class CatalogToonStatueItem(CatalogGardenItem.CatalogGardenItem):
         model, ival = self.makeFrameModel(toonStatuary.toon, 1)
         self.pictureToonStatue = toonStatuary
         self.hasPicture = True
-        return (model, ival)
+        return model, ival
 
     def cleanupPicture(self):
         self.pictureToonStatue.deleteToon()
@@ -47,7 +47,7 @@ class CatalogToonStatueItem(CatalogGardenItem.CatalogGardenItem):
         dg.addUint8(self.endPoseIndex)
 
     def compareTo(self, other):
-        if self.gardenIndex >= self.startPoseIndex and self.gardenIndex <= self.endPoseIndex:
+        if self.startPoseIndex <= self.gardenIndex <= self.endPoseIndex:
             return 0
         return 1
 

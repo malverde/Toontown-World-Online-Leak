@@ -1,5 +1,5 @@
 from direct.interval.IntervalGlobal import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 import random
@@ -72,7 +72,7 @@ def encodeId(menuIndex, itemIndex):
 def decodeId(textId):
     menuIndex = int(textId / 100)
     itemIndex = textId % 100
-    return (menuIndex, itemIndex)
+    return menuIndex, itemIndex
 
 
 def validateId(textId):

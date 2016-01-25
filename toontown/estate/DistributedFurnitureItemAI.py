@@ -19,7 +19,7 @@ class DistributedFurnitureItemAI(DistributedSmoothNodeAI):
         self.b_setPosHpr(x, y, z, h, p, r)
 
     def getItem(self):
-        return (self.furnitureMgr.doId, self.catalogItem.getBlob(CatalogItem.Customization))
+        return self.furnitureMgr.doId, self.catalogItem.getBlob(CatalogItem.Customization)
 
     def requestPosHpr(self, final, x, y, z, h, p, r, t):
         senderId = self.air.getAvatarIdFromSender()
@@ -60,7 +60,7 @@ class DistributedFurnitureItemAI(DistributedSmoothNodeAI):
         self.d_setMode(mode, avId)
 
     def getMode(self):
-        return (self.mode, self.modeAvId)
+        return self.mode, self.modeAvId
 
     def destroy(self):
         self.requestDelete()

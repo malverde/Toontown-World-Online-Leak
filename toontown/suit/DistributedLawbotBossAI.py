@@ -1102,7 +1102,7 @@ def bombCJ():
                 break
     if not boss:
         return "You aren't in a CJ!"
-    if boss.state not in ('BattleThree'):
+    if boss.state not in 'BattleThree':
         return "The CJ can't be destroyed yet. Try using skipCJ."
     boss.magicWordHit(boss.bossDamage + 1, invoker)
     return 'Bombed the CJ'
@@ -1121,7 +1121,7 @@ def bombCJMax():
                 break
     if not boss:
         return "You aren't in a CJ!"
-    if boss.state not in ('BattleThree'):
+    if boss.state not in 'BattleThree':
         return "The CJ can't be destroyed yet. Try using skipCJ."
     boss.magicWordHit(boss.bossMaxDamage, invoker)
     return 'Bombed the CJ'

@@ -1,6 +1,6 @@
 # Embedded file name: toontown.catalog.CatalogItem
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from direct.interval.IntervalGlobal import *
@@ -24,7 +24,7 @@ CatalogTypeMonthly = 3
 CatalogTypeLoyalty = 4
 
 
-class CatalogItem():
+class CatalogItem:
     notify = DirectNotifyGlobal.directNotify.newCategory('CatalogItem')
 
     def __init__(self, *args, **kw):
@@ -57,7 +57,7 @@ class CatalogItem():
     def getBackSticky(self):
         itemType = 0
         numSticky = 0
-        return (itemType, numSticky)
+        return itemType, numSticky
 
     def putInBackCatalog(self, backCatalog, lastBackCatalog):
         if self.saveHistory() and not self.isSaleItem():
@@ -152,11 +152,11 @@ class CatalogItem():
         return int(self.getBasePrice() * CatalogSaleMarkdown)
 
     def getDeliveryTime(self):
-        return 1
+        return 0
 
     def getPicture(self, avatar):
         self.hasPicture = True
-        return (None, None)
+        return None, None
 
     def cleanupPicture(self):
         self.hasPicture = False
@@ -384,7 +384,7 @@ class CatalogItem():
                 model.setPos(-center[0], 2, -center[2])
                 corner = Vec3(bMax - center)
                 scale.setScale(1.0 / max(corner[0], corner[1], corner[2]))
-        return (frame, ival)
+        return frame, ival
 
     def getBlob(self, store=0):
         dg = PyDatagram()

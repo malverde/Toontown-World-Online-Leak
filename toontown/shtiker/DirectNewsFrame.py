@@ -196,7 +196,7 @@ class DirectNewsFrame(DirectObject.DirectObject):
         pass
 
     def changeWeek(self, issueIndex):
-        if 0 <= issueIndex and issueIndex < len(self.issues):
+        if 0 <= issueIndex < len(self.issues):
             self.issues[self.curIssueIndex].hide()
             self.issues[issueIndex].show()
             self.curIssueIndex = issueIndex
@@ -411,4 +411,4 @@ class DirectNewsFrame(DirectObject.DirectObject):
                     self.notify.warning('expected more than 6 parts in %s' % entry)
                 break
 
-        return (majorVer, minorVer)
+        return majorVer, minorVer

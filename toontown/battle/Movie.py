@@ -552,11 +552,11 @@ class Movie(DirectObject.DirectObject):
                 track.append(ival)
                 camTrack.append(camIval)
             if len(track) == 0:
-                return (None, None)
+                return None, None
             else:
-                return (track, camTrack)
+                return track, camTrack
         else:
-            return (None, None)
+            return None, None
         return None
 
     def genRewardDicts(
@@ -798,9 +798,7 @@ class Movie(DirectObject.DirectObject):
                                 target = self.battle.findToon(t)
                                 if target is None:
                                     continue
-                                tdict = {}
-                                tdict['toon'] = target
-                                tdict['hp'] = hps[toons.index(t)]
+                                tdict = {'toon': target, 'hp': hps[toons.index(t)]}
                                 self.notify.debug(
                                     'PETSOS: toon: %d healed for hp: %d' %
                                     (target.doId, hps[toons.index(t)]))
@@ -816,9 +814,7 @@ class Movie(DirectObject.DirectObject):
                                 target = self.battle.findToon(t)
                                 if target is None:
                                     continue
-                                tdict = {}
-                                tdict['toon'] = target
-                                tdict['hp'] = hps[toons.index(t)]
+                                tdict = {'toon': target, 'hp': hps[toons.index(t)]}
                                 self.notify.debug(
                                     'HEAL: toon: %d healed for hp: %d' %
                                     (target.doId, hps[toons.index(t)]))
@@ -836,9 +832,7 @@ class Movie(DirectObject.DirectObject):
                             targetId = toons[targetIndex]
                             target = self.battle.findToon(targetId)
                             if target is not None:
-                                tdict = {}
-                                tdict['toon'] = target
-                                tdict['hp'] = hps[targetIndex]
+                                tdict = {'toon': target, 'hp': hps[targetIndex]}
                                 adict['target'] = tdict
                             else:
                                 targetGone = 1
@@ -854,9 +848,7 @@ class Movie(DirectObject.DirectObject):
                                 elif track == TRAP and (self.battle.isSuitLured(target) == 1 or target.battleTrap != NO_TRAP):
                                     continue
                             targetIndex = suits.index(s)
-                            sdict = {}
-                            sdict['suit'] = target
-                            sdict['hp'] = hps[targetIndex]
+                            sdict = {'suit': target, 'hp': hps[targetIndex]}
                             if ta[TOON_TRACK_COL] == NPCSOS and track == DROP and hps[
                                     targetIndex] == 0:
                                 continue
@@ -879,8 +871,7 @@ class Movie(DirectObject.DirectObject):
                     else:
                         targetId = suits[targetIndex]
                         target = self.battle.findSuit(targetId)
-                        sdict = {}
-                        sdict['suit'] = target
+                        sdict = {'suit': target}
                         if self.battle.activeSuits.count(target) == 0:
                             targetGone = 1
                             suitIndex = 0
@@ -991,9 +982,7 @@ class Movie(DirectObject.DirectObject):
                             if target is None:
                                 continue
                             targetIndex = toons.index(t)
-                            tdict = {}
-                            tdict['toon'] = target
-                            tdict['hp'] = hps[targetIndex]
+                            tdict = {'toon': target, 'hp': hps[targetIndex]}
                             self.notify.debug(
                                 'DAMAGE: toon: %d hit for hp: %d' %
                                 (target.doId, hps[targetIndex]))
@@ -1012,9 +1001,7 @@ class Movie(DirectObject.DirectObject):
                     if target is None:
                         targetGone = 1
                         break
-                    tdict = {}
-                    tdict['toon'] = target
-                    tdict['hp'] = hps[targetIndex]
+                    tdict = {'toon': target, 'hp': hps[targetIndex]}
                     self.notify.debug(
                         'DAMAGE: toon: %d hit for hp: %d' %
                         (target.doId, hps[targetIndex]))
@@ -1070,8 +1057,8 @@ class Movie(DirectObject.DirectObject):
                     break
 
             if len(track) == 0:
-                return (None, None)
-            return (track, camTrack)
+                return None, None
+            return track, camTrack
         else:
-            return (None, None)
+            return None, None
         return

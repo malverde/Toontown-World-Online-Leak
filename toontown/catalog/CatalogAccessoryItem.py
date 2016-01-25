@@ -6,7 +6,7 @@ from toontown.toon import ToonDNA
 import random, types
 from direct.showbase import PythonUtil
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 
 class CatalogAccessoryItem(CatalogItem.CatalogItem):
 
@@ -222,7 +222,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
         return ToontownGlobals.P_ItemAvailable
 
     def getDeliveryTime(self):
-        return 1
+        return 60
 
     def getPicture(self, avatar):
         model = self.loadModel()

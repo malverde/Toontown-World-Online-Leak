@@ -288,7 +288,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
         # If the cog's attack is higher than the amount of laff they have, we'll only take away what they have.
         # If the attack is 5 and the toon has 3 laff, we'll only take away 3 laff. This mostly prevents toons going under 0 Laff.
         toonHp = toon.getHp()
-        if damage > toonHp and toonHp > 0:
+        if damage > toonHp > 0:
             toon.takeDamage(toonHp)
         else:
             toon.takeDamage(damage)
@@ -395,7 +395,7 @@ class DistributedSafezoneInvasionAI(DistributedObjectAI, FSM):
             return
 
         if self.waveNumber not in SafezoneInvasionGlobals.SuitIntermissionWaves and self.numberOfSuits > 0:
-            self.numberOfSuits = self.numberOfSuits - 1
+            self.numberOfSuits -= 1
 
             # Delay spawing the suits 
             taskMgr.doMethodLater(1, self.spawnOne, self.uniqueName('summon-suit-%s' % self.numberOfSuits), extraArgs=[suit.getStyleName(), suit.getLevel()])

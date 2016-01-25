@@ -1,10 +1,10 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 import random
 
-class ToontownLoadingScreen():
+class ToontownLoadingScreen:
     __module__ = __name__
 
     def __init__(self):
@@ -53,11 +53,11 @@ class ToontownLoadingScreen():
         self.waitBar.reparentTo(self.gui)
         self.title.reparentTo(self.gui)
         self.gui.reparentTo(hidden)
-        return (self.__expectedCount, self.__count)
+        return self.__expectedCount, self.__count
 
     def abort(self):
         self.gui.reparentTo(hidden)
 
     def tick(self):
-        self.__count = self.__count + 1
+        self.__count += 1
         self.waitBar.update(self.__count)

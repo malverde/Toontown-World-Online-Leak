@@ -1,7 +1,7 @@
 import copy
 from direct.gui.DirectGui import *
 import math
-from pandac.PandaModules import *
+from panda3d.core import *
 import random
 import Fanfare
 from otp.otpbase import OTPGlobals
@@ -9,9 +9,9 @@ from toontown.coghq import CogDisguiseGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 import BattleBase
 from direct.directnotify import DirectNotifyGlobal
@@ -472,7 +472,7 @@ class RewardPanel(DirectFrame):
         index2 = random.choice(indexList)
         string1 = congratsStrings[index1]
         string2 = congratsStrings[index2]
-        return (string1, string2)
+        return string1, string2
 
     def uberGagInterval(self, toon, track, level):
         self.endTrackFrame.hide()
@@ -660,7 +660,7 @@ class RewardPanel(DirectFrame):
         intervalList.append(Wait(0.1))
         nextExpValue = self.getNextExpValue(origSkill, track)
         finalGagFlag = 0
-        while origSkill + earnedSkill >= nextExpValue and origSkill < nextExpValue and not finalGagFlag:
+        while origSkill + earnedSkill >= nextExpValue > origSkill and not finalGagFlag:
             if newValue >= ToontownBattleGlobals.UnpaidMaxSkills[
                     track] and toon.getGameAccess() != OTPGlobals.AccessFull:
                 pass
@@ -932,9 +932,7 @@ class RewardPanel(DirectFrame):
 
     def getCogPartIntervalList(self, toon, cogPartList):
         itemName = CogDisguiseGlobals.getPartName(cogPartList)
-        intervalList = []
-        intervalList.append(Func(self.cogPartLabel.setProp, 'text', itemName))
-        intervalList.append(Wait(1))
+        intervalList = [Func(self.cogPartLabel.setProp, 'text', itemName), Wait(1)]
         return intervalList
 
     def getMissedItemIntervalList(self, toon, missedItemList):
@@ -991,8 +989,8 @@ class RewardPanel(DirectFrame):
                     ToontownBattleGlobals.getUberFlagSafe(
                         uberEntry, trackIndex))
                 maxExp = ToontownBattleGlobals.MaxSkill - ToontownBattleGlobals.UberSkill
-                if origExp[trackIndex] < maxExp and earnedExp[
-                        trackIndex] + origExp[trackIndex] >= maxExp:
+                if origExp[trackIndex] < maxExp <= origExp[trackIndex] + earnedExp[
+                        trackIndex]:
                     endTracks[trackIndex] = 1
                     trackEnded = 1
 

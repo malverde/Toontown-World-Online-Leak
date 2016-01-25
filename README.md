@@ -4,7 +4,7 @@
 
 # Current Version
 
-2.5.1
+2.5.2
 
 ### How to run tests ###
 Have the server deployed and make sure you have everything setup. 

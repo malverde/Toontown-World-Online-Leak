@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.particles import ParticleEffect
 from StomperGlobals import *
@@ -870,8 +870,8 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
                     self.massCount += 1
 
         if self.massCount > 0:
-            self.cogX = self.cogX / self.massCount
-            self.cogZ = self.cogZ / self.massCount
+            self.cogX /= self.massCount
+            self.cogZ /= self.massCount
             self.cogSprite.setX(self.cogX)
             self.cogSprite.setZ(self.cogZ)
         return
@@ -942,7 +942,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
         return
 
     def findPos(self, x, z):
-        return (self.grid[x][z][1], self.grid[x][z][2])
+        return self.grid[x][z][1], self.grid[x][z][2]
 
     def placeIntoGrid(self, sprite, x, z):
         if self.grid[x][z][0] == None:
@@ -1136,7 +1136,7 @@ class DistributedGolfGreenGame(BattleBlocker.BattleBlocker):
 
     def predictAttackPattern(self, numSteps = 1):
         predict = self.attackCounter + numSteps
-        predict = predict % len(self.attackPattern)
+        predict %= len(self.attackPattern)
         return self.attackPattern[predict]
 
     def __stop(self):

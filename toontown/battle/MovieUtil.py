@@ -61,7 +61,7 @@ def avatarDodge(leftAvatars, rightAvatars, leftData, rightData):
         data = leftData
     else:
         data = rightData
-    return (avDodgeList, data)
+    return avDodgeList, data
 
 
 def avatarHide(avatar):

@@ -32,7 +32,7 @@ class DistributedToonfestBalloonAI(DistributedObjectAI, FSM):
         self.sendUpdate('setState', [state, self.stateTime, self.avId])
 
     def getState(self):
-        return (self.state, self.stateTime, self.avId)
+        return self.state, self.stateTime, self.avId
 
     def enterOff(self):
         self.requestDelete()

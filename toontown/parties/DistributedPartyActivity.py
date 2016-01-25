@@ -139,7 +139,7 @@ class DistributedPartyActivity(DistributedObject.DistributedObject):
         newToons = set(newToonIds)
         exitedToons = oldToons.difference(newToons)
         joinedToons = newToons.difference(oldToons)
-        return (list(exitedToons), list(joinedToons))
+        return list(exitedToons), list(joinedToons)
 
     def setUsesSmoothing(self):
         self.usesSmoothing = True

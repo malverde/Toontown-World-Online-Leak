@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToontownBattleGlobals import *
 import InventoryBase
 from toontown.toonbase import TTLocalizer
@@ -1023,9 +1023,9 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
 		for amount in Levels[track]:
 			if curSkill < amount:
 				retVal = amount
-				return (curSkill, retVal)
+				return curSkill, retVal
 
-		return (curSkill, retVal)
+		return curSkill, retVal
 
 	def makePressable(self, button, track, level):
 		organicBonus = self.toon.checkGagBonus(track, level)

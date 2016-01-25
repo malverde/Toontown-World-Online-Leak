@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.distributed import DistributedObject
@@ -165,7 +165,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         return
 
     def getStareAtNodeAndOffset(self):
-        return (self.nodePath, Point3())
+        return self.nodePath, Point3()
 
     def startAnimation(self):
         pass

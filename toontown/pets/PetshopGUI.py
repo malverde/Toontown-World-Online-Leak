@@ -1,6 +1,6 @@
 # Embedded file name: toontown.pets.PetshopGUI
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.DirectObject import DirectObject
 from toontown.toonbase import ToontownGlobals
@@ -601,11 +601,9 @@ class PetshopGUI(DirectObject):
                 PetDNA.setGender(dna, gender)
                 self.petDNA.append(dna)
                 self.petName.append(TTLocalizer.PetshopUnknownName)
-                descList = []
-                descList.append(
-                    TTLocalizer.PetshopDescGender %
-                    PetDNA.getGenderString(
-                        gender=gender))
+                descList = [TTLocalizer.PetshopDescGender %
+                            PetDNA.getGenderString(
+                                gender=gender)]
                 if traitList:
                     descList.append(
                         TTLocalizer.PetshopDescTrait %

@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.battle.BattleProps import *
 from toontown.battle.BattleSounds import *
 from toontown.distributed.ToontownMsgTypes import *
@@ -6,6 +6,7 @@ from direct.gui.DirectGui import cleanupDialog
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import Place
 from toontown.battle import BattlePlace
+from direct.fsm import *
 from direct.showbase import DirectObject
 from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
@@ -69,8 +70,8 @@ class Street(BattlePlace.BattlePlace):
           'purchase']),
          State.State('WaitForBattle', self.enterWaitForBattle, self.exitWaitForBattle, ['battle', 'walk']),
          State.State('battle', self.enterBattle, self.exitBattle, ['walk', 'teleportOut', 'died']),
-         State.State('doorIn', self.enterDoorIn, self.exitDoorIn, ['walk']),
-         State.State('doorOut', self.enterDoorOut, self.exitDoorOut, ['walk']),
+         State.State('doorIn', self.enterDoorIn, self.exitDoorIn, ['walk', 'stopped']),
+         State.State('doorOut', self.enterDoorOut, self.exitDoorOut, ['walk', 'stopped']),
          State.State('elevatorIn', self.enterElevatorIn, self.exitElevatorIn, ['walk']),
          State.State('elevator', self.enterElevator, self.exitElevator, ['walk']),
          State.State('trialerFA', self.enterTrialerFA, self.exitTrialerFA, ['trialerFAReject', 'DFA']),
@@ -112,7 +113,23 @@ class Street(BattlePlace.BattlePlace):
         NametagGlobals.setMasterArrowsOn(arrowsOn)
 
         def __lightDecorationOn__():
-            geom = base.cr.playGame.getPlace().loader.geom
+            try:
+                geom = base.cr.playGame.getPlace().loader.geom
+            except:
+                loaderId = ZoneUtil.getBranchLoaderName(2000) # TEMP hack. This will port you to ttc if ^ fails
+                whereId = ZoneUtil.getToonWhereName(200)
+                how = 'teleportIn'
+                print ("This Should not happen.")
+                requestStatus = [{
+                'loader': loaderId,
+                'where': whereId,
+                'how': how,
+                'hoodId': 2000,
+                'zoneId': 2000,
+                'shardId': None,
+                'avId': -1
+                }]
+                base.cr.playGame.getPlace().fsm.forceTransition('teleportOut', requestStatus)
             self.loader.hood.eventLights = geom.findAllMatches('**/*light*')
             self.loader.hood.eventLights += geom.findAllMatches('**/*lamp*')
             self.loader.hood.eventLights += geom.findAllMatches('**/prop_snow_tree*')
@@ -269,18 +286,20 @@ class Street(BattlePlace.BattlePlace):
         hoodId = requestStatus['hoodId']
         zoneId = requestStatus['zoneId']
         if avId != -1:
-            if not base.cr.doId2do.has_key(avId):
-                teleportDebug(requestStatus, "couldn't find friend %s" % avId)
-                handle = base.cr.identifyFriend(avId)
-                requestStatus = {'how': 'teleportIn',
-                 'hoodId': hoodId,
-                 'zoneId': hoodId,
-                 'shardId': None,
-                 'loader': 'safeZoneLoader',
-                 'where': 'playground',
-                 'avId': avId}
-                self.fsm.request('final')
-                self.__teleportOutDone(requestStatus)
+            if avId not in base.cr.doId2do:
+                friend = base.cr.identifyAvatar(avId)
+                if friend == None:
+                    teleportDebug(requestStatus, "couldn't find friend %s" % avId)
+                    handle = base.cr.identifyFriend(avId)
+                    requestStatus = {'how': 'teleportIn',
+                    'hoodId': hoodId,
+                    'zoneId': hoodId,
+                    'shardId': None,
+                    'loader': 'safeZoneLoader',
+                    'where': 'playground',
+                    'avId': avId}
+                    self.fsm.request('final')
+                    self.__teleportOutDone(requestStatus)
         return
 
     def exitTeleportIn(self):

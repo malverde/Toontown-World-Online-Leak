@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.task.TaskManagerGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
@@ -150,10 +150,10 @@ class DistributedCashbotBossGoonAI(
                 heading, weight = self.directionTable[i]
                 seg = self.feelers[i]
                 dist = entries.get(seg, self.feelerLength)
-                return (heading, dist)
+                return heading, dist
 
         self.notify.warning('Fell off end of weighted table.')
-        return (0, self.legLength)
+        return 0, self.legLength
 
     def __startWalk(self):
         if self.arrivalTime is None:

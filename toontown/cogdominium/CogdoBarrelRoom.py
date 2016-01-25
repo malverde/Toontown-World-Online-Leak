@@ -1,6 +1,6 @@
 #Embedded file name: toontown.cogdominium.CogdoBarrelRoom
 import random
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals, ToontownTimer
@@ -131,7 +131,7 @@ class CogdoBarrelRoom:
         track.append(Sequence(Func(camera.reparentTo, render), Func(camera.setPosHpr, self.model, -20.0, -87.9, 12.0, -30, 0, 0), Func(base.transitions.irisIn, 0.5), Wait(1.0), LerpHprInterval(camera, duration=2.0, startHpr=Vec3(-30, 0, 0), hpr=Vec3(0, 0, 0), blendType='easeInOut'), Wait(2.5), LerpHprInterval(camera, duration=3.0, startHpr=Vec3(0, 0, 0), hpr=Vec3(-45, 0, 0), blendType='easeInOut'), Wait(2.5)))
         track.delayDelete = DelayDelete.DelayDelete(avatar, 'introBarrelRoomTrack')
         track.setDoneEvent(trackName)
-        return (track, trackName)
+        return track, trackName
 
     def __stomperIntervals(self):
         ivals = [SoundInterval(self.stomperSfx)]
@@ -159,7 +159,7 @@ class CogdoBarrelRoom:
     def __rewardCamera(self):
         trackName = 'cogdoBarrelRoom-RewardCamera'
         track = Sequence(Func(camera.reparentTo, render), Func(camera.setPosHpr, self.model, 0, 0, 11.0, 0, -14, 0), Func(self.showBattleAreaLight, False), name=trackName)
-        return (track, trackName)
+        return track, trackName
 
     def showRewardUi(self, callback = None):
         track, trackName = self.__rewardCamera()
@@ -167,7 +167,7 @@ class CogdoBarrelRoom:
             self.rewardUi.setRewards()
             self.rewardUi.unstash()
         taskMgr.doMethodLater(CogdoBarrelRoomConsts.RewardUiTime, self.__rewardUiTimeout, self.rewardUiTaskName, extraArgs=[callback])
-        return (track, trackName)
+        return track, trackName
 
     def setRewardResults(self, results):
         self.rewardUi.setRewards(results)
