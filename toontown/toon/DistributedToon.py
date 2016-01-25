@@ -2808,7 +2808,7 @@ def zoneuser(zoneId):
     Changes the target's zone ID.
     """
     invoker = spellbook.getTarget()
-    spellbook.getTarget().base.cr.sendSetZoneMsg(zoneId, [zoneId])
+    invoker.base.cr.sendSetZoneMsg(zoneId, [zoneId])
     return 'Moved to player to zone {0}.'.format(zoneId)
 
 @magicWord(category=CATEGORY_MODERATION)
