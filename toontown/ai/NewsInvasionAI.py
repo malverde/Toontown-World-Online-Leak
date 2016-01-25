@@ -79,7 +79,7 @@ class NewsInvasionAI:
 			invMgr.startInvasion(name, num,special)
 			print "A Holiday Skelecog Legal Eagle Invasion Has Been Spawned"
 		else:
-		    pass
+		    break
 			
 		return task.again
 
