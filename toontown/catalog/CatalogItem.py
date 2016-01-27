@@ -1,6 +1,6 @@
 # Embedded file name: toontown.catalog.CatalogItem
 from direct.directnotify import DirectNotifyGlobal
-from Pandac.PandaModules import *
+from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from direct.interval.IntervalGlobal import *
