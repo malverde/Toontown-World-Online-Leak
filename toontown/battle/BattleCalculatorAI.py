@@ -39,12 +39,19 @@ class BattleCalculatorAI:
 		'prop-and-organic-bonus-stack', 0)
 
 	def __init__(self, battle, tutorialFlag=0):
-		if str(datetime.datetime.now().strftime("%m")) == "7":
+		if str(datetime.datetime.now().strftime("%m")) == "07":
 			if str(datetime.datetime.now().strftime("%d")) ==  "29" or "30":
 				self.XpMultiplier = 3.0
 			else:
 				self.XpMultiplier = 1.0
 		else: 
+			self.XpMultiplier = 1.0
+		if str(datetime.datetime.now().strftime("%m")) == "02":
+			if str(datetime.datetime.now().strftime("%d")) < "30": # Release XP booster
+				self.XpMultiplier = 2.0
+			else:
+				self.XpMultiplier = 1.0
+		else:
 			self.XpMultiplier = 1.0
 		self.battle = battle
 		self.SuitAttackers = {}

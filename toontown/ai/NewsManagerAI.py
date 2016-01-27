@@ -19,7 +19,7 @@ class NewsManagerAI(DistributedObjectAI):
 		#self.NewsInvasionAI.startInvTick()
 		self.HolidayName = []
 		day = str(datetime.datetime.now().strftime("%d"))
-		if str(datetime.datetime.now().strftime("%m")) == "12" and day ==  "30" or day == "31":
+		if str(datetime.datetime.now().strftime("%m")) == "12" and day ==  "30" or day == "31": # December, 30th, 31st
 			self.HolidayManagerAI.startFireworksTick()
 		else:
 			HolidayName = 'None'
@@ -51,6 +51,11 @@ class NewsManagerAI(DistributedObjectAI):
 			
 		if str(datetime.datetime.now().strftime("%m")) == "07" and day ==  "29" or day == "30":
 				self.HolidayName = 'Xp Booster'
+		else:
+			HolidayName = 'None'
+
+		if str(datetime.datetime.now().strftime("%m")) == "02" and day < "30": # Release XP Booster
+			self.HolidayName = 'Xp Booster'
 		else:
 			HolidayName = 'None'
 				
