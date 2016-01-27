@@ -564,7 +564,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setDNAString(self, string):
         self.dna.makeFromNetString(string)
-        if config.GetBool('adjust-dna', True) and self.verifyDNA() == False:
+        if config.GetBool('want-adjust-dna', True) and self.verifyDNA() == False:
             logStr = 'AvatarHackWarning! invalid dna colors for %s old: %s new: %s' % (self.doId, str(ToonDNA.ToonDNA(string).asTuple()), str(self.dna.asTuple()))
             self.notify.warning(logStr)
             self.air.writeServerEvent('suspicious', avId=self.doId, issue=logStr)
@@ -696,7 +696,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         if max & 32768:
             self.b_setSosPageFlag(1)
             max &= 32767
-        configMax = config.GetInt('max-sos-cards', 16)
+        configMax = config.GetInt('want-how-many-max-sos-cards', 16)
         if configMax != max:
             if self.sosPageFlag == 0:
                 self.b_setMaxNPCFriends(configMax)
@@ -759,7 +759,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.b_setNPCFriendsDict([])
 
     def attemptAddNPCFriend(self, npcFriend):
-            numCalls = simbase.air.config.GetInt('sos-card-reward', 1) # Default is one, but we can modify this via CONFIG
+            numCalls = simbase.air.config.GetInt('want-how-many-boss-sos-card-reward', 1) # Default is one, but we can modify this via CONFIG
         if numCalls <= 0:
             self.notify.warning('invalid numCalls: %d' % numCalls)
             return 0
