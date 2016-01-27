@@ -242,7 +242,6 @@ class DistributedSellbotBossAI(
     def exitIntroduction(self):
         DistributedBossCogAI.DistributedBossCogAI.exitIntroduction(self)
         self.__resetDoobers()
-        self.air.achievementsManager.toonsFinishedVP(self.involvedToons)
 
     def enterRollToBattleTwo(self):
         self.divideToons()
