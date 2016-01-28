@@ -46,11 +46,8 @@ class BattleCalculatorAI:
 				self.XpMultiplier = 1.0
 		else: 
 			self.XpMultiplier = 1.0
-		if str(datetime.datetime.now().strftime("%m")) == "02":
-			if str(datetime.datetime.now().strftime("%d")) < "30": # Release XP booster
-				self.XpMultiplier = 2.0
-			else:
-				self.XpMultiplier = 1.0
+		if str(datetime.datetime.now().strftime("%m")) == "02":    # Release XP booster
+			self.XpMultiplier = 2.0
 		else:
 			self.XpMultiplier = 1.0
 		self.battle = battle
