@@ -1,6 +1,7 @@
 import Quests
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from toontown.toonbase import ToontownBattleGlobals
+from toontown.uberdog import TopToonsGlobals
 import random
 
 class QuestManagerAI:
@@ -40,6 +41,7 @@ class QuestManagerAI:
         Called in battleExperience to alert the quest system that a toon has
         killed some cogs.
         """
+        messenger.send('topToonsManager-event', [av.doId, TopToonsGlobals.CAT_COGS, len(suitsKilled)])
         for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
             if isinstance(quest, Quests.CogQuest):
                 # It's a cog quest!
@@ -101,6 +103,7 @@ class QuestManagerAI:
         This method is called whenever a toon defeats a cog building.
         N.B: This is called once for each toon that defeated the building.
         """
+        messenger.send('topToonsManager-event', [av.doId, TopToonsGlobals.CAT_BLDG, 1])
         for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
             if isinstance(quest, Quests.BuildingQuest):
                 # This quest is a building quest, time to see if it counts towards
@@ -174,6 +177,7 @@ class QuestManagerAI:
         quest list, although it may be needed for more in the future.
         """
         toon.toonUp(toon.getMaxHp())
+        messenger.send('topToonsManager-event', [av.doId, TopToonsGlobals.CAT_TASKS, 1]) # We'll give them a mark for completing a task
         toon.removeQuest(questId)
 
     def giveReward(self, toon, rewardId):

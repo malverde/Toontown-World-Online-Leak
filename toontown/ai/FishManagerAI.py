@@ -3,7 +3,7 @@ from toontown.fishing.FishBase import FishBase
 import random
 from otp.ai.MagicWordGlobal import *
 from toontown.toonbase import TTLocalizer
-
+from toontown.uberdog import TopToonsGlobals
 
 class FishManagerAI:
 
@@ -51,6 +51,7 @@ class FishManagerAI:
             av.fishTank.addFish(fish)
             netlist = av.fishTank.getNetLists()
             av.d_setFishTank(netlist[0], netlist[1], netlist[2])
+            messenger.send('topToonsManager-event', [av.doId, TopToonsGlobals.CAT_FISH, 1])
             del self.requestedFish[av.doId]
             return [itemType, genus, species, weight]
         if itemType == FishGlobals.FishItem:
@@ -69,6 +70,7 @@ class FishManagerAI:
             av.fishTank.addFish(fish)
             netlist = av.fishTank.getNetLists()
             av.d_setFishTank(netlist[0], netlist[1], netlist[2])
+            messenger.send('topToonsManager-event', [av.doId, TopToonsGlobals.CAT_FISH, 1])
             return [itemType, genus, species, weight]
         elif itemType == FishGlobals.BootItem:
             return [itemType, 0, 0, 0]

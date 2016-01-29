@@ -2,6 +2,7 @@ import copy
 import random
 import time
 from toontown.toonbase import ToontownGlobals
+from toontown.uberdog import TopToonsGlobals
 import DistributedMinigameTemplateAI
 import DistributedRaceGameAI
 import DistributedCannonGameAI
@@ -121,6 +122,8 @@ def createMinigame(air, playerArray, trolleyZone, minigameZone = None, previousG
         if toon != None:
             toons.append(toon)
 
+    for toon in toons:
+        messenger.send('topToonsManager-event', [toon.doId, TopToonsGlobals.CAT_TROLLEY, 1])
     retVal = {'minigameZone': minigameZone, 'minigameId': mgId}
     return retVal
 

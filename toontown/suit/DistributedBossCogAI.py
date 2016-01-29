@@ -167,6 +167,10 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
 
     def d_setBattleExperience(self):
         self.sendUpdate('setBattleExperience', self.getBattleExperience())
+        for toonId in self.involvedToons: # Top Toons Manager
+            toon = simbase.air.doId2do.get(toonId)
+            if toon:
+                self.air.topToonsMgr.toonKilledBoss(toon, self.BossName)
 
     def getBattleExperience(self):
         result = BattleExperienceAI.getBattleExperience(

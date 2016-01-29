@@ -16,6 +16,7 @@ from otp.avatar import DistributedAvatarAI
 from otp.avatar import DistributedPlayerAI
 from otp.otpbase import OTPLocalizer
 from toontown.toonbase import ToontownGlobals
+from toontown.uberdog import TopToonsGlobals
 from toontown.quest import QuestRewardCounter
 from toontown.quest import Quests
 from toontown.toonbase import ToontownBattleGlobals
@@ -2657,6 +2658,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return self.maxMoney
 
     def addMoney(self, deltaMoney):
+        if deltaMoney > 0:
+            messenger.send('topToonsManager-event', [self.doId, TopToonsGlobals.CAT_JELLYBEAN, deltaMoney])
         money = deltaMoney + self.money
         pocketMoney = min(money, self.maxMoney)
         self.b_setMoney(pocketMoney)

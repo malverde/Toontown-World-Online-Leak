@@ -31,6 +31,9 @@ if config.GetBool('want-parties', True):
     from toontown.uberdog.DistributedPartyManagerAI import DistributedPartyManagerAI
     from otp.distributed.OtpDoGlobals import *
 
+if config.GetBool('want-top-toons', False): # Experimental Top Toons system
+    from toontown.uberdog.DistributedTopToonsManagerAI import DistributedTopToonsManagerAI
+
 # Fireworks!
 from direct.task import Task
 from toontown.toonbase import ToontownGlobals
@@ -96,6 +99,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.baseXpMultiplier = self.config.GetFloat('base-xp-multiplier', 1.0)
         self.wantHalloween = self.config.GetBool('want-halloween', False)
 	self.wantChristmas = self.config.GetBool('want-christmas', False)
+        self.wantTopToons = self.config.GetBool('want-top-toons', False)
         self.holidayManager = HolidayManagerAI(self)
         self.PetManager = PetManagerAI(self)
         self.fishManager = FishManagerAI()
@@ -108,6 +112,8 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.promotionMgr = PromotionManagerAI(self)
         self.cogSuitMgr = CogSuitManagerAI(self)
         self.suitInvasionManager = SuitInvasionManagerAI(self)
+        if self.wantTopToons:
+            self.topToonsMgr = DistributedTopToonsManagerAI(self) # Top Toons Manager
 
         self.statusSender = ShardStatusSender(self)
 

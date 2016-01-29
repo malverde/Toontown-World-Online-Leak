@@ -1,8 +1,10 @@
 import toontown.minigame.MinigameCreatorAI
 from toontown.distributed.ToontownInternalRepository import ToontownInternalRepository
+from toontown.uberdog.DistributedTopToonsManagerUD import DistributedTopToonsManagerUD
 from direct.distributed.PyDatagram import *
 from otp.distributed.DistributedDirectoryAI import DistributedDirectoryAI
 from otp.distributed.OtpDoGlobals import *
+
 
 # RPC
 if config.GetBool('want-rpc-server', False):
@@ -46,3 +48,6 @@ class ToontownUberRepository(ToontownInternalRepository):
         self.globalPartyMgr = simbase.air.generateGlobalObject(OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
 
         self.deliveryManager = simbase.air.generateGlobalObject(OTP_DO_ID_TOONTOWN_DELIVERY_MANAGER, 'DistributedDeliveryManager')
+
+        if config.GetBool('want-top-toons', False):
+            self.topToonsMgr = DistributedTopToonsManagerUD(self)
