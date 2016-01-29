@@ -1,11 +1,9 @@
+#Embedded file name: toontown.golf.GolfManagerAI
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.showbase import DirectObject
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.golf import DistributedGolfCourseAI
-
-
 RequestHole = {}
-
 
 def GolfManagerAI():
     if not hasattr(simbase, 'golf'):
@@ -30,8 +28,8 @@ class __GolfManagerAI(DirectObject.DirectObject):
         for avId in avIds:
             if avId in RequestHole:
                 preferredHoleId = RequestHole[avId][0]
-        newCourse = DistributedGolfCourseAI.DistributedGolfCourseAI(
-            golfZone, avIds, courseId, preferredHoleId)
+
+        newCourse = DistributedGolfCourseAI.DistributedGolfCourseAI(golfZone, avIds, courseId, preferredHoleId)
         newCourse.generateWithRequired(golfZone)
         self.courseList.append(newCourse)
         newCourse.addExpectedGolfers(avIds)
@@ -46,6 +44,7 @@ class __GolfManagerAI(DirectObject.DirectObject):
             if avId in course.avIdList:
                 retval = course
                 break
+
         return retval
 
     def removeCourse(self, course):
@@ -54,4 +53,5 @@ class __GolfManagerAI(DirectObject.DirectObject):
                 if avId in RequestHole:
                     if not RequestHole[avId][1]:
                         del RequestHole[avId]
+
             self.courseList.remove(course)

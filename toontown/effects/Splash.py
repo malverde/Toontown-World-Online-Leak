@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.Splash
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from Ripples import *
@@ -30,7 +31,6 @@ class Splash(NodePath):
         Splash.splashCount += 1
         self.setBin('fixed', 100, 1)
         self.hide()
-        return
 
     def createTrack(self, rate = 1):
         self.ripples.createTrack(rate)

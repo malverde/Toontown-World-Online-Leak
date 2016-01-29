@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from DistributedNPCToonBase import *
 from toontown.quest import QuestParser
 from toontown.quest import QuestChoiceGui
@@ -6,8 +6,7 @@ from toontown.quest import TrackChoiceGui
 from toontown.toonbase import TTLocalizer
 from toontown.hood import ZoneUtil
 from toontown.toontowngui import TeaserPanel
-from toontown.chat.ChatGlobals import *
-from toontown.nametag.NametagGlobals import *
+from otp.nametag.NametagConstants import *
 
 class DistributedNPCSnowballGiver(DistributedNPCToonBase):
 

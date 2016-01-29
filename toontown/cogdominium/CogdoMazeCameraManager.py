@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoMazeCameraManager
 from direct.showbase.PythonUtil import bound as clamp
 import CogdoMazeGameGlobals as Globals
 import math
@@ -77,7 +78,7 @@ class CogdoMazeCameraManager:
             if self.shakeStrength > Globals.CameraShakeMax:
                 self.shakeStrength = Globals.CameraShakeMax
             height = self.defaultHeight + self.shakeStrength
-            self.shakeStrength = self.shakeStrength - Globals.CameraShakeFalloff * dt
+            self.shakeStrength -= Globals.CameraShakeFalloff * dt
             if self.shakeStrength < 0.0:
                 self.shakeStrength = 0.0
         else:

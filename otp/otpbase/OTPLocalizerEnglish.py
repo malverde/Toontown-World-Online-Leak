@@ -8,7 +8,6 @@ lMinniesMelodyland = "Minnie's Melodyland"
 lToontownCentral = 'Toontown Central'
 lGoofySpeedway = 'Goofy Speedway'
 lOutdoorZone = "Chip 'n Dale's Acorn Acres"
-lFunnyFarm = 'Funny Farms'
 lGolfZone = "Chip 'n Dale's MiniGolf"
 lCancel = 'Cancel'
 lClose = 'Close'
@@ -115,6 +114,42 @@ TextPropertiesManager.getGlobalPtr().setProperties('black', black)
 grey = TextProperties()
 grey.setTextColor(0.5, 0.5, 0.5, 1)
 TextPropertiesManager.getGlobalPtr().setProperties('grey', grey)
+
+# New nametag staff colours
+"""
+This section outlines
+the nametag colours of the staff
+"""
+# Orange
+amber = TextProperties()
+amber.setTextColor(1, 0.75, 0, 1)
+TextPropertiesManager.getGlobalPtr().setProperties('amber', amber)
+
+# Pink
+amaranth = TextProperties()
+amaranth.setTextColor(0.9, 0.17, 0.31, 1)
+TextPropertiesManager.getGlobalPtr().setProperties('amaranth', amaranth)
+
+# Green
+androidGreen = TextProperties()
+androidGreen.setTextColor(0.64, 0.78, 0.22, 1)
+TextPropertiesManager.getGlobalPtr().setProperties('androidGreen', androidGreen)
+
+# Turquoise-green
+caribbeanGreen = TextProperties()
+caribbeanGreen.setTextColor(0, 0.8, 0.6, 1)
+TextPropertiesManager.getGlobalPtr().setProperties('caribbeanGreen', caribbeanGreen)
+
+# Blue
+azure = TextProperties()
+azure.setTextColor(0, 0.5, 1, 1)
+TextPropertiesManager.getGlobalPtr().setProperties('azure', azure)
+
+# Cobalt-blue
+cobalt = TextProperties()
+cobalt.setTextColor(0, 0.28, 0.67, 1)
+TextPropertiesManager.getGlobalPtr().setProperties('cobalt', cobalt)
+
 ActivateChat = "True Friends allows one member to chat with another member only by means of a True Friend Code that must be communicated outside of the game. True Friends is not moderated or supervised.\n\nPlease choose one of Toontown's True Friends options:\n\n      \x01shadow\x01No True Friends\x02 - Ability to make True Friends is disabled.\n      This offers the highest level of control.\n\n      \x01shadow\x01Restricted True Friends\x02 - Requires the Parent Account Password to make\n      each new True Friend.\n\n      \x01shadow\x01Unrestricted True Friends\x02 - Once enabled with the Parent Account Password,\n      it is not required to supply the Parent Account Password to make each new\n      True Friend. \x01red\x01This option is not recommended for children under 13.\x02\n\n\n\n\n\n\nBy enabling the True Friends feature, you acknowledge that there are some risks inherent in the True Friends feature and that you have been informed of, and agree to accept, any such risks."
 ActivateChatYes = 'Update'
 ActivateChatNo = lCancel
@@ -180,26 +215,26 @@ CRLoggingIn = 'Authenticating...'
 CRMissingGameRootObject = 'Missing some root game objects.  (May be a failed network connection).\n\nTry again?'
 CRNoDistrictsTryAgain = 'No Districts are available. Try again?'
 CRRejectRemoveAvatar = 'The avatar was not able to be deleted, try again another time.'
-CRLostConnection = 'Your connection to the gameserver was lost.'
-CRBootedReasons = {1: 'Yikes - An unexpected problem occured.  Your connection has been lost, but you should be able to connect again and go right back into Toontown.',
- 100: 'You have been disconnected because someone else just logged in using your account on another computer.',
+CRLostConnection = 'Uh oh! Your connection to the gameserver was lost. Please relaunch Toontown World - you should be able to connect if you try again.'
+CRBootedReasons = {1: 'Yikes - An unexpected problem occured.  Your connection has been lost, but you should be able to connect again and go right back into Toontown. Contact support with that Error Code if you need assistance',
+ 100: 'You have been disconnected because someone else just logged in using your account on another computer. If this wasn not you please contact support and change your password.',
  120: 'You have been disconnected because of a problem with your authorization to use keyboard chat.',
- 122: 'There was an issue getting you into Toontown.  If the problem persists, please contact Toontown World Support.',
+ 122: 'There was an issue getting you into Toontown.  If the problem persists, please contact Toontown World Support. Contact support with that Error Code if you need assistance',
  124: 'Your installed files are out of date!  Use the official launcher to download the newest version, or contact Toontown World Support if the problem persists.',
- 125: 'Your installed files appear to be invalid.  Use the official launcher to download the newest version, or contact Toontown World Support if the problem persists.',
+ 125: 'Your installed files appear to be invalid!  Use the official launcher to download the newest version, or contact Toontown World Support if the problem persists.',
  126: 'You aren\'t authorized to use administrator privileges. The request has been noted.',
  127: 'There appears to be a problem with your Toon.  Don\'t worry - we\'ll get it straightened out. Please contact Toontown World Support and referece Error Code 127.',
  128: 'There appears to have been a hiccup in your connection to Toontown. Don\'t worry -- we\'re working on straightening it out. You should be able to connect again and go right back into Toontown.',
  151: 'You were kicked out by one of the developers working on the servers.',
  152: "You have been banned from the game for a reported violation of our Terms of Use connected to '%(name)s'. For more details, please check the Toontown World website.",
- 153: 'The district you were playing on has been reset.  Everyone who was playing on that district has also been disconnected, however, you should be able to connect again and go right back into Toontown.',
+ 153: 'Toon HQ, we have a problem. Cogs have crashed the District you were playing in.  Everyone who was playing on that district has also been disconnected, however, you should be able to connect again and go right back into Toontown.',
  154: 'Toontown World is now temporarily closed for maintenance. Everyone who was playing has been disconnected from the game.\n\nFor more information, please visit the Toontown World website.',
- 155: 'You\'ve been warned for %(dc_reason)s. Try to behave next time!',
+ 155: 'You\'ve been warned for %(dc_reason)s. Try to behave next time! For more information contact support.',
  200: 'Logins are currently disabled. Please try again later.',
  288: 'Sorry, you have used up all of your available minutes this month.',
  349: 'Sorry, you have used up all of your available minutes this month.',
  350: 'Sorry, your play time is up for today! You\'re welcome to hop on the queue or schedule a new session at any time. Thanks for testing with us, and come back soon!',}
-CRBootedReasonUnknownCode = 'Yikes - An unexpected problem occured. (Error code %s)  Your connection has been lost, but you should be able to connect again and go right back into Toontown.'
+CRBootedReasonUnknownCode = 'Yikes - An unexpected problem occured. (Error Code %s)  Your connection has been lost, but you should be able to connect again and go right back into Toontown. Contact support with that Error Code if you need assistance'
 CRSystemMessages = {
     # General, generic messages:
     0: '%s',
@@ -570,7 +605,9 @@ SuitBrushOffs = {'f': ["I'm late for a meeting."],
         "I believe you're in the wrong office.",
         'Have your people call my people.',
         "You're in no position to meet with me.",
-        'Talk to my assistant.']}
+        'Talk to my assistant.',
+        'I will pretend I do not see you Toon.',
+        'There is a restraining order coming your way']}
 SuitFaceoffTaunts = {'b': ['Would you like to make a donation?',
        "This may make you a sore loser.",
        "I'm going to leave you high and dry.",
@@ -582,7 +619,8 @@ SuitFaceoffTaunts = {'b': ['Would you like to make a donation?',
        "When I'm through you'll need to lie down.",
        'This will only hurt for a second.',
        "This might make you dizzy.",
-       "Good timing, I'm a pint low."],
+       "Good timing, I'm a pint low.",
+       'You will B the opposite of a happy Toon when I am finished with you'],
  'm': ["You don't know who you're mingling with.",
        'Ever mingle with the likes of me?',
        'Good, it takes two to mingle.',
@@ -706,7 +744,8 @@ SuitFaceoffTaunts = {'b': ['Would you like to make a donation?',
         'Whoa, back up there toon.',
         'Let me get your back.',
         "You're going to have a stabbing headache soon.",
-        'I have perfect puncture.'],
+        'I have perfect puncture.',
+        'Do not worry toon, you can always trust me.'],
  'bw': ["Don't brush me aside.",
         'You make my hair curl.',
         'I can make this permanent if you want.',
@@ -726,7 +765,8 @@ SuitFaceoffTaunts = {'b': ['Would you like to make a donation?',
         'This is so much fun it should be illegal.',
         "Legally, you're too small to fight me.",
         'There is no limit to my talons.',
-        "I call this a citizen's arrest."],
+        "I call this a citizen's arrest.",
+        "I've got the court under my wing."],
  'sd': ["You'll never know when I'll stop.",
         'Let me take you for a spin.',
         'The doctor will see you now.',
@@ -837,8 +877,9 @@ SuitFaceoffTaunts = {'b': ['Would you like to make a donation?',
         "I'm a very hands-on kind of cog.",
         'Would you like some hand-me-downs?',
         'Let me show you some of my handiwork.',
-        'I think the handwriting is on the wall.'],
- 'sc': ['I will make short work of you.',
+        'I think the handwriting is on the wall.',
+        "I'll gladly handle your gags for you"],
+'sc': ['I will make short work of you.',
         "You're about to have money trouble.",
         "You're about to be overcharged.",
         'This will be a short-term assignment.',
@@ -1420,6 +1461,7 @@ SpeedChatStaticTextToontown = {100: 'Hi!',
  5213: "We're going to the Lawbot B Office.",
  5214: "We're going to the Lawbot C Office.",
  5215: "We're going to the Lawbot D Office.",
+ 30003: "This will be as painful as Toontown Online closing",
  5300: "Let's go to a party.",
  5301: 'See you at the party!',
  5302: 'My party has started!',
@@ -3038,3 +3080,13 @@ def timeElapsedString(timeDelta):
         return '1 minute ago'
     else:
         return '%s minutes ago' % (timeDelta.seconds / 60)
+
+AccessToString = {
+ 200: '\x01amaranth\x01Artist\x02',
+ 300: '\x01green\x01Moderator\x02',
+ 400: '\x01amber\x01Community Manager\x02',
+ 401: '\x01yellow\x01Admin\x02',
+ 405: '\x01androidGreen\x01Developer\x02',
+ 500: '\x01cobalt\x01Senior Admin\x02',
+ 507: '\x01red\x01System Admin\x02'
+}

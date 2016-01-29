@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoFlyingUtil
 from otp.otpbase import OTPGlobals
 from CogdoFlyingShadowPlacer import CogdoFlyingShadowPlacer
 
@@ -21,4 +22,3 @@ def swapAvatarShadowPlacer(avatar, name):
     avatar.shadowPlacer = shadowPlacer
     avatar.setActiveShadow(0)
     avatar.setActiveShadow(1)
-    return

@@ -6,6 +6,7 @@ from toontown.coghq import DistributedCogKartAI
 from toontown.coghq.LobbyManagerAI import LobbyManagerAI
 from toontown.building import DistributedBoardingPartyAI
 
+
 class CogHoodAI(HoodAI):
     """
     This class is an AI-sided representation of a single cog
@@ -23,11 +24,34 @@ class CogHoodAI(HoodAI):
         self.suitPlanners = []
         self.lobbyMgr = None
 
-    def createElevator(self, dclass, mgr, extZone, intZone, index=0, minLaff=0, boss=False):
+    def createElevator(
+            self,
+            dclass,
+            mgr,
+            extZone,
+            intZone,
+            index=0,
+            minLaff=0,
+            boss=False):
         if boss:
-            elevator = dclass(self.air, mgr, intZone, antiShuffle=self.air.config.GetInt('want-anti-shuffle', 0), minLaff=minLaff)
+            elevator = dclass(
+                self.air,
+                mgr,
+                intZone,
+                antiShuffle=self.air.config.GetInt(
+                    'want-anti-shuffle',
+                    0),
+                minLaff=minLaff)
         else:
-            elevator = dclass(self.air, mgr, intZone, index, antiShuffle=self.air.config.GetInt('want-anti-shuffle', 0), minLaff=minLaff)
+            elevator = dclass(
+                self.air,
+                mgr,
+                intZone,
+                index,
+                antiShuffle=self.air.config.GetInt(
+                    'want-anti-shuffle',
+                    0),
+                minLaff=minLaff)
         elevator.generateWithRequired(extZone)
         self.elevators.append(elevator)
         return elevator
@@ -38,7 +62,8 @@ class CogHoodAI(HoodAI):
 
     def createBoardingGroup(self, air, elevators, zone, maxSize=4):
         if config.GetBool('want-boarding-groups', True):
-            boardingGroup = DistributedBoardingPartyAI.DistributedBoardingPartyAI(air, elevators, maxSize)
+            boardingGroup = DistributedBoardingPartyAI.DistributedBoardingPartyAI(
+                air, elevators, maxSize)
             boardingGroup.generateWithRequired(zone)
 
     def createSuitPlanner(self, zone):

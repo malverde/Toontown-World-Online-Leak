@@ -1,7 +1,8 @@
+#Embedded file name: toontown.golf.DistributedGolfHoleAI
 from direct.distributed import DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from panda3d.core import *
 import DistributedPhysicsWorldAI
 from direct.fsm.FSM import FSM
 from toontown.ai.ToonBarrier import *
@@ -53,7 +54,6 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
             self.ballPos[avId] = Vec3(0, 0, 0)
 
         self.playStarted = False
-        return
 
     def curGolfBall(self):
         return self.ball
@@ -81,7 +81,6 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
             self.notify.debug('calling self.barrierPlayback = None')
             self.barrierPlayback = None
         self.activeGolferId = None
-        return
 
     def setZoneId(self, zoneId):
         self.zoneId = zoneId
@@ -129,7 +128,6 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
         else:
             self.notify.debug('safety')
         self.notify.debug('selectNextGolfer, new golferIndex=%s new golferId=%s' % (self.activeGolferIndex, self.activeGolferId))
-        return
 
     def clearWatched(self):
         self.watched = [1,
@@ -309,12 +307,11 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
             if self.state == 'WaitPlayback' or self.state == 'WaitTee':
                 self.notify.warning('ballMovie2AI requesting from %s to WaitPlayback' % self.state)
             self.request('WaitPlayback')
-        elif self.trustedPlayerId == None:
-            return
         else:
+            if self.trustedPlayerId == None:
+                return
             self.doAction()
         self.trustedPlayerId = None
-        return
 
     def performReadyAction(self):
         avId = self.storeAction[0]
@@ -345,7 +342,6 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
          self.commonHoldData])
         self.ballPos[avId] = newPos
         self.trustedPlayerId = None
-        return
 
     def postResult(self, cycleTime, avId, recording, aVRecording, ballInHoleFrame, ballTouchedHoleFrame, ballFirstTouchedHoleFrame):
         pass
@@ -402,7 +398,6 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
         if hasattr(self, 'barrierPlayback') and self.barrierPlayback:
             self.barrierPlayback.cleanup()
             self.barrierPlayback = None
-        return
 
     def enterCleanup(self):
         pass
@@ -495,4 +490,3 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
             self.createCommonObject(4, path.getPos(), path.getHpr(), sizeX, sizeY, move)
         elif type == 3:
             self.createCommonObject(3, path.getPos(), path.getHpr())
-        return

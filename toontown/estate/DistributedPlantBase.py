@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.DistributedPlantBase
 import DistributedLawnDecor
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
@@ -13,7 +14,6 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
         self.model = None
         self.growthLevel = -1
         self.waterTrackDict = {}
-        return
 
     def delete(self):
         self.notify.debug('delete')
@@ -23,7 +23,6 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
 
         self.waterTrackDict = None
         DistributedLawnDecor.DistributedLawnDecor.delete(self)
-        return
 
     def disable(self):
         self.notify.debug('disable')
@@ -38,7 +37,6 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
         self.model = loader.loadModel(modelName)
         self.model.reparentTo(self.rotateNode)
         self.stick2Ground()
-        return
 
     def setupShadow(self):
         DistributedLawnDecor.DistributedLawnDecor.setupShadow(self)
@@ -116,7 +114,7 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
     def isFullGrown(self):
         if self.growthLevel >= self.growthThresholds[2]:
             return False
-        elif self.growthLevel >= self.growthThresholds[1]:
+        if self.growthLevel >= self.growthThresholds[1]:
             return True
         return False
 
@@ -127,9 +125,9 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
     def isEstablished(self):
         if self.growthLevel >= self.growthThresholds[2]:
             return False
-        elif self.growthLevel >= self.growthThresholds[1]:
+        if self.growthLevel >= self.growthThresholds[1]:
             return False
-        elif self.growthLevel >= self.growthThresholds[0]:
+        if self.growthLevel >= self.growthThresholds[0]:
             return True
         return False
 
@@ -141,11 +139,11 @@ class DistributedPlantBase(DistributedLawnDecor.DistributedLawnDecor):
     def isSeedling(self):
         if self.growthLevel >= self.growthThresholds[2]:
             return False
-        elif self.growthLevel >= self.growthThresholds[1]:
+        if self.growthLevel >= self.growthThresholds[1]:
             return False
-        elif self.growthLevel >= self.growthThresholds[0]:
+        if self.growthLevel >= self.growthThresholds[0]:
             return False
-        elif self.growthLevel < self.growthThresholds[0]:
+        if self.growthLevel < self.growthThresholds[0]:
             return True
         return False
 

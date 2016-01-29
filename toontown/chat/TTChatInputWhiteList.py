@@ -1,17 +1,18 @@
+#Embedded file name: toontown.chat.TTChatInputWhiteList
 from otp.chat.ChatInputWhiteListFrame import ChatInputWhiteListFrame
 from toontown.chat.TTWhiteList import TTWhiteList
 from direct.showbase import DirectObject
 from otp.otpbase import OTPGlobals
 import sys
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.otpbase import OTPLocalizer
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 
 class TTChatInputWhiteList(ChatInputWhiteListFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('TTChatInputWhiteList')
-    TFToggleKey = base.config.GetString('true-friend-toggle-key', 'alt')
+    TFToggleKey = config.GetString('true-friend-toggle-key', 'alt')
     TFToggleKeyUp = TFToggleKey + '-up'
 
     def __init__(self, parent = None, **kw):
@@ -46,16 +47,12 @@ class TTChatInputWhiteList(ChatInputWhiteListFrame):
         self.chatFrame = DirectFrame(parent=self, image=gui.find('**/Chat_Bx_FNL'), relief=None, pos=(0.0, 0, 0.0), state=DGG.NORMAL)
         self.chatButton = DirectButton(parent=self.chatFrame, image=(gui.find('**/ChtBx_ChtBtn_UP'), gui.find('**/ChtBx_ChtBtn_DN'), gui.find('**/ChtBx_ChtBtn_RLVR')), pos=(0.182, 0, -0.088), relief=None, text=('', OTPLocalizer.ChatInputNormalSayIt, OTPLocalizer.ChatInputNormalSayIt), text_scale=0.06, text_fg=Vec4(1, 1, 1, 1), text_shadow=Vec4(0, 0, 0, 1), text_pos=(0, -0.09), textMayChange=0, command=self.chatButtonPressed)
         self.cancelButton = DirectButton(parent=self.chatFrame, image=(gui.find('**/CloseBtn_UP'), gui.find('**/CloseBtn_DN'), gui.find('**/CloseBtn_Rllvr')), pos=(-0.151, 0, -0.088), relief=None, text=('', OTPLocalizer.ChatInputNormalCancel, OTPLocalizer.ChatInputNormalCancel), text_scale=0.06, text_fg=Vec4(1, 1, 1, 1), text_shadow=Vec4(0, 0, 0, 1), text_pos=(0, -0.09), textMayChange=0, command=self.cancelButtonPressed)
-        self.whisperLabel = DirectLabel(parent=self.chatFrame, pos=(0.02, 0, 0.23), relief=DGG.FLAT, frameColor=(1, 1, 0.5, 1), frameSize=(-0.23,
-         0.23,
-         -0.07,
-         0.05), text=OTPLocalizer.ChatInputNormalWhisper, text_scale=0.04, text_fg=Vec4(0, 0, 0, 1), text_wordwrap=9.5, textMayChange=1)
+        self.whisperLabel = DirectLabel(parent=self.chatFrame, pos=(0.02, 0, 0.23), relief=DGG.FLAT, frameColor=(1, 1, 0.5, 1), frameSize=(-0.23, 0.23, -0.07, 0.05), text=OTPLocalizer.ChatInputNormalWhisper, text_scale=0.04, text_fg=Vec4(0, 0, 0, 1), text_wordwrap=9.5, textMayChange=1)
         self.chatEntry.bind(DGG.OVERFLOW, self.chatOverflow)
         self.chatEntry.bind(DGG.TYPE, self.typeCallback)
         self.trueFriendChat = 0
-        if base.config.GetBool('whisper-to-nearby-true-friends', 1):
+        if config.GetBool('whisper-to-nearby-true-friends', 1):
             self.accept(self.TFToggleKey, self.shiftPressed)
-        return
 
     def shiftPressed(self):
         self.ignore(self.TFToggleKey)
@@ -78,17 +75,13 @@ class TTChatInputWhiteList(ChatInputWhiteListFrame):
         self.typeGrabbed = 0
 
     def typeCallback(self, extraArgs):
-        try:
-            if self.typeGrabbed:
-                return
-            self.applyFilter(extraArgs)
-            if localAvatar.chatMgr.chatInputWhiteList.isActive():
-                return
-            else:
-                messenger.send('wakeup')
-                messenger.send('enterNormalChat')
-        except UnicodeDecodeError:
+        if self.typeGrabbed:
             return
+        self.applyFilter(extraArgs)
+        if localAvatar.chatMgr.chatInputWhiteList.isActive():
+            return
+        messenger.send('wakeup')
+        messenger.send('enterNormalChat')
 
     def destroy(self):
         self.chatEntry.destroy()
@@ -99,13 +92,11 @@ class TTChatInputWhiteList(ChatInputWhiteListFrame):
     def delete(self):
         base.whiteList = None
         ChatInputWhiteListFrame.delete(self)
-        return
 
     def sendChat(self, text, overflow = False):
         if self.typeGrabbed:
             return
-        else:
-            ChatInputWhiteListFrame.sendChat(self, self.chatEntry.get())
+        ChatInputWhiteListFrame.sendChat(self, self.chatEntry.get())
 
     def sendChatByData(self, text):
         if self.trueFriendChat:
@@ -122,7 +113,7 @@ class TTChatInputWhiteList(ChatInputWhiteListFrame):
 
     def sendWhisperByFriend(self, avatarId, text):
         online = 0
-        if avatarId in base.cr.doId2do:
+        if base.cr.doId2do.has_key(avatarId):
             online = 1
         avatarUnderstandable = 0
         av = None
@@ -132,9 +123,9 @@ class TTChatInputWhiteList(ChatInputWhiteListFrame):
             avatarUnderstandable = av.isUnderstandable()
         if avatarUnderstandable and online:
             base.talkAssistant.sendWhisperTalk(text, avatarId)
-        return
 
     def chatButtonPressed(self):
+        print 'chatButtonPressed'
         if self.okayToSubmit:
             self.sendChat(self.chatEntry.get())
         else:
@@ -177,7 +168,7 @@ class TTChatInputWhiteList(ChatInputWhiteListFrame):
 
     def applyFilter(self, keyArgs, strict = False):
         text = self.chatEntry.get(plain=True)
-        if text.startswith('~'):
+        if len(text) > 0 and text[0] in ('~', '>'):
             self.okayToSubmit = True
         else:
             words = text.split(' ')
@@ -203,15 +194,12 @@ class TTChatInputWhiteList(ChatInputWhiteListFrame):
 
             if not strict:
                 lastword = words[-1]
-                try:
-                    if lastword == '' or self.whiteList.isPrefix(lastword) or not base.cr.whiteListChatEnabled:
-                        newwords[-1] = lastword
-                    elif flag:
-                        newwords[-1] = '\x01WLDisplay\x01' + lastword + '\x02'
-                    else:
-                        newwords[-1] = '\x01WLEnter\x01' + lastword + '\x02'
-                except UnicodeDecodeError:
-                    self.okayToSubmit = False
+                if lastword == '' or self.whiteList.isPrefix(lastword) or not base.cr.whiteListChatEnabled:
+                    newwords[-1] = lastword
+                elif flag:
+                    newwords[-1] = '\x01WLDisplay\x01' + lastword + '\x02'
+                else:
+                    newwords[-1] = '\x01WLEnter\x01' + lastword + '\x02'
             newtext = ' '.join(newwords)
             self.chatEntry.set(newtext)
         self.chatEntry.guiItem.setAcceptEnabled(self.okayToSubmit)

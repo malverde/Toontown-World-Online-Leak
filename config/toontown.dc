@@ -254,7 +254,7 @@ dclass DistributedPlayer : DistributedAvatar {
   uint32 WishNameTimestamp db ram;
   setPreviousAccess(uint8 = 0) required db airecv;
   setAccess(uint8 = 2) broadcast ownrecv required ram airecv;
-  setAdminAccess(uint16 access = 0) ownrecv required airecv;
+  setAdminAccess(uint16 access = 0) broadcast ownrecv required airecv;
   setAsGM(bool state = 0) required ram broadcast ownrecv airecv;
 };
 
@@ -616,6 +616,11 @@ from toontown.building import DistributedBoardingParty/AI
 from toontown.building import DistributedTutorialInterior/AI
 from toontown.estate import DistributedBankMgr/AI
 from toontown.estate import DistributedMailbox/AI
+from toontown.election import DistributedFlippyStand/AI
+from toontown.election import DistributedHotAirBalloon/AI
+from toontown.election import DistributedToonfestBalloon/AI
+from toontown.election import DistributedToonfestTower/AI
+from toontown.election import DistributedToonfestTowerBase/AI
 from toontown.estate import DistributedFurnitureManager/AI
 from toontown.estate import DistributedFurnitureItem/AI
 from toontown.estate import DistributedBank/AI
@@ -743,6 +748,7 @@ from toontown.friends import TTRFriendsManager/UD
 from toontown.uberdog import TTSpeedchatRelay/UD
 from toontown.safezone import DistributedGolfKart/AI
 from toontown.safezone import DistributedPicnicBasket/AI
+from toontown.election import DistributedToonfestCog/AI
 from toontown.distributed import DistributedTimer/AI
 from toontown.suit import DistributedBossbotBoss/AI
 from toontown.coghq import DistributedCogKart/AI
@@ -1257,6 +1263,41 @@ struct LinkPosition {
   int16/100 z;
 };
 
+dclass DistributedFlippyStand : DistributedObject {
+  wheelbarrowAvatarEnter() clsend airecv;
+};
+
+dclass DistributedHotAirBalloon : DistributedObject {		
+  setState(string state, int32 timestamp, uint32 avId) required broadcast ram;		
+  requestEnter() clsend airecv;		
+  setFlightPath(uint8 flightPathIndex) required broadcast ram;		
+};		
+		
+
+dclass DistributedToonfestBalloon : DistributedObject {
+  setState(string state, int32 timestamp, uint32 avId) required broadcast ram;
+  requestEnter() clsend airecv;
+  setFlightPath(uint8 flightPathIndex) required broadcast ram;
+};
+
+dclass DistributedToonfestTower : DistributedObject {
+  updateTower(string operation, uint8 base) broadcast;
+};
+
+dclass DistributedToonfestCog : DistributedObject {
+  updateTower() clsend airecv;
+  setPosThroughAI(int16 x, int16 y, int16 z) broadcast;
+  setIdThroughAI(int16 id) broadcast;
+};
+
+dclass DistributedToonfestTowerBase : DistributedObject {
+  requestSpeedUp() airecv clsend;
+  requestChangeDirection() airecv clsend;
+  setSpeed(int16/1000 rpm, uint16/100 offset, int16 timestamp) broadcast ram;
+  playSpeedUp(uint32 avId) broadcast;
+  playChangeDirection(uint32 avId) broadcast;
+};
+
 dclass DistributedCashbotBossCrane : DistributedObject {
   setBossCogId(uint32 bossCogId) required broadcast ram;
   setIndex(uint8 index) required broadcast ram;
@@ -1433,12 +1474,6 @@ dclass DistributedElectionCameraManager : DistributedObject
   setCameraIds(uint32[]) required broadcast ram;
 };
 
-dclass DistributedHotAirBalloon : DistributedObject {
-  setState(string state, int32 timestamp, uint32 avId) required broadcast ram;
-  requestEnter() clsend airecv;
-  setFlightPath(uint8 flightPathIndex) required broadcast ram;
-};
-
 dclass DistributedSafezoneInvasion : DistributedObject {
   pieHitToon(uint32 avId) clsend airecv;
   pieHitSuit(uint32 avId) clsend airecv;
@@ -1554,14 +1589,6 @@ dclass DistributedPhotoGame : DistributedMinigame {
   filmOut() airecv clsend;
 };
 
-dclass DistributedPatternGame : DistributedMinigame {
-  reportPlayerReady() airecv clsend;
-  setPattern(uint8 pattern[]) broadcast;
-  reportPlayerPattern(uint8 pattern[], uint16/1000 totalTime) airecv clsend;
-  setPlayerPatterns(uint8 pattern1[], uint8 pattern2[], uint8 pattern3[], uint8 pattern4[], uint32 fastestAvId) broadcast;
-  reportButtonPress(uint8 index, uint8 wrong) airecv clsend;
-  remoteButtonPressed(uint32 avId, uint8 index, uint8 wrong) broadcast;
-};
 
 dclass DistributedRingGame : DistributedMinigame {
   setTimeBase(int16 timestamp) broadcast ram required;
@@ -1947,6 +1974,7 @@ dclass NewsManager : DistributedObject {
   setRoamingTrialerWeekendStart() broadcast;
   setRoamingTrialerWeekendEnd() broadcast;
   setInvasionStatus(uint8, string, uint32, uint8) broadcast;
+  setHolidays(string) broadcast;
   setHolidayIdList(uint32[]) broadcast ram;
   holidayNotify() broadcast;
   setWeeklyCalendarHolidays(weeklyCalendarHoliday []) required broadcast ram;
@@ -2926,17 +2954,21 @@ dclass DistributedGreenToonEffectMgr : DistributedObject {
 };
 
 dclass DistributedResistanceEmoteMgr : DistributedObject {
-  addResistanceEmote() airecv clsend;
+  addResistanceEmote(uint16 phraseId) clsend airecv;
 };
 
 dclass DistributedScavengerHuntTarget : DistributedObject {
   attemptScavengerHunt() airecv clsend;
 };
 
-dclass DistributedTrickOrTreatTarget : DistributedScavengerHuntTarget {
+dclass DistributedTrickOrTreatTarget : DistributedObject {
+  doScavengerHunt(uint32 avId, int8) broadcast;
+  requestScavengerHunt() airecv clsend;
 };
 
-dclass DistributedWinterCarolingTarget : DistributedScavengerHuntTarget {
+dclass DistributedWinterCarolingTarget : DistributedObject {
+  doScavengerHunt(int8) broadcast;
+  requestScavengerHunt() airecv clsend;
 };
 
 dclass DistributedDataStoreManager : DistributedObject {
@@ -3701,7 +3733,7 @@ struct PotentialToon {
 };
 
 dclass ClientServicesManager : DistributedObjectGlobal {
-  login(string cookie, blob sig) clsend;
+  login(string cookie, blob sig, string secret) clsend;
   acceptLogin();
 
   requestAvatars() clsend;
@@ -3854,4 +3886,3 @@ dclass DistributedTrashcanZeroMgr : DistributedPhaseEventMgr {
 
 dclass DistributedSillyMeterMgr : DistributedPhaseEventMgr {
 };
-

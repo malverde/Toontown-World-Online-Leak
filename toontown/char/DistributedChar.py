@@ -1,6 +1,7 @@
 from otp.avatar import DistributedAvatar
 import Char
 
+
 class DistributedChar(DistributedAvatar.DistributedAvatar, Char.Char):
 
     def __init__(self, cr):

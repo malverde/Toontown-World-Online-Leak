@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from direct.task.Task import Task
@@ -8,6 +8,7 @@ from toontown.effects import DustCloud
 TRACK_TYPE_TELEPORT = 1
 TRACK_TYPE_RUN = 2
 TRACK_TYPE_POOF = 3
+
 
 class BoardingGroupShow:
     notify = DirectNotifyGlobal.directNotify.newCategory('BoardingGroupShow')
@@ -33,7 +34,9 @@ class BoardingGroupShow:
         self.clock = aspect2d.attachNewNode(self.clockNode)
         self.clock.setPos(0, 0, -0.6)
         self.clock.setScale(0.15, 0.15, 0.15)
-        self.__countdown(self.countdownDuration, self.__boardingElevatorTimerExpired)
+        self.__countdown(
+            self.countdownDuration,
+            self.__boardingElevatorTimerExpired)
 
     def __countdown(self, duration, callback):
         self.countdownTask = Task(self.__timerTask)
@@ -68,7 +71,12 @@ class BoardingGroupShow:
         uniqueName = 'boardingElevatorTimerTask-' + str(avId)
         return uniqueName
 
-    def getBoardingTrack(self, elevatorModel, offset, offsetWrtRender, wantToonRotation):
+    def getBoardingTrack(
+            self,
+            elevatorModel,
+            offset,
+            offsetWrtRender,
+            wantToonRotation):
         self.timeWarningText = TTLocalizer.BoardingTimeWarning
         self.countdownDuration = 6
         trackType = TRACK_TYPE_TELEPORT
@@ -76,18 +84,30 @@ class BoardingGroupShow:
         if self.toon:
             if self.avId == localAvatar.doId:
                 boardingTrack.append(Func(self.startTimer))
-            isInThresholdDist = self.__isInThresholdDist(elevatorModel, offset, self.thresholdRunDistance)
-            isRunPathClear = self.__isRunPathClear(elevatorModel, offsetWrtRender)
+            isInThresholdDist = self.__isInThresholdDist(
+                elevatorModel, offset, self.thresholdRunDistance)
+            isRunPathClear = self.__isRunPathClear(
+                elevatorModel, offsetWrtRender)
             if isInThresholdDist and isRunPathClear:
-                boardingTrack.append(self.__getRunTrack(elevatorModel, offset, wantToonRotation))
+                boardingTrack.append(
+                    self.__getRunTrack(
+                        elevatorModel,
+                        offset,
+                        wantToonRotation))
                 trackType = TRACK_TYPE_RUN
             elif self.toon.isDisguised:
-                boardingTrack.append(self.__getPoofTeleportTrack(elevatorModel, offset, wantToonRotation))
+                boardingTrack.append(
+                    self.__getPoofTeleportTrack(
+                        elevatorModel, offset, wantToonRotation))
                 trackType = TRACK_TYPE_POOF
             else:
-                boardingTrack.append(self.__getTeleportTrack(elevatorModel, offset, wantToonRotation))
+                boardingTrack.append(
+                    self.__getTeleportTrack(
+                        elevatorModel,
+                        offset,
+                        wantToonRotation))
         boardingTrack.append(Func(self.cleanup))
-        return (boardingTrack, trackType)
+        return boardingTrack, trackType
 
     def __getOffsetPos(self, elevatorModel, offset):
         dest = elevatorModel.getPos(self.toon.getParent())
@@ -98,7 +118,11 @@ class BoardingGroupShow:
         teleportTrack = Sequence()
         if self.toon:
             if wantToonRotation:
-                teleportTrack.append(Func(self.toon.headsUp, elevatorModel, offset))
+                teleportTrack.append(
+                    Func(
+                        self.toon.headsUp,
+                        elevatorModel,
+                        offset))
             teleportTrack.append(Func(self.toon.setAnimState, 'TeleportOut'))
             teleportTrack.append(Wait(3.5))
             teleportTrack.append(Func(self.toon.setPos, Point3(offset)))
@@ -109,7 +133,11 @@ class BoardingGroupShow:
     def __getPoofTeleportTrack(self, elevatorModel, offset, wantToonRotation):
         teleportTrack = Sequence()
         if wantToonRotation:
-            teleportTrack.append(Func(self.toon.headsUp, elevatorModel, offset))
+            teleportTrack.append(
+                Func(
+                    self.toon.headsUp,
+                    elevatorModel,
+                    offset))
 
         def getDustCloudPos():
             toonPos = self.toon.getPos(render)
@@ -128,7 +156,12 @@ class BoardingGroupShow:
             dustCloud.setZ(3)
             dustCloud.setScale(0.4)
             dustCloud.createTrack()
-            self.dustCloudIval = Sequence(Func(dustCloud.reparentTo, render), Func(dustCloud.setPos, getDustCloudPos()), dustCloud.track, Func(dustCloud.detachNode), Func(dustCloud.destroy), name='dustCloadIval')
+            self.dustCloudIval = Sequence(
+                Func(
+                    dustCloud.reparentTo, render), Func(
+                    dustCloud.setPos, getDustCloudPos()), dustCloud.track, Func(
+                    dustCloud.detachNode), Func(
+                    dustCloud.destroy), name='dustCloadIval')
             self.dustCloudIval.start()
 
         if self.toon:
@@ -169,7 +202,13 @@ class BoardingGroupShow:
         pathClear = True
         source = self.toon.getPos(render)
         dest = offsetWrtRender
-        collSegment = CollisionSegment(source[0], source[1], source[2], dest[0], dest[1], dest[2])
+        collSegment = CollisionSegment(
+            source[0],
+            source[1],
+            source[2],
+            dest[0],
+            dest[1],
+            dest[2])
         fromObject = render.attachNewNode(CollisionNode('runCollSegment'))
         fromObject.node().addSolid(collSegment)
         fromObject.node().setFromCollideMask(ToontownGlobals.WallBitmask)
@@ -205,7 +244,10 @@ class BoardingGroupShow:
     def __getTeleportOutTrack(self):
         teleportOutTrack = Sequence()
         if self.toon and not self.toon.isDisguised:
-            teleportOutTrack.append(Func(self.toon.b_setAnimState, 'TeleportOut'))
+            teleportOutTrack.append(
+                Func(
+                    self.toon.b_setAnimState,
+                    'TeleportOut'))
         return teleportOutTrack
 
     def getGoButtonPreShow(self):

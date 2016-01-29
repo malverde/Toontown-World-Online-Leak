@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoGameConsts
 from toontown.minigame.MinigameGlobals import getSafezoneId, DifficultyOverrideMult, QuantizeDifficultyOverride, NoDifficultyOverride, getDifficulty
 from toontown.minigame.MinigameGlobals import NoTrolleyZoneOverride as NoExteriorZoneOverride
 MaxPlayers = 4

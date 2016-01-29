@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+#Embedded file name: toontown.parties.DistributedPartyCannon
+from panda3d.core import *
 from direct.distributed.DistributedObject import DistributedObject
 from direct.task.Task import Task
 from toontown.minigame import CannonGameGlobals
@@ -37,6 +38,7 @@ INITIAL_VELOCITY = 80.0
 WHISTLE_SPEED = INITIAL_VELOCITY * 0.35
 
 class DistributedPartyCannon(DistributedObject, Cannon):
+    deferFor = 2
     notify = directNotify.newCategory('DistributedPartyCannon')
     LOCAL_CANNON_MOVE_TASK = 'localCannonMoveTask'
 
@@ -51,7 +53,6 @@ class DistributedPartyCannon(DistributedObject, Cannon):
         self.toonInsideAvId = 0
         self.sign = None
         self.controllingToonAvId = None
-        return
 
     def generateInit(self):
         self.load()
@@ -92,7 +93,6 @@ class DistributedPartyCannon(DistributedObject, Cannon):
             self.sign.removeNode()
             self.sign = None
         self.ignoreAll()
-        return
 
     def getParentNodePath(self):
         if hasattr(base.cr.playGame, 'hood') and base.cr.playGame.hood and hasattr(base.cr.playGame.hood, 'loader') and base.cr.playGame.hood.loader and hasattr(base.cr.playGame.hood.loader, 'geom') and base.cr.playGame.hood.loader.geom:
@@ -185,7 +185,7 @@ class DistributedPartyCannon(DistributedObject, Cannon):
             else:
                 self.__enableCannonControl()
             self.controllingToonAvId = avId
-        if avId in self.cr.doId2do:
+        if self.cr.doId2do.has_key(avId):
             self.toonInsideAvId = avId
             self.notify.debug('enterCannon self.toonInsideAvId=%d' % self.toonInsideAvId)
             toon = base.cr.doId2do[avId]
@@ -276,7 +276,7 @@ class DistributedPartyCannon(DistributedObject, Cannon):
                     place.fsm.request('walk')
             av.setPlayRate(1.0, 'run')
             if av.nametag and self.toonHead:
-                av.nametag.remove(self.toonHead.tag)
+                av.nametag.removeNametag(self.toonHead.tag)
             if av.getParent().getName() == 'toonOriginChange':
                 av.wrtReparentTo(render)
                 self.__setToonUpright(av)
@@ -286,7 +286,6 @@ class DistributedPartyCannon(DistributedObject, Cannon):
             av.setScale(1, 1, 1)
             self.ignore(av.uniqueName('disable'))
             self.__destroyToonModels(avId)
-        return
 
     def __destroyToonModels(self, avId):
         av = base.cr.doId2do.get(avId)
@@ -314,7 +313,6 @@ class DistributedPartyCannon(DistributedObject, Cannon):
             self.toonHead.delete()
             self.toonHead = None
         self.model_Created = 0
-        return
 
     def setClear(self):
         toon = base.cr.doId2do.get(self.toonInsideAvId)
@@ -434,7 +432,6 @@ class DistributedPartyCannon(DistributedObject, Cannon):
             self.d_setFired()
         self.playFireSequence()
         self.controllingToonAvId = None
-        return
 
     def d_setFired(self):
         self.sendUpdate('setFired', [])

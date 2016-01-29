@@ -4,21 +4,39 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import AppRunnerGlobal
 import ParticleDefs
 notify = DirectNotifyGlobal.directNotify.newCategory('BattleParticles')
-TutorialParticleEffects = ('gearExplosionBig.ptf', 'gearExplosionSmall.ptf', 'gearExplosion.ptf')
-ParticleNames = ('audit-div', 'audit-five', 'audit-four', 'audit-minus', 'audit-mult', 'audit-one', 'audit-plus', 'audit-six', 'audit-three', 'audit-two', 'blah', 'brainstorm-box', 'brainstorm-env', 'brainstorm-track', 'buzzwords-crash', 'buzzwords-inc', 'buzzwords-main', 'buzzwords-over', 'buzzwords-syn', 'confetti', 'doubletalk-double', 'doubletalk-dup', 'doubletalk-good', 'filibuster-cut', 'filibuster-fiscal', 'filibuster-impeach', 'filibuster-inc', 'jargon-brow', 'jargon-deep', 'jargon-hoop', 'jargon-ipo', 'legalese-hc', 'legalese-qpq', 'legalese-vd', 'mumbojumbo-boiler', 'mumbojumbo-creative', 'mumbojumbo-deben', 'mumbojumbo-high', 'mumbojumbo-iron', 'poundsign', 'schmooze-genius', 'schmooze-instant', 'schmooze-master', 'schmooze-viz', 'roll-o-dex', 'rollodex-card', 'dagger', 'fire', 'snow-particle', 'raindrop', 'gear', 'checkmark', 'dollar-sign', 'spark')
+TutorialParticleEffects = (
+    'gearExplosionBig.ptf',
+    'gearExplosionSmall.ptf',
+    'gearExplosion.ptf')
+ParticleNames = (
+    'audit-div', 'audit-five', 'audit-four', 'audit-minus', 'audit-mult',
+    'audit-one', 'audit-plus', 'audit-six', 'audit-three', 'audit-two', 'blah',
+    'brainstorm-box', 'brainstorm-env', 'brainstorm-track', 'buzzwords-crash',
+    'buzzwords-inc', 'buzzwords-main', 'buzzwords-over', 'buzzwords-syn',
+    'confetti', 'doubletalk-double', 'doubletalk-dup', 'doubletalk-good',
+    'filibuster-cut', 'filibuster-fiscal', 'filibuster-impeach',
+    'filibuster-inc', 'jargon-brow', 'jargon-deep', 'jargon-hoop',
+    'jargon-ipo', 'legalese-hc', 'legalese-qpq', 'legalese-vd',
+    'mumbojumbo-boiler', 'mumbojumbo-creative', 'mumbojumbo-deben',
+    'mumbojumbo-high', 'mumbojumbo-iron', 'poundsign', 'schmooze-genius',
+    'schmooze-instant', 'schmooze-master', 'schmooze-viz', 'roll-o-dex',
+    'rollodex-card', 'dagger', 'fire', 'snow-particle', 'raindrop', 'gear',
+    'checkmark', 'dollar-sign', 'spark')
 particleModel = None
 particleSearchPath = None
 
+
 def loadParticles():
     global particleModel
-    if particleModel == None:
-        particleModel = loader.loadModel('phase_3.5/models/props/suit-particles')
+    if particleModel is None:
+        particleModel = loader.loadModel(
+            'phase_3.5/models/props/suit-particles')
     return
 
 
 def unloadParticles():
     global particleModel
-    if particleModel != None:
+    if particleModel is not None:
         particleModel.removeNode()
     del particleModel
     particleModel = None
@@ -37,7 +55,7 @@ def getParticle(name):
 
 def loadParticleFile(name):
     assert name.endswith('.ptf')
-    name = name[:-4] # Strip .ptf
+    name = name[:-4]  # Strip .ptf
     particleFunc = ParticleDefs.ParticleTable[name]
 
     effect = ParticleEffect()
@@ -45,7 +63,7 @@ def loadParticleFile(name):
     return effect
 
 
-def createParticleEffect(name = None, file = None, numParticles = None, color = None):
+def createParticleEffect(name=None, file=None, numParticles=None, color=None):
     if not name:
         fileName = file + '.ptf'
         return loadParticleFile(fileName)
@@ -110,7 +128,7 @@ def createParticleEffect(name = None, file = None, numParticles = None, color = 
     return None
 
 
-def setEffectTexture(effect, name, color = None):
+def setEffectTexture(effect, name, color=None):
     particles = effect.getParticlesNamed('particles-1')
     np = getParticle(name)
     if color:
@@ -118,7 +136,7 @@ def setEffectTexture(effect, name, color = None):
     particles.renderer.setFromNode(np)
 
 
-def __makeGearExplosion(numParticles = None, style = 'Normal'):
+def __makeGearExplosion(numParticles=None, style='Normal'):
     if style == 'Normal':
         effect = loadParticleFile('gearExplosion.ptf')
     elif style == 'Big':
@@ -131,7 +149,7 @@ def __makeGearExplosion(numParticles = None, style = 'Normal'):
     return effect
 
 
-def __makeRubOut(color = None):
+def __makeRubOut(color=None):
     effect = loadParticleFile('demotionUnFreeze.ptf')
     loadParticles()
     setEffectTexture(effect, 'snow-particle')

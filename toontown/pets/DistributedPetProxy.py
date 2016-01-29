@@ -1,9 +1,11 @@
+# Embedded file name: toontown.pets.DistributedPetProxy
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.pets import PetTraits
 from toontown.pets import PetMood, PetTricks
 from toontown.toonbase import ToontownGlobals
 import string
+
 
 class DistributedPetProxy(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPetProxy')
@@ -24,7 +26,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
         self.traitList = [0] * PetTraits.PetTraits.NumTraits
         self.requiredMoodComponents = {}
 
-    def getSetterName(self, valueName, prefix = 'set'):
+    def getSetterName(self, valueName, prefix='set'):
         return '%s%s%s' % (prefix, valueName[0].upper(), valueName[1:])
 
     def setOwnerId(self, ownerId):
@@ -47,7 +49,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
             traitName = PetTraits.getTraitNames()[i]
             setterName = self.getSetterName(traitName)
 
-            def traitSetter(value, self = self, i = i):
+            def traitSetter(value, self=self, i=i):
                 self.traitList[i] = value
 
             self.__dict__[setterName] = traitSetter
@@ -99,7 +101,8 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
         return ToontownGlobals.getToonFont()
 
     def setLastSeenTimestamp(self, timestamp):
-        DistributedPetProxy.notify.debug('setLastSeenTimestamp: %s' % timestamp)
+        DistributedPetProxy.notify.debug(
+            'setLastSeenTimestamp: %s' % timestamp)
         self.lastSeenTimestamp = timestamp
 
     def getTimeSinceLastSeen(self):
@@ -107,7 +110,9 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
         return max(0.0, t)
 
     def updateOfflineMood(self):
-        self.mood.driftMood(dt=self.getTimeSinceLastSeen(), curMood=self.lastKnownMood)
+        self.mood.driftMood(
+            dt=self.getTimeSinceLastSeen(),
+            curMood=self.lastKnownMood)
 
     def __handleMoodSet(self, component, value):
         if self.isGenerated():
@@ -119,7 +124,7 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
         for compName in PetMood.PetMood.Components:
             setterName = self.getSetterName(compName)
 
-            def moodSetter(value, self = self, compName = compName):
+            def moodSetter(value, self=self, compName=compName):
                 self.__handleMoodSet(compName, value)
 
             self.__dict__[setterName] = moodSetter
@@ -140,16 +145,18 @@ class DistributedPetProxy(DistributedObject.DistributedObject):
             self.mood.setComponent(mood, value, announce=0)
 
         self.requiredMoodComponents = {}
-        DistributedPetProxy.notify.debug('time since last seen: %s' % self.getTimeSinceLastSeen())
+        DistributedPetProxy.notify.debug(
+            'time since last seen: %s' %
+            self.getTimeSinceLastSeen())
         self.style = [self.head,
-         self.ears,
-         self.nose,
-         self.tail,
-         self.bodyTexture,
-         self.color,
-         self.colorScale,
-         self.eyeColor,
-         self.gender]
+                      self.ears,
+                      self.nose,
+                      self.tail,
+                      self.bodyTexture,
+                      self.color,
+                      self.colorScale,
+                      self.eyeColor,
+                      self.gender]
         self.setLastSeenTimestamp(self.lastSeenTimestamp)
         self.updateOfflineMood()
         self.sendGenerateMessage = 1

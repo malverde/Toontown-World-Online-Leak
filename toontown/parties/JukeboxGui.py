@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+#Embedded file name: toontown.parties.JukeboxGui
+from panda3d.core import *
 from direct.showbase.DirectObject import DirectObject
 from direct.gui.DirectGui import DirectFrame, DirectButton, DirectLabel
 from direct.gui.DirectGui import DirectScrolledListItem, DirectScrolledList
@@ -19,7 +20,6 @@ class JukeboxGui(DirectObject):
         self._timerGui = None
         self._windowFrame = None
         self.phaseToMusicData = phaseToMusicData
-        return
 
     def load(self):
         if self.isLoaded():
@@ -40,7 +40,6 @@ class JukeboxGui(DirectObject):
         self._moveToTopButton = self.__createButton(guiNode, 'moveToTop', command=self.__handleMoveToTopButtonClick)
         guiNode.removeNode()
         self._loaded = True
-        return
 
     def __createButton(self, guiNode, imagePrefix, parent = hidden, **kwargs):
         return DirectButton(parent=parent, relief=None, image=(guiNode.find('**/%s_up' % imagePrefix), guiNode.find('**/%s_down' % imagePrefix), guiNode.find('**/%s_rollover' % imagePrefix)), **kwargs)
@@ -49,7 +48,7 @@ class JukeboxGui(DirectObject):
         return DirectLabel(parent=parent, relief=None, pos=guiNode.find('**/%s_text_locator' % locatorPrefix).getPos(), **kwargs)
 
     def __createLabeledScrolledList(self, guiNode, namePrefix, label, parent = hidden, **kwargs):
-        return (DirectScrolledList(parent=parent, relief=None, incButton_image=(guiNode.find('**/%sButtonDown_up' % namePrefix), guiNode.find('**/%sButtonDown_down' % namePrefix), guiNode.find('**/%sButtonDown_rollover' % namePrefix)), incButton_relief=None, incButton_image3_color=Vec4(0.6, 0.6, 0.6, 0.6), decButton_image=(guiNode.find('**/%sButtonUp_up' % namePrefix), guiNode.find('**/%sButtonUp_down' % namePrefix), guiNode.find('**/%sButtonUp_rollover' % namePrefix)), decButton_relief=None, decButton_image3_color=Vec4(0.6, 0.6, 0.6, 0.6), image=guiNode.find('**/%s_background' % namePrefix), itemFrame_relief=None, itemFrame_pos=guiNode.find('**/%sList_locator' % namePrefix).getPos(), itemFrame_scale=0.07, numItemsVisible=TTLocalizer.JGnumItemsVisible, items=[], **kwargs), self.__createLabel(guiNode, namePrefix, parent=parent, text=label, text_fg=(0.5, 1.0, 1.0, 1.0), text_shadow=(0.0, 0.0, 0.0, 1.0), scale=0.12))
+        return DirectScrolledList(parent=parent, relief=None, incButton_image=(guiNode.find('**/%sButtonDown_up' % namePrefix), guiNode.find('**/%sButtonDown_down' % namePrefix), guiNode.find('**/%sButtonDown_rollover' % namePrefix)), incButton_relief=None, incButton_image3_color=Vec4(0.6, 0.6, 0.6, 0.6), decButton_image=(guiNode.find('**/%sButtonUp_up' % namePrefix), guiNode.find('**/%sButtonUp_down' % namePrefix), guiNode.find('**/%sButtonUp_rollover' % namePrefix)), decButton_relief=None, decButton_image3_color=Vec4(0.6, 0.6, 0.6, 0.6), image=guiNode.find('**/%s_background' % namePrefix), itemFrame_relief=None, itemFrame_pos=guiNode.find('**/%sList_locator' % namePrefix).getPos(), itemFrame_scale=0.07, numItemsVisible=TTLocalizer.JGnumItemsVisible, items=[], **kwargs), self.__createLabel(guiNode, namePrefix, parent=parent, text=label, text_fg=(0.5, 1.0, 1.0, 1.0), text_shadow=(0.0, 0.0, 0.0, 1.0), scale=0.12)
 
     def enable(self, timer = 0):
         if not self.isLoaded():
@@ -88,7 +87,6 @@ class JukeboxGui(DirectObject):
             self._timerGui.destroy()
             self._timerGui = None
         self._loaded = False
-        return
 
     def isLoaded(self):
         return self._loaded
@@ -142,11 +140,10 @@ class JukeboxGui(DirectObject):
                 self._moveToTopButton.reparentTo(hidden)
             if self._moveToTopButton.getParent() == item:
                 self._moveToTopButton.reparentTo(hidden)
-            if item.getPythonTag('highlighted') == True:
+            if item.getPythonTag('highlighted'):
                 self._addSongButton['text'] = TTLocalizer.JukeboxAddSong
             item.removeNode()
             return item
-        return None
 
     def setSongCurrentlyPlaying(self, phase, filename):
         songs = self.phaseToMusicData.get(phase / 1)

@@ -1,11 +1,12 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.showbase.PythonUtil import reduceAngle
 from otp.movement import Impulse
 import math
 
+
 class PetChase(Impulse.Impulse):
 
-    def __init__(self, target = None, minDist = None, moveAngle = None):
+    def __init__(self, target=None, minDist=None, moveAngle=None):
         Impulse.Impulse.__init__(self)
         self.target = target
         if minDist is None:

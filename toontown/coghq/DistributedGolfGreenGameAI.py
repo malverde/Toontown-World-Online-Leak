@@ -30,19 +30,8 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
         self.allBoardsClear = 0
         self.challengeDefeated = False
         self.title = 'MemTag: This is a golfGreenGame %s' % random.random()
-        self.translateData = {}
-        self.translateData['r'] = 0
-        self.translateData['b'] = 1
-        self.translateData['g'] = 2
-        self.translateData['w'] = 3
-        self.translateData['k'] = 4
-        self.translateData['l'] = 5
-        self.translateData['y'] = 6
-        self.translateData['o'] = 7
-        self.translateData['a'] = 8
-        self.translateData['s'] = 9
-        self.translateData['R'] = 10
-        self.translateData['B'] = 11
+        self.translateData = {'r': 0, 'b': 1, 'g': 2, 'w': 3, 'k': 4, 'l': 5, 'y': 6, 'o': 7, 'a': 8, 's': 9, 'R': 10,
+                              'B': 11}
         self.preData = []
         self.boardList = []
         self.joinedToons = []
@@ -61,7 +50,7 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
         numBoards = self.puzzleBase + numToons * self.puzzlePerPlayer
         boardSelect = range(0, len(gameBoards))
         didGetLast = 1
-        for index in xrange(numBoards):
+        for index in range(numBoards):
             choice = random.choice(boardSelect)
             if not didGetLast:
                 didGetLast = 1
@@ -81,8 +70,8 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
     def processPreData(self):
         for board in self.preData:
             x = []
-            for rowIndex in xrange(1, len(board)):
-                for columnIndex in xrange(len(board[rowIndex])):
+            for rowIndex in range(1, len(board)):
+                for columnIndex in range(len(board[rowIndex])):
                     color = self.translateData.get(board[rowIndex][columnIndex])
                     if color != None:
                         x.append((len(board[rowIndex]) - (columnIndex + 1), rowIndex - 1, color))
@@ -132,7 +121,7 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
         dataSize = len(self.boardData)
         indexChoice = int(random.random() * dataSize)
         boardToAssign = None
-        for boardIndex in xrange(len(self.boardList)):
+        for boardIndex in range(len(self.boardList)):
             board = self.boardList[boardIndex]
             if self.boardList[boardIndex][0] == 'closed':
                 pass
@@ -148,7 +137,7 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
         return boardToAssign
 
     def checkForAssigned(self, avId):
-        for index in xrange(len(self.boardList)):
+        for index in range(len(self.boardList)):
             board = self.boardList[index]
             if board[0] == 'closed':
                 pass

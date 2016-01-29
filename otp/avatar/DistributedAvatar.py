@@ -1,15 +1,20 @@
-from direct.actor.DistributedActor import DistributedActor
+import time
+import string
+from panda3d.core import *
+from otp.nametag.Nametag import Nametag
 from direct.distributed import DistributedNode
+from direct.actor.DistributedActor import DistributedActor
+from direct.task import Task
 from direct.interval.IntervalGlobal import *
 from direct.showbase import PythonUtil
-from direct.task import Task
-from pandac.PandaModules import *
-
-from Avatar import Avatar
-from otp.ai.MagicWordGlobal import *
 from otp.otpbase import OTPGlobals
-from toontown.battle.BattleProps import globalPropPool
-
+from otp.otpbase import OTPLocalizer
+from otp.speedchat import SCDecoders
+from otp.chat import ChatGarbler
+from otp.chat import ChatManager
+import random
+from Avatar import Avatar
+import AvatarDNA
 
 class DistributedAvatar(DistributedActor, Avatar):
     HpTextGenerator = TextNode('HpTextGenerator')
@@ -84,12 +89,11 @@ class DistributedAvatar(DistributedActor, Avatar):
 
     def do_setParent(self, parentToken):
         if not self.isDisabled():
-            nametag2d = self.nametag.getNametag2d()
             if parentToken == OTPGlobals.SPHidden:
-                nametag2d.hideNametag()
+                self.nametag2dDist &= ~Nametag.CName
             else:
-                nametag2d.showNametag()
-            nametag2d.update()
+                self.nametag2dDist |= Nametag.CName
+            self.nametag.getNametag2d().setContents(self.nametag2dContents & self.nametag2dDist)
             DistributedActor.do_setParent(self, parentToken)
             self.__setTags()
 
@@ -253,77 +257,3 @@ class DistributedAvatar(DistributedActor, Avatar):
 
     def getDialogueArray(self):
         return None
-
-
-@magicWord(category=CATEGORY_MODERATION)
-def warp():
-    """
-    warp the target to the invoker's current position, and rotation.
-    """
-    invoker = spellbook.getInvoker()
-    target = spellbook.getTarget()
-    if invoker.doId == target.doId:
-        return "You can't warp yourself!"
-    target.setPosHpr(invoker.getPos(), invoker.getHpr())
-
-
-@magicWord(category=CATEGORY_MODERATION, types=[str])
-def loop(anim):
-    """
-    animate the target using animation [anim] on the entire actor.
-    """
-    target = spellbook.getTarget()
-    target.loop(anim)
-
-
-@magicWord(category=CATEGORY_MODERATION, types=[str, int, str])
-def pose(anim, frame, part=None):
-    """
-    freeze the target on frame [frame] of animation [anim] on the entire actor,
-    or optional [part] of the actor.
-    """
-    target = spellbook.getTarget()
-    target.pose(anim, frame, partName=part)
-
-
-@magicWord(category=CATEGORY_MODERATION, types=[str, int, int, str])
-def pingpong(anim, start=None, end=None, part=None):
-    """
-    animate the target by bouncing back and forth between the start and end, or
-    the optional frames <start>, and [end] of animation [anim] on the entire
-    actor, or optional <part> of the actor.
-    """
-    target = spellbook.getTarget()
-    target.pingpong(anim, partName=part, fromFrame=start, toFrame=end)
-
-@magicWord(category=CATEGORY_MODERATION, types=[str])
-def rightHand(prop=None):
-    """
-    parents the optional <prop> to the target's right hand node.
-    """
-    target = spellbook.getTarget()
-    rightHand = target.find('**/rightHand')
-    if prop is None:
-        for child in rightHand.getChildren():
-            child.removeNode()
-    else:
-        for child in rightHand.getChildren():
-            child.removeNode()
-        requestedProp = globalPropPool.getProp(prop)
-        requestedProp.reparentTo(rightHand)
-
-@magicWord(category=CATEGORY_MODERATION, types=[str])
-def leftHand(prop=None):
-    """
-    parents the optional <prop> to the target's left hand node.
-    """
-    target = spellbook.getTarget()
-    leftHand = target.find('**/leftHand')
-    if prop is None:
-        for child in leftHand.getChildren():
-            child.removeNode()
-    else:
-        for child in leftHand.getChildren():
-            child.removeNode()
-        requestedProp = globalPropPool.getProp(prop)
-        requestedProp.reparentTo(leftHand)

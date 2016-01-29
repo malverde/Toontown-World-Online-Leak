@@ -1,3 +1,4 @@
+# Embedded file name: toontown.catalog.CatalogSurfaceItem
 import CatalogItem
 import CatalogAtticItem
 from toontown.toonbase import ToontownGlobals
@@ -8,6 +9,7 @@ STMoulding = 1
 STFlooring = 2
 STWainscoting = 3
 NUM_ST_TYPES = 4
+
 
 class CatalogSurfaceItem(CatalogAtticItem.CatalogAtticItem):
 
@@ -32,4 +34,3 @@ class CatalogSurfaceItem(CatalogAtticItem.CatalogAtticItem):
 
     def getDeliveryTime(self):
         return 1
- 

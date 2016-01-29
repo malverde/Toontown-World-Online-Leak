@@ -1,9 +1,10 @@
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 import time
+
 
 class DistributedTimer(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedTimer')
@@ -28,5 +29,6 @@ class DistributedTimer(DistributedObject.DistributedObject):
         return self.startTime
 
     def getTime(self):
-        elapsedTime = globalClockDelta.localElapsedTime(self.startTime, bits=32)
+        elapsedTime = globalClockDelta.localElapsedTime(
+            self.startTime, bits=32)
         return elapsedTime

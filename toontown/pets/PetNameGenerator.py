@@ -1,10 +1,12 @@
+# Embedded file name: toontown.pets.PetNameGenerator
 import random
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 import os
 from direct.showbase import AppRunnerGlobal
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from panda3d.core import *
+
 
 class PetNameGenerator:
     notify = DirectNotifyGlobal.directNotify.newCategory('PetNameGenerator')
@@ -21,26 +23,22 @@ class PetNameGenerator:
         self.neutralFirsts = []
         self.nameDictionary = {}
         searchPath = DSearchPath()
-        if AppRunnerGlobal.appRunner:
-            searchPath.appendDirectory(Filename.expandFrom('$TT_3_ROOT/phase_3/etc'))
-        else:
-            searchPath.appendDirectory(Filename('phase_3/etc'))
-            if os.path.expandvars('$TOONTOWN') != '':
-                searchPath.appendDirectory(Filename.fromOsSpecific(os.path.expandvars('$TOONTOWN/src/configfiles')))
-            else:
-                searchPath.appendDirectory(Filename.fromOsSpecific(os.path.expandvars('toontown/src/configfiles')))
-            searchPath.appendDirectory(Filename('.'))
-        filename = Filename(TTLocalizer.PetNameMaster)
+        searchPath.appendDirectory(Filename('/phase_3/etc'))
+        searchPath.appendDirectory(Filename('resources/phase_3/etc'))
+        filename = Filename('PetNameMasterEnglish.txt')
         found = vfs.resolveFilename(filename, searchPath)
         if not found:
-            self.notify.error('PetNameGenerator: Error opening name list text file.')
+            self.notify.error(
+                'PetNameGenerator: Error opening name list text file.')
         input = StreamReader(vfs.openReadFile(filename, 1), 1)
         currentLine = input.readline()
         while currentLine:
             if currentLine.lstrip()[0:1] != '#':
                 a1 = currentLine.find('*')
                 a2 = currentLine.find('*', a1 + 1)
-                self.nameDictionary[int(currentLine[0:a1])] = (int(currentLine[a1 + 1:a2]), currentLine[a2 + 1:len(currentLine) - 1].strip())
+                self.nameDictionary[int(currentLine[0: a1])] = (
+                    int(currentLine[a1 + 1: a2]),
+                    currentLine[a2 + 1: len(currentLine) - 1].strip())
             currentLine = input.readline()
 
         masterList = [self.boyFirsts, self.girlFirsts, self.neutralFirsts]
@@ -67,7 +65,7 @@ class PetNameGenerator:
 
         return -1
 
-    def randomName(self, gender = None, seed = None):
+    def randomName(self, gender=None, seed=None):
         S = random.getstate()
         if seed is not None:
             random.seed(seed)

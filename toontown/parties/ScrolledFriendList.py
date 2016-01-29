@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.ScrolledFriendList
 from direct.gui.DirectGui import DirectFrame, DirectButton, DirectLabel
 from direct.gui.DirectGui import DirectScrolledList, DirectCheckButton
 from direct.gui.DirectCheckBox import DirectCheckBox
@@ -17,7 +18,6 @@ class ScrolledFriendList(DirectScrolledList):
         self.incButtonCallback = None
         self.decButtonCallback = None
         self.setForceHeight()
-        return
 
     def scrollButtonPressed(self):
         pass
@@ -32,4 +32,3 @@ class ScrolledFriendList(DirectScrolledList):
             widget = DirectLabel(relief=None, text=name, text_align=TextNode.ALeft, text_pos=(-0.6, 0.0, 0.0), scale=0.055)
         widget.setPythonTag('id', id)
         self.addItem(widget)
-        return

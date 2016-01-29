@@ -1,5 +1,5 @@
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.otpbase import OTPGlobals
 from otp.ai.MagicWordGlobal import *
 
@@ -21,6 +21,7 @@ class ChatAgent(DistributedObjectGlobal):
 
     def sendChatMessage(self, message):
         self.sendUpdate('chatMessage', [message, self.chatMode])
+
     def sendMuteAccount(self, account, howLong):
         self.sendUpdate('muteAccount', [account, howLong])
 

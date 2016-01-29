@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+#Embedded file name: toontown.cogdominium.DistCogdoCraneObject
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedSmoothNode
@@ -31,7 +32,6 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         self.touchedBossSfx = loader.loadSfx('phase_5/audio/sfx/AA_drop_sandbag.ogg')
         self.touchedBossSoundInterval = SoundInterval(self.touchedBossSfx, duration=0.8)
         self.lerpInterval = None
-        return
 
     def disable(self):
         self.cleanup()
@@ -41,8 +41,7 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
     def cleanup(self):
         if self.cleanedUp:
             return
-        else:
-            self.cleanedUp = 1
+        self.cleanedUp = 1
         self.demand('Off')
         self.detachNode()
         self.toMagnetSoundInterval.finish()
@@ -54,7 +53,6 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         del self.hitBossSoundInterval
         del self.touchedBossSoundInterval
         self.craneGame = None
-        return
 
     def setupPhysics(self, name):
         an = ActorNode('%s-%s' % (name, self.doId))
@@ -209,7 +207,6 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         if self.lerpInterval:
             self.lerpInterval.finish()
             self.lerpInterval = None
-        return
 
     def exitOff(self):
         self.reparentTo(render)
@@ -233,9 +230,8 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         if self.oldState == 'LocalGrabbed':
             if craneId == self.craneId:
                 return
-            else:
-                self.crane.dropObject(self)
-                self.prepareRelease()
+            self.crane.dropObject(self)
+            self.prepareRelease()
         self.avId = avId
         self.craneId = craneId
         self.crane = self.cr.doId2do.get(craneId)
@@ -304,7 +300,6 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         else:
             self.startSmooth()
         self.hitFloorSoundInterval.start()
-        return
 
     def exitSlidingFloor(self):
         if self.avId == base.localAvatar.doId:

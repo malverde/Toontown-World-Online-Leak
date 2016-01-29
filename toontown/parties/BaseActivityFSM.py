@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.BaseActivityFSM
 from direct.fsm.FSM import FSM
 from direct.directnotify import DirectNotifyGlobal
 
@@ -8,4 +9,3 @@ class BaseActivityFSM(FSM):
         FSM.__init__(self, self.__class__.__name__)
         self.activity = activity
         self.defaultTransitions = None
-        return

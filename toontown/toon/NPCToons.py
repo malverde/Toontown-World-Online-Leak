@@ -1,5 +1,5 @@
-from pandac.PandaModules import *
-from toontown.nametag import NametagGlobals
+from panda3d.core import *
+from otp.nametag.NametagGroup import *
 from toontown.toonbase import ToontownGlobals
 import random
 from toontown.hood import ZoneUtil
@@ -8,6 +8,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 import sys, os
 import string
+import json
 QUEST_MOVIE_CLEAR = 0
 QUEST_MOVIE_REJECT = 1
 QUEST_MOVIE_COMPLETE = 2
@@ -100,7 +101,6 @@ def createNPC(air, npcId, desc, zoneId, posIndex = 0, questCallback = None):
     elif type == NPC_FISHERMAN:
         npc = DistributedNPCFishermanAI.DistributedNPCFishermanAI(air, npcId)
     elif type == NPC_PETCLERK:
-        return False
         npc = DistributedNPCPetclerkAI.DistributedNPCPetclerkAI(air, npcId)
     elif type == NPC_KARTCLERK:
         npc = DistributedNPCKartClerkAI.DistributedNPCKartClerkAI(air, npcId)
@@ -185,7 +185,7 @@ def createLocalNPC(npcId):
     npc = Toon.Toon()
     npc.setName(name)
     npc.setPickable(0)
-    npc.setPlayerType(NametagGlobals.CCNonPlayer)
+    npc.setPlayerType(NametagGroup.CCNonPlayer)
     dna = ToonDNA.ToonDNA()
     if dnaType == 'r':
         dnaList = getRandomDNA(npcId, gender)
@@ -11604,7 +11604,7 @@ NPC_REGULAR),
 try:
     config = simbase.config
 except:
-    config = base.config
+    config = config
 
 if config.GetBool('want-new-toonhall', 1):
     NPCToonDict[2001] = (2513,
@@ -11646,6 +11646,53 @@ else:
      'm',
      1,
      NPC_REGULAR)
+
+# Flippy HQ helper
+HQnpcFriends = NPCToonDict[2001] = (2513,
+                     lnames[2001],
+                     ('dss',
+                      'ms',
+                      'm',
+                      'm',
+                      17,
+                      0,
+                      17,
+                      17,
+                      3,
+                      3,
+                      3,
+                      3,
+                      7,
+                      2),
+                     'm',
+                     1,
+                     NPC_REGULAR)
+# FO Buddy
+FOnpcFriends = NPCToonDict[91915] = [-1,
+                                      lnames[91915],
+                                      ('sss',
+                                       'l',
+                                       'm',
+                                       'm',
+                                       26,
+                                       26,
+                                       26,
+                                       26,
+                                       0,
+                                       0,
+                                       0,
+                                       0,
+                                       0,
+                                       0),
+                                      'm',
+                                      0,
+                                      NPC_REGULAR]
+# End
+
+
+
+
+
 del lnames
 BlockerPositions = {TTLocalizer.Flippy: (Point3(207.4, 18.81, -0.475), 90.0)}
 zone2NpcDict = {}
@@ -11732,6 +11779,36 @@ FOnpcFriends = {
 9302: (ToontownBattleGlobals.HEAL_TRACK, 3, 20, 1),
 9303: (ToontownBattleGlobals.HEAL_TRACK, 3, 30, 2),
 91915: (ToontownBattleGlobals.DROP_TRACK,0, 999, 5) }
+
+
+#For builds
+#with open('resources/phase_3/etc/sos.py') or ('/phase_3/etc/sos.py') as data:
+#	sos = json.load(data)
+#for i in xrange(len(sos['name'])):
+#    TTLocalizer.NPCToonNames[sos['id'][i]] = sos['name'][i]
+#    NPCToonDict[sos['id'][i]] = (sos['zone'][i],
+#     sos['name'][i],
+#     (sos['head'][i],
+#      sos['torso'][i],
+#      sos['legs'][i],
+#      sos['gender'][i],
+#      sos['arm-color'][i],
+#      sos['glove-color'][i],
+#      sos['leg-color'][i],
+#      sos['head-color'][i],
+#      sos['shirt-id'][i],
+#      sos['shirt-color'][i],
+#      sos['sleeve-id'][i],
+#      sos['sleeve-color'][i],
+#      sos['bottoms-id'][i],
+#      sos['bottoms-color'][i]),
+#     sos['gender'][i],
+#     sos['has-building'][i],
+#     sos['type'][i])
+#    HQnpcFriends[sos['id'][i]] = (sos['gag-track'][i],
+#     sos['gag-level'][i],
+#     sos['gag-damage'][i],
+#     sos['rating'][i])
 
 npcFriends = dict(HQnpcFriends)
 npcFriends.update(FOnpcFriends)

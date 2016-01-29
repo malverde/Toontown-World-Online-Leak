@@ -4,8 +4,10 @@ from ElevatorConstants import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import TTLocalizer
 
+
 class DistributedVPElevator(DistributedBossElevator.DistributedBossElevator):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedVPElevator')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedVPElevator')
 
     def __init__(self, cr):
         DistributedBossElevator.DistributedBossElevator.__init__(self, cr)
@@ -13,7 +15,8 @@ class DistributedVPElevator(DistributedBossElevator.DistributedBossElevator):
         self.countdownTime = ElevatorData[self.type]['countdown']
 
     def setupElevator(self):
-        self.elevatorModel = loader.loadModel('phase_9/models/cogHQ/cogHQ_elevator')
+        self.elevatorModel = loader.loadModel(
+            'phase_9/models/cogHQ/cogHQ_elevator')
         icon = self.elevatorModel.find('**/big_frame/')
         icon.hide()
         self.leftDoor = self.elevatorModel.find('**/left-door')

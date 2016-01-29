@@ -1,19 +1,15 @@
-from direct.directnotify import DirectNotifyGlobal
+from panda3d.core import *
+from toontown.toonbase.ToontownGlobals import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
-from pandac.PandaModules import *
 import random
-
-import FactoryEntityCreator
-import MintRoomBase, MintRoom
-import MintRoomSpecs
 from otp.level import DistributedLevel
+from direct.directnotify import DirectNotifyGlobal
+import MintRoomBase, MintRoom
+import FactoryEntityCreator
+import MintRoomSpecs
 from otp.level import LevelSpec, LevelConstants
-from toontown.nametag.NametagGlobals import *
 from toontown.toonbase import TTLocalizer
-from toontown.toonbase.ToontownGlobals import *
-
-
 if __dev__:
     from otp.level import EditorGlobals
 

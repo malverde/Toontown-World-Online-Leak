@@ -2,6 +2,7 @@ from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
 
 class DistributedLibraryInteriorAI(DistributedObjectAI):
+
     def __init__(self, block, air, zoneId):
         DistributedObjectAI.__init__(self, air)
 
@@ -9,4 +10,4 @@ class DistributedLibraryInteriorAI(DistributedObjectAI):
         self.zoneId = zoneId
 
     def getZoneIdAndBlock(self):
-        return (self.zoneId, self.block)
+        return self.zoneId, self.block

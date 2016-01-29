@@ -1,8 +1,9 @@
+#Embedded file name: toontown.estate.houseDesign
 from direct.directtools.DirectSelection import *
 from direct.directtools.DirectUtil import ROUND_TO
 from direct.directtools.DirectGeometry import LineNodePath
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.showbase.DirectObject import DirectObject
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
@@ -55,10 +56,7 @@ class FurnitureItemPanel(DirectButton):
             framePanelColor = DeletePickerPanelColor
         else:
             framePanelColor = NormalPickerPanelColor
-        DirectButton.__init__(self, relief=DGG.RAISED, frameSize=(-0.25,
-         0.25,
-         -0.2,
-         0.2), frameColor=framePanelColor, borderWidth=(0.02, 0.02), command=self.clicked)
+        DirectButton.__init__(self, relief=DGG.RAISED, frameSize=(-0.25, 0.25, -0.2, 0.2), frameColor=framePanelColor, borderWidth=(0.02, 0.02), command=self.clicked)
         if self.deleteMode:
             helpCategory = 'FurnitureItemPanelDelete'
         self.bindHelpText(helpCategory)
@@ -94,7 +92,6 @@ class FurnitureItemPanel(DirectButton):
             self.ival.loop()
             self.ival.pause()
         self.nameLabel = DirectLabel(parent=self, relief=None, pos=(0, 0, 0.17), scale=0.45, text=text, text_scale=0.15, text_fg=(0, 0, 0, 1), text_pos=text_pos, text_font=ToontownGlobals.getInterfaceFont(), text_wordwrap=panelWidth)
-        return
 
     def clicked(self):
         self.command(self.item, self.itemId)
@@ -110,7 +107,6 @@ class FurnitureItemPanel(DirectButton):
         del self.ival
         del self.picture
         self.command = None
-        return
 
     def destroy(self):
         self.unload()
@@ -123,7 +119,6 @@ class FurnitureItemPanel(DirectButton):
             category = self.origHelpCategory
         self.bind(DGG.ENTER, base.cr.objectManager.showHelpText, extraArgs=[category, self.item.getName()])
         self.bind(DGG.EXIT, base.cr.objectManager.hideHelpText)
-        return
 
     def setDeleteMode(self, deleteMode):
         self.deleteMode = deleteMode
@@ -353,7 +348,6 @@ class ObjectManager(NodePath, DirectObject):
         self.guiInterval = None
         self.accept('enterFurnitureMode', self.enterFurnitureMode)
         self.accept('exitFurnitureMode', self.exitFurnitureMode)
-        return
 
     def enterFurnitureMode(self, furnitureManager, fDirector):
         if not fDirector:
@@ -373,6 +367,7 @@ class ObjectManager(NodePath, DirectObject):
         self.createAtticPicker()
         self.initializeDistributedFurnitureItems(furnitureManager.dfitems)
         self.setCamPosIndex(DEFAULT_CAM_INDEX)
+        base.localAvatar.setGhostMode(1)
         taskMgr.remove('editModeTransition')
         self.orientCamH(base.localAvatar.getH(self.targetNodePath))
         self.accept('mouse1', self.moveObjectStart)
@@ -382,14 +377,13 @@ class ObjectManager(NodePath, DirectObject):
         self.__updateDeleteButtons()
         self.showAtticPicker()
         base.localAvatar.laffMeter.stop()
-        base.setCellsActive(base.leftCells + [base.bottomCells[0]], 0)
+        base.setCellsAvailable(base.leftCells + [base.bottomCells[0]], 0)
         if self.guiInterval:
             self.guiInterval.finish()
         self.guiInterval = self.furnitureGui.posHprScaleInterval(1.0, Point3(0.155, -0.6, -1.045), Vec3(0), Vec3(0.06), startPos=Point3(0.115, 0.0, -0.66), startHpr=Vec3(0), startScale=Vec3(0.04), blendType='easeInOut', name='lerpFurnitureButton')
         self.guiInterval.start()
         taskMgr.add(self.recenterButtonFrameTask, 'recenterButtonFrameTask', 10)
         messenger.send('wakeup')
-        return
 
     def exitFurnitureMode(self, furnitureManager):
         if furnitureManager != self.furnitureManager:
@@ -418,13 +412,12 @@ class ObjectManager(NodePath, DirectObject):
             self.inTrashPicker = None
         self.__cleanupVerifyDelete()
         self.furnitureGui.hide()
-        base.setCellsActive(base.leftCells + [base.bottomCells[0]], 1)
+        base.setCellsAvailable(base.leftCells + [base.bottomCells[0]], 1)
         base.localAvatar.laffMeter.start()
         taskMgr.remove('recenterButtonFrameTask')
         self.cleanupDialog()
         taskMgr.remove('showHelpTextDoLater')
         messenger.send('wakeup')
-        return
 
     def initializeDistributedFurnitureItems(self, dfitems):
         self.objectDict = {}
@@ -489,7 +482,6 @@ class ObjectManager(NodePath, DirectObject):
         messenger.send('wakeup')
         if self.selectedObject:
             self.deselectObject()
-
         if selectedObject:
             self.selectedObject = selectedObject
             self.deselectEvent = self.selectedObject.dfitem.uniqueName('disable')
@@ -505,19 +497,13 @@ class ObjectManager(NodePath, DirectObject):
             self.buttonFrame.show()
             self.enableButtonFrameTask()
             self.atticRoof.hide()
-
-            # In case we dont want to move the Closet, Phone, Bank or Trunk to the attic
             if config.GetBool('want-permanent-interactables', False):
-                if selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLCloset or \
-                    selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLPhone or \
-                    selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLBank or \
-                    selectedObject.dfitem.item.getFlags() &CatalogFurnitureItem.FLTrunk:
+                if selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLCloset or selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLPhone or selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLBank or selectedObject.dfitem.item.getFlags() & CatalogFurnitureItem.FLTrunk:
                     self.sendToAtticButton.hide()
                     self.atticRoof.show()
                 else:
                     self.sendToAtticButton.show()
                 return
-
             self.sendToAtticButton.show()
 
     def deselectObject(self):
@@ -531,7 +517,6 @@ class ObjectManager(NodePath, DirectObject):
         self.disableButtonFrameTask()
         self.sendToAtticButton.hide()
         self.atticRoof.show()
-        return
 
     def isMovableObject(self, nodePath):
         return nodePath.hasNetTag('movableObject')
@@ -542,7 +527,6 @@ class ObjectManager(NodePath, DirectObject):
             return None
         else:
             return self.objectDict.get(np.get_key(), None)
-        return None
 
     def moveObjectStop(self, *args):
         if self.movingObject:
@@ -739,16 +723,15 @@ class ObjectManager(NodePath, DirectObject):
         hitPointVec = Vec3(hp - self.selectedObject.dragPoint)
         if hitPointVec.dot(hpn) > 0:
             return None
-        nLen = normal.length()
-        offsetVecA = hitPoint - entry.getFrom().getPointA()
-        offsetA = normal * offsetVecA.dot(normal) / (nLen * nLen)
-        if offsetA.dot(normal) > 0:
-            return offsetA * 1.01
         else:
+            nLen = normal.length()
+            offsetVecA = hitPoint - entry.getFrom().getPointA()
+            offsetA = normal * offsetVecA.dot(normal) / (nLen * nLen)
+            if offsetA.dot(normal) > 0:
+                return offsetA * 1.01
             offsetVecB = hitPoint - entry.getFrom().getPointB()
             offsetB = normal * offsetVecB.dot(normal) / (nLen * nLen)
             return offsetB * 1.01
-        return None
 
     def alignObject(self, entry, target, fClosest = 0, wallOffset = None):
         if not entry.hasSurfaceNormal():
@@ -862,7 +845,6 @@ class ObjectManager(NodePath, DirectObject):
             self.deleteItemText = None
             self.okButton = None
             self.cancelButton = None
-        return
 
     def createSelectedObjectPanel(self, guiModels):
         self.buttonFrame = DirectFrame(scale=0.5)
@@ -881,7 +863,7 @@ class ObjectManager(NodePath, DirectObject):
          guiCCWArrowUp), image_pos=(0, 0, 0.1), image_scale=0.15, image3_color=Vec4(0.5, 0.5, 0.5, 0.75), text=('',
          TTLocalizer.HDRotateCCWLabel,
          TTLocalizer.HDRotateCCWLabel,
-         ''), text_pos=(0.135, -0.1), text_scale=0.1, text_align=TextNode.ARight, text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1), pos=(-.125, 0, -.2), scale=0.7, command=self.rotateLeft)
+         ''), text_pos=(0.135, -0.1), text_scale=0.1, text_align=TextNode.ARight, text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1), pos=(-0.125, 0, -0.2), scale=0.7, command=self.rotateLeft)
         self.rotateLeftButton.bind(DGG.EXIT, self.enableButtonFrameTask)
         guiCWArrowUp = guiModels.find('**/RarrowUp')
         guiCWArrowDown = guiModels.find('**/RarrowDown')
@@ -895,7 +877,6 @@ class ObjectManager(NodePath, DirectObject):
          ''), text_pos=(-0.135, -0.1), text_scale=0.1, text_align=TextNode.ALeft, text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1), pos=(0.125, 0, -0.2), scale=0.7, command=self.rotateRight)
         self.rotateRightButton.bind(DGG.EXIT, self.enableButtonFrameTask)
         self.buttonFrame.hide()
-        return
 
     def recenterButtonFrameTask(self, state):
         if self.selectedObject and self.fRecenter:
@@ -920,9 +901,9 @@ class ObjectManager(NodePath, DirectObject):
         tNodePath.setPos(self.selectedObject.center)
         nearVec = self.getNearProjectionPoint(tNodePath)
         nearVec *= base.camLens.getFocalLength() / base.camLens.getNear()
-        render2dX = CLAMP(nearVec[0] / (base.camLens.getFilmSize()[0] / 2.0), -.9, 0.9)
+        render2dX = CLAMP(nearVec[0] / (base.camLens.getFilmSize()[0] / 2.0), -0.9, 0.9)
         aspect2dX = render2dX * base.getAspectRatio()
-        aspect2dZ = CLAMP(nearVec[2] / (base.camLens.getFilmSize()[1] / 2.0), -.8, 0.9)
+        aspect2dZ = CLAMP(nearVec[2] / (base.camLens.getFilmSize()[1] / 2.0), -0.8, 0.9)
         tNodePath.removeNode()
         return Vec3(aspect2dX, 0, aspect2dZ)
 
@@ -1004,12 +985,8 @@ class ObjectManager(NodePath, DirectObject):
         self.deleteExitButton.hide()
         self.trashcanBase = DirectLabel(parent=self.furnitureGui, image=guiModels.find('**/trashcan_base'), relief=None, pos=(0, 0, -11.64))
         self.furnitureGui.hide()
-        self.helpText = DirectLabel(parent=self.furnitureGui, relief=DGG.SUNKEN, frameSize=(-0.5,
-         10,
-         -3,
-         0.9), frameColor=(0.2, 0.2, 0.2, 0.5), borderWidth=(0.01, 0.01), text='', text_wordwrap=12, text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1), text_scale=0.8, pos=(3, 0.0, -7), scale=1, text_align=TextNode.ALeft)
+        self.helpText = DirectLabel(parent=self.furnitureGui, relief=DGG.SUNKEN, frameSize=(-0.5, 10, -3, 0.9), frameColor=(0.2, 0.2, 0.2, 0.5), borderWidth=(0.01, 0.01), text='', text_wordwrap=12, text_fg=(1, 1, 1, 1), text_shadow=(0, 0, 0, 1), text_scale=0.8, pos=(3, 0.0, -7), scale=1, text_align=TextNode.ALeft)
         self.helpText.hide()
-        return
 
     def createAtticPicker(self):
         self.atticItemPanels = []
@@ -1054,7 +1031,6 @@ class ObjectManager(NodePath, DirectObject):
             self.atticPicker.hide()
         else:
             self.atticPicker.show()
-        return
 
     def createInRoomPicker(self):
         self.inRoomPanels = []
@@ -1078,7 +1054,6 @@ class ObjectManager(NodePath, DirectObject):
         else:
             text = TTLocalizer.HDInRoomPickerLabel
         self.inRoomPicker = self.createScrolledList(self.inRoomPanels, text, 'inRoomPicker', selectedIndex)
-        return
 
     def createInTrashPicker(self):
         self.inTrashPanels = []
@@ -1099,7 +1074,6 @@ class ObjectManager(NodePath, DirectObject):
             self.inTrashPicker = None
         text = TTLocalizer.HDInTrashPickerLabel
         self.inTrashPicker = self.createScrolledList(self.inTrashPanels, text, 'inTrashPicker', selectedIndex)
-        return
 
     def createScrolledList(self, itemList, text, name, selectedIndex):
         gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
@@ -1131,7 +1105,6 @@ class ObjectManager(NodePath, DirectObject):
         self.inTrashButton['image_color'] = Vec4(0.8, 0.8, 0.8, 1)
         self.deleteExitButton['state'] = 'normal'
         self.deleteEnterButton['state'] = 'normal'
-        return
 
     def showInRoomPicker(self):
         messenger.send('wakeup')
@@ -1146,7 +1119,6 @@ class ObjectManager(NodePath, DirectObject):
         self.inTrashButton['image_color'] = Vec4(0.8, 0.8, 0.8, 1)
         self.deleteExitButton['state'] = 'normal'
         self.deleteEnterButton['state'] = 'normal'
-        return
 
     def showInTrashPicker(self):
         messenger.send('wakeup')
@@ -1161,7 +1133,6 @@ class ObjectManager(NodePath, DirectObject):
         self.inTrashButton['image_color'] = Vec4(1, 1, 1, 1)
         self.deleteExitButton['state'] = 'disabled'
         self.deleteEnterButton['state'] = 'disabled'
-        return
 
     def sendItemToAttic(self):
         if config.GetBool('want-qa-regression', 0):
@@ -1192,14 +1163,11 @@ class ObjectManager(NodePath, DirectObject):
                     self.regenerateInRoomPicker()
                     return
 
-        return
-
     def cleanupDialog(self, buttonValue = None):
         if self.dialog:
             self.dialog.cleanup()
             self.dialog = None
             self.__enableItemButtons(1)
-        return
 
     def enterDeleteMode(self):
         self.deleteMode = 1
@@ -1236,7 +1204,6 @@ class ObjectManager(NodePath, DirectObject):
                 panel.bindHelpText(helpCategory)
 
         self.__updateDeleteButtons()
-        return
 
     def __updateDeleteButtons(self):
         if self.deleteMode:
@@ -1263,7 +1230,6 @@ class ObjectManager(NodePath, DirectObject):
         if self.inRoomPicker and itemIndex is not None:
             del self.inRoomPanels[itemIndex]
             self.regenerateInRoomPicker()
-        return
 
     def bringItemFromAttic(self, item, itemIndex):
         if config.GetBool('want-qa-regression', 0):
@@ -1481,7 +1447,6 @@ class ObjectManager(NodePath, DirectObject):
             self.deleteItemText.setPos(0, 0, 0.07)
         if self.itemIval:
             self.itemIval.loop()
-        return
 
     def __handleVerifyDeleteOK(self):
         if config.GetBool('want-qa-regression', 0):
@@ -1504,7 +1469,6 @@ class ObjectManager(NodePath, DirectObject):
             self.itemPanel.destroy()
             self.itemPanel = None
         self.verifyItems = None
-        return
 
     def __enableItemButtons(self, enabled):
         self.notify.debug('__enableItemButtons %d' % enabled)
@@ -1580,7 +1544,6 @@ class ObjectManager(NodePath, DirectObject):
             return
         self.createVerifyDialog(item, TTLocalizer.HDReturnVerify, self.__handleVerifyReturnOK, self.__resetAndCleanup)
         self.verifyItems = (item, objectId)
-        return
 
     def __handleVerifyReturnOK(self):
         item, objectId = self.verifyItems
@@ -1646,7 +1609,6 @@ class ObjectManager(NodePath, DirectObject):
     def bindHelpText(self, button, category):
         button.bind(DGG.ENTER, self.showHelpText, extraArgs=[category, None])
         button.bind(DGG.EXIT, self.hideHelpText)
-        return
 
     def showHelpText(self, category, itemName, xy):
 

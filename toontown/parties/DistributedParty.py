@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.DistributedParty
 import random
 import time
 import datetime
@@ -322,8 +323,8 @@ class DistributedParty(DistributedObject.DistributedObject):
           False]]
 
         def fillGrid(x, y, size):
-            for i in xrange(-size[1] / 2 + 1, size[1] / 2 + 1):
-                for j in xrange(-size[0] / 2 + 1, size[0] / 2 + 1):
+            for i in range(-size[1] / 2 + 1, size[1] / 2 + 1):
+                for j in range(-size[0] / 2 + 1, size[0] / 2 + 1):
                     self.grid[i + y][j + x] = False
 
         for activityBase in self.partyInfo.activityList:
@@ -371,7 +372,7 @@ class DistributedParty(DistributedObject.DistributedObject):
         grass = loader.loadModel('phase_13/models/parties/grass')
         clearPositions = self.getClearSquarePositions()
         numTufts = min(len(clearPositions) * 3, PartyGlobals.TuftsOfGrass)
-        for i in xrange(numTufts):
+        for i in range(numTufts):
             g = grass.copyTo(self.grassRoot)
             pos = random.choice(clearPositions)
             g.setPos(pos[0] + random.randint(-8, 8), pos[1] + random.randint(-8, 8), 0.0)
@@ -401,7 +402,6 @@ class DistributedParty(DistributedObject.DistributedObject):
             del base.partyHasJukebox
 
     def announceGenerate(self):
-        #TODO - for some reason this is getting called hundreds of times when there are multiple districts
         DistributedObject.DistributedObject.announceGenerate(self)
         self.sendUpdate('enteredParty', [])
         globalClock.syncFrameTime()
@@ -412,8 +412,8 @@ class DistributedParty(DistributedObject.DistributedObject):
         if config.GetBool('show-debug-party-grid', 0):
             self.testGrid = NodePath('test_grid')
             self.testGrid.reparentTo(base.cr.playGame.hood.loader.geom)
-            for i in xrange(len(self.grid)):
-                for j in xrange(len(self.grid[i])):
+            for i in range(len(self.grid)):
+                for j in range(len(self.grid[i])):
                     cm = CardMaker('gridsquare')
                     np = NodePath(cm.generate())
                     np.setScale(12)
@@ -433,8 +433,8 @@ class DistributedParty(DistributedObject.DistributedObject):
 
     def getClearSquarePositions(self):
         clearPositions = []
-        for y in xrange(len(self.grid)):
-            for x in xrange(len(self.grid[0])):
+        for y in range(len(self.grid)):
+            for x in range(len(self.grid[0])):
                 if self.grid[y][x]:
                     pos = (PartyUtils.convertDistanceFromPartyGrid(x, 0), PartyUtils.convertDistanceFromPartyGrid(y, 1), 0.1)
                     clearPositions.append(pos)
@@ -546,11 +546,18 @@ class DistributedParty(DistributedObject.DistributedObject):
 
     def getTimer(self, parent):
         timeFont = ToontownGlobals.getMinnieFont()
-        timer = {}
-        timer['minute'] = DirectLabel(parent=parent, pos=TTLocalizer.DPtimerMinutePos, relief=None, text='59', text_align=TextNode.ACenter, text_font=timeFont, text_fg=(0.7, 0.3, 0.3, 1.0), scale=TTLocalizer.DPtimerMinute)
-        timer['colon'] = DirectLabel(parent=parent, pos=TTLocalizer.DPtimerColonPos, relief=None, text=':', text_align=TextNode.ACenter, text_font=timeFont, text_fg=(0.7, 0.3, 0.3, 1.0), scale=TTLocalizer.DPtimerColon)
-        timer['second'] = DirectLabel(parent=parent, relief=None, pos=TTLocalizer.DPtimerSecondPos, text='14', text_align=TextNode.ACenter, text_font=timeFont, text_fg=(0.7, 0.3, 0.3, 1.0), scale=TTLocalizer.DPtimerSecond)
-        timer['textLabel'] = DirectLabel(parent=parent, relief=None, pos=(0.0, 0.0, 1.15), text=TTLocalizer.PartyCountdownClockText, text_font=timeFont, text_fg=(0.7, 0.3, 0.3, 1.0), scale=TTLocalizer.DPtimerTextLabel)
+        timer = {'minute': DirectLabel(parent=parent, pos=TTLocalizer.DPtimerMinutePos, relief=None, text='59',
+                                       text_align=TextNode.ACenter, text_font=timeFont, text_fg=(0.7, 0.3, 0.3, 1.0),
+                                       scale=TTLocalizer.DPtimerMinute),
+                 'colon': DirectLabel(parent=parent, pos=TTLocalizer.DPtimerColonPos, relief=None, text=':',
+                                      text_align=TextNode.ACenter, text_font=timeFont, text_fg=(0.7, 0.3, 0.3, 1.0),
+                                      scale=TTLocalizer.DPtimerColon),
+                 'second': DirectLabel(parent=parent, relief=None, pos=TTLocalizer.DPtimerSecondPos, text='14',
+                                       text_align=TextNode.ACenter, text_font=timeFont, text_fg=(0.7, 0.3, 0.3, 1.0),
+                                       scale=TTLocalizer.DPtimerSecond),
+                 'textLabel': DirectLabel(parent=parent, relief=None, pos=(0.0, 0.0, 1.15),
+                                          text=TTLocalizer.PartyCountdownClockText, text_font=timeFont,
+                                          text_fg=(0.7, 0.3, 0.3, 1.0), scale=TTLocalizer.DPtimerTextLabel)}
         return timer
 
     def setHostName(self, hostName):
@@ -568,7 +575,10 @@ class DistributedParty(DistributedObject.DistributedObject):
 
     def doSpawnTitleText(self, text):
         return
-        self.titleColor = (1.0, 0.5, 0.4, 1.0)
+        self.titleColor = (1.0,
+         0.5,
+         0.4,
+         1.0)
         self.titleText = OnscreenText.OnscreenText(text, fg=self.titleColor, font=ToontownGlobals.getSignFont(), pos=(0, -0.5), scale=0.16, drawOrder=0, mayChange=1, wordwrap=16)
         self.titleText.setText(text)
         self.titleText.show()

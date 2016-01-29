@@ -1,11 +1,12 @@
-from pandac.PandaModules import *
-from CMover import CMover
+#Embedded file name: otp.movement.Mover
+from panda3d.core import *
+from libotp import CMover
 from direct.directnotify import DirectNotifyGlobal
 from otp.movement.PyVec3 import PyVec3
 from direct.showbase import PythonUtil
 import __builtin__
 
-class Mover(CMover):
+class Mover:
     notify = DirectNotifyGlobal.directNotify.newCategory('Mover')
     SerialNum = 0
     Profile = 0

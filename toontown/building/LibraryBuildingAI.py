@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 
 from toontown.building import DistributedLibraryInteriorAI
 from toontown.building import DistributedDoorAI
@@ -7,6 +7,7 @@ from toontown.toon import NPCToons
 
 
 class LibraryBuildingAI:
+
     def __init__(self, air, exteriorZone, interiorZone, blockNumber):
         self.air = air
         self.exteriorZone = exteriorZone

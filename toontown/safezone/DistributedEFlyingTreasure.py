@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+#Embedded file name: toontown.safezone.DistributedEFlyingTreasure
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 import DistributedSZTreasure
 from direct.task.Task import Task

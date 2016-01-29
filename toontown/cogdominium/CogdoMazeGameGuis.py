@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoMazeGameGuis
 from direct.gui.DirectLabel import DirectLabel
 from direct.gui.DirectGui import DirectFrame, DGG
 from direct.task.Task import Task
@@ -17,6 +18,7 @@ class CogdoMazeMapGui(MazeMapGui):
         MazeMapGui.__init__(self, mazeCollTable, bgColor=Globals.MapGuiBgColor, fgColor=Globals.MapGuiFgColor)
         self._suit2marker = {}
         self._initModel()
+        self.reparentTo(base.a2dBottomRight)
         self.setPos(*Globals.MapGuiPos)
         self.setScale(Globals.MapGuiScale)
 
@@ -125,7 +127,6 @@ class CogdoMazeBossCodeFrame(DirectFrame):
         self._bossIcon.setBin('fixed', 2)
         self._bg.setBin('fixed', 3)
         self._label = DirectLabel(parent=self._bg, relief=None, scale=Globals.BossCodeFrameLabelScale, text=code, pos=(0, 0, -0.03), text_align=TextNode.ACenter, text_fg=Globals.BossCodeFrameLabelNormalColor, text_shadow=(0, 0, 0, 0), text_font=ToontownGlobals.getSuitFont())
-        return
 
     def destroy(self):
         ToontownIntervals.cleanup('boss_code%i' % self._id)
@@ -159,7 +160,6 @@ class CogdoMazeBossGui(DirectFrame):
         self.setPos(*Globals.BossGuiPos)
         self.setScale(Globals.BossGuiScale)
         self.hide()
-        return
 
     def destroy(self):
         ToontownIntervals.cleanup('bosscodedoor')
@@ -195,7 +195,6 @@ class CogdoMazeBossGui(DirectFrame):
             self._markers.append(marker)
 
         bossCard.removeNode()
-        return
 
     def showHit(self, bossIndex):
         self._markers[bossIndex].setHit(True)
@@ -215,7 +214,6 @@ class CogdoMazeHud:
     def __init__(self):
         self._update = None
         self._initQuestArrow()
-        return
 
     def _initQuestArrow(self):
         matchingGameGui = loader.loadModel('phase_3.5/models/gui/matching_game_gui')
@@ -233,7 +231,6 @@ class CogdoMazeHud:
         self.__stopUpdateTask()
         self._questArrow.removeNode()
         self._questArrow = None
-        return
 
     def showQuestArrow(self, parent, nodeToPoint, offset = Point3(0, 0, 0)):
         self._questArrowNodeToPoint = nodeToPoint
@@ -248,7 +245,6 @@ class CogdoMazeHud:
         self.__stopUpdateTask()
         self._questArrowVisible = False
         self._questArrowNodeToPoint = None
-        return
 
     def __startUpdateTask(self):
         self.__stopUpdateTask()
@@ -257,7 +253,6 @@ class CogdoMazeHud:
     def __stopUpdateTask(self):
         if self._update is not None:
             taskMgr.remove(self._update)
-        return
 
     def _updateTask(self, task):
         if self._questArrowVisible:

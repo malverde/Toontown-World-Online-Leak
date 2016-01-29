@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+#Embedded file name: otp.movement.PyVec3
+from panda3d.core import *
 import types
 import math
 
@@ -154,12 +155,11 @@ class PyVec3:
     def __getitem__(self, i):
         if i == 0:
             return self.x
-        elif i == 1:
+        if i == 1:
             return self.y
-        elif i == 2:
+        if i == 2:
             return self.z
-        else:
-            raise IndexError
+        raise IndexError
 
     def __setitem__(self, i, s):
         if i == 0:

@@ -1,20 +1,34 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.actor import Actor
 from otp.avatar import Avatar
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 import GoonGlobals
 import SuitDNA
 import math
-AnimDict = {'pg': (('walk', '-walk'), ('collapse', '-collapse'), ('recovery', '-recovery')),
- 'sg': (('walk', '-walk'), ('collapse', '-collapse'), ('recovery', '-recovery'))}
+AnimDict = {
+    'pg': (
+        ('walk',
+         '-walk'),
+        ('collapse',
+         '-collapse'),
+        ('recovery',
+         '-recovery')),
+    'sg': (
+        ('walk',
+         '-walk'),
+        ('collapse',
+         '-collapse'),
+        ('recovery',
+         '-recovery'))}
 ModelDict = {'pg': 'phase_9/models/char/Cog_Goonie',
- 'sg': 'phase_9/models/char/Cog_Goonie'}
+             'sg': 'phase_9/models/char/Cog_Goonie'}
+
 
 class Goon(Avatar.Avatar):
 
-    def __init__(self, dnaName = None):
+    def __init__(self, dnaName=None):
         try:
             self.Goon_initialized
         except:
@@ -42,7 +56,8 @@ class Goon(Avatar.Avatar):
     def initializeBodyCollisions(self, collIdStr):
         Avatar.Avatar.initializeBodyCollisions(self, collIdStr)
         if not self.ghostMode:
-            self.collNode.setCollideMask(self.collNode.getIntoCollideMask() | ToontownGlobals.PieBitmask)
+            self.collNode.setCollideMask(
+                self.collNode.getIntoCollideMask() | ToontownGlobals.PieBitmask)
 
     def delete(self):
         try:

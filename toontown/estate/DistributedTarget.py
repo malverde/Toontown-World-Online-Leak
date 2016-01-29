@@ -1,6 +1,7 @@
+#Embedded file name: toontown.estate.DistributedTarget
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase import ToontownTimer
@@ -24,7 +25,6 @@ class DistributedTarget(DistributedObject.DistributedObject):
         self.pinballHiScorer = ''
         self.onscreenMessage = None
         self.fadeTrack = None
-        return
 
     def disable(self):
         self.ignoreAll()
@@ -36,7 +36,6 @@ class DistributedTarget(DistributedObject.DistributedObject):
             self.fadeTrack.pause()
             self.fadeTrack = None
         self.__clearOnscreenMessage()
-        return
 
     def generateInit(self):
         DistributedObject.DistributedObject.generateInit(self)
@@ -44,7 +43,8 @@ class DistributedTarget(DistributedObject.DistributedObject):
 
     def load(self):
         self.timer = ToontownTimer.ToontownTimer()
-        self.timer.setPos(1.1, 0, -0.15)
+        self.timer.reparentTo(base.a2dBottomRight)
+        self.timer.setPos(-0.233, 0, 0.85)
         self.timer.hide()
         self.geom = loader.loadModel('phase_5.5/models/estate/target')
         self.geom.reparentTo(base.cr.playGame.hood.loader.geom)
@@ -155,12 +155,12 @@ class DistributedTarget(DistributedObject.DistributedObject):
 
     def showTimer(self):
         if base.localAvatar.animFSM.getCurrentState().getName() != 'ReadBook':
-            base.setCellsActive([base.rightCells[0]], 0)
+            base.setCellsAvailable([base.rightCells[0]], 0)
             self.timer.show()
 
     def hideTimer(self):
         self.timer.hide()
-        base.setCellsActive([base.rightCells[0]], 1)
+        base.setCellsAvailable([base.rightCells[0]], 1)
 
     def setPosition(self, x, y, z):
         self.geom.setPos(x, y, z)
@@ -196,7 +196,6 @@ class DistributedTarget(DistributedObject.DistributedObject):
             if toon:
                 self.pinballHiScorer = toon.getName()
         self.showScore()
-        return
 
     def b_setCurPinballScore(self, avId, score, multiplier):
         self.setCurPinballScore(avId, score, multiplier)
@@ -214,14 +213,12 @@ class DistributedTarget(DistributedObject.DistributedObject):
             self.onscreenMessage.titles['text'] = titleText
             self.onscreenMessage.scores['text'] = scoreText
         base.foobar = self.onscreenMessage
-        return
 
     def __clearOnscreenMessage(self):
         self.notify.debug('----- __clearOnscreenMessage')
         if self.onscreenMessage:
             self.onscreenMessage.destroy()
             self.onscreenMessage = None
-        return
 
     def setPinballHiScore(self, score):
         self.pinballHiScore = score

@@ -43,8 +43,6 @@ class MazeSuit(DirectObject):
         d = SuitDNA.SuitDNA()
         d.newSuit(suitDnaName)
         self.suit.setDNA(d)
-        self.suit.nametag.setNametag2d(None)
-        self.suit.nametag.setNametag3d(None)        
         if startTile is None:
             defaultStartPos = MazeGameGlobals.SUIT_START_POSITIONS[self.serialNum]
             self.startTile = (defaultStartPos[0] * self.maze.width, defaultStartPos[1] * self.maze.height)
@@ -60,7 +58,7 @@ class MazeSuit(DirectObject):
         self.suit.delete()
 
     def uniqueName(self, str):
-        return str + `(self.serialNum)`
+        return str + `self.serialNum`
 
     def gameStart(self, gameStartTime):
         self.gameStartTime = gameStartTime
@@ -158,7 +156,7 @@ class MazeSuit(DirectObject):
             TX -= 1
         elif self.DIR_RIGHT == dir:
             TX += 1
-        return (TX, TY)
+        return TX, TY
 
     def __chooseNewWalkDirection(self, unwalkables):
         if not self.rng.randrange(self._walkSameDirectionProb):

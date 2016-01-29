@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+#Embedded file name: toontown.building.DistributedBuilding
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.directtools.DirectGeometry import *
@@ -6,20 +7,21 @@ from ElevatorConstants import *
 from ElevatorUtils import *
 from SuitBuildingGlobals import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.distributed import DistributedObject
 import random
 from toontown.suit import SuitDNA
-from toontown.toonbase import TTLocalizer
+from toontown.toonbase import TTLocalizer, ToontownGlobals
 from toontown.distributed import DelayDelete
 from toontown.toon import TTEmote
 from otp.avatar import Emote
 from toontown.hood import ZoneUtil
+from direct.task import Task
 FO_DICT = {'s': 'tt_m_ara_cbe_fieldOfficeMoverShaker',
- 'l': 'tt_m_ara_cbe_fieldOfficeMoverShaker',
+ # 'l': 'tt_m_ara_cbe_fieldOfficeLegalEagle',
  'm': 'tt_m_ara_cbe_fieldOfficeMoverShaker',
  'c': 'tt_m_ara_cbe_fieldOfficeMoverShaker'}
 
@@ -71,8 +73,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self.cogWeakenSound = None
         self.toonGrowSound = None
         self.toonSettleSound = None
-        self.leftDoor = None
-        return
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
@@ -150,12 +150,17 @@ class DistributedBuilding(DistributedObject.DistributedObject):
     def enterWaitForVictors(self, ts):
         if self.mode != 'suit':
             self.setToSuit()
+        self._ewfvTask = taskMgr.add(self._enterWaitForVictors, self.uniqueName('enterWaitForVictors'))
+
+    def _enterWaitForVictors(self, task):
         victorCount = self.victorList.count(base.localAvatar.doId)
+        if victorCount == 0:
+            return Task.cont
         if victorCount == 1:
             self.acceptOnce('insideVictorElevator', self.handleInsideVictorElevator)
             camera.reparentTo(render)
             camera.setPosHpr(self.elevatorNodePath, 0, -32.5, 9.4, 0, 348, 0)
-            base.camLens.setMinFov(52.0/(4./3.))
+            base.camLens.setFov(52.0)
             anyOthers = 0
             for v in self.victorList:
                 if v != 0 and v != base.localAvatar.doId:
@@ -172,7 +177,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             if light != None:
                 light.setColor(LIGHT_OFF_COLOR)
 
-        return
+        return Task.done
 
     def handleInsideVictorElevator(self):
         self.notify.info('inside victor elevator')
@@ -183,7 +188,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         if self.waitingMessage != None:
             self.waitingMessage.destroy()
             self.waitingMessage = None
-        return
 
     def enterWaitForVictorsFromCogdo(self, ts):
         if self.mode != 'cogdo':
@@ -193,7 +197,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self.acceptOnce('insideVictorElevator', self.handleInsideVictorElevatorFromCogdo)
             camera.reparentTo(render)
             camera.setPosHpr(self.elevatorNodePath, 0, -32.5, 9.4, 0, 348, 0)
-            base.camLens.setMinFov(52.0/(4./3.))
+            base.camLens.setFov(52.0)
             anyOthers = 0
             for v in self.victorList:
                 if v != 0 and v != base.localAvatar.doId:
@@ -210,8 +214,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             if light != None:
                 light.setColor(LIGHT_OFF_COLOR)
 
-        return
-
     def handleInsideVictorElevatorFromCogdo(self):
         self.sendUpdate('setVictorReady', [])
 
@@ -220,7 +222,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         if self.waitingMessage != None:
             self.waitingMessage.destroy()
             self.waitingMessage = None
-        return
 
     def enterBecomingToon(self, ts):
         self.animToToon(ts)
@@ -288,19 +289,24 @@ class DistributedBuilding(DistributedObject.DistributedObject):
     def getNodePaths(self):
         nodePath = []
         npc = self.townTopLevel.findAllMatches('**/?b' + str(self.block) + ':*_DNARoot;+s')
-        for i in xrange(npc.getNumPaths()):
+        for i in range(npc.getNumPaths()):
             nodePath.append(npc.getPath(i))
+
         return nodePath
 
     def loadElevator(self, newNP, cogdo = False):
-        self.floorIndicator = [None, None, None, None, None]
+        self.floorIndicator = [None,
+         None,
+         None,
+         None,
+         None]
         self.elevatorNodePath = hidden.attachNewNode('elevatorNodePath')
         if cogdo:
             self.elevatorModel = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_csa_elevatorB')
         else:
             self.elevatorModel = loader.loadModel('phase_4/models/modules/elevator')
             npc = self.elevatorModel.findAllMatches('**/floor_light_?;+s')
-            for i in xrange(npc.getNumPaths()):
+            for i in range(npc.getNumPaths()):
                 np = npc.getPath(i)
                 floor = int(np.getName()[-1:]) - 1
                 self.floorIndicator[floor] = np
@@ -336,27 +342,26 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self.suitDoorOrigin = newNP.find('**/*_door_origin')
         self.elevatorNodePath.reparentTo(self.suitDoorOrigin)
         self.normalizeElevator()
-        return
+        if cogdo and chr(self.track) == 'l':
+            self.suitDoorOrigin.reparentTo(self.suitDoorOrigin.getParent().getParent())
 
     def loadAnimToSuitSfx(self):
-        if base.config.GetBool('want-qa-regression', 0):
+        if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: COGBUILDING: Cog Take Over')
         if self.cogDropSound == None:
             self.cogDropSound = base.loadSfx(self.TAKEOVER_SFX_PREFIX + 'cogbldg_drop.ogg')
             self.cogLandSound = base.loadSfx(self.TAKEOVER_SFX_PREFIX + 'cogbldg_land.ogg')
             self.cogSettleSound = base.loadSfx(self.TAKEOVER_SFX_PREFIX + 'cogbldg_settle.ogg')
             self.openSfx = base.loadSfx('phase_5/audio/sfx/elevator_door_open.ogg')
-        return
 
     def loadAnimToToonSfx(self):
-        if base.config.GetBool('want-qa-regression', 0):
+        if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: COGBUILDING: Toon Take Over')
         if self.cogWeakenSound == None:
             self.cogWeakenSound = base.loadSfx(self.TAKEOVER_SFX_PREFIX + 'cogbldg_weaken.ogg')
             self.toonGrowSound = base.loadSfx(self.TAKEOVER_SFX_PREFIX + 'toonbldg_grow.ogg')
             self.toonSettleSound = base.loadSfx(self.TAKEOVER_SFX_PREFIX + 'toonbldg_settle.ogg')
             self.openSfx = base.loadSfx('phase_5/audio/sfx/elevator_door_open.ogg')
-        return
 
     def unloadSfx(self):
         if self.cogDropSound != None:
@@ -369,13 +374,11 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self.toonGrowSound = None
             self.toonSettleSound = None
             self.openSfx = None
-        return
 
     def _deleteTransitionTrack(self):
         if self.transitionTrack:
             DelayDelete.cleanupDelayDeletes(self.transitionTrack)
             self.transitionTrack = None
-        return
 
     def animToSuit(self, timeStamp):
         self.stopTransition()
@@ -385,8 +388,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         sideBldgNodes = self.getNodePaths()
         nodePath = hidden.find(self.getSbSearchString())
         newNP = self.setupSuitBuilding(nodePath)
-        if not self.leftDoor:
-            return
         closeDoors(self.leftDoor, self.rightDoor)
         newNP.stash()
         sideBldgNodes.append(newNP)
@@ -428,19 +429,17 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self._deleteTransitionTrack()
         self.transitionTrack = tracks
         self.transitionTrack.start(timeStamp)
-        return
 
     def setupSuitBuilding(self, nodePath):
-        if nodePath.isEmpty():
-            return
+        dnaData = base.cr.playGame.dnaData
         dnaStore = self.cr.playGame.dnaStore
         level = int(self.difficulty / 2) + 1
         suitNP = dnaStore.findNode('suit_landmark_' + chr(self.track) + str(level))
-        zoneId = dnaStore.getZoneFromBlockNumber(self.block)
+        zoneId = dnaData.getBlock(self.block).zone
         zoneId = ZoneUtil.getTrueZoneId(zoneId, self.interiorZoneId)
         newParentNP = base.cr.playGame.hood.loader.zoneDict[zoneId]
         suitBuildingNP = suitNP.copyTo(newParentNP)
-        buildingTitle = dnaStore.getTitleFromBlockNumber(self.block)
+        buildingTitle = dnaData.getBlock(self.block).title
         if not buildingTitle:
             buildingTitle = TTLocalizer.CogsInc
         else:
@@ -531,17 +530,19 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         self._deleteTransitionTrack()
         self.transitionTrack = tracks
         self.transitionTrack.start(timeStamp)
-        return
 
     def setupCogdo(self, nodePath):
+        dnaData = base.cr.playGame.dnaData
         dnaStore = self.cr.playGame.dnaStore
         level = int(self.difficulty / 2) + 1
         suitNP = dnaStore.findNode(FO_DICT[chr(self.track)])
-        zoneId = dnaStore.getZoneFromBlockNumber(self.block)
+        if not suitNP:
+            suitNP = loader.loadModel('phase_5/models/cogdominium/%s' % FO_DICT[chr(self.track)])
+        zoneId = dnaData.getBlock(self.block).zone
         zoneId = ZoneUtil.getTrueZoneId(zoneId, self.interiorZoneId)
         newParentNP = base.cr.playGame.hood.loader.zoneDict[zoneId]
         suitBuildingNP = suitNP.copyTo(newParentNP)
-        buildingTitle = dnaStore.getTitleFromBlockNumber(self.block)
+        buildingTitle = dnaData.getBlock(self.block).title
         if not buildingTitle:
             buildingTitle = TTLocalizer.Cogdominiums
         else:
@@ -560,14 +561,18 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         backgroundNP.setPosHprScale(0.0, 0.0, -1.2 + textHeight * 0.8 / zScale, 0.0, 0.0, 0.0, 20.0, 8.0, 8.0 * zScale)
         backgroundNP.node().setEffect(DecalEffect.make())
         signTextNodePath = backgroundNP.attachNewNode(textNode.generate())
-        signTextNodePath.setPosHprScale(0.0, 0.0, -0.13 + textHeight * 0.1 / zScale, 0.0, 0.0, 0.0, 0.1 * 8.0 / 20.0, 0.1, 0.1 / zScale)
+        signTextNodePath.setPosHprScale(0.0, 0.0, -0.13 + textHeight * 0.1 / zScale, 0.0, 0.0, 0.0, 0.8 / 20.0, 0.1, 0.1 / zScale)
         signTextNodePath.setColor(1.0, 1.0, 1.0, 1.0)
-        frontNP = suitBuildingNP.find('**/*_front/+GeomNode;+s')
+        if chr(self.track) == 'l':
+            frontNP = suitBuildingNP.find('**/*_front')
+        else:
+            frontNP = suitBuildingNP.find('**/*_front/+GeomNode;+s')
         backgroundNP.wrtReparentTo(frontNP)
         frontNP.node().setEffect(DecalEffect.make())
         suitBuildingNP.setName('cb' + str(self.block) + ':_landmark__DNARoot')
         suitBuildingNP.setPosHprScale(nodePath, 15.463, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0)
-        suitBuildingNP.flattenMedium()
+        if chr(self.track) == 's':
+            suitBuildingNP.flattenMedium()
         suitBuildingNP.setColorScale(0.6, 0.6, 0.6, 1.0)
         self.loadElevator(suitBuildingNP, cogdo=True)
         return suitBuildingNP
@@ -635,7 +640,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self.transitionTrack.start(0)
         else:
             self.transitionTrack.start(timeStamp)
-        return
 
     def animToToonFromCogdo(self, timeStamp):
         self.stopTransition()
@@ -701,16 +705,15 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             self.transitionTrack.start(0)
         else:
             self.transitionTrack.start(timeStamp)
-        return
 
     def walkOutCameraTrack(self):
-        track = Sequence(Func(camera.reparentTo, render), Func(camera.setPosHpr, self.elevatorNodePath, 0, -32.5, 9.4, 0, 348, 0), Func(base.camLens.setMinFov, 52.0/(4./3.)), Wait(VICTORY_RUN_TIME), Func(camera.setPosHpr, self.elevatorNodePath, 0, -32.5, 17, 0, 347, 0), Func(base.camLens.setMinFov, 75.0/(4./3.)), Wait(TO_TOON_BLDG_TIME), Func(base.camLens.setMinFov, 52.0/(4./3.)))
+        track = Sequence(Func(camera.reparentTo, render), Func(camera.setPosHpr, self.elevatorNodePath, 0, -32.5, 9.4, 0, 348, 0), Func(base.camLens.setMinFov, ToontownGlobals.DefaultCameraFov / (4.0 / 3.0)), Wait(VICTORY_RUN_TIME), Func(camera.setPosHpr, self.elevatorNodePath, 0, -32.5, 17, 0, 347, 0), Func(base.camLens.setMinFov, 75.0 / (4.0 / 3.0)), Wait(TO_TOON_BLDG_TIME), Func(base.camLens.setMinFov, ToontownGlobals.DefaultCameraFov / (4.0 / 3.0)))
         return track
 
     def plantVictorsOutsideBldg(self):
         retVal = 0
         for victor in self.victorList:
-            if victor != 0 and victor in self.cr.doId2do:
+            if victor != 0 and self.cr.doId2do.has_key(victor):
                 toon = self.cr.doId2do[victor]
                 toon.setPosHpr(self.elevatorModel, 0, -10, 0, 0, 0, 0)
                 toon.startSmooth()
@@ -725,7 +728,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         delayDeletes = []
         i = 0
         for victor in self.victorList:
-            if victor != 0 and victor in self.cr.doId2do:
+            if victor != 0 and self.cr.doId2do.has_key(victor):
                 toon = self.cr.doId2do[victor]
                 delayDeletes.append(DelayDelete.DelayDelete(toon, 'getVictoryRunTrack'))
                 toon.stopSmooth()
@@ -735,12 +738,21 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             i += 1
 
         openDoors = getOpenInterval(self, self.leftDoor, self.rightDoor, self.openSfx, None)
-        toonDoorPosHpr = self.cr.playGame.dnaStore.getDoorPosHprFromBlockNumber(self.block)
-        useFarExitPoints = toonDoorPosHpr.getPos(render).getZ() > 1.0
+        buildingNodes = self.getNodePaths()
+        for np in buildingNodes:
+            if np.getName().startswith('tb'):
+                doorNodePath = np.find('**/*door_origin')
+                if not doorNodePath.isEmpty():
+                    break
+        else:
+            self.notify.error('Could not find door origin!')
+
+        toonDoorPos = doorNodePath.getPos(NodePath())
+        useFarExitPoints = toonDoorPos.getZ() > 1.0
         runOutAll = Parallel()
         i = 0
         for victor in self.victorList:
-            if victor != 0 and victor in self.cr.doId2do:
+            if victor != 0 and self.cr.doId2do.has_key(victor):
                 toon = self.cr.doId2do[victor]
                 p0 = Point3(0, 0, 0)
                 p1 = Point3(ElevatorPoints[i][0], ElevatorPoints[i][1] - 5.0, ElevatorPoints[i][2])
@@ -753,7 +765,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             i += 1
 
         victoryRunTrack = Sequence(origPosTrack, openDoors, runOutAll)
-        return (victoryRunTrack, delayDeletes)
+        return victoryRunTrack, delayDeletes
 
     def animToCogdoFromCogdo(self, timeStamp):
         self.stopTransition()
@@ -802,7 +814,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             currTime = bounceTime
         realScale = nodeObj.getScale()
         currScaleDiff = startScale - realScale[2]
-        for currBounceScale in xrange(numBounces):
+        for currBounceScale in range(numBounces):
             if currBounceScale == numBounces - 1:
                 currScale = realScale[2]
             elif currBounceScale % 2:
@@ -845,7 +857,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                     i.stash()
 
         npc = hidden.findAllMatches(self.getSbSearchString())
-        for i in xrange(npc.getNumPaths()):
+        for i in range(npc.getNumPaths()):
             nodePath = npc.getPath(i)
             self.adjustSbNodepathScale(nodePath)
             self.notify.debug('net transform = %s' % str(nodePath.getNetTransform()))
@@ -880,7 +892,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 np.setColorScale(0.6, 0.6, 0.6, 1.0)
 
         npc = hidden.findAllMatches(self.getSbSearchString())
-        for i in xrange(npc.getNumPaths()):
+        for i in range(npc.getNumPaths()):
             nodePath = npc.getPath(i)
             self.adjustSbNodepathScale(nodePath)
             self.notify.debug('net transform = %s' % str(nodePath.getNetTransform()))
@@ -912,8 +924,6 @@ class DistributedBuilding(DistributedObject.DistributedObject):
                 else:
                     i.stash()
 
-        return
-
     def normalizeElevator(self):
         self.elevatorNodePath.setScale(render, Vec3(1, 1, 1))
         self.elevatorNodePath.setPosHpr(0, 0, 0, 0, 0, 0)
@@ -926,7 +936,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         pass
 
     def getVisZoneId(self):
-        exteriorZoneId = base.cr.playGame.hood.dnaStore.getZoneFromBlockNumber(self.block)
+        exteriorZoneId = base.cr.playGame.dnaData.getBlock(self.block).zone
         visZoneId = ZoneUtil.getTrueZoneId(exteriorZoneId, self.zoneId)
         return visZoneId
 

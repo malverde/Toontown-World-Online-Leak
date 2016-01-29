@@ -1,14 +1,13 @@
-import CogHQLobby
 from direct.directnotify import DirectNotifyGlobal
+from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from direct.fsm import StateData
-from pandac.PandaModules import *
+import CogHQLobby
 from toontown.hood import QuietZoneState
 from toontown.hood import ZoneUtil
-from toontown.suit import Suit
 from toontown.town import TownBattle
-
+from toontown.suit import Suit
+from panda3d.core import *
 
 class CogHQLoader(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('CogHQLoader')

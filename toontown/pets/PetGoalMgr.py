@@ -1,9 +1,11 @@
-from pandac.PandaModules import *
+# Embedded file name: toontown.pets.PetGoalMgr
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import DirectObject
 from direct.showbase.PythonUtil import randFloat, lerp
 from toontown.pets import PetConstants
 import random
+
 
 class PetGoalMgr(DirectObject.DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('PetGoalMgr')
@@ -15,10 +17,12 @@ class PetGoalMgr(DirectObject.DirectObject):
         self.primaryGoal = None
         self.primaryStartT = 0
         if __dev__:
-            self.pscSetup = PStatCollector('App:Show code:petThink:UpdatePriorities:Setup')
-            self.pscFindPrimary = PStatCollector('App:Show code:petThink:UpdatePriorities:FindPrimary')
-            self.pscSetPrimary = PStatCollector('App:Show code:petThink:UpdatePriorities:SetPrimary')
-        return
+            self.pscSetup = PStatCollector(
+                'App:Show code:petThink:UpdatePriorities:Setup')
+            self.pscFindPrimary = PStatCollector(
+                'App:Show code:petThink:UpdatePriorities:FindPrimary')
+            self.pscSetPrimary = PStatCollector(
+                'App:Show code:petThink:UpdatePriorities:SetPrimary')
 
     def destroy(self):
         if __dev__:
@@ -41,14 +45,12 @@ class PetGoalMgr(DirectObject.DirectObject):
     def addGoal(self, goal):
         self.goals[goal] = None
         goal.setGoalMgr(self)
-        return
 
     def removeGoal(self, goal):
         if self.primaryGoal == goal:
             self._setPrimaryGoal(None)
         goal.clearGoalMgr()
         del self.goals[goal]
-        return
 
     def updatePriorities(self):
         if len(self.goals) == 0:
@@ -63,7 +65,10 @@ class PetGoalMgr(DirectObject.DirectObject):
             candidates = [self.primaryGoal]
             decayDur = PetConstants.PrimaryGoalDecayDur
             priFactor = PetConstants.PrimaryGoalScale
-            elapsed = min(decayDur, globalClock.getFrameTime() - self.primaryStartT)
+            elapsed = min(
+                decayDur,
+                globalClock.getFrameTime() -
+                self.primaryStartT)
             highestPriority *= lerp(priFactor, 1.0, elapsed / decayDur)
         if __dev__:
             self.pscSetup.stop()
@@ -84,11 +89,12 @@ class PetGoalMgr(DirectObject.DirectObject):
             self.pscSetPrimary.start()
         newPrimary = random.choice(candidates)
         if self.primaryGoal != newPrimary:
-            self.pet.notify.debug('new goal: %s, priority=%s' % (newPrimary.__class__.__name__, highestPriority))
+            self.pet.notify.debug(
+                'new goal: %s, priority=%s' %
+                (newPrimary.__class__.__name__, highestPriority))
             self._setPrimaryGoal(newPrimary)
         if __dev__:
             self.pscSetPrimary.stop()
-        return
 
     def _setPrimaryGoal(self, goal):
         if self.primaryGoal == goal:
@@ -99,11 +105,9 @@ class PetGoalMgr(DirectObject.DirectObject):
         self.primaryStartT = globalClock.getFrameTime()
         if goal is not None:
             goal.fsm.request('foreground')
-        return
 
     def _handlePrimaryGoalDone(self):
         self._setPrimaryGoal(None)
-        return
 
     def __repr__(self):
         string = '%s' % self.__class__.__name__

@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+#Embedded file name: toontown.golf.GolfScoreBoard
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
@@ -107,22 +108,21 @@ class GolfScoreBoard:
         self.lines.moveTo(self.lineVStart - 0.45, 0, self.lineHStart)
         self.lines.drawTo(self.lineVStart + 11 * self.lineVertOffset, 0, self.lineHStart)
         self.lines.moveTo(self.lineVStart - 0.45, 0, self.lineHStart + 0.19)
-        self.lines.drawTo(self.lineVStart - 0.45, 0, self.lineHStart - 4 * 0.13)
+        self.lines.drawTo(self.lineVStart - 0.45, 0, self.lineHStart - 0.52)
         self.lines.moveTo(self.lineVStart, 0, self.lineHStart + 0.19)
-        self.lines.drawTo(self.lineVStart, 0, self.lineHStart - 4 * 0.13)
+        self.lines.drawTo(self.lineVStart, 0, self.lineHStart - 0.52)
         for x in xrange(4):
             self.lines.moveTo(self.lineVStart - 0.45, 0, self.lineHStart - (x + 1) * self.lineHorOffset)
             self.lines.drawTo(self.lineVStart + 11 * self.lineVertOffset + 0.005, 0, self.lineHStart - (x + 1) * self.lineHorOffset)
 
         for y in xrange(10):
             self.lines.moveTo(self.lineVStart + y * self.lineVertOffset, 0, self.lineHStart + 0.19)
-            self.lines.drawTo(self.lineVStart + y * self.lineVertOffset, 0, self.lineHStart - 4 * 0.13)
+            self.lines.drawTo(self.lineVStart + y * self.lineVertOffset, 0, self.lineHStart - 0.52)
 
         self.lines.moveTo(self.lineVStart + 11 * self.lineVertOffset, 0, self.lineHStart + 0.19)
-        self.lines.drawTo(self.lineVStart + 11 * self.lineVertOffset, 0, self.lineHStart - 4 * 0.13)
+        self.lines.drawTo(self.lineVStart + 11 * self.lineVertOffset, 0, self.lineHStart - 0.52)
         self.scoreboard.attachNewNode(self.lines.create())
         self.hide()
-        return
 
     def getScoreLabel(self, avIdorIndex, holeNum):
         index = None
@@ -180,12 +180,12 @@ class GolfScoreBoard:
                     self.totalTags[x].setColor(0.7, 0.7, 0.7, 1)
                     playerExited = True
 
-            if playerExited == False:
+            if not playerExited:
                 for holeIndex in xrange(self.golfCourse.numHoles):
                     if holeIndex <= self.golfCourse.curHoleIndex:
                         self.getScoreLabel(avId, holeIndex)['text'] = '%s' % scoreDict[avId][holeIndex]
                         totScore = totScore + scoreDict[avId][holeIndex]
-                        if self.golfCourse.isGameDone() == False:
+                        if not self.golfCourse.isGameDone():
                             if holeIndex == self.golfCourse.curHoleIndex:
                                 self.getScoreLabel(avId, holeIndex).setColor(1, 0, 0, 1)
                                 self.holeLabels[holeIndex].setColor(1, 0, 0, 1)
@@ -201,7 +201,7 @@ class GolfScoreBoard:
             if self.golfCourse.isGameDone():
                 self.getScoreLabel(avId, self.golfCourse.numHoles - 1).setColor(0, 0, 0, 1)
                 self.totalTags[x].setColor(1, 0, 0, 1)
-            x = x + 1
+            x += 1
 
         y = 0
         if self.golfCourse.isGameDone():
@@ -226,4 +226,3 @@ class GolfScoreBoard:
         self.scoreboard = None
         self.golfCourse = None
         taskMgr.remove('hide score board')
-        return

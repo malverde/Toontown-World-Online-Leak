@@ -1,13 +1,12 @@
 from DistributedNPCToonBase import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 import NPCToons
 from direct.task.Task import Task
 from toontown.toonbase import TTLocalizer
 from toontown.racing.KartShopGui import *
 from toontown.racing.KartShopGlobals import *
-from toontown.chat.ChatGlobals import *
-from toontown.nametag.NametagGlobals import *
+from otp.nametag.NametagConstants import *
 
 class DistributedNPCKartClerk(DistributedNPCToonBase):
 

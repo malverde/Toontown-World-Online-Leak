@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoFlyingObjects
 import random
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import Sequence, Func, Parallel, Wait, LerpHprInterval, LerpScaleInterval, LerpFunctionInterval
@@ -242,10 +243,11 @@ class CogdoFlyingPowerup(CogdoFlyingGatherable):
             self._model.setAlphaScale(0.5)
             if Globals.Level.AddSparkleToPowerups:
                 self.f = self.find('**/particleEffect_sparkles')
-                self.f.hide()
+                if not self.f.isEmpty():
+                    self.f.hide()
 
     def pickUp(self, toon, elapsedSeconds = 0.0):
-        if self.wasPickedUpByToon(toon) == True:
+        if self.wasPickedUpByToon(toon):
             return
         self._pickedUpList.append(toon.doId)
         self._isToonLocal = toon.isLocal()
@@ -306,7 +308,6 @@ class CogdoFlyingPropeller(CogdoFlyingGatherable):
                 self.addPropeller(prop)
         else:
             self.disable()
-        return
 
     def addPropeller(self, prop):
         if len(self.usedPropellers) > 0:
@@ -325,7 +326,6 @@ class CogdoFlyingPropeller(CogdoFlyingGatherable):
             if len(self.activePropellers) == 0:
                 self._wasPickedUp = True
             return prop
-        return None
 
     def isPropeller(self):
         if len(self.activePropellers) > 0:
@@ -339,6 +339,7 @@ class CogdoFlyingLevelFog:
     def __init__(self, level, color = Globals.Level.FogColor):
         self._level = level
         self.color = color
+        self.defaultFar = None
         fogDistance = self._level.quadLengthUnits * max(1, self._level.quadVisibiltyAhead * 0.2)
         self.fog = Fog('RenderFog')
         self.fog.setColor(self.color)
@@ -346,11 +347,16 @@ class CogdoFlyingLevelFog:
         self._visible = False
         self._clearColor = Vec4(base.win.getClearColor())
         self._clearColor.setW(1.0)
+        self.defaultFar = base.camLens.getFar()
+        base.camLens.setFar(Globals.Camera.GameCameraFar)
+        base.setBackgroundColor(self.color)
 
     def destroy(self):
         self.setVisible(False)
         if hasattr(self, 'fog'):
             del self.fog
+        if self.defaultFar is not None:
+            base.camLens.setFar(self.defaultFar)
 
     def isVisible(self):
         return self._visible
@@ -375,7 +381,6 @@ class CogdoFlyingPlatform:
         if parent is not None:
             self._model.reparentTo(parent)
         self._initCollisions()
-        return
 
     def __str__(self):
         return '<%s model=%s, type=%s>' % (self.__class__.__name__, self._model, self._type)

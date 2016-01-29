@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
@@ -10,7 +10,6 @@ import FactoryEntityCreator
 import CountryClubRoomSpecs
 from otp.level import LevelSpec, LevelConstants
 from toontown.toonbase import TTLocalizer
-from toontown.nametag.NametagGlobals import *
 if __dev__:
     from otp.level import EditorGlobals
 

@@ -1,7 +1,8 @@
-from pandac.PandaModules import *
+#Embedded file name: toontown.safezone.DistributedFishingSpot
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directtools.DirectGeometry import LineNodePath
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
@@ -33,9 +34,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
     angleMax = 30.0
 
     def __init__(self, cr):
-        if hasattr(self, 'fishInit'):
-            return
-        self.fishInit = 1
         DistributedObject.DistributedObject.__init__(self, cr)
         self.lastAvId = 0
         self.lastFrame = 0
@@ -92,7 +90,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
           'sellFish']),
          State.State('leaving', self.enterLeaving, self.exitLeaving, [])], 'off', 'off')
         self.fsm.enterInitialState()
-        return
 
     def disable(self):
         self.ignore(self.uniqueName('enterFishingSpotSphere'))
@@ -114,13 +111,10 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         for event in self.getAllAccepting():
             if event.startswith('generate-'):
                 self.ignore(event)
+
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def delete(self):
-        if hasattr(self, 'fishDeleted'):
-            return
-        self.fishDeleted = 1
         del self.pond
         del self.fsm
         if self.nodePath:
@@ -212,11 +206,15 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
 
     def setOccupied(self, avId):
         if avId and avId not in self.cr.doId2do:
+
             def tryAgain(av):
+
                 def reposition(task):
                     self.setOccupied(avId)
                     return task.done
+
                 taskMgr.doMethodLater(0.1, reposition, self.uniqueName('reposition'))
+
             self.acceptOnce('generate-%d' % avId, tryAgain)
             return
         if self.av != None:
@@ -243,7 +241,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         else:
             self.collSphere.setTangible(1)
             if self.avId == base.localAvatar.doId:
-                base.setCellsActive(base.bottomCells, 0)
+                base.setCellsAvailable(base.bottomCells, 0)
                 self.localToonFishing = 1
                 if base.wantBingo:
                     self.pond.setLocalToonSpot(self)
@@ -260,12 +258,11 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             self.__hideCastGui()
             if base.wantBingo:
                 self.pond.setLocalToonSpot()
-            base.setCellsActive([base.bottomCells[1], base.bottomCells[2]], 1)
-            base.setCellsActive(base.rightCells, 1)
+            base.setCellsAvailable([base.bottomCells[1], base.bottomCells[2]], 1)
+            base.setCellsAvailable(base.rightCells, 1)
             place = base.cr.playGame.getPlace()
             if place:
                 place.setState('walk')
-        return
 
     def __avatarGone(self):
         self.setOccupied(0)
@@ -287,10 +284,9 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
              itemDesc1,
              itemDesc2,
              itemDesc3])
-        return
 
     def getStareAtNodeAndOffset(self):
-        return (self.nodePath, Point3())
+        return self.nodePath, Point3()
 
     def __loadStuff(self):
         rodId = self.av.getFishingRod()
@@ -316,7 +312,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             self.ripples.hide()
         if self.splashSounds == None:
             self.splashSounds = (base.loadSfx('phase_4/audio/sfx/TT_splash1.ogg'), base.loadSfx('phase_4/audio/sfx/TT_splash2.ogg'))
-        return
 
     def __placeAvatar(self):
         if not self.placedAvatar:
@@ -325,7 +320,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             self.av.setPosHpr(0, 0, 0, 0, 0, 0)
 
     def __holdPole(self):
-        if self.poleNode != []:
+        if self.poleNode:
             self.__dropPole()
         np = NodePath('pole-holder')
         hands = self.av.getRightHands()
@@ -344,7 +339,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             pn.removeNode()
 
         self.poleNode = []
-        return
 
     def __removePole(self):
         self.pole.cleanup()
@@ -353,7 +347,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.ptop.removeNode()
         self.pole = None
         self.ptop = None
-        return
 
     def __showLineWaiting(self):
         self.line.setup(4, ((None, (0, 0, 0)),
@@ -362,19 +355,16 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
          (self.bob, (0, 0, 0))))
         self.line.ropeNode.setBounds(self.lineSphere)
         self.line.reparentTo(self.ptop)
-        return
 
     def __showLineCasting(self):
         self.line.setup(2, ((None, (0, 0, 0)), (self.bob, (0, 0, 0))))
         self.line.ropeNode.setBounds(self.lineSphere)
         self.line.reparentTo(self.ptop)
-        return
 
     def __showLineReeling(self):
         self.line.setup(2, ((None, (0, 0, 0)), (self.bob, (0, 0, 0))))
         self.line.ropeNode.setBounds(self.lineSphere)
         self.line.reparentTo(self.ptop)
-        return
 
     def __hideLine(self):
         if self.line:
@@ -400,7 +390,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         if self.ripples:
             self.ripples.stop()
             self.ripples.detachNode()
-        return
 
     def __doBobBob(self, task):
         z = math.sin(task.time * 1.8) * 0.08
@@ -463,10 +452,8 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         if self.firstCast and len(self.av.fishCollection) == 0 and len(self.av.fishTank) == 0:
             self.__showHowTo(TTLocalizer.FishingHowToFirstTime)
         elif base.wantBingo and self.pond.hasPondBingoManager() and not self.av.bFishBingoTutorialDone:
-            pass
-            #todo: fix b_setFishBingoTutorialDone crash
-            #self.__showHowTo(TTLocalizer.FishBingoHelpMain)
-            #self.av.b_setFishBingoTutorialDone(True)
+            self.__showHowTo(TTLocalizer.FishBingoHelpMain)
+            self.av.b_setFishBingoTutorialDone(True)
 
     def __moneyChange(self, money):
         self.jar['text'] = str(money)
@@ -601,7 +588,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.itemGui.detachNode()
 
     def __makeGui(self):
-        if base.config.GetBool('want-qa-regression', 0):
+        if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: FISHING: ZoneId: %s' % self.pond.getArea())
         if self.madeGui:
             return
@@ -609,14 +596,14 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.timer.posInTopRightCorner()
         self.timer.hide()
         self.castGui = loader.loadModel('phase_4/models/gui/fishingGui')
-        self.castGui.setBin("background", 10)
         self.castGui.setScale(0.67)
         self.castGui.setPos(0, 1, 0)
         for nodeName in ('bucket', 'jar', 'display_bucket', 'display_jar'):
             self.castGui.find('**/' + nodeName).reparentTo(self.castGui)
-        self.exitButton = DirectButton(parent=self.castGui, relief=None, text=('', TTLocalizer.FishingExit, TTLocalizer.FishingExit), text_align=TextNode.ACenter, text_scale=0.1, text_fg=Vec4(1, 1, 1, 1), text_shadow=Vec4(0, 0, 0, 1), text_pos=(0.0, -0.12), pos=(1.75*(4./3.), 0, -1.33), textMayChange=0, image=(self.castGui.find('**/exit_buttonUp'), self.castGui.find('**/exit_buttonDown'), self.castGui.find('**/exit_buttonRollover')), command=self.__userExit)
+
+        self.exitButton = DirectButton(parent=self.castGui, relief=None, text=('', TTLocalizer.FishingExit, TTLocalizer.FishingExit), text_align=TextNode.ACenter, text_scale=0.1, text_fg=Vec4(1, 1, 1, 1), text_shadow=Vec4(0, 0, 0, 1), text_pos=(0.0, -0.12), pos=(1.75, 0, -1.33), textMayChange=0, image=(self.castGui.find('**/exit_buttonUp'), self.castGui.find('**/exit_buttonDown'), self.castGui.find('**/exit_buttonRollover')), command=self.__userExit)
         self.castGui.find('**/exitButton').removeNode()
-        self.castButton = DirectButton(parent=self.castGui, relief=None, text=TTLocalizer.FishingCast, text_align=TextNode.ACenter, text_scale=(3, 3 * 0.75, 3 * 0.75), text_fg=Vec4(1, 1, 1, 1), text_shadow=Vec4(0, 0, 0, 1), text_pos=(0, -4), image=self.castGui.find('**/castButton'), image0_color=(1, 0, 0, 1), image1_color=(0, 1, 0, 1), image2_color=(1, 1, 0, 1), image3_color=(0.8, 0.5, 0.5, 1), pos=(0, -0.05, -0.666), scale=(0.036, 1, 0.048))
+        self.castButton = DirectButton(parent=self.castGui, relief=None, text=TTLocalizer.FishingCast, text_align=TextNode.ACenter, text_scale=(3, 2.25, 2.25), text_fg=Vec4(1, 1, 1, 1), text_shadow=Vec4(0, 0, 0, 1), text_pos=(0, -4), image=self.castGui.find('**/castButton'), image0_color=(1, 0, 0, 1), image1_color=(0, 1, 0, 1), image2_color=(1, 1, 0, 1), image3_color=(0.8, 0.5, 0.5, 1), pos=(0, -0.05, -0.666), scale=(0.036, 1, 0.048))
         self.castGui.find('**/castButton').removeNode()
         self.arrow = self.castGui.find('**/arrow')
         self.arrowTip = self.arrow.find('**/arrowTip')
@@ -655,7 +642,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.howToDialog.setPos(-0.3, 0, 0.5)
         self.howToDialog.hide()
         self.madeGui = 1
-        return
 
     def __setBingoCastGui(self):
         if self.pond.hasPondBingoManager():
@@ -666,13 +652,13 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             jar = self.castGui.find('**/jar')
             self.castGui.find('**/display_jar').reparentTo(jar)
             self.jar.reparentTo(jar)
-            base.setCellsActive(base.rightCells, 0)
+            base.setCellsAvailable(base.rightCells, 0)
             bucket.setScale(0.9)
             bucket.setX(-1.9)
-            bucket.setZ(-.11)
+            bucket.setZ(-0.11)
             jar.setScale(0.9)
-            jar.setX(-.375)
-            jar.setZ(-.135)
+            jar.setX(-0.375)
+            jar.setZ(-0.135)
         else:
             self.notify.debug('__setItemFramePos: Has No Pond Bingo Manager')
             bucket = self.castGui.find('**/bucket')
@@ -703,10 +689,10 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         jar = self.castGui.find('**/jar')
         self.castGui.find('**/display_jar').reparentTo(jar)
         self.jar.reparentTo(jar)
-        bucketPosInt = bucket.posInterval(3.0, Point3(-1.9, 0, -.11), startPos=bucket.getPos(), blendType='easeInOut')
+        bucketPosInt = bucket.posInterval(3.0, Point3(-1.9, 0, -0.11), startPos=bucket.getPos(), blendType='easeInOut')
         bucketScaleInt = bucket.scaleInterval(3.0, VBase3(0.9, 0.9, 0.9), startScale=bucket.getScale(), blendType='easeInOut')
         bucketTrack = Parallel(bucketPosInt, bucketScaleInt)
-        jarPosInt = jar.posInterval(3.0, Point3(-.375, 0, -.135), startPos=jar.getPos(), blendType='easeInOut')
+        jarPosInt = jar.posInterval(3.0, Point3(-0.375, 0, -0.135), startPos=jar.getPos(), blendType='easeInOut')
         jarScaleInt = jar.scaleInterval(3.0, VBase3(0.9, 0.9, 0.9), startScale=jar.getScale(), blendType='easeInOut')
         jarTrack = Parallel(jarPosInt, jarScaleInt)
         self.guiTrack = Parallel(bucketTrack, jarTrack)
@@ -753,7 +739,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.castTrack.setT(0.2 + self.power * 0.7)
         angle = rad2Deg(math.atan(deltaX / deltaY))
         if self.power < 0.25:
-            angle = angle * math.pow(self.power * 4, 3)
+            angle *= math.pow(self.power * 4, 3)
         if delta < 0:
             angle += 180
         minAngle = -FishGlobals.FishingAngleMax
@@ -852,7 +838,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
     def exitWaiting(self):
         self.track.finish()
         self.track = None
-        return
 
     def enterLocalAdjusting(self, guiEvent = None):
         if self.track:
@@ -920,7 +905,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         heading = self.angleNP.getH()
         self.d_doCast(self.power, heading)
         self.timer.countdown(FishGlobals.CastTimeout)
-        return
 
     def exitLocalCasting(self):
         taskMgr.remove(self.taskName('moveBobTask'))
@@ -931,7 +915,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             self.castTrack.pause()
         self.__hideLine()
         self.__hideBob()
-        return
 
     def enterDistCasting(self, power, h):
         self.av.stopLookAround()
@@ -949,7 +932,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         taskMgr.remove(self.taskName('moveBobTask'))
         self.__hideLine()
         self.__hideBob()
-        return
 
     def enterFishing(self):
         if self.localToonFishing:
@@ -962,7 +944,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.__showLineWaiting()
         if self.localToonFishing:
             self.pond.startCheckingTargets(self, self.bob.getPos(render))
-        return
 
     def exitFishing(self):
         if self.localToonFishing:
@@ -970,7 +951,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         if self.track:
             self.track.finish()
             self.track = None
-        return
 
     def enterWaitForAI(self):
         self.castButton['state'] = DGG.DISABLED
@@ -981,7 +961,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
     def enterReward(self, code, itemDesc1, itemDesc2, itemDesc3):
         self.__placeAvatar()
         self.bob.reparentTo(self.angleNP)
-        self.waterLevel = FishingTargetGlobals.getWaterLevel(self.area)
         self.bob.setZ(self.waterLevel)
         self.__showLineReeling()
         self.castTrack.pause()
@@ -1014,7 +993,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             self.fishPanel.hide()
             self.fishPanel.destroy()
             self.fishPanel = None
-        return
 
     def hideBootPanel(self):
         if self.madeGui and self.itemBoot:
@@ -1026,7 +1004,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             self.cleanupFishPanel()
         self.track.finish()
         self.track = None
-        return
 
     def enterLeaving(self):
         if self.localToonFishing:
@@ -1046,7 +1023,6 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
     def exitLeaving(self):
         self.track.pause()
         self.track = None
-        return
 
     def enterSellFish(self):
         self.castButton['state'] = DGG.DISABLED

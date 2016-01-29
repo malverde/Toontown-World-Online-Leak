@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 import SafeZoneLoader
 import DLPlayground
 
@@ -9,5 +9,5 @@ class DLSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         self.playgroundClass = DLPlayground.DLPlayground
         self.musicFile = 'phase_8/audio/bgm/DL_nbrhood.ogg'
         self.activityMusicFile = 'phase_8/audio/bgm/DL_SZ_activity.ogg'
-        self.dnaFile = 'phase_8/dna/donalds_dreamland_sz.pdna'
-        self.safeZoneStorageDNAFile = 'phase_8/dna/storage_DL_sz.pdna'
+        self.dnaFile = 'phase_8/dna/donalds_dreamland_sz.xml'
+        self.safeZoneStorageDNAFile = 'phase_8/dna/storage_DL_sz.xml'

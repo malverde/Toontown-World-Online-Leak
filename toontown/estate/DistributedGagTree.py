@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.DistributedGagTree
 from toontown.estate import DistributedPlantBase
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
@@ -9,7 +10,7 @@ from toontown.toonbase import TTLocalizer
 import GardenGlobals
 import HouseGlobals
 from direct.task import Task
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.otpbase import OTPGlobals
 from toontown.estate import DistributedLawnDecor
 DIRT_AS_WATER_INDICATOR = True
@@ -31,7 +32,6 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
         self.signHasBeenStuck2Ground = False
         self._teaserPanel = None
         self.setName('DistributedGagTree')
-        return
 
     def delete(self):
         DistributedPlantBase.DistributedPlantBase.delete(self)
@@ -44,7 +44,6 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
         del self.sandMound
         self.signModel.removeNode()
         self.signModel = None
-        return
 
     def setTypeIndex(self, typeIndex):
         DistributedPlantBase.DistributedPlantBase.setTypeIndex(self, typeIndex)
@@ -144,7 +143,6 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
         self.confirmDialog = TTDialog.TTDialog(style=TTDialog.YesNo, text=text, command=self.confirmCallback)
         self.confirmDialog.show()
         self.startInteraction()
-        return
 
     def confirmCallback(self, value):
         self.confirmDialog.destroy()
@@ -153,7 +151,6 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
             self.doPicking()
         else:
             self.finishInteraction()
-        return
 
     def doPicking(self):
         if not self.canBePicked():
@@ -404,7 +401,6 @@ class DistributedGagTree(DistributedPlantBase.DistributedPlantBase):
             self.resultDialog.destroy()
             self.resultDialog = None
         self.finishInteraction()
-        return
 
     def velvetRoped(self):
         return not base.cr.isPaid() and ToontownBattleGlobals.gagIsPaidOnly(self.gagTrack, self.gagLevel)

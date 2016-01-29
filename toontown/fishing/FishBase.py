@@ -23,7 +23,7 @@ class FishBase:
         self.weight = weight
 
     def getVitals(self):
-        return (self.genus, self.species, self.weight)
+        return self.genus, self.species, self.weight
 
     def getValue(self):
         return FishGlobals.getValue(self.genus, self.species, self.weight)
@@ -56,7 +56,7 @@ class FishBase:
         loop = None
         delay = None
         playRate = None
-        if base.config.GetBool('want-fish-audio', 1):
+        if config.GetBool('want-fish-audio', 1):
             soundDict = FishGlobals.FishAudioFileDict
             fileInfo = soundDict.get(self.genus, None)
             if fileInfo:

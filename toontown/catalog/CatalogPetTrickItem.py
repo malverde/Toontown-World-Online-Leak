@@ -1,9 +1,11 @@
+# Embedded file name: toontown.catalog.CatalogPetTrickItem
 import CatalogItem
 from toontown.pets import PetTricks
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
 from direct.interval.IntervalGlobal import *
+
 
 class CatalogPetTrickItem(CatalogItem.CatalogItem):
     sequenceNumber = 0
@@ -17,7 +19,7 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
         return 1
 
     def reachedPurchaseLimit(self, avatar):
-        return 1 # until we have pets
+        return 1
         if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
             return 1
         return self.trickId in avatar.petTrickPhrases
@@ -45,9 +47,7 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
     def getPicture(self, avatar):
         from toontown.pets import PetDNA, Pet
         pet = Pet.Pet(forGui=1)
-        #dna = avatar.petDNA
-        i#f dna == None:
-        dna = PetDNA.getRandomPetDNA() # another temphack
+        dna = PetDNA.getRandomPetDNA()
         pet.setDNA(dna)
         pet.setH(180)
         model, ival = self.makeFrameModel(pet, 0)
@@ -56,23 +56,29 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
         track = PetTricks.getTrickIval(pet, self.trickId)
         name = 'petTrick-item-%s' % self.sequenceNumber
         CatalogPetTrickItem.sequenceNumber += 1
-        if track != None:
-            track = Sequence(Sequence(track), ActorInterval(pet, 'neutral', duration=2), name=name)
+        if track is not None:
+            track = Sequence(
+                Sequence(track),
+                ActorInterval(
+                    pet,
+                    'neutral',
+                    duration=2),
+                name=name)
         else:
             pet.animFSM.request('neutral')
             track = Sequence(Wait(4), name=name)
         self.petPicture = pet
         self.hasPicture = True
-        return (model, track)
+        return model, track
 
     def cleanupPicture(self):
         CatalogItem.CatalogItem.cleanupPicture(self)
         self.petPicture.delete()
         self.petPicture = None
-        return
 
-    def output(self, store = -1):
-        return 'CatalogPetTrickItem(%s%s)' % (self.trickId, self.formatOptionalData(store))
+    def output(self, store=-1):
+        return 'CatalogPetTrickItem(%s%s)' % (
+            self.trickId, self.formatOptionalData(store))
 
     def compareTo(self, other):
         return self.trickId - other.trickId
@@ -89,7 +95,6 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
         self.dna = None
         if self.trickId not in PetTricks.TrickId2scIds:
             raise ValueError
-        return
 
     def encodeDatagram(self, dg, store):
         CatalogItem.CatalogItem.encodeDatagram(self, dg, store)

@@ -1,16 +1,16 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import Place
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
+from otp.nametag.NametagConstants import *
+from otp.nametag import NametagGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.battle import BattlePlace
 from toontown.suit import Suit
-from toontown.nametag.NametagGlobals import *
-from toontown.nametag import NametagGlobals
 import math
 
 class CogHQBossBattle(BattlePlace.BattlePlace):
@@ -89,7 +89,7 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
         BattlePlace.BattlePlace.load(self)
         self.parentFSM.getStateNamed('cogHQBossBattle').addChild(self.fsm)
         self.townBattle = self.loader.townBattle
-        for i in xrange(1, 3):
+        for i in range(1, 3):
             Suit.loadSuits(i)
 
     def unload(self):
@@ -98,7 +98,7 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
         del self.parentFSM
         del self.fsm
         self.ignoreAll()
-        for i in xrange(1, 3):
+        for i in range(1, 3):
             Suit.unloadSuits(i)
 
     def getTaskZoneId(self):
@@ -112,7 +112,7 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
         if self.bossCog:
             self.bossCog.d_avatarEnter()
         self._telemLimiter = TLGatherAllAvs('CogHQBossBattle', RotationLimitToH)
-        NametagGlobals.setWant2dNametags(True)
+        NametagGlobals.setMasterArrowsOn(1)
         base.localAvatar.inventory.setRespectInvasions(0)
         self.fsm.request(requestStatus['how'], [requestStatus])
 
@@ -162,6 +162,7 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
 
     def enterOuch(self):
         base.localAvatar.setTeleportAvailable(0)
+        # I think this is what we need to use for the laff during battle :)
         base.localAvatar.laffMeter.start()
 
     def exitOuch(self):

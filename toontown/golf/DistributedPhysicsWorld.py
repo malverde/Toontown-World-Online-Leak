@@ -1,7 +1,8 @@
+#Embedded file name: toontown.golf.DistributedPhysicsWorld
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from panda3d.core import *
 from math import *
 import math
 from direct.fsm.FSM import FSM
@@ -52,7 +53,6 @@ class DistributedPhysicsWorld(DistributedObject.DistributedObject, PhysicsWorldB
             sfxPair[1].finish()
 
         self.physicsSfxDict = None
-        return
 
     def clientCommonObject(self, type, commonId, pos, hpr, sizeX, sizeY, moveDistance):
         data = self.createCommonObject(type, commonId, pos, hpr, sizeX, sizeY, moveDistance)

@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+#Embedded file name: toontown.safezone.DistributedDGFlower
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedObject
 from toontown.toonbase import ToontownGlobals
@@ -6,6 +7,7 @@ from direct.task import Task
 SPIN_RATE = 12.5
 
 class DistributedDGFlower(DistributedObject.DistributedObject):
+
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
 
@@ -45,7 +47,7 @@ class DistributedDGFlower(DistributedObject.DistributedObject):
         del self.flowerCollSphereNode
 
     def __flowerSpin(self, task):
-        self.bigFlower.setH(self.bigFlower.getH() + SPIN_RATE*globalClock.getDt())
+        self.bigFlower.setH(self.bigFlower.getH() + SPIN_RATE * globalClock.getDt())
         return Task.cont
 
     def __flowerEnter(self, collisionEntry):

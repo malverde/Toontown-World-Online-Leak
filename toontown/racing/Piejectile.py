@@ -3,13 +3,14 @@ import random
 from direct.showbase.PythonUtil import *
 from direct.showbase.DirectObject import DirectObject
 from direct.task import Task
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.fsm import FSM
 from direct.distributed import DistributedSmoothNode
 from otp.avatar import ShadowCaster
 from otp.otpbase import OTPGlobals
 from toontown.racing.FlyingGag import FlyingGag
 from toontown.battle import MovieUtil
+
 
 class Piejectile(DirectObject, FlyingGag):
     physicsCalculationsPerSecond = 60
@@ -44,9 +45,11 @@ class Piejectile(DirectObject, FlyingGag):
         self.rotP = randFloat(-90, 90)
         self.rotR = randFloat(-90, 90)
         print 'generating Pie %s' % self.name
-        self.ownerKart = base.cr.doId2do.get(base.race.kartMap.get(sourceId, None), None)
+        self.ownerKart = base.cr.doId2do.get(
+            base.race.kartMap.get(sourceId, None), None)
         if targetId != 0:
-            self.targetKart = base.cr.doId2do.get(base.race.kartMap.get(targetId, None), None)
+            self.targetKart = base.cr.doId2do.get(
+                base.race.kartMap.get(targetId, None), None)
             self.hasTarget = 1
         if self.ownerId == localAvatar.doId:
             startPos = self.ownerKart.getPos(render)
@@ -60,9 +63,11 @@ class Piejectile(DirectObject, FlyingGag):
         self.forward.setPos(0, 1, 0)
         self.splatTaskName = 'splatTask %s' % self.name
         if self.hasTarget:
-            self.splatTask = taskMgr.doMethodLater(self.maxTime, self.splat, self.splatTaskName)
+            self.splatTask = taskMgr.doMethodLater(
+                self.maxTime, self.splat, self.splatTaskName)
         else:
-            self.splatTask = taskMgr.doMethodLater(self.maxTime / 2.5, self.splat, self.splatTaskName)
+            self.splatTask = taskMgr.doMethodLater(
+                self.maxTime / 2.5, self.splat, self.splatTaskName)
         self.reparentTo(render)
         return
 
@@ -126,7 +131,8 @@ class Piejectile(DirectObject, FlyingGag):
         throwSpeed = 50
         throwVel = ownerHeading * throwSpeed
         throwVelCast = Vec3(throwVel[0], throwVel[1], throwVel[2] + 50)
-        self.actorNode.getPhysicsObject().setVelocity(self.ownerKart.getVelocity() + throwVelCast)
+        self.actorNode.getPhysicsObject().setVelocity(
+            self.ownerKart.getVelocity() + throwVelCast)
         lookPoint = render.getRelativePoint(self.ownerKart, Point3(0, 10, 0))
         self.lookAt(lookPoint)
         self.taskName = 'updatePhysics%s' % self.name
@@ -141,21 +147,21 @@ class Piejectile(DirectObject, FlyingGag):
     def splatTarget(self):
         if self.targetId == base.localAvatar.getDoId() and base.race.localKart:
             base.race.localKart.splatPie()
-        self.race.effectManager.addSplatEffect(spawner=self.targetKart, parent=self.targetKart)
+        self.race.effectManager.addSplatEffect(
+            spawner=self.targetKart, parent=self.targetKart)
         taskMgr.remove(self.splatTaskName)
         self.removeNode()
-        self.remove()
 
-    def splat(self, optional = None):
+    def splat(self, optional=None):
         self.race.effectManager.addSplatEffect(spawner=self)
         taskMgr.remove(self.splatTaskName)
         self.removeNode()
-        self.remove()
 
     def __updatePhysics(self, task):
         if self.deleting:
             return Task.done
-        self.timeRatio = (globalClock.getFrameTime() - self.startTime) / self.maxTime
+        self.timeRatio = (
+            globalClock.getFrameTime() - self.startTime) / self.maxTime
         self.windResistance.setCoef(0.2 + 0.8 * self.timeRatio)
         if base.cr.doId2do.get(self.targetId) == None:
             self.hasTarget = 0
@@ -168,26 +174,45 @@ class Piejectile(DirectObject, FlyingGag):
                 targetDistance = distMax
             targetVel = self.targetKart.getVelocity()
             targetPos = self.targetKart.getPos()
-            targetAim = Point3(targetPos[0] + targetVel[0] * (targetDistance / distMax), targetPos[1] + targetVel[1] * (targetDistance / distMax), targetPos[2] + targetVel[2] * (targetDistance / distMax))
+            targetAim = Point3(
+                targetPos[0] + targetVel[0] * (targetDistance / distMax),
+                targetPos[1] + targetVel[1] * (targetDistance / distMax),
+                targetPos[2] + targetVel[2] * (targetDistance / distMax))
             self.lookAt(targetPos)
         if self.d2t < 7 and self.hasTarget:
             self.splatTarget()
             return Task.done
         self.count += 1
         dt = globalClock.getDt()
-        physicsFrame = int((globalClock.getFrameTime() - self.physicsEpoch) * self.physicsCalculationsPerSecond)
-        numFrames = min(physicsFrame - self.lastPhysicsFrame, self.maxPhysicsFrames)
+        physicsFrame = int(
+            (globalClock.getFrameTime() -
+             self.physicsEpoch) *
+            self.physicsCalculationsPerSecond)
+        numFrames = min(
+            physicsFrame -
+            self.lastPhysicsFrame,
+            self.maxPhysicsFrames)
         self.lastPhysicsFrame = physicsFrame
         if self.hasTarget:
             targetVel = self.targetKart.getVelocity()
             targetSpeed = targetVel.length()
             if self.d2t - 10 * self.physicsDt > self.lastD2t:
-                self.engine.setVector(Vec3(0, 150 + 150 * self.timeRatio + targetSpeed * (1.0 + 1.0 * self.timeRatio) + self.d2t * (1.0 + 1.0 * self.timeRatio), 12))
+                self.engine.setVector(
+                    Vec3(
+                        0, 150 + 150 * self.timeRatio + targetSpeed *
+                        (1.0 + 1.0 * self.timeRatio) + self.d2t *
+                        (1.0 + 1.0 * self.timeRatio),
+                        12))
             else:
-                self.engine.setVector(Vec3(0, 10 + 10 * self.timeRatio + targetSpeed * (0.5 + 0.5 * self.timeRatio) + self.d2t * (0.5 + 0.5 * self.timeRatio), 12))
+                self.engine.setVector(
+                    Vec3(
+                        0, 10 + 10 * self.timeRatio + targetSpeed *
+                        (0.5 + 0.5 * self.timeRatio) + self.d2t *
+                        (0.5 + 0.5 * self.timeRatio),
+                        12))
         else:
             self.engine.setVector(Vec3(0, 100, 3))
-        for i in xrange(int(numFrames)):
+        for i in range(int(numFrames)):
             pitch = self.gagNode.getP()
             self.gagNode.setP(pitch + self.rotH * self.physicsDt)
             roll = self.gagNode.getR()

@@ -5,9 +5,8 @@ from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
 import types
 from direct.showbase import PythonUtil
-from pandac.PandaModules import *
-from toontown.chat.ChatGlobals import *
-from toontown.nametag.NametagGlobals import *
+from panda3d.core import *
+from otp.nametag.NametagConstants import *
 from otp.avatar import Emote
 from direct.directnotify import DirectNotifyGlobal
 EmoteSleepIndex = 4
@@ -19,17 +18,17 @@ def doVictory(toon, volume = 1):
     sfxDuration = duration - 1.0
     sfxTrack = SoundInterval(sfx, loop=1, duration=sfxDuration, node=toon, volume=volume)
     track = Sequence(Func(toon.play, 'victory'), sfxTrack, duration=0)
-    return (track, duration, None)
+    return track, duration, None
 
 
 def doJump(toon, volume = 1):
     track = Sequence(Func(toon.play, 'jump'))
-    return (track, 0, None)
+    return track, 0, None
 
 
 def doDead(toon, volume = 1):
     toon.animFSM.request('Sad')
-    return (None, 0, None)
+    return None, 0, None
 
 
 def doAnnoyed(toon, volume = 1):
@@ -45,24 +44,24 @@ def doAnnoyed(toon, volume = 1):
 
     track = Sequence(Func(toon.angryEyes), Func(toon.blinkEyes), Func(toon.play, 'angry'), Func(playSfx))
     exitTrack = Sequence(Func(toon.normalEyes), Func(toon.blinkEyes))
-    return (track, duration, exitTrack)
+    return track, duration, exitTrack
 
 
 def doAngryEyes(toon, volume = 1):
     track = Sequence(Func(toon.angryEyes), Func(toon.blinkEyes), Wait(10.0), Func(toon.normalEyes))
-    return (track, 0.1, None)
+    return track, 0.1, None
 
 
 def doHappy(toon, volume = 1):
     track = Sequence(Func(toon.play, 'jump'), Func(toon.normalEyes), Func(toon.blinkEyes))
     duration = toon.getDuration('jump', 'legs')
-    return (track, duration, None)
+    return track, duration, None
 
 
 def doSad(toon, volume = 1):
     track = Sequence(Func(toon.sadEyes), Func(toon.blinkEyes))
     exitTrack = Sequence(Func(toon.normalEyes), Func(toon.blinkEyes))
-    return (track, 3, exitTrack)
+    return track, 3, exitTrack
 
 
 def doSleep(toon, volume = 1):
@@ -74,12 +73,12 @@ def doSleep(toon, volume = 1):
         toon.openEyes()
         toon.startBlink()
         toon.setPlayRate(1, 'neutral')
-        if toon.nametag.getChatText() == TTLocalizer.ToonSleepString:
+        if toon.nametag.getChat() == TTLocalizer.ToonSleepString:
             toon.clearChat()
         toon.lerpLookAt(Point3(0, 1, 0), time=0.25)
 
     exitTrack = Sequence(Func(wakeUpFromSleepEmote))
-    return (track, duration, exitTrack)
+    return track, duration, exitTrack
 
 
 def doYes(toon, volume = 1):
@@ -89,7 +88,7 @@ def doYes(toon, volume = 1):
         tracks.append(Sequence(LerpHprInterval(h, 0.1, Vec3(0, -30, 0)), LerpHprInterval(h, 0.15, Vec3(0, 20, 0)), LerpHprInterval(h, 0.15, Vec3(0, -20, 0)), LerpHprInterval(h, 0.15, Vec3(0, 20, 0)), LerpHprInterval(h, 0.15, Vec3(0, -20, 0)), LerpHprInterval(h, 0.15, Vec3(0, 20, 0)), LerpHprInterval(h, 0.1, Vec3(0, 0, 0))))
 
     tracks.start()
-    return (None, 0, None)
+    return None, 0, None
 
 
 def doNo(toon, volume = 1):
@@ -99,11 +98,11 @@ def doNo(toon, volume = 1):
         tracks.append(Sequence(LerpHprInterval(h, 0.1, Vec3(40, 0, 0)), LerpHprInterval(h, 0.15, Vec3(-40, 0, 0)), LerpHprInterval(h, 0.15, Vec3(40, 0, 0)), LerpHprInterval(h, 0.15, Vec3(-40, 0, 0)), LerpHprInterval(h, 0.15, Vec3(20, 0, 0)), LerpHprInterval(h, 0.15, Vec3(-20, 0, 0)), LerpHprInterval(h, 0.1, Vec3(0, 0, 0))))
 
     tracks.start()
-    return (None, 0, None)
+    return None, 0, None
 
 
 def doOk(toon, volume = 1):
-    return (None, 0, None)
+    return None, 0, None
 
 
 def doShrug(toon, volume = 1):
@@ -114,13 +113,13 @@ def doShrug(toon, volume = 1):
 
     track = Sequence(Func(toon.play, 'shrug'), Func(playSfx))
     duration = toon.getDuration('shrug', 'torso')
-    return (track, duration, None)
+    return track, duration, None
 
 
 def doWave(toon, volume = 1):
     track = Sequence(Func(toon.play, 'wave'))
     duration = toon.getDuration('wave', 'torso')
-    return (track, duration, None)
+    return track, duration, None
 
 
 def doApplause(toon, volume = 1):
@@ -131,7 +130,7 @@ def doApplause(toon, volume = 1):
 
     track = Sequence(Func(toon.play, 'applause'), Func(playSfx))
     duration = toon.getDuration('applause', 'torso')
-    return (track, duration, None)
+    return track, duration, None
 
 
 def doConfused(toon, volume = 1):
@@ -142,7 +141,7 @@ def doConfused(toon, volume = 1):
 
     track = Sequence(Func(toon.play, 'confused'), Func(playSfx))
     duration = toon.getDuration('confused', 'torso')
-    return (track, duration, None)
+    return track, duration, None
 
 
 def doSlipForward(toon, volume = 1):
@@ -154,7 +153,7 @@ def doSlipForward(toon, volume = 1):
     sfxDelay = 0.7
     track = Sequence(Func(toon.play, 'slip-forward'), Wait(sfxDelay), Func(playSfx))
     duration = toon.getDuration('slip-forward', 'torso') - sfxDelay
-    return (track, duration, None)
+    return track, duration, None
 
 
 def doBored(toon, volume = 1):
@@ -166,7 +165,7 @@ def doBored(toon, volume = 1):
     sfxDelay = 2.2
     track = Sequence(Func(toon.play, 'bored'), Wait(sfxDelay), Func(playSfx))
     duration = toon.getDuration('bored', 'torso') - sfxDelay
-    return (track, duration, None)
+    return track, duration, None
 
 
 def doBow(toon, volume = 1):
@@ -176,7 +175,7 @@ def doBow(toon, volume = 1):
     else:
         track = Sequence(Func(toon.play, 'bow'))
         duration = toon.getDuration('bow', 'torso')
-    return (track, duration, None)
+    return track, duration, None
 
 
 def doSlipBackward(toon, volume = 1):
@@ -188,20 +187,20 @@ def doSlipBackward(toon, volume = 1):
     sfxDelay = 0.7
     track = Sequence(Func(toon.play, 'slip-backward'), Wait(sfxDelay), Func(playSfx))
     duration = toon.getDuration('slip-backward', 'torso') - sfxDelay
-    return (track, duration, None)
+    return track, duration, None
 
 
 def doThink(toon, volume = 1):
     duration = 47.0 / 24.0 * 2
     animTrack = Sequence(ActorInterval(toon, 'think', startFrame=0, endFrame=46), ActorInterval(toon, 'think', startFrame=46, endFrame=0))
     track = Sequence(animTrack, duration=0)
-    return (track, duration, None)
+    return track, duration, None
 
 
 def doCringe(toon, volume = 1):
     track = Sequence(Func(toon.play, 'cringe'))
     duration = toon.getDuration('cringe', 'torso')
-    return (track, duration, None)
+    return track, duration, None
 
 
 def doResistanceSalute(toon, volume = 1):
@@ -209,11 +208,11 @@ def doResistanceSalute(toon, volume = 1):
     duration = 10.0 / 24.0 * (1 / playRate) * 2
     animTrack = Sequence(Func(toon.setChatAbsolute, OTPLocalizer.CustomSCStrings[4020], CFSpeech | CFTimeout), Func(toon.setPlayRate, playRate, 'victory'), ActorInterval(toon, 'victory', playRate=playRate, startFrame=0, endFrame=9), ActorInterval(toon, 'victory', playRate=playRate, startFrame=9, endFrame=0))
     track = Sequence(animTrack, duration=0)
-    return (track, duration, None)
+    return track, duration, None
 
 
 def doNothing(toon, volume = 1):
-    return (None, 0, None)
+    return None, 0, None
 
 
 def doSurprise(toon, volume = 1):
@@ -234,7 +233,7 @@ def doSurprise(toon, volume = 1):
     anim = Sequence(ActorInterval(toon, 'conked', startFrame=9, endFrame=50), ActorInterval(toon, 'conked', startFrame=70, endFrame=101))
     track = Sequence(Func(toon.stopBlink), Func(toon.surpriseEyes), Func(toon.showSurpriseMuzzle), Parallel(Func(playAnim, anim), Func(playSfx, volume)))
     exitTrack = Sequence(Func(toon.hideSurpriseMuzzle), Func(toon.openEyes), Func(toon.startBlink), Func(stopAnim, anim))
-    return (track, 3.0, exitTrack)
+    return track, 3.0, exitTrack
 
 
 def doUpset(toon, volume = 1):
@@ -255,7 +254,7 @@ def doUpset(toon, volume = 1):
     anim = Sequence(ActorInterval(toon, 'bad-putt', startFrame=29, endFrame=59, playRate=-0.75), ActorInterval(toon, 'bad-putt', startFrame=29, endFrame=59, playRate=0.75))
     track = Sequence(Func(toon.sadEyes), Func(toon.blinkEyes), Func(toon.showSadMuzzle), Parallel(Func(playAnim, anim), Func(playSfx, volume)))
     exitTrack = Sequence(Func(toon.hideSadMuzzle), Func(toon.normalEyes), Func(stopAnim, anim))
-    return (track, 4.0, exitTrack)
+    return track, 4.0, exitTrack
 
 
 def doDelighted(toon, volume = 1):
@@ -276,7 +275,7 @@ def doDelighted(toon, volume = 1):
     anim = Sequence(ActorInterval(toon, 'left'), Wait(1), ActorInterval(toon, 'left', playRate=-1))
     track = Sequence(Func(toon.blinkEyes), Func(toon.showSmileMuzzle), Parallel(Func(playAnim, anim), Func(playSfx, volume)))
     exitTrack = Sequence(Func(toon.hideSmileMuzzle), Func(toon.blinkEyes), Func(stopAnim, anim))
-    return (track, 2.5, exitTrack)
+    return track, 2.5, exitTrack
 
 
 def doFurious(toon, volume = 1):
@@ -289,7 +288,7 @@ def doFurious(toon, volume = 1):
 
     track = Sequence(Func(toon.angryEyes), Func(toon.blinkEyes), Func(toon.showAngryMuzzle), Func(toon.play, 'angry'), Func(playSfx, volume))
     exitTrack = Sequence(Func(toon.normalEyes), Func(toon.blinkEyes), Func(toon.hideAngryMuzzle))
-    return (track, duration, exitTrack)
+    return track, duration, exitTrack
 
 
 def doLaugh(toon, volume = 1):
@@ -308,7 +307,7 @@ def doLaugh(toon, volume = 1):
 
     track = Sequence(Func(toon.blinkEyes), Func(toon.showLaughMuzzle), Func(playAnim), Func(playSfx, volume))
     exitTrack = Sequence(Func(toon.hideLaughMuzzle), Func(toon.blinkEyes), Func(stopAnim))
-    return (track, 2, exitTrack)
+    return track, 2, exitTrack
 
 
 def getSingingNote(toon, note, volume = 1):
@@ -330,7 +329,7 @@ def getSingingNote(toon, note, volume = 1):
 
     track = Sequence(Func(toon.showSurpriseMuzzle), Parallel(Func(playAnim), Func(playSfx, volume)))
     exitTrack = Sequence(Func(toon.hideSurpriseMuzzle), Func(stopAnim))
-    return (track, 0.1, exitTrack)
+    return track, 0.1, exitTrack
 
 
 def playSingingAnim(toon):
@@ -423,7 +422,7 @@ def singNote8(toon, volume = 1):
 
 def singNoteEmpty(toon, volume = 0):
     track = Sequence()
-    return (track, 0.1, None)
+    return track, 0.1, None
 
 
 def returnToLastAnim(toon):
@@ -566,7 +565,7 @@ class TTEmote(Emote.Emote):
     def disable(self, index, toon):
         if isinstance(index, types.StringType):
             index = OTPLocalizer.EmoteFuncDict[index]
-        self.emoteFunc[index][1] = self.emoteFunc[index][1] + 1
+        self.emoteFunc[index][1] += 1
         if toon is base.localAvatar:
             if self.emoteFunc[index][1] == 1:
                 self.emoteEnableStateChanged()
@@ -574,7 +573,7 @@ class TTEmote(Emote.Emote):
     def enable(self, index, toon):
         if isinstance(index, types.StringType):
             index = OTPLocalizer.EmoteFuncDict[index]
-        self.emoteFunc[index][1] = self.emoteFunc[index][1] - 1
+        self.emoteFunc[index][1] -= 1
         if toon is base.localAvatar:
             if self.emoteFunc[index][1] == 0:
                 self.emoteEnableStateChanged()
@@ -584,7 +583,7 @@ class TTEmote(Emote.Emote):
             func = self.emoteFunc[emoteIndex][0]
         except:
             print 'Error in finding emote func %s' % emoteIndex
-            return (None, None)
+            return None, None
 
         def clearEmoteTrack():
             base.localAvatar.emoteTrack = None
@@ -613,7 +612,7 @@ class TTEmote(Emote.Emote):
             toon.emote = track
             track.start(ts)
         del clearEmoteTrack
-        return (track, duration)
+        return track, duration
 
     def printEmoteState(self, action, msg):
         pass

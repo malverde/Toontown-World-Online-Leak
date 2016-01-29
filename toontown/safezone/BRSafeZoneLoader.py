@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+#Embedded file name: toontown.safezone.BRSafeZoneLoader
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 import SafeZoneLoader
 import BRPlayground
@@ -12,8 +13,8 @@ class BRSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         self.playgroundClass = BRPlayground.BRPlayground
         self.musicFile = 'phase_8/audio/bgm/TB_nbrhood.ogg'
         self.activityMusicFile = 'phase_8/audio/bgm/TB_SZ_activity.ogg'
-        self.dnaFile = 'phase_8/dna/the_burrrgh_sz.pdna'
-        self.safeZoneStorageDNAFile = 'phase_8/dna/storage_BR_sz.pdna'
+        self.dnaFile = 'phase_8/dna/the_burrrgh_sz.xml'
+        self.safeZoneStorageDNAFile = 'phase_8/dna/storage_BR_sz.xml'
 
     def load(self):
         SafeZoneLoader.SafeZoneLoader.load(self)
@@ -26,7 +27,6 @@ class BRSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         self.snowRender.setDepthWrite(0)
         self.snowRender.setBin('fixed', 1)
         self.snowFade = None
-        return
 
     def unload(self):
         del self.wind1Sound
@@ -59,7 +59,6 @@ class BRSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         if self.snowFade != None:
             self.snowFade.stop()
             self.snowFade = None
-        return
 
     def fadeInSnow(self):
         self.resetSnowLerp()

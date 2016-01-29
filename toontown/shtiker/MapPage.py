@@ -3,7 +3,7 @@ from toontown.toonbase import ToontownGlobals
 from direct.showbase import PythonUtil
 from toontown.hood import ZoneUtil
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TTDialog
 from toontown.election import SafezoneInvasionGlobals
@@ -179,7 +179,7 @@ class MapPage(ShtikerPage.ShtikerPage):
                 avatar = base.cr.identifyAvatar(base.cr.playGame.hood.loader.estateOwnerId)
                 if avatar:
                     avName = avatar.getName()
-                    self.hoodLabel['text'] = TTLocalizer.MapPageYouAreAtSomeonesHome % TTLocalizer.GetPossesive(avName, 'book')
+                    self.hoodLabel['text'] = TTLocalizer.MapPageYouAreAtSomeonesHome % TTLocalizer.GetPossesive(avName)
                     self.hoodLabel.show()
         elif zone:
             hoodName = ToontownGlobals.hoodNameMap.get(ZoneUtil.getCanonicalHoodId(zone), ('',))[-1]

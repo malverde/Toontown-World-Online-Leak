@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.DustCloud
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase import PythonUtil
@@ -28,7 +29,6 @@ class DustCloud(NodePath):
         DustCloud.dustCloudCount += 1
         self.setBin('fixed', 100, 1)
         self.hide()
-        return
 
     def createTrack(self, rate = 24):
 
@@ -56,11 +56,10 @@ class DustCloud(NodePath):
     def isPlaying(self):
         if self.track == None:
             return False
-        if self.track.isPlaying():
+        elif self.track.isPlaying():
             return True
         else:
             return False
-        return
 
     def play(self, rate = 24):
         self.stop()

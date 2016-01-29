@@ -1,3 +1,4 @@
+#Embedded file name: toontown.safezone.ChineseCheckersBoard
 
 
 class ChineseCheckersBoard:
@@ -733,7 +734,6 @@ class ChineseCheckersBoard:
          None,
          119,
          118])
-        return
 
     def delete(self):
         for x in self.squareList:

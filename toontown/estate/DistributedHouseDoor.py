@@ -1,5 +1,6 @@
+#Embedded file name: toontown.estate.DistributedHouseDoor
 from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedObject
@@ -57,7 +58,7 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
         self.zoneDoneLoading = 0
 
     def getBuilding(self, allowEmpty = False):
-        if 'building' not in self.__dict__:
+        if not self.__dict__.has_key('building'):
             if self.doorType == DoorTypes.INT_STANDARD:
                 door = render.find('**/leftDoor;+s')
                 self.building = door.getParent()
@@ -120,4 +121,3 @@ class DistributedHouseDoor(DistributedDoor.DistributedDoor):
              'allowRedirect': 0,
              'doorDoId': self.otherDoId}
             messenger.send('doorDoneEvent', [request])
-        return

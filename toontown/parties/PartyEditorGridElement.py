@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.PartyEditorGridElement
 from pandac.PandaModules import Vec3, Vec4, Point3, TextNode, VBase4, NodePath
 from direct.gui.DirectGui import DirectFrame, DirectButton, DirectLabel, DirectScrolledList, DirectCheckButton
 from direct.gui import DirectGuiGlobals
@@ -59,7 +60,6 @@ class PartyEditorGridElement(DirectButton):
         self.setTransparency(True)
         self.mouseOverTrash = False
         self.centerGridSquare = None
-        return
 
     def getCorrectRotation(self):
         r = self.getR()
@@ -99,7 +99,11 @@ class PartyEditorGridElement(DirectButton):
         if mwn.hasMouse():
             vMouse2render2d = Point3(mwn.getMouse()[0], 0, mwn.getMouse()[1])
             newPos = vMouse2render2d
-            if newPos[0] > PartyGlobals.PartyEditorGridBounds[0][0] and newPos[0] < PartyGlobals.PartyEditorGridBounds[1][0] and newPos[2] < PartyGlobals.PartyEditorGridBounds[0][1] and newPos[2] > PartyGlobals.PartyEditorGridBounds[1][1]:
+            if \
+                                    PartyGlobals.PartyEditorGridBounds[0][0] < newPos[0] < \
+                                    PartyGlobals.PartyEditorGridBounds[1][0] and \
+                                            PartyGlobals.PartyEditorGridBounds[0][1] > newPos[2] > \
+                                    PartyGlobals.PartyEditorGridBounds[1][1]:
                 centerGridSquare = self.snapToGrid(newPos)
                 if centerGridSquare is not None:
                     self.centerGridSquare = centerGridSquare
@@ -108,7 +112,10 @@ class PartyEditorGridElement(DirectButton):
                     if self.mouseOverTrash:
                         self.setOverTrash(False)
                     return Task.cont
-            if self.id != PartyGlobals.ActivityIds.PartyClock and newPos[0] > PartyGlobals.PartyEditorTrashBounds[0][0] and newPos[0] < PartyGlobals.PartyEditorTrashBounds[1][0] and newPos[2] < PartyGlobals.PartyEditorTrashBounds[0][1] and newPos[2] > PartyGlobals.PartyEditorTrashBounds[1][1]:
+            if self.id != PartyGlobals.ActivityIds.PartyClock and PartyGlobals.PartyEditorTrashBounds[0][0] < newPos[
+                0] < PartyGlobals.PartyEditorTrashBounds[1][0] and \
+                                    PartyGlobals.PartyEditorTrashBounds[0][1] > newPos[2] > \
+                            PartyGlobals.PartyEditorTrashBounds[1][1]:
                 if not self.mouseOverTrash:
                     self.setOverTrash(True)
             elif self.mouseOverTrash:
@@ -140,7 +147,6 @@ class PartyEditorGridElement(DirectButton):
         self.setOverValidSquare(False)
         self.lastValidPosition = None
         self.stash()
-        return
 
     def snapToGrid(self, newPos):
         gridSquare = self.getGridSquareFromPosition(newPos)
@@ -148,7 +154,7 @@ class PartyEditorGridElement(DirectButton):
             self.setPosHprToDefault()
             self.setPos(render2d, newPos)
             return
-        elif not self.partyEditor.partyEditorGrid.checkGridSquareForAvailability(gridSquare, self.getGridSize()):
+        if not self.partyEditor.partyEditorGrid.checkGridSquareForAvailability(gridSquare, self.getGridSize()):
             self.setPos(render2d, newPos)
             return
         self.setPosHprBasedOnGridSquare(gridSquare)
@@ -219,7 +225,6 @@ class PartyEditorGridElement(DirectButton):
         else:
             self.stash()
         self.checkSoldOutAndPaidStatusAndAffordability()
-        return
 
     def placeInPartyGrounds(self, desiredXY = None):
         self.centerGridSquare = self.partyEditor.partyEditorGrid.getClearGridSquare(self.getGridSize(), desiredXY)
@@ -234,14 +239,12 @@ class PartyEditorGridElement(DirectButton):
             return True
         else:
             return False
-        return
 
     def clicked(self, mouseEvent):
         PartyEditorGridElement.notify.debug('clicked grid element %s' % self.name)
         if self.centerGridSquare is not None:
             self.attach(mouseEvent)
             self.partyEditor.partyEditorGrid.removeElement(self.centerGridSquare, self.getGridSize())
-        return
 
     def released(self, mouseEvent):
         PartyEditorGridElement.notify.debug('released grid element %s' % self.name)

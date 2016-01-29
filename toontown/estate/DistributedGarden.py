@@ -1,7 +1,8 @@
-from pandac.PandaModules import *
+#Embedded file name: toontown.estate.DistributedGarden
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import ToontownGlobals
 from direct.distributed import DistributedObject
@@ -36,7 +37,6 @@ class DistributedGarden(DistributedObject.DistributedObject):
 
         self.dx = 1.0 / self.gridCells
         self.occupied = []
-        return
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
@@ -59,7 +59,6 @@ class DistributedGarden(DistributedObject.DistributedObject):
         del self.props
         self.props = None
         self.unload()
-        return
 
     def sendNewProp(self, prop, x, y, z):
         self.notify.debug('sendNewProp')

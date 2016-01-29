@@ -146,7 +146,7 @@ class MinigamePhysicsWorldBase:
             self.world.applyDampening(self.DTAStep, bodyPair[1])
 
         self.contactgroup.empty()
-        self.timingSimTime = self.timingSimTime + self.DTAStep
+        self.timingSimTime += self.DTAStep
 
     def placeBodies(self):
         for pair in self.odePandaRelationList:
@@ -163,4 +163,4 @@ class MinigamePhysicsWorldBase:
             chold = c1
             c1 = c0
             c0 = chold
-        return (c0, c1)
+        return c0, c1

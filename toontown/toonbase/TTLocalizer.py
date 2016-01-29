@@ -10,6 +10,7 @@ except NameError:
     language = getConfigExpress().GetString('language', 'english')
     checkLanguage = getConfigExpress().GetBool('check-language', 0)
 
+
 def getLanguage():
     return language
 
@@ -34,13 +35,13 @@ if checkLanguage:
     englishModule = __import__('toontown.toonbase.TTLocalizerEnglish', g, l)
     foreignModule = __import__(_languageModule, g, l)
     for key, val in englishModule.__dict__.items():
-        if key not in  foreignModule.__dict__:
+        if key not in foreignModule.__dict__:
             print 'WARNING: Foreign module: %s missing key: %s' % (_languageModule, key)
             locals()[key] = val
         elif isinstance(val, types.DictType):
             fval = foreignModule.__dict__.get(key)
             for dkey, dval in val.items():
-                if dkey not in  fval:
+                if dkey not in fval:
                     print 'WARNING: Foreign module: %s missing key: %s.%s' % (_languageModule, key, dkey)
                     fval[dkey] = dval
 

@@ -21,9 +21,9 @@ class DistributedGridAI(DistributedEntityAI.DistributedEntityAI):
         if not self.initialized:
             self.objPos = {}
             self.gridCells = [None] * self.numRow
-            for i in xrange(len(self.gridCells)):
+            for i in range(len(self.gridCells)):
                 self.gridCells[i] = [None] * self.numCol
-                for j in xrange(len(self.gridCells[i])):
+                for j in range(len(self.gridCells[i])):
                     self.gridCells[i][j] = []
 
             self.initialized = 1
@@ -36,7 +36,7 @@ class DistributedGridAI(DistributedEntityAI.DistributedEntityAI):
         objPos = self.objPos.get(objId, None)
         if objPos:
             row, col = objPos
-            if row >= 0 and row < self.numRow and col >= 0 and col < self.numCol:
+            if 0 <= row < self.numRow and 0 <= col < self.numCol:
                 return [(col + 1) * self.cellSize, (row + 1) * self.cellSize, 0]
             else:
                 self.notify.debug('row/col out of range %s/%s' % (row, col))
@@ -56,8 +56,8 @@ class DistributedGridAI(DistributedEntityAI.DistributedEntityAI):
          pos,
          row,
          col))
-        while col >= 0 and col < self.numCol:
-            while row >= 0 and row < self.numRow:
+        while 0 <= col < self.numCol:
+            while 0 <= row < self.numRow:
                 if self.addObjectByRowCol(objId, row, col):
                     return 1
                 else:
@@ -77,7 +77,7 @@ class DistributedGridAI(DistributedEntityAI.DistributedEntityAI):
         return
 
     def addObjectByRowCol(self, objId, row, col):
-        if row >= 0 and row < self.numRow - 1 and col >= 0 and col < self.numCol - 1:
+        if 0 <= row < self.numRow - 1 and 0 <= col < self.numCol - 1:
             self.notify.debug('adding obj %s to grid cell %s,%s' % (objId, row, col))
             self.gridCells[row][col].append(objId)
             self.gridCells[row + 1][col].append(objId)
@@ -109,23 +109,23 @@ class DistributedGridAI(DistributedEntityAI.DistributedEntityAI):
          [row + 1, col + 1]], objId=objId)
 
     def checkMoveDir(self, objId, h):
-        if h > 225 and h < 315:
+        if 225 < h < 315:
             return self.checkMove(objId, 0, 1)
-        elif h > 45 and h < 135:
+        elif 45 < h < 135:
             return self.checkMove(objId, 0, -1)
         elif h < 45 or h > 315:
             return self.checkMove(objId, 1, 0)
-        elif h > 135 and h < 225:
+        elif 135 < h < 225:
             return self.checkMove(objId, -1, 0)
 
     def doMoveDir(self, objId, h):
-        if h > 225 and h < 315:
+        if 225 < h < 315:
             return self.doMove(objId, 0, 1)
-        elif h > 45 and h < 135:
+        elif 45 < h < 135:
             return self.doMove(objId, 0, -1)
         elif h < 45 or h > 315:
             return self.doMove(objId, 1, 0)
-        elif h > 135 and h < 225:
+        elif 135 < h < 225:
             return self.doMove(objId, -1, 0)
 
     def checkPush(self, objId, side):
@@ -226,9 +226,9 @@ class DistributedGridAI(DistributedEntityAI.DistributedEntityAI):
     def printGrid(self):
         if not __debug__:
             return
-        for i in xrange(len(self.gridCells)):
+        for i in range(len(self.gridCells)):
             str = ''
-            for j in xrange(len(self.gridCells[i])):
+            for j in range(len(self.gridCells[i])):
                 col = self.gridCells[i][j]
                 active = 0
                 for cell in self.activeCellList:

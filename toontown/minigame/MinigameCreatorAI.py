@@ -6,7 +6,6 @@ import DistributedMinigameTemplateAI
 import DistributedRaceGameAI
 import DistributedCannonGameAI
 import DistributedTagGameAI
-#import DistributedPatternGameAI
 import DistributedRingGameAI
 import DistributedMazeGameAI
 import DistributedTugOfWarGameAI
@@ -31,7 +30,7 @@ MinigameZoneRefs = {}
 
 def createMinigame(air, playerArray, trolleyZone, minigameZone = None, previousGameId = ToontownGlobals.NoPreviousGameId, newbieIds = [], startingVotes = None, metagameRound = -1, desiredNextGame = None):
     if minigameZone == None:
-        minigameZone = air.allocateZone()
+        minigameZone = air.allocateZone(owner='MinigameCreatorAI')
     acquireMinigameZone(minigameZone)
     mgId = None
     mgDiff = None
@@ -73,7 +72,6 @@ def createMinigame(air, playerArray, trolleyZone, minigameZone = None, previousG
     mgCtors = {ToontownGlobals.RaceGameId: DistributedRaceGameAI.DistributedRaceGameAI,
      ToontownGlobals.CannonGameId: DistributedCannonGameAI.DistributedCannonGameAI,
      ToontownGlobals.TagGameId: DistributedTagGameAI.DistributedTagGameAI,
-     #ToontownGlobals.PatternGameId: DistributedPatternGameAI.DistributedPatternGameAI,
      ToontownGlobals.RingGameId: DistributedRingGameAI.DistributedRingGameAI,
      ToontownGlobals.MazeGameId: DistributedMazeGameAI.DistributedMazeGameAI,
      ToontownGlobals.TugOfWarGameId: DistributedTugOfWarGameAI.DistributedTugOfWarGameAI,
@@ -123,9 +121,7 @@ def createMinigame(air, playerArray, trolleyZone, minigameZone = None, previousG
         if toon != None:
             toons.append(toon)
 
-    retVal = {}
-    retVal['minigameZone'] = minigameZone
-    retVal['minigameId'] = mgId
+    retVal = {'minigameZone': minigameZone, 'minigameId': mgId}
     return retVal
 
 
@@ -178,7 +174,7 @@ def removeUnreleasedMinigames(startList, increaseChanceOfNewGames = 0):
                         randomList += [gameId] * 4
                 if doRemove:
                     randomList.remove(gameId)
-        if releaseTime < currentTime and currentTime < releaseTimePlus1Week and gameId in randomList and increaseChanceOfNewGames:
+        if releaseTime < currentTime < releaseTimePlus1Week and gameId in randomList and increaseChanceOfNewGames:
             randomList += [gameId] * 4
 
     return randomList
@@ -200,6 +196,10 @@ def requestMinigame(minigameName='remove', minigameKeep=False, minigameDiff=None
 def minigame(command, arg0=None):
     """
     A command set for Trolley minigames.
+    :param command:
+    :type command:
+    :param arg0:
+    :type arg0:
     """
     command = command.lower()
     invoker = spellbook.getInvoker()

@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+#Embedded file name: toontown.safezone.DistributedMMPiano
+from panda3d.core import *
 from direct.task.Task import Task
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
@@ -22,7 +23,6 @@ class DistributedMMPiano(DistributedObject.DistributedObject):
         self.speedUpSound = None
         self.changeDirectionSound = None
         self.lastChangeDirection = 0.0
-        return
 
     def generate(self):
         self.piano = base.cr.playGame.hood.loader.piano
@@ -65,14 +65,13 @@ class DistributedMMPiano(DistributedObject.DistributedObject):
         self.changeDirectionSound = None
         self.__stopSpin()
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def setSpeed(self, rpm, offset, timestamp):
         timestamp = globalClockDelta.networkToLocalTime(timestamp)
         degreesPerSecond = rpm / 60.0 * 360.0
         now = globalClock.getFrameTime()
         oldHeading = self.degreesPerSecond * (now - self.spinStartTime) + self.offset
-        oldHeading = oldHeading % 360.0
+        oldHeading %= 360.0
         oldOffset = oldHeading - degreesPerSecond * (now - timestamp)
         self.rpm = rpm
         self.degreesPerSecond = degreesPerSecond

@@ -1,7 +1,8 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.showbase.PythonUtil import reduceAngle
 from otp.movement import Impulse
 from otp.otpbase import OTPGlobals
+
 
 class PetCollider(Impulse.Impulse):
     SerialNum = 0

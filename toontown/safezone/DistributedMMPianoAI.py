@@ -1,8 +1,9 @@
+#Embedded file name: toontown.safezone.DistributedMMPianoAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 
 class DistributedMMPianoAI(DistributedObjectAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedMMPianoAI")
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedMMPianoAI')
 
     def requestSpeedUp(self):
         pass
@@ -18,4 +19,3 @@ class DistributedMMPianoAI(DistributedObjectAI):
 
     def playChangeDirection(self, todo0):
         pass
-

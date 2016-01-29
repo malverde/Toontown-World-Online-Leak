@@ -1,3 +1,4 @@
+#Embedded file name: toontown.effects.TrailExplosion
 from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from EffectController import EffectController
@@ -30,7 +31,7 @@ class TrailExplosion(PooledEffect, EffectController):
         self.trailEffects = []
         self.trailIval = Parallel()
         vels = None
-        if self.numTrails >= 3 and self.numTrails <= 5:
+        if 3 <= self.numTrails <= 5:
             vels = self.trailsVel[self.numTrails - 3]
         for i in range(self.numTrails):
             self.trails.append(self.attachNewNode('trail'))
@@ -51,7 +52,6 @@ class TrailExplosion(PooledEffect, EffectController):
                 self.trailIval.append(Sequence(Func(self.trailEffects[i].startLoop), Wait(dur), Func(self.trailEffects[i].stopLoop)))
 
         self.track = Sequence(self.trailIval, Func(self.cleanUpEffect))
-        return
 
     def setEffectScale(self, scale):
         self.effectScale = scale
@@ -68,7 +68,6 @@ class TrailExplosion(PooledEffect, EffectController):
         EffectController.cleanUpEffect(self)
         if self.pool and self.pool.isUsed(self):
             self.pool.checkin(self)
-        return
 
     def destroy(self):
         EffectController.destroy(self)

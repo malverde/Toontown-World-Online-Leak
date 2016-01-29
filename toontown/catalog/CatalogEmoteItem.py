@@ -1,3 +1,4 @@
+# Embedded file name: toontown.catalog.CatalogEmoteItem
 import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -5,11 +6,12 @@ from otp.otpbase import OTPLocalizer
 from direct.interval.IntervalGlobal import *
 LoyaltyEmoteItems = (20, 21, 22, 23, 24)
 
+
 class CatalogEmoteItem(CatalogItem.CatalogItem):
     sequenceNumber = 0
     pictureToon = None
 
-    def makeNewItem(self, emoteIndex, loyaltyDays = 0):
+    def makeNewItem(self, emoteIndex, loyaltyDays=0):
         self.emoteIndex = emoteIndex
         self.loyaltyDays = loyaltyDays
         CatalogItem.CatalogItem.makeNewItem(self)
@@ -40,7 +42,9 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
 
     def recordPurchase(self, avatar, optional):
         if self.emoteIndex < 0 or self.emoteIndex > len(avatar.emoteAccess):
-            self.notify.warning('Invalid emote access: %s for avatar %s' % (self.emoteIndex, avatar.doId))
+            self.notify.warning(
+                'Invalid emote access: %s for avatar %s' %
+                (self.emoteIndex, avatar.doId))
             return ToontownGlobals.P_InvalidIndex
         avatar.emoteAccess[self.emoteIndex] = 1
         avatar.d_setEmoteAccess(avatar.emoteAccess)
@@ -61,17 +65,24 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
             toon.loop('neutral')
         toon.setH(180)
         model, ival = self.makeFrameModel(toon, 0)
-        track, duration = Emote.globalEmote.doEmote(toon, self.emoteIndex, volume=self.volume)
-        if duration == None:
+        track, duration = Emote.globalEmote.doEmote(
+            toon, self.emoteIndex, volume=self.volume)
+        if duration is None:
             duration = 0
         name = 'emote-item-%s' % self.sequenceNumber
         CatalogEmoteItem.sequenceNumber += 1
-        if track != None:
-            track = Sequence(Sequence(track, duration=0), Wait(duration + 2), name=name)
+        if track is not None:
+            track = Sequence(
+                Sequence(
+                    track, duration=0), Wait(
+                    duration + 2), name=name)
         else:
-            track = Sequence(Func(Emote.globalEmote.doEmote, toon, self.emoteIndex), Wait(duration + 4), name=name)
+            track = Sequence(
+                Func(
+                    Emote.globalEmote.doEmote, toon, self.emoteIndex), Wait(
+                    duration + 4), name=name)
         self.pictureToon = toon
-        return (model, track)
+        return model, track
 
     def changeIval(self, volume):
         from toontown.toon import Toon
@@ -81,15 +92,22 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         self.volume = volume
         if not hasattr(self, 'pictureToon'):
             return Sequence()
-        track, duration = Emote.globalEmote.doEmote(self.pictureToon, self.emoteIndex, volume=self.volume)
-        if duration == None:
+        track, duration = Emote.globalEmote.doEmote(
+            self.pictureToon, self.emoteIndex, volume=self.volume)
+        if duration is None:
             duration = 0
         name = 'emote-item-%s' % self.sequenceNumber
         CatalogEmoteItem.sequenceNumber += 1
-        if track != None:
-            track = Sequence(Sequence(track, duration=0), Wait(duration + 2), name=name)
+        if track is not None:
+            track = Sequence(
+                Sequence(
+                    track, duration=0), Wait(
+                    duration + 2), name=name)
         else:
-            track = Sequence(Func(Emote.globalEmote.doEmote, toon, self.emoteIndex), Wait(duration + 4), name=name)
+            track = Sequence(
+                Func(
+                    Emote.globalEmote.doEmote, toon, self.emoteIndex), Wait(
+                    duration + 4), name=name)
         return track
 
     def cleanupPicture(self):
@@ -98,10 +116,10 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
         self.pictureToon.emote = None
         self.pictureToon.delete()
         self.pictureToon = None
-        return
 
-    def output(self, store = -1):
-        return 'CatalogEmoteItem(%s%s)' % (self.emoteIndex, self.formatOptionalData(store))
+    def output(self, store=-1):
+        return 'CatalogEmoteItem(%s%s)' % (
+            self.emoteIndex, self.formatOptionalData(store))
 
     def compareTo(self, other):
         return self.emoteIndex - other.emoteIndex
@@ -130,7 +148,7 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
     def isGift(self):
         if self.getEmblemPrices():
             return 0
-        if self.loyaltyRequirement() > 0:
+        elif self.loyaltyRequirement() > 0:
             return 0
         elif self.emoteIndex in LoyaltyEmoteItems:
             return 0

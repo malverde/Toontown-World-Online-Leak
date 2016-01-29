@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 from CrateGlobals import *
@@ -186,7 +186,7 @@ class DistributedCrate(DistributedCrushableEntity.DistributedCrushableEntity):
             return Task.cont
 
     def getCrateSide(self, crateNormal):
-        for i in xrange(len(CrateNormals)):
+        for i in range(len(CrateNormals)):
             dotP = CrateNormals[i].dot(crateNormal)
             if dotP > 0.9:
                 self.crateSide = i
@@ -278,7 +278,7 @@ class DistributedCrate(DistributedCrushableEntity.DistributedCrushableEntity):
             minHeight = crusher.getPos(self)[2]
             minScale = minHeight / maxHeight
             self.notify.debug('cHeight= %s' % crusherHeight)
-            if crusherHeight < maxHeight and crusherHeight >= minHeight:
+            if maxHeight > crusherHeight >= minHeight:
                 if crusherHeight == minHeight:
                     self.setScale(Vec3(1.2, 1.2, minScale))
                     taskMgr.doMethodLater(2, self.setScale, 'resetScale', extraArgs=(1,))

@@ -1,7 +1,8 @@
+#Embedded file name: toontown.golf.BuildGeometry
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from panda3d.core import *
 from math import *
 import math
 GEO_ID = 0
@@ -63,7 +64,7 @@ def addCircleGeom(rootNode, vertexCount, radius, color = Vec4(1.0, 1.0, 1.0, 1.0
     GEO_ID += 1
     NodePathGeom = rootNode.attachNewNode(GN)
     geo = addCircle(GN, vertexCount, radius, color, layer)
-    return (NodePathGeom, GN, geo)
+    return NodePathGeom, GN, geo
 
 
 def addSquare(attachNode, sizeX, sizeY, color = Vec4(1.0, 1.0, 1.0, 1.0), layer = 0):
@@ -113,7 +114,7 @@ def addSquareGeom(rootNode, sizeX, sizeY, color = Vec4(1.0, 1.0, 1.0, 1.0), laye
     GEO_ID += 1
     NodePathGeom = rootNode.attachNewNode(GN)
     geo = addSquare(GN, sizeX, sizeY, color, layer)
-    return (NodePathGeom, GN, geo)
+    return NodePathGeom, GN, geo
 
 
 def addBox(attachNode, sizeX, sizeY, sizeZ, color = Vec4(1.0, 1.0, 1.0, 1.0), darken = 0):
@@ -248,7 +249,7 @@ def addBoxGeom(rootNode, sizeX, sizeY, sizeZ, color = Vec4(1.0, 1.0, 1.0, 1.0), 
     GEO_ID += 1
     nodePathGeom = rootNode.attachNewNode(GN)
     geo = addBox(GN, sizeX, sizeY, sizeZ, color, darken)
-    return (nodePathGeom, GN, geo)
+    return nodePathGeom, GN, geo
 
 
 def addArrow(attachNode, sizeX, sizeY, color = Vec4(1.0, 1.0, 1.0, 1.0), layer = 0):
@@ -306,4 +307,4 @@ def addArrowGeom(rootNode, sizeX, sizeY, color = Vec4(1.0, 1.0, 1.0, 1.0), layer
     GEO_ID += 1
     NodePathGeom = rootNode.attachNewNode(GN)
     geo = addArrow(GN, sizeX, sizeY, color, layer)
-    return (NodePathGeom, GN, geo)
+    return NodePathGeom, GN, geo

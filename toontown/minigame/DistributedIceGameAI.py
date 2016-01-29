@@ -267,7 +267,7 @@ class DistributedIceGameAI(DistributedMinigameAI.DistributedMinigameAI):
             retForce = 0
         if retForce > 100:
             retForce = 100
-        return (retForce, retDir)
+        return retForce, retDir
 
     def allAvatarsChosen(self):
         for avId in self.avatarChoices.keys():
@@ -307,7 +307,7 @@ class DistributedIceGameAI(DistributedMinigameAI.DistributedMinigameAI):
         if not self.gameFSM or not self.gameFSM.getCurrentState() or self.gameFSM.getCurrentState().getName() != 'waitEndingPositions':
             return
         avId = self.air.getAvatarIdFromSender()
-        if avId not in self.scoreDict:
+        if not self.scoreDict.has_key(avId):
             self.notify.warning('PROBLEM: avatar %s called claimTreasure(%s) but he is not in the scoreDict: %s. avIdList is: %s' % (avId,
              treasureNum,
              self.scoreDict,
@@ -328,7 +328,7 @@ class DistributedIceGameAI(DistributedMinigameAI.DistributedMinigameAI):
         if not self.gameFSM or not self.gameFSM.getCurrentState() or self.gameFSM.getCurrentState().getName() != 'waitEndingPositions':
             return
         avId = self.air.getAvatarIdFromSender()
-        if avId not in self.scoreDict:
+        if not self.scoreDict.has_key(avId):
             self.notify.warning('PROBLEM: avatar %s called claimPenalty(%s) but he is not in the scoreDict: %s. avIdList is: %s' % (avId,
              penaltyNum,
              self.scoreDict,

@@ -1,9 +1,10 @@
-from pandac.PandaModules import *
-from pandac.PandaModules import *
+from panda3d.core import *
+from panda3d.core import *
 from direct.showbase.DirectObject import DirectObject
 from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleProps import *
 from toontown.battle import MovieUtil
+
 
 class EffectManager(DirectObject):
 
@@ -14,11 +15,22 @@ class EffectManager(DirectObject):
         for effect in effectList:
             self.__removeEffect(effect)
 
-    def addSplatEffect(self, spawner, splatName = 'splat-creampie', time = 1, size = 6, parent = render):
+    def addSplatEffect(
+            self,
+            spawner,
+            splatName='splat-creampie',
+            time=1,
+            size=6,
+            parent=render):
         splat = globalPropPool.getProp(splatName)
         splatSeq = Sequence()
         splatType = globalPropPool.getPropType(splatName)
-        splatShow = Func(self.__showProp, splat, size, parent, spawner.getPos(parent))
+        splatShow = Func(
+            self.__showProp,
+            splat,
+            size,
+            parent,
+            spawner.getPos(parent))
         splatAnim = ActorInterval(splat, splatName)
         splatHide = Func(MovieUtil.removeProp, splat)
         splatRemove = Func(self.__removeEffect, splatSeq)

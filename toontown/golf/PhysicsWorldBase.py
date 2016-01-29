@@ -1,7 +1,8 @@
+#Embedded file name: toontown.golf.PhysicsWorldBase
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from panda3d.core import *
 from math import *
 import math
 from direct.fsm.FSM import FSM
@@ -60,7 +61,6 @@ class PhysicsWorldBase:
         self.refFPS = 60.0
         self.DTAStep = 1.0 / self.FPS
         self.refCon = 1.2
-
         self.collisionEventName = 'ode-collision-%d' % id(self)
         self.space.setCollisionEvent(self.collisionEventName)
         self.accept(self.collisionEventName, self.__collisionHandler)
@@ -110,7 +110,6 @@ class PhysicsWorldBase:
         self.space.destroy()
         self.world = None
         self.space = None
-
         self.ignore(self.collisionEventName)
 
     def setupSimulation(self):
@@ -205,7 +204,6 @@ class PhysicsWorldBase:
     def simulate(self):
         self.colEntries = []
         self.space.autoCollide()
-        # We need the callbacks processed now, before we try to look at colEntries, so:
         eventMgr.doEvents()
         self.colCount = len(self.colEntries)
         if self.maxColCount < self.colCount:
@@ -217,7 +215,7 @@ class PhysicsWorldBase:
 
         self.contactgroup.empty()
         self.commonObjectControl()
-        self.timingSimTime = self.timingSimTime + self.DTAStep
+        self.timingSimTime += self.DTAStep
 
     def placeBodies(self):
         for pair in self.odePandaRelationList:
@@ -246,7 +244,7 @@ class PhysicsWorldBase:
             if key not in self.commonObjectInfoDict:
                 self.commonObjectInfoDict[key] = None
             entry = self.commonObjectDict[key]
-            if entry[1] in [2, 4]:
+            if entry[1] in (2, 4):
                 type = entry[1]
                 body = entry[2]
                 motor = entry[3]
@@ -256,7 +254,8 @@ class PhysicsWorldBase:
                 model = entry[7]
                 force = 0.0
                 for index in xrange(len(timeData)):
-                    if index == len(timeData) - 1 and timeData[index] < time or timeData[index] < time and timeData[index + 1] > time:
+                    if index == len(timeData) - 1 and timeData[index] < time or timeData[index] < time < \
+                            timeData[index + 1]:
                         force = forceData[index]
                         event = eventData[index]
                         if event != self.commonObjectInfoDict[key]:
@@ -264,8 +263,6 @@ class PhysicsWorldBase:
                             self.commonObjectInfoDict[key] = event
 
                 motor.setParamVel(force)
-
-        return
 
     def commonObjectEvent(self, key, model, type, force, event):
         self.notify.debug('commonObjectForceEvent %s %s %s %s %s' % (key,
@@ -525,7 +522,7 @@ class PhysicsWorldBase:
         else:
             testball = None
             self.bodyList.append((None, body))
-        return (testball, body, geom)
+        return testball, body, geom
 
     def createBox(self, world, space, density, lx, ly, lz, colOnlyBall = 0):
         body = OdeBody(self.world)
@@ -554,7 +551,7 @@ class PhysicsWorldBase:
         else:
             boxNodePathGeom = None
             self.bodyList.append((None, body))
-        return (boxNodePathGeom, body)
+        return boxNodePathGeom, body
 
     def createCross(self, world, space, density, lx, ly, lz, colOnlyBall = 0, attachedGeo = None, aHPR = None, aPos = None):
         body = OdeBody(self.world)
@@ -599,7 +596,7 @@ class PhysicsWorldBase:
         else:
             boxNodePathGeom = None
             self.bodyList.append((None, body))
-        return (boxNodePathGeom, body)
+        return boxNodePathGeom, body
 
     def createCross2(self, world, space, density, lx, ly, lz, latSlide, colOnlyBall = 0, attachedGeo = None, aHPR = None, aPos = None):
         body = OdeBody(self.world)
@@ -670,7 +667,7 @@ class PhysicsWorldBase:
         else:
             someNodePathGeom = None
             self.bodyList.append((None, body))
-        return (someNodePathGeom, body)
+        return someNodePathGeom, body
 
     def createPinWheel(self, world, space, density, lx, ly, lz, numBoxes, disV, disH, colOnlyBall = 0, attachedGeo = None, aHPR = None, aPos = None, offRot = 0):
         body = OdeBody(self.world)
@@ -719,7 +716,7 @@ class PhysicsWorldBase:
         else:
             someNodePathGeom = None
             self.bodyList.append((None, body))
-        return (someNodePathGeom, body)
+        return someNodePathGeom, body
 
     def attachMarker(self, body):
         if self.canRender:

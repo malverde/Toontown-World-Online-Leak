@@ -143,7 +143,7 @@ def getNextPart(parts, partIndex, dept):
     needMask = PartsPerSuitBitmasks[dept] & PartsQueryMasks[partIndex]
     haveMask = parts[dept] & PartsQueryMasks[partIndex]
     nextPart = ~needMask | haveMask
-    nextPart = nextPart ^ nextPart + 1
+    nextPart ^= nextPart + 1
     nextPart = nextPart + 1 >> 1
     return nextPart
 
@@ -189,7 +189,7 @@ def getTotalMerits(toon, index):
 def getTotalParts(bitString, shiftWidth = 32):
     sum = 0
     for shift in xrange(0, shiftWidth):
-        sum = sum + (bitString >> shift & 1)
+        sum += bitString >> shift & 1
 
     return sum
 
@@ -226,7 +226,8 @@ def dept2deptIndex(dept):
     if type(dept) == types.StringType:
         dept = SuitDNA.suitDepts.index(dept)
     return dept
-    
+
+
 def getPartCountAsString(cogParts, deptIndex):
     totalParts = getTotalParts(cogParts[deptIndex])
     return '%s/%s' % (totalParts, PartsPerSuit[deptIndex])

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.DistributedGardenBox
 import DistributedLawnDecor
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
@@ -32,7 +33,7 @@ class DistributedGardenBox(DistributedLawnDecor.DistributedLawnDecor):
         else:
             self.defaultModel = 'phase_5.5/models/estate/planterD'
             self.collSphereOffset = 0.0
-            self.collSphereRadius = self.collSphereRadius * 1.41
+            self.collSphereRadius *= 1.41
             self.plotScale = Vec3(1.0, 1.0, 1.0)
 
     def setupShadow(self):
@@ -45,7 +46,6 @@ class DistributedGardenBox(DistributedLawnDecor.DistributedLawnDecor):
         self.model.setScale(self.plotScale)
         self.model.reparentTo(self.rotateNode)
         self.stick2Ground()
-        return
 
     def handleEnterPlot(self, entry = None):
         pass

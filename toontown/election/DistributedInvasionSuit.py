@@ -1,9 +1,9 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm.FSM import FSM
 from direct.task.Task import Task
-from toontown.chat.ChatGlobals import *
+from otp.nametag.NametagConstants import *
 from toontown.suit.DistributedSuitBase import DistributedSuitBase
 from toontown.toonbase import ToontownGlobals
 import SafezoneInvasionGlobals
@@ -188,6 +188,7 @@ class DistributedInvasionSuit(DistributedSuitBase, InvasionSuitBase, FSM, DelayD
         self.attackDamage = attackDamage
 
     def makeAttackTrack(self):
+        # TODO: Add more props than the tie. Possibly more animations.
         prop = BattleProps.globalPropPool.getProp(self.attackProp)
         propIsActor = True
         animName = 'throw-paper'
@@ -392,9 +393,9 @@ class DistributedInvasionSuit(DistributedSuitBase, InvasionSuitBase, FSM, DelayD
             self.__moveToStaticPoint()
 
     def sayFaceoffTaunt(self, custom = False, phrase = "", dialogue = None):
-        if custom == True:
+        if custom:
             self.setChatAbsolute(phrase, CFSpeech | CFTimeout, dialogue)
-        elif custom == False:
+        elif not custom:
             if random.random() < 0.2:
                 taunt = SuitBattleGlobals.getFaceoffTaunt(self.getStyleName(), self.doId, randomChoice = True)
                 self.setChatAbsolute(taunt, CFSpeech | CFTimeout)

@@ -183,8 +183,6 @@ class DistributedCogThiefGame(DistributedMinigame):
             pos = self.cogInfo[cogIndex]['pos']
             suit.reparentTo(self.gameBoard)
             suit.setPos(pos)
-            suit.nametag.setNametag2d(None)
-            suit.nametag.setNametag3d(None)
 
         for avId in self.avIdList:
             self.toonHitTracks[avId] = Wait(0.1)
@@ -279,7 +277,7 @@ class DistributedCogThiefGame(DistributedMinigame):
         self.pieHandler.setInPattern('pieHit-%fn')
 
     def exitPlay(self):
-        self.ignore(base.JUMP)
+        self.ignore('control')
         if self.resultIval and self.resultIval.isPlaying():
             self.resultIval.finish()
             self.resultIval = None
@@ -718,7 +716,7 @@ class DistributedCogThiefGame(DistributedMinigame):
 
         toss = Track((0, Sequence(Func(toon.setPosHpr, x, y, z, h, p, r), Func(pie.reparentTo, toon.rightHand), Func(pie.setPosHpr, 0, 0, 0, 0, 0, 0), Parallel(ActorInterval(toon, 'throw', startFrame=48, partName='torso'), animPie), Func(toon.loop, 'neutral'))), (16.0 / 24.0, Func(pie.detachNode)))
         fly = Track((14.0 / 24.0, SoundInterval(sound, node=toon)), (16.0 / 24.0, Sequence(Func(flyPie.reparentTo, render), Func(flyPie.setPosHpr, toon, 0.52, 0.97, 2.24, 0, -45, 0), beginFlyIval, ProjectileInterval(flyPie, startVel=getVelocity, duration=6), Func(flyPie.detachNode))))
-        return (toss, fly, flyPie)
+        return toss, fly, flyPie
 
     def handlePieHitting(self, colEntry):
         if self.gameIsEnding:

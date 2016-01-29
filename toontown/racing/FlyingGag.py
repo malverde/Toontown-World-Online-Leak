@@ -1,12 +1,13 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from otp.avatar.ShadowCaster import ShadowCaster
 
+
 class FlyingGag(NodePath, ShadowCaster):
 
-    def __init__(self, name, geom = None):
+    def __init__(self, name, geom=None):
         an = ActorNode('flyingGagAN')
         NodePath.__init__(self, an)
         self.actorNode = an

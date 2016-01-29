@@ -9,11 +9,15 @@ from direct.task import Task
 from direct.distributed.PyDatagram import *
 
 
-if (__debug__):
+if __debug__:
     import pdb
 
-class DistributedVehicleAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, FSM.FSM):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedVehicleAI')
+
+class DistributedVehicleAI(
+        DistributedSmoothNodeAI.DistributedSmoothNodeAI,
+        FSM.FSM):
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedVehicleAI')
 
     def __init__(self, air, avId):
         self.ownerId = avId
@@ -43,16 +47,17 @@ class DistributedVehicleAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, FSM.
             self.kartDNA[KartDNA.rimsType] = owner.getKartRimType()
             self.kartDNA[KartDNA.decalType] = owner.getKartDecalType()
         else:
-            self.notify.warning('__initDNA - OWNER %s OF KART NOT FOUND!' % self.ownerId)
+            self.notify.warning(
+                '__initDNA - OWNER %s OF KART NOT FOUND!' %
+                self.ownerId)
 
     def d_setState(self, state, avId):
         self.sendUpdate('setState', [state, avId])
 
     def requestControl(self):
         avId = self.air.getAvatarIdFromSender()
-        accId = self.air.getAccountIdFromSender()
         if self.driverId == 0:
-            self.request('Controlled', avId, accId)
+            self.request('Controlled', avId)
 
     def requestParked(self):
         avId = self.air.getAvatarIdFromSender()
@@ -76,44 +81,40 @@ class DistributedVehicleAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, FSM.
     def exitParked(self):
         return None
 
-    def enterControlled(self, avId, accId):
+    def enterControlled(self, avId):
         self.driverId = avId
         fieldList = ['setComponentL',
-         'setComponentX',
-         'setComponentY',
-         'setComponentZ',
-         'setComponentH',
-         'setComponentP',
-         'setComponentR',
-         'setComponentT',
-         'setSmStop',
-         'setSmH',
-         'setSmZ',
-         'setSmXY',
-         'setSmXZ',
-         'setSmPos',
-         'setSmHpr',
-         'setSmXYH',
-         'setSmXYZH',
-         'setSmPosHpr',
-         'setSmPosHprL',
-         'clearSmoothing',
-         'suggestResync',
-         'returnResync']
-        #self.air.setAllowClientSend(avId, self, fieldList, accId)
-        #hack until CLIENTAGENT_SET_FIELDS_SENDABLE works
-        #probably should not be kept for any longer than it needs to
-        dg = PyDatagram()
-        dg.addServerHeader(self.doId, self.air.ourChannel, STATESERVER_OBJECT_SET_OWNER)
-        dg.addUint64(accId << 32 | avId)
-        self.air.send(dg)
+                     'setComponentX',
+                     'setComponentY',
+                     'setComponentZ',
+                     'setComponentH',
+                     'setComponentP',
+                     'setComponentR',
+                     'setComponentT',
+                     'setSmStop',
+                     'setSmH',
+                     'setSmZ',
+                     'setSmXY',
+                     'setSmXZ',
+                     'setSmPos',
+                     'setSmHpr',
+                     'setSmXYH',
+                     'setSmXYZH',
+                     'setSmPosHpr',
+                     'setSmPosHprL',
+                     'clearSmoothing',
+                     'suggestResync',
+                     'returnResync']
+        self.air.setAllowClientSend(avId, self, fieldNameList=fieldList)
         self.d_setState('C', self.driverId)
 
     def exitControlled(self):
         pass
 
     def handleUnexpectedExit(self):
-        self.notify.warning('toon: %d exited unexpectedly, resetting vehicle %d' % (self.driverId, self.doId))
+        self.notify.warning(
+            'toon: %d exited unexpectedly, resetting vehicle %d' %
+            (self.driverId, self.doId))
         self.request('Parked')
         self.requestDelete()
 

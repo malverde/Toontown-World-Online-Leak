@@ -1,44 +1,40 @@
-from toontown.hood import HoodAI
-from toontown.safezone import DistributedBoatAI
-from toontown.safezone import DistributedTrolleyAI
 from toontown.toonbase import ToontownGlobals
+from toontown.safezone.DistributedFishingSpotAI import DistributedFishingSpotAI
+from toontown.safezone.DistributedBoatAI import DistributedBoatAI
+from toontown.toon import NPCToons
+from SZHoodAI import SZHoodAI
 from toontown.ai import DistributedTrickOrTreatTargetAI
 from toontown.ai import DistributedWinterCarolingTargetAI
+import datetime
 
 
-class DDHoodAI(HoodAI.HoodAI):
-    def __init__(self, air):
-        HoodAI.HoodAI.__init__(self, air,
-                               ToontownGlobals.DonaldsDock,
-                               ToontownGlobals.DonaldsDock)
+class DDHoodAI(SZHoodAI):
+    HOOD = ToontownGlobals.DonaldsDock
 
-        self.trolley = None
-        self.boat = None
+    def createZone(self):
+        SZHoodAI.createZone(self)
 
-        self.startup()
+        self.spawnObjects()
 
-    def startup(self):
-        HoodAI.HoodAI.startup(self)
+        self.boat = DistributedBoatAI(self.air)
+        self.boat.generateWithRequired(self.safezone)
 
-        if simbase.config.GetBool('want-minigames', True):
-            self.createTrolley()
-        self.createBoat()
-                
-        if simbase.air.wantHalloween:
+        
+        day = str(datetime.datetime.now().strftime("%d"))
+        
+        if str(datetime.datetime.now().strftime("%m")) == "12" and day == "14" or day == "15" or day == "16" or day == "17" or day == "18" or day == "19" or day == "20" or day == "21" or day == "22" or day == "23" or day == "24" or day == "25" or day == "26" or day == "27" or "28" or day == "29" or day == "30" or day == "31":
+            self.WinterCarolingTargetManager = DistributedWinterCarolingTargetAI.DistributedWinterCarolingTargetAI(self.air)
+            self.WinterCarolingTargetManager.generateWithRequired(1707)
+            
+        elif str(datetime.datetime.now().strftime("%m")) == "01" and day == "02" or day == "03" or day == "04":
+            self.WinterCarolingTargetManager = DistributedWinterCarolingTargetAI.DistributedWinterCarolingTargetAI(self.air)
+            self.WinterCarolingTargetManager.generateWithRequired(1707)
+            
+        elif str(datetime.datetime.now().strftime("%m")) == "10" and day ==  "21" or day == "22" or day == "23" or day == "25" or day == "26" or day == "27" or day == "28" or day == "29" or day == "30" or day == "31":
             self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)
             self.TrickOrTreatTargetManager.generateWithRequired(1834)
             
-        if simbase.air.wantChristmas:
-            self.WinterCarolingTargetManager = DistributedWinterCarolingTargetAI.DistributedWinterCarolingTargetAI(self.air)
-            self.WinterCarolingTargetManager.generateWithRequired(1707)
-
-    def createTrolley(self):
-        self.trolley = DistributedTrolleyAI.DistributedTrolleyAI(self.air)
-        self.trolley.generateWithRequired(self.zoneId)
-        self.trolley.start()
-
-    def createBoat(self):
-        self.boat = DistributedBoatAI.DistributedBoatAI(self.air)
-        self.boat.generateWithRequired(self.zoneId)
-        self.boat.start()
+        elif str(datetime.datetime.now().strftime("%m")) == "11" and day ==  "01":
+            self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)
+            self.TrickOrTreatTargetManager.generateWithRequired(1834)
 

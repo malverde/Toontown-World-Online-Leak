@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+#Embedded file name: toontown.safezone.DistributedButterfly
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
@@ -43,7 +44,6 @@ class DistributedButterfly(DistributedObject.DistributedObject):
         self.time = 0.0
         self.ival = None
         self.fsm.enterInitialState()
-        return
 
     def generate(self):
         DistributedObject.DistributedObject.generate(self)
@@ -107,7 +107,6 @@ class DistributedButterfly(DistributedObject.DistributedObject):
             self.ival.finish()
         self.__ignoreAvatars()
         DistributedObject.DistributedObject.disable(self)
-        return
 
     def delete(self):
         self.butterfly.cleanup()
@@ -119,7 +118,6 @@ class DistributedButterfly(DistributedObject.DistributedObject):
         self.ival = None
         del self.fsm
         DistributedObject.DistributedObject.delete(self)
-        return
 
     def uniqueButterflyName(self, name):
         DistributedButterfly.id += 1
@@ -162,12 +160,10 @@ class DistributedButterfly(DistributedObject.DistributedObject):
     def enterOff(self, ts = 0.0):
         if self.butterflyNode != None:
             self.butterflyNode.reparentTo(hidden)
-        return
 
     def exitOff(self):
         if self.butterflyNode != None:
             self.butterflyNode.reparentTo(render)
-        return
 
     def enterFlying(self, ts):
         self.__detectAvatars()
@@ -197,14 +193,12 @@ class DistributedButterfly(DistributedObject.DistributedObject):
             self.butterfly.setControlEffect('flutter', 0.0)
             self.butterfly.setControlEffect('glide', 0.0)
             self.butterfly2.loop('land')
-        return
 
     def exitFlying(self):
         self.__ignoreAvatars()
         if self.ival != None:
             self.ival.finish()
             self.ival = None
-        return
 
     def enterLanded(self, ts):
         self.__detectAvatars()
@@ -216,8 +210,6 @@ class DistributedButterfly(DistributedObject.DistributedObject):
         self.butterfly.setControlEffect('flutter', 0.0)
         self.butterfly.setControlEffect('glide', 0.0)
         self.butterfly2.pose('land', random.randrange(self.butterfly2.getNumFrames('land')))
-        return None
 
     def exitLanded(self):
         self.__ignoreAvatars()
-        return None

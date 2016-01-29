@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+from panda3d.core import *
+from otp.nametag.NametagGroup import NametagGroup
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM
 from direct.fsm import State
@@ -12,7 +13,6 @@ from toontown.quest import QuestParser
 from toontown.quest import QuestChoiceGui
 from direct.interval.IntervalGlobal import *
 import random
-from toontown.nametag import NametagGlobals
 
 class DistributedNPCToonBase(DistributedToon.DistributedToon):
     deferFor = 2
@@ -25,7 +25,7 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
             DistributedToon.DistributedToon.__init__(self, cr)
             self.__initCollisions()
             self.setPickable(0)
-            self.setPlayerType(NametagGlobals.CCNonPlayer)
+            self.setPlayerType(NametagGroup.CCNonPlayer)
 
     def disable(self):
         self.ignore('enter' + self.cSphereNode.getName())

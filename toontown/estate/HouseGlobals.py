@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.HouseGlobals
 NUM_HOUSE_TYPES = 6
 HOUSE_DEFAULT = 0
 HOUSE_CRAFTSMAN = 1
@@ -13,7 +14,7 @@ houseModels = ['phase_5.5/models/estate/houseA',
  'phase_5.5/models/estate/tt_m_ara_est_house_tepee',
  'phase_5.5/models/estate/tt_m_ara_est_house_castle',
  'phase_5.5/models/estate/tt_m_ara_est_house_cupcake',
- 'phase_5.5/models/estate/houseB'] # do we need test_houseA?
+ 'phase_5.5/models/estate/houseB']
 houseDrops = [(-56.7788, -42.8756, 4.06471, -90, 0, 0),
  (83.3909, -77.5085, 0.0708361, 116.565, 0, 0),
  (-69.077, -119.496, 0.025, 77.1957, 0, 0),
@@ -56,36 +57,86 @@ atticWood = (0.49, 0.314, 0.224)
 stairWood = (0.651, 0.376, 0.31)
 doorWood = (0.647, 0.392, 0.353)
 windowWood = (0.557, 0.388, 0.2)
-interiors = [
-  [
-    'phase_5.5/dna/house_interior1.pdna', # House Layout
-    [-19.45, 24.7018, 0, 0, 0, 0],       # Closet Position    (Unused, set in DNA)
-    [-21.4932, 5.76027, 0, 120, 0, 0],   # Bean Bank Position (Unused, set in DNA)
-    [],                                  # ???
-    [-11, 2, 0, 0, 0, 0]                 # Phone Position
-  ],
-  [
-    'phase_5.5/dna/house_interior2.pdna',
-    [-19.45, 24.7018, 0, 0, 0, 0],
-    [-21.4932, 5.76027, 0, 120, 0, 0],
-    [],
-    [-11, 2, 0, 0, 0, 0]
-  ],
-  [
-    'phase_5.5/dna/house_interior3.pdna',
-    [-22.5835, 21.8784, 0, 90, 0, 0],
-    [-20.96, 6.49, 0, 120, 0, 0],
-    ['c', 'e'],
-    [-11, 2, 0, 0, 0, 0]
-  ],
-  [
-    'phase_5.5/dna/house_interior4.pdna',
-    [-22.5835, 21.8784, 0, 90, 0, 0],
-    [-20.96, 6.49, 0, 120, 0, 0],
-    ['c', 'e'],
-    [-11, 2, 0, 0, 0, 0]
-  ]
-]
+interiors = [['phase_5.5/dna/house_interior1.xml',
+  [-19.45,
+   24.7018,
+   0,
+   0,
+   0,
+   0],
+  [-21.4932,
+   5.76027,
+   0,
+   120,
+   0,
+   0],
+  [],
+  [-11,
+   2,
+   0,
+   0,
+   0,
+   0]],
+ ['phase_5.5/dna/house_interior2.xml',
+  [-19.45,
+   24.7018,
+   0,
+   0,
+   0,
+   0],
+  [-21.4932,
+   5.76027,
+   0,
+   120,
+   0,
+   0],
+  [],
+  [-11,
+   2,
+   0,
+   0,
+   0,
+   0]],
+ ['phase_5.5/dna/house_interior3.xml',
+  [-22.5835,
+   21.8784,
+   0,
+   90,
+   0,
+   0],
+  [-20.96,
+   6.49,
+   0,
+   120,
+   0,
+   0],
+  ['c', 'e'],
+  [-11,
+   2,
+   0,
+   0,
+   0,
+   0]],
+ ['phase_5.5/dna/house_interior4.xml',
+  [-22.5835,
+   21.8784,
+   0,
+   90,
+   0,
+   0],
+  [-20.96,
+   6.49,
+   0,
+   120,
+   0,
+   0],
+  ['c', 'e'],
+  [-11,
+   2,
+   0,
+   0,
+   0,
+   0]]]
 NUM_PROPS = 3
 PROP_ICECUBE = 0
 PROP_FLOWER = 1

@@ -61,16 +61,16 @@ class DistributedTravelGameAI(DistributedMinigameAI):
             scoreList.append(self.scoreDict[avId])
             curVotesList.append(self.currentVotes[avId])
             bonusesList.append((self.avIdBonuses[avId][0], self.avIdBonuses[avId][1]))
+        # Logging
+        self.air.writeServerEvent('minigame_travel', self.doId, '%s|%s|%s|%s|%s|%s|%s|%s' % (ToontownGlobals.TravelGameId,
+        self.getSafezoneId(),
+        self.avIdList,
+        scoreList,
+        self.boardIndex,
+        curVotesList,
+        bonusesList,
+        self.desiredNextGame))
 
-        #self.air.writeServerEvent('minigame_travel', self.doId, '%s|%s|%s|%s|%s|%s|%s|%s' % (ToontownGlobals.TravelGameId,
-        # self.getSafezoneId(),
-        # self.avIdList,
-        # scoreList,
-        # self.boardIndex,
-        # curVotesList,
-        # bonusesList,
-        # self.desiredNextGame))
-        # jjkoletar: not interested in data
         self.gameFSM.request('cleanup')
         DistributedMinigameAI.gameOver(self)
 
@@ -195,7 +195,7 @@ class DistributedTravelGameAI(DistributedMinigameAI):
         availableVotes = self.currentVotes[avId]
         retVotes = min(votes, availableVotes)
         retVotes = max(votes, 0)
-        return (retVotes, retDir)
+        return retVotes, retDir
 
     def allAvatarsChosen(self):
         for avId in self.avatarChoices.keys():

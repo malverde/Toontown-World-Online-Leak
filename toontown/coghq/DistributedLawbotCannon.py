@@ -7,14 +7,14 @@ from pandac.PandaModules import CollisionSphere, CollisionNode
 from toontown.toonbase import ToontownGlobals
 from toontown.estate import DistributedCannon
 from toontown.estate import CannonGlobals
-from toontown.nametag import NametagGlobals
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toon import NPCToons
 from toontown.toon import ToonHead
 from toontown.toonbase import TTLocalizer
 from toontown.minigame import Trajectory
 from toontown.effects import DustCloud
+from otp.nametag import NametagGlobals
 GROUND_PLANE_MIN = -15
 CANNON_ROTATION_MIN = -55
 CANNON_ROTATION_MAX = 50
@@ -233,7 +233,7 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
                 camera.setPos(0.5, -2, 2.5)
                 camera.setHpr(0, 0, 0)
                 self.boss.toonEnteredCannon(self.avId, self.index)
-            if self.avId in self.cr.doId2do:
+            if self.cr.doId2do.has_key(self.avId):
                 self.av = self.cr.doId2do[self.avId]
                 self.acceptOnce(self.av.uniqueName('disable'), self.__avatarGone)
                 self.av.loop('neutral')
@@ -253,7 +253,7 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
     def __makeGui(self):
         if self.madeGui:
             return
-        NametagGlobals.setWant2dNametags(False)
+        NametagGlobals.setMasterArrowsOn(0)
         guiModel = 'phase_4/models/gui/cannon_game_gui'
         cannonGui = loader.loadModel(guiModel)
         self.aimPad = DirectFrame(image=cannonGui.find('**/CannonFire_PAD'), relief=None, pos=(0.7, 0, -0.553333), scale=0.8)
@@ -270,7 +270,7 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
             if self.flashingLabel:
                 self.flashingLabel.stop()
             flashingTrack = Sequence()
-            for i in xrange(10):
+            for i in range(10):
                 flashingTrack.append(LerpColorScaleInterval(self.cannonBallLabel, 0.5, VBase4(1, 0, 0, 1)))
                 flashingTrack.append(LerpColorScaleInterval(self.cannonBallLabel, 0.5, VBase4(1, 1, 1, 1)))
 
@@ -297,7 +297,7 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
         if self.flashingLabel:
             self.flashingLabel.finish()
             self.flashingLabel = None
-        NametagGlobals.setWant2dNametags(True)
+        NametagGlobals.setMasterArrowsOn(1)
         self.__disableAimInterface()
         self.upButton.unbind(DGG.B1PRESS)
         self.upButton.unbind(DGG.B1RELEASE)
@@ -519,7 +519,7 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
         self.__loadToonInCannon()
 
     def __destroyToonModels(self):
-        if (0):
+        if 0:
             self.av.dropShadow.show()
             if self.dropShadow != None:
                 self.dropShadow.removeNode()
@@ -686,16 +686,9 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
         juror.setHpr(startHpr)
         self.jurorToon.loop('swim')
         self.jurorToon.setPosHpr(0, 0, -(self.jurorToon.getHeight() / 2.0), 0, 0, 0)
-        info = {}
-        info['avId'] = avId
-        info['trajectory'] = trajectory
-        info['launchTime'] = launchTime
-        info['timeOfImpact'] = timeOfImpact
-        info['hitWhat'] = hitWhat
-        info['toon'] = self.toonModel
-        info['hRot'] = self.cannonPosition[0]
-        info['haveWhistled'] = 0
-        info['maxCamPullback'] = CAMERA_PULLBACK_MIN
+        info = {'avId': avId, 'trajectory': trajectory, 'launchTime': launchTime, 'timeOfImpact': timeOfImpact,
+                'hitWhat': hitWhat, 'toon': self.toonModel, 'hRot': self.cannonPosition[0], 'haveWhistled': 0,
+                'maxCamPullback': CAMERA_PULLBACK_MIN}
         if self.localToonShooting:
             camera.reparentTo(juror)
             camera.setP(45.0)
@@ -745,10 +738,10 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
     def __calcToonImpact(self, trajectory):
         t_groundImpact = trajectory.checkCollisionWithGround(GROUND_PLANE_MIN)
         if t_groundImpact >= trajectory.getStartTime():
-            return (t_groundImpact, self.HIT_GROUND)
+            return t_groundImpact, self.HIT_GROUND
         else:
             self.notify.error('__calcToonImpact: toon never impacts ground?')
-            return (0.0, self.HIT_GROUND)
+            return 0.0, self.HIT_GROUND
 
     def __handleCannonHit(self, collisionEntry):
         if self.av == None or self.flyColNode == None:
@@ -772,7 +765,7 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
         if self.localToonShooting:
             pass
         chairlist = ['trigger-chair']
-        for index in xrange(len(ToontownGlobals.LawbotBossChairPosHprs)):
+        for index in range(len(ToontownGlobals.LawbotBossChairPosHprs)):
             chairlist.append('Chair-%s' % index)
 
         if hitNode in chairlist:

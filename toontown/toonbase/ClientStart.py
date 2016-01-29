@@ -105,7 +105,7 @@ DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 launcher.setPandaErrorCode(7)
 import ToonBase
 ToonBase.ToonBase()
-from pandac.PandaModules import *
+from panda3d.core import *
 if base.win is None:
     notify.error('Unable to open window; aborting.')
 launcher.setPandaErrorCode(0)
@@ -145,7 +145,7 @@ else:
     music = None
 import ToontownLoader
 from direct.gui.DirectGui import *
-serverVersion = base.config.GetString('server-version', 'no_version_set')
+serverVersion = config.GetString('server-version', 'no_version_set')
 version = OnscreenText(serverVersion, pos=(-1.3, -0.975), scale=0.06, fg=Vec4(0, 0, 0, 1), align=TextNode.ALeft)
 version.setPos(0.03,0.03)
 version.reparentTo(base.a2dBottomLeft)

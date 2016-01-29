@@ -1,29 +1,73 @@
-from toontown.safezone.GSSafeZoneLoader import GSSafeZoneLoader
-from toontown.toonbase import ToontownGlobals
-from toontown.hood.ToonHood import ToonHood
+from panda3d.core import *
+import ToonHood
+from toontown.safezone import GSSafeZoneLoader
+from toontown.toonbase.ToontownGlobals import *
+from toontown.racing import DistributedVehicle
+import SkyUtil
 
 
-class GSHood(ToonHood):
-    notify = directNotify.newCategory('GSHood')
+class GSHood(ToonHood.ToonHood):
 
-    ID = ToontownGlobals.GoofySpeedway
-    SAFEZONELOADER_CLASS = GSSafeZoneLoader
-    STORAGE_DNA = 'phase_6/dna/storage_GS.pdna'
-    SKY_FILE = 'phase_3.5/models/props/TT_sky'
-    SPOOKY_SKY_FILE = 'phase_3.5/models/props/BR_sky'
-    TITLE_COLOR = (1.0, 0.5, 0.4, 1.0)
+    def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
+        ToonHood.ToonHood.__init__(
+            self, parentFSM, doneEvent, dnaStore, hoodId)
+        self.id = GoofySpeedway
+        self.safeZoneLoaderClass = GSSafeZoneLoader.GSSafeZoneLoader
+        self.storageDNAFile = 'phase_6/dna/storage_GS.xml'
+        self.holidayStorageDNADict = {
+            HALLOWEEN_PROPS: ['phase_6/dna/halloween_props_storage_GS.xml'],
+            SPOOKY_PROPS: ['phase_6/dna/halloween_props_storage_GS.xml'],
+            CRASHED_LEADERBOARD: ['phase_6/dna/crashed_leaderboard_storage_GS.xml']}
+        self.skyFile = 'phase_3.5/models/props/TT_sky'
+        self.spookySkyFile = 'phase_3.5/models/props/BR_sky'
+        self.titleColor = (1.0, 0.5, 0.4, 1.0)
 
-    HOLIDAY_DNA = {
-      ToontownGlobals.CRASHED_LEADERBOARD: ['phase_6/dna/crashed_leaderboard_storage_GS.pdna']}
+    def load(self):
+        ToonHood.ToonHood.load(self)
+        self.parentFSM.getStateNamed('GSHood').addChild(self.fsm)
 
-    def enter(self, requestStatus):
-        ToonHood.enter(self, requestStatus)
+    def unload(self):
+        self.parentFSM.getStateNamed('GSHood').removeChild(self.fsm)
+        ToonHood.ToonHood.unload(self)
 
+    def enter(self, *args):
+        ToonHood.ToonHood.enter(self, *args)
         base.localAvatar.chatMgr.chatInputSpeedChat.addKartRacingMenu()
-        base.camLens.setNearFar(ToontownGlobals.SpeedwayCameraNear, ToontownGlobals.SpeedwayCameraFar)
+        base.camLens.setNearFar(SpeedwayCameraNear, SpeedwayCameraFar)
 
     def exit(self):
-        base.camLens.setNearFar(ToontownGlobals.DefaultCameraNear, ToontownGlobals.DefaultCameraFar)
+        base.camLens.setNearFar(DefaultCameraNear, DefaultCameraFar)
         base.localAvatar.chatMgr.chatInputSpeedChat.removeKartRacingMenu()
+        ToonHood.ToonHood.exit(self)
 
-        ToonHood.exit(self)
+    def skyTrack(self, task):
+        return SkyUtil.cloudSkyTrack(task)
+
+    def startSky(self):
+        if not self.sky.getTag('sky') == 'Regular':
+            self.endSpookySky()
+        SkyUtil.startCloudSky(self)
+
+    def startSpookySky(self):
+        if hasattr(self, 'sky') and self.sky:
+            self.stopSky()
+        self.sky = loader.loadModel(self.spookySkyFile)
+        self.sky.setTag('sky', 'Halloween')
+        self.sky.setScale(1.0)
+        self.sky.setDepthTest(0)
+        self.sky.setDepthWrite(0)
+        self.sky.setColor(0.5, 0.5, 0.5, 1)
+        self.sky.setBin('background', 100)
+        self.sky.setFogOff()
+        self.sky.reparentTo(camera)
+        self.sky.setTransparency(TransparencyAttrib.MDual, 1)
+        fadeIn = self.sky.colorScaleInterval(
+            1.5, Vec4(
+                1, 1, 1, 1), startColorScale=Vec4(
+                1, 1, 1, 0.25), blendType='easeInOut')
+        fadeIn.start()
+        self.sky.setZ(0.0)
+        self.sky.setHpr(0.0, 0.0, 0.0)
+        ce = CompassEffect.make(NodePath(),
+                                CompassEffect.PRot | CompassEffect.PZ)
+        self.sky.node().setEffect(ce)

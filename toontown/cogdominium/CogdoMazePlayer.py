@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoMazePlayer
 from pandac.PandaModules import Point3, NodePath
 from direct.fsm.FSM import FSM
 from direct.interval.IntervalGlobal import ProjectileInterval, Track, ActorInterval
@@ -30,7 +31,6 @@ class CogdoMazePlayer(FSM, CogdoMazeSplattable):
         self._throwSfx = base.cogdoGameAudioMgr.createSfxIval('throw')
         self.accept(toon.getDisableEvent(), self.removed)
         self.request('Off')
-        return
 
     def destroy(self):
         if self.equippedGag:
@@ -56,13 +56,11 @@ class CogdoMazePlayer(FSM, CogdoMazeSplattable):
         self.toon.startSmooth()
         if self.equippedGag is not None:
             self.equippedGag.unstash()
-        return
 
     def exitNormal(self):
         self.toon.stopSmooth()
         if self.equippedGag is not None:
             self.equippedGag.stash()
-        return
 
     def enterHit(self, elapsedTime = 0.0):
         animationInfo = Globals.ToonAnimationInfo['hit']
@@ -77,7 +75,6 @@ class CogdoMazePlayer(FSM, CogdoMazeSplattable):
             self.toon.setAnimState('Catching', 1.0)
         else:
             self.toon.setAnimState('Happy', 1.0)
-        return
 
     def enterDone(self):
         self.toon.setAnimState('off', 1.0)
@@ -87,7 +84,6 @@ class CogdoMazePlayer(FSM, CogdoMazeSplattable):
             return None
         else:
             return self.defaultFilter(request, args)
-        return None
 
     def exitDone(self):
         pass
@@ -100,7 +96,6 @@ class CogdoMazePlayer(FSM, CogdoMazeSplattable):
             self.request('Hit')
         if self.equippedGag != None:
             self.removeGag()
-        return
 
     def handleGagHit(self, collEntry):
         gagNodePath = collEntry.getFromNodePath().getParent()
@@ -121,7 +116,6 @@ class CogdoMazePlayer(FSM, CogdoMazeSplattable):
         holdingGag.setX(self.toon, 0)
         holdingGag.setHpr(0, 0, 0)
         self.equippedGag = holdingGag
-        return
 
     def removeGag(self):
         if self.equippedGag is None:
@@ -129,7 +123,6 @@ class CogdoMazePlayer(FSM, CogdoMazeSplattable):
         self.toon.setAnimState('Happy')
         self.equippedGag.detachNode()
         self.equippedGag = None
-        return
 
     def createThrowGag(self, gag):
         throwGag = gag.copyTo(NodePath('gag'))
@@ -148,7 +141,6 @@ class CogdoMazePlayer(FSM, CogdoMazeSplattable):
         def matchRunningAnim(toon = self.toon):
             toon.playingAnim = None
             toon.setSpeed(toon.forwardSpeed, toon.rotateSpeed)
-            return
 
         newTossTrack = Sequence(tossTrack, Func(matchRunningAnim))
         throwTrack = Parallel(newTossTrack, flyTrack)
@@ -172,7 +164,7 @@ class CogdoMazePlayer(FSM, CogdoMazeSplattable):
             return render.getRelativePoint(toon, Point3(0, Globals.ThrowDistance, 0))
 
         fly = Track((0, throwSoundIval), (toonThrowIval1.getDuration(), Sequence(Func(flyGag.reparentTo, render), Func(flyGag.setPosHpr, toon, 0.52, 0.97, 2.24, 0, -45, 0), ProjectileInterval(flyGag, endPos=getEndPos, duration=Globals.ThrowDuration), Func(flyGag.detachNode))))
-        return (toss, fly, flyGag)
+        return toss, fly, flyGag
 
     def _getToonAnimationIval(self, animName, startFrame = 0, duration = 1, nextState = None):
         totalFrames = self.toon.getNumFrames(animName)

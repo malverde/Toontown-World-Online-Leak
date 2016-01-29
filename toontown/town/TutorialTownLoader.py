@@ -1,3 +1,4 @@
+#Embedded file name: toontown.town.TutorialTownLoader
 import TownLoader
 import TTTownLoader
 import TutorialStreet
@@ -14,7 +15,7 @@ class TutorialTownLoader(TTTownLoader.TTTownLoader):
     def load(self, zoneId):
         TownLoader.TownLoader.load(self, zoneId)
         Suit.loadTutorialSuit()
-        dnaFile = 'phase_3.5/dna/tutorial_street.pdna'
+        dnaFile = 'phase_3.5/dna/tutorial_street.xml'
         self.createHood(dnaFile, loadStorage=0)
         self.alterDictionaries()
 

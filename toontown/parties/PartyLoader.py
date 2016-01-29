@@ -1,9 +1,10 @@
+#Embedded file name: toontown.parties.PartyLoader
 import math
 import random
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from direct.fsm import ClassicFSM, State
-from pandac.PandaModules import *
+from panda3d.core import *
 from pandac.PandaModules import NodePath
 from toontown.toonbase.ToontownGlobals import *
 from toontown.safezone import SafeZoneLoader
@@ -22,7 +23,7 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
          State.State('final', self.enterFinal, self.exitFinal, ['start'])], 'start', 'final')
         self.musicFile = 'phase_13/audio/bgm/party_original_theme.ogg'
         self.activityMusicFile = 'phase_13/audio/bgm/party_waltz_dance.ogg'
-        self.dnaFile = 'phase_13/dna/party_sz.pdna'
+        self.dnaFile = 'phase_13/dna/party_sz.xml'
         self.safeZoneStorageDNAFile = None
         self.cloudSwitch = 0
         self.id = PartyHood
@@ -34,7 +35,6 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         self.cloudTrack = None
         self.sunMoonNode = None
         self.fsm.enterInitialState()
-        return
 
     def load(self):
         self.oldClear = base.win.getClearColor()
@@ -76,7 +76,6 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         if self.barrel:
             self.barrel.removeNode()
         SafeZoneLoader.SafeZoneLoader.unload(self)
-        return
 
     def loadClouds(self):
         self.loadCloudPlatforms()
@@ -113,8 +112,8 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         self.loadSunMoon()
 
     def loadSunMoon(self):
-        self.sun = loader.loadModel('phase_4/models/props/sun.bam')
-        self.moon = loader.loadModel('phase_5.5/models/props/moon.bam')
+        self.sun = loader.loadModel('phase_4/models/props/sun')
+        self.moon = loader.loadModel('phase_5.5/models/props/moon')
         self.sunMoonNode = self.geom.attachNewNode('sunMoon')
         self.sunMoonNode.setPosHpr(0, 0, 0, 0, 0, 0)
         if self.sun:
@@ -151,7 +150,6 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         self.place = None
         base.cr.playGame.setPlace(self.place)
         base.cr.cache.flush()
-        return
 
     def handlePartyDone(self, doneStatus = None):
         PartyLoader.notify.debug('handlePartyDone doneStatus = %s' % doneStatus)
@@ -179,7 +177,6 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
                 return 0
         else:
             self.notify.warning("We aren't in an party")
-        return
 
     def startCloudPlatforms(self):
         return
@@ -192,7 +189,6 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
             self.cloudTrack.pause()
             del self.cloudTrack
             self.cloudTrack = None
-        return
 
     def __cloudTrack(self):
         track = Parallel()
@@ -207,12 +203,12 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
 
     def debugGeom(self, decomposed):
         print 'numPrimitives = %d' % decomposed.getNumPrimitives()
-        for primIndex in xrange(decomposed.getNumPrimitives()):
+        for primIndex in range(decomposed.getNumPrimitives()):
             prim = decomposed.getPrimitive(primIndex)
             print 'prim = %s' % prim
             print 'isIndexed = %d' % prim.isIndexed()
             print 'prim.getNumPrimitives = %d' % prim.getNumPrimitives()
-            for basicPrim in xrange(prim.getNumPrimitives()):
+            for basicPrim in range(prim.getNumPrimitives()):
                 print '%d start=%d' % (basicPrim, prim.getPrimitiveStart(basicPrim))
                 print '%d end=%d' % (basicPrim, prim.getPrimitiveEnd(basicPrim))
 
@@ -243,13 +239,13 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         self.cloudOrigin.setZ(30)
         self.loadSkyCollision()
         self.numClouds = 12
-        for i in xrange(self.numClouds):
+        for i in range(self.numClouds):
             self.loadCloud(i, 50, 0)
 
-        for i in xrange(self.numClouds):
+        for i in range(self.numClouds):
             self.loadCloud(i, 70, 30)
 
-        for i in xrange(self.numClouds):
+        for i in range(self.numClouds):
             self.loadCloud(i, 30, 60)
 
         self.cloudOrigin.stash()
@@ -258,7 +254,6 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         if hasattr(self, 'cloudFadeInterval'):
             self.cloudFadeInterval.pause()
             self.cloudFadeInterval = None
-        return
 
     def fadeClouds(self):
         self.__cleanupCloudFadeInterval()
@@ -283,7 +278,6 @@ class PartyLoader(SafeZoneLoader.SafeZoneLoader):
         if hasattr(self, 'dayChangeInterval'):
             self.dayChangeInterval.pause()
             self.dayChangeInterval = None
-        return
 
     def switchToNight(self):
         self._clearDayChangeInterval()

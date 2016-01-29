@@ -1,9 +1,10 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.safezone import TreasureGlobals
+from random import choice
 
 class DistributedTreasure(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedTreasure')
@@ -61,12 +62,20 @@ class DistributedTreasure(DistributedObject.DistributedObject):
 
         self.grabSound = base.loadSfx(grabSoundPath)
         self.rejectSound = base.loadSfx(self.rejectSoundPath)
+        
         if self.nodePath == None:
             self.makeNodePath()
         else:
             self.treasure.getChildren().detach()
-        model = loader.loadModel(modelPath)
-        model.instanceTo(self.treasure)
+        
+        # Determine the model to use. Sometimes we'll have more than one.
+        modelList = []
+        for model in modelPath:
+            modelList.append(model)
+            modelChoice = choice(modelList)
+            self.loadedModel = loader.loadModel(modelChoice)
+
+        self.loadedModel.instanceTo(self.treasure)
         return
 
     def makeNodePath(self):
@@ -156,7 +165,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         return
 
     def getStareAtNodeAndOffset(self):
-        return (self.nodePath, Point3())
+        return self.nodePath, Point3()
 
     def startAnimation(self):
         pass

@@ -1,5 +1,5 @@
 from direct.task.Task import Task
-from pandac.PandaModules import *
+from panda3d.core import *
 from DistributedNPCToonBaseAI import *
 
 class DistributedNPCClerkAI(DistributedNPCToonBaseAI):
@@ -82,7 +82,7 @@ class DistributedNPCClerkAI(DistributedNPCToonBaseAI):
                 self.air.writeServerEvent('suspicious', avId=avId, issue='DistributedNPCClerkAI.setInventory busy with %s' % self.busy)
                 self.notify.warning('setInventory from unknown avId: %s busy: %s' % (avId, self.busy))
             return
-        if avId in self.air.doId2do:
+        if self.air.doId2do.has_key(avId):
             av = self.air.doId2do[avId]
             newInventory = av.inventory.makeFromNetString(blob)
             currentMoney = av.getMoney()

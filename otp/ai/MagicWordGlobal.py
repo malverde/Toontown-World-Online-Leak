@@ -27,7 +27,7 @@ class Spellbook:
         self.currentTarget = None
 
     def addWord(self, word):
-        self.words[word.name.lower()] = word
+        self.words[word.name.lower()] = word # # Let's make this stuff case insensitive
         for alias in word.aliases:
             self.alias2word[alias.lower()] = word
 
@@ -50,9 +50,14 @@ class Spellbook:
             self.currentTarget = None
 
     def doWord(self, wordName, args):
-        word = self.words.get(wordName.lower()) or self.alias2word.get(wordName.lower())
+        word = self.words.get(wordName.lower()) or self.alias2word.get(wordName.lower()) # Look it up by its lower case value
         if not word:
-            return ('Unknown magic word!', False)
+            wname = wordName.lower()
+            for key in self.words:
+                if wname in key:
+                    return 'Did you mean %s' % self.words.get(key).name
+            if not word:
+                return 'Unknown magic word!', False
 
         ensureAccess(word.access)
 
@@ -105,8 +110,10 @@ class MagicWordCategory:
 
     def getDefinedAccess(self):
         return config.GetInt('mw-category-' + self.name.replace(' ', '-').lower(), 0)
-
 CATEGORY_UNKNOWN = MagicWordCategory('Unknown')
+CATEGORY_ARTIST = MagicWordCategory('Artist Extra', defaultAccess=200,
+    doc='Magic Words in this category are used to'
+        ' simply show users the Toon with this tag are staff.')
 CATEGORY_GRAPHICAL = MagicWordCategory('Graphical debugging', defaultAccess=300,
     doc='Magic Words in this category are used to assist developers in locating '
         'the cause of graphical glitches.')
@@ -130,9 +137,20 @@ CATEGORY_MODERATION = MagicWordCategory('Moderation commands', defaultAccess=300
 CATEGORY_CAMERA = MagicWordCategory('Camera controls', defaultAccess=300,
     doc='These Magic Words manually control the camera system, originally implemented '
         'with Doomsday.')
-CATEGORY_ADMIN = MagicWordCategory("Admin commands", defaultAccess=400, 
-doc='These magic words are for executing admin commands')         
-CATEGORY_SYSADMIN = MagicWordCategory('Sysadmin commands', defaultAccess=500,
+CATEGORY_COMMUNITYMANAGER = MagicWordCategory("CM commands", defaultAccess=400,
+    doc='These magic words are for executing admin commands, '
+        'Although a CM is an admin, they are ranked lower than a developer')
+CATEGORY_ADMIN = MagicWordCategory("Admin commands", defaultAccess=401,
+    doc='These magic words are for executing admin commands')
+CATEGORY_DEVELOPER = MagicWordCategory("Developer commands", defaultAccess=405,
+    doc='These magic words are for executing admin commands '
+        'with slightly higher access than Admins to allow for some '
+        'debugging to aid developers.')
+CATEGORY_COSYSADMIN = MagicWordCategory('COSysadmin commands', defaultAccess=500,
+    doc='These Magic Words are useful for executing/viewing system information.'
+        ' Note that these Magic Words may have an impact on the server\'s'
+        ' stability and speed. Co systemadmin, not full access.')
+CATEGORY_SYSADMIN = MagicWordCategory('Sysadmin commands', defaultAccess=507,
     doc='These Magic Words are useful for executing/viewing system information.'
         ' Note that these Magic Words may have an impact on the server\'s'
         ' stability and speed, and should be used with caution.')

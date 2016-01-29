@@ -1,7 +1,8 @@
-from pandac.PandaModules import *
+#Embedded file name: toontown.estate.DistributedEstate
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 import math
@@ -48,7 +49,6 @@ class DistributedEstate(DistributedObject.DistributedObject):
         self.idList = []
         base.estate = self
         self.flowerGuiDoneEvent = 'flowerGuiDone'
-        return
 
     def disable(self):
         self.notify.debug('disable')
@@ -100,7 +100,6 @@ class DistributedEstate(DistributedObject.DistributedObject):
             self.flowerSellBox.removeNode()
             del self.flowerSellBox
             self.flowerSellBox = None
-        return
 
     def announceGenerate(self):
         DistributedObject.DistributedObject.announceGenerate(self)
@@ -142,7 +141,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
             bannerText.setText('Happy halloween!!!')
             self.bn = self.airplane.attachNewNode(bannerText.generate())
             self.bn.setHpr(0, 0, 0)
-            self.bn.setPos(20.0, -.1, 0)
+            self.bn.setPos(20.0, -0.1, 0)
             self.bn.setScale(2.35)
 
         replacement = Sequence(LerpColorScaleInterval(self.airplane, 0.1, Vec4(1, 1, 1, 0)), Func(__replaceAirplane__), LerpColorScaleInterval(self.airplane, 0.1, Vec4(1, 1, 1, 1)))
@@ -190,7 +189,6 @@ class DistributedEstate(DistributedObject.DistributedObject):
         self.housePos = posList
         self.numHouses = len(self.houseType)
         self.house = [None] * self.numHouses
-        return
 
     def __startAirplaneTask(self):
         self.theta = 0
@@ -253,9 +251,11 @@ class DistributedEstate(DistributedObject.DistributedObject):
         curTime = time.time() % HouseGlobals.DAY_NIGHT_PERIOD
         dawnTime = self.dawnTime
         dT = (curTime - dawnTime - self.deltaTime) % HouseGlobals.DAY_NIGHT_PERIOD
-        self.notify.debug(
-            'getDeltaTime = %s. curTime=%s. dawnTime=%s. serverTime=%s.  deltaTime=%s'
-            % (dT, curTime, dawnTime, self.serverTime, self.deltaTime))
+        self.notify.debug('getDeltaTime = %s. curTime=%s. dawnTime=%s. serverTime=%s.  deltaTime=%s' % (dT,
+         curTime,
+         dawnTime,
+         self.serverTime,
+         self.deltaTime))
         return dT
 
     def __initDaytimeTask(self):
@@ -303,7 +303,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         ts = 0
         if hasattr(task, 'ts'):
             ts = task.ts
-            if ts > HouseGlobals.HALF_DAY_PERIOD and ts < HouseGlobals.DAY_NIGHT_PERIOD - HouseGlobals.HALF_DAY_PERIOD:
+            if HouseGlobals.HALF_DAY_PERIOD < ts < HouseGlobals.DAY_NIGHT_PERIOD - HouseGlobals.HALF_DAY_PERIOD:
                 self.__stopBirds()
                 self.__startCrickets()
             else:
@@ -334,14 +334,12 @@ class DistributedEstate(DistributedObject.DistributedObject):
         taskMgr.doMethodLater(1, self.__crickets, 'estate-crickets')
 
     def __crickets(self, task):
-    	pass
-    	#todo fix this
-       # sfx = random.choice(base.cr.playGame.hood.loader.cricketSound)
-        #track = Sequence(Func(base.playSfx, sfx), Wait(1))
-        #track.start()
-        #t = random.random() * 20.0 + 1
-        #taskMgr.doMethodLater(t, self.__crickets, 'estate-crickets')
-        #return Task.done
+        sfx = random.choice(base.cr.playGame.hood.loader.cricketSound)
+        track = Sequence(Func(base.playSfx, sfx), Wait(1))
+        track.start()
+        t = random.random() * 20.0 + 1
+        taskMgr.doMethodLater(t, self.__crickets, 'estate-crickets')
+        return Task.done
 
     def getLastEpochTimeStamp(self):
         return self.lastEpochTimeStamp
@@ -374,7 +372,6 @@ class DistributedEstate(DistributedObject.DistributedObject):
         self.ignore('stoppedAsleep')
         self.flowerGui.destroy()
         self.flowerGui = None
-        return
 
     def popupFlowerGUI(self):
         self.acceptOnce(self.flowerGuiDoneEvent, self.__handleSaleDone)

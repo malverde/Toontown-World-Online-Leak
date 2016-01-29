@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+# Embedded file name: toontown.pets.Pet
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from direct.fsm.ClassicFSM import *
@@ -13,48 +14,54 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from direct.showbase import PythonUtil
 import random
-from toontown.nametag import NametagGlobals
 import types
 Component2IconDict = {'boredom': 'Bored',
- 'restlessness': None,
- 'playfulness': 'Play',
- 'loneliness': 'Lonely',
- 'sadness': 'Sad',
- 'fatigue': 'Sleepy',
- 'hunger': 'Hungry',
- 'confusion': 'Confused',
- 'excitement': 'Surprised',
- 'anger': 'Angry',
- 'surprise': 'Surprised',
- 'affection': 'Love'}
+                      'restlessness': None,
+                      'playfulness': 'Play',
+                      'loneliness': 'Lonely',
+                      'sadness': 'Sad',
+                      'fatigue': 'Sleepy',
+                      'hunger': 'Hungry',
+                      'confusion': 'Confused',
+                      'excitement': 'Surprised',
+                      'anger': 'Angry',
+                      'surprise': 'Surprised',
+                      'affection': 'Love'}
+from otp.nametag import *
+from otp.nametag.NametagConstants import *
+from otp.nametag.NametagGroup import *
+
 
 class Pet(Avatar.Avatar):
     notify = DirectNotifyGlobal.directNotify.newCategory('Pet')
     SerialNum = 0
     Interactions = PythonUtil.Enum('SCRATCH, BEG, EAT, NEUTRAL')
     InteractAnims = {Interactions.SCRATCH: ('toPet', 'pet', 'fromPet'),
-     Interactions.BEG: ('toBeg', 'beg', 'fromBeg'),
-     Interactions.EAT: ('eat', 'swallow', 'neutral'),
-     Interactions.NEUTRAL: 'neutral'}
+                     Interactions.BEG: ('toBeg', 'beg', 'fromBeg'),
+                     Interactions.EAT: ('eat', 'swallow', 'neutral'),
+                     Interactions.NEUTRAL: 'neutral'}
 
-    def __init__(self, forGui = 0):
+    def __init__(self, forGui=0):
         Avatar.Avatar.__init__(self)
         self.serialNum = Pet.SerialNum
         Pet.SerialNum += 1
         self.lockedDown = 0
         self.setPickable(1)
-        self.setPlayerType(NametagGlobals.CCNonPlayer)
-        self.animFSM = ClassicFSM('petAnimFSM', [State('off', self.enterOff, self.exitOff),
-         State('neutral', self.enterNeutral, self.exitNeutral),
-         State('neutralHappy', self.enterNeutralHappy, self.exitNeutralHappy),
-         State('neutralSad', self.enterNeutralSad, self.exitNeutralSad),
-         State('run', self.enterRun, self.exitRun),
-         State('swim', self.enterSwim, self.exitSwim),
-         State('teleportIn', self.enterTeleportIn, self.exitTeleportOut),
-         State('teleportOut', self.enterTeleportOut, self.exitTeleportOut),
-         State('walk', self.enterWalk, self.exitWalk),
-         State('walkHappy', self.enterWalkHappy, self.exitWalkHappy),
-         State('walkSad', self.enterWalkSad, self.exitWalkSad)], 'off', 'off')
+        self.setPlayerType(NametagGroup.CCNonPlayer)
+        self.animFSM = ClassicFSM(
+            'petAnimFSM', [
+                State(
+                    'off', self.enterOff, self.exitOff), State(
+                    'neutral', self.enterNeutral, self.exitNeutral), State(
+                    'neutralHappy', self.enterNeutralHappy, self.exitNeutralHappy), State(
+                        'neutralSad', self.enterNeutralSad, self.exitNeutralSad), State(
+                            'run', self.enterRun, self.exitRun), State(
+                                'swim', self.enterSwim, self.exitSwim), State(
+                                    'teleportIn', self.enterTeleportIn, self.exitTeleportOut), State(
+                                        'teleportOut', self.enterTeleportOut, self.exitTeleportOut), State(
+                                            'walk', self.enterWalk, self.exitWalk), State(
+                                                'walkHappy', self.enterWalkHappy, self.exitWalkHappy), State(
+                                                    'walkSad', self.enterWalkSad, self.exitWalkSad)], 'off', 'off')
         self.animFSM.enterInitialState()
         self.forGui = forGui
         self.moodModel = None
@@ -66,7 +73,6 @@ class Pet(Avatar.Avatar):
         self.soundTeleportIn = None
         self.soundTeleportOut = None
         self.teleportHole = None
-        return
 
     def isPet(self):
         return True
@@ -100,7 +106,6 @@ class Pet(Avatar.Avatar):
         self.leftBrow = None
         self.color = None
         Avatar.Avatar.delete(self)
-        return
 
     def getDNA(self):
         return self.style
@@ -118,35 +123,36 @@ class Pet(Avatar.Avatar):
 
     def generatePet(self):
         self.loadModel('phase_4/models/char/TT_pets-mod')
-        self.loadAnims({'toBeg': 'phase_5/models/char/TT_pets-intoBeg',
-         'beg': 'phase_5/models/char/TT_pets-beg',
-         'fromBeg': 'phase_5/models/char/TT_pets-begOut',
-         'backflip': 'phase_5/models/char/TT_pets-backflip',
-         'dance': 'phase_5/models/char/TT_pets-heal',
-         'toDig': 'phase_5/models/char/TT_pets-intoDig',
-         'dig': 'phase_5/models/char/TT_pets-dig',
-         'fromDig': 'phase_5/models/char/TT_pets-digToNeutral',
-         'disappear': 'phase_5/models/char/TT_pets-disappear',
-         'eat': 'phase_5.5/models/char/TT_pets-eat',
-         'jump': 'phase_5/models/char/TT_pets-jump',
-         'neutral': 'phase_4/models/char/TT_pets-neutral',
-         'neutralHappy': 'phase_4/models/char/TT_pets-neutralHappy',
-         'neutralSad': 'phase_4/models/char/TT_pets-neutral_sad',
-         'toPet': 'phase_5.5/models/char/TT_pets-petin',
-         'pet': 'phase_5.5/models/char/TT_pets-petloop',
-         'fromPet': 'phase_5.5/models/char/TT_pets-petend',
-         'playDead': 'phase_5/models/char/TT_pets-playdead',
-         'fromPlayDead': 'phase_5/models/char/TT_pets-deadend',
-         'reappear': 'phase_5/models/char/TT_pets-reappear',
-         'run': 'phase_5.5/models/char/TT_pets-run',
-         'rollover': 'phase_5/models/char/TT_pets-rollover',
-         'walkSad': 'phase_5.5/models/char/TT_pets-sadwalk',
-         'speak': 'phase_5/models/char/TT_pets-speak',
-         'swallow': 'phase_5.5/models/char/TT_pets-swallow',
-         'swim': 'phase_5.5/models/char/TT_pets-swim',
-         'toBall': 'phase_5.5/models/char/TT_pets-toBall',
-         'walk': 'phase_5.5/models/char/TT_pets-walk',
-         'walkHappy': 'phase_5.5/models/char/TT_pets-walkHappy'})
+        self.loadAnims(
+            {'toBeg': 'phase_5/models/char/TT_pets-intoBeg',
+             'beg': 'phase_5/models/char/TT_pets-beg',
+             'fromBeg': 'phase_5/models/char/TT_pets-begOut',
+             'backflip': 'phase_5/models/char/TT_pets-backflip',
+             'dance': 'phase_5/models/char/TT_pets-heal',
+             'toDig': 'phase_5/models/char/TT_pets-intoDig',
+             'dig': 'phase_5/models/char/TT_pets-dig',
+             'fromDig': 'phase_5/models/char/TT_pets-digToNeutral',
+             'disappear': 'phase_5/models/char/TT_pets-disappear',
+             'eat': 'phase_5.5/models/char/TT_pets-eat',
+             'jump': 'phase_5/models/char/TT_pets-jump',
+             'neutral': 'phase_4/models/char/TT_pets-neutral',
+             'neutralHappy': 'phase_4/models/char/TT_pets-neutralHappy',
+             'neutralSad': 'phase_4/models/char/TT_pets-neutral_sad',
+             'toPet': 'phase_5.5/models/char/TT_pets-petin',
+             'pet': 'phase_5.5/models/char/TT_pets-petloop',
+             'fromPet': 'phase_5.5/models/char/TT_pets-petend',
+             'playDead': 'phase_5/models/char/TT_pets-playdead',
+             'fromPlayDead': 'phase_5/models/char/TT_pets-deadend',
+             'reappear': 'phase_5/models/char/TT_pets-reappear',
+             'run': 'phase_5.5/models/char/TT_pets-run',
+             'rollover': 'phase_5/models/char/TT_pets-rollover',
+             'walkSad': 'phase_5.5/models/char/TT_pets-sadwalk',
+             'speak': 'phase_5/models/char/TT_pets-speak',
+             'swallow': 'phase_5.5/models/char/TT_pets-swallow',
+             'swim': 'phase_5.5/models/char/TT_pets-swim',
+             'toBall': 'phase_5.5/models/char/TT_pets-toBall',
+             'walk': 'phase_5.5/models/char/TT_pets-walk',
+             'walkHappy': 'phase_5.5/models/char/TT_pets-walkHappy'})
         self.setHeight(2)
         color = None
         colorIndex = self.style[5]
@@ -249,22 +255,30 @@ class Pet(Avatar.Avatar):
             self.rightHighlight.hide()
             self.leftHighlight.hide()
         if self.style[8]:
-            self.eyesOpenTexture = loader.loadTexture('phase_4/maps/BeanEyeBoys2.jpg', 'phase_4/maps/BeanEyeBoys2_a.rgb')
-            self.eyesClosedTexture = loader.loadTexture('phase_4/maps/BeanEyeBoysBlink.jpg', 'phase_4/maps/BeanEyeBoysBlink_a.rgb')
+            self.eyesOpenTexture = loader.loadTexture(
+                'phase_4/maps/BeanEyeBoys2.jpg',
+                'phase_4/maps/BeanEyeBoys2_a.rgb')
+            self.eyesClosedTexture = loader.loadTexture(
+                'phase_4/maps/BeanEyeBoysBlink.jpg',
+                'phase_4/maps/BeanEyeBoysBlink_a.rgb')
         else:
-            self.eyesOpenTexture = loader.loadTexture('phase_4/maps/BeanEyeGirlsNew.jpg', 'phase_4/maps/BeanEyeGirlsNew_a.rgb')
-            self.eyesClosedTexture = loader.loadTexture('phase_4/maps/BeanEyeGirlsBlinkNew.jpg', 'phase_4/maps/BeanEyeGirlsBlinkNew_a.rgb')
+            self.eyesOpenTexture = loader.loadTexture(
+                'phase_4/maps/BeanEyeGirlsNew.jpg',
+                'phase_4/maps/BeanEyeGirlsNew_a.rgb')
+            self.eyesClosedTexture = loader.loadTexture(
+                'phase_4/maps/BeanEyeGirlsBlinkNew.jpg',
+                'phase_4/maps/BeanEyeGirlsBlinkNew_a.rgb')
         self.eyesOpenTexture.setMinfilter(Texture.FTLinear)
         self.eyesOpenTexture.setMagfilter(Texture.FTLinear)
         self.eyesClosedTexture.setMinfilter(Texture.FTLinear)
         self.eyesClosedTexture.setMagfilter(Texture.FTLinear)
         self.eyesOpen()
-        return None
 
     def initializeBodyCollisions(self, collIdStr):
         Avatar.Avatar.initializeBodyCollisions(self, collIdStr)
         if not self.ghostMode:
-            self.collNode.setCollideMask(self.collNode.getIntoCollideMask() | ToontownGlobals.PieBitmask)
+            self.collNode.setCollideMask(
+                self.collNode.getIntoCollideMask() | ToontownGlobals.PieBitmask)
 
     def amplifyColor(self, color, scale):
         color = color * scale
@@ -290,7 +304,6 @@ class Pet(Avatar.Avatar):
         if self.moodModel:
             self.moodModel.hide()
         self.moodModel = None
-        return
 
     def showMood(self, mood):
         if hasattr(base.cr, 'newsManager') and base.cr.newsManager:
@@ -298,8 +311,7 @@ class Pet(Avatar.Avatar):
             if (ToontownGlobals.APRIL_FOOLS_COSTUMES in holidayIds or ToontownGlobals.SILLYMETER_EXT_HOLIDAY in holidayIds) and not mood == 'confusion':
                 self.speakMood(mood)
                 return
-            else:
-                self.clearChat()
+            self.clearChat()
         else:
             self.clearChat()
         mood = Component2IconDict[mood]
@@ -317,15 +329,20 @@ class Pet(Avatar.Avatar):
         self.moodModel = moodModel
         if self.moodModel:
             self.moodModel.show()
-        return
 
     def speakMood(self, mood):
         if self.moodModel:
             self.moodModel.hide()
         if config.GetBool('want-speech-bubble', 1):
-            self.nametag.setChatText(random.choice(TTLocalizer.SpokenMoods[mood]))
+            self.nametag.setChat(
+                random.choice(
+                    TTLocalizer.SpokenMoods[mood]),
+                CFSpeech)
         else:
-            self.nametag.setChatText(random.choice(TTLocalizer.SpokenMoods[mood]))
+            self.nametag.setChat(
+                random.choice(
+                    TTLocalizer.SpokenMoods[mood]),
+                CFThought)
 
     def getGenderString(self):
         if self.style:
@@ -352,7 +369,7 @@ class Pet(Avatar.Avatar):
             joints.append(joint)
         return joints
 
-    def fitAndCenterHead(self, maxDim, forGui = 0):
+    def fitAndCenterHead(self, maxDim, forGui=0):
         p1 = Point3()
         p2 = Point3()
         self.calcTightBounds(p1, p2)
@@ -397,7 +414,10 @@ class Pet(Avatar.Avatar):
 
     def enterBeg(self):
         delay = self.getDuration('toBeg')
-        self.track = Sequence(Func(self.play, 'toBeg'), Wait(delay), Func(self.loop, 'beg'))
+        self.track = Sequence(
+            Func(
+                self.play, 'toBeg'), Wait(delay), Func(
+                self.loop, 'beg'))
         self.track.start()
 
     def exitBeg(self):
@@ -454,8 +474,22 @@ class Pet(Avatar.Avatar):
 
     def getTeleportInTrack(self):
         if not self.teleportHole:
-            self.teleportHole = Actor.Actor('phase_3.5/models/props/portal-mod', {'hole': 'phase_3.5/models/props/portal-chan'})
-        track = Sequence(Wait(1.0), Parallel(self.getTeleportInSoundInterval(), Sequence(Func(self.showHole), ActorInterval(self.teleportHole, 'hole', startFrame=81, endFrame=71), ActorInterval(self, 'reappear'), ActorInterval(self.teleportHole, 'hole', startFrame=71, endFrame=81), Func(self.cleanupHole), Func(self.loop, 'neutral')), Sequence(Func(self.dropShadow.hide), Wait(1.0), Func(self.dropShadow.show))))
+            self.teleportHole = Actor.Actor(
+                'phase_3.5/models/props/portal-mod',
+                {'hole': 'phase_3.5/models/props/portal-chan'})
+        track = Sequence(
+            Wait(1.0), Parallel(
+                self.getTeleportInSoundInterval(), Sequence(
+                    Func(
+                        self.showHole), ActorInterval(
+                        self.teleportHole, 'hole', startFrame=81, endFrame=71), ActorInterval(
+                        self, 'reappear'), ActorInterval(
+                            self.teleportHole, 'hole', startFrame=71, endFrame=81), Func(
+                                self.cleanupHole), Func(
+                                    self.loop, 'neutral')), Sequence(
+                                        Func(
+                                            self.dropShadow.hide), Wait(1.0), Func(
+                                                self.dropShadow.show))))
         return track
 
     def enterTeleportIn(self, timestamp):
@@ -467,8 +501,23 @@ class Pet(Avatar.Avatar):
 
     def getTeleportOutTrack(self):
         if not self.teleportHole:
-            self.teleportHole = Actor.Actor('phase_3.5/models/props/portal-mod', {'hole': 'phase_3.5/models/props/portal-chan'})
-        track = Sequence(Wait(1.0), Parallel(self.getTeleportOutSoundInterval(), Sequence(ActorInterval(self, 'toDig'), Parallel(ActorInterval(self, 'dig'), Func(self.showHole), ActorInterval(self.teleportHole, 'hole', startFrame=81, endFrame=71)), ActorInterval(self, 'disappear'), ActorInterval(self.teleportHole, 'hole', startFrame=71, endFrame=81), Func(self.cleanupHole)), Sequence(Wait(1.0), Func(self.dropShadow.hide))))
+            self.teleportHole = Actor.Actor(
+                'phase_3.5/models/props/portal-mod',
+                {'hole': 'phase_3.5/models/props/portal-chan'})
+        track = Sequence(
+            Wait(1.0), Parallel(
+                self.getTeleportOutSoundInterval(), Sequence(
+                    ActorInterval(
+                        self, 'toDig'), Parallel(
+                        ActorInterval(
+                            self, 'dig'), Func(
+                            self.showHole), ActorInterval(
+                                self.teleportHole, 'hole', startFrame=81, endFrame=71)), ActorInterval(
+                                    self, 'disappear'), ActorInterval(
+                                        self.teleportHole, 'hole', startFrame=71, endFrame=81), Func(
+                                            self.cleanupHole)), Sequence(
+                                                Wait(1.0), Func(
+                                                    self.dropShadow.hide))))
         return track
 
     def enterTeleportOut(self, timestamp):
@@ -496,12 +545,14 @@ class Pet(Avatar.Avatar):
 
     def getTeleportInSoundInterval(self):
         if not self.soundTeleportIn:
-            self.soundTeleportIn = loader.loadSfx('phase_5/audio/sfx/teleport_reappear.ogg')
+            self.soundTeleportIn = loader.loadSfx(
+                'phase_5/audio/sfx/teleport_reappear.ogg')
         return SoundInterval(self.soundTeleportIn)
 
     def getTeleportOutSoundInterval(self):
         if not self.soundTeleportOut:
-            self.soundTeleportOut = loader.loadSfx('phase_5/audio/sfx/teleport_disappear.ogg')
+            self.soundTeleportOut = loader.loadSfx(
+                'phase_5/audio/sfx/teleport_disappear.ogg')
         return SoundInterval(self.soundTeleportOut)
 
     def enterWalk(self):
@@ -522,7 +573,7 @@ class Pet(Avatar.Avatar):
     def exitWalkSad(self):
         self.stop('walkSad')
 
-    def trackAnimToSpeed(self, forwardVel, rotVel, inWater = 0):
+    def trackAnimToSpeed(self, forwardVel, rotVel, inWater=0):
         action = 'neutral'
         if self.isInWater():
             action = 'swim'
@@ -630,11 +681,10 @@ class Pet(Avatar.Avatar):
         if not self.lockedDown:
             self.animFSM.request(self.prevAnimState)
             self.prevAnimState = None
-        return
 
     def getInteractIval(self, interactId):
         anims = self.InteractAnims[interactId]
-        if type(anims) == types.StringType:
+        if isinstance(anims, types.StringType):
             animIval = ActorInterval(self, anims)
         else:
             animIval = Sequence()
@@ -654,14 +704,14 @@ def gridPets():
         for color in colors:
             p = Pet()
             p.setDNA([random.choice(range(-1, len(HeadParts))),
-             random.choice(range(-1, len(EarParts))),
-             random.choice(range(-1, len(NoseParts))),
-             random.choice(range(-1, len(TailParts))),
-             body,
-             color,
-             random.choice(range(-1, len(ColorScales))),
-             random.choice(range(0, len(PetEyeColors))),
-             random.choice(range(0, len(PetGenders)))])
+                      random.choice(range(-1, len(EarParts))),
+                      random.choice(range(-1, len(NoseParts))),
+                      random.choice(range(-1, len(TailParts))),
+                      body,
+                      color,
+                      random.choice(range(-1, len(ColorScales))),
+                      random.choice(range(0, len(PetEyeColors))),
+                      random.choice(range(0, len(PetGenders)))])
             p.setPos(startPos[0] + offsetX, startPos[1] + offsetY, startPos[2])
             p.animFSM.request('neutral')
             p.reparentTo(render)

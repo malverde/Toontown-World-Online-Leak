@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.PublicPartyGui
 from pandac.PandaModules import Vec3, Vec4, Point3, TextNode, VBase4
 from direct.gui.DirectGui import DGG, DirectFrame, DirectButton, DirectLabel, DirectScrolledList, DirectCheckButton
 from direct.gui import DirectGuiGlobals
@@ -24,7 +25,6 @@ class PublicPartyGui(DirectFrame):
         self.load()
         self.gui.removeNode()
         self.accept('stoppedAsleep', self._close)
-        return
 
     def load(self):
         for backgroundName in ['background', 'parties_background', 'activities_background']:
@@ -44,7 +44,6 @@ class PublicPartyGui(DirectFrame):
             tempPos = self.gui.find('**/helpText_locator').getPos()
             instructionPos = (tempPos.getX(), tempPos.getZ())
         self.instructionsLabel = DirectLabel(parent=self, relief=None, text=TTLocalizer.PartyGateInstructions, text_align=TextNode.ACenter, text_scale=TTLocalizer.PPGinstructionsLabel, text_pos=instructionPos)
-        return
 
     def createListAndLabel(self, typeString, numItems):
         list = DirectScrolledList(parent=self, relief=None, incButton_image=(self.gui.find('**/%sButtonDown_up' % typeString),
@@ -57,7 +56,7 @@ class PublicPartyGui(DirectFrame):
         strings = {'activities': TTLocalizer.EventsPageHostingTabActivityListTitle,
          'parties': TTLocalizer.PartyGatePartiesListTitle}
         label = DirectLabel(parent=self, relief=None, text=strings[typeString], text_scale=0.06, pos=self.gui.find('**/%sText_locator' % typeString).getPos())
-        return (list, label)
+        return list, label
 
     def refresh(self, partyInfoTupleList):
         PublicPartyGui.notify.debug('refresh : partyInfoTupleList = %s' % partyInfoTupleList)
@@ -70,7 +69,7 @@ class PublicPartyGui(DirectFrame):
         def cmp(left, right):
             if left[2] < right[2]:
                 return -1
-            elif left[2] == right[2]:
+            if left[2] == right[2]:
                 if len(left[4]) < len(right[4]):
                     return -1
                 elif len(left[4]) == len(right[4]):
@@ -97,10 +96,7 @@ class PublicPartyGui(DirectFrame):
             hostName = partyTuple[3]
             activityIds = partyTuple[4]
             minLeft = partyTuple[5]
-            item = DirectButton(relief=DGG.RIDGE, borderWidth=(0.01, 0.01), frameSize=(-0.01,
-             0.45,
-             -0.015,
-             0.04), frameColor=self.normalFrameColor, text=hostName, text_align=TextNode.ALeft, text_bg=Vec4(0.0, 0.0, 0.0, 0.0), text_scale=0.045, command=self.partyClicked)
+            item = DirectButton(relief=DGG.RIDGE, borderWidth=(0.01, 0.01), frameSize=(-0.01, 0.45, -0.015, 0.04), frameColor=self.normalFrameColor, text=hostName, text_align=TextNode.ALeft, text_bg=Vec4(0.0, 0.0, 0.0, 0.0), text_scale=0.045, command=self.partyClicked)
             otherInfoWidth = 0.08
             numActivities = len(activityIds)
             PartyUtils.truncateTextOfLabelBasedOnWidth(item, hostName, PartyGlobals.EventsPageGuestNameMaxWidth)
@@ -132,8 +128,6 @@ class PublicPartyGui(DirectFrame):
             item.setPythonTag('activityIds', activityIds)
             self.partyList.addItem(item)
 
-        return
-
     def partyClicked(self, item):
         self.partyStartButton['state'] = DirectGuiGlobals.NORMAL
         if self.selectedItem is not None:
@@ -161,7 +155,6 @@ class PublicPartyGui(DirectFrame):
         if not minLabel.isEmpty():
             minLabel['frameColor'] = self.selectedFrameColor
         self.fillActivityList(item.getPythonTag('activityIds'))
-        return
 
     def fillActivityList(self, activityIds):
         self.activityList.removeAndDestroyAllItems()
@@ -179,20 +172,16 @@ class PublicPartyGui(DirectFrame):
             item = DirectLabel(relief=None, text=text, text_align=TextNode.ACenter, text_scale=0.05, text_pos=(0.0, -0.15), geom_scale=0.3, geom_pos=Vec3(0.0, 0.0, 0.07), geom=PartyUtils.getPartyActivityIcon(self.activityIconsModel, PartyGlobals.ActivityIds.getString(activityId)))
             self.activityList.addItem(item)
 
-        return
-
     def _startParty(self):
         if self.selectedItem is None:
             self.partyStartButton['state'] = DirectGuiGlobals.DISABLED
             return
         self.doneStatus = (self.selectedItem.getPythonTag('shardId'), self.selectedItem.getPythonTag('zoneId'))
         messenger.send(self.doneEvent)
-        return
 
     def _close(self):
         self.doneStatus = None
         messenger.send(self.doneEvent)
-        return
 
     def destroy(self):
         self.activityIconsModel.removeNode()
@@ -212,7 +201,6 @@ class PublicPartyGui(DirectFrame):
         del self.activityList
         self.ignoreAll()
         DirectFrame.destroy(self)
-        return
 
     def createPartyListAndLabel(self, typeString, numItems):
         list = DirectScrolledList(parent=self, relief=None, incButton_image=(self.gui.find('**/%sButtonDown_up' % typeString),
@@ -240,12 +228,12 @@ class PublicPartyGui(DirectFrame):
         if not self.gui.find('**/partiesText_locator3').isEmpty():
             curPos = self.gui.find('**/partiesText_locator3').getPos()
         minLeftLabel = DirectLabel(parent=self, text_align=TextNode.ALeft, relief=None, text=TTLocalizer.PartyGatesPartiesListMinLeft, text_scale=TTLocalizer.PPGminLeftLabel, pos=curPos, hpr=hpr)
-        return (list, label)
+        return list, label
 
     def stash(self):
-        base.setCellsActive(base.bottomCells, 1)
+        base.setCellsAvailable(base.bottomCells, 1)
         DirectFrame.stash(self)
 
     def unstash(self):
-        base.setCellsActive(base.bottomCells, 0)
+        base.setCellsAvailable(base.bottomCells, 0)
         DirectFrame.unstash(self)

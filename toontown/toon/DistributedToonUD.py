@@ -1,6 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectUD import DistributedObjectUD
 
+
 class DistributedToonUD(DistributedObjectUD):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedToonUD")
 
@@ -337,7 +338,17 @@ class DistributedToonUD(DistributedObjectUD):
     def presentPie(self, todo0, todo1, todo2, todo3, todo4, todo5, todo6):
         pass
 
-    def tossPie(self, todo0, todo1, todo2, todo3, todo4, todo5, todo6, todo7, todo8):
+    def tossPie(
+            self,
+            todo0,
+            todo1,
+            todo2,
+            todo3,
+            todo4,
+            todo5,
+            todo6,
+            todo7,
+            todo8):
         pass
 
     def pieSplat(self, todo0, todo1, todo2, todo3, todo4, todo5):
@@ -549,4 +560,3 @@ class DistributedToonUD(DistributedObjectUD):
 
     def pingresp(self, todo0):
         pass
-

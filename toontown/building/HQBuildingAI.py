@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 import DistributedDoorAI
 import DistributedHQInteriorAI
@@ -6,6 +6,7 @@ import FADoorCodes
 import DoorTypes
 from toontown.toon import NPCToons
 from toontown.quest import Quests
+
 
 class HQBuildingAI:
 
@@ -32,13 +33,18 @@ class HQBuildingAI:
         del self.interior
 
     def setup(self, blockNumber):
-        self.interior = DistributedHQInteriorAI.DistributedHQInteriorAI(blockNumber, self.air, self.interiorZone)
+        self.interior = DistributedHQInteriorAI.DistributedHQInteriorAI(
+            blockNumber, self.air, self.interiorZone)
         self.npcs = NPCToons.createNpcsInZone(self.air, self.interiorZone)
         self.interior.generateWithRequired(self.interiorZone)
-        door0 = DistributedDoorAI.DistributedDoorAI(self.air, blockNumber, DoorTypes.EXT_HQ, doorIndex=0)
-        door1 = DistributedDoorAI.DistributedDoorAI(self.air, blockNumber, DoorTypes.EXT_HQ, doorIndex=1)
-        insideDoor0 = DistributedDoorAI.DistributedDoorAI(self.air, blockNumber, DoorTypes.INT_HQ, doorIndex=0)
-        insideDoor1 = DistributedDoorAI.DistributedDoorAI(self.air, blockNumber, DoorTypes.INT_HQ, doorIndex=1)
+        door0 = DistributedDoorAI.DistributedDoorAI(
+            self.air, blockNumber, DoorTypes.EXT_HQ, doorIndex=0)
+        door1 = DistributedDoorAI.DistributedDoorAI(
+            self.air, blockNumber, DoorTypes.EXT_HQ, doorIndex=1)
+        insideDoor0 = DistributedDoorAI.DistributedDoorAI(
+            self.air, blockNumber, DoorTypes.INT_HQ, doorIndex=0)
+        insideDoor1 = DistributedDoorAI.DistributedDoorAI(
+            self.air, blockNumber, DoorTypes.INT_HQ, doorIndex=1)
         door0.setOtherDoor(insideDoor0)
         insideDoor0.setOtherDoor(door0)
         door1.setOtherDoor(insideDoor1)

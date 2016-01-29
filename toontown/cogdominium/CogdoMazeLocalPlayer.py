@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoMazeLocalPlayer
 from pandac.PandaModules import Point3, CollisionNode, CollisionSphere, CollisionHandlerEvent
 from direct.interval.IntervalGlobal import Func, Sequence, Wait
 from direct.showbase.PythonUtil import bound as clamp
@@ -134,7 +135,7 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
         self._guiMgr.hideQuestArrow()
         self.ignore('control')
         self._guiMgr.setMessage('')
-        if self.exited == False:
+        if not self.exited:
             self.lostMemos()
 
     def exitDone(self):
@@ -146,7 +147,6 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
             self.hints['squashed'] = True
         self._hitByDropSfx.play()
         CogdoMazePlayer.hitByDrop(self)
-        return
 
     def equipGag(self):
         CogdoMazePlayer.equipGag(self)
@@ -186,7 +186,6 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
         CogdoMazePlayer.removeGag(self)
         self.throwPending = False
         messenger.send(Globals.WaterCoolerShowEventName, [])
-        return
 
     def controlKeyPressed(self):
         if self.game.finished or self.throwPending or self.getCurrentOrNextState() == 'Hit' or self.equippedGag == None:
@@ -195,7 +194,6 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
         heading = self.toon.getH()
         pos = self.toon.getPos()
         self.game.requestUseGag(pos.getX(), pos.getY(), heading)
-        return
 
     def completeThrow(self):
         self.clearCollisions()

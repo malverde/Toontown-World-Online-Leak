@@ -1,15 +1,14 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from DistributedNPCToonBase import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 import NPCToons
 from direct.task.Task import Task
 import TailorClothesGUI
 from toontown.toonbase import TTLocalizer
 import ToonDNA
 from toontown.estate import ClosetGlobals
-from toontown.chat.ChatGlobals import *
-from toontown.nametag.NametagGlobals import *
+from otp.nametag.NametagConstants import CFSpeech, CFTimeout
 
 class DistributedNPCTailor(DistributedNPCToonBase):
 

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.DistCogdoBoardroomGame
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from toontown.cogdominium.DistCogdoLevelGame import DistCogdoLevelGame
 from toontown.cogdominium.CogdoBoardroomGameBase import CogdoBoardroomGameBase
@@ -27,7 +28,6 @@ class DistCogdoBoardroomGame(CogdoBoardroomGameBase, DistCogdoLevelGame):
         self.timer.destroy()
         self.timer = None
         DistCogdoLevelGame.disable(self)
-        return
 
     def enterGame(self):
         DistCogdoLevelGame.enterGame(self)

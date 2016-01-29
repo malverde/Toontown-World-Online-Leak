@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoFlyingGameGuis
 from direct.interval.IntervalGlobal import LerpFunctionInterval
 from direct.gui.DirectGui import DirectLabel, DirectFrame, DGG
 from direct.showbase.PythonUtil import bound as clamp
@@ -19,7 +20,6 @@ class CogdoFlyingProgressGui(DirectFrame):
         self._levelDistance = abs(self._levelEndY - self._levelStartY)
         self._toonMarkers = {}
         self._initModel()
-        return
 
     def destroy(self):
         self._laffMeterModel.removeNode()
@@ -54,10 +54,12 @@ class CogdoFlyingProgressGui(DirectFrame):
         if marker is not None:
             marker.removeNode()
             del self._toonMarkers[toon]
-        return
 
     def _getToonMarker(self, toon):
-        return self._laffMeterModel.find('**/' + toon.style.getType() + 'head')
+        type = self._laffMeterModel.find('**/' + toon.style.getType() + 'head')
+        if type.isEmpty():
+            type = self._laffMeterModel.find('**/bunnyhead')
+        return type
 
     def update(self):
         for toon, marker in self._toonMarkers.items():
@@ -73,7 +75,6 @@ class CogdoFlyingFuelGui(DirectFrame):
         self.active = 0
         self._initModel()
         self._initIntervals()
-        return
 
     def _initModel(self):
         self.setPos(Globals.Gui.FuelPos2D[0], 0.0, Globals.Gui.FuelPos2D[1])
@@ -116,12 +117,8 @@ class CogdoFlyingFuelGui(DirectFrame):
         for blade in self.blades:
             self.activeBlades.append(blade)
 
-        self.bladeNumberLabel = DirectLabel(parent=self.propellerHead, relief=None, pos=(Globals.Gui.FuelNumBladesPos2D[0], 0, Globals.Gui.FuelNumBladesPos2D[1]), scale=Globals.Gui.FuelNumBladesScale, text=str(len(self.activeBlades)), text_align=TextNode.ACenter, text_fg=(0.0,
-         0.0,
-         -0.002,
-         1), text_shadow=(0.75, 0.75, 0.75, 1), text_font=ToontownGlobals.getInterfaceFont())
+        self.bladeNumberLabel = DirectLabel(parent=self.propellerHead, relief=None, pos=(Globals.Gui.FuelNumBladesPos2D[0], 0, Globals.Gui.FuelNumBladesPos2D[1]), scale=Globals.Gui.FuelNumBladesScale, text=str(len(self.activeBlades)), text_align=TextNode.ACenter, text_fg=(0.0, 0.0, -0.002, 1), text_shadow=(0.75, 0.75, 0.75, 1), text_font=ToontownGlobals.getInterfaceFont())
         self.bladeNumberLabel.setBin('fixed', 5)
-        return
 
     def _initIntervals(self):
         self._healthIval = LerpFunctionInterval(self.healthBar.setSz, fromData=0.0, toData=1.0, duration=2.0)
@@ -144,13 +141,13 @@ class CogdoFlyingFuelGui(DirectFrame):
             return
         numBlades = fuelState - 1
         if len(self.activeBlades) != numBlades:
-            for i in range(len(self.activeBlades)):
+            for i in xrange(len(self.activeBlades)):
                 blade = self.activeBlades.pop()
                 blade.stash()
 
             if numBlades > len(self.blades):
                 numBlades = len(self.blades)
-            for i in range(numBlades):
+            for i in xrange(numBlades):
                 blade = self.blades[i]
                 self.activeBlades.append(blade)
                 blade.unstash()
@@ -199,4 +196,3 @@ class CogdoFlyingFuelGui(DirectFrame):
         self.gui.detachNode()
         self.gui = None
         DirectFrame.destroy(self)
-        return

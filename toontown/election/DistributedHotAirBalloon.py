@@ -1,5 +1,5 @@
-from pandac.PandaModules import *
-from toontown.chat.ChatGlobals import *
+from panda3d.core import *
+from otp.nametag.NametagConstants import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.DistributedObject import DistributedObject

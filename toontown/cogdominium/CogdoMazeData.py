@@ -1,14 +1,11 @@
+#Embedded file name: toontown.cogdominium.CogdoMazeData
 FirstQuadrant = 1
 NumQuadrants = 9
 QuadrantCellWidth = 3
 QuadrantSize = 16
 QuadrantOriginXY = 8
-QuadrantAngles = (0,
- 90,
- 180,
- 270)
-QuadrantCollisions = {}
-QuadrantCollisions['phase_5/models/cogdominium/tt_m_ara_cmg_quadrant1'] = {}
+QuadrantAngles = (0, 90, 180, 270)
+QuadrantCollisions = {'phase_5/models/cogdominium/tt_m_ara_cmg_quadrant1': {}}
 collTable = QuadrantCollisions['phase_5/models/cogdominium/tt_m_ara_cmg_quadrant1']
 collTable[0] = [[0,
   0,

@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.DistributedCogdoElevatorExt
 from toontown.building.DistributedElevatorExt import DistributedElevatorExt
 
 class DistributedCogdoElevatorExt(DistributedElevatorExt):
@@ -14,4 +15,4 @@ class DistributedCogdoElevatorExt(DistributedElevatorExt):
         return self.bldg.getCogdoDoorOrigin()
 
     def _getDoorsClosedInfo(self):
-        return ('cogdoInterior', 'cogdoInterior')
+        return 'cogdoInterior', 'cogdoInterior'

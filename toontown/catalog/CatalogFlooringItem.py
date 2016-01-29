@@ -64,7 +64,7 @@ class CatalogFlooringItem(CatalogSurfaceItem):
         c.setColorScale(*self.getColor())
         sample.reparentTo(frame)
         self.hasPicture = True
-        return (frame, None)
+        return frame, None
 
     def output(self, store = -1):
         return 'CatalogFlooringItem(%s, %s%s)' % (self.patternIndex, self.colorIndex, self.formatOptionalData(store))
@@ -161,7 +161,7 @@ def getFlooringRange(fromIndex, toIndex, *otherRanges):
 
     for patternIndex in FlooringTypes.keys():
         for fromIndex, toIndex in zip(froms, tos):
-            if patternIndex >= fromIndex and patternIndex <= toIndex:
+            if fromIndex <= patternIndex <= toIndex:
                 colors = FlooringTypes[patternIndex][FTColor]
                 if colors:
                     for n in range(len(colors)):
@@ -171,3 +171,4 @@ def getFlooringRange(fromIndex, toIndex, *otherRanges):
                     list.append(CatalogFlooringItem(patternIndex, 0))
 
     return list
+

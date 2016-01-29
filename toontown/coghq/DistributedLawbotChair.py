@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.fsm import FSM
@@ -310,7 +310,7 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         seqName = 'LawbotBossChair-%s' % self.doId
         self.ival = Sequence(name=seqName)
         downAngle = -80
-        for index in xrange(len(myHeadings)):
+        for index in range(len(myHeadings)):
             nextIndex = index + 1
             if nextIndex == len(myHeadings):
                 nextIndex = 0

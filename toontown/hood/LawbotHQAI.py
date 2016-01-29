@@ -1,76 +1,137 @@
-from toontown.building import DistributedCJElevatorAI
-from toontown.building import FADoorCodes
-from toontown.building.DistributedBoardingPartyAI import DistributedBoardingPartyAI
-from toontown.coghq.DistributedLawOfficeElevatorExtAI import DistributedLawOfficeElevatorExtAI
-from toontown.hood import CogHQAI
-from toontown.suit import DistributedLawbotBossAI
-from toontown.suit import DistributedSuitPlannerAI
+from CogHoodAI import CogHoodAI
 from toontown.toonbase import ToontownGlobals
+from toontown.suit.DistributedLawbotBossAI import DistributedLawbotBossAI
+from toontown.coghq.DistributedLawOfficeElevatorExtAI import DistributedLawOfficeElevatorExtAI
+from toontown.building.DistributedCJElevatorAI import DistributedCJElevatorAI
+from toontown.coghq.DistributedCogHQDoorAI import DistributedCogHQDoorAI
+from toontown.building import DoorTypes
+from toontown.building.DistributedDoorAI import DistributedDoorAI
+from toontown.building import FADoorCodes
 
 
-class LawbotHQAI(CogHQAI.CogHQAI):
+class LawbotHQAI(CogHoodAI):
+    HOOD = ToontownGlobals.LawbotHQ
+
     def __init__(self, air):
-        CogHQAI.CogHQAI.__init__(
-            self, air, ToontownGlobals.LawbotHQ, ToontownGlobals.LawbotLobby,
-            FADoorCodes.LB_DISGUISE_INCOMPLETE,
-            DistributedCJElevatorAI.DistributedCJElevatorAI,
-            DistributedLawbotBossAI.DistributedLawbotBossAI)
+        CogHoodAI.__init__(self, air)
+        self.createZone()
 
-        self.lawOfficeElevators = []
-        self.officeBoardingParty = None
-        self.suitPlanners = []
+    def createDoor(self):
+        # DA Offices
+        daInteriorDoor = DistributedCogHQDoorAI(
+            self.air,
+            0,
+            DoorTypes.EXT_COGHQ,
+            self.HOOD,
+            doorIndex=0,
+            lockValue=FADoorCodes.UNLOCKED)
+        daExteriorDoor = DistributedCogHQDoorAI(
+            self.air,
+            0,
+            DoorTypes.INT_COGHQ,
+            ToontownGlobals.LawbotOfficeExt,
+            doorIndex=0,
+            lockValue=FADoorCodes.UNLOCKED)
+        daExteriorDoor.setOtherDoor(daInteriorDoor)
+        daExteriorDoor.zoneId = self.HOOD
+        daExteriorDoor.generateWithRequired(self.HOOD)
+        daExteriorDoor.sendUpdate('setDoorIndex', [0])
+        self.doors.append(daExteriorDoor)
 
-        self.startup()
+        daInteriorDoor.setOtherDoor(daExteriorDoor)
+        daInteriorDoor.zoneId = ToontownGlobals.LawbotOfficeExt
+        daInteriorDoor.generateWithRequired(ToontownGlobals.LawbotOfficeExt)
+        daInteriorDoor.sendUpdate('setDoorIndex', [0])
+        self.doors.append(daInteriorDoor)
 
-    def startup(self):
-        CogHQAI.CogHQAI.startup(self)
+        # CJ Lobby
+        interiorDoor = DistributedCogHQDoorAI(
+            self.air, 0, DoorTypes.INT_COGHQ, self.HOOD, doorIndex=0)
+        exteriorDoor = DistributedCogHQDoorAI(
+            self.air,
+            0,
+            DoorTypes.EXT_COGHQ,
+            ToontownGlobals.LawbotLobby,
+            doorIndex=1,
+            lockValue=FADoorCodes.LB_DISGUISE_INCOMPLETE)
+        exteriorDoor.setOtherDoor(interiorDoor)
+        exteriorDoor.zoneId = self.HOOD
+        exteriorDoor.generateWithRequired(self.HOOD)
+        exteriorDoor.sendUpdate('setDoorIndex', [1])
+        self.doors.append(exteriorDoor)
 
-        self.createLawOfficeElevators()
-        self.makeCogHQDoor(ToontownGlobals.LawbotOfficeExt, 0, 0)
-        if simbase.config.GetBool('want-boarding-groups', True):
-            self.createOfficeBoardingParty()
-        if simbase.config.GetBool('want-suit-planners', True):
-            self.createSuitPlanners()
+        interiorDoor.setOtherDoor(exteriorDoor)
+        interiorDoor.zoneId = ToontownGlobals.LawbotLobby
+        interiorDoor.generateWithRequired(ToontownGlobals.LawbotLobby)
+        interiorDoor.sendUpdate('setDoorIndex', [0])
+        self.doors.append(interiorDoor)
 
-    def makeCogHQDoor(self, destinationZone, intDoorIndex, extDoorIndex, lock=0):
-        # For Lawbot HQ, the lobby door index is 1, even though that index
-        # should be for the Lawbot office exterior door.
-        if destinationZone == self.lobbyZoneId:
-            extDoorIndex = 1
-        elif destinationZone == ToontownGlobals.LawbotOfficeExt:
-            extDoorIndex = 0
+    def createZone(self):
+        CogHoodAI.createZone(self)
 
-        return CogHQAI.CogHQAI.makeCogHQDoor(
-            self, destinationZone, intDoorIndex, extDoorIndex, lock=lock)
+        # Create lobby manager...
+        self.createLobbyManager(
+            DistributedLawbotBossAI,
+            ToontownGlobals.LawbotLobby)
 
-    def createLawOfficeElevators(self):
-        destZones = (
-            ToontownGlobals.LawbotStageIntA,
-            ToontownGlobals.LawbotStageIntB,
-            ToontownGlobals.LawbotStageIntC,
-            ToontownGlobals.LawbotStageIntD
-        )
+        # Create CJ elevator.
+        self.cjElevator = self.createElevator(
+            DistributedCJElevatorAI,
+            self.lobbyMgr,
+            ToontownGlobals.LawbotLobby,
+            ToontownGlobals.LawbotLobby,
+            boss=True)
+
+        # Make our doors.
+        self.createDoor()
+
+        # Create Suit Planners in the cog playground
+        self.createSuitPlanner(self.HOOD)
+
+        # Create DA Office Elevators.
         mins = ToontownGlobals.FactoryLaffMinimums[2]
-        for i in xrange(len(destZones)):
-            lawOfficeElevator = DistributedLawOfficeElevatorExtAI(
-                self.air, self.air.lawOfficeMgr, destZones[i], i,
-                antiShuffle=0, minLaff=mins[i])
-            lawOfficeElevator.generateWithRequired(
-                ToontownGlobals.LawbotOfficeExt)
-            self.lawOfficeElevators.append(lawOfficeElevator)
+        self.officeA = self.createElevator(
+            DistributedLawOfficeElevatorExtAI,
+            self.air.lawOfficeMgr,
+            ToontownGlobals.LawbotOfficeExt,
+            ToontownGlobals.LawbotStageIntA,
+            0,
+            minLaff=mins[0])
+        self.officeB = self.createElevator(
+            DistributedLawOfficeElevatorExtAI,
+            self.air.lawOfficeMgr,
+            ToontownGlobals.LawbotOfficeExt,
+            ToontownGlobals.LawbotStageIntB,
+            1,
+            minLaff=mins[1])
+        self.officeC = self.createElevator(
+            DistributedLawOfficeElevatorExtAI,
+            self.air.lawOfficeMgr,
+            ToontownGlobals.LawbotOfficeExt,
+            ToontownGlobals.LawbotStageIntC,
+            2,
+            minLaff=mins[2])
+        self.officeD = self.createElevator(
+            DistributedLawOfficeElevatorExtAI,
+            self.air.lawOfficeMgr,
+            ToontownGlobals.LawbotOfficeExt,
+            ToontownGlobals.LawbotStageIntD,
+            3,
+            minLaff=mins[3])
 
-    def createOfficeBoardingParty(self):
-        lawOfficeIdList = []
-        for lawOfficeElevator in self.lawOfficeElevators:
-            lawOfficeIdList.append(lawOfficeElevator.doId)
-        self.officeBoardingParty = DistributedBoardingPartyAI(
-            self.air, lawOfficeIdList, 4)
-        self.officeBoardingParty.generateWithRequired(ToontownGlobals.LawbotOfficeExt)
+        # Create boarding groups
+        # CJ Boarding Group
+        self.createBoardingGroup(
+            self.air, [
+                self.cjElevator.doId], ToontownGlobals.LawbotLobby, 8)
 
-    def createSuitPlanners(self):
-        suitPlanner = DistributedSuitPlannerAI.DistributedSuitPlannerAI(self.air, self.zoneId)
-        suitPlanner.generateWithRequired(self.zoneId)
-        suitPlanner.d_setZoneId(self.zoneId)
-        suitPlanner.initTasks()
-        self.suitPlanners.append(suitPlanner)
-        self.air.suitPlanners[self.zoneId] = suitPlanner
+        # DA Office Boarding Group's
+        self.offices = [
+            self.officeA.doId,
+            self.officeB.doId,
+            self.officeC.doId,
+            self.officeD.doId]
+        self.createBoardingGroup(
+            self.air,
+            self.offices,
+            ToontownGlobals.LawbotOfficeExt)

@@ -1,21 +1,39 @@
-from toontown.coghq.SellbotCogHQLoader import SellbotCogHQLoader
+import CogHood
 from toontown.toonbase import ToontownGlobals
-from toontown.hood.CogHood import CogHood
+from toontown.coghq import SellbotCogHQLoader
 
 
-class SellbotHQ(CogHood):
-    notify = directNotify.newCategory('SellbotHQ')
+class SellbotHQ(CogHood.CogHood):
 
-    ID = ToontownGlobals.SellbotHQ
-    LOADER_CLASS = SellbotCogHQLoader
+    def __init__(self, parentFSM, doneEvent, dnaStore, hoodId):
+        CogHood.CogHood.__init__(self, parentFSM, doneEvent, dnaStore, hoodId)
+        self.id = ToontownGlobals.SellbotHQ
+        self.cogHQLoaderClass = SellbotCogHQLoader.SellbotCogHQLoader
+        self.storageDNAFile = None
+        self.skyFile = 'phase_9/models/cogHQ/cog_sky'
+        self.titleColor = (0.5, 0.5, 0.5, 1.0)
+        return
 
     def load(self):
-        CogHood.load(self)
-
+        CogHood.CogHood.load(self)
         self.sky.setScale(2.0)
+        self.parentFSM.getStateNamed('SellbotHQ').addChild(self.fsm)
 
-    def enter(self, requestStatus):
-        CogHood.enter(self, requestStatus)
+    def unload(self):
+        self.parentFSM.getStateNamed('SellbotHQ').removeChild(self.fsm)
+        del self.cogHQLoaderClass
+        CogHood.CogHood.unload(self)
 
-        base.localAvatar.setCameraFov(ToontownGlobals.CogHQCameraFov)
-        base.camLens.setNearFar(ToontownGlobals.CogHQCameraNear, ToontownGlobals.CogHQCameraFar)
+    def enter(self, *args):
+        CogHood.CogHood.enter(self, *args)
+        localAvatar.setCameraFov(ToontownGlobals.CogHQCameraFov)
+        base.camLens.setNearFar(
+            ToontownGlobals.CogHQCameraNear,
+            ToontownGlobals.CogHQCameraFar)
+
+    def exit(self):
+        localAvatar.setCameraFov(ToontownGlobals.DefaultCameraFov)
+        base.camLens.setNearFar(
+            ToontownGlobals.DefaultCameraNear,
+            ToontownGlobals.DefaultCameraFar)
+        CogHood.CogHood.exit(self)

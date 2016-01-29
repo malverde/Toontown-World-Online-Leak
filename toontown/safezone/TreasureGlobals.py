@@ -1,4 +1,5 @@
 from toontown.toonbase import ToontownGlobals
+import random
 
 TreasureTT = 0
 TreasureDD = 1
@@ -12,35 +13,35 @@ TreasureRandom = 8
 
 TreasureModels = {
     TreasureTT: (
-        'phase_4/models/props/icecream',
+        ['phase_4/models/props/icecream'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureDD: (
-        'phase_6/models/props/starfish_treasure',
+        ['phase_6/models/props/starfish_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureDG: (
-        'phase_8/models/props/flower_treasure',
+        ['phase_8/models/props/flower_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureBR: (
-        'phase_8/models/props/snowflake_treasure',
+        ['phase_8/models/props/snowflake_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureMM: (
-        'phase_6/models/props/music_treasure',
+        ['phase_6/models/props/music_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureDL: (
-        'phase_8/models/props/zzz_treasure',
+        ['phase_8/models/props/zzz_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureOZ: (
-        'phase_6/models/props/acorn_treasure',
+        ['phase_6/models/props/acorn_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureE: (
-        'phase_5.5/models/props/popsicle_treasure',
+        ['phase_5.5/models/props/popsicle_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
     ),
     TreasureRandom: (
@@ -53,8 +54,7 @@ TreasureModels = {
         'phase_6/models/props/acorn_treasure',
         'phase_5.5/models/props/popsicle_treasure'],
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
-    ),    
-    
+    ),
 }
 
 SafeZoneTreasureSpawns = {
@@ -287,5 +287,5 @@ SafeZoneTreasureSpawns = {
         ],
         10, # Rate
         5 # Maximum
-    ),    
+    ),
 }

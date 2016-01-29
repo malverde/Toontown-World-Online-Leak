@@ -1,34 +1,41 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed import DistributedObject
 import SuitPlannerBase
 from toontown.toonbase import ToontownGlobals
 from otp.ai.MagicWordGlobal import *
-from toontown.dna.DNAParser import DNASuitPoint
+from toontown.dna import *
 
-class DistributedSuitPlanner(DistributedObject.DistributedObject, SuitPlannerBase.SuitPlannerBase):
+
+class DistributedSuitPlanner(
+        DistributedObject.DistributedObject,
+        SuitPlannerBase.SuitPlannerBase):
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
         SuitPlannerBase.SuitPlannerBase.__init__(self)
         self.suitList = []
         self.buildingList = [0,
-         0,
-         0,
-         0]
+                             0,
+                             0,
+                             0]
         self.pathViz = None
         return
 
     def generate(self):
         self.accept('suitShowPaths', self.showPaths)
         self.accept('suitHidePaths', self.hidePaths)
-        self.notify.info('DistributedSuitPlanner %d: generating' % self.getDoId())
+        self.notify.info(
+            'DistributedSuitPlanner %d: generating' %
+            self.getDoId())
         DistributedObject.DistributedObject.generate(self)
         base.cr.currSuitPlanner = self
 
     def disable(self):
         self.ignore('suitShowPaths')
         self.ignore('suitHidePaths')
-        self.notify.info('DistributedSuitPlanner %d: disabling' % self.getDoId())
+        self.notify.info(
+            'DistributedSuitPlanner %d: disabling' %
+            self.getDoId())
         self.hidePaths()
         DistributedObject.DistributedObject.disable(self)
         base.cr.currSuitPlanner = None
@@ -68,13 +75,16 @@ class DistributedSuitPlanner(DistributedObject.DistributedObject, SuitPlannerBas
         for zoneId, cellPos in self.battlePosDict.items():
             cnode.addSolid(CollisionSphere(cellPos, 9))
             text = '%s' % zoneId
-            self.__makePathVizText(text, cellPos[0], cellPos[1], cellPos[2] + 9, (1, 1, 1, 1))
+            self.__makePathVizText(
+                text, cellPos[0],
+                cellPos[1],
+                cellPos[2] + 9, (1, 1, 1, 1))
 
         self.pathViz.attachNewNode(cnode).show()
         return
 
     def __doShowPoints(self, vizNode, lines, p, points):
-        if p == None:
+        if p is None:
             pi = len(points) - 1
             if pi < 0:
                 return
@@ -130,9 +140,11 @@ class DistributedSuitPlanner(DistributedObject.DistributedObject, SuitPlannerBas
         np.setBillboardPointEye(2)
         np.node().setAttrib(TransparencyAttrib.make(TransparencyAttrib.MDual), 2)
 
+
 @magicWord(category=CATEGORY_GRAPHICAL)
 def spShow():
     messenger.send('suitShowPaths')
+
 
 @magicWord(category=CATEGORY_GRAPHICAL)
 def spHide():

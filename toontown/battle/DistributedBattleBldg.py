@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from BattleBase import *
 from direct.actor import Actor
@@ -14,20 +14,27 @@ from toontown.suit import Suit
 import SuitBattleGlobals
 import random
 from toontown.toonbase import ToontownGlobals
-from toontown.chat.ChatGlobals import *
-from toontown.nametag import NametagGlobals
-from toontown.nametag.NametagGlobals import *
+from otp.nametag.NametagConstants import *
+from otp.nametag import NametagGlobals
+
 
 class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleBldg')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedBattleBldg')
     camFOFov = 30.0
     camFOPos = Point3(0, -10, 4)
 
     def __init__(self, cr):
         townBattle = cr.playGame.getPlace().townBattle
-        DistributedBattleBase.DistributedBattleBase.__init__(self, cr, townBattle)
+        DistributedBattleBase.DistributedBattleBase.__init__(
+            self, cr, townBattle)
         self.streetBattle = 0
-        self.fsm.addState(State.State('BuildingReward', self.enterBuildingReward, self.exitBuildingReward, ['Resume']))
+        self.fsm.addState(
+            State.State(
+                'BuildingReward',
+                self.enterBuildingReward,
+                self.exitBuildingReward,
+                ['Resume']))
         offState = self.fsm.getStateNamed('Off')
         offState.addTransition('BuildingReward')
         playMovieState = self.fsm.getStateNamed('PlayMovie')
@@ -39,9 +46,11 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
     def setBossBattle(self, value):
         self.bossBattle = value
         if self.bossBattle:
-            self.battleMusic = base.loadMusic('phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
+            self.battleMusic = base.loadMusic(
+                'phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
         else:
-            self.battleMusic = base.loadMusic('phase_7/audio/bgm/encntr_general_bg_indoor.ogg')
+            self.battleMusic = base.loadMusic(
+                'phase_7/audio/bgm/encntr_general_bg_indoor.ogg')
         base.playMusic(self.battleMusic, looping=1, volume=0.9)
 
     def getBossBattleTaunt(self):
@@ -55,7 +64,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         DistributedBattleBase.DistributedBattleBase.delete(self)
         del self.battleMusic
 
-    def buildJoinPointList(self, avPos, destPos, toon = 0):
+    def buildJoinPointList(self, avPos, destPos, toon=0):
         return []
 
     def __faceOff(self, ts, name, callback):
@@ -93,13 +102,20 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
                 if self.bossBattle == 1:
                     taunt = self.getBossBattleTaunt()
                 else:
-                    taunt = SuitBattleGlobals.getFaceoffTaunt(suit.getStyleName(), suit.doId)
-                oneSuitTrack.append(Func(suit.setChatAbsolute, taunt, CFSpeech | CFTimeout))
+                    taunt = SuitBattleGlobals.getFaceoffTaunt(
+                        suit.getStyleName(), suit.doId)
+                oneSuitTrack.append(
+                    Func(
+                        suit.setChatAbsolute,
+                        taunt,
+                        CFSpeech | CFTimeout))
             destPos, destHpr = self.getActorPosHpr(suit, self.suits)
             oneSuitTrack.append(Wait(delay))
             if suitIsLeader == 1:
                 oneSuitTrack.append(Func(suit.clearChat))
-            oneSuitTrack.append(self.createAdjustInterval(suit, destPos, destHpr))
+            oneSuitTrack.append(
+                self.createAdjustInterval(
+                    suit, destPos, destHpr))
             suitTrack.append(oneSuitTrack)
 
         toonTrack = Parallel()
@@ -107,13 +123,15 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
             oneToonTrack = Sequence()
             destPos, destHpr = self.getActorPosHpr(toon, self.toons)
             oneToonTrack.append(Wait(delay))
-            oneToonTrack.append(self.createAdjustInterval(toon, destPos, destHpr, toon=1, run=1))
+            oneToonTrack.append(
+                self.createAdjustInterval(
+                    toon, destPos, destHpr, toon=1, run=1))
             toonTrack.append(oneToonTrack)
 
         camTrack = Sequence()
 
         def setCamFov(fov):
-            base.camLens.setMinFov(fov/(4./3.))
+            base.camLens.setMinFov(fov / (4. / 3.))
 
         camTrack.append(Func(camera.wrtReparentTo, suitLeader))
         camTrack.append(Func(setCamFov, self.camFOFov))
@@ -126,7 +144,12 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         TauntCamY = 18
         TauntCamX = 0
         TauntCamHeight = random.choice((MidTauntCamHeight, 1, 11))
-        camTrack.append(Func(camera.setPos, TauntCamX, TauntCamY, TauntCamHeight))
+        camTrack.append(
+            Func(
+                camera.setPos,
+                TauntCamX,
+                TauntCamY,
+                TauntCamHeight))
         camTrack.append(Func(camera.lookAt, suitLeader, suitOffsetPnt))
         camTrack.append(Wait(delay))
         camPos = Point3(0, -6, 4)
@@ -143,7 +166,8 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
 
     def enterFaceOff(self, ts):
         if len(self.toons) > 0 and base.localAvatar == self.toons[0]:
-            Emote.globalEmote.disableAll(self.toons[0], 'dbattlebldg, enterFaceOff')
+            Emote.globalEmote.disableAll(
+                self.toons[0], 'dbattlebldg, enterFaceOff')
         self.delayDeleteMembers()
         self.__faceOff(ts, self.faceOffName, self.__handleFaceOffDone)
         return None
@@ -155,17 +179,22 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
     def exitFaceOff(self):
         self.notify.debug('exitFaceOff()')
         if len(self.toons) > 0 and base.localAvatar == self.toons[0]:
-            Emote.globalEmote.releaseAll(self.toons[0], 'dbattlebldg exitFaceOff')
+            Emote.globalEmote.releaseAll(
+                self.toons[0], 'dbattlebldg exitFaceOff')
         self.clearInterval(self.faceOffName)
         self._removeMembersKeep()
         camera.wrtReparentTo(self)
-        base.camLens.setMinFov(self.camFov/(4./3.))
+        base.camLens.setMinFov(self.camFov / (4. / 3.))
         return None
 
     def __playReward(self, ts, callback):
         toonTracks = Parallel()
         for toon in self.toons:
-            toonTracks.append(Sequence(Func(toon.loop, 'victory'), Wait(FLOOR_REWARD_TIMEOUT), Func(toon.loop, 'neutral')))
+            toonTracks.append(
+                Sequence(
+                    Func(toon.loop, 'victory'),
+                    Wait(FLOOR_REWARD_TIMEOUT),
+                    Func(toon.loop, 'neutral')))
 
         name = self.uniqueName('floorReward')
         track = Sequence(toonTracks, Func(callback), name=name)
@@ -187,19 +216,20 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
         self.notify.debug('exitReward()')
         self.clearInterval(self.uniqueName('floorReward'))
         self._removeMembersKeep()
-        NametagGlobals.setWant2dNametags(True)
+        NametagGlobals.setMasterArrowsOn(1)
         for toon in self.toons:
             toon.startSmooth()
 
-        
+        return None
 
     def enterBuildingReward(self, ts):
         self.delayDeleteMembers()
         if self.hasLocalToon():
-            NametagGlobals.setWant2dNametags(False)
-            pass
-        self.movie.playReward(ts, self.uniqueName('building-reward'), self.__handleBuildingRewardDone, noSkip=True)
-       
+            NametagGlobals.setMasterArrowsOn(0)
+        self.movie.playReward(
+            ts, self.uniqueName('building-reward'),
+            self.__handleBuildingRewardDone, noSkip=True)
+        return None
 
     def __handleBuildingRewardDone(self):
         if self.hasLocalToon():
@@ -210,13 +240,13 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
     def exitBuildingReward(self):
         self.movie.resetReward(finish=1)
         self._removeMembersKeep()
-        NametagGlobals.setWant2dNametags(True)
+        NametagGlobals.setMasterArrowsOn(1)
         return None
 
-    def enterResume(self, ts = 0):
+    def enterResume(self, ts=0):
         if self.hasLocalToon():
             self.removeLocalToon()
-        
+        return None
 
     def exitResume(self):
         return None

@@ -1,5 +1,6 @@
+#Embedded file name: toontown.suit.DistributedSuitAI
 from otp.ai.AIBaseGlobal import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from otp.avatar import DistributedAvatarAI
 import SuitTimings
@@ -43,7 +44,6 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         self.attemptingTakeover = 0
         self.buildingDestination = None
         self.buildingDestinationIsCogdo = False
-        return
 
     def delete(self):
         del self.bldgTrack
@@ -72,19 +72,20 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
             return
         if self.pathState == 3:
             pass
-        elif self.pathState != 1:
-            if self.notify.getDebug():
-                self.notify.debug('requestBattle() - suit %d not on path' % self.getDoId())
-            if self.pathState == 2 or self.pathState == 4:
+        else:
+            if self.pathState != 1:
+                if self.notify.getDebug():
+                    self.notify.debug('requestBattle() - suit %d not on path' % self.getDoId())
+                if self.pathState == 2 or self.pathState == 4:
+                    self.b_setBrushOff(SuitDialog.getBrushOffIndex(self.getStyleName()))
+                self.d_denyBattle(toonId)
+                return
+            if self.legType != SuitLeg.TWalk:
+                if self.notify.getDebug():
+                    self.notify.debug('requestBattle() - suit %d not in Bellicose' % self.getDoId())
                 self.b_setBrushOff(SuitDialog.getBrushOffIndex(self.getStyleName()))
-            self.d_denyBattle(toonId)
-            return
-        elif self.legType != SuitLeg.TWalk:
-            if self.notify.getDebug():
-                self.notify.debug('requestBattle() - suit %d not in Bellicose' % self.getDoId())
-            self.b_setBrushOff(SuitDialog.getBrushOffIndex(self.getStyleName()))
-            self.d_denyBattle(toonId)
-            return
+                self.d_denyBattle(toonId)
+                return
         self.confrontPos = Point3(x, y, z)
         self.confrontHpr = Vec3(h, p, r)
         if self.sp.requestBattle(self.zoneId, self, toonId):
@@ -95,10 +96,9 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
                 self.notify.debug('requestBattle from suit %d - denied by battle manager' % self.getDoId())
             self.b_setBrushOff(SuitDialog.getBrushOffIndex(self.getStyleName()))
             self.d_denyBattle(toonId)
-        return
 
     def getConfrontPosHpr(self):
-        return (self.confrontPos, self.confrontHpr)
+        return self.confrontPos, self.confrontHpr
 
     def flyAwayNow(self):
         self.b_setPathState(2)
@@ -166,7 +166,7 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         self.pathPositionTimestamp = timestamp
 
     def getPathPosition(self):
-        return (self.pathPositionIndex, globalClockDelta.localToNetworkTime(self.pathPositionTimestamp))
+        return self.pathPositionIndex, globalClockDelta.localToNetworkTime(self.pathPositionTimestamp)
 
     def b_setPathState(self, state):
         self.setPathState(state)
@@ -190,7 +190,6 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
                 self.stopPathNow()
             else:
                 self.notify.error('Invalid state: ' + str(state))
-        return
 
     def getPathState(self):
         return self.pathState
@@ -281,9 +280,9 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
             self.openToonDoor()
         elif legType == SuitLeg.TToSuitBuilding:
             self.openSuitDoor()
-        elif legType == SuitLeg.TToCogHQ:
+        elif legType == SuitLeg.TToCoghq:
             self.openCogHQDoor(1)
-        elif legType == SuitLeg.TFromCogHQ:
+        elif legType == SuitLeg.TFromCoghq:
             self.openCogHQDoor(0)
 
     def resume(self):
@@ -315,7 +314,6 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
             building.door.setDoorLock(FADoorCodes.SUIT_APPROACHING)
         elif not building.isSuitBlock():
             self.flyAwayNow()
-        return
 
     def openToonDoor(self):
         blockNumber = self.buildingDestination
@@ -351,12 +349,14 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
     def startTakeOver(self):
         if not self.SUIT_BUILDINGS:
             return
+        if not self.buildingDestination:
+            return
         blockNumber = self.buildingDestination
         if not self.sp.buildingMgr.isSuitBlock(blockNumber):
             self.notify.debug('Suit %d taking over building %d in %d' % (self.getDoId(), blockNumber, self.zoneId))
             difficulty = self.getActualLevel() - 1
+            dept = SuitDNA.getSuitDept(self.dna.name)
             if self.buildingDestinationIsCogdo:
-                self.sp.cogdoTakeOver(blockNumber, difficulty, self.buildingHeight)
+                self.sp.cogdoTakeOver(blockNumber, difficulty, self.buildingHeight, dept)
             else:
-                dept = SuitDNA.getSuitDept(self.dna.name)
                 self.sp.suitTakeOver(blockNumber, dept, difficulty, self.buildingHeight)

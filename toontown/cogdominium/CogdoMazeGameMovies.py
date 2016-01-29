@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoMazeGameMovies
 from pandac.PandaModules import NodePath, Point3, PlaneNode
 from direct.showbase.ShowBase import Plane
 from direct.showbase.RandomNumGen import RandomNumGen
@@ -20,7 +21,6 @@ class CogdoMazeGameIntro(CogdoGameMovie):
         self._camTarget = None
         self._state = 0
         self._suits = []
-        return
 
     def _getRandomLine(self, lineList):
         return CogdoUtil.getRandomDialogueLine(lineList, self._rng)
@@ -50,8 +50,6 @@ class CogdoMazeGameIntro(CogdoGameMovie):
         suit.reparentTo(self.toonHead)
         for part in suit.getHeadParts():
             part.hide()
-
-        suit.loop('neutral')
 
     def load(self):
         CogdoGameMovie.load(self)
@@ -83,6 +81,8 @@ class CogdoMazeGameIntro(CogdoGameMovie):
         self._toonDialogueSfx = audioMgr.createSfx('toonDialogue')
         suitData = Globals.SuitData[Globals.SuitTypes.Boss]
         bossSuit = Suit.Suit()
+        bossSuit.nametag3d.stash()
+        bossSuit.nametag.destroy()
         d = SuitDNA.SuitDNA()
         d.newSuit(suitData['dnaName'])
         bossSuit.setDNA(d)
@@ -173,7 +173,6 @@ class CogdoMazeGameIntro(CogdoGameMovie):
         self.cogHead.removeNode()
         self.cogHead.delete()
         del self.cogHead
-        return
 
 
 class CogdoMazeGameFinish(CogdoGameMovie):

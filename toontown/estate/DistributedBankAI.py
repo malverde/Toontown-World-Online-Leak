@@ -1,10 +1,11 @@
+#Embedded file name: toontown.estate.DistributedBankAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.estate.DistributedFurnitureItemAI import DistributedFurnitureItemAI
 from direct.distributed.ClockDelta import *
 import BankGlobals
 
 class DistributedBankAI(DistributedFurnitureItemAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedBankAI")
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBankAI')
 
     def __init__(self, air, furnitureMgr, item):
         DistributedFurnitureItemAI.__init__(self, air, furnitureMgr, item)
@@ -56,7 +57,7 @@ class DistributedBankAI(DistributedFurnitureItemAI):
         if not av:
             self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to transfer money while not on the AI!')
             return
-        if amount == 0: # No transfer needed.
+        if amount == 0:
             self.b_setMovie(BankGlobals.BANK_MOVIE_NO_OP, avId, globalClockDelta.getRealNetworkTime())
         elif amount > 0:
             self.b_setMovie(BankGlobals.BANK_MOVIE_DEPOSIT, avId, globalClockDelta.getRealNetworkTime())
@@ -72,5 +73,4 @@ class DistributedBankAI(DistributedFurnitureItemAI):
             else:
                 av.b_setMoney(av.money - amount)
                 av.b_setBankMoney(av.bankMoney + amount)
-
         self.avId = None

@@ -1,9 +1,11 @@
+#Embedded file name: toontown.cogdominium.CogdoMazeGame
 from pandac.PandaModules import Point3, CollisionSphere, CollisionNode
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase.PythonUtil import Functor
 from direct.showbase.RandomNumGen import RandomNumGen
 from direct.task.Task import Task
 from toontown.minigame.MazeSuit import MazeSuit
+from toontown.toonbase import ToontownGlobals
 from CogdoGameGatherable import CogdoMemo
 from CogdoMazePlayer import CogdoMazePlayer
 from CogdoMazeLocalPlayer import CogdoMazeLocalPlayer
@@ -26,7 +28,7 @@ class CogdoMazeGame(DirectObject):
 
     def __init__(self, distGame):
         self.distGame = distGame
-        self._allowSuitsHitToons = config.GetBool('cogdomaze-suits-hit-toons', True)
+        self._allowSuitsHitToons = base.config.GetBool('cogdomaze-suits-hit-toons', True)
 
     def load(self, cogdoMazeFactory, numSuits, bossCode):
         self._initAudio()
@@ -90,7 +92,6 @@ class CogdoMazeGame(DirectObject):
         self.gagModel = CogdoUtil.loadMazeModel('waterBalloon')
         self._movie = CogdoMazeGameIntro(self.maze, self._exit, self.distGame.randomNumGen)
         self._movie.load()
-        return
 
     def _initAudio(self):
         self._audioMgr = CogdoGameAudioManager(Globals.MusicFiles, Globals.SfxFiles, camera, cutoff=Globals.AudioCutoff)
@@ -144,7 +145,7 @@ class CogdoMazeGame(DirectObject):
 
         del self.players
         del self.toonId2Player
-        del self.localPlayer
+        # del self.localPlayer
         for pickup in self.pickups:
             pickup.destroy()
 
@@ -169,6 +170,7 @@ class CogdoMazeGame(DirectObject):
         self._movie.end()
         self._movie.unload()
         del self._movie
+        base.camLens.setMinFov(ToontownGlobals.CogdoFov / (4.0 / 3.0))
         for player in self.players:
             self.placePlayer(player)
             if player.toon is localAvatar:
@@ -201,8 +203,6 @@ class CogdoMazeGame(DirectObject):
                 else:
                     player = CogdoMazePlayer(len(self.players), toon)
                 self._addPlayer(player)
-
-        return
 
     def start(self):
         self.accept(self.PlayerDropCollision, self.handleLocalToonMeetsDrop)
@@ -394,7 +394,7 @@ class CogdoMazeGame(DirectObject):
         ival.start()
 
     def createDrop(self, x, y):
-        self.dropCounter = self.dropCounter + 1
+        self.dropCounter += 1
         id = self.dropCounter
         drop = CogdoMazeDrop(self, id, x, y)
         self.drops[id] = drop
@@ -436,7 +436,6 @@ class CogdoMazeGame(DirectObject):
         if into.hasPythonTag('id'):
             id = into.getPythonTag('id')
             self.distGame.d_sendRequestGagPickUp(id)
-        return
 
     def hasGag(self, toonId, elapsedTime = 0.0):
         player = self.toonId2Player[toonId]
@@ -451,7 +450,6 @@ class CogdoMazeGame(DirectObject):
         waterCooler = self._collNode2waterCooler[collNode]
         self.lastBalloonTimestamp = globalClock.getFrameTime()
         self.distGame.d_sendRequestGag(waterCooler.serialNum)
-        return
 
     def requestUseGag(self, x, y, h):
         self.distGame.b_toonUsedGag(x, y, h)
@@ -463,7 +461,6 @@ class CogdoMazeGame(DirectObject):
         gag = player.showToonThrowingGag(heading, pos)
         if gag is not None:
             self.gags.append(gag)
-        return
 
     def handleToonMeetsGag(self, playerId, gag):
         self.removeGag(gag)

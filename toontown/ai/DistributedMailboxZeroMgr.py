@@ -2,16 +2,20 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from toontown.ai import DistributedPhaseEventMgr
 
-class DistributedMailboxZeroMgr(DistributedPhaseEventMgr.DistributedPhaseEventMgr):
+
+class DistributedMailboxZeroMgr(
+        DistributedPhaseEventMgr.DistributedPhaseEventMgr):
     neverDisable = 1
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedMailboxZeroMgr')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'DistributedMailboxZeroMgr')
 
     def __init__(self, cr):
         DistributedPhaseEventMgr.DistributedPhaseEventMgr.__init__(self, cr)
         cr.mailboxZeroMgr = self
 
     def announceGenerate(self):
-        DistributedPhaseEventMgr.DistributedPhaseEventMgr.announceGenerate(self)
+        DistributedPhaseEventMgr.DistributedPhaseEventMgr.announceGenerate(
+            self)
         messenger.send('mailboxZeroIsRunning', [self.isRunning])
 
     def delete(self):
@@ -22,9 +26,11 @@ class DistributedMailboxZeroMgr(DistributedPhaseEventMgr.DistributedPhaseEventMg
             del self.cr.mailboxZeroMgr
 
     def setCurPhase(self, newPhase):
-        DistributedPhaseEventMgr.DistributedPhaseEventMgr.setCurPhase(self, newPhase)
+        DistributedPhaseEventMgr.DistributedPhaseEventMgr.setCurPhase(
+            self, newPhase)
         messenger.send('mailboxZeroPhase', [newPhase])
 
     def setIsRunning(self, isRunning):
-        DistributedPhaseEventMgr.DistributedPhaseEventMgr.setIsRunning(self, isRunning)
+        DistributedPhaseEventMgr.DistributedPhaseEventMgr.setIsRunning(
+            self, isRunning)
         messenger.send('mailboxZeroIsRunning', [isRunning])

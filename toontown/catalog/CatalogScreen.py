@@ -1,6 +1,7 @@
-from pandac.PandaModules import *
+# Embedded file name: toontown.catalog.CatalogScreen
+from panda3d.core import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.gui.DirectScrolledList import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
@@ -18,28 +19,38 @@ from otp.nametag.ChatBalloon import ChatBalloon
 from otp.nametag import NametagGroup
 NUM_CATALOG_ROWS = 3
 NUM_CATALOG_COLS = 2
-CatalogPanelCenters = [[Point3(-0.95, 0, 0.91), Point3(-0.275, 0, 0.91)], [Point3(-0.95, 0, 0.275), Point3(-0.275, 0, 0.275)], [Point3(-0.95, 0, -0.4), Point3(-0.275, 0, -0.4)]]
-CatalogPanelColors = {CatalogItemTypes.FURNITURE_ITEM: Vec4(0.733, 0.78, 0.933, 1.0),
- CatalogItemTypes.CHAT_ITEM: Vec4(0.922, 0.922, 0.753, 1.0),
- CatalogItemTypes.CLOTHING_ITEM: Vec4(0.918, 0.69, 0.69, 1.0),
- CatalogItemTypes.EMOTE_ITEM: Vec4(0.922, 0.922, 0.753, 1.0),
- CatalogItemTypes.WALLPAPER_ITEM: Vec4(0.749, 0.984, 0.608, 1.0),
- CatalogItemTypes.WINDOW_ITEM: Vec4(0.827, 0.91, 0.659, 1.0)}
+CatalogPanelCenters = [
+    [Point3(-0.95, 0, 0.91),
+     Point3(-0.275, 0, 0.91)],
+    [Point3(-0.95, 0, 0.275),
+     Point3(-0.275, 0, 0.275)],
+    [Point3(-0.95, 0, -0.4),
+     Point3(-0.275, 0, -0.4)]]
+CatalogPanelColors = {
+    CatalogItemTypes.FURNITURE_ITEM: Vec4(
+        0.733, 0.78, 0.933, 1.0), CatalogItemTypes.CHAT_ITEM: Vec4(
+            0.922, 0.922, 0.753, 1.0), CatalogItemTypes.CLOTHING_ITEM: Vec4(
+                0.918, 0.69, 0.69, 1.0), CatalogItemTypes.EMOTE_ITEM: Vec4(
+                    0.922, 0.922, 0.753, 1.0), CatalogItemTypes.WALLPAPER_ITEM: Vec4(
+                        0.749, 0.984, 0.608, 1.0), CatalogItemTypes.WINDOW_ITEM: Vec4(
+                            0.827, 0.91, 0.659, 1.0)}
+
 
 class CatalogScreen(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('CatalogScreen')
 
-    def __init__(self, parent = aspect2d, **kw):
+    def __init__(self, parent=aspect2d, **kw):
         guiItems = loader.loadModel('phase_5.5/models/gui/catalog_gui')
         background = guiItems.find('**/catalog_background')
         guiButton = loader.loadModel('phase_3/models/gui/quit_button')
-        guiBack = loader.loadModel('phase_5.5/models/gui/package_delivery_panel')
+        guiBack = loader.loadModel(
+            'phase_5.5/models/gui/package_delivery_panel')
         optiondefs = (('scale', 0.667, None),
-         ('pos', (0, 1, 0.025), None),
-         ('phone', None, None),
-         ('doneEvent', None, None),
-         ('image', background, None),
-         ('relief', None, None))
+                      ('pos', (0, 1, 0.025), None),
+                      ('phone', None, None),
+                      ('doneEvent', None, None),
+                      ('image', background, None),
+                      ('relief', None, None))
         self.defineoptions(kw, optiondefs)
         DirectFrame.__init__(self, parent)
         self.friendGiftIndex = 0
@@ -71,22 +82,29 @@ class CatalogScreen(DirectFrame):
         self.gifting = -1
         self.createdGiftGui = None
         self.viewing = None
-        return
 
     def show(self):
         self.accept('CatalogItemPurchaseRequest', self.__handlePurchaseRequest)
-        self.accept('CatalogItemGiftPurchaseRequest', self.__handleGiftPurchaseRequest)
+        self.accept(
+            'CatalogItemGiftPurchaseRequest',
+            self.__handleGiftPurchaseRequest)
         self.accept(localAvatar.uniqueName('moneyChange'), self.__moneyChange)
-        self.accept(localAvatar.uniqueName('bankMoneyChange'), self.__bankMoneyChange)
-        self.accept(localAvatar.uniqueName('emblemsChange'), self.__emblemChange)
+        self.accept(
+            localAvatar.uniqueName('bankMoneyChange'),
+            self.__bankMoneyChange)
+        self.accept(
+            localAvatar.uniqueName('emblemsChange'),
+            self.__emblemChange)
         deliveryText = 'setDeliverySchedule-%s' % base.localAvatar.doId
         self.accept(deliveryText, self.remoteUpdate)
-        base.setBackgroundColor(Vec4(0.529, 0.290, 0.286, 1))
+        base.setBackgroundColor(Vec4(0.529, 0.29, 0.286, 1))
         render.hide()
         DirectFrame.show(self)
 
         def clarabelleGreeting(task):
-            self.setClarabelleChat(TTLocalizer.CatalogGreeting, type='greeting')
+            self.setClarabelleChat(
+                TTLocalizer.CatalogGreeting,
+                type='greeting')
 
         def clarabelleHelpText1(task):
             self.setClarabelleChat(TTLocalizer.CatalogHelpText1)
@@ -180,7 +198,7 @@ class CatalogScreen(DirectFrame):
         self.loyaltyCatalogButton['state'] = DGG.NORMAL
         self.emblemCatalogButton['state'] = DGG.DISABLED
 
-    def showNewItems(self, index = None):
+    def showNewItems(self, index=None):
         if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: CATALOG: New item')
         taskMgr.remove('clarabelleHelpText1')
@@ -195,9 +213,8 @@ class CatalogScreen(DirectFrame):
         else:
             self.setPageIndex(0)
         self.showPageItems()
-        return
 
-    def showBackorderItems(self, index = None):
+    def showBackorderItems(self, index=None):
         if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: CATALOG: Backorder item')
         taskMgr.remove('clarabelleHelpText1')
@@ -212,9 +229,8 @@ class CatalogScreen(DirectFrame):
         else:
             self.setPageIndex(0)
         self.showPageItems()
-        return
 
-    def showLoyaltyItems(self, index = None):
+    def showLoyaltyItems(self, index=None):
         if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: CATALOG: Special item')
         taskMgr.remove('clarabelleHelpText1')
@@ -229,9 +245,8 @@ class CatalogScreen(DirectFrame):
         else:
             self.setPageIndex(0)
         self.showPageItems()
-        return
 
-    def showEmblemItems(self, index = None):
+    def showEmblemItems(self, index=None):
         if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: CATALOG: Emblem item')
         taskMgr.remove('clarabelleHelpText1')
@@ -246,13 +261,12 @@ class CatalogScreen(DirectFrame):
         else:
             self.setPageIndex(0)
         self.showPageItems()
-        return
 
     def showNextPage(self):
         taskMgr.remove('clarabelleHelpText1')
         messenger.send('wakeup')
-        self.pageIndex = self.pageIndex + 1
-        if self.viewing == None:
+        self.pageIndex += 1
+        if self.viewing is None:
             self.modeNewCatalog()
             self.viewing == 'New'
         if self.viewing == 'New' and self.pageIndex > self.maxPageIndex and self.numBackPages > 0:
@@ -266,17 +280,16 @@ class CatalogScreen(DirectFrame):
         else:
             self.pageIndex = min(self.pageIndex, self.maxPageIndex)
             self.showPageItems()
-        return
 
     def showBackPage(self):
         taskMgr.remove('clarabelleHelpText1')
         messenger.send('wakeup')
-        self.pageIndex = self.pageIndex - 1
-        if self.viewing == 'Backorder' and self.pageIndex < 0 and self.numNewPages > 0:
+        self.pageIndex -= 1
+        if self.viewing == 'Backorder' and self.pageIndex < 0 < self.numNewPages:
             self.showNewItems(self.numNewPages - 1)
-        elif self.viewing == 'Loyalty' and self.pageIndex < 0 and self.numBackPages > 0:
+        elif self.viewing == 'Loyalty' and self.pageIndex < 0 < self.numBackPages:
             self.showBackorderItems(self.numBackPages - 1)
-        elif self.viewing == 'Emblem' and self.pageIndex < 0 and self.numLoyaltyPages > 0:
+        elif self.viewing == 'Emblem' and self.pageIndex < 0 < self.numLoyaltyPages:
             self.showLoyaltyItems(self.numLoyaltyPages - 1)
         else:
             self.pageIndex = max(self.pageIndex, -1)
@@ -284,7 +297,7 @@ class CatalogScreen(DirectFrame):
 
     def showPageItems(self):
         self.hidePages()
-        if self.viewing == None:
+        if self.viewing is None:
             self.viewing = 'New'
         if self.pageIndex < 0:
             self.closeCover()
@@ -312,16 +325,26 @@ class CatalogScreen(DirectFrame):
 
             pIndex = 0
             randGen = random.Random()
-            randGen.seed(base.localAvatar.catalogScheduleCurrentWeek + (self.pageIndex << 8) + (newOrBackOrLoyalty << 16))
+            randGen.seed(
+                base.localAvatar.catalogScheduleCurrentWeek +
+                (self.pageIndex << 8) + (newOrBackOrLoyalty << 16))
             for i in range(NUM_CATALOG_ROWS):
                 for j in range(NUM_CATALOG_COLS):
                     if pIndex < len(self.visiblePanels):
                         type = self.visiblePanels[pIndex]['item'].getTypeCode()
-                        self.squares[i][j].setColor(CatalogPanelColors.values()[randGen.randint(0, len(CatalogPanelColors) - 1)])
+                        self.squares[i][j].setColor(
+                            CatalogPanelColors.values()[
+                                randGen.randint(
+                                    0, len(CatalogPanelColors) - 1)])
                         cs = 0.7 + 0.3 * randGen.random()
-                        self.squares[i][j].setColorScale(0.7 + 0.3 * randGen.random(), 0.7 + 0.3 * randGen.random(), 0.7 + 0.3 * randGen.random(), 1)
+                        self.squares[i][j].setColorScale(
+                            0.7 + 0.3 * randGen.random(),
+                            0.7 + 0.3 * randGen.random(),
+                            0.7 + 0.3 * randGen.random(),
+                            1)
                     else:
-                        self.squares[i][j].setColor(CatalogPanelColors[CatalogItemTypes.CHAT_ITEM])
+                        self.squares[i][j].setColor(
+                            CatalogPanelColors[CatalogItemTypes.CHAT_ITEM])
                         self.squares[i][j].clearColorScale()
                     pIndex += 1
 
@@ -348,7 +371,6 @@ class CatalogScreen(DirectFrame):
                 self.nextPageButton.hide()
             self.adjustForSound()
             self.update()
-        return
 
     def adjustForSound(self):
         numEmoteItems = 0
@@ -489,86 +511,195 @@ class CatalogScreen(DirectFrame):
         lift2 = 0.05
         smash = 0.75
         priceScale = 0.15
-        emblemIcon = loader.loadModel('phase_3.5/models/gui/tt_m_gui_gen_emblemIcons')
+        emblemIcon = loader.loadModel(
+            'phase_3.5/models/gui/tt_m_gui_gen_emblemIcons')
         silverModel = emblemIcon.find('**/tt_t_gui_gen_emblemSilver')
         goldModel = emblemIcon.find('**/tt_t_gui_gen_emblemGold')
-        self.silverLabel = DirectLabel(parent=self, relief=None, pos=(1.05, 0, -0.6), scale=priceScale, image=silverModel, image_pos=(-0.4, 0, 0.4), text=str(localAvatar.emblems[ToontownGlobals.EmblemTypes.Silver]), text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_font=ToontownGlobals.getSignFont(), text_align=TextNode.ALeft)
+        self.silverLabel = DirectLabel(
+            parent=self, relief=None, pos=(1.05, 0, -0.6),
+            scale=priceScale, image=silverModel, image_pos=(-0.4, 0, 0.4),
+            text=str(
+                localAvatar.emblems[ToontownGlobals.EmblemTypes.Silver]),
+            text_fg=(0.95, 0.95, 0, 1),
+            text_shadow=(0, 0, 0, 1),
+            text_font=ToontownGlobals.getSignFont(),
+            text_align=TextNode.ALeft)
         base.silverLabel = self.silverLabel
-        self.goldLabel = DirectLabel(parent=self, relief=None, pos=(1.05, 0, -0.8), scale=priceScale, image=goldModel, image_pos=(-0.4, 0, 0.4), text=str(localAvatar.emblems[ToontownGlobals.EmblemTypes.Gold]), text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_font=ToontownGlobals.getSignFont(), text_align=TextNode.ALeft)
+        self.goldLabel = DirectLabel(
+            parent=self, relief=None, pos=(1.05, 0, -0.8),
+            scale=priceScale, image=goldModel, image_pos=(-0.4, 0, 0.4),
+            text=str(localAvatar.emblems[ToontownGlobals.EmblemTypes.Gold]),
+            text_fg=(0.95, 0.95, 0, 1),
+            text_shadow=(0, 0, 0, 1),
+            text_font=ToontownGlobals.getSignFont(),
+            text_align=TextNode.ALeft)
         base.goldLabel = self.goldLabel
         if not base.cr.wantEmblems:
             self.hideEmblems()
-        self.newCatalogButton = DirectButton(self.base, relief=None, pos=(0, 0, 0.17), frameSize=(-0.2,
-         0.25,
-         0.45,
-         1.2), image=[newDown,
-         newDown,
-         newDown,
-         newUp], image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, lift), pressEffect=0, command=self.showNewItems, text=TTLocalizer.CatalogNew, text_font=ToontownGlobals.getSignFont(), text_pos=(-0.4 - lift, 0.13), text3_pos=(-0.4 - lift, 0.1), text_scale=0.08, text_fg=(0.353, 0.627, 0.627, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0))
+        self.newCatalogButton = DirectButton(
+            self.base, relief=None, pos=(0, 0, 0.17),
+            frameSize=(-0.2, 0.25, 0.45, 1.2),
+            image=[newDown, newDown, newDown, newUp],
+            image_scale=(1.0, 1.0, smash),
+            image_pos=(0.0, 0.0, lift),
+            pressEffect=0, command=self.showNewItems,
+            text=TTLocalizer.CatalogNew, text_font=ToontownGlobals.
+            getSignFont(),
+            text_pos=(-0.4 - lift, 0.13),
+            text3_pos=(-0.4 - lift, 0.1),
+            text_scale=0.08, text_fg=(0.353, 0.627, 0.627, 1.0),
+            text2_fg=(0.353, 0.427, 0.427, 1.0))
         self.newCatalogButton.hide()
-        self.newCatalogButton2 = DirectButton(self.base, relief=None, pos=(0, 0, 0.17), frameSize=(-0.2,
-         0.25,
-         0.45,
-         1.2), image=newDown, image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, lift), pressEffect=0, command=self.showNewItems, text=TTLocalizer.CatalogNew, text_font=ToontownGlobals.getSignFont(), text_pos=(-0.4 - lift, 0.13), text_scale=0.08, text_fg=(0.353, 0.627, 0.627, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0))
+        self.newCatalogButton2 = DirectButton(
+            self.base, relief=None, pos=(0, 0, 0.17),
+            frameSize=(-0.2, 0.25, 0.45, 1.2),
+            image=newDown, image_scale=(1.0, 1.0, smash),
+            image_pos=(0.0, 0.0, lift),
+            pressEffect=0, command=self.showNewItems,
+            text=TTLocalizer.CatalogNew, text_font=ToontownGlobals.
+            getSignFont(),
+            text_pos=(-0.4 - lift, 0.13),
+            text_scale=0.08, text_fg=(0.353, 0.627, 0.627, 1.0),
+            text2_fg=(0.353, 0.427, 0.427, 1.0))
         self.newCatalogButton2.hide()
-        self.backCatalogButton = DirectButton(self.base, relief=None, pos=(0, 0, 0.269), frameSize=(-0.2,
-         0.25,
-         -0.2,
-         0.4), image=[backDown,
-         backDown,
-         backDown,
-         backUp], image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, lift), pressEffect=0, command=self.showBackorderItems, text=TTLocalizer.CatalogBackorder, text_font=ToontownGlobals.getSignFont(), text_pos=(0.25 - lift, 0.132), text3_pos=(0.25 - lift, 0.112), text_scale=TTLocalizer.CSbackCatalogButton, text_fg=(0.392, 0.549, 0.627, 1.0), text2_fg=(0.392, 0.349, 0.427, 1.0))
+        self.backCatalogButton = DirectButton(
+            self.base, relief=None, pos=(0, 0, 0.269),
+            frameSize=(-0.2, 0.25, -0.2, 0.4),
+            image=[backDown, backDown, backDown, backUp],
+            image_scale=(1.0, 1.0, smash),
+            image_pos=(0.0, 0.0, lift),
+            pressEffect=0, command=self.showBackorderItems,
+            text=TTLocalizer.CatalogBackorder,
+            text_font=ToontownGlobals.getSignFont(),
+            text_pos=(0.25 - lift, 0.132),
+            text3_pos=(0.25 - lift, 0.112),
+            text_scale=TTLocalizer.CSbackCatalogButton,
+            text_fg=(0.392, 0.549, 0.627, 1.0),
+            text2_fg=(0.392, 0.349, 0.427, 1.0))
         self.backCatalogButton.hide()
-        self.backCatalogButton2 = DirectButton(self.base, relief=None, pos=(0, 0, 0.269), frameSize=(-0.2,
-         0.25,
-         -0.2,
-         0.4), image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, lift), image=backDown, pressEffect=0, command=self.showBackorderItems, text=TTLocalizer.CatalogBackorder, text_font=ToontownGlobals.getSignFont(), text_pos=(0.25 - lift, 0.132), text_scale=TTLocalizer.CSbackCatalogButton, text_fg=(0.392, 0.549, 0.627, 1.0), text2_fg=(0.392, 0.349, 0.427, 1.0))
+        self.backCatalogButton2 = DirectButton(
+            self.base, relief=None, pos=(0, 0, 0.269),
+            frameSize=(-0.2, 0.25, -0.2, 0.4),
+            image_scale=(1.0, 1.0, smash),
+            image_pos=(0.0, 0.0, lift),
+            image=backDown, pressEffect=0, command=self.showBackorderItems,
+            text=TTLocalizer.CatalogBackorder,
+            text_font=ToontownGlobals.getSignFont(),
+            text_pos=(0.25 - lift, 0.132),
+            text_scale=TTLocalizer.CSbackCatalogButton,
+            text_fg=(0.392, 0.549, 0.627, 1.0),
+            text2_fg=(0.392, 0.349, 0.427, 1.0))
         self.backCatalogButton2.hide()
-        self.loyaltyCatalogButton = DirectButton(self.base, relief=None, pos=(0, 0, 0.469), frameSize=(-0.2,
-         0.25,
-         -0.85,
-         -0.3), image=[newDown,
-         newDown,
-         newDown,
-         newUp], image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, -1.4 + lift), pressEffect=0, command=self.showLoyaltyItems, text=TTLocalizer.CatalogLoyalty, text_font=ToontownGlobals.getSignFont(), text_pos=(1.0 - lift, 0.132), text3_pos=(1.0 - lift, 0.112), text_scale=0.065, text_fg=(0.353, 0.627, 0.627, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0))
+        self.loyaltyCatalogButton = DirectButton(
+            self.base, relief=None, pos=(0, 0, 0.469),
+            frameSize=(-0.2, 0.25, -0.85, -0.3),
+            image=[newDown, newDown, newDown, newUp],
+            image_scale=(1.0, 1.0, smash),
+            image_pos=(0.0, 0.0, -1.4 + lift),
+            pressEffect=0, command=self.showLoyaltyItems,
+            text=TTLocalizer.CatalogLoyalty,
+            text_font=ToontownGlobals.getSignFont(),
+            text_pos=(1.0 - lift, 0.132),
+            text3_pos=(1.0 - lift, 0.112),
+            text_scale=0.065, text_fg=(0.353, 0.627, 0.627, 1.0),
+            text2_fg=(0.353, 0.427, 0.427, 1.0))
         self.loyaltyCatalogButton.hide()
-        self.loyaltyCatalogButton2 = DirectButton(self.base, relief=None, pos=(0, 0, 0.469), frameSize=(-0.2,
-         0.25,
-         -0.85,
-         -0.3), image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, -1.4 + lift), image=newDown, pressEffect=0, command=self.showLoyaltyItems, text=TTLocalizer.CatalogLoyalty, text_font=ToontownGlobals.getSignFont(), text_pos=(1.0 - lift, 0.132), text_scale=0.065, text_fg=(0.353, 0.627, 0.627, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0))
+        self.loyaltyCatalogButton2 = DirectButton(
+            self.base, relief=None, pos=(0, 0, 0.469),
+            frameSize=(-0.2, 0.25, -0.85, -0.3),
+            image_scale=(1.0, 1.0, smash),
+            image_pos=(0.0, 0.0, -1.4 + lift),
+            image=newDown, pressEffect=0, command=self.showLoyaltyItems,
+            text=TTLocalizer.CatalogLoyalty,
+            text_font=ToontownGlobals.getSignFont(),
+            text_pos=(1.0 - lift, 0.132),
+            text_scale=0.065, text_fg=(0.353, 0.627, 0.627, 1.0),
+            text2_fg=(0.353, 0.427, 0.427, 1.0))
         self.loyaltyCatalogButton2.hide()
-        self.emblemCatalogButton = DirectButton(self.base, relief=None, pos=(0, 0, 1.05), frameSize=(-0.2,
-         0.25,
-         -2.0,
-         -1.45), image=[backDown,
-         backDown,
-         backDown,
-         backUp], image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, -1.9 + lift), pressEffect=0, command=self.showEmblemItems, text=TTLocalizer.CatalogEmblem, text_font=ToontownGlobals.getSignFont(), text_pos=(1.75, 0.132), text3_pos=(1.75, 0.112), text_scale=0.065, text_fg=(0.353, 0.627, 0.627, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0))
+        self.emblemCatalogButton = DirectButton(
+            self.base, relief=None, pos=(0, 0, 1.05),
+            frameSize=(-0.2, 0.25, -2.0, -1.45),
+            image=[backDown, backDown, backDown, backUp],
+            image_scale=(1.0, 1.0, smash),
+            image_pos=(0.0, 0.0, -1.9 + lift),
+            pressEffect=0, command=self.showEmblemItems,
+            text=TTLocalizer.CatalogEmblem,
+            text_font=ToontownGlobals.getSignFont(),
+            text_pos=(1.75, 0.132),
+            text3_pos=(1.75, 0.112),
+            text_scale=0.065, text_fg=(0.353, 0.627, 0.627, 1.0),
+            text2_fg=(0.353, 0.427, 0.427, 1.0))
         self.emblemCatalogButton.hide()
-        self.emblemCatalogButton2 = DirectButton(self.base, relief=None, pos=(0, 0, 1.05), frameSize=(-0.2,
-         0.25,
-         -2.0,
-         -1.45), image_scale=(1.0, 1.0, smash), image_pos=(0.0, 0.0, -1.9 + lift), image=backDown, pressEffect=0, command=self.showEmblemItems, text=TTLocalizer.CatalogEmblem, text_font=ToontownGlobals.getSignFont(), text_pos=(1.75, 0.132), text_scale=0.065, text_fg=(0.353, 0.627, 0.627, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0))
+        self.emblemCatalogButton2 = DirectButton(
+            self.base, relief=None, pos=(0, 0, 1.05),
+            frameSize=(-0.2, 0.25, -2.0, -1.45),
+            image_scale=(1.0, 1.0, smash),
+            image_pos=(0.0, 0.0, -1.9 + lift),
+            image=backDown, pressEffect=0, command=self.showEmblemItems,
+            text=TTLocalizer.CatalogEmblem,
+            text_font=ToontownGlobals.getSignFont(),
+            text_pos=(1.75, 0.132),
+            text_scale=0.065, text_fg=(0.353, 0.627, 0.627, 1.0),
+            text2_fg=(0.353, 0.427, 0.427, 1.0))
         self.emblemCatalogButton2.hide()
         self.__makeFFlist()
         if len(self.ffList) > 0:
             if config.GetBool('want-gifting', True):
-                self.giftToggle = DirectButton(self.base, relief=None, pressEffect=0, image=(giftToggleUp, giftToggleDown, giftToggleUp), image_scale=(1.0, 1, 0.7), command=self.__giftToggle, text=TTLocalizer.CatalogGiftToggleOff, text_font=ToontownGlobals.getSignFont(), text_pos=TTLocalizer.CSgiftTogglePos, text_scale=TTLocalizer.CSgiftToggle, text_fg=(0.353, 0.627, 0.627, 1.0), text3_fg=(0.15, 0.3, 0.3, 1.0), text2_fg=(0.353, 0.427, 0.427, 1.0), image_color=Vec4(1.0, 1.0, 0.2, 1.0), image1_color=Vec4(0.9, 0.85, 0.2, 1.0), image2_color=Vec4(0.9, 0.85, 0.2, 1.0), image3_color=Vec4(0.5, 0.45, 0.2, 1.0))
+                self.giftToggle = DirectButton(
+                    self.base, relief=None, pressEffect=0,
+                    image=(giftToggleUp, giftToggleDown, giftToggleUp),
+                    image_scale=(1.0, 1, 0.7),
+                    command=self.__giftToggle,
+                    text=TTLocalizer.CatalogGiftToggleOff,
+                    text_font=ToontownGlobals.getSignFont(),
+                    text_pos=TTLocalizer.CSgiftTogglePos,
+                    text_scale=TTLocalizer.CSgiftToggle,
+                    text_fg=(0.353, 0.627, 0.627, 1.0),
+                    text3_fg=(0.15, 0.3, 0.3, 1.0),
+                    text2_fg=(0.353, 0.427, 0.427, 1.0),
+                    image_color=Vec4(1.0, 1.0, 0.2, 1.0),
+                    image1_color=Vec4(0.9, 0.85, 0.2, 1.0),
+                    image2_color=Vec4(0.9, 0.85, 0.2, 1.0),
+                    image3_color=Vec4(0.5, 0.45, 0.2, 1.0))
                 self.giftToggle.setPos(0.0, 0, -0.035)
-            self.giftLabel = DirectLabel(self.base, relief=None, image=giftFriends, image_scale=(1.15, 1, 1.14), text=' ', text_font=ToontownGlobals.getSignFont(), text_pos=(1.2, -0.97), text_scale=0.07, text_fg=(0.392, 0.549, 0.627, 1.0), sortOrder=100, textMayChange=1)
+            self.giftLabel = DirectLabel(
+                self.base, relief=None, image=giftFriends,
+                image_scale=(1.15, 1, 1.14),
+                text=' ', text_font=ToontownGlobals.getSignFont(),
+                text_pos=(1.2, -0.97),
+                text_scale=0.07, text_fg=(0.392, 0.549, 0.627, 1.0),
+                sortOrder=100, textMayChange=1)
             self.giftLabel.setPos(-0.15, 0, 0.08)
             self.giftLabel.hide()
-            self.friendLabel = DirectLabel(self.base, relief=None, text='Friend Name', text_font=ToontownGlobals.getSignFont(), text_pos=(-0.25, 0.132), text_scale=0.068, text_align=TextNode.ALeft, text_fg=(0.992, 0.949, 0.327, 1.0), sortOrder=100, textMayChange=1)
+            self.friendLabel = DirectLabel(
+                self.base, relief=None, text='Friend Name',
+                text_font=ToontownGlobals.getSignFont(),
+                text_pos=(-0.25, 0.132),
+                text_scale=0.068, text_align=TextNode.ALeft,
+                text_fg=(0.992, 0.949, 0.327, 1.0),
+                sortOrder=100, textMayChange=1)
             self.friendLabel.setPos(0.5, 0, -0.42)
             self.friendLabel.hide()
             gui = loader.loadModel('phase_3.5/models/gui/friendslist_gui')
-            self.scrollList = DirectScrolledList(parent=self, relief=None, incButton_image=(gui.find('**/FndsLst_ScrollUp'),
-             gui.find('**/FndsLst_ScrollDN'),
-             gui.find('**/FndsLst_ScrollUp_Rllvr'),
-             gui.find('**/FndsLst_ScrollUp')), incButton_relief=None, incButton_pos=(0.0, 0.0, -0.316), incButton_image1_color=Vec4(1.0, 0.9, 0.4, 1.0), incButton_image3_color=Vec4(1.0, 1.0, 0.6, 0.5), incButton_scale=(1.0, 1.0, -1.0), decButton_image=(gui.find('**/FndsLst_ScrollUp'),
-             gui.find('**/FndsLst_ScrollDN'),
-             gui.find('**/FndsLst_ScrollUp_Rllvr'),
-             gui.find('**/FndsLst_ScrollUp')), decButton_relief=None, decButton_pos=(0.0, 0.0, 0.117), decButton_image1_color=Vec4(1.0, 1.0, 0.6, 1.0), decButton_image3_color=Vec4(1.0, 1.0, 0.6, 0.6), itemFrame_pos=(-0.17, 0.0, 0.06), itemFrame_relief=None, numItemsVisible=8, items=[])
+            self.scrollList = DirectScrolledList(
+                parent=self, relief=None,
+                incButton_image=(gui.find('**/FndsLst_ScrollUp'),
+                                 gui.find('**/FndsLst_ScrollDN'),
+                                 gui.find('**/FndsLst_ScrollUp_Rllvr'),
+                                 gui.find('**/FndsLst_ScrollUp')),
+                incButton_relief=None, incButton_pos=(0.0, 0.0, -0.316),
+                incButton_image1_color=Vec4(1.0, 0.9, 0.4, 1.0),
+                incButton_image3_color=Vec4(1.0, 1.0, 0.6, 0.5),
+                incButton_scale=(1.0, 1.0, -1.0),
+                decButton_image=(gui.find('**/FndsLst_ScrollUp'),
+                                 gui.find('**/FndsLst_ScrollDN'),
+                                 gui.find('**/FndsLst_ScrollUp_Rllvr'),
+                                 gui.find('**/FndsLst_ScrollUp')),
+                decButton_relief=None, decButton_pos=(0.0, 0.0, 0.117),
+                decButton_image1_color=Vec4(1.0, 1.0, 0.6, 1.0),
+                decButton_image3_color=Vec4(1.0, 1.0, 0.6, 0.6),
+                itemFrame_pos=(-0.17, 0.0, 0.06),
+                itemFrame_relief=None, numItemsVisible=8, items=[])
             self.scrollList.setPos(1.2, 0, -0.58)
             self.scrollList.setScale(1.5)
             self.scrollList.hide()
@@ -592,13 +723,17 @@ class CatalogScreen(DirectFrame):
             self.emblemCatalogButton2.component('text%d' % i).setR(90)
 
         self.squares = [[],
-         [],
-         [],
-         []]
+                        [],
+                        [],
+                        []]
         for i in range(NUM_CATALOG_ROWS):
             for j in range(NUM_CATALOG_COLS):
                 square = guiItems.find('**/square%d%db' % (i + 1, j + 1))
-                label = DirectLabel(self.base, image=square, relief=None, state='normal')
+                label = DirectLabel(
+                    self.base,
+                    image=square,
+                    relief=None,
+                    state='normal')
                 self.squares[i].append(label)
 
         def priceSort(a, b, type):
@@ -607,7 +742,9 @@ class CatalogScreen(DirectFrame):
             return priceB - priceA
 
         itemList = base.localAvatar.monthlyCatalog + base.localAvatar.weeklyCatalog
-        itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeWeekly))
+        itemList.sort(
+            lambda a, b: priceSort(
+                a, b, CatalogItem.CatalogTypeWeekly))
         itemList.reverse()
         allClosetItems = CatalogFurnitureItem.getAllClosets()
         isMaxClosetOfferred = False
@@ -623,14 +760,28 @@ class CatalogScreen(DirectFrame):
             if isMaxClosetOfferred and item in allClosetItems and item.furnitureType not in CatalogFurnitureItem.MaxClosetIds:
                 continue
             if item.loyaltyRequirement() != 0:
-                self.loyaltyPanelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeLoyalty, parentCatalogScreen=self))
+                self.loyaltyPanelList.append(
+                    CatalogItemPanel.CatalogItemPanel(
+                        parent=hidden, item=item,
+                        type=CatalogItem.CatalogTypeLoyalty,
+                        parentCatalogScreen=self))
             elif item.getEmblemPrices():
-                self.emblemPanelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeWeekly, parentCatalogScreen=self))
+                self.emblemPanelList.append(
+                    CatalogItemPanel.CatalogItemPanel(
+                        parent=hidden, item=item,
+                        type=CatalogItem.CatalogTypeWeekly,
+                        parentCatalogScreen=self))
             else:
-                self.panelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeWeekly, parentCatalogScreen=self))
+                self.panelList.append(
+                    CatalogItemPanel.CatalogItemPanel(
+                        parent=hidden, item=item,
+                        type=CatalogItem.CatalogTypeWeekly,
+                        parentCatalogScreen=self))
 
         itemList = base.localAvatar.backCatalog
-        itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeBackorder))
+        itemList.sort(
+            lambda a, b: priceSort(
+                a, b, CatalogItem.CatalogTypeBackorder))
         itemList.reverse()
         for item in itemList:
             if isinstance(item, CatalogInvalidItem.CatalogInvalidItem):
@@ -639,19 +790,38 @@ class CatalogScreen(DirectFrame):
             if isMaxClosetOfferred and item in allClosetItems and item.furnitureType not in CatalogFurnitureItem.MaxClosetIds:
                 continue
             if item.loyaltyRequirement() != 0:
-                self.loyaltyPanelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeLoyalty, parentCatalogScreen=self))
+                self.loyaltyPanelList.append(
+                    CatalogItemPanel.CatalogItemPanel(
+                        parent=hidden, item=item,
+                        type=CatalogItem.CatalogTypeLoyalty,
+                        parentCatalogScreen=self))
             elif item.getEmblemPrices():
-                self.emblemPanelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeBackOrder, parentCatalogScreen=self))
+                self.emblemPanelList.append(
+                    CatalogItemPanel.CatalogItemPanel(
+                        parent=hidden, item=item,
+                        type=CatalogItem.CatalogTypeBackOrder,
+                        parentCatalogScreen=self))
             else:
-                self.backPanelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeBackorder, parentCatalogScreen=self))
+                self.backPanelList.append(
+                    CatalogItemPanel.CatalogItemPanel(
+                        parent=hidden, item=item,
+                        type=CatalogItem.CatalogTypeBackorder,
+                        parentCatalogScreen=self))
 
         numPages = self.packPages(self.panelList, self.pageList, 'new')
         self.setNumNewPages(numPages)
-        numPages = self.packPages(self.backPanelList, self.backPageList, 'back')
+        numPages = self.packPages(
+            self.backPanelList, self.backPageList, 'back')
         self.setNumBackPages(numPages)
-        numPages = self.packPages(self.loyaltyPanelList, self.loyaltyPageList, 'loyalty')
+        numPages = self.packPages(
+            self.loyaltyPanelList,
+            self.loyaltyPageList,
+            'loyalty')
         self.setNumLoyaltyPages(numPages)
-        numPages = self.packPages(self.emblemPanelList, self.emblemPageList, 'emblem')
+        numPages = self.packPages(
+            self.emblemPanelList,
+            self.emblemPageList,
+            'emblem')
         self.setNumEmblemPages(numPages)
         currentWeek = base.localAvatar.catalogScheduleCurrentWeek - 1
         if currentWeek < 57:
@@ -685,81 +855,161 @@ class CatalogScreen(DirectFrame):
         cover.find('**/clarabelle').reparentTo(geom)
         cover.find('**/circle_green').reparentTo(geom)
         self.cover = DirectLabel(self.base, relief=None, geom=geom)
-        self.catalogNumber = DirectLabel(self.cover, relief=None, scale=0.2, pos=(-0.22, 0, -0.33), text='#%d' % weekNumber, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_font=ToontownGlobals.getInterfaceFont())
-        self.catalogSeries = DirectLabel(self.cover, relief=None, scale=(0.22, 1, 0.18), pos=(-0.76, 0, -0.9), text=TTLocalizer.CatalogSeriesLabel % seriesNumber, text_fg=(0.9, 0.9, 0.4, 1), text_shadow=(0, 0, 0, 1), text_font=ToontownGlobals.getInterfaceFont())
+        self.catalogNumber = DirectLabel(
+            self.cover, relief=None, scale=0.2, pos=(-0.22, 0, -0.33),
+            text='#%d' % weekNumber, text_fg=(0.95, 0.95, 0, 1),
+            text_shadow=(0, 0, 0, 1),
+            text_font=ToontownGlobals.getInterfaceFont())
+        self.catalogSeries = DirectLabel(
+            self.cover, relief=None, scale=(0.22, 1, 0.18),
+            pos=(-0.76, 0, -0.9),
+            text=TTLocalizer.CatalogSeriesLabel % seriesNumber,
+            text_fg=(0.9, 0.9, 0.4, 1),
+            text_shadow=(0, 0, 0, 1),
+            text_font=ToontownGlobals.getInterfaceFont())
         self.catalogSeries.setShxz(0.4)
-        self.rings = DirectLabel(self.base, relief=None, geom=guiItems.find('**/rings'))
-        self.clarabelleFrame = DirectLabel(self, relief=None, image=guiItems.find('**/clarabelle_frame'))
+        self.rings = DirectLabel(
+            self.base,
+            relief=None,
+            geom=guiItems.find('**/rings'))
+        self.clarabelleFrame = DirectLabel(
+            self, relief=None, image=guiItems.find('**/clarabelle_frame'))
         hangupGui = guiItems.find('**/hangup')
         hangupRolloverGui = guiItems.find('**/hangup_rollover')
-        self.hangup = DirectButton(self, relief=None, pos=(1.78, 0, -1.3), image=[hangupGui,
-         hangupRolloverGui,
-         hangupRolloverGui,
-         hangupGui], text=['', TTLocalizer.CatalogHangUp, TTLocalizer.CatalogHangUp], text_fg=Vec4(1), text_scale=0.07, text_pos=(0.0, 0.14), command=self.hangUp)
-        self.beanBank = DirectLabel(self, relief=None, image=guiItems.find('**/bean_bank'), text=str(base.localAvatar.getMoney() + base.localAvatar.getBankMoney()), text_align=TextNode.ARight, text_scale=0.11, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_pos=(0.75, -0.81), text_font=ToontownGlobals.getSignFont())
+        self.hangup = DirectButton(
+            self, relief=None, pos=(1.78, 0, -1.3),
+            image=[hangupGui, hangupRolloverGui, hangupRolloverGui, hangupGui],
+            text=['', TTLocalizer.CatalogHangUp, TTLocalizer.CatalogHangUp],
+            text_fg=Vec4(1),
+            text_scale=0.07, text_pos=(0.0, 0.14),
+            command=self.hangUp)
+        self.beanBank = DirectLabel(
+            self, relief=None, image=guiItems.find('**/bean_bank'),
+            text=str(
+                base.localAvatar.getMoney() + base.localAvatar.getBankMoney()),
+            text_align=TextNode.ARight, text_scale=0.11,
+            text_fg=(0.95, 0.95, 0, 1),
+            text_shadow=(0, 0, 0, 1),
+            text_pos=(0.75, -0.81),
+            text_font=ToontownGlobals.getSignFont())
         nextUp = guiItems.find('**/arrow_up')
         nextRollover = guiItems.find('**/arrow_Rollover')
         nextDown = guiItems.find('**/arrow_Down')
         prevUp = guiItems.find('**/arrowUp')
         prevDown = guiItems.find('**/arrowDown1')
         prevRollover = guiItems.find('**/arrowRollover')
-        self.nextPageButton = DirectButton(self, relief=None, pos=(-0.1, 0, -0.9), image=[nextUp,
-         nextDown,
-         nextRollover,
-         nextUp], image_color=(0.9, 0.9, 0.9, 1), image2_color=(1, 1, 1, 1), command=self.showNextPage)
-        self.backPageButton = DirectButton(self, relief=None, pos=(-0.1, 0, -0.9), image=[prevUp,
-         prevDown,
-         prevRollover,
-         prevUp], image_color=(0.9, 0.9, 0.9, 1), image2_color=(1, 1, 1, 1), command=self.showBackPage)
+        self.nextPageButton = DirectButton(
+            self, relief=None, pos=(-0.1, 0, -0.9),
+            image=[nextUp, nextDown, nextRollover, nextUp],
+            image_color=(0.9, 0.9, 0.9, 1),
+            image2_color=(1, 1, 1, 1),
+            command=self.showNextPage)
+        self.backPageButton = DirectButton(
+            self, relief=None, pos=(-0.1, 0, -0.9),
+            image=[prevUp, prevDown, prevRollover, prevUp],
+            image_color=(0.9, 0.9, 0.9, 1),
+            image2_color=(1, 1, 1, 1),
+            command=self.showBackPage)
         self.backPageButton.hide()
-        self.pageLabel = DirectLabel(self.base, relief=None, pos=(-1.33, 0, -0.9), scale=0.06, text=TTLocalizer.CatalogPagePrefix, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_font=ToontownGlobals.getSignFont(), text_align=TextNode.ALeft)
+        self.pageLabel = DirectLabel(
+            self.base, relief=None, pos=(-1.33, 0, -0.9),
+            scale=0.06, text=TTLocalizer.CatalogPagePrefix,
+            text_fg=(0.95, 0.95, 0, 1),
+            text_shadow=(0, 0, 0, 1),
+            text_font=ToontownGlobals.getSignFont(),
+            text_align=TextNode.ALeft)
         self.loadClarabelle()
-        return
 
-    def loadClarabelle(self):
-        self.cRender = NodePath('cRender')
-        self.cCamera = self.cRender.attachNewNode('cCamera')
-        self.cCamNode = Camera('cCam')
-        self.cLens = PerspectiveLens()
-        self.cLens.setFov(40, 40)
-        self.cLens.setNear(0.1)
-        self.cLens.setFar(100.0)
-        self.cCamNode.setLens(self.cLens)
-        self.cCamNode.setScene(self.cRender)
-        self.cCam = self.cCamera.attachNewNode(self.cCamNode)
-        self.cDr = base.win.makeDisplayRegion(0.56, 0.81, 0.52, 0.85)
-        self.cDr.setSort(1)
-        self.cDr.setClearDepthActive(1)
-        self.cDr.setClearColorActive(1)
-        self.cDr.setClearColor(Vec4(0.3, 0.3, 0.3, 1))
-        self.cDr.setCamera(self.cCam)
-        self.clarabelle = Actor.Actor('phase_5.5/models/char/Clarabelle-zero', {'listen': 'phase_5.5/models/char/Clarabelle-listens'})
-        self.clarabelle.loop('listen')
-        self.clarabelle.find('**/eyes').setBin('fixed', 0)
-        self.clarabelle.find('**/pupilL').setBin('fixed', 1)
-        self.clarabelle.find('**/pupilR').setBin('fixed', 1)
-        self.clarabelle.find('**/glassL').setBin('fixed', 2)
-        self.clarabelle.find('**/glassR').setBin('fixed', 2)
-        switchboard = loader.loadModel('phase_5.5/models/estate/switchboard')
-        switchboard.reparentTo(self.clarabelle)
-        switchboard.setPos(1, -1.6, 0)
-        switchboard.setH(30)
-        room = loader.loadModel('phase_3/models/makeatoon/tt_m_ara_mat_room.bam')
-        room.reparentTo(self.clarabelle)
-        room.find('**/genderProps').removeNode()
-        room.find('**/bodyWalls').removeNode()
-        room.find('**/bodyProps').removeNode()
-        room.find('**/colorWalls').removeNode()
-        room.find('**/colorProps').removeNode()
-        room.find('**/clothWalls').removeNode()
-        room.find('**/nameWalls').removeNode()
-        room.find('**/nameProps').removeNode()
-        room.find('**/spotlight').removeNode()
-        room.setPos(5.5, 1.25, 0)
-        room.setH(330)
-        self.clarabelle.reparentTo(self.cRender)
-        self.clarabelle.setPosHprScale(-0.52, 6.13, -3.81, 85, 0.0, 0.0, 1.0, 1.0, 1.0)
-        self.clarabelleFrame.setPosHprScale(-0.01, 0.0, -0.01, 0.0, 0.0, 0.0, 1.02, 1.0, 1.02)
+    if config.GetBool('want-tto-catalog', False):
+
+        def loadClarabelle(self):
+            self.cRender = NodePath('cRender')
+            self.cCamera = self.cRender.attachNewNode('cCamera')
+            self.cCamNode = Camera('cCam')
+            self.cLens = PerspectiveLens()
+            self.cLens.setFov(40, 40)
+            self.cLens.setNear(0.1)
+            self.cLens.setFar(100.0)
+            self.cCamNode.setLens(self.cLens)
+            self.cCamNode.setScene(self.cRender)
+            self.cCam = self.cCamera.attachNewNode(self.cCamNode)
+            self.cDr = base.win.makeDisplayRegion(0.56, 0.81, 0.52, 0.85)
+            self.cDr.setSort(1)
+            self.cDr.setClearDepthActive(1)
+            self.cDr.setClearColorActive(1)
+            self.cDr.setClearColor(Vec4(0.3, 0.3, 0.3, 1))
+            self.cDr.setCamera(self.cCam)
+            self.clarabelle = Actor.Actor(
+                'phase_5.5/models/char/Clarabelle-zero',
+                {'listen': 'phase_5.5/models/char/Clarabelle-listens'})
+            self.clarabelle.loop('listen')
+            self.clarabelle.find('**/eyes').setBin('fixed', 0)
+            self.clarabelle.find('**/pupilL').setBin('fixed', 1)
+            self.clarabelle.find('**/pupilR').setBin('fixed', 1)
+            self.clarabelle.find('**/glassL').setBin('fixed', 2)
+            self.clarabelle.find('**/glassR').setBin('fixed', 2)
+            switchboard = loader.loadModel(
+                'phase_5.5/models/estate/switchboard')
+            switchboard.reparentTo(self.clarabelle)
+            switchboard.setPos(0, -2, 0)
+            self.clarabelle.reparentTo(self.cRender)
+            self.clarabelle.setPosHprScale(-0.56, 6.43, -3.81,
+                                           121.61, 0.0, 0.0, 1.0, 1.0, 1.0)
+            self.clarabelleFrame.setPosHprScale(-0.0,
+                                                0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0)
+
+    else:
+
+        def loadClarabelle(self):
+            self.cRender = NodePath('cRender')
+            self.cCamera = self.cRender.attachNewNode('cCamera')
+            self.cCamNode = Camera('cCam')
+            self.cLens = PerspectiveLens()
+            self.cLens.setFov(40, 40)
+            self.cLens.setNear(0.1)
+            self.cLens.setFar(100.0)
+            self.cCamNode.setLens(self.cLens)
+            self.cCamNode.setScene(self.cRender)
+            self.cCam = self.cCamera.attachNewNode(self.cCamNode)
+            self.cDr = base.win.makeDisplayRegion(0.56, 0.81, 0.52, 0.85)
+            self.cDr.setSort(1)
+            self.cDr.setClearDepthActive(1)
+            self.cDr.setClearColorActive(1)
+            self.cDr.setClearColor(Vec4(0.3, 0.3, 0.3, 1))
+            self.cDr.setCamera(self.cCam)
+            self.clarabelle = Actor.Actor(
+                'phase_5.5/models/char/Clarabelle-zero',
+                {'listen': 'phase_5.5/models/char/Clarabelle-listens'})
+            self.clarabelle.loop('listen')
+            self.clarabelle.find('**/eyes').setBin('fixed', 0)
+            self.clarabelle.find('**/pupilL').setBin('fixed', 1)
+            self.clarabelle.find('**/pupilR').setBin('fixed', 1)
+            self.clarabelle.find('**/glassL').setBin('fixed', 2)
+            self.clarabelle.find('**/glassR').setBin('fixed', 2)
+            switchboard = loader.loadModel(
+                'phase_5.5/models/estate/switchboard')
+            switchboard.reparentTo(self.clarabelle)
+            switchboard.setPos(1, -1.6, 0)
+            switchboard.setH(30)
+            room = loader.loadModel(
+                'phase_3/models/makeatoon/tt_m_ara_mat_room.bam')
+            room.reparentTo(self.clarabelle)
+            room.find('**/genderProps').removeNode()
+            room.find('**/bodyWalls').removeNode()
+            room.find('**/bodyProps').removeNode()
+            room.find('**/colorWalls').removeNode()
+            room.find('**/colorProps').removeNode()
+            room.find('**/clothWalls').removeNode()
+            room.find('**/nameWalls').removeNode()
+            room.find('**/nameProps').removeNode()
+            room.find('**/spotlight').removeNode()
+            room.setPos(5.5, 1.25, 0)
+            room.setH(330)
+            self.clarabelle.reparentTo(self.cRender)
+            self.clarabelle.setPosHprScale(-0.52,
+                                           6.13, -3.81, 85, 0.0, 0.0, 1.0, 1.0, 1.0)
+            self.clarabelleFrame.setPosHprScale(-0.01,
+                                                0.0, -0.01, 0.0, 0.0, 0.0, 1.02, 1.0, 1.02)
 
     def reload(self):
         for panel in self.panelList + self.backPanelList + self.loyaltyPanelList + self.emblemPanelList:
@@ -786,32 +1036,57 @@ class CatalogScreen(DirectFrame):
         self.panelDict = {}
         self.visiblePanels = []
         itemList = base.localAvatar.monthlyCatalog + base.localAvatar.weeklyCatalog
-        itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeWeekly))
+        itemList.sort(
+            lambda a, b: priceSort(
+                a, b, CatalogItem.CatalogTypeWeekly))
         itemList.reverse()
         for item in itemList:
             if item.loyaltyRequirement() != 0:
-                self.loyaltyPanelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeLoyalty, parentCatalogScreen=self))
+                self.loyaltyPanelList.append(
+                    CatalogItemPanel.CatalogItemPanel(
+                        parent=hidden, item=item,
+                        type=CatalogItem.CatalogTypeLoyalty,
+                        parentCatalogScreen=self))
             else:
-                self.panelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeWeekly))
+                self.panelList.append(
+                    CatalogItemPanel.CatalogItemPanel(
+                        parent=hidden, item=item,
+                        type=CatalogItem.CatalogTypeWeekly))
 
         itemList = base.localAvatar.backCatalog
-        itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeBackorder))
+        itemList.sort(
+            lambda a, b: priceSort(
+                a, b, CatalogItem.CatalogTypeBackorder))
         itemList.reverse()
         for item in itemList:
             if item.loyaltyRequirement() != 0:
-                self.loyaltyPanelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeLoyalty, parentCatalogScreen=self))
+                self.loyaltyPanelList.append(
+                    CatalogItemPanel.CatalogItemPanel(
+                        parent=hidden, item=item,
+                        type=CatalogItem.CatalogTypeLoyalty,
+                        parentCatalogScreen=self))
             else:
-                self.backPanelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeBackorder))
+                self.backPanelList.append(
+                    CatalogItemPanel.CatalogItemPanel(
+                        parent=hidden, item=item,
+                        type=CatalogItem.CatalogTypeBackorder))
 
         numPages = self.packPages(self.panelList, self.pageList, 'new')
         self.setNumNewPages(numPages)
-        numPages = self.packPages(self.backPanelList, self.backPageList, 'back')
+        numPages = self.packPages(
+            self.backPanelList, self.backPageList, 'back')
         self.setNumBackPages(numPages)
-        numPages = self.packPages(self.loyaltyPanelList, self.loyaltyPageList, 'loyalty')
+        numPages = self.packPages(
+            self.loyaltyPanelList,
+            self.loyaltyPageList,
+            'loyalty')
         self.setNumLoyaltyPages(numPages)
-        seriesNumber = (base.localAvatar.catalogScheduleCurrentWeek - 1) / ToontownGlobals.CatalogNumWeeksPerSeries + 1
-        self.catalogSeries['text'] = Localizer.CatalogSeriesLabel % seriesNumber
-        weekNumber = (base.localAvatar.catalogScheduleCurrentWeek - 1) % ToontownGlobals.CatalogNumWeeksPerSeries + 1
+        seriesNumber = (
+            base.localAvatar.catalogScheduleCurrentWeek - 1) / ToontownGlobals.CatalogNumWeeksPerSeries + 1
+        self.catalogSeries[
+            'text'] = Localizer.CatalogSeriesLabel % seriesNumber
+        weekNumber = (base.localAvatar.catalogScheduleCurrentWeek -
+                      1) % ToontownGlobals.CatalogNumWeeksPerSeries + 1
         self.catalogNumber['text'] = '#%d' % weekNumber
         self.enableBackorderCatalogButton()
         self.setMaxPageIndex(self.numNewPages)
@@ -866,7 +1141,6 @@ class CatalogScreen(DirectFrame):
                 self.giftAvatar.delete()
             else:
                 self.giftAvatar = None
-        return
 
     def unloadClarabelle(self):
         base.win.removeDisplayRegion(self.cDr)
@@ -878,31 +1152,37 @@ class CatalogScreen(DirectFrame):
         del self.cDr
         self.clarabelle.cleanup()
         del self.clarabelle
-
         if self.clarabelleChatBalloon:
             self.clarabelleChatBalloon.removeNode()
             del self.clarabelleChatBalloon
         if self.clarabelleGreetingSfx:
             for sound in self.clarabelleGreetingSfx:
                 del sound
+
             del self.clarabelleGreetingSfx
         if self.clarabelleGoodbyeSfx:
             for sound in self.clarabelleGoodbyeSfx:
                 del sound
+
             del self.clarabelleGoodbyeSfx
         if self.clarabelleErrorSfx:
             for sound in self.clarabelleGoodbyeSfx:
                 del sound
+
             del self.clarabelleGoodbyeSfx
         if self.clarabelleChatterSfx:
             for sound in self.clarabelleChatterSfx:
                 del sound
+
             del self.clarabelleChatterSfx
 
     def hangUp(self):
         if hasattr(self, 'giftAvatar') and self.giftAvatar:
             self.giftAvatar.disable()
-        self.setClarabelleChat(random.choice(TTLocalizer.CatalogGoodbyeList), type='goodbye')
+        self.setClarabelleChat(
+            random.choice(
+                TTLocalizer.CatalogGoodbyeList),
+            type='goodbye')
         self.setPageIndex(-1)
         self.showPageItems()
         self.nextPageButton.hide()
@@ -929,7 +1209,7 @@ class CatalogScreen(DirectFrame):
     def remoteUpdate(self):
         self.update()
 
-    def update(self, lock = 0):
+    def update(self, lock=0):
         if not hasattr(self.giftAvatar, 'doId'):
             if self.gifting == 1:
                 self.__giftToggle()
@@ -937,7 +1217,7 @@ class CatalogScreen(DirectFrame):
             self.beanBank['text'] = str(base.localAvatar.getTotalMoney())
             if lock == 0:
                 for item in self.panelList + self.backPanelList + self.loyaltyPanelList + self.emblemPanelList:
-                    if type(item) != type(''):
+                    if not isinstance(item, type('')):
                         item.updateButtons(self.gifting)
 
     def __handlePurchaseRequest(self, item):
@@ -945,81 +1225,101 @@ class CatalogScreen(DirectFrame):
         taskMgr.remove('clarabelleAskAnythingElse')
 
     def __handleGiftPurchaseRequest(self, item):
-        item.requestGiftPurchase(self['phone'], self.frienddoId, self.__handleGiftPurchaseResponse)
+        item.requestGiftPurchase(
+            self['phone'],
+            self.frienddoId,
+            self.__handleGiftPurchaseResponse)
         taskMgr.remove('clarabelleAskAnythingElse')
 
     def __handlePurchaseResponse(self, retCode, item):
         if retCode == ToontownGlobals.P_UserCancelled:
             self.update()
             return
-        self.setClarabelleChat(item.getRequestPurchaseErrorText(retCode), item.getRequestPurchaseErrorTextTimeout())
+        self.setClarabelleChat(
+            item.getRequestPurchaseErrorText(retCode),
+            item.getRequestPurchaseErrorTextTimeout())
 
     def __handleGiftPurchaseResponse(self, retCode, item):
         if retCode == ToontownGlobals.P_UserCancelled:
             return
         if self.isEmpty() or self.isHidden():
             return
-        self.setClarabelleChat(item.getRequestGiftPurchaseErrorText(retCode) % self.receiverName)
+        self.setClarabelleChat(
+            item.getRequestGiftPurchaseErrorText(retCode) %
+            self.receiverName)
         self.__loadFriend()
 
         def askAnythingElse(task):
             self.setClarabelleChat(TTLocalizer.CatalogAnythingElse)
 
         if retCode >= 0:
-            taskMgr.doMethodLater(8, askAnythingElse, 'clarabelleAskAnythingElse')
+            taskMgr.doMethodLater(
+                8, askAnythingElse, 'clarabelleAskAnythingElse')
 
     def __clearDialog(self, event):
         self.responseDialog.cleanup()
         self.responseDialog = None
-        return
 
-    def setClarabelleChat(self, str, timeout = 6, type = None):
+    def setClarabelleChat(self, str, timeout=6, type=None):
         self.clearClarabelleChat()
-
-        # Clarabelle can talk now! Let's give her some variation.
-        if type == 'greeting':
-            if not self.clarabelleGreetingSfx:
-                clarabelleGreeting1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_1.ogg')
-                clarabelleGreeting2 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_2.ogg')
-                self.clarabelleGreetingSfx = [clarabelleGreeting1, clarabelleGreeting2]
-            base.playSfx(random.choice(self.clarabelleGreetingSfx))
-        elif type == 'goodbye':
-            if not self.clarabelleGoodbyeSfx:
-                clarabelleGoodbye1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_wa_2.ogg')
-                clarabelleGoodbye2 = base.loadSfx('phase_5.5/audio/dial/clarabelle_wa_3.ogg')
-                clarabelleGoodbye3 = base.loadSfx('phase_5.5/audio/dial/clarabelle_wa_4.ogg')
-                self.clarabelleGoodbyeSfx = [clarabelleGoodbye1, clarabelleGoodbye2, clarabelleGoodbye3]
-            base.playSfx(random.choice(self.clarabelleGoodbyeSfx))
-        elif type == 'error':
-            if not self.clarabelleErrorSfx:
-                clarabelleError1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_2.ogg')
-                self.clarabelleChatterSfx = [clarabelleError1]
-            base.playSfx(random.choice(self.clarabelleErrorSfx))
-        else:
-            # These are currently placeholders.
-            if not self.clarabelleChatterSfx:
-                clarabelleChatter1 = base.loadSfx('phase_5.5/audio/dial/clarabelle_ah_2.ogg')
-                clarabelleChatter2 = base.loadSfx('phase_5.5/audio/dial/clarabelle_gen_2.ogg')
-                self.clarabelleChatterSfx = [clarabelleChatter1, clarabelleChatter2]
-            base.playSfx(random.choice(self.clarabelleChatterSfx))
-
+        if config.GetBool('want-clarabelle-voice', True):
+            if not config.GetBool('want-tto-catalog', True):
+                if type == 'greeting':
+                    if not self.clarabelleGreetingSfx:
+                        clarabelleGreeting1 = base.loadSfx(
+                            'phase_5.5/audio/dial/clarabelle_ah_1.ogg')
+                        clarabelleGreeting2 = base.loadSfx(
+                            'phase_5.5/audio/dial/clarabelle_ah_2.ogg')
+                        self.clarabelleGreetingSfx = [
+                            clarabelleGreeting1, clarabelleGreeting2]
+                    base.playSfx(random.choice(self.clarabelleGreetingSfx))
+                elif type == 'goodbye':
+                    if not self.clarabelleGoodbyeSfx:
+                        clarabelleGoodbye1 = base.loadSfx(
+                            'phase_5.5/audio/dial/clarabelle_wa_2.ogg')
+                        clarabelleGoodbye2 = base.loadSfx(
+                            'phase_5.5/audio/dial/clarabelle_wa_3.ogg')
+                        clarabelleGoodbye3 = base.loadSfx(
+                            'phase_5.5/audio/dial/clarabelle_wa_4.ogg')
+                        self.clarabelleGoodbyeSfx = [
+                            clarabelleGoodbye1, clarabelleGoodbye2, clarabelleGoodbye3]
+                    base.playSfx(random.choice(self.clarabelleGoodbyeSfx))
+                elif type == 'error':
+                    if not self.clarabelleErrorSfx:
+                        clarabelleError1 = base.loadSfx(
+                            'phase_5.5/audio/dial/clarabelle_ah_2.ogg')
+                        self.clarabelleChatterSfx = [clarabelleError1]
+                    base.playSfx(random.choice(self.clarabelleErrorSfx))
+                else:
+                    if not self.clarabelleChatterSfx:
+                        clarabelleChatter1 = base.loadSfx(
+                            'phase_5.5/audio/dial/clarabelle_ah_2.ogg')
+                        clarabelleChatter2 = base.loadSfx(
+                            'phase_5.5/audio/dial/clarabelle_gen_2.ogg')
+                        self.clarabelleChatterSfx = [
+                            clarabelleChatter1, clarabelleChatter2]
+                    base.playSfx(random.choice(self.clarabelleChatterSfx))
         if not self.clarabelleChatBalloon:
-            self.clarabelleChatBalloon = loader.loadModel('phase_3/models/props/chatbox')
+            self.clarabelleChatBalloon = loader.loadModel(
+                'phase_3/models/props/chatbox')
         self.clarabelleChat = ChatBalloon(self.clarabelleChatBalloon)
-        chatNode = self.clarabelleChat.generate(str, ToontownGlobals.getInterfaceFont())[0]
+        chatNode = self.clarabelleChat.generate(
+            str, ToontownGlobals.getInterfaceFont())[0]
         self.clarabelleChatNP = self.attachNewNode(chatNode.node(), 1000)
         self.clarabelleChatNP.setScale(0.08)
         self.clarabelleChatNP.setPos(0.7, 0, 0.6)
         if timeout:
-            taskMgr.doMethodLater(timeout, self.clearClarabelleChat, 'clearClarabelleChat')
+            taskMgr.doMethodLater(
+                timeout,
+                self.clearClarabelleChat,
+                'clearClarabelleChat')
 
-    def clearClarabelleChat(self, task = None):
+    def clearClarabelleChat(self, task=None):
         taskMgr.remove('clearClarabelleChat')
         if self.clarabelleChatNP:
             self.clarabelleChatNP.removeNode()
             self.clarabelleChatNP = None
             del self.clarabelleChat
-        return
 
     def __moneyChange(self, money):
         if self.gifting > 0:
@@ -1057,7 +1357,10 @@ class CatalogScreen(DirectFrame):
     def __makeFFlist(self):
         for familyMember in base.cr.avList:
             if familyMember.id != base.localAvatar.doId:
-                newFF = (familyMember.id, familyMember.name, NametagGroup.CCNonPlayer)
+                newFF = (
+                    familyMember.id,
+                    familyMember.name,
+                    NametagGroup.CCNonPlayer)
                 self.ffList.append(newFF)
 
         for friendPair in base.localAvatar.friendsList:
@@ -1076,9 +1379,12 @@ class CatalogScreen(DirectFrame):
         hasManager = hasattr(base.cr, 'playerFriendsManager')
         if hasManager:
             for avatarId in base.cr.playerFriendsManager.getAllOnlinePlayerAvatars():
-                handle = base.cr.playerFriendsManager.getAvHandleFromId(avatarId)
-                playerId = base.cr.playerFriendsManager.findPlayerIdFromAvId(avatarId)
-                playerInfo = base.cr.playerFriendsManager.getFriendInfo(playerId)
+                handle = base.cr.playerFriendsManager.getAvHandleFromId(
+                    avatarId)
+                playerId = base.cr.playerFriendsManager.findPlayerIdFromAvId(
+                    avatarId)
+                playerInfo = base.cr.playerFriendsManager.getFriendInfo(
+                    playerId)
                 freeChat = playerInfo.understandableYesNo
                 if handle and not self.checkFamily(avatarId):
                     if hasattr(handle, 'getName'):
@@ -1088,7 +1394,8 @@ class CatalogScreen(DirectFrame):
                         newFF = (avatarId, handle.getName(), colorCode)
                         self.ffList.append(newFF)
                     else:
-                        self.notify.warning('Bad Handle for getName in makeFFlist')
+                        self.notify.warning(
+                            'Bad Handle for getName in makeFFlist')
 
     def __makeScrollList(self):
         for ff in self.ffList:
@@ -1100,26 +1407,26 @@ class CatalogScreen(DirectFrame):
         self.scrollList.refresh()
 
     def makeFamilyButton(self, familyId, familyName, colorCode):
-        # fg = NametagGlobals.getNameFg(colorCode, PGButton.SInactive)
         return DirectButton(
             relief=None,
             text=familyName,
             text_scale=0.04,
             text_align=TextNode.ALeft,
-            # text_fg=fg,
             text1_bg=self.textDownColor,
             text2_bg=self.textRolloverColor,
             text3_fg=self.textDisabledColor,
             textMayChange=0,
             command=self.__chooseFriend,
-            extraArgs=[familyId, familyName]
-            )
+            extraArgs=[
+                familyId,
+                familyName])
 
     def __chooseFriend(self, friendId, friendName):
         messenger.send('wakeup')
         self.frienddoId = friendId
         self.receiverName = friendName
-        self.friendLabel['text'] = TTLocalizer.CatalogGiftTo % self.receiverName
+        self.friendLabel[
+            'text'] = TTLocalizer.CatalogGiftTo % self.receiverName
         self.__loadFriend()
 
     def __loadFriend(self):
@@ -1135,21 +1442,22 @@ class CatalogScreen(DirectFrame):
             self.giftAvatar.doId = self.frienddoId
             self.giftAvatar.forceAllowDelayDelete()
             self.giftAvatar.generate()
-            base.cr.getAvatarDetails(self.giftAvatar, self.__handleAvatarDetails, 'DistributedToon')
+            base.cr.getAvatarDetails(
+                self.giftAvatar,
+                self.__handleAvatarDetails,
+                'DistributedToon')
             self.gotAvatar = 0
             self.allowGetDetails = 0
             self.scrollList['state'] = DGG.DISABLED
-        return
 
     def __handleAvatarDetails(self, gotData, avatar, dclass):
         if self.giftAvatar.doId != avatar.doId or gotData == 0:
             CatalogScreen.notify.error('Get Gift Avatar Failed')
             self.gotAvatar = 0
             return
-        else:
-            self.gotAvatar = 1
-            self.giftAvatar = avatar
-            self.scrollList['state'] = DGG.NORMAL
+        self.gotAvatar = 1
+        self.giftAvatar = avatar
+        self.scrollList['state'] = DGG.NORMAL
         self.allowGetDetails = 1
         self.update()
 
@@ -1172,12 +1480,12 @@ class CatalogScreen(DirectFrame):
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOff
             self.update()
 
-    def __handleUDack(self, caller = None):
+    def __handleUDack(self, caller=None):
         taskMgr.remove('ackTimeOut')
         if hasattr(self, 'giftToggle') and self.giftToggle:
             self.giftToggle['state'] = DGG.NORMAL
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleOff
 
-    def __handleNoAck(self, caller = None):
+    def __handleNoAck(self, caller=None):
         if hasattr(self, 'giftToggle') and self.giftToggle:
             self.giftToggle['text'] = TTLocalizer.CatalogGiftToggleNoAck

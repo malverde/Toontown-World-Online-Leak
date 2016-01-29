@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 import types
 import AttribDesc
@@ -41,8 +41,8 @@ class EntityTypeRegistry:
         self.entTypeName2typeDesc = {}
         mostDerivedLast(classes)
         for c in classes:
-            if 'type' in c.__dict__:
-                if c.type in self.entTypeName2typeDesc:
+            if c.__dict__.has_key('type'):
+                if self.entTypeName2typeDesc.has_key(c.type):
                     EntityTypeRegistry.notify.debug("replacing %s with %s for entity type '%s'" % (self.entTypeName2typeDesc[c.type].__class__, c, c.type))
                 self.entTypeName2typeDesc[c.type] = c()
 

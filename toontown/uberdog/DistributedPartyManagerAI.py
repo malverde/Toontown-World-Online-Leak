@@ -2,7 +2,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.task import Task
 from otp.distributed.OtpDoGlobals import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.parties.DistributedPartyAI import DistributedPartyAI
 from datetime import datetime
 from toontown.parties.PartyGlobals import *
@@ -34,9 +34,7 @@ class DistributedPartyManagerAI(DistributedObjectAI):
 
     def _makePartyDict(self, struct):
         PARTY_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
-        party = {}
-        party['partyId'] = struct[0]
-        party['hostId'] = struct[1]
+        party = {'partyId': struct[0], 'hostId': struct[1]}
         start = '%s-%s-%s %s:%s:00' % (struct[2], struct[3], struct[4], struct[5], struct[6])
         party['start'] = datetime.strptime(start, PARTY_TIME_FORMAT)
         end = '%s-%s-%s %s:%s:00' % (struct[7], struct[8], struct[9], struct[10], struct[11])
@@ -149,7 +147,7 @@ class DistributedPartyManagerAI(DistributedObjectAI):
         party['inviteeIds'] = inviteeIds
         partyId = party['partyId']
         # This is issued in response to a request for the party to start, essentially. So let's alloc a zone
-        zoneId = self.air.allocateZone()
+        zoneId = self.air.allocateZone(owner=self)
         self.partyId2Zone[partyId] = zoneId
         self.host2PartyId[party['hostId']] = partyId
         

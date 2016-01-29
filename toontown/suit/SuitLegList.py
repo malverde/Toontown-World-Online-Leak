@@ -1,6 +1,145 @@
-from toontown.dna.DNAParser import DNASuitPoint
-from toontown.suit import SuitTimings
 from toontown.toonbase import ToontownGlobals
+import SuitTimings
+from toontown.dna import DNAStoreSuitPoint
+
+
+class SuitLegList:
+
+    def __init__(self, suitGraph, path):
+        self.suitGraph = suitGraph
+        self.suitLegType = 0
+        self.startTime = 0.0
+        self.legTime = 0.0
+        self.blockNumber = 0
+        self.legs = []
+        self.points = path
+
+        self.createFirstLeg()
+        self.createMidLegs()
+        self.createLastLeg()
+
+    def createFirstLeg(self):
+        startPoint = self.points[0]
+        secondPoint = self.points[1]
+        assert startPoint != secondPoint
+
+        if startPoint.type == DNAStoreSuitPoint.SIDEDOORPOINT:
+            legType = SuitLeg.TFromSuitBuilding
+        else:
+            legType = SuitLeg.TFromSky
+
+        self.legs.append(
+            SuitLeg(
+                self.suitGraph,
+                startPoint,
+                secondPoint,
+                legType))
+
+    def createMidLegs(self):
+        i = 0
+        while i < len(self.points) - 1:
+            a = self.points[i]
+            b = self.points[i + 1]
+
+            self.createLeg(a, b)
+
+            i += 1
+
+    def createLeg(self, a, b):
+        assert a != b
+        if a.type in (DNAStoreSuitPoint.FRONTDOORPOINT,
+                      DNAStoreSuitPoint.SIDEDOORPOINT):
+            legType = SuitLeg.TWalkToStreet
+        elif b.type in (DNAStoreSuitPoint.FRONTDOORPOINT,
+                        DNAStoreSuitPoint.SIDEDOORPOINT):
+            legType = SuitLeg.TWalkFromStreet
+        else:
+            legType = SuitLeg.TWalk
+
+        # If the Cog is going through a CogHQ door, it's *still* a walk-type
+        # leg, but we insert a leg in the middle to handle the door action:
+        if a.type == DNAStoreSuitPoint.COGHQOUTPOINT:
+            # We're walking out of a door, so first, insert a door leg:
+            # TODO: self.legs.append(SuitLeg(self.suitGraph, a, a,
+            # SuitLeg.TFromCoghq))
+            self.legs.append(SuitLeg(self.suitGraph, a, b, legType))
+        elif b.type == DNAStoreSuitPoint.COGHQINPOINT:
+            # We're going *into* a door, so insert a door leg after the move:
+            self.legs.append(SuitLeg(self.suitGraph, a, b, legType))
+            # TODO: self.legs.append(SuitLeg(self.suitGraph, b, b,
+            # SuitLeg.TToCoghq))
+        else:
+            # No CogHQ going on here, regular leg:
+            self.legs.append(SuitLeg(self.suitGraph, a, b, legType))
+
+    def createLastLeg(self):
+        endPoint = self.points[-1]
+        prevPoint = self.points[-2]
+        assert endPoint != prevPoint
+
+        if endPoint.type == DNAStoreSuitPoint.FRONTDOORPOINT:
+            legType = SuitLeg.TToToonBuilding
+        elif endPoint.type == DNAStoreSuitPoint.SIDEDOORPOINT:
+            legType = SuitLeg.TToSuitBuilding
+        else:
+            legType = SuitLeg.TToSky
+
+        self.legs.append(SuitLeg(self.suitGraph, prevPoint, endPoint, legType))
+        # And also take the suit down:
+        self.legs.append(
+            SuitLeg(
+                self.suitGraph,
+                prevPoint,
+                endPoint,
+                SuitLeg.TOff))
+
+    def getStartTime(self, index):
+        time = 0
+        i = 0
+        while i < self.getNumLegs() and i < index:
+            time += self.legs[i].getLegTime()
+            i += 1
+        return time
+
+    def getLegIndexAtTime(self, time, startLeg):
+        endTime = 0
+        i = 0
+        while i < startLeg:
+            endTime += self.legs[i].getLegTime()
+            i += 1
+        while i < self.getNumLegs():
+            endTime += self.legs[i].getLegTime()
+            if endTime > time:
+                return i
+            i += 1
+        return len(self.legs) - 1
+
+    def getNumLegs(self):
+        return len(self.legs)
+
+    def getZoneId(self, legNum):
+        return self.legs[legNum].getZone()
+
+    def getType(self, legNum):
+        return self.legs[legNum].getType()
+
+    def getBlockNumber(self, legNum):
+        return self.legs[legNum].getBlockNumber()
+
+    def isPointInRange(self, point, startTime, endTime):
+        leg = self.getLegIndexAtTime(startTime, 0)
+        time = startTime
+        while time < endTime:
+            if leg >= len(self.legs):
+                return False
+            if self[leg].pointA == point or self[leg].pointB == point:
+                return True
+            time += self[leg].getLegTime()
+            leg += 1
+        return False
+
+    def __getitem__(self, key):
+        return self.legs[key]
 
 
 class SuitLeg:
@@ -12,55 +151,48 @@ class SuitLeg:
     TFromSuitBuilding = 5
     TToSuitBuilding = 6
     TToToonBuilding = 7
-    TFromCogHQ = 8
-    TToCogHQ = 9
+    TFromCoghq = 8
+    TToCoghq = 9
     TOff = 10
     TypeToName = {
-        TWalkFromStreet: 'WalkFromStreet',
-        TWalkToStreet: 'WalkToStreet',
-        TWalk: 'Walk',
-        TFromSky: 'FromSky',
-        TToSky: 'ToSky',
-        TFromSuitBuilding: 'FromSuitBuilding',
-        TToSuitBuilding: 'ToSuitBuilding',
-        TToToonBuilding: 'ToToonBuilding',
-        TFromCogHQ: 'FromCogHQ',
-        TToCogHQ: 'ToCogHQ',
-        TOff: 'Off'
+        0: 'WalkFromStreet',
+        1: 'WalkToStreet',
+        2: 'Walk',
+        3: 'FromSky',
+        4: 'ToSky',
+        5: 'FromSuitBuilding',
+        6: 'ToSuitBuilding',
+        7: 'ToToonBuilding',
+        8: 'FromCoghq',
+        9: 'ToCoghq',
+        10: 'Off'
     }
 
-    def __init__(self, startTime, zoneId, blockNumber, pointA, pointB, type):
-        self.startTime = startTime
-        self.zoneId = zoneId
-        self.blockNumber = blockNumber
+    def __init__(self, suitGraph, pointA, pointB, type):
+        self.suitGraph = suitGraph
         self.pointA = pointA
         self.pointB = pointB
+        self.posA = pointA.getPos()
+        self.posB = pointB.getPos()
         self.type = type
 
-        self.posA = self.pointA.getPos()
-        self.posB = self.pointB.getPos()
-
-        distance = (self.posB - self.posA).length()
-        self.legTime = distance / ToontownGlobals.SuitWalkSpeed
-        self.endTime = self.startTime + self.getLegTime()
-
-    def getStartTime(self):
-        return self.startTime
-
-    def getZoneId(self):
-        return self.zoneId
-
-    def getBlockNumber(self):
-        return self.blockNumber
-
-    def getPointA(self):
-        return self.pointA
-
-    def getPointB(self):
-        return self.pointB
-
-    def getType(self):
-        return self.type
+    def getLegTime(self):
+        if self.type in (SuitLeg.TWalk, SuitLeg.TWalkFromStreet,
+                         SuitLeg.TWalkToStreet):
+            return (
+                self.posA - self.posB).length() / ToontownGlobals.SuitWalkSpeed
+        elif self.type == SuitLeg.TFromSky:
+            return SuitTimings.fromSky
+        elif self.type == SuitLeg.TToSky:
+            return SuitTimings.toSky
+        elif self.type == SuitLeg.TFromSuitBuilding:
+            return SuitTimings.fromSuitBuilding
+        elif self.type == SuitLeg.TToSuitBuilding:
+            return SuitTimings.toSuitBuilding
+        elif self.type == SuitLeg.TToToonBuilding:
+            return SuitTimings.toToonBuilding
+        else:
+            return SuitTimings.toToonBuilding
 
     def getPosA(self):
         return self.posA
@@ -68,158 +200,38 @@ class SuitLeg:
     def getPosB(self):
         return self.posB
 
-    def getLegTime(self):
-        if self.type in (SuitLeg.TWalk, SuitLeg.TWalkFromStreet,
-                         SuitLeg.TWalkToStreet):
-            return self.legTime
-        if self.type == SuitLeg.TFromSky:
-            return SuitTimings.fromSky
-        if self.type == SuitLeg.TToSky:
-            return SuitTimings.toSky
-        if self.type == SuitLeg.TFromSuitBuilding:
-            return SuitTimings.fromSuitBuilding
-        if self.type == SuitLeg.TToSuitBuilding:
-            return SuitTimings.toSuitBuilding
-        if self.type in (SuitLeg.TToToonBuilding, SuitLeg.TToCogHQ,
-                         SuitLeg.TFromCogHQ):
-            return SuitTimings.toToonBuilding
-        return 0.0
-
-    def getEndTime(self):
-        return self.endTime
-
     def getPosAtTime(self, time):
         if self.type in (SuitLeg.TFromSky, SuitLeg.TFromSuitBuilding,
-                         SuitLeg.TFromCogHQ):
-            return self.posA
+                         SuitLeg.TFromCoghq):
+            return self.getPosA()
         elif self.type in (SuitLeg.TToSky, SuitLeg.TToSuitBuilding,
-                           SuitLeg.TToToonBuilding, SuitLeg.TToCogHQ,
+                           SuitLeg.TToToonBuilding, SuitLeg.TToCoghq,
                            SuitLeg.TOff):
-            return self.posB
+            return self.getPosB()
 
-        delta = self.posB - self.posA
-        return self.posA + (delta * (time/self.getLegTime()))
+        fraction = time / self.getLegTime()
+        fraction = min(max(fraction, 0.0), 1.0)
 
-    def getTypeName(self):
-        if self.type in SuitLeg.TypeToName:
-            return SuitLeg.TypeToName[self.type]
-        return '**invalid**'
+        delta = self.getPosB() - self.getPosA()
+        pos = self.getPosA() + delta * (time / self.getLegTime())
 
+        return pos
 
-class SuitLegList:
-    def __init__(self, path, dnaStore):
-        self.path = path
-        self.dnaStore = dnaStore
+    def getZone(self):
+        return self.suitGraph.getEdgeZone(
+            self.suitGraph.getConnectingEdge(
+                self.pointA, self.pointB))
 
-        self.legs = []
-
-        # First, add the initial SuitLeg:
-        self.add(self.path.getPoint(0), self.path.getPoint(1), self.getFirstLegType())
-
-        # Next, connect each of the points in our path through SuitLegs:
-        for i in xrange(self.path.getNumPoints() - 1):
-            pointA = self.path.getPoint(i)
-            pointB = self.path.getPoint(i + 1)
-            pointTypeA = pointA.getPointType()
-            pointTypeB = pointB.getPointType()
-            legType = self.getLegType(pointTypeA, pointTypeB)
-
-            if pointTypeA == DNASuitPoint.COGHQ_OUT_POINT:
-                # We're going out of a door, so we'll need to insert a door
-                # leg before the move:
-                self.add(pointA, pointB, SuitLeg.TFromCogHQ)
-
-            self.add(pointA, pointB, legType)
-
-            if pointTypeB == DNASuitPoint.COGHQ_IN_POINT:
-                # We're going into a door, so we'll need to insert a door leg
-                # after the move:
-                self.add(pointA, pointB, SuitLeg.TToCogHQ)
-
-        # Add the last SuitLeg:
-        numPoints = self.path.getNumPoints()
-        pointA = self.path.getPoint(numPoints - 2)
-        pointB = self.path.getPoint(numPoints - 1)
-        self.add(pointA, pointB, self.getLastLegType())
-
-        # Finally, take down the suit:
-        self.add(pointA, pointB, SuitLeg.TOff)
-
-    def add(self, pointA, pointB, legType):
-        zoneId = self.dnaStore.getSuitEdgeZone(pointA.getIndex(), pointB.getIndex())
-        landmarkBuildingIndex = pointB.getLandmarkBuildingIndex()
-        if landmarkBuildingIndex == -1:
-            landmarkBuildingIndex = pointA.getLandmarkBuildingIndex()
-        startTime = 0.0
-        if len(self.legs) > 0:
-            startTime = self.legs[-1].getEndTime()
-        leg = SuitLeg(startTime, zoneId, landmarkBuildingIndex, pointA, pointB, legType)
-        self.legs.append(leg)
-
-    def getFirstLegType(self):
-        if self.path.getPoint(0).getPointType() == DNASuitPoint.SIDE_DOOR_POINT:
-            return SuitLeg.TFromSuitBuilding
+    def getBlockNumber(self):
+        block = self.pointB.getLandmarkBuildingIndex()
+        if block is not None:
+            return block
         else:
-            return SuitLeg.TFromSky
+            return self.pointA.getLandmarkBuildingIndex()
 
-    def getLegType(self, pointTypeA, pointTypeB):
-        if pointTypeA in (DNASuitPoint.FRONT_DOOR_POINT,
-                          DNASuitPoint.SIDE_DOOR_POINT):
-            return SuitLeg.TWalkToStreet
-        if pointTypeB in (DNASuitPoint.FRONT_DOOR_POINT,
-                          DNASuitPoint.SIDE_DOOR_POINT):
-            return SuitLeg.TWalkFromStreet
-        return SuitLeg.TWalk
+    @staticmethod
+    def getTypeName(type):
+        return SuitLeg.TypeToName[type]
 
-    def getLastLegType(self):
-        endPoint = self.path.getPoint(self.path.getNumPoints() - 1)
-        endPointType = endPoint.getPointType()
-        if endPointType == DNASuitPoint.FRONT_DOOR_POINT:
-            return SuitLeg.TToToonBuilding
-        if endPointType == DNASuitPoint.SIDE_DOOR_POINT:
-            return SuitLeg.TToSuitBuilding
-        return SuitLeg.TToSky
-
-    def getNumLegs(self):
-        return len(self.legs)
-
-    def getLeg(self, index):
-        return self.legs[index]
-
-    def getType(self, index):
-        return self.legs[index].getType()
-
-    def getLegTime(self, index):
-        return self.legs[index].getLegTime()
-
-    def getZoneId(self, index):
-        return self.legs[index].getZoneId()
-
-    def getBlockNumber(self, index):
-        return self.legs[index].getBlockNumber()
-
-    def getPointA(self, index):
-        return self.legs[index].getPointA()
-
-    def getPointB(self, index):
-        return self.legs[index].getPointB()
-
-    def getStartTime(self, index):
-        return self.legs[index].getStartTime()
-
-    def getLegIndexAtTime(self, time, startLegIndex):
-        for i, leg in enumerate(self.legs):
-            if leg.getEndTime() > time:
-                break
-        return i
-
-    def isPointInRange(self, point, lowTime, highTime):
-        legIndex = self.getLegIndexAtTime(lowTime, 0)
-        while legIndex < self.getNumLegs():
-            leg = self.legs[legIndex]
-            if leg.getEndTime() > highTime:
-                break
-            if (leg.pointA == point) or (leg.pointB == point):
-                return True
-            legIndex += 1
-        return False
+    def getType(self):
+        return self.type

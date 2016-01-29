@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.DistributedPartyCatchActivityBase
 import math
 from direct.directnotify import DirectNotifyGlobal
 from toontown.minigame.DropScheduler import ThreePhaseDropScheduler

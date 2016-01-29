@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 import FriendsListPanel
 import FriendInviter
 import FriendInvitee
@@ -17,7 +17,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toon import Toon
 import FriendHandle
 from otp.otpbase import OTPGlobals
-from toontown.nametag import NametagGlobals
+from otp.nametag import NametagGlobals
 
 class FriendsListManager:
     notify = DirectNotifyGlobal.directNotify.newCategory('FriendsListManager')
@@ -53,7 +53,7 @@ class FriendsListManager:
         self.accept('clickedNametag', self.__handleClickedNametag)
         self.accept('clickedNametagPlayer', self.__handleClickedNametagPlayer)
         base.localAvatar.setFriendsListButtonActive(1)
-        NametagGlobals.setWantActiveNametags(True)
+        NametagGlobals.setMasterNametagsActive(1)
         self.accept('gotoAvatar', self.__handleGotoAvatar)
         self.accept('friendAvatar', self.__handleFriendAvatar)
         self.accept('avatarDetails', self.__handleAvatarDetails)
@@ -74,7 +74,7 @@ class FriendsListManager:
         self.ignore('clickedNametag')
         self.ignore('clickedNametagPlayer')
         base.localAvatar.setFriendsListButtonActive(0)
-        NametagGlobals.setWantActiveNametags(False)
+        NametagGlobals.setMasterNametagsActive(0)
         if self.avatarPanel:
             self.avatarPanel.cleanup()
             self.avatarPanel = None
@@ -96,6 +96,7 @@ class FriendsListManager:
         FriendsListPanel.showFriendsList()
 
     def __handleClickedNametag(self, avatar, playerId = None):
+        base.hideFriendMargins()
         self.notify.debug('__handleClickedNametag. doId = %s' % avatar.doId)
         if avatar.isPet():
             self.avatarPanel = PetAvatarPanel.PetAvatarPanel(avatar)
@@ -182,6 +183,7 @@ class FriendsListManager:
         else:
             friendToon = base.cr.doId2do.get(avId)
             if friendToon:
+                print 'got toon'
                 dna = friendToon.getStyle()
                 FriendNotifier.FriendNotifier(avId, friendToon.getName(), dna, None)
         return

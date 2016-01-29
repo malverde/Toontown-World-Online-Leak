@@ -2,7 +2,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.gui import DirectGui
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.hood import ZoneUtil
 from toontown.launcher import DownloadForceAcknowledge
 from toontown.safezone.SafeZoneLoader import SafeZoneLoader
@@ -10,7 +10,7 @@ from toontown.safezone.GZPlayground import GZPlayground
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 import random
-if (__debug__):
+if __debug__:
     import pdb
 
 class GZSafeZoneLoader(SafeZoneLoader):
@@ -19,8 +19,8 @@ class GZSafeZoneLoader(SafeZoneLoader):
         SafeZoneLoader.__init__(self, hood, parentFSM, doneEvent)
         self.musicFile = 'phase_6/audio/bgm/GZ_SZ.ogg'
         self.activityMusicFile = 'phase_6/audio/bgm/GS_KartShop.ogg'
-        self.dnaFile = 'phase_6/dna/golf_zone_sz.pdna'
-        self.safeZoneStorageDNAFile = 'phase_6/dna/storage_GZ_sz.pdna'
+        self.dnaFile = 'phase_6/dna/golf_zone_sz.xml'
+        self.safeZoneStorageDNAFile = 'phase_6/dna/storage_GZ_sz.xml'
         del self.fsm
         self.fsm = ClassicFSM.ClassicFSM('SafeZoneLoader', [State.State('start', self.enterStart, self.exitStart, ['quietZone', 'playground', 'toonInterior']),
          State.State('playground', self.enterPlayground, self.exitPlayground, ['quietZone', 'golfcourse']),

@@ -1,7 +1,9 @@
+# Embedded file name: toontown.catalog.CatalogInvalidItem
 import CatalogItem
 from toontown.toonbase import TTLocalizer
 from direct.showbase import PythonUtil
 from toontown.toonbase import ToontownGlobals
+
 
 class CatalogInvalidItem(CatalogItem.CatalogItem):
 
@@ -11,5 +13,5 @@ class CatalogInvalidItem(CatalogItem.CatalogItem):
     def acceptItem(self, mailbox, index, callback):
         self.notify.error('Attempt to accept invalid item.')
 
-    def output(self, store = -1):
+    def output(self, store=-1):
         return 'CatalogInvalidItem()'

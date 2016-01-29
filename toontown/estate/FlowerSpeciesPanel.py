@@ -1,7 +1,8 @@
+#Embedded file name: toontown.estate.FlowerSpeciesPanel
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 import GardenGlobals
 import FlowerPhoto
@@ -49,7 +50,6 @@ class FlowerSpeciesPanel(DirectFrame):
         self.setScale(1.2)
         albumGui.removeNode()
         self.beanRecipeGui = None
-        return
 
     def destroy(self):
         if self.flowerPanel:
@@ -58,7 +58,6 @@ class FlowerSpeciesPanel(DirectFrame):
         self.flowerCollection = None
         self.cleanupBeanRecipeGui()
         DirectFrame.destroy(self)
-        return
 
     def load(self):
         pass
@@ -85,13 +84,8 @@ class FlowerSpeciesPanel(DirectFrame):
             if not len(varietyList) % 2:
                 startPos -= offset / 2
             for variety in range(len(varietyList)):
-                label = DirectButton(parent=self, frameSize=(0,
-                 0.445,
-                 -0.02,
-                 0.04), relief=None, state=DGG.DISABLED, pos=(0.06, 0, startPos - variety * offset), text=TTLocalizer.FlowerUnknown, text_fg=(0.2, 0.1, 0.0, 1), text_scale=(0.045, 0.045, 0.45), text_align=TextNode.ALeft, text_font=ToontownGlobals.getInterfaceFont(), command=self.changeVariety, extraArgs=[variety], text1_bg=Vec4(1, 1, 0, 1), text2_bg=Vec4(0.5, 0.9, 1, 1), text3_fg=Vec4(0.4, 0.8, 0.4, 1))
+                label = DirectButton(parent=self, frameSize=(0, 0.445, -0.02, 0.04), relief=None, state=DGG.DISABLED, pos=(0.06, 0, startPos - variety * offset), text=TTLocalizer.FlowerUnknown, text_fg=(0.2, 0.1, 0.0, 1), text_scale=(0.045, 0.045, 0.45), text_align=TextNode.ALeft, text_font=ToontownGlobals.getInterfaceFont(), command=self.changeVariety, extraArgs=[variety], text1_bg=Vec4(1, 1, 0, 1), text2_bg=Vec4(0.5, 0.9, 1, 1), text3_fg=Vec4(0.4, 0.8, 0.4, 1))
                 self.speciesLabels.append(label)
-
-        return
 
     def show(self):
         self.update()
@@ -103,7 +97,6 @@ class FlowerSpeciesPanel(DirectFrame):
         if self.beanRecipeGui is not None:
             self.beanRecipeGui.hide()
         DirectFrame.hide(self)
-        return
 
     def showRecipe(self):
         if base.localAvatar.flowerCollection.hasSpecies(self.species):
@@ -150,4 +143,3 @@ class FlowerSpeciesPanel(DirectFrame):
         if self.beanRecipeGui:
             self.beanRecipeGui.destroy()
             self.beanRecipeGui = None
-        return

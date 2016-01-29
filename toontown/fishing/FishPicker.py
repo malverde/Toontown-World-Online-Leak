@@ -1,7 +1,7 @@
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 import FishPanel
 
@@ -54,7 +54,6 @@ class FishPicker(DirectScrolledList):
         self.fishPanel.setSwimBounds(-0.3, 0.3, -0.235, 0.25)
         self.fishPanel.setSwimColor(1.0, 1.0, 0.74901, 1.0)
         gui.removeNode()
-        return None
 
     def destroy(self):
         DirectScrolledList.destroy(self)

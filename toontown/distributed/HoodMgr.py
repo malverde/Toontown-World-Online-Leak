@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.launcher import DownloadForceAcknowledge
@@ -6,6 +6,7 @@ import string
 import random
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil
+
 
 class HoodMgr(DirectObject.DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('HoodMgr')
@@ -115,7 +116,7 @@ class HoodMgr(DirectObject.DirectObject):
             [20, -88, 0.0, -123.4, 0.0, 0.0],
             [76, -90, 0.0, 11.0, 0.0, 0.0]
         ),
-        ToontownGlobals.FunnyFarm: ( # TODO: Drop points!
+        ToontownGlobals.FunnyFarm: (  # TODO: Drop points!
             [0, 0, 0, 0, 0, 0],
         ),
         ToontownGlobals.GoofySpeedway: (
@@ -218,12 +219,14 @@ class HoodMgr(DirectObject.DirectObject):
             return random.choice(dropPointList)
         else:
             droppnt = self.currentDropPoint % len(dropPointList)
-            self.currentDropPoint = (self.currentDropPoint + 1) % len(dropPointList)
+            self.currentDropPoint = (
+                self.currentDropPoint + 1) % len(dropPointList)
             return dropPointList[droppnt]
 
     def getAvailableZones(self):
-        if base.launcher == None:
-            return self.getZonesInPhase(4) + self.getZonesInPhase(6) + self.getZonesInPhase(8) + self.getZonesInPhase(9) + self.getZonesInPhase(10) + self.getZonesInPhase(11) + self.getZonesInPhase(12) + self.getZonesInPhase(13)
+        if base.launcher is None:
+            return self.getZonesInPhase(4) + self.getZonesInPhase(6) + self.getZonesInPhase(8) + self.getZonesInPhase(
+                9) + self.getZonesInPhase(10) + self.getZonesInPhase(11) + self.getZonesInPhase(12) + self.getZonesInPhase(13)
         else:
             zones = []
             for phase in set(ToontownGlobals.phaseMap.values()):
@@ -250,7 +253,9 @@ class HoodMgr(DirectObject.DirectObject):
         if dropPointList:
             return self.getDropPoint(dropPointList)
         else:
-            self.notify.warning('getPlaygroundCenterFromId: No such hood name as: ' + str(hoodId))
+            self.notify.warning(
+                'getPlaygroundCenterFromId: No such hood name as: ' +
+                str(hoodId))
             return self.DefaultDropPoint
         return
 
@@ -296,15 +301,18 @@ class HoodMgr(DirectObject.DirectObject):
                 if not linkSphere.isEmpty():
                     cnode = linkSphere.node()
                     cnode.setName('tunnel_trigger_' + hoodStr + '_' + zoneStr)
-                    cnode.setCollideMask(ToontownGlobals.WallBitmask | ToontownGlobals.GhostBitmask)
+                    cnode.setCollideMask(
+                        ToontownGlobals.WallBitmask | ToontownGlobals.GhostBitmask)
                 else:
-                    linkSphere = linkTunnel.find('**/tunnel_trigger_' + hoodStr + '_' + zoneStr)
+                    linkSphere = linkTunnel.find(
+                        '**/tunnel_trigger_' + hoodStr + '_' + zoneStr)
                     if linkSphere.isEmpty():
                         self.notify.error('tunnel_trigger not found')
                 tunnelOrigin = linkTunnel.find('**/tunnel_origin')
                 if tunnelOrigin.isEmpty():
                     self.notify.error('tunnel_origin not found')
-                tunnelOriginPlaceHolder = render.attachNewNode('toph_' + hoodStr + '_' + zoneStr)
+                tunnelOriginPlaceHolder = render.attachNewNode(
+                    'toph_' + hoodStr + '_' + zoneStr)
                 tunnelOriginList.append(tunnelOriginPlaceHolder)
                 tunnelOriginPlaceHolder.setPos(tunnelOrigin.getPos(render))
                 tunnelOriginPlaceHolder.setHpr(tunnelOrigin.getHpr(render))
@@ -315,14 +323,14 @@ class HoodMgr(DirectObject.DirectObject):
                 else:
                     how = 'tunnelIn'
                     tutorialFlag = 0
-                hoodPart.accept('enter' + linkSphere.getName(), hoodPart.handleEnterTunnel, [{'loader': ZoneUtil.getLoaderName(zoneId),
-                  'where': ZoneUtil.getToonWhereName(zoneId),
-                  'how': how,
-                  'hoodId': hoodId,
-                  'zoneId': zoneId,
-                  'shardId': None,
-                  'tunnelOrigin': tunnelOriginPlaceHolder,
-                  'tutorial': tutorialFlag}])
+                hoodPart.accept(
+                    'enter' + linkSphere.getName(),
+                    hoodPart.handleEnterTunnel,
+                    [{'loader': ZoneUtil.getLoaderName(zoneId),
+                      'where': ZoneUtil.getToonWhereName(zoneId),
+                      'how': how, 'hoodId': hoodId, 'zoneId': zoneId,
+                      'shardId': None, 'tunnelOrigin': tunnelOriginPlaceHolder,
+                      'tutorial': tutorialFlag}])
 
         return tunnelOriginList
 

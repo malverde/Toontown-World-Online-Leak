@@ -155,6 +155,11 @@ class DisplayOptions:
                 base.closeWindow(base.win)
                 return 0
             base.disableShowbaseMouse()
+            if 'libotp' in sys.modules:
+                from libotp import NametagGlobals
+                NametagGlobals.setCamera(base.cam)
+                NametagGlobals.setMouseWatcher(base.mouseWatcherNode)
+        else:
             self.notify.debug('Adjusting properties')
             base.win.requestProperties(properties)
             base.graphicsEngine.renderFrame()

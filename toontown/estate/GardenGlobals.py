@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.GardenGlobals
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
 import random
@@ -307,7 +308,7 @@ def getTreeTypeIndex(track, level):
     return track * 7 + level
 
 
-NUM_GAGS = 7 * 7
+NUM_GAGS = 49
 for i in range(NUM_GAGS):
     track, level = getTreeTrackAndLevel(i)
     if level <= 6:
@@ -596,7 +597,7 @@ def getSpeciesVarietyGivenRecipe(recipeKey):
         attrib = PlantAttributes[species]
         if attrib['plantType'] == GAG_TREE_TYPE:
             continue
-        if 'varieties' in attrib:
+        if attrib.has_key('varieties'):
             for variety in range(len(attrib['varieties'])):
                 if attrib['varieties'][variety][0] == recipeKey:
                     return (species, variety)
@@ -608,14 +609,14 @@ def getNumBeansRequired(species, variety):
     retval = -1
     if not PlantAttributes.get(species):
         return retval
-    if 'varieties' not in PlantAttributes[species]:
+    if not PlantAttributes[species].has_key('varieties'):
         return retval
     if variety >= len(PlantAttributes[species]['varieties']):
         return -1
     recipeKey = PlantAttributes[species]['varieties'][variety][0]
     recipe = Recipes.get(recipeKey)
     if recipe:
-        if "beans" in recipe:
+        if recipe.has_key('beans'):
             retval = len(recipe['beans'])
     return retval
 

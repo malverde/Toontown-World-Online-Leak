@@ -1,7 +1,8 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObject import DistributedObject
-if (__debug__):
+if __debug__:
     import pdb
+
 
 class DistributedKartPad(DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedKartPad')
@@ -22,4 +23,6 @@ class DistributedKartPad(DistributedObject):
 
     def addStartingBlock(self, block):
         self.startingBlocks.append(block)
-        self.notify.debug('KartPad %s has added starting block %s' % (self.doId, block.doId))
+        self.notify.debug(
+            'KartPad %s has added starting block %s' %
+            (self.doId, block.doId))

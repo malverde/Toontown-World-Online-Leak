@@ -3,8 +3,8 @@ from toontown.toonbase import ToontownGlobals
 import copy
 from toontown.chat import ToonChatGarbler
 
-
 class FriendHandle:
+
     def __init__(self, doId, name, style, petId, isAPet = False):
         self.doId = doId
         self.style = style
@@ -39,27 +39,28 @@ class FriendHandle:
     def uniqueName(self, idString):
         return idString + '-' + str(self.getDoId())
 
-    def d_battleSOS(self, sendToId):
-        base.cr.ttrFriendsManager.d_battleSOS(self.doId)
+    def d_battleSOS(self, requesterId):
+        base.localAvatar.sendUpdate('battleSOS', [requesterId], sendToId=self.doId)
 
     def d_teleportQuery(self, requesterId):
         teleportNotify.debug('sending d_teleportQuery(%s)' % (requesterId,))
-
-        base.cr.ttrFriendsManager.d_teleportQuery(self.doId)
+        base.localAvatar.sendUpdate('teleportQuery', [requesterId], sendToId=self.doId)
 
     def d_teleportResponse(self, avId, available, shardId, hoodId, zoneId):
-        teleportNotify.debug('sending teleportResponse%s' % ((avId, available,
-            shardId, hoodId, zoneId),)
-        )
-
-        base.cr.ttrFriendsManager.d_teleportResponse(self.doId, available,
-            shardId, hoodId, zoneId
-        )
+        teleportNotify.debug('sending teleportResponse%s' % ((avId,
+          available,
+          shardId,
+          hoodId,
+          zoneId),))
+        base.localAvatar.sendUpdate('teleportResponse', [avId,
+         available,
+         shardId,
+         hoodId,
+         zoneId], sendToId=self.doId)
 
     def d_teleportGiveup(self, requesterId):
         teleportNotify.debug('sending d_teleportGiveup(%s)' % (requesterId,))
-
-        base.cr.ttrFriendsManager.d_teleportGiveup(self.doId)
+        base.localAvatar.sendUpdate('teleportGiveup', [requesterId], sendToId=self.doId)
 
     def isUnderstandable(self):
         if self.commonChatFlags & base.localAvatar.commonChatFlags & ToontownGlobals.CommonChat:
@@ -100,7 +101,7 @@ class FriendHandle:
                 scrubbed = 1
 
         newText = ' '.join(newwords)
-        return (newText, scrubbed)
+        return newText, scrubbed
 
     def replaceBadWords(self, text):
         words = text.split(' ')

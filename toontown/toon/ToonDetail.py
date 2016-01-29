@@ -1,3 +1,4 @@
+#Embedded file name: toontown.toon.ToonDetail
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from otp.avatar import AvatarDetail
 from toontown.toon import DistributedToon

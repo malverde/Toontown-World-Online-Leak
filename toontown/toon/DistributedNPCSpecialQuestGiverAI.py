@@ -1,5 +1,5 @@
 from direct.task.Task import Task
-from pandac.PandaModules import *
+from panda3d.core import *
 from DistributedNPCToonBaseAI import *
 from toontown.quest import Quests
 
@@ -18,9 +18,6 @@ class DistributedNPCSpecialQuestGiverAI(DistributedNPCToonBaseAI):
     def setTutorial(self, val):
         self.tutorial = val
 
-    def setHq(self, hq):
-        self.hq = hq
-        
     def getHq(self):
         return self.hq
 

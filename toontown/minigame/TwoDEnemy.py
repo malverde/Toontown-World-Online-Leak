@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase import PythonUtil
@@ -84,8 +84,6 @@ class TwoDEnemy(DirectObject):
         self.suit.pose('walk', 0)
         self.suitName = 'Enemy-%s' % self.index
         self.suit.setName(self.suitName)
-        self.suit.nametag.setNametag2d(None)
-        self.suit.nametag.setNametag3d(None)        
         suitPosAttribs = suitAttribs[1]
         initX, initY, initZ = suitPosAttribs[0]
         initPos = Point3(initX, initY, initZ)

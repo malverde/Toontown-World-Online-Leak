@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.directtools.DirectGeometry import CLAMP
@@ -19,17 +19,17 @@ from toontown.distributed.DelayDeletable import DelayDeletable
 import math
 import copy
 import DistributedSuitBase
-from toontown.chat.ChatGlobals import *
 from otp.otpbase import OTPLocalizer
 import random
 from SuitLegList import *
-from toontown.nametag import NametagGlobals
-from toontown.nametag.NametagGlobals import *
+from otp.nametag.NametagConstants import *
+from otp.nametag import NametagGlobals
 STAND_OUTSIDE_DOOR = 2.5
 BATTLE_IGNORE_TIME = 6
 BATTLE_WAIT_TIME = 3
 CATCHUP_SPEED_MULTIPLIER = 3
 ALLOW_BATTLE_DETECT = 1
+
 
 class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedSuit')
@@ -77,109 +77,109 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
                             'DanceThenFlyAway',
                             'WalkToStreet',
                             'WalkFromStreet']),
-         State.State('FromSky',
-                     self.enterFromSky,
-                     self.exitFromSky, [
-                         'Walk',
-                         'Battle',
-                         'neutral',
-                         'ToSky',
-                         'WalkFromStreet']),
-         State.State('FromSuitBuilding',
-                     self.enterFromSuitBuilding,
-                     self.exitFromSuitBuilding, [
-                         'WalkToStreet',
-                         'Walk',
-                         'Battle',
-                         'neutral',
-                         'ToSky']),
-         State.State('WalkToStreet',
-                     self.enterWalkToStreet,
-                     self.exitWalkToStreet, [
-                         'Walk',
-                         'Battle',
-                         'neutral',
-                         'ToSky',
-                         'ToToonBuilding',
-                         'ToSuitBuilding',
-                         'ToCogHQ',
-                         'WalkFromStreet']),
-         State.State('WalkFromStreet',
-                     self.enterWalkFromStreet,
-                     self.exitWalkFromStreet, [
-                         'ToToonBuilding',
-                         'ToSuitBuilding',
-                         'ToCogHQ',
-                         'Battle',
-                         'neutral',
-                         'ToSky']),
-         State.State('Walk',
-                     self.enterWalk,
-                     self.exitWalk, [
-                         'WaitForBattle',
-                         'Battle',
-                         'neutral',
-                         'WalkFromStreet',
-                         'ToSky',
-                         'ToCogHQ',
-                         'Walk']),
-         State.State('Battle',
-                     self.enterBattle,
-                     self.exitBattle, [
-                         'Walk',
-                         'ToToonBuilding',
-                         'ToCogHQ',
-                         'ToSuitBuilding',
-                         'ToSky']),
-         State.State('neutral',
-                     self.enterNeutral,
-                     self.exitNeutral, []),
-         State.State('WaitForBattle',
-                     self.enterWaitForBattle,
-                     self.exitWaitForBattle, [
-                         'Battle',
-                         'neutral',
-                         'Walk',
-                         'WalkToStreet',
-                         'WalkFromStreet',
-                         'ToToonBuilding',
-                         'ToCogHQ',
-                         'ToSuitBuilding',
-                         'ToSky']),
-         State.State('ToToonBuilding',
-                     self.enterToToonBuilding,
-                     self.exitToToonBuilding, [
-                         'neutral',
-                         'Battle']),
-         State.State('ToSuitBuilding',
-                     self.enterToSuitBuilding,
-                     self.exitToSuitBuilding, [
-                         'neutral',
-                         'Battle']),
-         State.State('ToCogHQ',
-                     self.enterToCogHQ,
-                     self.exitToCogHQ, [
-                         'neutral',
-                         'Battle']),
-         State.State('FromCogHQ',
-                     self.enterFromCogHQ,
-                     self.exitFromCogHQ, [
-                         'neutral',
-                         'Battle',
-                         'Walk']),
-         State.State('ToSky',
-                     self.enterToSky,
-                     self.exitToSky, [
-                         'Battle']),
-         State.State('FlyAway',
-                     self.enterFlyAway,
-                     self.exitFlyAway,
-                     []),
-         State.State('DanceThenFlyAway',
-                     self.enterDanceThenFlyAway,
-                     self.exitDanceThenFlyAway,
-                     [])],
-         'Off', 'Off')
+            State.State('FromSky',
+                        self.enterFromSky,
+                        self.exitFromSky, [
+                            'Walk',
+                            'Battle',
+                            'neutral',
+                            'ToSky',
+                            'WalkFromStreet']),
+            State.State('FromSuitBuilding',
+                        self.enterFromSuitBuilding,
+                        self.exitFromSuitBuilding, [
+                            'WalkToStreet',
+                            'Walk',
+                            'Battle',
+                            'neutral',
+                            'ToSky']),
+            State.State('WalkToStreet',
+                        self.enterWalkToStreet,
+                        self.exitWalkToStreet, [
+                            'Walk',
+                            'Battle',
+                            'neutral',
+                            'ToSky',
+                            'ToToonBuilding',
+                            'ToSuitBuilding',
+                            'ToCogHQ',
+                            'WalkFromStreet']),
+            State.State('WalkFromStreet',
+                        self.enterWalkFromStreet,
+                        self.exitWalkFromStreet, [
+                            'ToToonBuilding',
+                            'ToSuitBuilding',
+                            'ToCogHQ',
+                            'Battle',
+                            'neutral',
+                            'ToSky']),
+            State.State('Walk',
+                        self.enterWalk,
+                        self.exitWalk, [
+                            'WaitForBattle',
+                            'Battle',
+                            'neutral',
+                            'WalkFromStreet',
+                            'ToSky',
+                            'ToCogHQ',
+                            'Walk']),
+            State.State('Battle',
+                        self.enterBattle,
+                        self.exitBattle, [
+                            'Walk',
+                            'ToToonBuilding',
+                            'ToCogHQ',
+                            'ToSuitBuilding',
+                            'ToSky']),
+            State.State('neutral',
+                        self.enterNeutral,
+                        self.exitNeutral, []),
+            State.State('WaitForBattle',
+                        self.enterWaitForBattle,
+                        self.exitWaitForBattle, [
+                            'Battle',
+                            'neutral',
+                            'Walk',
+                            'WalkToStreet',
+                            'WalkFromStreet',
+                            'ToToonBuilding',
+                            'ToCogHQ',
+                            'ToSuitBuilding',
+                            'ToSky']),
+            State.State('ToToonBuilding',
+                        self.enterToToonBuilding,
+                        self.exitToToonBuilding, [
+                            'neutral',
+                            'Battle']),
+            State.State('ToSuitBuilding',
+                        self.enterToSuitBuilding,
+                        self.exitToSuitBuilding, [
+                            'neutral',
+                            'Battle']),
+            State.State('ToCogHQ',
+                        self.enterToCogHQ,
+                        self.exitToCogHQ, [
+                            'neutral',
+                            'Battle']),
+            State.State('FromCogHQ',
+                        self.enterFromCogHQ,
+                        self.exitFromCogHQ, [
+                            'neutral',
+                            'Battle',
+                            'Walk']),
+            State.State('ToSky',
+                        self.enterToSky,
+                        self.exitToSky, [
+                            'Battle']),
+            State.State('FlyAway',
+                        self.enterFlyAway,
+                        self.exitFlyAway,
+                        []),
+            State.State('DanceThenFlyAway',
+                        self.enterDanceThenFlyAway,
+                        self.exitDanceThenFlyAway,
+                        [])],
+            'Off', 'Off')
         self.fsm.enterInitialState()
         self.soundSequenceList = []
         self.__currentDialogue = None
@@ -209,7 +209,7 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
             DistributedSuitBase.DistributedSuitBase.delete(self)
 
     def setPathEndpoints(self, start, end, minPathLen, maxPathLen):
-        if self.pathEndpointStart == start and self.pathEndpointEnd == end and self.minPathLen == minPathLen and self.maxPathLen == maxPathLen and self.path != None:
+        if self.pathEndpointStart == start and self.pathEndpointEnd == end and self.minPathLen == minPathLen and self.maxPathLen == maxPathLen and self.path is not None:
             return
         self.pathEndpointStart = start
         self.pathEndpointEnd = end
@@ -225,28 +225,40 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
             return
         self.startPoint = self.sp.pointIndexes[self.pathEndpointStart]
         self.endPoint = self.sp.pointIndexes[self.pathEndpointEnd]
-        path = self.sp.genPath(self.startPoint, self.endPoint, self.minPathLen, self.maxPathLen)
-        self.setPath(path)
+        path = self.sp.genPath(
+            self.startPoint,
+            self.endPoint,
+            self.minPathLen,
+            self.maxPathLen)
+        self.setPath(self.sp.dnaData.suitGraph, path)
         self.makeLegList()
         return
 
     def verifySuitPlanner(self):
-        if self.sp == None and self.spDoId != 0:
-            self.notify.warning('Suit %d does not have a suit planner!  Expected SP doId %s.' % (self.doId, self.spDoId))
+        if self.sp is None and self.spDoId != 0:
+            self.notify.warning(
+                'Suit %d does not have a suit planner!  Expected SP doId %s.' %
+                (self.doId, self.spDoId))
             self.sp = self.cr.doId2do.get(self.spDoId, None)
-        if self.sp == None:
+        if self.sp is None:
             return 0
         return 1
 
     def setPathPosition(self, index, timestamp):
         if not self.verifySuitPlanner():
             return
-        if self.path == None:
-            self.setPathEndpoints(self.pathEndpointStart, self.pathEndpointEnd, self.minPathLen, self.maxPathLen)
+        if self.path is None:
+            self.setPathEndpoints(
+                self.pathEndpointStart,
+                self.pathEndpointEnd,
+                self.minPathLen,
+                self.maxPathLen)
         self.pathPositionIndex = index
-        self.pathPositionTimestamp = globalClockDelta.networkToLocalTime(timestamp)
-        if self.legList != None:
-            self.pathStartTime = self.pathPositionTimestamp - self.legList.getStartTime(self.pathPositionIndex)
+        self.pathPositionTimestamp = globalClockDelta.networkToLocalTime(
+            timestamp)
+        if self.legList is not None:
+            self.pathStartTime = self.pathPositionTimestamp - \
+                self.legList.getStartTime(self.pathPositionIndex)
         return
 
     def setPathState(self, state):
@@ -265,7 +277,7 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         if abs(timeDiff) > 0.2:
             print "%s (%d) appears to be %0.2f seconds out of sync along its path.  Suggest '~cogs sync'." % (self.getName(), self.getDoId(), timeDiff)
             return
-        if self.legList == None:
+        if self.legList is None:
             print "%s (%d) doesn't have a legList yet." % (self.getName(), self.getDoId())
             return
         netPos = Point3(x, y, 0.0)
@@ -283,13 +295,13 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         diff = localDelta.length()
         if diff > 10.0:
             print '%s (%d) in state %s is %0.2f feet from its correct position!' % (self.getName(),
-             self.getDoId(),
-             self.fsm.getCurrentState().getName(),
-             diff)
+                                                                                    self.getDoId(),
+                                                                                    self.fsm.getCurrentState().getName(),
+                                                                                    diff)
             print 'Should be at (%0.2f, %0.2f), but is at (%0.2f, %0.2f).' % (x,
-             y,
-             localPos[0],
-             localPos[1])
+                                                                              y,
+                                                                              localPos[0],
+                                                                              localPos[1])
             return
         print '%s (%d) is in the correct position.' % (self.getName(), self.getDoId())
         return
@@ -307,14 +319,14 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
                 self.moveToNextLeg(None)
             elif state == 2:
                 self.stopPathNow()
-                if self.sp != None:
+                if self.sp is not None:
                     self.setState('Off')
                     self.setState('FlyAway')
             elif state == 3:
                 pass
             elif state == 4:
                 self.stopPathNow()
-                if self.sp != None:
+                if self.sp is not None:
                     self.setState('Off')
                     self.setState('DanceThenFlyAway')
             else:
@@ -322,8 +334,10 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         return
 
     def moveToNextLeg(self, task):
-        if self.legList == None:
-            self.notify.warning('Suit %d does not have a path!' % self.getDoId())
+        if self.legList is None:
+            self.notify.warning(
+                'Suit %d does not have a path!' %
+                self.getDoId())
             return Task.done
         now = globalClock.getFrameTime()
         elapsed = now - self.pathStartTime
@@ -331,7 +345,10 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         numLegs = self.legList.getNumLegs()
         if self.currentLeg != nextLeg:
             self.currentLeg = nextLeg
-            self.doPathLeg(self.legList.getLeg(nextLeg), elapsed - self.legList.getStartTime(nextLeg))
+            self.doPathLeg(
+                self.legList[nextLeg],
+                elapsed -
+                self.legList.getStartTime(nextLeg))
         nextLeg += 1
         if nextLeg < numLegs:
             nextTime = self.legList.getStartTime(nextLeg)
@@ -342,9 +359,8 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         return Task.done
 
     def doPathLeg(self, leg, time):
-        self.fsm.request(leg.getTypeName(), [leg, time])
+        self.fsm.request(SuitLeg.getTypeName(leg.getType()), [leg, time])
         return 0
-
 
     def stopPathNow(self):
         name = self.taskName('move')
@@ -368,7 +384,7 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
             angle = math.atan2(ydelta, xdelta)
             return rad2Deg(angle) - 90
 
-    def beginBuildingMove(self, moveIn, doneEvent, suit = 0):
+    def beginBuildingMove(self, moveIn, doneEvent, suit=0):
         doorPt = Point3(0)
         buildingPt = Point3(0)
         streetPt = Point3(0)
@@ -390,30 +406,39 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
                 moveTime = SuitTimings.toToonBuilding
             return self.beginMove(doneEvent, buildingPt, time=moveTime)
         else:
-            return self.beginMove(doneEvent, doorPt, buildingPt, time=SuitTimings.fromSuitBuilding)
+            return self.beginMove(
+                doneEvent,
+                doorPt,
+                buildingPt,
+                time=SuitTimings.fromSuitBuilding)
         return None
 
     def setSPDoId(self, doId):
         self.spDoId = doId
         self.sp = self.cr.doId2do.get(doId, None)
-        if self.sp == None and self.spDoId != 0:
-            self.notify.warning('Suit %s created before its suit planner, %d' % (self.doId, self.spDoId))
+        if self.sp is None and self.spDoId != 0:
+            self.notify.warning(
+                'Suit %s created before its suit planner, %d' %
+                (self.doId, self.spDoId))
         return
 
     def d_requestBattle(self, pos, hpr):
         self.cr.playGame.getPlace().setState('WaitForBattle')
         self.sendUpdate('requestBattle', [pos[0],
-         pos[1],
-         pos[2],
-         hpr[0],
-         hpr[1],
-         hpr[2]])
+                                          pos[1],
+                                          pos[2],
+                                          hpr[0],
+                                          hpr[1],
+                                          hpr[2]])
 
     def __handleToonCollision(self, collEntry):
         if not base.localAvatar.wantBattles:
             return
         toonId = base.localAvatar.getDoId()
-        self.notify.debug('Distributed suit: requesting a Battle with ' + 'toon: %d' % toonId)
+        self.notify.debug(
+            'Distributed suit: requesting a Battle with ' +
+            'toon: %d' %
+            toonId)
         self.d_requestBattle(self.getPos(), self.getHpr())
         self.setState('WaitForBattle')
 
@@ -450,7 +475,13 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         self.enableRaycast(1)
         h = self.calculateHeading(a, b)
         self.setHprScale(h, 0.0, 0.0, 1.0, 1.0, 1.0)
-        self.mtrack = Sequence(LerpPosInterval(self, leg.getLegTime(), b, startPos=a1), name=self.taskName('walkToStreet'))
+        self.mtrack = Sequence(
+            LerpPosInterval(
+                self,
+                leg.getLegTime(),
+                b,
+                startPos=a1),
+            name=self.taskName('walkToStreet'))
         self.mtrack.start(time)
 
     def exitWalkToStreet(self):
@@ -471,7 +502,13 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         self.enableRaycast(1)
         h = self.calculateHeading(a, b)
         self.setHprScale(h, 0.0, 0.0, 1.0, 1.0, 1.0)
-        self.mtrack = Sequence(LerpPosInterval(self, leg.getLegTime(), b1, startPos=a), name=self.taskName('walkFromStreet'))
+        self.mtrack = Sequence(
+            LerpPosInterval(
+                self,
+                leg.getLegTime(),
+                b1,
+                startPos=a),
+            name=self.taskName('walkFromStreet'))
         self.mtrack.start(time)
 
     def exitWalkFromStreet(self):
@@ -488,7 +525,13 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         h = self.calculateHeading(a, b)
         pos = leg.getPosAtTime(time)
         self.setPosHprScale(pos[0], pos[1], pos[2], h, 0.0, 0.0, 1.0, 1.0, 1.0)
-        self.mtrack = Sequence(LerpPosInterval(self, leg.getLegTime(), b, startPos=a), name=self.taskName('bellicose'))
+        self.mtrack = Sequence(
+            LerpPosInterval(
+                self,
+                leg.getLegTime(),
+                b,
+                startPos=a),
+            name=self.taskName('bellicose'))
         self.mtrack.start(time)
 
     def exitWalk(self):
@@ -529,7 +572,13 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         self.enableRaycast(1)
         h = self.calculateHeading(a, b)
         self.setHprScale(h, 0.0, 0.0, 1.0, 1.0, 1.0)
-        self.mtrack = Sequence(LerpPosInterval(self, leg.getLegTime(), b1, startPos=a1), name=self.taskName('fromSuitBuilding'))
+        self.mtrack = Sequence(
+            LerpPosInterval(
+                self,
+                leg.getLegTime(),
+                b1,
+                startPos=a1),
+            name=self.taskName('fromSuitBuilding'))
         self.mtrack.start(time)
 
     def exitFromSuitBuilding(self):
@@ -558,7 +607,13 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         self.enableRaycast(1)
         h = self.calculateHeading(a, b)
         self.setHprScale(h, 0.0, 0.0, 1.0, 1.0, 1.0)
-        self.mtrack = Sequence(LerpPosInterval(self, leg.getLegTime(), b1, startPos=a1), name=self.taskName('toSuitBuilding'))
+        self.mtrack = Sequence(
+            LerpPosInterval(
+                self,
+                leg.getLegTime(),
+                b1,
+                startPos=a1),
+            name=self.taskName('toSuitBuilding'))
         self.mtrack.start(time)
 
     def exitToSuitBuilding(self):
@@ -615,7 +670,10 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         danceTrack = self.actorInterval('victory')
         b = Point3(self.getPos())
         flyMtrack = self.beginSupaFlyMove(b, 0, 'flyAway')
-        self.mtrack = Sequence(danceTrack, flyMtrack, name=self.taskName('danceThenFlyAway'))
+        self.mtrack = Sequence(
+            danceTrack,
+            flyMtrack,
+            name=self.taskName('danceThenFlyAway'))
         self.mtrack.start()
 
     def exitDanceThenFlyAway(self):
@@ -624,7 +682,7 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         del self.mtrack
         self.detachPropeller()
 
-    def playCurrentDialogue(self, dialogue, chatFlags, interrupt = 1):
+    def playCurrentDialogue(self, dialogue, chatFlags, interrupt=1):
         if interrupt and self.__currentDialogue is not None:
             self.__currentDialogue.stop()
         self.__currentDialogue = dialogue
@@ -632,14 +690,16 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
             base.playSfx(dialogue, node=self)
         elif chatFlags & CFSpeech != 0:
             if self.nametag.getNumChatPages() > 0:
-                self.playDialogueForString(self.nametag.getChatText())
-                if self.soundChatBubble != None:
+                self.playDialogueForString(self.nametag.getChat())
+                if self.soundChatBubble is not None:
                     base.playSfx(self.soundChatBubble, node=self)
             elif self.nametag.getChatStomp() > 0:
-                self.playDialogueForString(self.nametag.getStompText(), self.nametag.getStompDelay())
+                self.playDialogueForString(
+                    self.nametag.getStompText(),
+                    self.nametag.getStompDelay())
         return
 
-    def playDialogueForString(self, chatString, delay = 0.0):
+    def playDialogueForString(self, chatString, delay=0.0):
         if len(chatString) == 0:
             return
         searchString = chatString.lower()
@@ -664,9 +724,9 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
             length = 4
         self.playDialogue(type, length, delay)
 
-    def playDialogue(self, type, length, delay = 0.0):
+    def playDialogue(self, type, length, delay=0.0):
         dialogueArray = self.getDialogueArray()
-        if dialogueArray == None:
+        if dialogueArray is None:
             return
         sfxIndex = None
         if type == 'statementA' or type == 'statementB':
@@ -684,8 +744,16 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
             sfxIndex = 5
         else:
             notify.error('unrecognized dialogue type: ', type)
-        if sfxIndex != None and sfxIndex < len(dialogueArray) and dialogueArray[sfxIndex] != None:
-            soundSequence = Sequence(Wait(delay), SoundInterval(dialogueArray[sfxIndex], node=None, listenerNode=base.localAvatar, loop=0, volume=1.0))
+        if sfxIndex is not None and sfxIndex < len(
+                dialogueArray) and dialogueArray[sfxIndex] != None:
+            soundSequence = Sequence(
+                Wait(delay),
+                SoundInterval(
+                    dialogueArray[sfxIndex],
+                    node=None,
+                    listenerNode=base.localAvatar,
+                    loop=0,
+                    volume=1.0))
             self.soundSequenceList.append(soundSequence)
             soundSequence.start()
             self.cleanUpSoundList()

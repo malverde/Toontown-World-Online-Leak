@@ -1,9 +1,10 @@
+#Embedded file name: toontown.estate.DistributedLawnDecorAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedNodeAI import DistributedNodeAI
 
 class DistributedLawnDecorAI(DistributedNodeAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedLawnDecorAI")
-    
+    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedLawnDecorAI')
+
     def __init__(self, air):
         DistributedNodeAI.__init__(self, air)
         self.plot = 0
@@ -16,29 +17,29 @@ class DistributedLawnDecorAI(DistributedNodeAI):
 
     def getPlot(self):
         return self.plot
-        
+
     def setHeading(self, h):
         self.setH(h)
         self.h = h
-        
+
     def getHeading(self):
         return self.h
-        
+
     def setPosition(self, x, y, z):
         self.setPos(x, y, z)
         self.pos = (x, y, z)
-        
+
     def d_setPosition(self, x, y, z):
         self.sendUpdate('setPos', [x, y, z])
         self.sendUpdate('setPosition', [x, y, z])
-        
+
     def b_setPosition(self, x, y, z):
         self.setPosition(x, y, z)
         self.d_setPosition(x, y, z)
-    
+
     def getPosition(self):
         return self.pos
-        
+
     def getOwnerIndex(self):
         return self.ownerIndex
 
@@ -59,4 +60,3 @@ class DistributedLawnDecorAI(DistributedNodeAI):
 
     def interactionDenied(self, todo0):
         pass
-

@@ -1,7 +1,8 @@
+#Embedded file name: toontown.safezone.OZSafeZoneLoader
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.avatar import Avatar
 from toontown.hood import ZoneUtil
 from toontown.launcher import DownloadForceAcknowledge
@@ -16,8 +17,7 @@ from otp.otpbase import OTPGlobals
 import copy
 from toontown.effects import Bubbles
 import random
-if (__debug__):
-    import pdb
+import pdb
 
 class OZSafeZoneLoader(SafeZoneLoader):
 
@@ -25,8 +25,8 @@ class OZSafeZoneLoader(SafeZoneLoader):
         SafeZoneLoader.__init__(self, hood, parentFSM, doneEvent)
         self.musicFile = 'phase_6/audio/bgm/OZ_SZ.ogg'
         self.activityMusicFile = 'phase_6/audio/bgm/GS_KartShop.ogg'
-        self.dnaFile = 'phase_6/dna/outdoor_zone_sz.pdna'
-        self.safeZoneStorageDNAFile = 'phase_6/dna/storage_OZ_sz.pdna'
+        self.dnaFile = 'phase_6/dna/outdoor_zone_sz.xml'
+        self.safeZoneStorageDNAFile = 'phase_6/dna/storage_OZ_sz.xml'
         self.__toonTracks = {}
         del self.fsm
         self.fsm = ClassicFSM.ClassicFSM('SafeZoneLoader', [State.State('start', self.enterStart, self.exitStart, ['quietZone', 'playground', 'toonInterior']),
@@ -48,11 +48,10 @@ class OZSafeZoneLoader(SafeZoneLoader):
         waterfallPlacer = self.geom.find('**/waterfall*')
         binMgr = CullBinManager.getGlobalPtr()
         binMgr.addBin('water', CullBinManager.BTFixed, 29)
-        binMgr = CullBinManager.getGlobalPtr()
-        self.water = self.geom.find('**/water1*')
-        self.water.setTransparency(1)
-        self.water.setColorScale(1.0, 1.0, 1.0, 1.0)
-        self.water.setBin('water', 51, 1)
+        water = self.geom.find('**/water1*')
+        water.setTransparency(1)
+        water.setColorScale(1.0, 1.0, 1.0, 1.0)
+        water.setBin('water', 51, 1)
         pool = self.geom.find('**/pPlane5*')
         pool.setTransparency(1)
         pool.setColorScale(1.0, 1.0, 1.0, 1.0)
@@ -107,7 +106,6 @@ class OZSafeZoneLoader(SafeZoneLoader):
             mesh.setTexProjector(mesh.findTextureStage('default'), joint, self.waterfallActor)
         self.waterfallActor.setPos(waterfallPlacer.getPos())
         self.accept('clientLogout', self._handleLogout)
-        return
 
     def exit(self):
         self.clearToonTracks()
@@ -155,100 +153,6 @@ class OZSafeZoneLoader(SafeZoneLoader):
         avList = copy.copy(Avatar.Avatar.ActiveAvatars)
         avList.append(base.localAvatar)
         playSound = 0
-        for av in avList:
-            distance = self.geyserPlacer.getDistance(av)
-            if distance < 7.0:
-                place = base.cr.playGame.getPlace()
-                local = 0
-                avPos = av.getPos()
-                upToon = Vec3(avPos[0], avPos[1], maxSize * self.geyserPos[2] + 40.0)
-                midToon = Vec3(avPos[0], avPos[1], maxSize * self.geyserPos[2] + 30.0)
-                downToon = Vec3(avPos[0], avPos[1], self.geyserPos[2])
-                returnPoints = [(7, 7),
-                 (8, 0),
-                 (-8, 3),
-                 (-7, 7),
-                 (3, -7),
-                 (0, 8),
-                 (-10, 0),
-                 (8, -3),
-                 (5, 8),
-                 (-8, 5),
-                 (-1, 7)]
-                pick = int((float(av.doId) - 11.0) / 13.0 % len(returnPoints))
-                returnChoice = returnPoints[pick]
-                toonReturn = Vec3(self.geyserPos[0] + returnChoice[0], self.geyserPos[1] + returnChoice[1], self.geyserPos[2] - 1.5)
-                topTrack = Sequence()
-                av.dropShadow.hide()
-                playSound = 1
-                if av == base.localAvatar:
-                    base.cr.playGame.getPlace().setState('fishing')
-                    base.localAvatar.setTeleportAvailable(0)
-                    base.localAvatar.collisionsOff()
-                    local = 1
-                else:
-                    topTrack.delayDeletes = [DelayDelete.DelayDelete(av, 'OZSafeZoneLoader.setGeyserAnim')]
-                    av.stopSmooth()
-                animTrack = Parallel()
-                toonTrack = Sequence()
-                toonTrack.append(Wait(0.5))
-                animTrack.append(ActorInterval(av, 'jump-idle', loop=1, endTime=11.5 * time))
-                animTrack.append(ActorInterval(av, 'neutral', loop=0, endTime=0.25 * time))
-                holder = render.attachNewNode('toon hold')
-                base.holder = holder
-                toonPos = av.getPos(render)
-                toonHpr = av.getHpr(render)
-                print 'av Pos %s' % av.getPos()
-                base.toonPos = toonPos
-                holder.setPos(toonPos)
-                av.reparentTo(holder)
-                av.setPos(0, 0, 0)
-                lookAt = 180
-                toonH = (lookAt + toonHpr[0]) % 360
-                newHpr = Vec3(toonH, toonHpr[1], toonHpr[2])
-                if toonH < 180:
-                    lookIn = Vec3(0 + lookAt, -30, 0)
-                else:
-                    lookIn = Vec3(360 + lookAt, -30, 0)
-                print 'Camera Hprs toon %s; lookIn %s; final %s' % (newHpr, lookIn, lookIn - newHpr)
-                if local == 1:
-                    camPosOriginal = camera.getPos()
-                    camHprOriginal = camera.getHpr()
-                    camParentOriginal = camera.getParent()
-                    cameraPivot = holder.attachNewNode('camera pivot')
-                    chooseHeading = random.choice([-10.0, 15.0, 40.0])
-                    cameraPivot.setHpr(chooseHeading, -20.0, 0.0)
-                    cameraArm = cameraPivot.attachNewNode('camera arm')
-                    cameraArm.setPos(0.0, -23.0, 3.0)
-                    camPosStart = Point3(0.0, 0.0, 0.0)
-                    camHprStart = Vec3(0.0, 0.0, 0.0)
-                    self.changeCamera(cameraArm, camPosStart, camHprStart)
-                    cameraTrack = Sequence()
-                    cameraTrack.append(Wait(11.0 * time))
-                    cameraTrack.append(Func(self.changeCamera, camParentOriginal, camPosOriginal, camHprOriginal))
-                    cameraTrack.start()
-                moveTrack = Sequence()
-                moveTrack.append(Wait(0.5))
-                moveTrack.append(LerpPosInterval(holder, 3.0 * time, pos=upToon, startPos=downToon, blendType='easeOut'))
-                moveTrack.append(LerpPosInterval(holder, 2.0 * time, pos=midToon, startPos=upToon, blendType='easeInOut'))
-                moveTrack.append(LerpPosInterval(holder, 1.0 * time, pos=upToon, startPos=midToon, blendType='easeInOut'))
-                moveTrack.append(LerpPosInterval(holder, 2.0 * time, pos=midToon, startPos=upToon, blendType='easeInOut'))
-                moveTrack.append(LerpPosInterval(holder, 1.0 * time, pos=upToon, startPos=midToon, blendType='easeInOut'))
-                moveTrack.append(LerpPosInterval(holder, 2.5 * time, pos=toonReturn, startPos=upToon, blendType='easeIn'))
-                animTrack.append(moveTrack)
-                animTrack.append(toonTrack)
-                topTrack.append(animTrack)
-                topTrack.append(Func(av.setPos, toonReturn))
-                topTrack.append(Func(av.reparentTo, render))
-                topTrack.append(Func(holder.remove))
-                if local == 1:
-                    topTrack.append(Func(self.restoreLocal))
-                else:
-                    topTrack.append(Func(self.restoreRemote, av))
-                topTrack.append(Func(self.clearToonTrack, av.doId))
-                self.storeToonTrack(av.doId, topTrack)
-                topTrack.start()
-
         self.geyserTrack.append(Func(self.doPrint, 'geyser start'))
         self.geyserTrack.append(Func(self.geyserNodePath.setPos, self.geyserPos[0], self.geyserPos[1], self.geyserPos[2]))
         self.geyserTrack.append(Parallel(LerpScaleInterval(self.geyserActor, 2.0 * time, 0.75, 0.01), LerpPosInterval(self.geyserActor, 2.0 * time, pos=downPos, startPos=downPos)))
@@ -272,7 +176,8 @@ class OZSafeZoneLoader(SafeZoneLoader):
 
     def doPrint(self, thing):
         return 0
-        print thing
+        print thing,
+        print
 
     def unload(self):
         del self.birdSound
@@ -300,7 +205,6 @@ class OZSafeZoneLoader(SafeZoneLoader):
         self.geyserSoundNoToon.stop()
         self.geyserSoundNoToonInterval = None
         self.geyserSoundNoToon = None
-        return
 
     def enterPlayground(self, requestStatus):
         self.playgroundClass = OZPlayground
@@ -311,7 +215,6 @@ class OZSafeZoneLoader(SafeZoneLoader):
         self.hood.hideTitleText()
         SafeZoneLoader.exitPlayground(self)
         self.playgroundClass = None
-        return
 
     def handlePlaygroundDone(self):
         status = self.place.doneStatus
@@ -321,7 +224,7 @@ class OZSafeZoneLoader(SafeZoneLoader):
     def enteringARace(self, status):
         if not status['where'] == 'golfcourse':
             return 0
-        if ZoneUtil.isDynamicZone(status['zoneId']):
+        elif ZoneUtil.isDynamicZone(status['zoneId']):
             return status['hoodId'] == self.hood.hoodId
         else:
             return ZoneUtil.getHoodId(status['zoneId']) == self.hood.hoodId
@@ -329,7 +232,7 @@ class OZSafeZoneLoader(SafeZoneLoader):
     def enteringAGolfCourse(self, status):
         if not status['where'] == 'golfcourse':
             return 0
-        if ZoneUtil.isDynamicZone(status['zoneId']):
+        elif ZoneUtil.isDynamicZone(status['zoneId']):
             return status['hoodId'] == self.hood.hoodId
         else:
             return ZoneUtil.getHoodId(status['zoneId']) == self.hood.hoodId
@@ -357,7 +260,6 @@ class OZSafeZoneLoader(SafeZoneLoader):
          'hoodId': 6000,
          'shardId': None}
         self.fsm.request('quietZone', [req])
-        return
 
     def _handleLogout(self):
         self.clearToonTracks()

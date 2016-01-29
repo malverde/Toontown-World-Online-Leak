@@ -2,34 +2,9 @@
 
 # IMPORTANT PLEASE READ! #
 
-# Version
+# Current Version
 
-2.5.1
-
-### How do I get set up? ###
-
-### Summary of set up ###
-1. Set up a Windows Server 2008 R2
-2. Install vns_full.exe
-3. Install both Panda3D versions
-4. Download tcp.reg and the .bat that goes with it and run the .BAT
-5. Download a Branch, either TTW-PROD-Cluster or TTW-DEV-Cluster 
-6. Extract downloaded ZIP and then open start_astron.bat, start_ubderdog.bat and start_ai.bat
-
-Basic set-up has been completed.
-
-How to build the client in windows:
-First run the prepare client.py Then launch the visual studio 2013 command prompt. Then run the build client.py through the command prompt.
-### Configuration ###
-Enable TCP traffic ports from 700 through 800
-Disable the FIREWALL (incoming and outbound traffic)
-
-### Dependencies ###
-1. Panda3D 
-2. vns_full.exe
-
-### Database configuration ###
-Database is currently in the /astron/databases/astrondb/ folder located within the server/client BRANCH.
+2.5.2
 
 ### How to run tests ###
 Have the server deployed and make sure you have everything setup. 
@@ -38,6 +13,7 @@ Ensure a client version has been made/modified and download it. Edit the connect
 ### Deployment instructions ###
 
 ### Contribution guidelines ###
+See: http://45.55.49.27/root/ToontownWorldOnline/blob/feature/2.4.9/CONTRIBUTING.md
 
 ### Writing tests ###
 Commits will be made in the **Branch** - features that are new or **VERY** **unstable** will go in a **new** Branch titled "TTW-DEV-Cluster-" followed by the feature name.
@@ -64,10 +40,3 @@ Repo Owner: Reese Jenner
 
 ### Other community or team contact ###
 Game Admins:
-
-Purrty (Julieanne) - in-game admin and Community Manager
-
-
-## How to edit from other branches:
-Just click the branch master and you can select different branches like election dev cluster, 
-Dont push anything to the branch if not approved, you have to fork this repo to make changes.

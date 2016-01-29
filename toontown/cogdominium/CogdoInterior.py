@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoInterior
 from pandac.PandaModules import ModelPool, TexturePool
 from direct.task.Task import Task
 from direct.directnotify import DirectNotifyGlobal
@@ -134,11 +135,9 @@ class CogdoInterior(Place.Place):
         self.elevator.unload()
         self.elevator.exit()
         del self.elevator
-        return None
 
     def detectedElevatorCollision(self, distElevator):
         self.fsm.request('Elevator', [distElevator])
-        return None
 
     def handleElevatorDone(self, doneStatus):
         self.notify.debug('handling elevator done event')

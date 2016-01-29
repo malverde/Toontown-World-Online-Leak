@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.PartyCogActivityGui
 from direct.gui.DirectGui import DirectWaitBar, DGG
 from direct.gui.OnscreenText import OnscreenText
 from direct.showbase.DirectObject import DirectObject
@@ -26,7 +27,7 @@ class PartyCogTrackerGui:
         i = 0
         self.cogTracker.find('**/shadow').setBin('fixed', 0)
         self.cogTracker.find('**/plane').setBin('fixed', 1)
-        for i in xrange(3):
+        for i in range(3):
             layers = [self.cogTracker.find('**/cog%d_blue' % i), self.cogTracker.find('**/cog%d_orange' % i), self.cogTracker.find('**/cog%d_white' % i)]
             self.cogs.append(self.cogTracker.find('**/cog%d' % i))
             self.cogLayers.append(layers)
@@ -71,7 +72,6 @@ class PartyCogTrackerGui:
         if self.cogTracker is not None:
             self.cogTracker.removeNode()
             self.cogTracker = None
-        return
 
 
 class PartyCogActivityGui(DirectObject):
@@ -88,7 +88,6 @@ class PartyCogActivityGui(DirectObject):
         self._scoreTitle = None
         self._spamWarning = None
         self._spamWarningIvalName = 'PartyCogActivityGui-SpamWarning'
-        return
 
     def load(self):
         self._initPiePowerMeter()
@@ -136,7 +135,6 @@ class PartyCogActivityGui(DirectObject):
         if self._victoryBalanceBarArrow:
             self._victoryBalanceBarArrow.detachNode()
             self._victoryBalanceBarArrow = None
-        return
 
     def _initVictoryBalanceBar(self):
         h = PartyGlobals.CogActivityPowerMeterHeight / 2.0
@@ -254,12 +252,12 @@ class PartyCogActivityGui(DirectObject):
     def disableToontownHUD(self):
         base.localAvatar.hideName()
         base.localAvatar.laffMeter.hide()
-        base.setCellsActive(base.bottomCells + [base.rightCells[1]], False)
+        base.setCellsAvailable(base.bottomCells + [base.rightCells[1]], False)
 
     def enableToontownHUD(self):
         base.localAvatar.showName()
         base.localAvatar.laffMeter.show()
-        base.setCellsActive(base.bottomCells + [base.rightCells[1]], True)
+        base.setCellsAvailable(base.bottomCells + [base.rightCells[1]], True)
 
     def setTeam(self, team):
         self.team = team

@@ -1,4 +1,5 @@
-from pandac.PandaModules import *
+#Embedded file name: toontown.cogdominium.DistCogdoCraneMoneyBag
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
@@ -23,7 +24,6 @@ class DistCogdoCraneMoneyBag(DistCogdoCraneObject):
         self.toMagnetSoundInterval = Parallel(SoundInterval(self.flyToMagnetSfx, duration=ToontownGlobals.CashbotBossToMagnetTime, node=self), Sequence(Wait(ToontownGlobals.CashbotBossToMagnetTime - 0.02), SoundInterval(self.hitMagnetSfx, duration=1.0, node=self)))
         self.hitFloorSfx = loader.loadSfx('phase_5/audio/sfx/AA_drop_bigweight_miss.ogg')
         self.hitFloorSoundInterval = SoundInterval(self.hitFloorSfx, node=self)
-        return
 
     def announceGenerate(self):
         DistCogdoCraneObject.announceGenerate(self)

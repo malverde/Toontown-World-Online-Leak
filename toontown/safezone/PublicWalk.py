@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 import Walk
@@ -42,8 +42,7 @@ class PublicWalk(Walk.Walk):
         if base.localAvatar.book.isObscured():
             return
         else:
-            doneStatus = {}
-            doneStatus['mode'] = 'StickerBook'
+            doneStatus = {'mode': 'StickerBook'}
             messenger.send(self.doneEvent, [doneStatus])
             return
 
@@ -54,7 +53,6 @@ class PublicWalk(Walk.Walk):
         if base.localAvatar.book.isObscured():
             return
         else:
-            doneStatus = {}
-            doneStatus['mode'] = 'Options'
+            doneStatus = {'mode': 'Options'}
             messenger.send(self.doneEvent, [doneStatus])
             return

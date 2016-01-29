@@ -6,8 +6,10 @@ from toontown.toonbase import ToontownGlobals
 from pandac.PandaModules import Vec4, TransformState, NodePath, TransparencyAttrib
 from toontown.hood import GSHood
 
+
 class CrashedLeaderBoardDecorator(HolidayDecorator.HolidayDecorator):
-    notify = DirectNotifyGlobal.directNotify.newCategory('CrashedLeaderBoardDecorator')
+    notify = DirectNotifyGlobal.directNotify.newCategory(
+        'CrashedLeaderBoardDecorator')
 
     def __init__(self):
         HolidayDecorator.HolidayDecorator.__init__(self)
@@ -40,7 +42,8 @@ class CrashedLeaderBoardDecorator(HolidayDecorator.HolidayDecorator):
             return
         storageFile = base.cr.playGame.hood.storageDNAFile
         if storageFile:
-            loadDNAFile(self.dnaStore, storageFile, CSDefault)
+            pass  # TODO: DNATODO
+            #loadDNAFile(self.dnaStore, storageFile, CSDefault)
         self.swapIval = self.getSwapVisibleIval()
         if self.swapIval:
             self.swapIval.start()

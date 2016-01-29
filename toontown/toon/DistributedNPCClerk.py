@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from DistributedNPCToonBase import *
 from toontown.minigame import ClerkPurchase
 from toontown.shtiker.PurchaseManagerConstants import *
@@ -7,8 +7,7 @@ from direct.task.Task import Task
 from toontown.toonbase import TTLocalizer
 from toontown.hood import ZoneUtil
 from toontown.toontowngui import TeaserPanel
-from toontown.chat.ChatGlobals import *
-from toontown.nametag.NametagGlobals import *
+from otp.nametag.NametagConstants import *
 
 class DistributedNPCClerk(DistributedNPCToonBase):
 

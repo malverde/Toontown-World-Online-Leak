@@ -1,5 +1,6 @@
+#Embedded file name: toontown.estate.BankGUI
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -50,7 +51,6 @@ class BankGui(DirectFrame):
         jarGui.removeNode()
         arrowGui.removeNode()
         self.__updateTransaction(0)
-        return
 
     def destroy(self):
         taskMgr.remove(self.taskName('runCounter'))
@@ -97,14 +97,13 @@ class BankGui(DirectFrame):
     def __runCounter(self, task):
         if task.time - task.prevTime < task.delayTime:
             return Task.cont
+        task.delayTime = max(0.05, task.delayTime * 0.75)
+        task.prevTime = task.time
+        hitLimit, jar, bank, trans = self.__updateTransaction(task.delta)
+        if hitLimit:
+            return Task.done
         else:
-            task.delayTime = max(0.05, task.delayTime * 0.75)
-            task.prevTime = task.time
-            hitLimit, jar, bank, trans = self.__updateTransaction(task.delta)
-            if hitLimit:
-                return Task.done
-            else:
-                return Task.cont
+            return Task.cont
 
     def __depositButtonUp(self, event):
         messenger.send('wakeup')

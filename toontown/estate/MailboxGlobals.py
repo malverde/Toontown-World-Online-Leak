@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.MailboxGlobals
 MAILBOX_MOVIE_CLEAR = 2
 MAILBOX_MOVIE_EMPTY = 3
 MAILBOX_MOVIE_WAITING = 4

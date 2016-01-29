@@ -1,3 +1,4 @@
+#Embedded file name: toontown.tutorial.DistributedBattleTutorial
 from toontown.battle import DistributedBattle
 from direct.directnotify import DirectNotifyGlobal
 

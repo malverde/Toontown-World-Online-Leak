@@ -13,7 +13,7 @@ import _miraidata
 
 # Load all packaged config pages:
 from panda3d.core import loadPrcFileData
-for i,config in enumerate(_miraidata.CONFIG):
+for i, config in enumerate(_miraidata.CONFIG):
     loadPrcFileData('Mirai Packaged Config Page #%d' % i, config)
 
 # DC data is a little bit trickier... The stock ConnectionRepository likes to
@@ -25,8 +25,11 @@ dcStream = StringStream(_miraidata.DC)
 
 from direct.distributed import ConnectionRepository
 import types
+
+
 class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
-    def readDCFile(self, dcFileNames = None):
+
+    def readDCFile(self, dcFileNames=None):
         """
         Reads in the dc files listed in dcFileNames, or if
         dcFileNames is None, reads in all of the dc files listed in
@@ -48,7 +51,7 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
         if not readResult:
             self.notify.error("Could not read dc file.")
 
-        #if not dcFile.allObjectsValid():
+        # if not dcFile.allObjectsValid():
         #    names = []
         #    for i in range(dcFile.getNumTypedefs()):
         #        td = dcFile.getTypedef(i)
@@ -66,10 +69,10 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
             # Maybe the module name is represented as "moduleName/AI".
             suffix = moduleName.split('/')
             moduleName = suffix[0]
-            suffix=suffix[1:]
+            suffix = suffix[1:]
             if self.dcSuffix in suffix:
                 moduleName += self.dcSuffix
-            elif self.dcSuffix == 'UD' and 'AI' in suffix: #HACK:
+            elif self.dcSuffix == 'UD' and 'AI' in suffix:  # HACK:
                 moduleName += 'AI'
 
             importSymbols = []
@@ -79,10 +82,10 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
                 # Maybe the symbol name is represented as "symbolName/AI".
                 suffix = symbolName.split('/')
                 symbolName = suffix[0]
-                suffix=suffix[1:]
+                suffix = suffix[1:]
                 if self.dcSuffix in suffix:
                     symbolName += self.dcSuffix
-                elif self.dcSuffix == 'UD' and 'AI' in suffix: #HACK:
+                elif self.dcSuffix == 'UD' and 'AI' in suffix:  # HACK:
                     symbolName += 'AI'
 
                 importSymbols.append(symbolName)
@@ -99,25 +102,33 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
             # Does the class have a definition defined in the newly
             # imported namespace?
             classDef = dcImports.get(className)
-            if classDef is None and self.dcSuffix == 'UD': #HACK:
+            if classDef is None and self.dcSuffix == 'UD':  # HACK:
                 className = dclass.getName() + 'AI'
                 classDef = dcImports.get(className)
 
             # Also try it without the dcSuffix.
-            if classDef == None:
+            if classDef is None:
                 className = dclass.getName()
                 classDef = dcImports.get(className)
             if classDef is None:
-                self.notify.debug("No class definition for %s." % (className))
+                self.notify.debug("No class definition for %s." % className)
             else:
-                if type(classDef) == types.ModuleType:
+                if isinstance(classDef, types.ModuleType):
                     if not hasattr(classDef, className):
-                        self.notify.warning("Module %s does not define class %s." % (className, className))
+                        self.notify.warning(
+                            "Module %s does not define class %s." %
+                            (className, className))
                         continue
                     classDef = getattr(classDef, className)
 
-                if type(classDef) != types.ClassType and type(classDef) != types.TypeType:
-                    self.notify.error("Symbol %s is not a class name." % (className))
+                if not isinstance(
+                        classDef,
+                        types.ClassType) and not isinstance(
+                        classDef,
+                        types.TypeType):
+                    self.notify.error(
+                        "Symbol %s is not a class name." %
+                        className)
                 else:
                     dclass.setClassDef(classDef)
 
@@ -138,9 +149,9 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
                 # Maybe the module name is represented as "moduleName/AI".
                 suffix = moduleName.split('/')
                 moduleName = suffix[0]
-                suffix=suffix[1:]
+                suffix = suffix[1:]
                 if ownerDcSuffix in suffix:
-                    moduleName = moduleName + ownerDcSuffix
+                    moduleName += ownerDcSuffix
 
                 importSymbols = []
                 for i in range(dcFile.getNumImportSymbols(n)):
@@ -149,7 +160,7 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
                     # Check for the OV suffix
                     suffix = symbolName.split('/')
                     symbolName = suffix[0]
-                    suffix=suffix[1:]
+                    suffix = suffix[1:]
                     if ownerDcSuffix in suffix:
                         symbolName += ownerDcSuffix
                     importSymbols.append(symbolName)
@@ -161,7 +172,7 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
             # in the DC file.
             for i in range(dcFile.getNumClasses()):
                 dclass = dcFile.getClass(i)
-                if ((dclass.getName()+ownerDcSuffix) in ownerImportSymbols):
+                if (dclass.getName() + ownerDcSuffix) in ownerImportSymbols:
                     number = dclass.getNumber()
                     className = dclass.getName() + ownerDcSuffix
 
@@ -169,11 +180,15 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
                     # imported namespace?
                     classDef = dcImports.get(className)
                     if classDef is None:
-                        self.notify.error("No class definition for %s." % className)
+                        self.notify.error(
+                            "No class definition for %s." %
+                            className)
                     else:
-                        if type(classDef) == types.ModuleType:
+                        if isinstance(classDef, types.ModuleType):
                             if not hasattr(classDef, className):
-                                self.notify.error("Module %s does not define class %s." % (className, className))
+                                self.notify.error(
+                                    "Module %s does not define class %s." %
+                                    (className, className))
                             classDef = getattr(classDef, className)
                         dclass.setOwnerClassDef(classDef)
                         self.dclassesByName[className] = dclass

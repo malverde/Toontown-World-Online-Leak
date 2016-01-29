@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoFlyingInputManager
 from pandac.PandaModules import CollisionSphere, CollisionNode, BitMask32, CollisionHandlerEvent, CollisionRay
 from toontown.minigame import ArrowKeys
 
@@ -24,7 +25,6 @@ class CogdoFlyingInputManager:
         self.arrowKeys.destroy()
         self.arrowKeys = None
         self.refuelLerp = None
-        return
 
     def __upArrowPressed(self):
         pass

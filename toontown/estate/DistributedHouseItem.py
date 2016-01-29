@@ -1,3 +1,4 @@
+#Embedded file name: toontown.estate.DistributedHouseItem
 from toontown.toonbase.ToontownGlobals import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *

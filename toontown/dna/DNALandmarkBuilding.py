@@ -1,79 +1,64 @@
-from panda3d.core import LVector4f
-import DNANode
+from DNANode import DNANode
+from DNAParser import *
+from DNATitle import DNATitle
 import DNAUtil
-import DNAError
+from DNAVisGroup import DNAVisGroup
+from panda3d.core import *
 
-class DNALandmarkBuilding(DNANode.DNANode):
-    COMPONENT_CODE = 13
+class DNALandmarkBuilding(DNANode):
+    TAG = 'landmark_building'
 
-    def __init__(self, name):
-        DNANode.DNANode.__init__(self, name)
-        self.code = ''
-        self.wallColor = LVector4f(1, 1, 1, 1)
-        self.title = ''
-        self.article = ''
-        self.buildingType = ''
-        self.door = None
+    def __init__(self, id, code, type=None):
+        DNANode.__init__(self, id)
 
-    def setArticle(self, article):
-        self.article = article
-
-    def getArticle(self):
-        return self.article
-
-    def setBuildingType(self, buildingType):
-        self.buildingType = buildingType
-
-    def getBuildingType(self):
-        return self.buildingType
-
-    def setTitle(self, title):
-        self.title = title
+        self.id = id
+        self.code = code
+        self.type = type
 
     def getTitle(self):
-        return self.title
+        return self._getAttribute(DNATitle, 'title', '')
 
-    def getCode(self):
-        return self.code
+    def setupSuitBuildingOrigin(self, nodePath):
+        building = DNAUtil.getBuildingClassFromName(self.id)
+        if building != 'tb':
+            return
 
-    def setCode(self, code):
-        self.code = code
+        name = 'sb' + self.id[2:]
 
-    def setWallColor(self, color):
-        self.wallColor = color
+        node = nodePath.find('**/*suit_building_origin')
+        if node.isEmpty():
+            #TODO: dna logging
+            #print 'DNALandmarkBuilding ' + name + ' did not find **/*suit_building_origin'
+            node = nodePath.attachNewNode(ModelNode(self.name))
+        else:
+            node.wrtReparentTo(nodePath)
+            node.setAttrib(DepthOffsetAttrib.make(1))
+            node.setName(name)
 
-    def getWallColor(self):
-        return self.wallColor
+        node.node().setPreserveTransform(ModelNode.PTNet)
+        node.hide()
 
-    def setupSuitBuildingOrigin(self, nodePathA, nodePathB):
-        if (self.getName()[:2] == 'tb') and (self.getName()[3].isdigit()) and (self.getName().find(':') != -1):
-            name = self.getName()
-            name = 's' + name[1:]
-            node = nodePathB.find('**/*suit_building_origin')
-            if node.isEmpty():
-                node = nodePathA.attachNewNode(name)
-                node.setPosHprScale(self.getPos(), self.getHpr(), self.getScale())
-            else:
-                node.wrtReparentTo(nodePathA, 0)
-                node.setName(name)
-
-    def makeFromDGI(self, dgi):
-        DNANode.DNANode.makeFromDGI(self, dgi)
-        self.code = DNAUtil.dgiExtractString8(dgi)
-        self.wallColor = DNAUtil.dgiExtractColor(dgi)
-        self.title = DNAUtil.dgiExtractString8(dgi)
-        self.article = DNAUtil.dgiExtractString8(dgi)
-        self.buildingType = DNAUtil.dgiExtractString8(dgi)
-
-    def traverse(self, nodePath, dnaStorage):
-        node = dnaStorage.findNode(self.code)
+    def _makeNode(self, storage, parent):
+        node = storage.findNode(self.code)
         if node is None:
-            raise DNAError.DNAError('DNALandmarkBuilding code ' + self.code + ' not found in DNAStorage')
-        npA = nodePath
-        nodePath = node.copyTo(nodePath, 0)
-        nodePath.setName(self.getName())
-        nodePath.setPosHprScale(self.getPos(), self.getHpr(), self.getScale())
-        self.setupSuitBuildingOrigin(npA, nodePath)
-        for child in self.children:
-            child.traverse(nodePath, dnaStorage)
-        nodePath.flattenStrong()
+            #TODO: dna logging
+            #raise DNAError('DNALandmarkBuilding uses unknown code %s' % self.code)
+            pass
+        np = node.copyTo(parent)
+        np.setName(self.id)
+
+        self.setupSuitBuildingOrigin(np)
+
+        return np
+
+    def _postGenerate(self, storage, np):
+        np.flattenStrong()
+
+    def _storeData(self, data):
+        block = data.getBlock(DNAUtil.getBlockFromName(self.id))
+        block.title = self.getTitle()
+        block.buildingType = self.type
+        block.zone = self.getVisGroup().getZone()
+        block.node = self
+
+registerElement(DNALandmarkBuilding)

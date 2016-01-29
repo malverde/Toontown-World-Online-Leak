@@ -1,3 +1,4 @@
+#Embedded file name: toontown.parties.PartyEditor
 import time
 from sets import Set
 from pandac.PandaModules import Vec3, Vec4, Point3, TextNode, VBase4
@@ -33,7 +34,6 @@ class PartyEditor(DirectObject, FSM):
         self.initElementList()
         self.initPartyClock()
         self.initTrashCan()
-        return
 
     def initElementList(self):
         self.activityIconsModel = loader.loadModel('phase_4/models/parties/eventSignIcons')
@@ -74,7 +74,6 @@ class PartyEditor(DirectObject, FSM):
 
         self.elementList.refresh()
         self.elementList['command'] = self.scrollItemChanged
-        return
 
     def initPartyClock(self):
         self.partyClockElement.buyButtonClicked((8, 7))
@@ -90,7 +89,6 @@ class PartyEditor(DirectObject, FSM):
         self.mouseOverTrash = False
         self.oldInstructionText = ''
         self.trashCanLastClickedTime = 0
-        return
 
     def scrollItemChanged(self):
         if not self.elementList['items']:

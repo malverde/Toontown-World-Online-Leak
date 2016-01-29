@@ -1,21 +1,20 @@
-import random
-
-from direct.directnotify import DirectNotifyGlobal
+from otp.ai.AIBase import *
+from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import ClockDelta
-from direct.interval.IntervalGlobal import *
 from direct.task import Task
-from otp.ai.AIBase import *
-from otp.level import BasicEntities
 from otp.level import DistributedEntityAI
+from otp.level import BasicEntities
+from direct.directnotify import DirectNotifyGlobal
 from toontown.coghq import BattleBlockerAI
-from toontown.coghq import LaserGameAvoid
-from toontown.coghq import LaserGameDrag
 from toontown.coghq import LaserGameMineSweeper
 from toontown.coghq import LaserGameRoll
-
+from toontown.coghq import LaserGameAvoid
+from toontown.coghq import LaserGameDrag
+import random
 
 class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEntities.NodePathAttribs):
+
     def __init__(self, level, entId):
         BattleBlockerAI.BattleBlockerAI.__init__(self, level, entId)
         node = hidden.attachNewNode('DistributedLaserFieldAI')
@@ -35,7 +34,10 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEn
 
     def setGridGame(self, gameName):
         if gameName == 'Random':
-            gameName = random.choice(['MineSweeper', 'Roll', 'Avoid', 'Drag'])
+            gameName = random.choice(['MineSweeper',
+             'Roll',
+             'Avoid',
+             'Drag'])
         self.gridGame = gameName
         if hasattr(self, 'game'):
             self.game.delete()
@@ -53,20 +55,21 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEn
         self.game.startGrid()
         self.sendField()
         self.sendUpdate('setGridGame', [gameName])
+        return
 
     def generate(self):
         BattleBlockerAI.BattleBlockerAI.generate(self)
         if self.switchId != 0:
             self.accept(self.getOutputEventName(self.switchId), self.reactToSwitch)
         self.detectName = 'laserField %s' % self.doId
-        taskMgr.doMethodLater(1.0, self._DistributedLaserFieldAI__detect, self.detectName)
+        taskMgr.doMethodLater(1.0, self.__detect, self.detectName)
         self.setPos(self.pos)
         self.setHpr(self.hpr)
         self.setGridGame(self.gridGame)
 
     def registerBlocker(self):
         BattleBlockerAI.BattleBlockerAI.registerBlocker(self)
-        taskMgr.doMethodLater(1, self.hideSuits, 'hide-suits')
+        self.hideSuits()
 
     def delete(self):
         taskMgr.remove(self.detectName)
@@ -74,6 +77,7 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEn
         self.game.delete()
         self.game = None
         BattleBlockerAI.BattleBlockerAI.delete(self)
+        return
 
     def destroy(self):
         self.notify.info('destroy entity(laserField) %s' % self.entId)
@@ -83,21 +87,20 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEn
         self.game.setGridSize(gridNumX, gridNumY)
 
     def getGrid(self):
-        return (self.game.gridNumX, self.game.gridNumY)
+        return self.game.gridNumX, self.game.gridNumY
 
     def getField(self):
-        fieldData = []
-        fieldData.append(self.game.gridNumX)
-        fieldData.append(self.game.gridNumY)
-        for column in xrange(0, self.game.gridNumX):
-            for row in xrange(0, self.game.gridNumY):
+        fieldData = [self.game.gridNumX, self.game.gridNumY]
+        for column in range(0, self.game.gridNumX):
+            for row in range(0, self.game.gridNumY):
                 fieldData.append(self.game.gridData[column][row])
+
         return fieldData
 
     def sendField(self):
         self.sendUpdate('setField', [self.getField()])
 
-    def _DistributedLaserFieldAI__detect(self, task):
+    def __detect(self, task):
         isThereAnyToons = False
         if hasattr(self, 'level'):
             toonInRange = 0
@@ -106,19 +109,20 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEn
                     av = self.air.doId2do[avId]
                     isThereAnyToons = True
                     distance = self.getDistance(av)
+
             if isThereAnyToons:
-                taskMgr.doMethodLater(1.0, self._DistributedLaserFieldAI__detect, self.detectName)
-                self._DistributedLaserFieldAI__run()
+                taskMgr.doMethodLater(1.0, self.__detect, self.detectName)
+                self.__run()
         return Task.done
 
     def hit(self, hitX, hitY, oldX, oldY):
         if self.enabled:
             self.game.hit(hitX, hitY, oldX, oldY)
 
-    def _DistributedLaserFieldAI__run(self):
+    def __run(self):
         pass
 
-    def _DistributedLaserFieldAI__toonHit(self):
+    def __toonHit(self):
         self.gridNumX = random.randint(1, 4)
         self.gridNumY = random.randint(1, 4)
         self.gridScale = random.randint(1, 4)
@@ -162,6 +166,7 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEn
         if self.hasShownSuits == 0:
             for suit in suits:
                 suit.requestRemoval()
+
         self.sendUpdate('setActiveLF', [0])
         stage = self.air.getDo(self.level.stageDoId)
         reward = stage.getPuzzelReward()
@@ -170,7 +175,7 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEn
                 av = self.air.doId2do.get(avId)
                 if av:
                     av.toonUp(reward)
-                    continue
+
             stage.increasePuzzelReward()
         self.healReady = 0
         if not self.playedSound:
@@ -178,11 +183,12 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEn
         self.playedSound = 1
         self.switchFire()
 
-    def hideSuits(self, taskName):
+    def hideSuits(self):
         suits = self.level.planner.battleCellId2suits.get(self.cellId)
         suitArray = []
         for suit in suits:
             suitArray.append(suit.doId)
+
         if suitArray:
             self.sendUpdate('hideSuit', [suitArray])
 
@@ -193,6 +199,7 @@ class DistributedLaserFieldAI(BattleBlockerAI.BattleBlockerAI, NodePath, BasicEn
             for suit in suits:
                 suit.setVirtual()
                 suitArray.append(suit.doId)
+
             if suitArray:
                 self.sendUpdate('showSuit', [suitArray])
         self.hasShownSuits = 1

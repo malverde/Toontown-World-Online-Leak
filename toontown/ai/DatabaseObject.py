@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from ToontownAIMsgTypes import *
 from direct.directnotify.DirectNotifyGlobal import *
 from toontown.toon import DistributedToonAI
@@ -6,11 +6,12 @@ from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
 import types
 
+
 class DatabaseObject:
     notify = directNotify.newCategory('DatabaseObject')
     notify.setInfo(0)
 
-    def __init__(self, air, doId = None, doneEvent = 'DatabaseObject'):
+    def __init__(self, air, doId=None, doneEvent='DatabaseObject'):
         self.air = air
         self.doId = doId
         self.values = {}
@@ -18,7 +19,7 @@ class DatabaseObject:
         self.doneEvent = doneEvent
         return
 
-    def readToon(self, fields = None):
+    def readToon(self, fields=None):
         toon = DistributedToonAI.DistributedToonAI(self.air)
         self.readObject(toon, fields)
         return toon
@@ -37,28 +38,28 @@ class DatabaseObject:
             self.readObject(petProxy, None)
             return petProxy
 
-    def readObject(self, do, fields = None):
+    def readObject(self, do, fields=None):
         self.do = do
         className = do.__class__.__name__
         self.dclass = self.air.dclassesByName[className]
         self.gotDataHandler = self.fillin
-        if fields != None:
+        if fields is not None:
             self.getFields(fields)
         else:
             self.getFields(self.getDatabaseFields(self.dclass))
         return
 
-    def storeObject(self, do, fields = None):
+    def storeObject(self, do, fields=None):
         self.do = do
         className = do.__class__.__name__
         self.dclass = self.air.dclassesByName[className]
-        if fields != None:
+        if fields is not None:
             self.reload(self.do, self.dclass, fields)
         else:
             dbFields = self.getDatabaseFields(self.dclass)
             self.reload(self.do, self.dclass, dbFields)
         values = self.values
-        if fields != None:
+        if fields is not None:
             values = {}
             for field in fields:
                 if field in self.values:
@@ -74,7 +75,10 @@ class DatabaseObject:
         self.air.dbObjContext += 1
         self.air.dbObjMap[context] = self
         dg = PyDatagram()
-        dg.addServerHeader(DBSERVER_ID, self.air.ourChannel, DBSERVER_GET_STORED_VALUES)
+        dg.addServerHeader(
+            DBSERVER_ID,
+            self.air.ourChannel,
+            DBSERVER_GET_STORED_VALUES)
         dg.addUint32(context)
         dg.addUint32(self.doId)
         dg.addUint16(len(fields))
@@ -96,7 +100,9 @@ class DatabaseObject:
 
         retCode = di.getUint8()
         if retCode != 0:
-            self.notify.warning('Failed to retrieve data for object %d' % self.doId)
+            self.notify.warning(
+                'Failed to retrieve data for object %d' %
+                self.doId)
         else:
             values = []
             for i in range(count):
@@ -116,16 +122,19 @@ class DatabaseObject:
                     self.values[fields[i]] = PyDatagram(values[i])
 
             self.notify.info('got data for %d' % self.doId)
-            if self.gotDataHandler != None:
+            if self.gotDataHandler is not None:
                 self.gotDataHandler(self.do, self.dclass)
                 self.gotDataHandler = None
-        if self.doneEvent != None:
+        if self.doneEvent is not None:
             messenger.send(self.doneEvent, [self, retCode])
         return
 
     def setFields(self, values):
         dg = PyDatagram()
-        dg.addServerHeader(DBSERVER_ID, self.air.ourChannel, DBSERVER_SET_STORED_VALUES)
+        dg.addServerHeader(
+            DBSERVER_ID,
+            self.air.ourChannel,
+            DBSERVER_SET_STORED_VALUES)
         dg.addUint32(self.doId)
         dg.addUint16(len(values))
         items = values.items()
@@ -161,7 +170,7 @@ class DatabaseObject:
         self.values = {}
         for fieldName in fields:
             field = dclass.getFieldByName(fieldName)
-            if field == None:
+            if field is None:
                 self.notify.warning('No definition for %s' % fieldName)
             else:
                 dg = PyDatagram()
@@ -180,7 +189,10 @@ class DatabaseObject:
         self.air.dbObjMap[context] = self
         self.createObjType = objectType
         dg = PyDatagram()
-        dg.addServerHeader(DBSERVER_ID, self.air.ourChannel, DBSERVER_CREATE_STORED_OBJECT)
+        dg.addServerHeader(
+            DBSERVER_ID,
+            self.air.ourChannel,
+            DBSERVER_CREATE_STORED_OBJECT)
         dg.addUint32(context)
         dg.addString('')
         dg.addUint16(objectType)
@@ -196,18 +208,23 @@ class DatabaseObject:
     def handleCreateObjectResponse(self, di):
         retCode = di.getUint8()
         if retCode != 0:
-            self.notify.warning('Database object %s create failed' % self.createObjType)
+            self.notify.warning(
+                'Database object %s create failed' %
+                self.createObjType)
         else:
             del self.createObjType
             self.doId = di.getUint32()
-        if self.doneEvent != None:
+        if self.doneEvent is not None:
             messenger.send(self.doneEvent, [self, retCode])
         return
 
     def deleteObject(self):
         self.notify.warning('deleting object %s' % self.doId)
         dg = PyDatagram()
-        dg.addServerHeader(DBSERVER_ID, self.air.ourChannel, DBSERVER_DELETE_STORED_OBJECT)
+        dg.addServerHeader(
+            DBSERVER_ID,
+            self.air.ourChannel,
+            DBSERVER_DELETE_STORED_OBJECT)
         dg.addUint32(self.doId)
-        dg.addUint32(3735928559L)
+        dg.addUint32(3735928559)
         self.air.send(dg)

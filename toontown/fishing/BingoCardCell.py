@@ -1,6 +1,6 @@
 from direct.fsm import FSM
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase import ToontownGlobals
@@ -86,7 +86,7 @@ class BingoCardCell(DirectButton, FSM.FSM):
 
     def filterOff(self, request, args):
         if request == 'On':
-            return (request, args)
+            return request, args
         elif request == 'Off':
             return request
         else:

@@ -1,8 +1,8 @@
-from pandac.PandaModules import CompassEffect, NodePath
+from panda3d.core import *
+from toontown.toonbase.ToontownGlobals import *
 from direct.task.Task import Task
-
-
-notify = directNotify.newCategory('SkyUtil')
+from direct.directnotify import DirectNotifyGlobal
+notify = DirectNotifyGlobal.directNotify.newCategory('SkyUtil')
 
 
 def cloudSkyTrack(task):
@@ -10,13 +10,15 @@ def cloudSkyTrack(task):
     if task.cloud1.isEmpty() or task.cloud2.isEmpty():
         notify.warning("Couln't find clouds!")
         return Task.done
-
     task.cloud1.setH(task.h)
     task.cloud2.setH(-task.h * 0.8)
     return Task.cont
 
 
-def startCloudSky(hood, parent=camera, effects=CompassEffect.PRot | CompassEffect.PZ):
+def startCloudSky(
+        hood,
+        parent=camera,
+        effects=CompassEffect.PRot | CompassEffect.PZ):
     hood.sky.reparentTo(parent)
     hood.sky.setDepthTest(0)
     hood.sky.setDepthWrite(0)

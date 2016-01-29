@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 from toontown.coghq import BarrelBase
@@ -16,7 +16,7 @@ class DistributedBarrelBase(BasicEntities.DistributedNodePathEntity, BarrelBase.
         self.animTrack = None
         self.shadow = 0
         self.barrelScale = 0.5
-        self.sphereRadius = 3.5
+        self.sphereRadius = 4.2
         self.playSoundForRemoteToons = 1
         self.gagNode = None
         self.gagModel = None

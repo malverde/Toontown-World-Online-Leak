@@ -13,7 +13,9 @@ import time
 import hmac
 import hashlib
 import json
+import httplib
 from ClientServicesManager import FIXED_KEY
+import urllib
 
 def judgeName(name):
     return True
@@ -176,15 +178,15 @@ class LoginAccountFSM(OperationFSM):
         self.demand('SetAccount')
 
     def enterCreateAccount(self):
-        self.account = {'ACCOUNT_AV_SET': [0] * 6,
+        self.account = {'ACCOUNT_AV_SET': [0]*6,
                         'ESTATE_ID': 0,
                         'ACCOUNT_AV_SET_DEL': [],
                         'CREATED': time.ctime(),
                         'LAST_LOGIN': time.ctime(),
                         'BETA_KEY_QUEST': self.betaKeyQuest,
                         'ACCOUNT_ID': str(self.databaseId),
-                        'ADMIN_ACCESS': self.adminAccess
-}
+                        'ADMIN_ACCESS': self.adminAccess}
+
         self.csm.air.dbInterface.createObject(
             self.csm.air.dbId,
             self.csm.air.dclassesByName['AccountUD'],
@@ -375,7 +377,7 @@ class CreateAvatarFSM(OperationFSM):
 
     def __handleStoreAvatar(self, fields):
         if fields:
-            del self.avId
+            # TODO: delete self.avId
             self.demand('Kill', 'Database failed to associate the new avatar to your account!')
             return
 
@@ -739,8 +741,7 @@ class LoadAvatarFSM(AvatarOperationFSM):
         # Activate the avatar on the DBSS:
         self.csm.air.sendActivate(self.avId, 0, 0,
                                   self.csm.air.dclassesByName['DistributedToonUD'],
-                                  {'setAdminAccess': [self.account.get('ADMIN_ACCESS', 0)]
-                                  })
+                                  {'setAdminAccess': [self.account.get('ADMIN_ACCESS', 0)]})
 
 
         # Next, add them to the avatar channel:
@@ -760,6 +761,9 @@ class LoadAvatarFSM(AvatarOperationFSM):
         dg.addServerHeader(self.avId, self.csm.air.ourChannel, STATESERVER_OBJECT_SET_OWNER)
         dg.addChannel(self.csm.GetAccountConnectionChannel(self.target)) # Set ownership channel to the connection's account channel.
         self.csm.air.send(dg)
+
+        # Tell the GlobalPartyManager as well:
+        self.csm.air.globalPartyMgr.avatarJoined(self.avId)
 
         # Tell everything that an avatar is coming online!
         friendsList = [x for x, y in self.avatar['setFriendsList'][0]]
@@ -786,7 +790,6 @@ class UnloadAvatarFSM(OperationFSM):
 
     def enterUnloadAvatar(self):
         channel = self.csm.GetAccountConnectionChannel(self.target)
-        self.csm.air.friendsManager.toonOffline(self.avId)
 
         # Fire off the avatarOffline message.
         self.csm.air.netMessenger.send('avatarOffline', [self.avId])
@@ -894,7 +897,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
             self.notify.warning('The CSMUD has been told to reject logins! All future logins will now be rejected.')
         self.loginsEnabled = enable
 
-    def login(self, cookie, sig):
+    def login(self, cookie, sig, secret):
         self.notify.debug('Received login cookie %r from %d' % (cookie, self.air.getMsgSender()))
 
         sender = self.air.getMsgSender()
@@ -911,7 +914,11 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
             # Oops, they have an account ID on their connection already!
             self.killConnection(sender, 'Client is already logged in.')
             return
-
+        # Test Server Secret
+        serversecret = config.GetString('csmud-secret', 'streetlamps')
+        if secret != serversecret:
+            self.killConnection(sender, 'The accounts database rejcts you secret key')
+            return
         # Test the signature
         key = config.GetString('csmud-secret', 'streetlamps') + config.GetString('server-version', 'no_version_set') + FIXED_KEY
         computedSig = hmac.new(key, cookie, hashlib.sha256).digest()
@@ -967,7 +974,9 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         if len(REPORT_REASONS) <= category:
             self.air.writeServerEvent("suspicious", avId=reporterId, issue="Invalid report reason index (%d) sent by avatar." % category)
             return
+
+        #This connects to TTW.com and adds the entry in a DB table Reporter ID Reportee ID and the category of why they were reported
+        connection = httplib.HTTPConnection("www.toontownworldonline.com")
+        connection.request("GET", "/api/csmud/report.php?reporterId="+ str(reporterId) + "&avId=" + str(avId) + "&category=" + str(REPORT_REASONS[category]))
+        response = connection.getresponse()
         self.air.writeServerEvent("player-reported", reporterId=reporterId, avId=avId, category=REPORT_REASONS[category])
-        # TODO: RPC call to web to say this person was reported.
-        # This will require a database query to fetch the webId associated with the reported player.
-        # Either that, or the web can make an RPC call to the server to get webId from avId.

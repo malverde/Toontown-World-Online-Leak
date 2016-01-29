@@ -1,3 +1,4 @@
+#Embedded file name: toontown.cogdominium.CogdoLevelGameBase
 from direct.fsm.StatePush import FunctionCall
 from otp.level.EntityStateVarSet import EntityStateVarSet
 from otp.level.LevelSpec import LevelSpec
@@ -21,7 +22,6 @@ class CogdoLevelGameBase:
                             fcs.append(FunctionCall(handler, stateVar))
 
             self._functionCalls = fcs
-            return
 
         def stopHandleEdits(self):
             if __dev__:
@@ -29,7 +29,6 @@ class CogdoLevelGameBase:
                     fc.destroy()
 
                 self._functionCalls = None
-            return
 
         def getEntityTypeReg(self):
             import CogdoEntityTypes
