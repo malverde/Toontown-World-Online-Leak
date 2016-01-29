@@ -41,7 +41,7 @@ class QuestManagerAI:
         Called in battleExperience to alert the quest system that a toon has
         killed some cogs.
         """
-        messenger.send('topToonsManager-event', [av.doId, TopToonsGlobals.CAT_COGS, len(suitsKilled)])
+        messenger.send('topToonsManager-event', [toon.doId, TopToonsGlobals.CAT_COGS, len(suitsKilled)])
         for index, quest in enumerate(self.__toonQuestsList2Quests(toon.quests)):
             if isinstance(quest, Quests.CogQuest):
                 # It's a cog quest!
