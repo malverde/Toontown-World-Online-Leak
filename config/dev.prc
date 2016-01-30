@@ -120,6 +120,7 @@ want-speedhack-fix #t
 estate-day-night #t
 want-instant-parties #f
 want-toontorial #f
+want-tutorial #f
 want-doomsday #f
 want-cogdominiums #t
 
