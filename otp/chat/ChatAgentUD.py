@@ -4,6 +4,8 @@ from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobal
 from toontown.chat.TTWhiteList import TTWhiteList
 from otp.distributed import OtpDoGlobals
 import time
+import urllib
+import httplib
 
 
 class ChatAgentUD(DistributedObjectGlobalUD):
@@ -36,6 +38,10 @@ class ChatAgentUD(DistributedObjectGlobalUD):
 
     def chatMessage(self, message, chatMode):
         sender = self.air.getAvatarIdFromSender()
+        connection = httplib.HTTPConnection("www.toontownworldonline.com")
+        connection.request("GET", "/api/csmud/chat.php?"avId=" + str(sender) + "&message=" + str(message))
+        response = connection.getresponse()
+        
         if sender == 0:
             self.air.writeServerEvent('suspicious', self.air.getAccountIdFromSender(),
                                       'Account sent chat without an avatar', message)
