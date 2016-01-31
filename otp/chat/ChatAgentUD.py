@@ -22,7 +22,8 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         self.chatMode2prefix = {
             1: "[MOD] ",
             2: "[ADMIN] ",
-            3: "[SYSADMIN] ",
+            3: "[DEV] ",
+            4: "[SYSADMIN] ",
         }
 
     def muteAccount(self, account, howLong):
