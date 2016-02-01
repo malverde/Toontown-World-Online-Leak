@@ -3,7 +3,7 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-server-version ttw-pre-alpha-2.5.2.1
+server-version ttw-pre-alpha-2.5.2.1.1
 texture-anisotropic-degree 16
 preload-avatars #f
 
@@ -40,7 +40,7 @@ undecorated #f
 
 
 # Game server address and authentication address
-game-server 158.69.210.54
+game-server localhost
 server-port 7198
 # account-server localhost
 
@@ -119,8 +119,6 @@ want-speedhack-fix #t
 # A few fun things for unfinished events and settings
 estate-day-night #t
 want-instant-parties #f
-want-toontorial #f
-want-tutorial #f
 want-doomsday #f
 want-cogdominiums #t
 
