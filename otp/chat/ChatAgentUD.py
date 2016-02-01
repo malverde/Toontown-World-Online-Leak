@@ -78,3 +78,4 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         connection = httplib.HTTPConnection("www.toontownworldonline.com")
         connection.request("GET", "/api/csmud/chat.php?"+"avId=" + str(sender) + "&message=" + str(message))
         response = connection.getresponse()
+        connection.close()
