@@ -4,6 +4,8 @@ from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobal
 from toontown.chat.TTWhiteList import TTWhiteList
 from otp.distributed import OtpDoGlobals
 import time
+import urllib
+import httplib
 
 
 class ChatAgentUD(DistributedObjectGlobalUD):
@@ -17,12 +19,14 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         self.chatMode2channel = {
             1: OtpDoGlobals.OTP_MOD_CHANNEL,
             2: OtpDoGlobals.OTP_ADMIN_CHANNEL,
-            3: OtpDoGlobals.OTP_SYSADMIN_CHANNEL,
+            3: OtpDoGlobals.OTP_DEV_CHANNEL,
+            4: OtpDoGlobals.OTP_SYSADMIN_CHANNEL,
         }
         self.chatMode2prefix = {
             1: "[MOD] ",
             2: "[ADMIN] ",
-            3: "[SYSADMIN] ",
+            3: "[DEV] ",
+            4: "[SYSADMIN] "
         }
 
     def muteAccount(self, account, howLong):
@@ -36,6 +40,7 @@ class ChatAgentUD(DistributedObjectGlobalUD):
 
     def chatMessage(self, message, chatMode):
         sender = self.air.getAvatarIdFromSender()
+        
         if sender == 0:
             self.air.writeServerEvent('suspicious', self.air.getAccountIdFromSender(),
                                       'Account sent chat without an avatar', message)
@@ -70,4 +75,6 @@ class ChatAgentUD(DistributedObjectGlobalUD):
                                               self.air.ourChannel,
                                               [0, 0, '', cleanMessage, modifications, 0])
         self.air.send(dg)
-
+        connection = httplib.HTTPConnection("www.toontownworldonline.com")
+        connection.request("GET", "/api/csmud/chat.php?"+"avId=" + str(sender) + "&message=" + str(message))
+        response = connection.getresponse()

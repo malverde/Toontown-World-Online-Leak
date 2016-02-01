@@ -247,6 +247,12 @@ class LoginAccountFSM(OperationFSM):
             dg.addServerHeader(self.target, self.csm.air.ourChannel, CLIENTAGENT_OPEN_CHANNEL)
             dg.addChannel(OtpDoGlobals.OTP_ADMIN_CHANNEL)
             self.csm.air.send(dg)
+        if access >= 405:
+            # Subscribe to the developer channel.
+            dg = PyDatagram()
+            dg.addServerHeader(self.target, self.csm.air.ourChannel, CLIENTAGENT_OPEN_CHANNEL)
+            dg.addChannel(OtpDoGlobals.OTP_DEV_CHANNEL)
+            self.csm.air.send(dg)
         if access >= 500:
             # Subscribe to the system administrator channel.
             dg = PyDatagram()
