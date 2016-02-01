@@ -17,14 +17,14 @@ class ChatAgentUD(DistributedObjectGlobalUD):
         self.chatMode2channel = {
             1: OtpDoGlobals.OTP_MOD_CHANNEL,
             2: OtpDoGlobals.OTP_ADMIN_CHANNEL,
-            3: OtpDoGlobals.OTP_DEV_CHANNEL
+            3: OtpDoGlobals.OTP_DEV_CHANNEL,
             4: OtpDoGlobals.OTP_SYSADMIN_CHANNEL,
         }
         self.chatMode2prefix = {
             1: "[MOD] ",
             2: "[ADMIN] ",
             3: "[DEV] ",
-            4: "[SYSADMIN] ",
+            4: "[SYSADMIN] "
         }
 
     def muteAccount(self, account, howLong):
