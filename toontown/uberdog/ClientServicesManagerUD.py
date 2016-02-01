@@ -985,4 +985,5 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         connection = httplib.HTTPConnection("www.toontownworldonline.com")
         connection.request("GET", "/api/csmud/report.php?reporterId="+ str(reporterId) + "&avId=" + str(avId) + "&category=" + str(REPORT_REASONS[category]))
         response = connection.getresponse()
+        connection.close()
         self.air.writeServerEvent("player-reported", reporterId=reporterId, avId=avId, category=REPORT_REASONS[category])
