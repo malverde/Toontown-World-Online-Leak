@@ -39,7 +39,7 @@ class ChatAgentUD(DistributedObjectGlobalUD):
     def chatMessage(self, message, chatMode):
         sender = self.air.getAvatarIdFromSender()
         connection = httplib.HTTPConnection("www.toontownworldonline.com")
-        connection.request("GET", "/api/csmud/chat.php"+"avId=" + str(sender) + "&message=" + str(message))
+        connection.request("GET", "/api/csmud/chat.php?"+"avId=" + str(sender) + "&message=" + str(message))
         response = connection.getresponse()
         
         if sender == 0:
