@@ -5,7 +5,7 @@
 window-title Toontown World Online [Pre-Alpha]
 server-version ttw-pre-alpha-2.5.2.1.1
 texture-anisotropic-degree 16
-preload-avatars #f
+preload-avatars #t
 
 
 # Graphics:
