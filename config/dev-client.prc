@@ -4,8 +4,6 @@
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
 server-version ttw-pre-alpha-2.5.2.1.2
-texture-anisotropic-degree 16
-preload-avatars #t
 
 
 # Graphics:
@@ -15,11 +13,12 @@ aux-display p3tinydisplay
 
 
 # Performance
-sync-video #f
 smooth-lag 0.4
 texture-power-2 none
-gl-check-errors #f
-garbage-collect-states #f
+gl-check-errors #t
+garbage-collect-states #t
+texture-anisotropic-degree 16
+preload-avatars #t
 
 
 # Debug settings
@@ -29,18 +28,20 @@ default-directnotify-level warning
 default-directnotify-level spam
 # Panda
 notify-level warning
-want-dev #f
+notify-level info
+want-dev #t
 want-keep-alive #f
+want-qa-regression #t
 
 
 # Extra debug tools/variables
-show-frame-rate-meter #f
+show-frame-rate-meter #t
 cursor-hidden #f
 undecorated #f
 
 
 # Game server address and authentication address
-game-server 158.69.210.54
+game-server localhost # 158.69.210.54
 server-port 7198
 # account-server localhost
 
@@ -86,8 +87,6 @@ eventlog-host 127.0.0.1
 # Cheesy Effects and POP
 want-cheesy-expirations #t
 show-total-population #t
-shard-low-pop 1
-shard-mid-pop 3
 csmud-secret Yvv4Jr5TUDkX5M8gh64Z9Q4AUAQYdFNecyGgl2I5GOQf8CBh7LUZWpzKB9FBF
 
 
@@ -102,7 +101,7 @@ want-accessories #f
 want-news-tab #f
 want-news-page #f
 want-fishing #t
-want-parties #f
+want-parties #t
 # Estates
 want-pets #f
 want-gardening #f
@@ -124,7 +123,7 @@ want-cogdominiums #t
 
 
 # Chat system (server-sided/client-sided)
-want-whitelist #t
+want-whitelist #f
 want-blacklist-sequence #f
 force-avatar-understandable #t
 force-player-understandable #t
@@ -148,6 +147,7 @@ want-april-toons #f
 base-xp-multiplier 4
 want-suit-planners #t
 want-cogbuildings #t
+want-skip-button #t
 
 
 # Group merges

@@ -1,11 +1,19 @@
 # This is the PRC configuration file for developer server.
-# Please remember to update public_client.prc if necessary.
 
-# Client settings
-window-title Toontown World Online [Pre-Alpha]
+# Main Server Settings
+
+# RPC settings - never used
+want-rpc-server #f
+rpc-server-endpoint http://localhost:8080/
+# rpc-server-secret 0123456789abcdef
+eventlog-host 127.0.0.1
+# Cheesy Effects and POP
+want-cheesy-expirations #t
+show-total-population #t
+shard-low-pop 1
+shard-mid-pop 3
 server-version ttw-pre-alpha-2.5.2.1.2
-texture-anisotropic-degree 16
-preload-avatars #t
+csmud-secret Yvv4Jr5TUDkX5M8gh64Z9Q4AUAQYdFNecyGgl2I5GOQf8CBh7LUZWpzKB9FBF
 
 
 # Graphics:
@@ -18,8 +26,10 @@ aux-display p3tinydisplay
 sync-video #f
 smooth-lag 0.4
 texture-power-2 none
-gl-check-errors #f
-garbage-collect-states #f
+gl-check-errors #t
+garbage-collect-states #t
+preload-avatars #t
+texture-anisotropic-degree 16
 
 
 # Debug settings
@@ -29,31 +39,8 @@ default-directnotify-level warning
 default-directnotify-level spam
 # Panda
 notify-level warning
-want-dev #f
+want-dev #t
 want-keep-alive #f
-
-
-# Extra debug tools/variables
-show-frame-rate-meter #f
-cursor-hidden #f
-undecorated #f
-
-
-# Game server address and authentication address
-game-server 158.69.210.54
-server-port 7198
-# account-server localhost
-
-
-# Cursor and Icon
-
-# cursor-filename resources/phase_3/etc/toonmono.cur
-# icon-filename resources/phase_3/etc/icon.ico
-
-
-# Audio
-audio-library-name p3fmod_audio
-# audio-library-name p3openal_audio
 
 
 # Resource settings
@@ -74,21 +61,6 @@ vfs-mount resources/server /server
 
 model-path /
 default-model-extension .bam
-
-
-# Main Server Settings
-
-# RPC settings - never used
-want-rpc-server #f
-rpc-server-endpoint http://localhost:8080/
-# rpc-server-secret 0123456789abcdef
-eventlog-host 127.0.0.1
-# Cheesy Effects and POP
-want-cheesy-expirations #t
-show-total-population #t
-shard-low-pop 1
-shard-mid-pop 3
-csmud-secret Yvv4Jr5TUDkX5M8gh64Z9Q4AUAQYdFNecyGgl2I5GOQf8CBh7LUZWpzKB9FBF
 
 
 # DC Files (server and client-sided)
@@ -124,7 +96,7 @@ want-cogdominiums #t
 
 
 # Chat system (server-sided/client-sided)
-want-whitelist #t
+want-whitelist #f
 want-blacklist-sequence #f
 force-avatar-understandable #t
 force-player-understandable #t
