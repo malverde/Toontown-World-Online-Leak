@@ -2029,7 +2029,7 @@ NoRewardTierZeroQuests = (101,
 RewardTierZeroQuests = ()
 PreClarabelleQuestIds = NoRewardTierZeroQuests + RewardTierZeroQuests
 QuestDict = {
-  101: (TT_TIER,
+  1045: (TT_TIER,
 	   Start,
 	   (CogQuest,
 		Anywhere,
@@ -2717,7 +2717,7 @@ QuestDict = {
 		NA,
 		1045,
 		TTLocalizer.QuestDialogDict[1044]),
- 1045: (TT_TIER + 2,
+ 101: (TT_TIER + 2,
 		Cont,
 		(DeliverItemQuest, 8),
 		Same,
