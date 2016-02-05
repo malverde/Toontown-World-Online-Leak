@@ -39,7 +39,7 @@ default-directnotify-level warning
 default-directnotify-level spam
 # Panda
 notify-level warning
-want-dev #t
+want-dev #f
 want-keep-alive #f
 
 

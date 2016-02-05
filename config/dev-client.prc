@@ -29,7 +29,7 @@ default-directnotify-level spam
 # Panda
 notify-level warning
 notify-level info
-want-dev #t
+want-dev #f
 want-keep-alive #f
 want-qa-regression #t
 
