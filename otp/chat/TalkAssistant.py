@@ -631,13 +631,25 @@ class TalkAssistant(DirectObject.DirectObject):
             messenger.send('chatUpdate', [message, chatFlags])
         return error
 
-    def sendWhisperTalk(self, message, receiverAvId):
-        # Check if we are a true friend
-        if (receiverAvId, True) in base.localAvatar.friendsList:
-            base.cr.chatAgent.sendSFWhisperMessage(receiverAvId, message)
-            return None
+    def whiteListFilterWhisper(self, message):
+        if not self.useWhiteListFilter:
+            return message
+        if not base.whiteList:
+            return 'no list'
+        words = message.split(' ')
+        newwords = []
+        for word in words:
+            if word == '' or base.whiteList.isWord(word):
+                newwords.append(word)
+            else:
+                newwords.append(base.whiteList.defaultWord)
 
-        base.cr.chatAgent.sendWhisperMessage(receiverAvId, message)
+        newText = ' '.join(newwords)
+        return newMessage
+
+    def sendWhisperTalk(self, message, receiverAvId):
+        self.whiteListFilterWhisper(message)
+        base.cr.chatAgent.sendWhisperMessage(receiverAvId, newMessage)
         return None
 
 
