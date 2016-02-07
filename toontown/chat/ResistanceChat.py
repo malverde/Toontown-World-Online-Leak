@@ -61,12 +61,12 @@ resistanceDict = {RESISTANCE_TOONUP: {'menuName': TTL.ResistanceToonupMenu,
                                                  4,
                                                  5,
                                                  6,
-                                                 7]}},
+                                                 7]},
                   RESISTANCE_DANCE: {'menuName': TTL.ResistanceDanceMenu,
-                     'itemText': TTL.ResistanceDanceItem,
-                     'chatText': TTL.ResistanceDanceChat,
-                     'values': ['Dance'],
-                     'items': [0]}}
+                                     'itemText': TTL.ResistanceDanceItem,
+                                     'chatText': TTL.ResistanceDanceChat,
+                                     'values': ['Dance'],
+                                     'items': [0]}}
 
 
 def encodeId(menuIndex, itemIndex):
