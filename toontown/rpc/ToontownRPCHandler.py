@@ -2,7 +2,7 @@ import datetime
 from direct.distributed.MsgTypes import CLIENTAGENT_EJECT
 from direct.distributed.PyDatagram import PyDatagram
 from direct.stdpy import threading2
-import re
+import re, json
 
 from otp.distributed import OtpDoGlobals
 from toontown.distributed.ShardStatusReceiver import ShardStatusReceiver
@@ -10,7 +10,6 @@ from toontown.rpc.ToontownRPCHandlerBase import *
 from toontown.suit.SuitInvasionGlobals import INVASION_TYPE_NORMAL
 from toontown.toon import ToonDNA
 from toontown.toonbase import TTLocalizer
-from toontown.uberdog.ClientServicesManagerUD import executeHttpRequest
 
 
 class ToontownRPCHandler(ToontownRPCHandlerBase):
@@ -343,37 +342,37 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
 
     # --- BANS ---
 
-    @rpcmethod(accessLevel=MODERATOR)
-    def rpc_banUser(self, userId, duration, reason):
-        """
-        Summary:
-            Bans the user associated with the provided [userId] for the
-            specified [duration].
-
-        Parameters:
-            [int/str userId] = The ID of the user to ban.
-            [int duration] = The ban's duration in hours. If this is 0 or less,
-                the user will be permanently banned.
-            [str reason] = A short description of why this user is being
-                banned. This can be one of the following values: 'hacking',
-                'language', 'other'.
-
-        Example response:
-            On success: True
-            On failure: False
-        """
-        if reason not in ('hacking', 'language', 'other'):
-            return False
-        self.air.writeServerEvent('ban', userId, duration, reason)
-        if duration > 0:
-            now = datetime.date.today()
-            release = str(now + datetime.timedelta(hours=duration))
-        else:
-            release = '0000-00-00'  # Permanent ban.
-        executeHttpRequest('accounts/ban/', Id=userId, Release=release,
-                           Reason=reason)
-        self.rpc_kickUser(userId, 152, reason)
-        return True
+    # @rpcmethod(accessLevel=MODERATOR)
+    # def rpc_banUser(self, userId, duration, reason):
+    #     """
+    #     Summary:
+    #         Bans the user associated with the provided [userId] for the
+    #         specified [duration].
+    #
+    #     Parameters:
+    #         [int/str userId] = The ID of the user to ban.
+    #         [int duration] = The ban's duration in hours. If this is 0 or less,
+    #             the user will be permanently banned.
+    #         [str reason] = A short description of why this user is being
+    #             banned. This can be one of the following values: 'hacking',
+    #             'language', 'other'.
+    #
+    #     Example response:
+    #         On success: True
+    #         On failure: False
+    #     """
+    #     if reason not in ('hacking', 'language', 'other'):
+    #         return False
+    #     self.air.writeServerEvent('ban', userId, duration, reason)
+    #     if duration > 0:
+    #         now = datetime.date.today()
+    #         release = str(now + datetime.timedelta(hours=duration))
+    #     else:
+    #         release = '0000-00-00'  # Permanent ban.
+    #     executeHttpRequest('accounts/ban/', Id=userId, Release=release,
+    #                        Reason=reason)
+    #     self.rpc_kickUser(userId, 152, reason)
+    #     return True
 
     @rpcmethod(accessLevel=MODERATOR)
     def rpc_banAccount(self, accountId, duration, reason):
@@ -423,8 +422,8 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
 
     # --- USERS ---
 
-    @rpcmethod(accessLevel=MODERATOR)
-    def rpc_getUserAccountId(self, userId):
+    # @rpcmethod(accessLevel=MODERATOR)
+    # def rpc_getUserAccountId(self, userId):
         """
         Summary:
             Responds with the ID of the account associated with the provided
@@ -437,8 +436,14 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
             On success: 100000000
             On failure: None
         """
-        if str(userId) in self.air.csm.accountDB.dbm:
-            return int(self.air.csm.accountDB.dbm[str(userId)])
+        # response = executeHttpRequest('accountid', username=str(userId))
+        # if response is not None:
+        #     response = json.loads(response)
+        #     if response['success'] is True:
+        #         return int(response['accountId'])
+        #     else:
+        #         print response['error']
+        # return False
 
     @rpcmethod(accessLevel=MODERATOR)
     def rpc_getUserAvatars(self, userId):
@@ -626,7 +631,7 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
                 {
                    'name': 'Toon Name',
                    'species': 'cat',
-                   'head-color': 'Red',
+                   'head-color': (1, 0, 0, 1),
                    'max-hp': 15,
                    'online': True
                 }
@@ -642,8 +647,9 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
             dna.makeFromNetString(fields['setDNAString'][0])
             result['species'] = ToonDNA.getSpeciesName(dna.head)
 
-            result['head-color'] = TTLocalizer.NumToColor[dna.headColor]
-            result['max-hp'] = fields['setMaxHp'][0]
+            result['head_color'] = dna.headColor
+            result['max_hp'] = fields['setMaxHp'][0]
+            result['hp'] = fields['setHp'][0]
             result['online'] = (avId in self.air.friendsManager.onlineToons)
 
             return result
@@ -661,13 +667,13 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
 
         Example response: [100000001, ...]
         """
-        if not config.GetBool('want-mongo-client', False):
+        if not config.GetBool('want-mongo', False):
             return []
         if not needle:
             return []
-        self.air.mongodb.astron.objects.ensure_index('fields.setName')
+        self.air.database.astron.objects.ensure_index('fields.setName')
         exp = re.compile('.*%s.*' % needle, re.IGNORECASE)
-        result = self.air.mongodb.astron.objects.find({'fields.setName._0': exp})
+        result = self.air.database.astron.objects.find({'fields.setName._0': exp})
         return [avatar['_id'] for avatar in result]
 
     # --- SHARDS ---
@@ -716,7 +722,7 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
             <int flags> = Extra invasion flags.
             <int type> = The invasion type.
         """
-        self.air.netMessenger.send(
+        self.air.sendNetEvent(
             'startInvasion',
             [shardId, suitDeptIndex, suitTypeIndex, flags, type])
 
@@ -730,7 +736,7 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
             [int shardId] = The ID of the shard that is running the invasion to
                 be terminated.
         """
-        self.air.netMessenger.send('stopInvasion', [shardId])
+        self.air.sendNetEvent('stopInvasion', [shardId])
 
     # --- NAME APPROVAL ---
 
@@ -749,8 +755,8 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
             On success: True
             On failure: False
         """
-        newFields = {'WishNameState': 'APPROVED'}
-        oldFields = {'WishNameState': 'PENDING'}
+        newFields = {'setWishNameState': 'APPROVED'}
+        oldFields = {'setWishNameState': 'PENDING'}
         return self.rpc_updateObject(
             avId, 'DistributedToonUD', newFields, oldFields=oldFields)
 
@@ -769,7 +775,52 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
             On success: True
             On failure: False
         """
-        newFields = {'WishNameState': 'REJECTED'}
-        oldFields = {'WishNameState': 'PENDING'}
+        newFields = {'setWishNameState': 'REJECTED'}
+        oldFields = {'setWishNameState': 'PENDING'}
         return self.rpc_updateObject(
             avId, 'DistributedToonUD', newFields, oldFields=oldFields)
+
+    # @rpcmethod(accessLevel=MODERATOR)
+    # def rpc_getChatSettings(self, accId):
+    #     """
+    #     Summary:
+    #         Retrieves the chat settings of the account associated with the provided
+    #         [accId].
+    #
+    #     Parameters:
+    #         [int accId]      = The ID of the account whose chat settings
+    #                            are to be retreived.
+    #
+    #     Example response:
+    #         On success: [uint8[sp+, tf]]
+    #         On failure: False
+    #     """
+    #     dclassName, fields = self.rpc_queryObject(int(accId))
+    #     if dclassName == 'Account':
+    #         if 'CHAT_SETTINGS' in fields:
+    #             return fields['CHAT_SETTINGS']
+    #         # The chat settings haven't been set yet, so we'll
+    #         # want to do that now.
+    #         self.rpc_setChatSettings(accId)
+    #         return [1, 1]
+    #     return False
+    #
+    # @rpcmethod(accessLevel=MODERATOR)
+    # def rpc_setChatSettings(self, accId, speedChatPlus = 1, trueFriends = 1):
+    #     """
+    #     Summary:
+    #         Sets the chat settings of the account associated with the provided
+    #         [accId].
+    #
+    #     Parameters:
+    #         [int accId]      = The ID of the account whose chat settings
+    #                            are to be changed.
+    #         [uint8[sp+, tf]] = The chat settings - SpeedChat Plus and
+    #                            True Friends
+    #
+    #     Example response:
+    #         On success: True
+    #         On failure: False
+    #     """
+    #     return self.rpc_updateObject(accId, 'AccountUD', {'CHAT_SETTINGS':
+    #                                 [int(speedChatPlus), int(trueFriends)]})
