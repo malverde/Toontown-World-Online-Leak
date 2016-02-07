@@ -1496,14 +1496,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         cogLevel = self.cogLevels[deptIndex]
         maxSuitType = SuitDNA.suitsPerDept - 1
         maxSuitLevel = (SuitDNA.levelsPerSuit-1) + maxSuitType
-        if cogLevel == maxSuitLevel:
-            self.notify.warning('Attempted to increment Cog level when at max Cog level.')
-            self.air.writeServerEvent(
-                'suspicious', self.doId,
-                'Attempted to increment Cog level when at max Cog level.')
-            return
         maxCogLevel = (SuitDNA.levelsPerSuit-1) + self.cogTypes[deptIndex]
-        if cogLevel == maxCogLevel:
+        if (cogLevel == maxCogLevel) or (cogLevel == maxSuitLevel):
             self.promotionStatus[deptIndex] = ToontownGlobals.PendingPromotion
             self.d_setPromotionStatus(self.promotionStatus)
         else:
