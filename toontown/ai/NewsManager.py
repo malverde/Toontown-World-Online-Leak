@@ -14,6 +14,7 @@ from copy import deepcopy
 from toontown.speedchat import TTSCJellybeanJamMenu
 import datetime
 import time
+from toontown.ai import HolidayGlobals
 decorationHolidays = [ToontownGlobals.WINTER_DECORATIONS,
 					  ToontownGlobals.WACKY_WINTER_DECORATIONS,
 					  ToontownGlobals.HALLOWEEN_PROPS,
@@ -59,26 +60,13 @@ class NewsManager(DistributedObject.DistributedObject):
 			base.localAvatar.inventory.setInvasionCreditMultiplier(1)
 		if hasattr(base, 'localAvatar') and base.localAvatar is not None:
 			base.localAvatar.chatMgr.chatInputSpeedChat.addSellbotFieldOfficeMenu()
-			day = str(datetime.datetime.now().strftime("%d"))
-			if str(datetime.datetime.now().strftime("%m")) == "12":
-				if day == "14" or day == "15" or day == "16" or day == "17" or day == "18" or day == "19" or day == "20" or day == "21" or day == "22" or day == "23" or day == "24" or day == "25" or day == "26" or day == "27" or "28" or day == "29" or day == "30" or day == "31":
-					self.startChristmas()
-					print "starting christmas"
-			if str(datetime.datetime.now().strftime("%m")) == "01":
-				if  day == "01" or day == "02" or day == "03" or day == "04":
-					self.startChristmas()
-			if str(datetime.datetime.now().strftime("%m")) == "10":
-				if day ==  "21" or day == "22" or day == "23" or day == "25" or day == "26" or day == "27" or day == "28" or day == "29" or day == "30" or day == "31":
-					self.startHalloween()
-			if str(datetime.datetime.now().strftime("%m")) == "11":
-				if  day == "01":
-					self.startHalloween()
-			if str(datetime.datetime.now().strftime("%m")) == "04":
-				if day == "01" or day == "02" or day == "03" or day == "04" or day == "05" or day == "06" or day == "07" or day == "09" or day == "10" or day == "11":
-					self.startApril()
-			if str(datetime.datetime.now().strftime("%m")) == "03":
-				if day ==  "29" or day == "30" or day == "31":
-					self.startApril()
+            if HolidayGlobals.WhatHolidayIsIt() == 'Winter':
+                self.startChristmas()
+                print "starting christmas"
+            if HolidayGlobals.WhatHolidayIsIt() == 'Halloween':
+                self.startHalloween()
+            if HolidayGlobals.WhatHolidayIsIt() == 'April Toons':
+                self.startApril()
 		self.weeklyCalendarHolidays = []
 		self.yearlyCalendarHolidays = []
 		return
@@ -169,19 +157,19 @@ class NewsManager(DistributedObject.DistributedObject):
 		elif HolidayName == 'Halloween':
 			msg1 =  TTLocalizer.HalloweenPropsHolidayStart
 			
-		elif HolidayName == 'Ides of March':
-			msg1 =  TTLocalizer.IdesOfMarchStart
 		elif HolidayName == 'April Toons':
 			msg1 =  'Things are getting silly here in toontown!'
-		# XP booster config is in battlecalculator - X3
-		elif HolidayName == 'Xp Booster':
-			msg1 = TTLocalizer.lResistance + ' ' + ' Enjoy an XP Boost on us for busting those cogs!'
-
-		elif HolidayName == 'Tax Day':
-			msg1 = TTLocalizer.lResistance + ' ' + 'The Number Crunchers are invading! Help save Toontown!'
 		else:
 			self.notify.warning('setHoliday: There is no current holidays active!')
 			return
+		#elif HolidayName == 'Ides of March':
+		#	msg1 =  TTLocalizer.IdesOfMarchStart
+		## XP booster config is in battlecalculator - X3
+		#elif HolidayName == 'Xp Booster':
+	#		msg1 = TTLocalizer.lResistance + ' ' + ' Enjoy an XP Boost on us for busting those cogs!'
+
+	#	elif HolidayName == 'Tax Day':
+	#		msg1 = TTLocalizer.lResistance + ' ' + 'The Number Crunchers are invading! Help save Toontown!'
 		"""
 		elif HolidayName == 'Victory Partys':
 			base.localAvatar.chatMgr.chatInputSpeedChat.addVictoryPartiesMenu()
