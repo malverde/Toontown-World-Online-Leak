@@ -43,8 +43,26 @@ if int(datetime.datetime.now().strftime("%m")) == 7 and day == 29 or day == 30:
 else:
     Xp = 1.0
 
+if int(datetime.datetime.now().strftime("%m")) == 2:
+    Show = 'Release'
+else:
+    Show = 'None'
+
+if int(datetime.datetime.now().strftime("%m")) == 7 and day >= 1 and day <= 15:
+    Show = 'Summer'
+else:
+    Show = 'None'
+
+if int(datetime.datetime.now().strftime("%m")) == 12 and day == 30 or day == 31:
+    Show = 'Nyear'
+else:
+    Show = 'None'
+
 def WhatHolidayIsIt():
     return HolidayName
 
 def WhatIsXp():
     return Xp
+    
+def IsItFireworks():
+    return Show
