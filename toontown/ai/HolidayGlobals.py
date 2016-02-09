@@ -3,6 +3,9 @@ import datetime
 
 day = int(datetime.datetime.now().strftime("%d"))
 
+#Holidays
+
+
 if int(datetime.datetime.now().strftime("%m")) == 12 and day >= 14  and day <= 31:
 	HolidayName = 'Winter'
 else:
@@ -32,7 +35,10 @@ if int(datetime.datetime.now().strftime("%m")) == 4 and day >= 1 and day <= 11:
     HolidayName = 'April Toons'
 else:
     HolidayName = 'None'
-    
+
+
+#Xp 
+
 if int(datetime.datetime.now().strftime("%m")) == 3:
     Xp = 2.0
 else:
@@ -43,6 +49,8 @@ if int(datetime.datetime.now().strftime("%m")) == 7 and day == 29 or day == 30:
 else:
     Xp = 1.0
 
+
+#Fireworks
 if int(datetime.datetime.now().strftime("%m")) == 2:
     Show = 'Release'
 else:
@@ -58,6 +66,34 @@ if int(datetime.datetime.now().strftime("%m")) == 12 and day == 30 or day == 31:
 else:
     Show = 'None'
 
+#Invasions 
+
+# Tax Invasion
+# Invasion scheduled for 15th of April - Number Crunchers - nomral, 2,500 Cogs
+if int(datetime.datetime.now().strftime("%m")) == 4 and day == 15:
+	name = 'nc'
+	num = 2500
+	special = 0
+	
+# Ides of March
+# Invasion scheduled for 15th of March - Back Stabbers - nomral, 2,500 Cogs
+if int(datetime.datetime.now().strftime("%m")) == 3 and day == 15:
+	name = 'bs'
+	num = 2500
+	special = 0
+	
+# Invasion scheduled for 15th Mover & Shaker - 2.0 Cogs, 2,500 Cogs
+if day == 15:
+	name = 'ms'
+	num = 2500
+	special = 2
+
+#Legal Eagle - Skelecog, 2,500 Cogs
+if day == 30 or day ==  31:
+	name = 'le'
+	num = 2500
+	special = 1
+
 def WhatHolidayIsIt():
     return HolidayName
 
@@ -66,3 +102,6 @@ def WhatIsXp():
     
 def IsItFireworks():
     return Show
+
+def IsItInvasion():
+    return name, num, special
