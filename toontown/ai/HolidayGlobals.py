@@ -32,6 +32,19 @@ if int(datetime.datetime.now().strftime("%m")) == 4 and day >= 1 and day <= 11:
     HolidayName = 'April Toons'
 else:
     HolidayName = 'None'
+    
+if int(datetime.datetime.now().strftime("%m")) == 3:
+    Xp = 2.0
+else:
+    Xp = 1.0
+
+if int(datetime.datetime.now().strftime("%m")) == 7 and day == 29 or day == 30:
+    Xp = 3.0
+else:
+    Xp = 1.0
 
 def WhatHolidayIsIt():
     return HolidayName
+
+def WhatIsXp():
+    return Xp
