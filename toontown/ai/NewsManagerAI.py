@@ -3,7 +3,6 @@ from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.toonbase import ToontownGlobals
 from otp.ai.MagicWordGlobal import *
 from toontown.toonbase import TTLocalizerEnglish as TTLocalizer
-import datetime
 from toontown.ai import HolidayManagerAI
 from toontown.ai import NewsInvasionAI
 from toontown.ai import HolidayGlobals
