@@ -1498,14 +1498,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         cogLevel = self.cogLevels[deptIndex]
         maxSuitType = SuitDNA.suitsPerDept - 1
         maxSuitLevel = (SuitDNA.levelsPerSuit-1) + maxSuitType
-        if cogLevel == maxSuitLevel:
-            self.notify.warning('Attempted to increment Cog level when at max Cog level.')
-            self.air.writeServerEvent(
-                'suspicious', self.doId,
-                'Attempted to increment Cog level when at max Cog level.')
-            return
         maxCogLevel = (SuitDNA.levelsPerSuit-1) + self.cogTypes[deptIndex]
-        if cogLevel == maxCogLevel:
+        if (cogLevel == maxCogLevel) or (cogLevel == maxSuitLevel):
             self.promotionStatus[deptIndex] = ToontownGlobals.PendingPromotion
             self.d_setPromotionStatus(self.promotionStatus)
         else:
@@ -4760,7 +4754,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 def setCE(CEValue, CEHood=0, CEExpire=0):
     """Set Cheesy Effect of the target."""
     CEHood *= 1000  #So the invoker only has to use '1' for DonaldsDock, '2' for TTC etc.
-    if not 0 <= CEValue <= 18:
+    if not 0 <= CEValue <= 20:
         return 'Invalid value %s specified for Cheesy Effect.' % CEValue
     if CEHood != 0 and not 100 < CEHood < ToontownGlobals.DynamicZonesBegin:
         return 'Invalid zoneId specified.'
