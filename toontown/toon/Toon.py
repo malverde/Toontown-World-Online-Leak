@@ -781,6 +781,10 @@ class Toon(Avatar.Avatar, ToonHead):
                 height *= ToontownGlobals.BigToonScale
             elif self.cheesyEffect == ToontownGlobals.CESmallToon:
                 height *= ToontownGlobals.SmallToonScale
+            elif self.cheesyEffect == ToontownGlobals.CETinyToon:
+                height *= ToontownGlobals.TinyToonScale
+            elif self.cheesyEffect == ToontownGlobals.CEGiantToon:
+                height *= ToontownGlobals.GiantToonScale
             self.setHeight(height)
 
     def generateToonLegs(self, copy = 1):
@@ -2764,6 +2768,10 @@ class Toon(Avatar.Avatar, ToonHead):
             return self.__doToonScale(ToontownGlobals.BigToonScale, lerpTime)
         if effect == ToontownGlobals.CESmallToon:
             return self.__doToonScale(ToontownGlobals.SmallToonScale, lerpTime)
+        if effect == ToontownGlobals.CETinyToon:
+            return self.__doToonScale(ToontownGlobals.TinyToonScale, lerpTime)
+        if effect == ToontownGlobals.CEGiantToon:
+            return self.__doToonScale(ToontownGlobals.GiantToonScale, lerpTime)
         if effect == ToontownGlobals.CEFlatPortrait:
             return self.__doToonScale(VBase3(1, 0.05, 1), lerpTime)
         if effect == ToontownGlobals.CEFlatProfile:
@@ -2811,6 +2819,10 @@ class Toon(Avatar.Avatar, ToonHead):
         if effect == ToontownGlobals.CEBigToon:
             return self.__doToonScale(None, lerpTime)
         if effect == ToontownGlobals.CESmallToon:
+            return self.__doToonScale(None, lerpTime)
+        if effect == ToontownGlobals.CETinyToon:
+            return self.__doToonScale(None, lerpTime)
+        if effect == ToontownGlobals.CEGiantToon:
             return self.__doToonScale(None, lerpTime)
         if effect == ToontownGlobals.CEFlatPortrait:
             return self.__doToonScale(None, lerpTime)
