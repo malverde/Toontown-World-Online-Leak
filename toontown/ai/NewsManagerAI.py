@@ -5,7 +5,7 @@ from otp.ai.MagicWordGlobal import *
 from toontown.toonbase import TTLocalizerEnglish as TTLocalizer
 import datetime
 from toontown.ai import HolidayManagerAI
-from toontown.ai import NewsInvasionAI
+#from toontown.ai import NewsInvasionAI
 import time
 
 class NewsManagerAI(DistributedObjectAI):
@@ -15,11 +15,15 @@ class NewsManagerAI(DistributedObjectAI):
 		DistributedObjectAI.__init__(self, air)
 		self.accept('avatarEntered', self.__announceIfHoliday)
 		self.HolidayManagerAI = HolidayManagerAI.HolidayManagerAI(air)
-		self.NewsInvasionAI = NewsInvasionAI.NewsInvasionAI(air)
-		self.NewsInvasionAI.startInvTick()
+		#self.NewsInvasionAI = NewsInvasionAI.NewsInvasionAI(air)
+		#self.NewsInvasionAI.startInvTick()
 		self.HolidayName = []
 		day = str(datetime.datetime.now().strftime("%d"))
-		if str(datetime.datetime.now().strftime("%m")) == "12" and day ==  "30" or day == "31":
+		if str(datetime.datetime.now().strftime("%m")) == "12" and day ==  "30" or day == "31": # December, 30th, 31st
+			self.HolidayManagerAI.startFireworksTick()
+		else:
+			HolidayName = 'None'
+		if str(datetime.datetime.now().strftime("%m")) == "03": # Release fireworks!!
 			self.HolidayManagerAI.startFireworksTick()
 		else:
 			HolidayName = 'None'
@@ -51,6 +55,11 @@ class NewsManagerAI(DistributedObjectAI):
 			
 		if str(datetime.datetime.now().strftime("%m")) == "07" and day ==  "29" or day == "30":
 				self.HolidayName = 'Xp Booster'
+		else:
+			HolidayName = 'None'
+
+		if str(datetime.datetime.now().strftime("%m")) == "02" and day < "30": # Release XP Booster
+			self.HolidayName = 'Xp Booster'
 		else:
 			HolidayName = 'None'
 				

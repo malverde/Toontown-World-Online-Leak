@@ -43,6 +43,10 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
 				XpMultiplier = 1.0
 		else: 
 			XpMultiplier = 1.0
+		if str(datetime.datetime.now().strftime("%m")) == "02":  # Release XP booster
+			self.XpMultiplier = 2.0
+		else:
+			self.XpMultiplier = 1.0
 		DirectFrame.__init__(self, relief=None)
 		self.initialiseoptions(InventoryNew)
 		self.battleCreditLevel = None

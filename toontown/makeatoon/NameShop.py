@@ -1246,9 +1246,11 @@ class NameShop(StateData.StateData):
     def __isFirstTime(self):
         if not self.makeAToon.nameList or self.makeAToon.warp:
             self.__createAvatar()
-            self.promptTutorial()
+            if config.GetBool('want-tutorial', True):
+                self.promptTutorial()
         else:
-            self.promptTutorial()
+            if config.GetBool('want-tutorial', True):
+                self.promptTutorial()
 
     def promptTutorial(self):
         self.promptTutorialDialog = TTDialog.TTDialog(

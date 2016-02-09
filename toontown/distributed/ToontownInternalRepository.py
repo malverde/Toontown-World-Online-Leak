@@ -84,12 +84,12 @@ class ToontownInternalRepository(AstronInternalRepository):
         except SystemExit, KeyboardInterrupt:
             raise
         except Exception as e:
-            if self.getAvatarIdFromSender() > 100000000 and spellbook.getInvoker().getAdminAccess() < 300: # We don't want staff to be booted, it's not worth booting them - all crashes are logged
-                dg = PyDatagram()
-                dg.addServerHeader(self.getMsgSender(), self.ourChannel, CLIENTAGENT_EJECT)
-                dg.addUint16(153)
-                dg.addString('You were disconnected to prevent a district reset.')
-                self.send(dg)
+            if self.getAvatarIdFromSender() > 100000000: # We don't want to boot, it's not worth booting them - all crashes are logged
+                # dg = PyDatagram()
+                # dg.addServerHeader(self.getMsgSender(), self.ourChannel, CLIENTAGENT_EJECT)
+                # dg.addUint16(153)
+                # dg.addString('You were disconnected to prevent a district reset.')
+                # self.send(dg)
                 self.writeServerEvent('INTERNAL-EXCEPTION', self.getAvatarIdFromSender(), self.getAccountIdFromSender(), repr(e), traceback.format_exc())
                 self.notify.warning('INTERNAL-EXCEPTION: %s (%s)' % (repr(e), self.getAvatarIdFromSender()))
                 print traceback.format_exc()

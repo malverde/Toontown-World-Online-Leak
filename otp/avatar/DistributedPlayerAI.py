@@ -198,3 +198,34 @@ def maintenance(minutes):
             taskMgr.doMethodLater(next, countdown, 'maintenance-task',
                                   extraArgs=[minutes])
     countdown(minutes)
+    
+@magicWord(category=CATEGORY_COMMUNITYMANAGER)
+def disableGM():
+    """
+    Temporarily disable GM features.
+    """
+    target = spellbook.getTarget()
+
+    if hasattr(target, 'oldAccess'):
+        return 'GM features are already disabled!\nTo enable, use ~enableGM.'
+
+    if not target.getAdminAccess():
+        return 'Target is not an admin!'
+
+    target.oldAccess = target.adminAccess
+    target.d_setAdminAccess(100)
+    return 'GM features are disabled!'
+    
+@magicWord(category=CATEGORY_COMMUNITYMANAGER)
+def enableGM():
+    """
+    Enable GM features.
+    """
+    target = spellbook.getTarget()
+
+    if not hasattr(target, 'oldAccess'):
+        return 'GM features are not disabled!'
+
+    target.d_setAdminAccess(target.oldAccess)
+    del target.oldAccess
+    return 'GM features are enabled!'

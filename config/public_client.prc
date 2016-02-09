@@ -4,9 +4,9 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-server-version ttw-pre-alpha-2.5.2
+server-version ttw-pre-alpha-2.5.2.1.2
 texture-anisotropic-degree 16
-preload-avatars #f
+preload-avatars #t
 
 
 # Graphics:
@@ -112,7 +112,6 @@ want-speedhack-fix #t
 # A few fun things for unfinished events and settings
 estate-day-night #t
 want-instant-parties #f
-want-toontorial #f
 want-doomsday #f
 want-cogdominiums #t
 
