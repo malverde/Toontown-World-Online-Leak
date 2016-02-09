@@ -5,6 +5,8 @@ import time
 from direct.distributed import DistributedSmoothNodeAI
 from direct.task import Task
 from direct.distributed.ClockDelta import *
+from direct.distributed.PyDatagram import PyDatagram
+from direct.distributed.MsgTypes import CLIENTAGENT_EJECT
 
 from otp.ai.AIBaseGlobal import *
 from otp.otpbase import OTPGlobals
