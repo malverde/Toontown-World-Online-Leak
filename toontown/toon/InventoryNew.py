@@ -8,7 +8,7 @@ from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
-import datetime
+from toontown.ai import HolidayGlobals
 
 class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
 	notify = DirectNotifyGlobal.directNotify.newCategory('InventoryNew')
@@ -36,17 +36,7 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
 
 	def __init__(self, toon, invStr = None, ShowSuperGags = 1):
 		InventoryBase.InventoryBase.__init__(self, toon, invStr)
-		if str(datetime.datetime.now().strftime("%m")) == "7":
-			if str(datetime.datetime.now().strftime("%d")) ==  "29" or "30":
-				XpMultiplier = 3.0
-			else:
-				XpMultiplier = 1.0
-		else: 
-			XpMultiplier = 1.0
-		if str(datetime.datetime.now().strftime("%m")) == "02":  # Release XP booster
-			self.XpMultiplier = 2.0
-		else:
-			self.XpMultiplier = 1.0
+		self.XpMultiplier = HolidayGlobals.WhatIsXp()
 		DirectFrame.__init__(self, relief=None)
 		self.initialiseoptions(InventoryNew)
 		self.battleCreditLevel = None
