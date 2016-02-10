@@ -30,6 +30,19 @@ class Spellbook:
         self.words[word.name.lower()] = word # # Let's make this stuff case insensitive
         for alias in word.aliases:
             self.alias2word[alias.lower()] = word
+            if not word:
+                if process == 'ai':
+                    wname = wordName.lower()
+                    for key in self.words:
+                        if self.words.get(key).access <= self.getInvokerAccess():
+                            if wname in key:
+                                return 'Did you mean %s' % (self.words.get(key).name)
+                if not word:
+                    return
+
+                result = word.run(args)
+                if result is not None:
+                    return str(result)
 
     def addCategory(self, category):
         self.categories.append(category)
@@ -55,7 +68,7 @@ class Spellbook:
             wname = wordName.lower()
             for key in self.words:
                 if wname in key:
-                    return 'Did you mean %s' % self.words.get(key).name
+                    return 'Did you mean %s' % self.words.get(key).name # If we care about the case, let's try and help them get it right
             if not word:
                 return 'Unknown magic word!', False
 
@@ -111,6 +124,8 @@ class MagicWordCategory:
     def getDefinedAccess(self):
         return config.GetInt('mw-category-' + self.name.replace(' ', '-').lower(), 0)
 CATEGORY_UNKNOWN = MagicWordCategory('Unknown')
+CATEGORY_USER = MagicWordCategory('User', defaultAccess=0,
+    doc='Normal user access - with zero access.')
 CATEGORY_ARTIST = MagicWordCategory('Artist Extra', defaultAccess=200,
     doc='Magic Words in this category are used to'
         ' simply show users the Toon with this tag are staff.')
