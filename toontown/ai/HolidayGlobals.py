@@ -10,6 +10,8 @@ if int(datetime.datetime.now().strftime("%m")) == 12 and day > 13:
 	HolidayName = 'Winter'
 elif int(datetime.datetime.now().strftime("%m")) == 1 and not day  > 4:
     HolidayName = 'Winter'
+elif datetime.datetime.today().weekday() == 5 or datetime.datetime.today().weekday() == 6:
+    HolidayName = 'Bingo'
 elif int(datetime.datetime.now().strftime("%m")) == 10 and day >= 21 and day <= 31:
     HolidayName = 'Halloween'  
 elif int(datetime.datetime.now().strftime("%m")) == 11 and day ==  1:
