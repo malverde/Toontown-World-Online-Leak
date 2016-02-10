@@ -1,5 +1,6 @@
-# This is the PRC configuration file for developer servers and clients.
-# Please remember to update public_client.prc if necessary.
+# This is the PRC configuration file for a published TTW client. Note that only
+# this file and Panda3D's Confauto.prc are included. Any relevant directives in
+# Config.prc should be reproduced here.
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
@@ -13,10 +14,11 @@ aux-display p3tinydisplay
 
 
 # Performance
+sync-video #f
 smooth-lag 0.4
 texture-power-2 none
-gl-check-errors #t
-garbage-collect-states #t
+gl-check-errors #f
+garbage-collect-states #f
 texture-anisotropic-degree 16
 preload-avatars #t
 
@@ -46,52 +48,47 @@ server-port 7198
 # account-server localhost
 
 
-# Cursor and Icon
-
-# cursor-filename resources/phase_3/etc/toonmono.cur
-# icon-filename resources/phase_3/etc/icon.ico
-
-
 # Audio
 audio-library-name p3fmod_audio
 # audio-library-name p3openal_audio
 
 
-# Resource settings
-vfs-mount resources/phase_3 /phase_3
-vfs-mount resources/phase_3.5 /phase_3.5
-vfs-mount resources/phase_4 /phase_4
-vfs-mount resources/phase_5 /phase_5
-vfs-mount resources/phase_5.5 /phase_5.5
-vfs-mount resources/phase_6 /phase_6
-vfs-mount resources/phase_7 /phase_7
-vfs-mount resources/phase_8 /phase_8
-vfs-mount resources/phase_9 /phase_9
-vfs-mount resources/phase_10 /phase_10
-vfs-mount resources/phase_11 /phase_11
-vfs-mount resources/phase_12 /phase_12
-vfs-mount resources/phase_13 /phase_13
-vfs-mount resources/server /server
+# Cursor and Icon
+# cursor-filename resources/phase_3/etc/toonmono.cur
+# icon-filename resources/phase_3/etc/icon.ico
 
+
+# Resources settings
 model-path /
+model-cache-models #f
+model-cache-textures #f
+vfs-mount phase_3.mf /
+vfs-mount phase_3.5.mf /
+vfs-mount phase_4.mf /
+vfs-mount phase_5.mf /
+vfs-mount phase_5.5.mf /
+vfs-mount phase_6.mf /
+vfs-mount phase_7.mf /
+vfs-mount phase_8.mf /
+vfs-mount phase_9.mf /
+vfs-mount phase_10.mf /
+vfs-mount phase_11.mf /
+vfs-mount phase_12.mf /
+vfs-mount phase_13.mf /
 default-model-extension .bam
 
 
-# Main Server Settings
-
-# RPC settings - never used
-want-rpc-server #f
-rpc-server-endpoint http://localhost:8080/
-# rpc-server-secret 0123456789abcdef
-eventlog-host 127.0.0.1
-# Cheesy Effects and POP
-want-cheesy-expirations #t
-show-total-population #t
-csmud-secret Yvv4Jr5TUDkX5M8gh64Z9Q4AUAQYdFNecyGgl2I5GOQf8CBh7LUZWpzKB9FBF
+# Now that we've loaded the phase files, tell panda to trust the TTRCA
+# ssl-certificates /phase_3/etc/TTRCA.crt
+#<dev>
+# ssl-certificates /phase_3/etc/TTRDev.crt
+# want-dev-certificate-trust #t
+#</dev>
+# server-force-ssl #f
 
 
-# DC Files (server and client-sided)
-dc-file config/toontown.dc
+# DC files are NOT configured.
+# They're wrapped up into the code automatically.
 
 
 # Systems and Beta Modifications
@@ -150,9 +147,37 @@ want-cogbuildings #t
 want-skip-button #t
 
 
+# Chat system (server-sided/client-sided)
+want-whitelist #f
+want-blacklist-sequence #f
+force-avatar-understandable #t
+force-player-understandable #t
+
+
+# Holidays and Events (server-sided/client-sided)
+want-arg-manager #f
+want-mega-invasions #f
+mega-invasion-cog-type bw
+want-hourly-fireworks #t
+# want-flippy-pet-intro #f
+want-hourly-fireworks-type victoryreleasefireworks
+# Alternative than nerfing VP?
+easy-vp #f
+# force-holiday-decorations 0
+want-blueprint4-ARG #f
+want-april-toons #f
+
+
 # Group merges
 boarding-group-merges #t
 
 
 # Misc
 # force-skip-tutorial #f
+
+
+# Server:
+server-timezone BST/EDT/-5
+server-port 7198
+account-server-endpoint https://toontownworldonline.com/api/
+csmud-secret Yvv4Jr5TUDkX5M8gh64Z9Q4AUAQYdFNecyGgl2I5GOQf8CBh7LUZWpzKB9FBF
