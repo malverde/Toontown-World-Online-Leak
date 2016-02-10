@@ -35,10 +35,15 @@ class NewsInvasionAI:
 			print "There is already an invasion on this AI, cannot spawn Cogs!"
 		else:
 			try:
-				invMgr.startInvasion(HolidayGlobals.IsItInvasion())
+				listI = HolidayGlobals.IsItInvasion()
+				var1 = str(listI[0])
+				var2 = listI[1]
+				var3 = listI[2]
+				print var1 + ' ' + var2 + ' ' + var3
+				invMgr.startInvasion(var1, var2, var3)
 			except:
 				pass
-
+				print "issue" 
 			
 		return task.again
 

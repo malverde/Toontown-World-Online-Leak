@@ -1,50 +1,34 @@
 import time
 import datetime
 
+
 day = int(datetime.datetime.now().strftime("%d"))
 
 #Holidays
 
-
-if int(datetime.datetime.now().strftime("%m")) == 12 and day >= 14  and day <= 31:
+if int(datetime.datetime.now().strftime("%m")) == 12 and day > 13:
 	HolidayName = 'Winter'
-else:
-    HolidayName = 'None'
-
-if str(datetime.datetime.now().strftime("%m")) == 1 and day >= 1 and day  <= 4:
+elif int(datetime.datetime.now().strftime("%m")) == 1 and not day  > 4:
     HolidayName = 'Winter'
-else:
-    HolidayName = 'None'
-
-if int(datetime.datetime.now().strftime("%m")) == 10 and day >= 21 and day <= 31:
+elif int(datetime.datetime.now().strftime("%m")) == 10 and day >= 21 and day <= 31:
+    HolidayName = 'Halloween'  
+elif int(datetime.datetime.now().strftime("%m")) == 11 and day ==  1:
     HolidayName = 'Halloween'
-else:
-    HolidayName = 'None'
-    
-if int(datetime.datetime.now().strftime("%m")) == 11 and day ==  1:
-    HolidayName = 'Halloween'
-else:
-    HolidayName = 'None'
-
-if int(datetime.datetime.now().strftime("%m")) == 3 and day >= 29 and day <= 31:
+elif int(datetime.datetime.now().strftime("%m")) == 3 and day >= 29 and day <= 31:
     HolidayName = 'April Toons'
-else:
-    HolidayName = 'None'
-
-if int(datetime.datetime.now().strftime("%m")) == 4 and day >= 1 and day <= 11:
+elif int(datetime.datetime.now().strftime("%m")) == 4 and day >= 1 and day <= 11:
     HolidayName = 'April Toons'
+elif int(datetime.datetime.now().strftime("%m")) == 2:
+	HolidayName = 'Xp Booster'
 else:
     HolidayName = 'None'
 
 
 #Xp 
 
-if int(datetime.datetime.now().strftime("%m")) == 3:
+if int(datetime.datetime.now().strftime("%m")) == 2:
     Xp = 2.0
-else:
-    Xp = 1.0
-
-if int(datetime.datetime.now().strftime("%m")) == 7 and day == 29 or day == 30:
+elif int(datetime.datetime.now().strftime("%m")) == 7 and day == 29 or day == 30:
     Xp = 3.0
 else:
     Xp = 1.0
@@ -53,18 +37,10 @@ else:
 #Fireworks
 if int(datetime.datetime.now().strftime("%m")) == 2:
     Show = 'Release'
-else:
-    Show = 'None'
-
-if int(datetime.datetime.now().strftime("%m")) == 7 and day >= 1 and day <= 15:
+elif int(datetime.datetime.now().strftime("%m")) == 7 and day < 16:
     Show = 'Summer'
-else:
-    Show = 'None'
-
-if int(datetime.datetime.now().strftime("%m")) == 12 and day == 30 or day == 31:
+elif int(datetime.datetime.now().strftime("%m")) == 12 and day == 30 or day == 31:
     Show = 'Nyear'
-else:
-    Show = 'None'
 
 #Invasions 
 
@@ -94,6 +70,12 @@ if day == 30 or day ==  31:
 	num = 2500
 	special = 1
 
+#Bingo!!!
+if datetime.datetime.today().weekday() == 5 or datetime.datetime.today().weekday() == 6:
+	bingo = True
+else:
+	bingo = False
+
 def WhatHolidayIsIt():
     return HolidayName
 
@@ -105,3 +87,7 @@ def IsItFireworks():
 
 def IsItInvasion():
     return name, num, special
+
+def IsBingo():
+	return bingo
+

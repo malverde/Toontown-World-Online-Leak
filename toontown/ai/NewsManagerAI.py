@@ -17,13 +17,16 @@ class NewsManagerAI(DistributedObjectAI):
 		self.HolidayManagerAI = HolidayManagerAI.HolidayManagerAI(air)
 		self.NewsInvasionAI = NewsInvasionAI.NewsInvasionAI(air)
 		self.NewsInvasionAI.startInvTick()
+		self.HolidayManagerAI.startFireworksTick()
 		self.HolidayName = []
 		
 	def __announceIfHoliday(self, avatar):
+		holiday = HolidayGlobals.WhatHolidayIsIt()
+		print holiday
 		self.sendUpdateToAvatarId(avatar.getDoId(),
 								  'setHolidays',
 								  [
-								   HolidayGlobals.WhatHolidayIsIt])
+								   holiday])
 		time.sleep(5)
 		if self.air.suitInvasionManager.getInvading():
 			self.sendUpdateToAvatarId(avatar.getDoId(),

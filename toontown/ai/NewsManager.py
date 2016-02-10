@@ -159,6 +159,8 @@ class NewsManager(DistributedObject.DistributedObject):
 			
 		elif HolidayName == 'April Toons':
 			msg1 =  'Things are getting silly here in toontown!'
+		elif HolidayName == 'Xp Booster':
+			msg1 = TTLocalizer.lResistance + ' ' + ' Enjoy an XP Boost on us for busting those cogs!'
 		else:
 			self.notify.warning('setHoliday: There is no current holidays active!')
 			return
