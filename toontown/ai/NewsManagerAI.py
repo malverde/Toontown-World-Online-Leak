@@ -4,7 +4,7 @@ from toontown.toonbase import ToontownGlobals
 from otp.ai.MagicWordGlobal import *
 from toontown.toonbase import TTLocalizerEnglish as TTLocalizer
 from toontown.ai import HolidayManagerAI
-from toontown.ai import NewsInvasionAI
+# from toontown.ai import NewsInvasionAI
 from toontown.ai import HolidayGlobals
 import time
 
@@ -15,8 +15,8 @@ class NewsManagerAI(DistributedObjectAI):
 		DistributedObjectAI.__init__(self, air)
 		self.accept('avatarEntered', self.__announceIfHoliday)
 		self.HolidayManagerAI = HolidayManagerAI.HolidayManagerAI(air)
-		self.NewsInvasionAI = NewsInvasionAI.NewsInvasionAI(air)
-		self.NewsInvasionAI.startInvTick()
+		# self.NewsInvasionAI = NewsInvasionAI.NewsInvasionAI(air)
+		# self.NewsInvasionAI.startInvTick()
 		self.HolidayManagerAI.startFireworksTick()
 		self.HolidayName = []
 		
