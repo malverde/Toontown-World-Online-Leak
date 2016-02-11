@@ -15,7 +15,6 @@ class BRHoodAI(SZHoodAI):
 
         self.spawnObjects()
 
-        day = str(datetime.datetime.now().strftime("%d"))
 
         self.PolarPlaceEffectManager = DistributedPolarPlaceEffectMgrAI.DistributedPolarPlaceEffectMgrAI(self.air)
         self.PolarPlaceEffectManager.generateWithRequired(3821)
