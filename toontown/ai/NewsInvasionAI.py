@@ -32,7 +32,7 @@ class NewsInvasionAI:
 		task.delayTime = 1800
 		invMgr = simbase.air.suitInvasionManager
 		if invMgr.getInvading():
-			print "There is already an invasion on this AI, cannot spawn Cogs!"
+			print "Invasion in-progress on AI, cannot spawn a different invasion!"
 		else:
 			try:
 				listI = HolidayGlobals.IsItInvasion()
@@ -43,7 +43,7 @@ class NewsInvasionAI:
 				invMgr.startInvasion(var1, var2, var3)
 			except:
 				pass
-				print "issue" 
+				print "Warning: there was an issue spawning an invasion (issue)" 
 			
 		return task.again
 
