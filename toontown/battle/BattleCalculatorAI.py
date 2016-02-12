@@ -10,7 +10,7 @@ if config.GetBool('want-pets', True):
 from direct.showbase.PythonUtil import lerp
 from otp.ai.MagicWordGlobal import *
 from toontown.hood import ZoneUtil
-import datetime
+from toontown.ai import HolidayGlobals
 
 battleSkip = 0
 
@@ -40,17 +40,7 @@ class BattleCalculatorAI:
 		'prop-and-organic-bonus-stack', 0)
 
 	def __init__(self, battle, tutorialFlag=0):
-		if str(datetime.datetime.now().strftime("%m")) == "07":
-			if str(datetime.datetime.now().strftime("%d")) ==  "29" or "30":
-				self.XpMultiplier = 3.0
-			else:
-				self.XpMultiplier = 1.0
-		else: 
-			self.XpMultiplier = 1.0
-		if str(datetime.datetime.now().strftime("%m")) == "02":    # Release XP booster
-			self.XpMultiplier = 2.0
-		else:
-			self.XpMultiplier = 1.0
+		self.XpMultiplier = HolidayGlobals.WhatIsXp()
 		self.battle = battle
 		self.SuitAttackers = {}
 		self.currentlyLuredSuits = {}
