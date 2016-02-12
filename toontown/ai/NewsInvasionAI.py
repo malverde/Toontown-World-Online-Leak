@@ -37,10 +37,11 @@ class NewsInvasionAI:
 			try:
 				listI = HolidayGlobals.IsItInvasion()
 				var1 = str(listI[0])
-				var2 = listI[1]
-				var3 = listI[2]
+				var2 = int(listI[1])
+				var3 = int(listI[2])
 				print var1 + ' ' + var2 + ' ' + var3
-				invMgr.startInvasion(var1, var2, var3)
+				suit = '%s' % var1
+				invMgr.startInvasion(suit, var2, var3)
 			except:
 				pass
 				print "Warning: there was an issue spawning an invasion (issue)" 
