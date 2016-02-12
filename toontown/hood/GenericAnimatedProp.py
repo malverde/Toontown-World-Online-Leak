@@ -58,7 +58,7 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
 					else:
 						doAnimLoop = True
 		except:
-			pass
+			doAnimLoop = True
 
 		if doAnimLoop:
 			self.node.loop('anim')
