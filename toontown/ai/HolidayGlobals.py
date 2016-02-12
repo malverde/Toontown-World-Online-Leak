@@ -78,6 +78,14 @@ if datetime.datetime.today().weekday() == 5 or datetime.datetime.today().weekday
 else:
 	bingo = False
 
+#Animated Street props!! :D :D :D
+#Bingo!!!
+if datetime.datetime.today().weekday() == 5 or datetime.datetime.today().weekday() == 6 or int(datetime.datetime.now().strftime("%m")) == 2:
+	props = True
+else:
+	props = False
+
+
 def WhatHolidayIsIt():
     return HolidayName
 
@@ -93,3 +101,5 @@ def IsItInvasion():
 def IsBingo():
 	return bingo
 
+def IsProp():
+	return props
