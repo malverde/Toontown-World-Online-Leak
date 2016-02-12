@@ -9991,7 +9991,7 @@ BossTaunts = [
 
 SendCogBossTaunts = {
  's': [ # VP
-  "We're going door to door to give you an dedious offer.",
+  "We're going door to door to give you dedious offer.",
   "It's time for your estimated cost.",
   'You toons never learn when to snatch up a great deal.',
   "Call now and we'll reduce your laff, absolutely free of charge!",
@@ -10022,8 +10022,8 @@ DirectedAttackBossTaunts = {
   'Have a free sample!',
   'I see you over there!',
   'My products are the best in all of Toontown!',
-  "Don't think I skipped you, %(toon)s!"
-  "Not even Flippy can save you!" # TODO: Make this separate (put a comma) on line above
+  "Don't think I skipped you, %(toon)s!",
+  "Not even Flippy can save you!"
  ]
 }
 
