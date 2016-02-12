@@ -778,7 +778,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.b_setNPCFriendsDict([])
 
     def attemptAddNPCFriend(self, npcFriend):
-            numCalls = simbase.air.config.GetInt('want-how-many-boss-sos-card-reward', 1) # Default is one, but we can modify this via CONFIG
+        numCalls = simbase.air.config.GetInt('want-how-many-boss-sos-card-reward', 1) # Default is one, but we can modify this via CONFIG
         if numCalls <= 0:
             self.notify.warning('invalid numCalls: %d' % numCalls)
             return 0
@@ -790,10 +790,10 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             self.NPCFriendsDict[npcFriend] = numCalls
         else:
             self.notify.warning('invalid NPC: %d' % npcFriend)
-            return 0
+        return 0
         if self.NPCFriendsDict[npcFriend] > self.maxCallsPerNPC:
             self.NPCFriendsDict[npcFriend] = self.maxCallsPerNPC
-        self.d_setNPCFriendsDict(self.NPCFriendsDict)
+            self.d_setNPCFriendsDict(self.NPCFriendsDict)
         if self.sosPageFlag == 0:
             self.b_setMaxNPCFriends(self.maxNPCFriends | 32768)
         return 1
