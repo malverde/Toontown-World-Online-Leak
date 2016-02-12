@@ -10045,4 +10045,10 @@ JumpBossTaunts = {
   ]
 }
 
-
+FieldOfViewLabel = 'Field of View:'
+BossLocations = {
+ 'c': 'Bossbot Clubhouse\nBanquet',
+ 'l': "Lawbot Courthouse\nBumpy Bumblebehr's Trial",
+ 'm': 'Cashbot Vault',
+ 's': 'Sellbot Towers\nRooftop'
+}

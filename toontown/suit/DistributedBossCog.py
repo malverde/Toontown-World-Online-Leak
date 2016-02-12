@@ -2,6 +2,7 @@ from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.directnotify import DirectNotifyGlobal
+from direct.gui import OnscreenText
 from otp.avatar import DistributedAvatar
 from otp.nametag import NametagGlobals
 from otp.nametag.NametagConstants import *
@@ -1119,10 +1120,8 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         NametagGlobals.setMasterArrowsOn(0)
         intervalName = 'IntroductionMovie'
         delayDeletes = []
-        seq = Sequence(
-            self.makeIntroductionMovie(delayDeletes),
-            Func(self.__beginBattleOne),
-            name=intervalName)
+        seq = Parallel(self.showTitleText(), Sequence(self.makeIntroductionMovie(delayDeletes), Func(self.__beginBattleOne)),
+        name=intervalName)
         seq.delayDeletes = delayDeletes
         seq.start()
         self.storeInterval(seq, intervalName)
@@ -1287,3 +1286,11 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
 
         seq.append(suitsOff)
         return seq
+
+    def showTitleText(self):
+        if self.style.dept not in TTLocalizer.BossLocations:
+            return Sequence()
+
+        titleText = OnscreenText.OnscreenText(TTLocalizer.BossLocations[self.style.dept], fg=(1, 1, 1, 1), shadow=(0, 0, 0, 1),
+                                              font=ToontownGlobals.getSuitFont(), pos=(0, -0.5), scale=0.16, wordwrap=16)
+        return Sequence(Wait(5.0), titleText.colorScaleInterval(0.5, (1, 1, 1, 0)), Func(titleText.removeNode))
