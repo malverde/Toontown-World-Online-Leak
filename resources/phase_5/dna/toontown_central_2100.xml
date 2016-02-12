@@ -415,7 +415,7 @@
 				</flat_building>
 			</group>
 			<group name="props" />
-			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_idle0" cell_id="0">
+			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_fightBoost" cell_id="0">
 				<pos x="-95.6682" y="-155.582" z="3.8147e-006" />
 				<nhpr h="-90" p="0" r="-0" />
 			</interactive_prop>
@@ -1325,7 +1325,7 @@
 				</landmark_building>
 			</group>
 			<group name="props" />
-			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_idle0" cell_id="0">
+			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_fightBoost" cell_id="0">
 				<pos x="-325.295" y="-144.489" z="7.62939e-006" />
 				<nhpr h="75" p="0" r="0" />
 			</interactive_prop>
@@ -1752,7 +1752,7 @@
 				</flat_building>
 			</group>
 			<group name="props" />
-			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_idle0" cell_id="0">
+			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_fightBoost" cell_id="0">
 				<pos x="-287.008" y="-234.496" z="7.62939e-006" />
 				<nhpr h="165" p="0" r="0" />
 			</interactive_prop>
@@ -2100,7 +2100,7 @@
 				</landmark_building>
 			</group>
 			<group name="props" />
-			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_idle0" cell_id="0">
+			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_fightBoost" cell_id="0">
 				<pos x="-145.494" y="-263.481" z="3.8147e-006" />
 				<nhpr h="60" p="0" r="0" />
 			</interactive_prop>
@@ -2318,7 +2318,7 @@
 				</flat_building>
 			</group>
 			<group name="props" />
-			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_idle0" cell_id="0">
+			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_fightBoost" cell_id="0">
 				<pos x="-5.89063" y="-294.379" z="-3.05176e-005" />
 				<nhpr h="-120" p="0" r="0" />
 			</interactive_prop>
@@ -2499,7 +2499,7 @@
 				</flat_building>
 			</group>
 			<group name="props" />
-			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_idle0" cell_id="0">
+			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_fightBoost" cell_id="0">
 				<pos x="-39.3156" y="-345.371" z="-3.8147e-006" />
 				<nhpr h="-180" p="0" r="0" />
 			</interactive_prop>
@@ -3284,7 +3284,7 @@
 				</flat_building>
 			</group>
 			<group name="props" />
-			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_idle0" cell_id="0">
+			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_fightBoost" cell_id="0">
 				<pos x="-164.838" y="-335.02" z="7.24792e-005" />
 				<nhpr h="90" p="0" r="0" />
 			</interactive_prop>
@@ -4092,7 +4092,7 @@
 				</flat_building>
 			</group>
 			<group name="props" />
-			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_idle0" cell_id="0">
+			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_fightBoost" cell_id="0">
 				<pos x="-55.413" y="-472.677" z="7.62939e-006" />
 				<nhpr h="-60" p="0" r="0" />
 			</interactive_prop>
@@ -5118,7 +5118,7 @@
 				<texture>street_sidewalk_TT_tex</texture>
 				<texture>street_curb_TT_tex</texture>
 			</street>
-			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_idle0" cell_id="0">
+			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_fightBoost" cell_id="0">
 				<pos x="-194.48" y="-555.395" z="-3.8147e-006" />
 				<nhpr h="-105" p="0" r="0" />
 			</interactive_prop>
@@ -5516,7 +5516,7 @@
 				</landmark_building>
 			</group>
 			<group name="props" />
-			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_idle0" cell_id="0">
+			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_mailbox_DNARoot" code="interactive_prop_phase_5_models_char__ttc_mailbox" anim="tt_a_ara_ttc_mailbox_fightBoost" cell_id="0">
 				<pos x="-259.085" y="-334.696" z="-3.05176e-005" />
 				<nhpr h="0" p="0" r="0" />
 			</interactive_prop>

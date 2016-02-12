@@ -16,7 +16,7 @@ def doSOSs(calls):
         toon.setChatAbsolute(
             TTLocalizer.MovieSOSCallHelp %
             handle.getName(), CFSpeech | CFTimeout)
-        handle.d_battleSOS(handle.doId)
+        base.cr.ttrFriendsManager.sendUpdate('sendTalkWhisper', [handle.doId, 'I Need Help In A Battle!!!'])
 
     def calleeFunc(toon, handle):
         toon.setChatAbsolute(

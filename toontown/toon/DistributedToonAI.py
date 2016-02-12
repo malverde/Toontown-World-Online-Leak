@@ -5,6 +5,8 @@ import time
 from direct.distributed import DistributedSmoothNodeAI
 from direct.task import Task
 from direct.distributed.ClockDelta import *
+from direct.distributed.PyDatagram import PyDatagram
+from direct.distributed.MsgTypes import CLIENTAGENT_EJECT
 
 from otp.ai.AIBaseGlobal import *
 from otp.otpbase import OTPGlobals
@@ -4752,7 +4754,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 def setCE(CEValue, CEHood=0, CEExpire=0):
     """Set Cheesy Effect of the target."""
     CEHood *= 1000  #So the invoker only has to use '1' for DonaldsDock, '2' for TTC etc.
-    if not 0 <= CEValue <= 18:
+    if not 0 <= CEValue <= 20:
         return 'Invalid value %s specified for Cheesy Effect.' % CEValue
     if CEHood != 0 and not 100 < CEHood < ToontownGlobals.DynamicZonesBegin:
         return 'Invalid zoneId specified.'
