@@ -52,7 +52,7 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
 		try:
 			if type(self).__name__ == 'instance':
 				if self.__class__.__name__ == 'GenericAnimatedProp':
-					if HolidayGlobals.WhatHolidayIsIt() == True:
+					if HolidayGlobals.IsProp() == True:
 						doAnimLoop = True
 					else:
 						doAnimLoop = False
