@@ -5,7 +5,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.hood import ZoneUtil
 from toontown.hood import HoodUtil
-
+from toontown.ai import HolidayGlobals
 
 class GenericAnimatedProp(AnimatedProp.AnimatedProp):
 	notify = DirectNotifyGlobal.directNotify.newCategory('GenericAnimatedProp')
@@ -52,13 +52,12 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
 		try:
 			if type(self).__name__ == 'instance':
 				if self.__class__.__name__ == 'GenericAnimatedProp':
-					if base.cr.newsManager.isHolidayRunning(
-							ToontownGlobals.HYDRANTS_BUFF_BATTLES):
+					if HolidayGlobals.WhatHolidayIsIt() == True:
 						doAnimLoop = True
 					else:
-						doAnimLoop = True
+						doAnimLoop = False
 		except:
-			doAnimLoop = True
+			pass
 
 		if doAnimLoop:
 			self.node.loop('anim')
