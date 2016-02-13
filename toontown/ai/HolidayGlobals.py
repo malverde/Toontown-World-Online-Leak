@@ -13,28 +13,51 @@ holidays = []
 if int(datetime.datetime.now().strftime("%m")) == 12 and day > 13: # December
 	HolidayName = 'Winter'
 	holidays.append(HolidayName)
-elif int(datetime.datetime.now().strftime("%m")) == 1 and not day  > 4: # January
+else:
+    HolidayName = 'None'
+
+if int(datetime.datetime.now().strftime("%m")) == 1 and not day  > 4: # January
     HolidayName = 'Winter'
     holidays.append(HolidayName)
-elif datetime.datetime.today().weekday() == 3 or datetime.datetime.today().weekday() == 5: # Wednesday and Saturday
+else:
+    HolidayName = 'None'
+    
+if datetime.datetime.today().weekday() == 3 or datetime.datetime.today().weekday() == 5: # Wednesday and Saturday
     HolidayName = 'Bingo'
     holidays.append(HolidayName)
-elif int(datetime.datetime.now().strftime("%m")) == 10 and day >= 21 and day <= 31: # October
+else:
+    HolidayName = 'None'
+    
+if int(datetime.datetime.now().strftime("%m")) == 10 and day >= 21 and day <= 31: # October
     HolidayName = 'Halloween'  
     holidays.append(HolidayName)
-elif int(datetime.datetime.now().strftime("%m")) == 11 and day ==  1: # November
+else:
+    HolidayName = 'None'
+    
+if int(datetime.datetime.now().strftime("%m")) == 11 and day ==  1: # November
     HolidayName = 'Halloween'
     holidays.append(HolidayName)
-elif int(datetime.datetime.now().strftime("%m")) == 3 and day >= 29 and day <= 31: # March
+else:
+    HolidayName = 'None'
+    
+if int(datetime.datetime.now().strftime("%m")) == 3 and day >= 29 and day <= 31: # March
     HolidayName = 'April Toons'
     holidays.append(HolidayName)
-elif int(datetime.datetime.now().strftime("%m")) == 4 and day >= 1 and day <= 11: # April
+else:
+    HolidayName = 'None'
+    
+if int(datetime.datetime.now().strftime("%m")) == 4 and day >= 1 and day <= 11: # April
     HolidayName = 'April Toons'
     holidays.append(HolidayName)
-elif int(datetime.datetime.now().strftime("%m")) == 2: # Feburary
+else:
+    HolidayName = 'None'
+if int(datetime.datetime.now().strftime("%m")) == 2: # Feburary
 	HolidayName = 'Xp Booster'
 	holidays.append(HolidayName)
-elif int(datetime.datetime.now().strftime("%m")) == 4: # April
+else:
+    HolidayName = 'None'
+
+if int(datetime.datetime.now().strftime("%m")) == 4: # April
 	HolidayName = 'Xp Booster'
 	holidays.append(HolidayName)
 else:
