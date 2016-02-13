@@ -103,8 +103,11 @@ else:
 	props = False
 
 
-def WhatHolidayIsIt():
+def WhatHolidayIsItAI():
     return holidays
+    
+def WhatHolidayIsIt():
+    return HolidayName
 
 def WhatIsXp():
     return Xp
