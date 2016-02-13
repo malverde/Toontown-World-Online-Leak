@@ -10,31 +10,31 @@ holidays = []
 
 if int(datetime.datetime.now().strftime("%m")) == 12 and day > 13: # December
 	HolidayName = 'Winter'
-	holidys.append(HolidayName)
+	holidays.append(HolidayName)
 elif int(datetime.datetime.now().strftime("%m")) == 1 and not day  > 4: # January
     HolidayName = 'Winter'
-    holidys.append(HolidayName)
+    holidays.append(HolidayName)
 elif datetime.datetime.today().weekday() == 3 or datetime.datetime.today().weekday() == 6: # Wednesday and Sunday
     HolidayName = 'Bingo'
-    holidys.append(HolidayName)
+    holidays.append(HolidayName)
 elif int(datetime.datetime.now().strftime("%m")) == 10 and day >= 21 and day <= 31: # October
     HolidayName = 'Halloween'  
-    holidys.append(HolidayName)
+    holidays.append(HolidayName)
 elif int(datetime.datetime.now().strftime("%m")) == 11 and day ==  1: # November
     HolidayName = 'Halloween'
-    holidys.append(HolidayName)
+    holidays.append(HolidayName)
 elif int(datetime.datetime.now().strftime("%m")) == 3 and day >= 29 and day <= 31: # March
     HolidayName = 'April Toons'
-    holidys.append(HolidayName)
+    holidays.append(HolidayName)
 elif int(datetime.datetime.now().strftime("%m")) == 4 and day >= 1 and day <= 11: # April
     HolidayName = 'April Toons'
-    holidys.append(HolidayName)
+    holidays.append(HolidayName)
 elif int(datetime.datetime.now().strftime("%m")) == 2: # Feburary
 	HolidayName = 'Xp Booster'
-	holidys.append(HolidayName)
+	holidays.append(HolidayName)
 elif int(datetime.datetime.now().strftime("%m")) == 4: # April
 	HolidayName = 'Xp Booster'
-	holidys.append(HolidayName)
+	holidays.append(HolidayName)
 else:
     HolidayName = 'None'
 
