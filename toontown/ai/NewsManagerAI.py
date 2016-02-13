@@ -19,7 +19,7 @@ class NewsManagerAI(DistributedObjectAI):
 		# self.NewsInvasionAI.startInvTick()
 		self.HolidayManagerAI.startFireworksTick()
 		self.HolidayName = []
-		
+
 	def __announceIfHoliday(self, avatar):
 		try:
 			holidayList = HolidayGlobals.WhatHolidayIsItAI()
@@ -27,9 +27,9 @@ class NewsManagerAI(DistributedObjectAI):
 			Holiday2 = holidayList[1]
 			self.sendUpdateToAvatarId(avatar.getDoId(),
 									'setHolidays',
-									[
-									Holiday1])
-            time.sleep(2)
+									  (
+										  Holiday1))
+			time.sleep(2)
 			self.sendUpdateToAvatarId(avatar.getDoId(),
 									'setHolidays',
 									[
@@ -41,7 +41,7 @@ class NewsManagerAI(DistributedObjectAI):
 									'setHolidays',
 									[
 									Holiday1])
-			
+
 		time.sleep(5)
 		if self.air.suitInvasionManager.getInvading():
 			self.sendUpdateToAvatarId(avatar.getDoId(),
