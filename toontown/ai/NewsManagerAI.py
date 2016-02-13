@@ -27,8 +27,8 @@ class NewsManagerAI(DistributedObjectAI):
 			Holiday2 = holidayList[1]
 			self.sendUpdateToAvatarId(avatar.getDoId(),
 									'setHolidays',
-									  (
-										  Holiday1))
+									  [
+										  Holiday1])
 			time.sleep(2)
 			self.sendUpdateToAvatarId(avatar.getDoId(),
 									'setHolidays',
