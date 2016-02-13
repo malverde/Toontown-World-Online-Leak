@@ -129,7 +129,6 @@ else:
 
 
 def WhatHolidayIsItAI():
-    print 'Debug:  ' + str(holidays)
     return holidays
     
 def WhatHolidayIsIt():
