@@ -7,6 +7,8 @@ day = int(datetime.datetime.now().strftime("%d"))
 holidays = []
 
 # Holiday variable to send to client
+# NOTE: Months are - 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 -
+# Days are - 0 - Mon, 1 - Tues, 2 - Wed, 3 - Thurs, 4 - Friday, 5 - Sat, 6 - Sunday
 
 if int(datetime.datetime.now().strftime("%m")) == 12 and day > 13: # December
 	HolidayName = 'Winter'
@@ -14,7 +16,7 @@ if int(datetime.datetime.now().strftime("%m")) == 12 and day > 13: # December
 elif int(datetime.datetime.now().strftime("%m")) == 1 and not day  > 4: # January
     HolidayName = 'Winter'
     holidays.append(HolidayName)
-elif datetime.datetime.today().weekday() == 3 or datetime.datetime.today().weekday() == 6: # Wednesday and Sunday
+elif datetime.datetime.today().weekday() == 3 or datetime.datetime.today().weekday() == 5: # Wednesday and Saturday
     HolidayName = 'Bingo'
     holidays.append(HolidayName)
 elif int(datetime.datetime.now().strftime("%m")) == 10 and day >= 21 and day <= 31: # October
@@ -90,7 +92,7 @@ if day == 30 or day ==  31:
 	special = 1
 
 # Bingo logic
-if datetime.datetime.today().weekday() == 3 or datetime.datetime.today().weekday() == 6:
+if datetime.datetime.today().weekday() == 3 or datetime.datetime.today().weekday() == 5: # Wednesday and Saturday
 	bingo = True
 else:
 	bingo = False
