@@ -19,22 +19,22 @@ class NewsManagerAI(DistributedObjectAI):
 		# self.NewsInvasionAI.startInvTick()
 		self.HolidayManagerAI.startFireworksTick()
 		self.HolidayName = []
-		
+
 	def __announceIfHoliday(self, avatar):
-		for x in range(HolidayGlobals.WhatHolidayIsIt())
-            print x
-            self.sendUpdateToAvatarId(avatar.getDoId(),
-                                    'setHolidays',
-                                    [
-                                    x])
+		for x in range(HolidayGlobals.WhatHolidayIsIt()):
+			print x
+		self.sendUpdateToAvatarId(avatar.getDoId(),
+								  						'setHolidays',
+								  						 [
+									  						x])
 		time.sleep(5)
 		if self.air.suitInvasionManager.getInvading():
 			self.sendUpdateToAvatarId(avatar.getDoId(),
-									  'setInvasionStatus',
-									  [ToontownGlobals.SuitInvasionBulletin,
-									   self.air.suitInvasionManager.suitName,
-									   self.air.suitInvasionManager.numSuits,
-									   self.air.suitInvasionManager.specialSuit])
+								  'setInvasionStatus',
+								  [ToontownGlobals.SuitInvasionBulletin,
+								   self.air.suitInvasionManager.suitName,
+								   self.air.suitInvasionManager.numSuits,
+								   self.air.suitInvasionManager.specialSuit])
 
 	def setPopulation(self, todo0):
 		pass
