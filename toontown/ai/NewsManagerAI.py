@@ -23,24 +23,20 @@ class NewsManagerAI(DistributedObjectAI):
 	def __announceIfHoliday(self, avatar):
 		try:
 			holidayList = HolidayGlobals.WhatHolidayIsItAI()
-			print holidayList
 			Holiday1 = holidayList[0]
 			Holiday2 = holidayList[1]
-			print Holiday1
-			print Holiday2
 			self.sendUpdateToAvatarId(avatar.getDoId(),
 									'setHolidays',
 									[
 									Holiday1])
+            time.sleep(2)
 			self.sendUpdateToAvatarId(avatar.getDoId(),
 									'setHolidays',
 									[
 									Holiday2])
 		except:
 			holidayList = HolidayGlobals.WhatHolidayIsItAI()
-			print holidayList
 			Holiday1 = holidayList[0]
-			print Holiday1
 			self.sendUpdateToAvatarId(avatar.getDoId(),
 									'setHolidays',
 									[
