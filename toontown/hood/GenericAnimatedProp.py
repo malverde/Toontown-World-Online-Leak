@@ -81,7 +81,6 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
 		self.hoodId = ToontownGlobals.ToontownCentral
 		fullString = str(node)
 		splits = fullString.split('/')
-		print int(splits[3])
 		visId = int(splits[3])
 		self.visId = visId
 		self.hoodId = ZoneUtil.getCanonicalHoodId(visId)

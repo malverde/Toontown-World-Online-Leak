@@ -19,14 +19,25 @@ class NewsManagerAI(DistributedObjectAI):
 		# self.NewsInvasionAI.startInvTick()
 		self.HolidayManagerAI.startFireworksTick()
 		self.HolidayName = []
-		
+
 	def __announceIfHoliday(self, avatar):
-		holiday = HolidayGlobals.WhatHolidayIsIt()
-		print holiday
-		self.sendUpdateToAvatarId(avatar.getDoId(),
-								  'setHolidays',
-								  [
-								   holiday])
+		try:
+			holidayList = HolidayGlobals.WhatHolidayIsItAI()
+			Holiday1 = holidayList[0]
+			Holiday2 = holidayList[1]
+			self.sendUpdateToAvatarId(avatar.getDoId(),
+                                    'setHolidays',
+                                    [ Holiday1])
+			self.sendUpdateToAvatarId(avatar.getDoId(),
+                                        'setHolidays',
+                                        [Holiday2])
+		except:
+			holidayList = HolidayGlobals.WhatHolidayIsItAI()
+			Holiday1 = holidayList[0]
+			self.sendUpdateToAvatarId(avatar.getDoId(),
+                                        'setHolidays',
+                                        [Holiday1])
+
 		time.sleep(5)
 		if self.air.suitInvasionManager.getInvading():
 			self.sendUpdateToAvatarId(avatar.getDoId(),
@@ -126,3 +137,12 @@ def invasionstatus():
 			simbase.air.suitInvasionManager.suitName,
 			simbase.air.suitInvasionManager.numSuits,
 			simbase.air.suitInvasionManager.specialSuit])
+
+@magicWord(category=CATEGORY_DEBUG, types=[str])
+def HolidayMessage(holiday):
+	""" Sends A cleint A holiday massage out of Winter, Bingo, Halloween or Xp Booster """
+	simbase.air.newsManager.sendUpdateToAvatarId(
+		spellbook.getInvoker().getDoId(),
+		'setHolidays',
+		[holiday])
+	return "Sent the message"
