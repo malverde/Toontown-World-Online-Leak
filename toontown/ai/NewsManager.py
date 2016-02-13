@@ -15,6 +15,9 @@ from toontown.speedchat import TTSCJellybeanJamMenu
 import datetime
 import time
 from toontown.ai import HolidayGlobals
+from otp.ai import MagicWordManager
+from otp.ai.MagicWordGlobal import *
+
 decorationHolidays = [ToontownGlobals.WINTER_DECORATIONS,
 					  ToontownGlobals.WACKY_WINTER_DECORATIONS,
 					  ToontownGlobals.HALLOWEEN_PROPS,
@@ -823,3 +826,23 @@ class NewsManager(DistributedObject.DistributedObject):
 	def isHolidayRunning(self, holidayId):
 		result = holidayId in self.holidayIdList
 		return result
+
+
+@magicWord(category=CATEGORY_DEBUG, types=[str])
+def DecorateHoliday(holiday):
+	""" Decorates a client for a holiday """
+	if holiday == 'Winter':
+		NewsManager.startChristmas(NewsManager.NewsManager)
+		return "Decorated for the holiday!"
+		
+	elif holiday == 'Halloween':
+		NewsManager.startHalloween(NewsManager)
+		return "Decorated for the holiday!"
+		
+	elif holiday == 'Phrases':
+		return "Given Holiday Phrases!"
+	elif holiday == 'April':
+		base.localAvatar.controlManager.currentControls.setGravity(ToontownGlobals.GravityValue * 0.75)
+		base.localAvatar.chatMgr.chatInputSpeedChat.addAprilToonsMenu()
+	else:
+		return "Incorrect holiday!"
