@@ -22,7 +22,7 @@ class NewsManagerAI(DistributedObjectAI):
 		
 	def __announceIfHoliday(self, avatar):
 		try:
-			holidayList = HolidayGlobals.WhatHolidayIsIt()
+			holidayList = HolidayGlobals.WhatHolidayIsItAI()
 			print holidayList
 			Holiday1 = holidayList[0]
 			Holiday2 = holidayList[1]
@@ -37,7 +37,7 @@ class NewsManagerAI(DistributedObjectAI):
 									[
 									Holiday2])
 		except:
-			holidayList = HolidayGlobals.WhatHolidayIsIt()
+			holidayList = HolidayGlobals.WhatHolidayIsItAI()
 			print holidayList
 			Holiday1 = holidayList[0]
 			print Holiday1
