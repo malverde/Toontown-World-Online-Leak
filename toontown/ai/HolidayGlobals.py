@@ -4,47 +4,53 @@ import datetime
 
 day = int(datetime.datetime.now().strftime("%d"))
 
-#Holidays
+# Holiday variable to send to client
 
-if int(datetime.datetime.now().strftime("%m")) == 12 and day > 13:
+if int(datetime.datetime.now().strftime("%m")) == 12 and day > 13: # December
 	HolidayName = 'Winter'
-elif int(datetime.datetime.now().strftime("%m")) == 1 and not day  > 4:
+elif int(datetime.datetime.now().strftime("%m")) == 1 and not day  > 4: # January
     HolidayName = 'Winter'
-elif datetime.datetime.today().weekday() == 5 or datetime.datetime.today().weekday() == 6:
+elif datetime.datetime.today().weekday() == 3 or datetime.datetime.today().weekday() == 6: # Wednesday and Sunday
     HolidayName = 'Bingo'
-elif int(datetime.datetime.now().strftime("%m")) == 10 and day >= 21 and day <= 31:
+elif int(datetime.datetime.now().strftime("%m")) == 10 and day >= 21 and day <= 31: # October
     HolidayName = 'Halloween'  
-elif int(datetime.datetime.now().strftime("%m")) == 11 and day ==  1:
+elif int(datetime.datetime.now().strftime("%m")) == 11 and day ==  1: # November
     HolidayName = 'Halloween'
-elif int(datetime.datetime.now().strftime("%m")) == 3 and day >= 29 and day <= 31:
+elif int(datetime.datetime.now().strftime("%m")) == 3 and day >= 29 and day <= 31: # March
     HolidayName = 'April Toons'
-elif int(datetime.datetime.now().strftime("%m")) == 4 and day >= 1 and day <= 11:
+elif int(datetime.datetime.now().strftime("%m")) == 4 and day >= 1 and day <= 11: # April
     HolidayName = 'April Toons'
-elif int(datetime.datetime.now().strftime("%m")) == 2:
+elif int(datetime.datetime.now().strftime("%m")) == 2: # Feburary
+	HolidayName = 'Xp Booster'
+elif int(datetime.datetime.now().strftime("%m")) == 4: # April
 	HolidayName = 'Xp Booster'
 else:
     HolidayName = 'None'
 
 
-#Xp 
+# AI/Client logic
 
-if int(datetime.datetime.now().strftime("%m")) == 2:
+# XP Booster logic
+
+if int(datetime.datetime.now().strftime("%m")) == 2: # Febuary
     Xp = 2.0
-elif int(datetime.datetime.now().strftime("%m")) == 7 and day == 29 or day == 30:
+elif int(datetime.datetime.now().strftime("%m")) == 4: # April
+	Xp = 2.0
+elif int(datetime.datetime.now().strftime("%m")) == 7 and day == 29 or day == 30: # July
     Xp = 3.0
 else:
     Xp = 1.0
 
 
-#Fireworks
-if int(datetime.datetime.now().strftime("%m")) == 2:
+# Fireworks logic
+if int(datetime.datetime.now().strftime("%m")) == 2: # Feburary
     Show = 'Release'
-elif int(datetime.datetime.now().strftime("%m")) == 7 and day < 16:
+elif int(datetime.datetime.now().strftime("%m")) == 7 and day < 16: # July
     Show = 'Summer'
-elif int(datetime.datetime.now().strftime("%m")) == 12 and day == 30 or day == 31:
+elif int(datetime.datetime.now().strftime("%m")) == 12 and day == 30 or day == 31: # December
     Show = 'Nyear'
 
-#Invasions 
+# Invasions logic
 
 # Tax Invasion
 # Invasion scheduled for 15th of April - Number Crunchers - nomral, 2,500 Cogs
@@ -72,15 +78,15 @@ if day == 30 or day ==  31:
 	num = 2500
 	special = 1
 
-#Bingo!!!
-if datetime.datetime.today().weekday() == 5 or datetime.datetime.today().weekday() == 6:
+# Bingo logic
+if datetime.datetime.today().weekday() == 3 or datetime.datetime.today().weekday() == 6:
 	bingo = True
 else:
 	bingo = False
 
-#Animated Street props!! :D :D :D
-#Bingo!!!
-if datetime.datetime.today().weekday() == 5 or datetime.datetime.today().weekday() == 6 or int(datetime.datetime.now().strftime("%m")) == 2:
+
+# Animated Street props!! :D :D :D - logic
+if datetime.datetime.today().weekday() == 5 or datetime.datetime.today().weekday() == 6 or int(datetime.datetime.now().strftime("%m")) == 2: # TODO: Remove - To show off Props
 	props = True
 else:
 	props = False
