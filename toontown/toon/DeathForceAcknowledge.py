@@ -3,7 +3,6 @@ from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
 from direct.showbase import Transitions
 from direct.gui.DirectGui import *
-from panda3d.core import *
 import LaffMeter
 
 class DeathForceAcknowledge:

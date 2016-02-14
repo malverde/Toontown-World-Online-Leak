@@ -4,7 +4,7 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-server-version ttw-pre-alpha-2.5.2.1.4
+server-version ttw-pre-alpha-2.5.2.1.5
 
 
 # Graphics:
