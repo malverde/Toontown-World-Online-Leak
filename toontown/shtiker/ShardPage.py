@@ -2,7 +2,6 @@ from panda3d.core import *
 import ShtikerPage
 from direct.task.Task import Task
 from direct.gui.DirectGui import *
-from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import ZoneUtil

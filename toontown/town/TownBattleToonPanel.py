@@ -6,7 +6,6 @@ import string
 from toontown.toon import LaffMeter
 from toontown.battle import BattleBase
 from direct.gui.DirectGui import *
-from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 
 class TownBattleToonPanel(DirectFrame):

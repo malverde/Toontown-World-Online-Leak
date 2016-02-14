@@ -1,5 +1,4 @@
 from panda3d.core import *
-from panda3d.core import *
 from direct.showbase.DirectObject import DirectObject
 from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleProps import *
