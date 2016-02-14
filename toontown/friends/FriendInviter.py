@@ -2,7 +2,6 @@ from panda3d.core import *
 from direct.task.Task import Task
 from toontown.toonbase.ToontownGlobals import *
 from direct.gui.DirectGui import *
-from panda3d.core import *
 from direct.showbase import DirectObject
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State

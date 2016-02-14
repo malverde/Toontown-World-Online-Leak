@@ -65,7 +65,6 @@ DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 launcher.setPandaErrorCode(7)
 import ToonBase
 ToonBase.ToonBase()
-from panda3d.core import *
 if base.win is None:
     print 'Unable to open window; aborting.'
     sys.exit()

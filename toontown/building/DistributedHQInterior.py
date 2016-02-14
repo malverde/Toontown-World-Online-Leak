@@ -9,7 +9,6 @@ import ToonInteriorColors
 import cPickle
 from toontown.toonbase import TTLocalizer
 from toontown.dna.DNADoor import DNADoor
-from panda3d.core import *
 
 
 class DistributedHQInterior(DistributedObject.DistributedObject):
