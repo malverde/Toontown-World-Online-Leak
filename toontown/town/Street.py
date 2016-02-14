@@ -6,7 +6,6 @@ from direct.gui.DirectGui import cleanupDialog
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import Place
 from toontown.battle import BattlePlace
-from direct.fsm import *
 from direct.showbase import DirectObject
 from direct.fsm import StateData
 from direct.fsm import ClassicFSM, State
@@ -21,9 +20,11 @@ from toontown.estate import HouseGlobals
 from toontown.toonbase import TTLocalizer
 from direct.interval.IntervalGlobal import *
 from otp.nametag import NametagGlobals
+
 visualizeZones = config.GetBool('visualize-zones', 0)
 
 class Street(BattlePlace.BattlePlace):
+
     notify = DirectNotifyGlobal.directNotify.newCategory('Street')
 
     def __init__(self, loader, parentFSM, doneEvent):
@@ -98,6 +99,7 @@ class Street(BattlePlace.BattlePlace):
         self.tunnelOriginList = []
         self.elevatorDoneEvent = 'elevatorDone'
         self.eventLights = []
+        self.zone = 0
 
     def enter(self, requestStatus, visibilityFlag = 1, arrowsOn = 1):
         teleportDebug(requestStatus, 'Street.enter(%s)' % (requestStatus,))
@@ -111,6 +113,7 @@ class Street(BattlePlace.BattlePlace):
         base.localAvatar.setOnLevelGround(1)
         self._telemLimiter = TLGatherAllAvs('Street', RotationLimitToH)
         NametagGlobals.setMasterArrowsOn(arrowsOn)
+        self.zone = ZoneUtil.getBranchZone(requestStatus['zoneId'])
 
         def __lightDecorationOn__():
             try:
@@ -181,8 +184,6 @@ class Street(BattlePlace.BattlePlace):
         self.enterZone(requestStatus['zoneId'])
         self.tunnelOriginList = base.cr.hoodMgr.addLinkTunnelHooks(self, self.loader.nodeList, self.zoneId)
         self.fsm.request(requestStatus['how'], [requestStatus])
-        self.replaceStreetSignTextures()
-        return
 
     def exit(self, visibilityFlag = 1):
         if visibilityFlag:
@@ -309,7 +310,7 @@ class Street(BattlePlace.BattlePlace):
         return
 
     def enterTeleportOut(self, requestStatus):
-        if requestStatus.has_key('battle'):
+        if 'battle' in requestStatus:
             self.__teleportOutDone(requestStatus)
         else:
             BattlePlace.BattlePlace.enterTeleportOut(self, requestStatus, self.__teleportOutDone)
@@ -349,7 +350,7 @@ class Street(BattlePlace.BattlePlace):
             collNodePaths = i.findAllMatches('**/+CollisionNode')
             numCollNodePaths = collNodePaths.getNumPaths()
             visGroupName = i.node().getName()
-            for j in range(numCollNodePaths):
+            for j in xrange(numCollNodePaths):
                 collNodePath = collNodePaths.getPath(j)
                 bitMask = collNodePath.node().getIntoCollideMask()
                 if bitMask.getBit(1):
@@ -402,6 +403,8 @@ class Street(BattlePlace.BattlePlace):
                     self.loader.zoneDict[self.zoneId].clearColor()
                 if newZoneId != None:
                     self.loader.zoneDict[newZoneId].setColor(0, 0, 1, 1, 100)
+            if newZoneId is not None:
+                loader = base.cr.playGame.getPlace().loader
             if newZoneId != None:
                 visZones = [self.loader.nodeToZone[x] for x in self.loader.nodeDict[newZoneId]]
                 visZones.append(ZoneUtil.getBranchZone(newZoneId))
@@ -416,31 +419,4 @@ class Street(BattlePlace.BattlePlace):
         self.eventLights += geom.findAllMatches('**/*christmas*')
         for light in self.eventLights:
             light.setColorScaleOff(1)
-        return
 
-    def replaceStreetSignTextures(self):
-        if not hasattr(base.cr, 'playGame'):
-            return
-        place = base.cr.playGame.getPlace()
-        if place is None:
-            return
-        geom = base.cr.playGame.getPlace().loader.geom
-        signs = geom.findAllMatches('**/*tunnelAheadSign*;+s')
-        if signs.getNumPaths() > 0:
-            streetSign = base.cr.streetSign
-            signTexturePath = streetSign.StreetSignBaseDir + '/' + streetSign.StreetSignFileName
-            loaderTexturePath = Filename(str(signTexturePath))
-            alphaPath = 'phase_4/maps/tt_t_ara_gen_tunnelAheadSign_a.rgb'
-            inDreamland = False
-            if place.zoneId and ZoneUtil.getCanonicalHoodId(place.zoneId) == ToontownGlobals.DonaldsDreamland:
-                inDreamland = True
-            alphaPath = 'phase_4/maps/tt_t_ara_gen_tunnelAheadSign_a.rgb'
-            if Filename(signTexturePath).exists():
-                signTexture = loader.loadTexture(loaderTexturePath, alphaPath)
-            for sign in signs:
-                if Filename(signTexturePath).exists():
-                    sign.setTexture(signTexture, 1)
-                if inDreamland:
-                    sign.setColorScale(0.525, 0.525, 0.525, 1)
-
-        return
