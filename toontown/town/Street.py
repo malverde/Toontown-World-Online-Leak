@@ -389,6 +389,7 @@ class Street(BattlePlace.BattlePlace):
                     if i not in self.loader.nodeDict[self.zoneId]:
                         self.loader.fadeInDict[i].start()
                         self.loader.enterAnimatedProps(i)
+						i.unstash()
                 else:
                     if self.loader.fadeOutDict[i].isPlaying():
                         self.loader.fadeOutDict[i].finish()
