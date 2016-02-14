@@ -76,7 +76,8 @@ class TTRLauncher(LauncherBase):
 
 	def getPlayToken(self):
 		return self.getValue('TTR_PLAYCOOKIE')
-	def getPlayToken(self):
+	
+	def getPassword(self):
 		return self.getValue('TTR_PASSWORD')
 
 	def getGameServer(self):
