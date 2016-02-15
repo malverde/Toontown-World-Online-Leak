@@ -1,5 +1,5 @@
 #Embedded file name: otp.movement.PyVec3
-from pandac.PandaModules import *
+from panda3d.core import *
 import types
 import math
 

@@ -76,11 +76,9 @@ class DistributedMoverAI(DistributedEntityAI.DistributedEntityAI, NodePath, Basi
         self.setTimes()
 
     def setTimes(self):
-        self.moveTime = {}
-        self.moveTime['return'] = self.pos0Move + self.pos1Wait + self.pos1Move
-        self.moveTime['loop'] = self.pos0Wait + self.pos0Move + self.pos1Wait + self.pos1Move
-        self.moveTime['oneWay'] = self.pos0Move
-        self.moveTime['linear'] = self.pos0Move * 8
+        self.moveTime = {'return': self.pos0Move + self.pos1Wait + self.pos1Move,
+                         'loop': self.pos0Wait + self.pos0Move + self.pos1Wait + self.pos1Move, 'oneWay': self.pos0Move,
+                         'linear': self.pos0Move * 8}
 
     def setCycleType(self, type):
         self.cycleType = type

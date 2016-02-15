@@ -68,7 +68,7 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
             track = Sequence(Wait(4), name=name)
         self.petPicture = pet
         self.hasPicture = True
-        return (model, track)
+        return model, track
 
     def cleanupPicture(self):
         CatalogItem.CatalogItem.cleanupPicture(self)

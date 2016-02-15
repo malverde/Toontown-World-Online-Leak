@@ -156,9 +156,9 @@ class DistributedPairingGameAI(DistributedMinigameAI):
             for j in range(i + 1, len(faceUpList)):
                 cardB = faceUpList[j]
                 if self.cards[cardA].rank == self.cards[cardB].rank:
-                    return (cardA, cardB)
+                    return cardA, cardB
 
-        return (-1, -1)
+        return -1, -1
 
     def handleMatch(self, cardA, cardB):
         self.notify.debug('we got a match %d %d' % (cardA, cardB))

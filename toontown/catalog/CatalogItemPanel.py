@@ -1,6 +1,6 @@
 # Embedded file name: toontown.catalog.CatalogItemPanel
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer

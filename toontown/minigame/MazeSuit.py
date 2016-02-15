@@ -58,7 +58,7 @@ class MazeSuit(DirectObject):
         self.suit.delete()
 
     def uniqueName(self, str):
-        return str + `(self.serialNum)`
+        return str + `self.serialNum`
 
     def gameStart(self, gameStartTime):
         self.gameStartTime = gameStartTime
@@ -156,7 +156,7 @@ class MazeSuit(DirectObject):
             TX -= 1
         elif self.DIR_RIGHT == dir:
             TX += 1
-        return (TX, TY)
+        return TX, TY
 
     def __chooseNewWalkDirection(self, unwalkables):
         if not self.rng.randrange(self._walkSameDirectionProb):

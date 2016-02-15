@@ -2,7 +2,7 @@
 from direct.distributed import DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.fsm.FSM import FSM
 from toontown.ai.ToonBarrier import *
 from toontown.golf import GolfGlobals
@@ -336,9 +336,9 @@ class GolfHoleBase:
         c0 = self.space.getCollideId(entry.getGeom1())
         c1 = self.space.getCollideId(entry.getGeom2())
         if c0 > c1:
-            return (c1, c0)
+            return c1, c0
         else:
-            return (c0, c1)
+            return c0, c1
 
     def postStep(self):
         if self.canRender:

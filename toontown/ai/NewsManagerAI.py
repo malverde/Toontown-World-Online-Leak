@@ -3,9 +3,9 @@ from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.toonbase import ToontownGlobals
 from otp.ai.MagicWordGlobal import *
 from toontown.toonbase import TTLocalizerEnglish as TTLocalizer
-import datetime
 from toontown.ai import HolidayManagerAI
-from toontown.ai import NewsInvasionAI
+# from toontown.ai import NewsInvasionAI
+from toontown.ai import HolidayGlobals
 import time
 
 class NewsManagerAI(DistributedObjectAI):
@@ -15,55 +15,29 @@ class NewsManagerAI(DistributedObjectAI):
 		DistributedObjectAI.__init__(self, air)
 		self.accept('avatarEntered', self.__announceIfHoliday)
 		self.HolidayManagerAI = HolidayManagerAI.HolidayManagerAI(air)
-		self.NewsInvasionAI = NewsInvasionAI.NewsInvasionAI(air)
-		self.NewsInvasionAI.startInvTick()
+		# self.NewsInvasionAI = NewsInvasionAI.NewsInvasionAI(air)
+		# self.NewsInvasionAI.startInvTick()
+		self.HolidayManagerAI.startFireworksTick()
 		self.HolidayName = []
-		day = str(datetime.datetime.now().strftime("%d"))
-		if str(datetime.datetime.now().strftime("%m")) == "12" and day ==  "30" or day == "31":
-			self.HolidayManagerAI.startFireworksTick()
 
-		
-		elif str(datetime.datetime.now().strftime("%m")) == "12" and day == "14" or day == "15" or day == "16" or day == "17" or day == "18" or day == "19" or day == "20" or day == "21" or day == "22" or day == "23" or day == "24" or day == "25" or day == "26" or day == "27" or "28" or day == "29" or day == "30" or day == "31":
-			self.HolidayName = 'Winter'
-			
-		elif str(datetime.datetime.now().strftime("%m")) == "01" and day == "02" or day == "03" or day == "04":
-			self.HolidayName = 'Winter'
-		
-		elif str(datetime.datetime.now().strftime("%m")) == "10" and day ==  "21" or day == "22" or day == "23" or day == "25" or day == "26" or day == "27" or day == "28" or day == "29" or day == "30" or day == "31":
-			self.HolidayName = 'Halloween'
-			
-		elif str(datetime.datetime.now().strftime("%m")) == "11" and day ==  "01":
-			self.HolidayName = 'Halloween'
-			
-		elif str(datetime.datetime.now().strftime("%m")) == "03" and day ==  "14" or day == "15":
-			self.HolidayName = 'Ides of March'
-			
-		elif str(datetime.datetime.now().strftime("%m")) == "07" and day ==  "29" or day == "30":
-				self.HolidayName = 'Xp Booster'
-				
-		elif str(datetime.datetime.now().strftime("%m")) == "07" and day ==  "01" or day == "02" or day == "03" or day == "04" or day == "05" or day == "06" or day == "07" or day == "08" or day == "09" or day == "10" or day == "11" or day == "12" or day == "14" or day == "15":
-			self.HolidayManagerAI.startFireworksTick()
-				
-		elif str(datetime.datetime.now().strftime("%m")) == "06" and day ==  "29" or "30":
-			self.HolidayManagerAI.startFireworksTick()
-			
-		elif str(datetime.datetime.now().strftime("%m")) == "03" and day ==  "29" or day == "30" or day == "31":
-			self.HolidayName = 'April Toons'
-			
-		elif str(datetime.datetime.now().strftime("%m")) == "04" and day == "01" or day == "02" or day == "03" or day == "04" or day == "05" or day == "06" or day == "07" or day == "09" or day == "10" or day == "11":
-			self.HolidayName = 'April Toons'
-			
-		elif str(datetime.datetime.now().strftime("%m")) == "04" and day == "15":
-			self.HolidayName = 'Tax Day'
-		else:
-			self.HolidayName = 'None'
-
-	
 	def __announceIfHoliday(self, avatar):
-		self.sendUpdateToAvatarId(avatar.getDoId(),
-								  'setHolidays',
-								  [
-								   self.HolidayName])
+		try:
+			holidayList = HolidayGlobals.WhatHolidayIsItAI()
+			Holiday1 = holidayList[0]
+			Holiday2 = holidayList[1]
+			self.sendUpdateToAvatarId(avatar.getDoId(),
+                                    'setHolidays',
+                                    [ Holiday1])
+			self.sendUpdateToAvatarId(avatar.getDoId(),
+                                        'setHolidays',
+                                        [Holiday2])
+		except:
+			holidayList = HolidayGlobals.WhatHolidayIsItAI()
+			Holiday1 = holidayList[0]
+			self.sendUpdateToAvatarId(avatar.getDoId(),
+                                        'setHolidays',
+                                        [Holiday1])
+
 		time.sleep(5)
 		if self.air.suitInvasionManager.getInvading():
 			self.sendUpdateToAvatarId(avatar.getDoId(),
@@ -163,3 +137,12 @@ def invasionstatus():
 			simbase.air.suitInvasionManager.suitName,
 			simbase.air.suitInvasionManager.numSuits,
 			simbase.air.suitInvasionManager.specialSuit])
+
+@magicWord(category=CATEGORY_DEBUG, types=[str])
+def HolidayMessage(holiday):
+	""" Sends A cleint A holiday massage out of Winter, Bingo, Halloween or Xp Booster """
+	simbase.air.newsManager.sendUpdateToAvatarId(
+		spellbook.getInvoker().getDoId(),
+		'setHolidays',
+		[holiday])
+	return "Sent the message"

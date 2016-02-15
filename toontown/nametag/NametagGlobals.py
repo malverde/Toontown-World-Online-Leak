@@ -129,11 +129,11 @@ def setWantActiveNametags(value):
 def getModelWidthHeight(model):
     tightBounds = model.getTightBounds()
     if tightBounds is None:
-        return (0, 0)
+        return 0, 0
     minPoint, maxPoint = tightBounds
     width = maxPoint.getX() - minPoint.getX()
     height = maxPoint.getZ() - minPoint.getZ()
-    return (width, height)
+    return width, height
 
 def getFriendColor(flag):
     return CCNormal if flag == 1 and settings['trueFriends'] else CCFreeChat

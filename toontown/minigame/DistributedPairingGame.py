@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from DistributedMinigame import *
 from direct.fsm import ClassicFSM, State
@@ -509,7 +509,7 @@ class DistributedPairingGame(DistributedMinigame):
         row = deckOrderIndex / self.cardsPerRow
         x = col * self.xCardInc
         y = row * self.yCardInc
-        return (x, y)
+        return x, y
 
     def getDeckOrderIndex(self, row, col):
         retval = row * self.cardsPerRow

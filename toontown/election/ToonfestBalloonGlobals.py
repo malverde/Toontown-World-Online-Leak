@@ -1,7 +1,7 @@
 #Embedded file name: toontown.election.ToonfestBalloonGlobals
 from direct.interval.IntervalGlobal import *
 from otp.nametag.NametagConstants import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from random import choice
 BalloonBasePosition = [274, -263, 25]
 BalloonScale = 1.2
@@ -53,14 +53,30 @@ SlappySpeeches = choice(SlappySpeechChoices)
 NumBalloonPaths = 1
 
 def generateFlightPaths(balloon):
-    flightPaths = []
-    flightPaths.append(Sequence(Wait(0.5), balloon.balloon.posHprInterval(1.5, Point3(232, -262, 27), (0, 2, 2)), balloon.balloon.posHprInterval(1.5, Point3(170, -252, 32), (0, -2, -2)), balloon.balloon.posHprInterval(8.0, Point3(178, -189, 37), (0, 0, 0)), balloon.balloon.posHprInterval(6.5, Point3(241, -146, 45), (5, 2, 2)), balloon.balloon.posHprInterval(11.0, Point3(259, -95, 67), (180, -2, -2)), balloon.balloon.posHprInterval(5.5, Point3(252, -100, 95), (175, -4, 0)), balloon.balloon.posHprInterval(10.0, Point3(204, -125, 110), (0, 2, -2)), balloon.balloon.posHprInterval(4.5, Point3(182, -141, 140), (-2, -2, 2)), balloon.balloon.posHprInterval(21.5, Point3(198, -141, 175), (-70, 0, 0)), balloon.balloon.posHprInterval(15.0, Point3(196, -141, 205), (-25, 0, 0))))
+    flightPaths = [Sequence(Wait(0.5), balloon.balloon.posHprInterval(1.5, Point3(232, -262, 27), (0, 2, 2)),
+                            balloon.balloon.posHprInterval(1.5, Point3(170, -252, 32), (0, -2, -2)),
+                            balloon.balloon.posHprInterval(8.0, Point3(178, -189, 37), (0, 0, 0)),
+                            balloon.balloon.posHprInterval(6.5, Point3(241, -146, 45), (5, 2, 2)),
+                            balloon.balloon.posHprInterval(11.0, Point3(259, -95, 67), (180, -2, -2)),
+                            balloon.balloon.posHprInterval(5.5, Point3(252, -100, 95), (175, -4, 0)),
+                            balloon.balloon.posHprInterval(10.0, Point3(204, -125, 110), (0, 2, -2)),
+                            balloon.balloon.posHprInterval(4.5, Point3(182, -141, 140), (-2, -2, 2)),
+                            balloon.balloon.posHprInterval(21.5, Point3(198, -141, 175), (-70, 0, 0)),
+                            balloon.balloon.posHprInterval(15.0, Point3(196, -141, 205), (-25, 0, 0)))]
     return flightPaths
 
 
 def generateToonFlightPaths(balloon):
-    toonFlightPaths = []
-    toonFlightPaths.append(Sequence(Wait(0.5), base.localAvatar.posInterval(1.5, Point3(232, -262, 27)), base.localAvatar.posInterval(1.5, Point3(170, -252, 32)), base.localAvatar.posInterval(8.0, Point3(178, -189, 37)), base.localAvatar.posInterval(6.5, Point3(241, -146, 45)), base.localAvatar.posInterval(11.0, Point3(259, -95, 67)), base.localAvatar.posInterval(5.5, Point3(252, -100, 95)), base.localAvatar.posInterval(10.0, Point3(204, -125, 110)), base.localAvatar.posInterval(4.5, Point3(182, -141, 140)), base.localAvatar.posInterval(21.5, Point3(198, -141, 175)), base.localAvatar.posInterval(15.0, Point3(196, -141, 205))))
+    toonFlightPaths = [Sequence(Wait(0.5), base.localAvatar.posInterval(1.5, Point3(232, -262, 27)),
+                                base.localAvatar.posInterval(1.5, Point3(170, -252, 32)),
+                                base.localAvatar.posInterval(8.0, Point3(178, -189, 37)),
+                                base.localAvatar.posInterval(6.5, Point3(241, -146, 45)),
+                                base.localAvatar.posInterval(11.0, Point3(259, -95, 67)),
+                                base.localAvatar.posInterval(5.5, Point3(252, -100, 95)),
+                                base.localAvatar.posInterval(10.0, Point3(204, -125, 110)),
+                                base.localAvatar.posInterval(4.5, Point3(182, -141, 140)),
+                                base.localAvatar.posInterval(21.5, Point3(198, -141, 175)),
+                                base.localAvatar.posInterval(15.0, Point3(196, -141, 205)))]
     return toonFlightPaths
 
 

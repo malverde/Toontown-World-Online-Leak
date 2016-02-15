@@ -82,7 +82,7 @@ class CatalogEmoteItem(CatalogItem.CatalogItem):
                     Emote.globalEmote.doEmote, toon, self.emoteIndex), Wait(
                     duration + 4), name=name)
         self.pictureToon = toon
-        return (model, track)
+        return model, track
 
     def changeIval(self, volume):
         from toontown.toon import Toon

@@ -29,7 +29,7 @@ class ToonChatGarbler(ChatGarbler.ChatGarbler):
             wordIndex = random.randint(0, len(wordlist) - 1)
             newMessage = newMessage + wordlist[wordIndex]
             if i < numWords:
-                newMessage = newMessage + ' '
+                newMessage += ' '
 
         return newMessage
 
@@ -45,6 +45,6 @@ class ToonChatGarbler(ChatGarbler.ChatGarbler):
             wordIndex = random.randint(0, len(wordlist) - 1)
             newMessage = newMessage + wordlist[wordIndex]
             if i < numWords:
-                newMessage = newMessage + ' '
+                newMessage += ' '
 
         return newMessage

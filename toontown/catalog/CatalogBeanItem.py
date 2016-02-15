@@ -52,7 +52,7 @@ class CatalogBeanItem(CatalogItem.CatalogItem):
         beanJar.setPos(0, 0, 0)
         beanJar.setScale(2.5)
         self.hasPicture = True
-        return (frame, None)
+        return frame, None
 
     def output(self, store=-1):
         return 'CatalogBeanItem(%s%s)' % (

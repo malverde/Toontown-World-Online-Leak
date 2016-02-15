@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.gui.OnscreenText import OnscreenText
 from direct.gui.OnscreenImage import OnscreenImage
@@ -24,8 +24,8 @@ class Shockley:
         self.sceneRoot = NodePath('Shockley')
         base.setBackgroundColor(0, 0, 0, 1)
 
-        self.title = OnscreenText(text='Sir Kippy', pos=(0.6, 0.15, 0.0), scale=(0.15), fg=(1, 1, 1, 1), font=ToontownGlobals.getSignFont(), align=TextNode.ACenter)
-        self.description = OnscreenText(text='Project Manager', pos=(0.25, ), scale=(0.06), fg=(1, 1, 1, 1), font=ToontownGlobals.getMinnieFont(), align=TextNode.ALeft)
+        self.title = OnscreenText(text='Sir Kippy', pos=(0.6, 0.15, 0.0), scale=0.15, fg=(1, 1, 1, 1), font=ToontownGlobals.getSignFont(), align=TextNode.ACenter)
+        self.description = OnscreenText(text='Project Manager', pos=(0.25, ), scale=0.06, fg=(1, 1, 1, 1), font=ToontownGlobals.getMinnieFont(), align=TextNode.ALeft)
         self.image = OnscreenImage(image='phase_4/maps/news/sir_kippy.jpg', pos=(-0.5, 0.0, 0.0), scale=(0.5, 0.30, 0.30))
 
 
@@ -105,14 +105,14 @@ class Credits:
             imagePos = (0.5, 0.0, 0.0)
             textAlignment = TextNode.ARight
 
-        self.title = OnscreenText(text=self.toonName, pos=titlePos, scale=(0.15), fg=(1, 1, 1, 1), font=ToontownGlobals.getSignFont(), align=textAlignment)
-        self.description = OnscreenText(text=self.toonDescription, pos=descriptionPos, scale=(0.06), fg=(1, 1, 1, 1), font=ToontownGlobals.getMinnieFont(), align=textAlignment)
+        self.title = OnscreenText(text=self.toonName, pos=titlePos, scale=0.15, fg=(1, 1, 1, 1), font=ToontownGlobals.getSignFont(), align=textAlignment)
+        self.description = OnscreenText(text=self.toonDescription, pos=descriptionPos, scale=0.06, fg=(1, 1, 1, 1), font=ToontownGlobals.getMinnieFont(), align=textAlignment)
         self.image = OnscreenImage(image='phase_4/maps/news/%s' % self.toonImage, pos=imagePos, scale=(0.5, 0.30, 0.30))
         self.elements = [self.title, self.description, self.image]
 
         if self.twoSlides:
-            self.title2 = OnscreenText(text=self.toon2Name, pos=title2Pos, scale=(0.15), fg=(1, 1, 1, 1), font=ToontownGlobals.getSignFont(), align=text2Alignment)
-            self.description2 = OnscreenText(text=self.toon2Description, pos=description2Pos, scale=(0.06), fg=(1, 1, 1, 1), font=ToontownGlobals.getMinnieFont(), align=text2Alignment)
+            self.title2 = OnscreenText(text=self.toon2Name, pos=title2Pos, scale=0.15, fg=(1, 1, 1, 1), font=ToontownGlobals.getSignFont(), align=text2Alignment)
+            self.description2 = OnscreenText(text=self.toon2Description, pos=description2Pos, scale=0.06, fg=(1, 1, 1, 1), font=ToontownGlobals.getMinnieFont(), align=text2Alignment)
             self.image2 = OnscreenImage(image='phase_4/maps/news/%s' % self.toon2Image, pos=image2Pos, scale=(0.5, 0.30, 0.30))
             self.elements.extend([self.title2, self.description2, self.image2])
 

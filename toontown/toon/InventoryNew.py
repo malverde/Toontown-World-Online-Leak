@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToontownBattleGlobals import *
 import InventoryBase
 from toontown.toonbase import TTLocalizer
@@ -8,7 +8,7 @@ from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
-import datetime
+from toontown.ai import HolidayGlobals
 
 class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
 	notify = DirectNotifyGlobal.directNotify.newCategory('InventoryNew')
@@ -36,13 +36,7 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
 
 	def __init__(self, toon, invStr = None, ShowSuperGags = 1):
 		InventoryBase.InventoryBase.__init__(self, toon, invStr)
-		if str(datetime.datetime.now().strftime("%m")) == "7":
-			if str(datetime.datetime.now().strftime("%d")) ==  "29" or "30":
-				XpMultiplier = 3.0
-			else:
-				XpMultiplier = 1.0
-		else: 
-			XpMultiplier = 1.0
+		XpMultiplier = HolidayGlobals.WhatIsXp()
 		DirectFrame.__init__(self, relief=None)
 		self.initialiseoptions(InventoryNew)
 		self.battleCreditLevel = None
@@ -1023,9 +1017,9 @@ class InventoryNew(InventoryBase.InventoryBase, DirectFrame):
 		for amount in Levels[track]:
 			if curSkill < amount:
 				retVal = amount
-				return (curSkill, retVal)
+				return curSkill, retVal
 
-		return (curSkill, retVal)
+		return curSkill, retVal
 
 	def makePressable(self, button, track, level):
 		organicBonus = self.toon.checkGagBonus(track, level)

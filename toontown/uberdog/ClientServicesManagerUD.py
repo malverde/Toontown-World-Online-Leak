@@ -247,6 +247,12 @@ class LoginAccountFSM(OperationFSM):
             dg.addServerHeader(self.target, self.csm.air.ourChannel, CLIENTAGENT_OPEN_CHANNEL)
             dg.addChannel(OtpDoGlobals.OTP_ADMIN_CHANNEL)
             self.csm.air.send(dg)
+        if access >= 405:
+            # Subscribe to the developer channel.
+            dg = PyDatagram()
+            dg.addServerHeader(self.target, self.csm.air.ourChannel, CLIENTAGENT_OPEN_CHANNEL)
+            dg.addChannel(OtpDoGlobals.OTP_DEV_CHANNEL)
+            self.csm.air.send(dg)
         if access >= 500:
             # Subscribe to the system administrator channel.
             dg = PyDatagram()
@@ -762,6 +768,9 @@ class LoadAvatarFSM(AvatarOperationFSM):
         dg.addChannel(self.csm.GetAccountConnectionChannel(self.target)) # Set ownership channel to the connection's account channel.
         self.csm.air.send(dg)
 
+        # Tell the GlobalPartyManager as well:
+        self.csm.air.globalPartyMgr.avatarJoined(self.avId)
+
         # Tell everything that an avatar is coming online!
         friendsList = [x for x, y in self.avatar['setFriendsList'][0]]
         self.csm.air.netMessenger.send('avatarOnline', [self.avId, friendsList])
@@ -976,4 +985,5 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         connection = httplib.HTTPConnection("www.toontownworldonline.com")
         connection.request("GET", "/api/csmud/report.php?reporterId="+ str(reporterId) + "&avId=" + str(avId) + "&category=" + str(REPORT_REASONS[category]))
         response = connection.getresponse()
+        connection.close()
         self.air.writeServerEvent("player-reported", reporterId=reporterId, avId=avId, category=REPORT_REASONS[category])

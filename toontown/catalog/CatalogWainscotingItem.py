@@ -57,7 +57,7 @@ class CatalogWainscotingItem(CatalogSurfaceItem):
         c.setColorScale(*self.getColor())
         sample.reparentTo(frame)
         self.hasPicture = True
-        return (frame, None)
+        return frame, None
 
     def output(self, store=-1):
         return 'CatalogWainscotingItem(%s, %s%s)' % (
@@ -72,7 +72,7 @@ class CatalogWainscotingItem(CatalogSurfaceItem):
         return self.colorIndex - other.colorIndex
 
     def getHashContents(self):
-        return (self.patternIndex, self.colorIndex)
+        return self.patternIndex, self.colorIndex
 
     def getBasePrice(self):
         return WainscotingTypes[self.patternIndex][WSTBasePrice]
@@ -150,7 +150,7 @@ def getWainscotingRange(fromIndex, toIndex, *otherRanges):
 
     for patternIndex in WainscotingTypes.keys():
         for fromIndex, toIndex in zip(froms, tos):
-            if patternIndex >= fromIndex and patternIndex <= toIndex:
+            if fromIndex <= patternIndex <= toIndex:
                 colors = WainscotingTypes[patternIndex][WSTColor]
                 if colors:
                     for n in range(len(colors)):

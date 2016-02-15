@@ -216,7 +216,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
         signTextNodepath.setPos(0, 0.25, 0)
         signTextNodepath.setH(165.0)
         signTextNodepath.setDepthWrite(0)
-        return (signTextNode, signTextNodepath)
+        return signTextNode, signTextNodepath
 
     def setTunnelSignText(self):
         self.notify.debugStateCall(self)

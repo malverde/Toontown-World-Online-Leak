@@ -114,6 +114,42 @@ TextPropertiesManager.getGlobalPtr().setProperties('black', black)
 grey = TextProperties()
 grey.setTextColor(0.5, 0.5, 0.5, 1)
 TextPropertiesManager.getGlobalPtr().setProperties('grey', grey)
+
+# New nametag staff colours
+"""
+This section outlines
+the nametag colours of the staff
+"""
+# Orange
+amber = TextProperties()
+amber.setTextColor(1, 0.75, 0, 1)
+TextPropertiesManager.getGlobalPtr().setProperties('amber', amber)
+
+# Pink
+amaranth = TextProperties()
+amaranth.setTextColor(0.9, 0.17, 0.31, 1)
+TextPropertiesManager.getGlobalPtr().setProperties('amaranth', amaranth)
+
+# Green
+androidGreen = TextProperties()
+androidGreen.setTextColor(0.64, 0.78, 0.22, 1)
+TextPropertiesManager.getGlobalPtr().setProperties('androidGreen', androidGreen)
+
+# Turquoise-green
+caribbeanGreen = TextProperties()
+caribbeanGreen.setTextColor(0, 0.8, 0.6, 1)
+TextPropertiesManager.getGlobalPtr().setProperties('caribbeanGreen', caribbeanGreen)
+
+# Blue
+azure = TextProperties()
+azure.setTextColor(0, 0.5, 1, 1)
+TextPropertiesManager.getGlobalPtr().setProperties('azure', azure)
+
+# Cobalt-blue
+cobalt = TextProperties()
+cobalt.setTextColor(0, 0.28, 0.67, 1)
+TextPropertiesManager.getGlobalPtr().setProperties('cobalt', cobalt)
+
 ActivateChat = "True Friends allows one member to chat with another member only by means of a True Friend Code that must be communicated outside of the game. True Friends is not moderated or supervised.\n\nPlease choose one of Toontown's True Friends options:\n\n      \x01shadow\x01No True Friends\x02 - Ability to make True Friends is disabled.\n      This offers the highest level of control.\n\n      \x01shadow\x01Restricted True Friends\x02 - Requires the Parent Account Password to make\n      each new True Friend.\n\n      \x01shadow\x01Unrestricted True Friends\x02 - Once enabled with the Parent Account Password,\n      it is not required to supply the Parent Account Password to make each new\n      True Friend. \x01red\x01This option is not recommended for children under 13.\x02\n\n\n\n\n\n\nBy enabling the True Friends feature, you acknowledge that there are some risks inherent in the True Friends feature and that you have been informed of, and agree to accept, any such risks."
 ActivateChatYes = 'Update'
 ActivateChatNo = lCancel
@@ -3044,3 +3080,13 @@ def timeElapsedString(timeDelta):
         return '1 minute ago'
     else:
         return '%s minutes ago' % (timeDelta.seconds / 60)
+
+AccessToString = {
+ 200: '\x01amaranth\x01Artist\x02',
+ 300: '\x01green\x01Moderator\x02',
+ 400: '\x01amber\x01Community Manager\x02',
+ 401: '\x01yellow\x01Admin\x02',
+ 405: '\x01androidGreen\x01Developer\x02',
+ 500: '\x01cobalt\x01Senior Admin\x02',
+ 507: '\x01red\x01System Admin\x02'
+}

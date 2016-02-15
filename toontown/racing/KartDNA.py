@@ -1,10 +1,10 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import PythonUtil
 from toontown.toonbase import TTLocalizer
-from pandac.PandaModules import *
+from panda3d.core import *
 from KartShopGlobals import *
 import types
-if (__debug__):
+if __debug__:
     import pdb
 import copy
 KartDNA = PythonUtil.Enum(

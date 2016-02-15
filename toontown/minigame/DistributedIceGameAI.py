@@ -267,7 +267,7 @@ class DistributedIceGameAI(DistributedMinigameAI.DistributedMinigameAI):
             retForce = 0
         if retForce > 100:
             retForce = 100
-        return (retForce, retDir)
+        return retForce, retDir
 
     def allAvatarsChosen(self):
         for avId in self.avatarChoices.keys():

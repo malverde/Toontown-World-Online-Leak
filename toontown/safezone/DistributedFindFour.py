@@ -1,5 +1,5 @@
 #Embedded file name: toontown.safezone.DistributedFindFour
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
@@ -415,9 +415,9 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         pass
 
     def turnTask(self, task):
-        if base.mouseWatcherNode.hasMouse() == False:
+        if not base.mouseWatcherNode.hasMouse():
             return task.cont
-        if self.isMyTurn == False:
+        if not self.isMyTurn:
             return task.cont
         if self.moveSequence.isPlaying():
             return task.cont
@@ -499,11 +499,11 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         for x in xrange(6):
             for y in xrange(7):
                 if self.board[x][y] == self.playerNum:
-                    if self.checkHorizontal(x, y, self.playerNum) == True:
+                    if self.checkHorizontal(x, y, self.playerNum):
                         return [x, y]
-                    if self.checkVertical(x, y, self.playerNum) == True:
+                    if self.checkVertical(x, y, self.playerNum):
                         return [x, y]
-                    if self.checkDiagonal(x, y, self.playerNum) == True:
+                    if self.checkDiagonal(x, y, self.playerNum):
                         return [x, y]
 
     def announceWinnerPosition(self, x, y, winDirection, playerNum):
@@ -518,7 +518,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
             blinkList = self.findVertical(x, y, playerNum)
         elif winDirection == 2:
             blinkList = self.findDiagonal(x, y, playerNum)
-        if blinkList != []:
+        if blinkList:
             print blinkList
             val0 = x * 7 + y
             x = blinkList[0][0]
@@ -589,7 +589,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                 taskMgr.remove('playerTurnTask')
             else:
                 hasfound = False
-                while hasfound == False:
+                while not hasfound:
                     from random import *
                     x = randint(0, 6)
                     if self.board[0][x] == 0:

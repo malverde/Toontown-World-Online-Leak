@@ -519,11 +519,11 @@ class EventsPage(ShtikerPage.ShtikerPage):
          'decorations': TTLocalizer.EventsPageHostingTabDecorationsListTitle,
          'parties': TTLocalizer.EventsPageHostingTabPartiesListTitle}
         label = DirectLabel(parent=parent, relief=None, text=strings[typeString], text_scale=TTLocalizer.EPcreateListAndLabel, pos=gui.find('**/%s%s' % (typeString, textString)).getPos())
-        return (list, label)
+        return list, label
 
     def setMode(self, mode, updateAnyways = 0):
         messenger.send('wakeup')
-        if updateAnyways == False:
+        if not updateAnyways:
             if self.mode == mode:
                 return
             else:

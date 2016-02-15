@@ -1,5 +1,5 @@
 #Embedded file name: toontown.estate.Estate
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToonBaseGlobal import *
 from toontown.toonbase.ToontownGlobals import *
@@ -63,8 +63,8 @@ class Estate(Place.Place):
           'trialerFA']),
          State.State('teleportIn', self.enterTeleportIn, self.exitTeleportIn, ['walk', 'petTutorial']),
          State.State('teleportOut', self.enterTeleportOut, self.exitTeleportOut, ['teleportIn', 'walk', 'final']),
-         State.State('doorIn', self.enterDoorIn, self.exitDoorIn, ['walk']),
-         State.State('doorOut', self.enterDoorOut, self.exitDoorOut, ['final', 'walk']),
+         State.State('doorIn', self.enterDoorIn, self.exitDoorIn, ['walk', 'stopped']),
+         State.State('doorOut', self.enterDoorOut, self.exitDoorOut, ['final', 'walk', 'stopped']),
          State.State('final', self.enterFinal, self.exitFinal, ['teleportIn']),
          State.State('quest', self.enterQuest, self.exitQuest, ['walk']),
          State.State('fishing', self.enterFishing, self.exitFishing, ['walk', 'stopped']),

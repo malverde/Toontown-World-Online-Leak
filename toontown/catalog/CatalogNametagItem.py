@@ -69,7 +69,7 @@ class CatalogNametagItem(CatalogItem.CatalogItem):
                 1.0, 1.0, 1.0, 1), text_shadow=(
                 0, 0, 0, 1), text_font=inFont, text_wordwrap=9)
         self.hasPicture = True
-        return (frame, None)
+        return frame, None
 
     def output(self, store=-1):
         return 'CatalogNametagItem(%s%s)' % (
@@ -108,4 +108,4 @@ class CatalogNametagItem(CatalogItem.CatalogItem):
     def getBackSticky(self):
         itemType = 1
         numSticky = 4
-        return (itemType, numSticky)
+        return itemType, numSticky

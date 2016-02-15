@@ -60,7 +60,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
         pass
 
     def getInitialScale(self):
-        return (0.8, 0.8, 0.8)
+        return 0.8, 0.8, 0.8
 
     def setNewScale(self, sx, sy, sz):
         if sx + sy + sz < 5:

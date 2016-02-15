@@ -602,7 +602,7 @@ class CogdoFlyingLocalPlayer(CogdoFlyingPlayer):
 
     def updateToonPos(self, dt):
         toonWorldY = self.toon.getY(render)
-        if self.hasPickedUpFirstPropeller == False:
+        if not self.hasPickedUpFirstPropeller:
             if toonWorldY > -7.6:
                 self.toon.setY(-7.6)
             elif toonWorldY < -35.0:

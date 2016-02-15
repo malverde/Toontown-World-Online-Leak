@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 QuietZone = 1
 UberZone = 2
 WallBitmask = BitMask32(1)
@@ -45,9 +45,13 @@ CEGreenToon = 15
 CERogerDog = 16
 CEFlippy = 17
 CESurlee = 18
+CETinyToon = 19
+CEGiantToon = 20
 CEGhost = 'g'
 BigToonScale = 1.5
 SmallToonScale = 0.5
+GiantToonScale = 5
+TinyToonScale = 0.2
 DisconnectUnknown = 0
 DisconnectBookExit = 1
 DisconnectCloseWindow = 2

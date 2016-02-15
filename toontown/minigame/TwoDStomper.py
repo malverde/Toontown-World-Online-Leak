@@ -88,7 +88,7 @@ class TwoDStomper(DirectObject):
         def motionFunc(t, self = self):
             stickTime = 0.2
             turnaround = 0.95
-            t = t % 1
+            t %= 1
             if t < stickTime:
                 self.head.setFluidZ(0 + self.headEndZ)
                 if self.stomperState != STUCK_DOWN:
@@ -144,7 +144,7 @@ class TwoDStomper(DirectObject):
         toonXDiff = (base.localAvatar.getX(render) - self.model.getX(render)) / self.scale
         toonZ = base.localAvatar.getZ(render)
         headEndZAbs = self.model.getZ(render) + self.headEndZ * self.scale
-        if toonXDiff > -1.0 and toonXDiff < 1.0 and toonZ > headEndZAbs and toonZ < self.head.getZ(render):
+        if -1.0 < toonXDiff < 1.0 and headEndZAbs < toonZ < self.head.getZ(render):
             if not base.localAvatar.isStunned:
 
                 def stashCollisions(self = self):

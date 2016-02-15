@@ -546,11 +546,18 @@ class DistributedParty(DistributedObject.DistributedObject):
 
     def getTimer(self, parent):
         timeFont = ToontownGlobals.getMinnieFont()
-        timer = {}
-        timer['minute'] = DirectLabel(parent=parent, pos=TTLocalizer.DPtimerMinutePos, relief=None, text='59', text_align=TextNode.ACenter, text_font=timeFont, text_fg=(0.7, 0.3, 0.3, 1.0), scale=TTLocalizer.DPtimerMinute)
-        timer['colon'] = DirectLabel(parent=parent, pos=TTLocalizer.DPtimerColonPos, relief=None, text=':', text_align=TextNode.ACenter, text_font=timeFont, text_fg=(0.7, 0.3, 0.3, 1.0), scale=TTLocalizer.DPtimerColon)
-        timer['second'] = DirectLabel(parent=parent, relief=None, pos=TTLocalizer.DPtimerSecondPos, text='14', text_align=TextNode.ACenter, text_font=timeFont, text_fg=(0.7, 0.3, 0.3, 1.0), scale=TTLocalizer.DPtimerSecond)
-        timer['textLabel'] = DirectLabel(parent=parent, relief=None, pos=(0.0, 0.0, 1.15), text=TTLocalizer.PartyCountdownClockText, text_font=timeFont, text_fg=(0.7, 0.3, 0.3, 1.0), scale=TTLocalizer.DPtimerTextLabel)
+        timer = {'minute': DirectLabel(parent=parent, pos=TTLocalizer.DPtimerMinutePos, relief=None, text='59',
+                                       text_align=TextNode.ACenter, text_font=timeFont, text_fg=(0.7, 0.3, 0.3, 1.0),
+                                       scale=TTLocalizer.DPtimerMinute),
+                 'colon': DirectLabel(parent=parent, pos=TTLocalizer.DPtimerColonPos, relief=None, text=':',
+                                      text_align=TextNode.ACenter, text_font=timeFont, text_fg=(0.7, 0.3, 0.3, 1.0),
+                                      scale=TTLocalizer.DPtimerColon),
+                 'second': DirectLabel(parent=parent, relief=None, pos=TTLocalizer.DPtimerSecondPos, text='14',
+                                       text_align=TextNode.ACenter, text_font=timeFont, text_fg=(0.7, 0.3, 0.3, 1.0),
+                                       scale=TTLocalizer.DPtimerSecond),
+                 'textLabel': DirectLabel(parent=parent, relief=None, pos=(0.0, 0.0, 1.15),
+                                          text=TTLocalizer.PartyCountdownClockText, text_font=timeFont,
+                                          text_fg=(0.7, 0.3, 0.3, 1.0), scale=TTLocalizer.DPtimerTextLabel)}
         return timer
 
     def setHostName(self, hostName):

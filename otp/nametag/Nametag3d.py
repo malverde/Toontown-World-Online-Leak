@@ -1,7 +1,7 @@
 from Nametag import *
 import NametagGlobals
 from NametagConstants import *
-from pandac.PandaModules import *
+from panda3d.core import *
 import math
 
 class Nametag3d(Nametag):

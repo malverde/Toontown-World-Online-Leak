@@ -1,5 +1,5 @@
 #Embedded file name: toontown.election.DistributedToonfestBalloon
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.nametag.NametagConstants import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *

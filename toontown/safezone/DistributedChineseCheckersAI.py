@@ -312,7 +312,7 @@ class DistributedChineseCheckersAI(DistributedNodeAI):
         numPlayers = 0
         for x in self.parent.seats:
             if x != None:
-                numPlayers = numPlayers + 1
+                numPlayers += 1
                 continue
 
         if len(self.wantStart) == numPlayers and numPlayers >= 2:
@@ -486,7 +486,7 @@ class DistributedChineseCheckersAI(DistributedNodeAI):
 
     def advancePlayerTurn(self):
         foundNewPlayer = False
-        while foundNewPlayer == False:
+        while not foundNewPlayer:
             self.playersTurn += 1
             if self.playersTurn > 5:
                 self.playersTurn = 0
@@ -501,7 +501,7 @@ class DistributedChineseCheckersAI(DistributedNodeAI):
          5,
          3,
          6]
-        if self.checkLegalMoves(moveList) == True:
+        if self.checkLegalMoves(moveList):
             self.movesMade += 1
             self.makeMove(moveList)
             self.advancePlayerTurn()
@@ -516,7 +516,7 @@ class DistributedChineseCheckersAI(DistributedNodeAI):
             return False
         for x in range(len(moveList) - 1):
             y = self.checkLegalMove(self.board.getSquare(moveList[x]), self.board.getSquare(moveList[x + 1]))
-            if y == False:
+            if not y:
                 return False
 
         return True

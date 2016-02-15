@@ -1,6 +1,6 @@
 from direct.interval.IntervalGlobal import *
 from otp.nametag.NametagConstants import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from random import choice
 
 ########################
@@ -242,61 +242,55 @@ def generateFlightPaths(balloon):
     # For each sequence, you basically copy and paste this whole section and edit
     # the sequence. When you add a new sequence here, you MUST edit the 
     # Buddy_BALLOON_NUM_PATHS constant.
-    flightPaths = []
-    flightPaths.append(
-        Sequence(
-            # Lift Off
-            Wait(0.5),
-            balloon.balloon.posHprInterval(1.5, Point3(-19, 35, 3), (0, 2, 2)),
-            balloon.balloon.posHprInterval(1.5, Point3(-23, 38, 5), (0, -2, -2)),
-            balloon.balloon.posHprInterval(8.0, Point3(-53, 75, 24), (0, 0, 0)),
-            balloon.balloon.posHprInterval(0.5, Point3(-54, 76, 25), (5, 2, 2)),
+    flightPaths = [Sequence(
+        # Lift Off
+        Wait(0.5),
+        balloon.balloon.posHprInterval(1.5, Point3(-19, 35, 3), (0, 2, 2)),
+        balloon.balloon.posHprInterval(1.5, Point3(-23, 38, 5), (0, -2, -2)),
+        balloon.balloon.posHprInterval(8.0, Point3(-53, 75, 24), (0, 0, 0)),
+        balloon.balloon.posHprInterval(0.5, Point3(-54, 76, 25), (5, 2, 2)),
 
-            # To the tunnel we go
-            balloon.balloon.posHprInterval(11.0, Point3(-105, 33, 54), (180, -2, -2)),
-            balloon.balloon.posHprInterval(0.5, Point3(-106, 34, 55), (175, -4, 0)),
+        # To the tunnel we go
+        balloon.balloon.posHprInterval(11.0, Point3(-105, 33, 54), (180, -2, -2)),
+        balloon.balloon.posHprInterval(0.5, Point3(-106, 34, 55), (175, -4, 0)),
 
-            # Lets drop a weight on the gag shop
-            balloon.balloon.posHprInterval(10.0, Point3(-100, -60, 54), (0, 2, -2)),
-            balloon.balloon.posHprInterval(0.5, Point3(-97.5, -59.5, 54), (-2, -2, 2)), 
+        # Lets drop a weight on the gag shop
+        balloon.balloon.posHprInterval(10.0, Point3(-100, -60, 54), (0, 2, -2)),
+        balloon.balloon.posHprInterval(0.5, Point3(-97.5, -59.5, 54), (-2, -2, 2)),
 
-            # Rats, we missed! Lets checkout the podium
-            balloon.balloon.posHprInterval(18.0, Point3(60, -10, 54), (-70, 0, 0)),
-            balloon.balloon.posHprInterval(0.5, Point3(62, -11, 54), (-65, -2, 2)),
+        # Rats, we missed! Lets checkout the podium
+        balloon.balloon.posHprInterval(18.0, Point3(60, -10, 54), (-70, 0, 0)),
+        balloon.balloon.posHprInterval(0.5, Point3(62, -11, 54), (-65, -2, 2)),
 
-            # Set her down; gently
-            balloon.balloon.posHprInterval(15.0, Point3(-15, 33, 1.1), (0, 0, 0)),
-        )
-    )
-    
+        # Set her down; gently
+        balloon.balloon.posHprInterval(15.0, Point3(-15, 33, 1.1), (0, 0, 0)),
+    )]
+
     # Return the flight paths back to the HotAirBalloon...
     return flightPaths
 
 def generateToonFlightPaths(balloon):
     # This isn't all that great of a solution, but it stops jittering caused when we reparent the client to the balloon.
     # The downside is that it causes some minor latency for others, but not enough to care.
-    toonFlightPaths = []
-    toonFlightPaths.append(
-        Sequence(
-            # Lift Off
-            Wait(0.5),
-            base.localAvatar.posInterval(1.5, Point3(-19, 35, 3)),
-            base.localAvatar.posInterval(1.5, Point3(-23, 38, 5)),
-            base.localAvatar.posInterval(8.0, Point3(-53, 75, 24)),
-            base.localAvatar.posInterval(0.5, Point3(-54, 76, 25)),
+    toonFlightPaths = [Sequence(
+        # Lift Off
+        Wait(0.5),
+        base.localAvatar.posInterval(1.5, Point3(-19, 35, 3)),
+        base.localAvatar.posInterval(1.5, Point3(-23, 38, 5)),
+        base.localAvatar.posInterval(8.0, Point3(-53, 75, 24)),
+        base.localAvatar.posInterval(0.5, Point3(-54, 76, 25)),
 
-            base.localAvatar.posInterval(11.0, Point3(-105, 33, 54)),
-            base.localAvatar.posInterval(0.5, Point3(-106, 34, 55)),
-            # Lets drop a weight on the gag shop
-            base.localAvatar.posInterval(10.0, Point3(-100, -60, 54)),
-            base.localAvatar.posInterval(0.5, Point3(-99, -59, 53)),      
-            # Rats, we missed! Lets checkout the podium
-            base.localAvatar.posInterval(18.0, Point3(60, -10, 54)),
-            base.localAvatar.posInterval(0.5, Point3(62, -11, 54)),
-            # Set her down; gently
-            base.localAvatar.posInterval(15.0, Point3(-15, 33, 1.1)),
-        )
-    )
+        base.localAvatar.posInterval(11.0, Point3(-105, 33, 54)),
+        base.localAvatar.posInterval(0.5, Point3(-106, 34, 55)),
+        # Lets drop a weight on the gag shop
+        base.localAvatar.posInterval(10.0, Point3(-100, -60, 54)),
+        base.localAvatar.posInterval(0.5, Point3(-99, -59, 53)),
+        # Rats, we missed! Lets checkout the podium
+        base.localAvatar.posInterval(18.0, Point3(60, -10, 54)),
+        base.localAvatar.posInterval(0.5, Point3(62, -11, 54)),
+        # Set her down; gently
+        base.localAvatar.posInterval(15.0, Point3(-15, 33, 1.1)),
+    )]
 
     return toonFlightPaths
 

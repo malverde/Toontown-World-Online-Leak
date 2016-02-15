@@ -86,7 +86,7 @@ class DistributedLawbotBossSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
                 self.getR())
 
     def getConfrontPosHpr(self):
-        return (self.confrontPos, self.confrontHpr)
+        return self.confrontPos, self.confrontHpr
 
     def _logDeath(self, toonId):
         pass

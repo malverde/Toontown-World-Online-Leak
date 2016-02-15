@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.gui.DirectGui import *
 from direct.showbase import DirectObject
 from otp.avatar import AvatarPanel
@@ -18,9 +18,9 @@ class AvatarPanelBase(AvatarPanel.AvatarPanel):
 
     def getIgnoreButtonInfo(self):
         if base.cr.avatarFriendsManager.checkIgnored(self.avId):
-            return (TTLocalizer.AvatarPanelStopIgnoring, self.handleStopIgnoring, STOP_IGNORE_SCALE)
+            return TTLocalizer.AvatarPanelStopIgnoring, self.handleStopIgnoring, STOP_IGNORE_SCALE
         else:
-            return (TTLocalizer.AvatarPanelIgnore, self.handleIgnore, IGNORE_SCALE)
+            return TTLocalizer.AvatarPanelIgnore, self.handleIgnore, IGNORE_SCALE
 
     def handleIgnore(self):
         isAvatarFriend = base.cr.isFriend(self.avatar.doId)

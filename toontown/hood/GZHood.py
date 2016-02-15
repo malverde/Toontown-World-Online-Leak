@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 import ToonHood
 from toontown.safezone import GZSafeZoneLoader
 from toontown.toonbase.ToontownGlobals import *

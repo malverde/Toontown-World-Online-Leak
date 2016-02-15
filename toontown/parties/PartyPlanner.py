@@ -22,7 +22,7 @@ from toontown.parties.InviteVisual import InviteVisual
 from toontown.parties.PartyInfo import PartyInfo
 from toontown.parties import PartyUtils
 from toontown.parties.PartyEditor import PartyEditor
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from otp.nametag.NametagGroup import NametagGroup
 from otp.nametag.Nametag import Nametag
@@ -390,7 +390,7 @@ class PartyPlanner(DirectFrame, FSM):
                 data = '00'
             else:
                 if type == 'hour':
-                    data = data % 12
+                    data %= 12
                     if data == 0:
                         data = 12
                 data = '%d' % data
@@ -404,7 +404,7 @@ class PartyPlanner(DirectFrame, FSM):
             else:
                 if type == 'hour':
                     newAmount = getattr(self.partyTime, type) + amount
-                    newAmount = newAmount % 12
+                    newAmount %= 12
                     if self.timeInputAmPmLabel['text'] == TTLocalizer.PartyTimeFormatMeridiemPM:
                         newAmount = newAmount % 12 + 12
                     self.alterPartyTime(hour=newAmount)
@@ -418,7 +418,7 @@ class PartyPlanner(DirectFrame, FSM):
                     label['text'] = '0%d' % newAmount
                 else:
                     if type == 'hour':
-                        newAmount = newAmount % 12
+                        newAmount %= 12
                         if newAmount == 0:
                             newAmount = 12
                     label['text'] = '%d' % newAmount
@@ -427,7 +427,7 @@ class PartyPlanner(DirectFrame, FSM):
 
         upButton = DirectButton(parent=page, relief=None, geom=(self.gui.find('**/%sButtonUp_up' % type), self.gui.find('**/%sButtonUp_down' % type), self.gui.find('**/%sButtonUp_rollover' % type)), command=changeValue, extraArgs=[self, self.timeTypeToChangeAmount[type][0]])
         downButton = DirectButton(parent=page, relief=None, geom=(self.gui.find('**/%sButtonDown_up' % type), self.gui.find('**/%sButtonDown_down' % type), self.gui.find('**/%sButtonDown_rollover' % type)), command=changeValue, extraArgs=[self, self.timeTypeToChangeAmount[type][1]])
-        return (label, upButton, downButton)
+        return label, upButton, downButton
 
     def getCurrentAmPm(self):
         if self.partyTime.hour < 12:

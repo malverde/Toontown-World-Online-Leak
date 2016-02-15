@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 import Quests
 from toontown.toonbase import ToontownGlobals
@@ -40,10 +40,10 @@ class QuestRewardCounter:
     def addTrackProgress(self, trackId, progressIndex):
         if self.trackProgressId != trackId:
             self.notify.warning('tried to update progress on a track toon is not training')
-        self.trackProgress = self.trackProgress | 1 << progressIndex
+        self.trackProgress |= 1 << progressIndex
 
     def getTrackProgress(self):
-        return (self.trackProgressId, self.trackProgress)
+        return self.trackProgressId, self.trackProgress
 
     def clearTrackProgress(self):
         self.trackProgressId = -1

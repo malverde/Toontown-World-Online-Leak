@@ -48,7 +48,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
 
     def loadPlaceGeom(self, zoneId):
         self.notify.info('loadPlaceGeom: %s' % zoneId)
-        zoneId = zoneId - zoneId % 100
+        zoneId -= zoneId % 100
         if zoneId == ToontownGlobals.SellbotHQ:
             self.geom = loader.loadModel(self.cogHQExteriorModelPath)
             dgLinkTunnel = self.geom.find('**/Tunnel1')

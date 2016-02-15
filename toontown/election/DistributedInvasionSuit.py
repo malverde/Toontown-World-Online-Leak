@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm.FSM import FSM
@@ -393,9 +393,9 @@ class DistributedInvasionSuit(DistributedSuitBase, InvasionSuitBase, FSM, DelayD
             self.__moveToStaticPoint()
 
     def sayFaceoffTaunt(self, custom = False, phrase = "", dialogue = None):
-        if custom == True:
+        if custom:
             self.setChatAbsolute(phrase, CFSpeech | CFTimeout, dialogue)
-        elif custom == False:
+        elif not custom:
             if random.random() < 0.2:
                 taunt = SuitBattleGlobals.getFaceoffTaunt(self.getStyleName(), self.doId, randomChoice = True)
                 self.setChatAbsolute(taunt, CFSpeech | CFTimeout)
