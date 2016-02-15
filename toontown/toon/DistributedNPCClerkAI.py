@@ -1,5 +1,5 @@
 from direct.task.Task import Task
-from pandac.PandaModules import *
+from panda3d.core import *
 from DistributedNPCToonBaseAI import *
 
 class DistributedNPCClerkAI(DistributedNPCToonBaseAI):

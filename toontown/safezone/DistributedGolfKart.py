@@ -1,5 +1,5 @@
 #Embedded file name: toontown.safezone.DistributedGolfKart
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
@@ -321,7 +321,7 @@ class DistributedGolfKart(DistributedObject.DistributedObject):
         self.trolleyExitTrack.finish()
 
     def getStareAtNodeAndOffset(self):
-        return (self.golfKart, Point3(0, 0, 4))
+        return self.golfKart, Point3(0, 0, 4)
 
     def storeToonTrack(self, avId, track):
         self.clearToonTrack(avId)

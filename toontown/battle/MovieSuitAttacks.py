@@ -286,9 +286,9 @@ def doSuitAttack(attack):
                 resetTrack.getDuration()), Func(
                 battle.unlureSuit, suit))
         resetCamTrack = Sequence(waitTrack, camTrack)
-        return (resetSuitTrack, resetCamTrack)
+        return resetSuitTrack, resetCamTrack
     else:
-        return (suitTrack, camTrack)
+        return suitTrack, camTrack
 
 
 def getResetTrack(suit, battle):
@@ -505,8 +505,7 @@ def getSuitTrack(attack, delay=1e-06, splicedAnims=None):
     toon = target['toon']
     targetPos = toon.getPos(battle)
     taunt = getAttackTaunt(attack['name'], tauntIndex)
-    trapStorage = {}
-    trapStorage['trap'] = None
+    trapStorage = {'trap': None}
     track = Sequence(
         Wait(delay),
         Func(
@@ -1261,20 +1260,16 @@ def doFillWithLead(attack):
         1.3,
         2.3,
         scaleUpPoint=MovieUtil.PNT3_ONE)
-    damageAnims = []
-    damageAnims.append(['conked',
-                        suitTrack.getDuration() - 1.5,
-                        1e-05,
-                        1.4])
-    damageAnims.append(['conked',
-                        1e-05,
-                        0.7,
-                        0.7])
-    damageAnims.append(['conked',
-                        1e-05,
-                        0.7,
-                        0.7])
-    damageAnims.append(['conked', 1e-05, 1.4])
+    damageAnims = [['conked',
+                    suitTrack.getDuration() - 1.5,
+                    1e-05,
+                    1.4], ['conked',
+                           1e-05,
+                           0.7,
+                           0.7], ['conked',
+                                  1e-05,
+                                  0.7,
+                                  0.7], ['conked', 1e-05, 1.4]]
     toonTrack = getToonTrack(
         attack,
         splicedDamageAnims=damageAnims,
@@ -1844,13 +1839,11 @@ def doSynergy(attack):
         waterfallEffect, 0.8, 1.9, [
             waterfallEffect, suit, 0])
     damageAnims = [['slip-forward']]
-    dodgeAnims = []
-    dodgeAnims.append(['jump',
-                       0.01,
-                       0,
-                       0.6])
+    dodgeAnims = [['jump',
+                   0.01,
+                   0,
+                   0.6], ['jump', 0, 0.91]]
     dodgeAnims.extend(getSplicedLerpAnims('jump', 0.31, 1.3, startTime=0.6))
-    dodgeAnims.append(['jump', 0, 0.91])
     toonTracks = getToonTracks(
         attack,
         damageDelay=damageDelay,
@@ -2115,15 +2108,13 @@ def doDemotion(attack):
         unFreezeEffect, 6.65, 0.5, [
             unFreezeEffect, toon, 0])
     dodgeAnims = [['duck', 1e-06, 0.8]]
-    damageAnims = []
-    damageAnims.append(['cringe',
-                        0.01,
-                        0,
-                        0.5])
+    damageAnims = [['cringe',
+                    0.01,
+                    0,
+                    0.5], ['cringe', 2.6, 1.5]]
     damageAnims.extend(getSplicedLerpAnims('cringe', 0.4, 0.5, startTime=0.5))
     damageAnims.extend(getSplicedLerpAnims('cringe', 0.3, 0.5, startTime=0.9))
     damageAnims.extend(getSplicedLerpAnims('cringe', 0.3, 0.6, startTime=1.2))
-    damageAnims.append(['cringe', 2.6, 1.5])
     toonTrack = getToonTrack(
         attack,
         damageDelay=1.0,
@@ -2178,7 +2169,7 @@ def doCanned(attack):
             can, suit.getRightHand(),
             posPoints, propDelay, Point3(6, 6, 6),
             scaleUpTime=0.5))
-    propDelay = propDelay + 0.5
+    propDelay += 0.5
     throwTrack.append(Wait(suitDelay))
     hitPoint = toon.getPos(battle)
     hitPoint.setX(hitPoint.getX() + 1.1)
@@ -2337,27 +2328,22 @@ def doDownsize(attack):
             LerpScaleInterval(toon, 0.15, initialScale * 0.8),
             LerpScaleInterval(toon, 0.15, initialScale),
             Func(battle.movie.clearRestoreToonScale))
-    damageAnims = []
-    damageAnims.append(['juggle',
-                        0.01,
-                        0.87,
-                        0.5])
-    damageAnims.append(['lose',
-                        0.01,
-                        2.17,
-                        0.93])
-    damageAnims.append(['lose',
-                        0.01,
-                        3.1,
-                        -0.93])
-    damageAnims.append(['struggle',
-                        0.01,
-                        0.8,
-                        1.8])
-    damageAnims.append(['sidestep-right',
-                        0.01,
-                        2.97,
-                        1.49])
+    damageAnims = [['juggle',
+                    0.01,
+                    0.87,
+                    0.5], ['lose',
+                           0.01,
+                           2.17,
+                           0.93], ['lose',
+                                   0.01,
+                                   3.1,
+                                   -0.93], ['struggle',
+                                            0.01,
+                                            0.8,
+                                            1.8], ['sidestep-right',
+                                                   0.01,
+                                                   2.97,
+                                                   1.49]]
     toonTrack = getToonTrack(
         attack,
         damageDelay=damageDelay,
@@ -2531,11 +2517,10 @@ def doReOrg(attack):
                            0.01,
                            0.01,
                            1.48], ['think', 0.01, 2.28]]
-    dodgeAnims = []
-    dodgeAnims.append(['think',
-                       0.01,
-                       0,
-                       0.6])
+    dodgeAnims = [['think',
+                   0.01,
+                   0,
+                   0.6]]
     toonTrack = getToonTrack(
         attack,
         damageDelay=damageDelay,
@@ -2579,7 +2564,7 @@ def doSacked(attack):
             propDelay,
             initialScale,
             scaleUpTime=0.2))
-    propDelay = propDelay + 0.2
+    propDelay += 0.2
     sackAppearTrack.append(Wait(suitDelay))
     hitPoint = toon.getPos(battle)
     if dmg > 0:
@@ -2895,26 +2880,22 @@ def doHeadShrink(attack):
         shrinkTrack.append(Func(battle.movie.clearRestoreHeadScale))
         shrinkTrack.append(Wait(0.7))
     dropTrack = getPartTrack(shrinkDrop, 1.5, 2.5, [shrinkDrop, toon, 0])
-    damageAnims = []
-    damageAnims.append(['cringe',
-                        0.01,
-                        0.65,
-                        0.2])
+    damageAnims = [['cringe',
+                    0.01,
+                    0.65,
+                    0.2], ['cringe', 0.4, 1.49], ['conked',
+                                                  0.01,
+                                                  3.6,
+                                                  -1.6], ['conked',
+                                                          0.01,
+                                                          3.1,
+                                                          0.4]]
     damageAnims.extend(
         getSplicedLerpAnims(
             'cringe',
             0.64,
             1.0,
             startTime=0.85))
-    damageAnims.append(['cringe', 0.4, 1.49])
-    damageAnims.append(['conked',
-                        0.01,
-                        3.6,
-                        -1.6])
-    damageAnims.append(['conked',
-                        0.01,
-                        3.1,
-                        0.4])
     toonTrack = getToonTrack(
         attack,
         damageDelay=damageDelay,
@@ -3060,18 +3041,16 @@ def doEvilEye(attack):
     suitHoldDuration = suitHoldStop - suitHoldStart
     eyeHoldDuration = 1.1
     moveDuration = 1.1
-    suitSplicedAnims = []
-    suitSplicedAnims.append(['glower',
-                             0.01,
-                             0.01,
-                             suitHoldStart])
+    suitSplicedAnims = [['glower',
+                         0.01,
+                         0.01,
+                         suitHoldStart], ['glower', 0.01, suitHoldStop]]
     suitSplicedAnims.extend(
         getSplicedLerpAnims(
             'glower',
             suitHoldDuration,
             1.1,
             startTime=suitHoldStart))
-    suitSplicedAnims.append(['glower', 0.01, suitHoldStop])
     suitTrack = getSuitTrack(attack, splicedAnims=suitSplicedAnims)
     eyeAppearTrack = Sequence(
         Wait(suitHoldStart),
@@ -3153,7 +3132,7 @@ def doPlayHardball(attack):
     x = toonPos.getX()
     y = toonPos.getY()
     z = toonPos.getZ()
-    z = z + 0.2
+    z += 0.2
     if dmg > 0:
         propTrack.append(
             LerpPosInterval(
@@ -3456,16 +3435,13 @@ def doHotAir(attack):
         colorTrack.append(resetColor(torsoParts))
         colorTrack.append(resetColor(legsParts))
         colorTrack.append(Func(battle.movie.clearRestoreColor))
-    damageAnims = []
-    damageAnims.append(['cringe',
-                        0.01,
-                        0.7,
-                        0.62])
-    damageAnims.append(['slip-forward',
-                        0.01,
-                        0.4,
-                        1.2])
-    damageAnims.append(['slip-forward', 0.01, 1.0])
+    damageAnims = [['cringe',
+                    0.01,
+                    0.7,
+                    0.62], ['slip-forward',
+                            0.01,
+                            0.4,
+                            1.2], ['slip-forward', 0.01, 1.0]]
     toonTrack = getToonTrack(
         attack,
         damageDelay=damageDelay,
@@ -3646,16 +3622,13 @@ def doSchmooze(attack):
                             0.71])
 
     damageAnims.append(['conked', 0.01, 0.3])
-    dodgeAnims = []
-    dodgeAnims.append(['duck',
-                       0.01,
-                       0.2,
-                       2.7])
-    dodgeAnims.append(['duck',
-                       0.01,
-                       1.22,
-                       1.28])
-    dodgeAnims.append(['duck', 0.01, 3.16])
+    dodgeAnims = [['duck',
+                   0.01,
+                   0.2,
+                   2.7], ['duck',
+                          0.01,
+                          1.22,
+                          1.28], ['duck', 0.01, 3.16]]
     toonTrack = getToonTrack(
         attack,
         damageDelay=damageDelay,
@@ -3952,13 +3925,11 @@ def doParadigmShift(attack):
     damageAnims = []
     damageAnims.extend(getSplicedLerpAnims('think', 0.66, 1.9, startTime=2.06))
     damageAnims.append(['slip-backward', 0.01, 0.5])
-    dodgeAnims = []
-    dodgeAnims.append(['jump',
-                       0.01,
-                       0,
-                       0.6])
+    dodgeAnims = [['jump',
+                   0.01,
+                   0,
+                   0.6], ['jump', 0, 0.91]]
     dodgeAnims.extend(getSplicedLerpAnims('jump', 0.31, 1.0, startTime=0.6))
-    dodgeAnims.append(['jump', 0, 0.91])
     toonTracks = getToonTracks(
         attack,
         damageDelay=damageDelay,
@@ -4341,15 +4312,13 @@ def doFired(attack):
         colorTrack.append(resetColor(torsoParts))
         colorTrack.append(resetColor(legsParts))
         colorTrack.append(Func(battle.movie.clearRestoreColor))
-    damageAnims = []
-    damageAnims.append(['cringe',
-                        0.01,
-                        0.7,
-                        0.62])
-    damageAnims.append(['slip-forward',
-                        1e-05,
-                        0.4,
-                        1.2])
+    damageAnims = [['cringe',
+                    0.01,
+                    0.7,
+                    0.62], ['slip-forward',
+                            1e-05,
+                            0.4,
+                            1.2]]
     damageAnims.extend(
         getSplicedLerpAnims(
             'slip-forward',
@@ -4761,20 +4730,16 @@ def doCrunch(attack):
                 MovieUtil.removeProp, next))
         numberTracks.append(numberTrack)
 
-    damageAnims = []
-    damageAnims.append(['cringe',
-                        0.01,
-                        0.14,
-                        0.28])
-    damageAnims.append(['cringe',
-                        0.01,
-                        0.16,
-                        0.3])
-    damageAnims.append(['cringe',
-                        0.01,
-                        0.13,
-                        0.22])
-    damageAnims.append(['slip-forward', 0.01, 0.6])
+    damageAnims = [['cringe',
+                    0.01,
+                    0.14,
+                    0.28], ['cringe',
+                            0.01,
+                            0.16,
+                            0.3], ['cringe',
+                                   0.01,
+                                   0.13,
+                                   0.22], ['slip-forward', 0.01, 0.6]]
     toonTrack = getToonTrack(
         attack,
         damageDelay=4.7,
@@ -4959,22 +4924,19 @@ def doMarketCrash(attack):
             paperTrack, spinTrack, sizeTrack), Func(
             MovieUtil.removeProp, paper), Func(
                 battle.movie.clearRenderProp, paper))
-    damageAnims = []
-    damageAnims.append(['cringe',
-                        0.01,
-                        0.21,
-                        0.08])
-    damageAnims.append(['slip-forward',
-                        0.01,
-                        0.6,
-                        0.85])
+    damageAnims = [['cringe',
+                    0.01,
+                    0.21,
+                    0.08], ['slip-forward',
+                            0.01,
+                            0.6,
+                            0.85], ['slip-forward', 0.01, 1.51]]
     damageAnims.extend(
         getSplicedLerpAnims(
             'slip-forward',
             0.31,
             0.95,
             startTime=1.2))
-    damageAnims.append(['slip-forward', 0.01, 1.51])
     toonTrack = getToonTrack(
         attack,
         damageDelay=3.8,
@@ -5182,7 +5144,7 @@ def doChomp(attack):
         x = toon.getX(battle)
         y = toon.getY(battle)
         z = toon.getZ(battle)
-        z = z + 0.2
+        z += 0.2
         flyPoint = Point3(x, y - 2.1, z)
         teethAppearTrack.append(
             LerpPosInterval(
@@ -5440,48 +5402,38 @@ def doJargon(attack):
     partTrack4 = getPartTrack(
         particleEffect4, partDelay + partInterval * 3, 1.0,
         [particleEffect4, suit, 0])
-    damageAnims = []
-    damageAnims.append(['conked',
-                        0.0001,
-                        0,
-                        0.4])
-    damageAnims.append(['conked',
-                        0.0001,
-                        2.7,
-                        0.85])
-    damageAnims.append(['conked',
-                        0.0001,
-                        0.4,
-                        0.09])
-    damageAnims.append(['conked',
-                        0.0001,
-                        0.4,
-                        0.09])
-    damageAnims.append(['conked',
-                        0.0001,
-                        0.4,
-                        0.66])
-    damageAnims.append(['conked',
-                        0.0001,
-                        0.4,
-                        0.09])
-    damageAnims.append(['conked',
-                        0.0001,
-                        0.4,
-                        0.09])
-    damageAnims.append(['conked',
-                        0.0001,
-                        0.4,
-                        0.86])
-    damageAnims.append(['conked',
-                        0.0001,
-                        0.4,
-                        0.14])
-    damageAnims.append(['conked',
-                        0.0001,
-                        0.4,
-                        0.14])
-    damageAnims.append(['conked', 0.0001, 0.4])
+    damageAnims = [['conked',
+                    0.0001,
+                    0,
+                    0.4], ['conked',
+                           0.0001,
+                           2.7,
+                           0.85], ['conked',
+                                   0.0001,
+                                   0.4,
+                                   0.09], ['conked',
+                                           0.0001,
+                                           0.4,
+                                           0.09], ['conked',
+                                                   0.0001,
+                                                   0.4,
+                                                   0.66], ['conked',
+                                                           0.0001,
+                                                           0.4,
+                                                           0.09], ['conked',
+                                                                   0.0001,
+                                                                   0.4,
+                                                                   0.09], ['conked',
+                                                                           0.0001,
+                                                                           0.4,
+                                                                           0.86], ['conked',
+                                                                                   0.0001,
+                                                                                   0.4,
+                                                                                   0.14], ['conked',
+                                                                                           0.0001,
+                                                                                           0.4,
+                                                                                           0.14],
+                   ['conked', 0.0001, 0.4]]
     dodgeAnims = [['duck', 0.0001, 1.2], ['duck', 0.0001, 1.3]]
     toonTrack = getToonTrack(
         attack,
@@ -5736,11 +5688,10 @@ def doSpin(attack):
     spinTrack1 = getPartTrack(spinEffect1, 2.1, 3.9, [spinEffect1, battle, 0])
     spinTrack2 = getPartTrack(spinEffect2, 2.1, 3.9, [spinEffect2, battle, 0])
     spinTrack3 = getPartTrack(spinEffect3, 2.1, 3.9, [spinEffect3, battle, 0])
-    damageAnims = []
-    damageAnims.append(['duck',
-                        0.01,
-                        0.01,
-                        1.1])
+    damageAnims = [['duck',
+                    0.01,
+                    0.01,
+                    1.1]]
     damageAnims.extend(getSplicedLerpAnims('think', 0.66, 1.1, startTime=2.26))
     damageAnims.extend(getSplicedLerpAnims('think', 0.66, 1.1, startTime=2.26))
     toonTrack = getToonTrack(
@@ -5795,16 +5746,13 @@ def doLegalese(attack):
                                0.8, partDuration, [sprayEffect2, suit, 0])
     sprayTrack3 = getPartTrack(sprayEffect3, partDelay +
                                1.6, partDuration, [sprayEffect3, suit, 0])
-    damageAnims = []
-    damageAnims.append(['cringe',
-                        1e-05,
-                        0.3,
-                        0.8])
-    damageAnims.append(['cringe',
-                        1e-05,
-                        0.3,
-                        0.8])
-    damageAnims.append(['cringe', 1e-05, 0.3])
+    damageAnims = [['cringe',
+                    1e-05,
+                    0.3,
+                    0.8], ['cringe',
+                           1e-05,
+                           0.3,
+                           0.8], ['cringe', 1e-05, 0.3]]
     toonTrack = getToonTrack(
         attack,
         damageDelay=damageDelay,
@@ -5867,16 +5815,13 @@ def doPeckingOrder(attack):
                     birdTrack, scaleTrack), Func(
                     MovieUtil.removeProp, next)))
 
-    damageAnims = []
-    damageAnims.append(['cringe',
-                        0.01,
-                        0.14,
-                        0.21])
-    damageAnims.append(['cringe',
-                        0.01,
-                        0.14,
-                        0.13])
-    damageAnims.append(['cringe', 0.01, 0.43])
+    damageAnims = [['cringe',
+                    0.01,
+                    0.14,
+                    0.21], ['cringe',
+                            0.01,
+                            0.14,
+                            0.13], ['cringe', 0.01, 0.43]]
     toonTrack = getToonTrack(
         attack,
         damageDelay=4.2,

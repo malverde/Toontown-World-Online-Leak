@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.showbase import PythonUtil
 import __builtin__
 
@@ -26,7 +26,7 @@ parser.add_argument(
 parser.add_argument(
     'config',
     nargs='*',
-    default=['config/dev.prc'],
+    default=['config/prod.prc'],
     help="PRC file(s) to load.")
 args = parser.parse_args()
 

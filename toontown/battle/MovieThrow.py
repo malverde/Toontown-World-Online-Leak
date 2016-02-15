@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from BattleBase import *
 from BattleProps import *
@@ -36,7 +36,7 @@ def addHit(dict, suitId, hitCount):
 
 def doThrows(throws):
     if len(throws) == 0:
-        return (None, None)
+        return None, None
     suitThrowsDict = {}
     for throw in throws:
         if attackAffectsGroup(throw['track'], throw['level']):
@@ -112,7 +112,7 @@ def doThrows(throws):
     retTrack.append(groupThrowIvals)
     camDuration = retTrack.getDuration()
     camTrack = MovieCamera.chooseThrowShot(throws, suitThrowsDict, camDuration)
-    return (retTrack, camTrack)
+    return retTrack, camTrack
 
 
 def __doSuitThrows(throws):
@@ -421,6 +421,7 @@ def __throwPie(throw, delay, hitCount):
         suitResponseTrack.append(Wait(delay + tPieHitsSuit))
         suitResponseTrack.append(showDamage)
         suitResponseTrack.append(updateHealthBar)
+        notify.warning('Current HP:' + str(hp))
         suitResponseTrack.append(sival)
         bonusTrack = Sequence(Wait(delay + tPieHitsSuit))
         if kbbonus > 0:
@@ -429,12 +430,14 @@ def __throwPie(throw, delay, hitCount):
                 Func(
                     suit.showHpText, -kbbonus, 2, openEnded=0,
                     attackTrack=THROW_TRACK))
+            bonusTrack.append(Func(suit.updateHealthBar, kbbonus))
         if hpbonus > 0:
             bonusTrack.append(Wait(0.75))
             bonusTrack.append(
                 Func(
                     suit.showHpText, -hpbonus, 1, openEnded=0,
                     attackTrack=THROW_TRACK))
+            bonusTrack.append(Func(suit.updateHealthBar, kbbonus))
         if revived != 0:
             suitResponseTrack.append(
                 MovieUtil.createSuitReviveTrack(
@@ -483,22 +486,18 @@ def __createWeddingCakeFlight(throw, groupHitDict, pie, pies):
     for part in cakePartStrs:
         cakeParts.append(pie.find('**/%s' % part))
 
-    cakePartDivisions = {}
-    cakePartDivisions[1] = [[cakeParts[0],
-                             cakeParts[1],
-                             cakeParts[2],
-                             cakeParts[3]]]
-    cakePartDivisions[2] = [
-        [cakeParts[0], cakeParts[1]], [cakeParts[2], cakeParts[3]]]
-    cakePartDivisions[3] = [
+    cakePartDivisions = {1: [[cakeParts[0],
+                              cakeParts[1],
+                              cakeParts[2],
+                              cakeParts[3]]], 2: [
+        [cakeParts[0], cakeParts[1]], [cakeParts[2], cakeParts[3]]], 3: [
         [cakeParts[0],
          cakeParts[1]],
         [cakeParts[2]],
-        [cakeParts[3]]]
-    cakePartDivisions[4] = [[cakeParts[0]],
-                            [cakeParts[1]],
-                            [cakeParts[2]],
-                            [cakeParts[3]]]
+        [cakeParts[3]]], 4: [[cakeParts[0]],
+                             [cakeParts[1]],
+                             [cakeParts[2]],
+                             [cakeParts[3]]]}
     cakePartDivToUse = cakePartDivisions[len(throw['target'])]
     groupPieTracks = Parallel()
     for i in range(numTargets):
@@ -693,12 +692,14 @@ def __throwGroupPie(throw, delay, groupHitDict):
                     Func(
                         suit.showHpText, -kbbonus, 2, openEnded=0,
                         attackTrack=THROW_TRACK))
+                bonusTrack.append(Func(suit.updateHealthBar, kbbonus))
             if hpbonus > 0:
                 bonusTrack.append(Wait(0.75))
                 bonusTrack.append(
                     Func(
                         suit.showHpText, -hpbonus, 1, openEnded=0,
                         attackTrack=THROW_TRACK))
+                bonusTrack.append(Func(suit.updateHealthBar, kbbonus))
             if revived != 0:
                 singleSuitResponseTrack.append(
                     MovieUtil.createSuitReviveTrack(

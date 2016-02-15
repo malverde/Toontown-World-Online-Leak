@@ -71,7 +71,7 @@ class DistributedFactorySuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
             self.d_denyBattle(toonId)
 
     def getConfrontPosHpr(self):
-        return (self.confrontPos, self.confrontHpr)
+        return self.confrontPos, self.confrontHpr
 
     def setBattleCellIndex(self, battleCellIndex):
         self.sp.suitBattleCellChange(

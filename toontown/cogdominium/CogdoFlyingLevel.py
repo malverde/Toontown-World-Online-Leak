@@ -58,7 +58,7 @@ class CogdoFlyingLevel(DirectObject):
         return self._exit
 
     def getBounds(self):
-        return ((self.leftLimit, self.rightLimit), (self.backLimit, self.forwardLimit), (self.downLimit, self.upLimit))
+        return (self.leftLimit, self.rightLimit), (self.backLimit, self.forwardLimit), (self.downLimit, self.upLimit)
 
     def getGatherable(self, serialNum):
         for quadrant in self.quadrants:

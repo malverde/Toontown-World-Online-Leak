@@ -102,7 +102,7 @@ class DistributedGoonAI(
             elapsedT = curT - self.pathStartTime
             pathT = self.walkTrackTime + elapsedT
             if self.parameterized:
-                pathT = pathT % self.totalPathTime
+                pathT %= self.totalPathTime
             self.sendUpdate(
                 'setMovie', [
                     type, avId, pathT, ClockDelta.globalClockDelta.localToNetworkTime(curT)])
@@ -179,7 +179,7 @@ class DistributedGoonAI(
 
     def getPathPoint(self, t):
         for i in range(len(self.tSeg) - 1):
-            if t >= self.tSeg[i] and t < self.tSeg[i + 1]:
+            if self.tSeg[i] <= t < self.tSeg[i + 1]:
                 tSeg = t - self.tSeg[i]
                 t = tSeg / (self.tSeg[i + 1] - self.tSeg[i])
                 seg = self.pathSeg[i][0]

@@ -43,7 +43,7 @@ shoulderHeights = {'a': 13.28 / 4.0,
 
 def doDrops(drops):
     if len(drops) == 0:
-        return (None, None)
+        return None, None
     npcArrivals, npcDepartures, npcs = MovieNPCSOS.doNPCTeleports(drops)
     suitDropsDict = {}
     groupDrops = []
@@ -108,7 +108,7 @@ def doDrops(drops):
         camDuration,
         enterDuration,
         exitDuration)
-    return (dropTrack, camTrack)
+    return dropTrack, camTrack
 
 
 def __getSoundTrack(level, hitSuit, node=None):
@@ -582,7 +582,7 @@ def __createSuitTrack(
         if hpbonus > 0:
             bonusTrack = Sequence(
                 Wait(delay + tObjectAppears + 0.75),
-                Func(suit.showHpText, -hpbonus, 1, openEnded=0))
+                Func(suit.showHpText, -hpbonus, 1, openEnded=0), Func(suit.updateHealthBar, hpbonus))
         if revived != 0:
             suitTrack.append(
                 MovieUtil.createSuitReviveTrack(

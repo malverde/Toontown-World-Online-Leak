@@ -1,5 +1,5 @@
 #Embedded file name: toontown.golf.GolfRewardDialog
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
@@ -92,7 +92,7 @@ class GolfRewardDialog:
                         padding = (seconds < 10 and ['0'] or [''])[0]
                         time -= seconds
                         fraction = str(time)[2:4]
-                        fraction = fraction + '0' * (2 - len(fraction))
+                        fraction += '0' * (2 - len(fraction))
                         timeStr = "%d'%s%d''%s" % (minutes,
                          padding,
                          seconds,
@@ -197,7 +197,7 @@ class GolfRewardDialog:
                     playerIndex = self.avIdList.index(avId)
                     var = (rewardText, playerIndex, trophyIndex)
                     oneTrophyIval = Parallel(Func(setTrophyLabelText, rewardText, playerIndex, trophyIndex), LerpColorScaleInterval(self.trophyLabel, 4, Vec4(1, 1, 1, 0), startColorScale=Vec4(1, 1, 1, 1), blendType='easeIn'))
-                    trophyIndex = trophyIndex + 1
+                    trophyIndex += 1
                     retval.append(oneTrophyIval)
 
         rewardTextList = self.calcTrophyTextListForOnePlayer(localAvId)

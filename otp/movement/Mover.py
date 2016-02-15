@@ -1,5 +1,5 @@
 #Embedded file name: otp.movement.Mover
-from pandac.PandaModules import *
+from panda3d.core import *
 from libotp import CMover
 from direct.directnotify import DirectNotifyGlobal
 from otp.movement.PyVec3 import PyVec3

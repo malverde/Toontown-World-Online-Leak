@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from ElevatorConstants import *
@@ -334,9 +334,6 @@ class DistributedElevatorFloor(DistributedElevatorFSM.DistributedElevatorFSM):
 
     def enterOff(self):
         self.lastState = self.state
-
-    def exitOff(self):
-        pass
 
     def setLawOfficeInteriorZone(self, zoneId):
         if self.localToonOnBoard:

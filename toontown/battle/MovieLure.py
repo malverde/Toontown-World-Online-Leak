@@ -21,7 +21,7 @@ def safeWrtReparentTo(nodePath, parent):
 
 def doLures(lures):
     if len(lures) == 0:
-        return (None, None)
+        return None, None
     npcArrivals, npcDepartures, npcs = MovieNPCSOS.doNPCTeleports(lures)
     mtrack = Parallel()
     for l in lures:
@@ -35,7 +35,7 @@ def doLures(lures):
     exitDuration = npcDepartures.getDuration()
     camTrack = MovieCamera.chooseLureShot(
         lures, camDuration, enterDuration, exitDuration)
-    return (lureTrack, camTrack)
+    return lureTrack, camTrack
 
 
 def __doLureLevel(lure, npcs):

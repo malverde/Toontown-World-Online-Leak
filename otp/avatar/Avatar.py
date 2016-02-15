@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.nametag.Nametag import Nametag
 from otp.nametag.NametagGroup import NametagGroup
 from otp.nametag.NametagConstants import CFSpeech, CFThought, CFTimeout, CFPageButton, CFNoQuitButton, CFQuitButton
@@ -81,6 +81,7 @@ class Avatar(Actor, ShadowCaster):
         self.__chatLocal = 0
         self.__currentDialogue = None
         self.whitelistChatFlags = 0
+        self.wantAdminTag = True
         return
 
     def delete(self):
@@ -126,6 +127,7 @@ class Avatar(Actor, ShadowCaster):
             self.nametag.setColorCode(self.playerType)
         else:
             self.nametag.setColorCode(NametagGroup.CCNoChat)
+            self.setNametagName()
 
     def setCommonChatFlags(self, commonChatFlags):
         self.commonChatFlags = commonChatFlags
@@ -174,6 +176,8 @@ class Avatar(Actor, ShadowCaster):
                 self.understandable = 1
             else:
                 self.understandable = 0
+        if hasattr(self, 'adminAccess') and self != base.localAvatar:
+            self.understandable = 2
         elif hasattr(base, 'localAvatar') and self.whitelistChatFlags & base.localAvatar.whitelistChatFlags:
             self.understandable = 1
         else:
@@ -234,19 +238,40 @@ class Avatar(Actor, ShadowCaster):
     def getType(self):
         return self.avatarType
 
+    def setWantAdminTag(self, bool):
+        self.wantAdminTag = bool
+
+    def getWantAdminTag(self):
+        return self.wantAdminTag
+
     def setName(self, name):
-        if hasattr(self, 'isDisguised'):
-            if self.isDisguised:
-                return
+        if hasattr(self, 'isDisguised') and self.isDisguised:
+            return
+
         self.name = name
+
         if hasattr(self, 'nametag'):
-            self.nametag.setName(name)
+            self.setNametagName()
 
     def setDisplayName(self, str):
         if hasattr(self, 'isDisguised'):
             if self.isDisguised:
                 return
-        self.nametag.setDisplayName(str)
+        self.setNametagName(str)
+
+    def setNametagName(self, name=None):
+        if not name:
+            name = self.name
+
+        self.nametag.setName(name)
+
+        if hasattr(self, 'adminAccess') and self.getWantAdminTag():
+            access = self.getAdminAccess()
+
+            if access in OTPLocalizer.AccessToString:
+                name += '\n\x01shadow\x01%s\x02' % OTPLocalizer.AccessToString[access]
+
+        self.nametag.setDisplayName(name)
 
     def getFont(self):
         return self.__font

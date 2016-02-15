@@ -893,7 +893,6 @@ class LevelVisZonesEditor(Pmw.MegaToplevel):
         buttonFrame.pack(fill=X, expand=1)
         self.initialiseoptions(LevelVisZonesEditor)
         self.setVisible(visible)
-        return None
 
     def toggleVisZone(self, zoneStr, state):
         zoneNum = int(zoneStr.split('-')[0])

@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed import DistributedSmoothNodeAI
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
@@ -86,9 +86,9 @@ class DistributedCashbotBossObjectAI(DistributedSmoothNodeAI.DistributedSmoothNo
         if self.boss and self.boss.cranes != None:
             for crane in self.boss.cranes:
                 if crane.avId == avId:
-                    return (crane.doId, crane.objectId)
+                    return crane.doId, crane.objectId
 
-        return (0, 0)
+        return 0, 0
 
     def __setCraneObject(self, craneId, objectId):
         if self.air:

@@ -145,7 +145,7 @@ class CogdoMazeGame(DirectObject):
 
         del self.players
         del self.toonId2Player
-        del self.localPlayer
+        # del self.localPlayer
         for pickup in self.pickups:
             pickup.destroy()
 
@@ -394,7 +394,7 @@ class CogdoMazeGame(DirectObject):
         ival.start()
 
     def createDrop(self, x, y):
-        self.dropCounter = self.dropCounter + 1
+        self.dropCounter += 1
         id = self.dropCounter
         drop = CogdoMazeDrop(self, id, x, y)
         self.drops[id] = drop

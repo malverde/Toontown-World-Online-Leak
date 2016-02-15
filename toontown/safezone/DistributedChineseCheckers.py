@@ -1,5 +1,5 @@
 #Embedded file name: toontown.safezone.DistributedChineseCheckers
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
@@ -508,7 +508,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
 
     def handleClicked(self, index):
         self.sound = Sequence(SoundInterval(self.clickSound))
-        if self.moveList == []:
+        if not self.moveList:
             if index not in self.mySquares:
                 return
             self.moveList.append(index)
@@ -561,16 +561,17 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                         if index in x:
                             return
 
-                    if self.existsLegalJumpsFrom(index) == True:
+                    if self.existsLegalJumpsFrom(index):
                         self.blinker.finish()
                         self.d_requestMove(self.moveList)
                         self.moveList = []
                         self.isMyTurn = False
                         self.sound.start()
-                elif self.checkLegalMove(self.board.getSquare(self.moveList[len(self.moveList) - 1]), self.board.getSquare(index)) == True:
+                elif self.checkLegalMove(self.board.getSquare(self.moveList[len(self.moveList) - 1]),
+                                         self.board.getSquare(index)):
                     if index not in self.board.squareList[self.moveList[len(self.moveList) - 1]].getAdjacent():
                         for x in self.nonOpposingPositions:
-                            if self.existsLegalJumpsFrom(index) == False:
+                            if not self.existsLegalJumpsFrom(index):
                                 if index in x:
                                     return
 
@@ -578,7 +579,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
                         self.locatorList[index].setColor(self.playerColor - self.tintConstant - self.ghostConstant)
                         self.locatorList[index].show()
                         self.sound.start()
-                        if self.existsLegalJumpsFrom(index) == False:
+                        if not self.existsLegalJumpsFrom(index):
                             self.blinker.finish()
                             self.d_requestMove(self.moveList)
                             self.moveList = []
@@ -617,7 +618,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
         self.sendUpdate('requestMove', [moveList])
 
     def setGameState(self, tableState, moveList):
-        if moveList != []:
+        if moveList:
             self.animatePeice(tableState, moveList)
         else:
             self.updateGameState(tableState)
@@ -717,7 +718,7 @@ class DistributedChineseCheckers(DistributedNode.DistributedNode):
 
                         break
 
-            if move == []:
+            if not move:
                 pass
             playSound = Sequence(SoundInterval(self.knockSound))
             playSound.start()

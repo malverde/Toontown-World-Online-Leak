@@ -21,7 +21,7 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
         self._minPlayersPerTeam = 0
         self._duration = 0
         self._startDelay = config.GetFloat('party-team-activity-start-delay', startDelay)
-        self._willBalanceTeams = balanceTeams
+        self._willBalanceTeams = False  # balanceTeams
         self._currentStatus = ''
 
     def load(self):

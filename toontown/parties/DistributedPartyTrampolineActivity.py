@@ -531,10 +531,10 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
                         a += self.beginningBoost
         lastVelocity = self.toonVelocity
         self.toonVelocity += a * self.stepDT
-        if lastVelocity > 0.0 and self.toonVelocity <= 0.0:
+        if lastVelocity > 0.0 >= self.toonVelocity:
             topOfJump = True
             bottomOfJump = False
-        elif lastVelocity < 0.0 and self.toonVelocity >= 0.0:
+        elif lastVelocity < 0.0 <= self.toonVelocity:
             topOfJump = False
             bottomOfJump = True
         else:
@@ -554,14 +554,14 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
                 self.b_requestAnim('Falling')
             elif self.animFSM.state == 'Jump':
                 self.b_requestAnim('Falling')
-        if newZ <= self.trampHeight and z > self.trampHeight:
+        if newZ <= self.trampHeight < z:
             if self.animFSM.state == 'Falling':
                 self.b_requestAnim('Land')
             elif self.animFSM.state != 'Neutral':
                 self.b_requestAnim('Neutral')
         if bottomOfJump and a > self.boingThreshold:
             base.playSfx(self.boingSound)
-        return (newZ, a)
+        return newZ, a
 
     def collectJellyBeans(self, z):
         beansToRemove = []

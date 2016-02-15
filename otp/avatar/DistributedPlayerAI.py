@@ -113,6 +113,12 @@ class DistributedPlayerAI(DistributedAvatarAI.DistributedAvatarAI, PlayerBase.Pl
     def friendsNotify(self, avId, status):
         pass
 
+    def setDISLid(self, id):
+        self.DISLid = id
+
+    def getDISLid(self):
+        return self.DISLid
+
     def setAccountName(self, accountName):
         self.accountName = accountName
 
@@ -198,3 +204,80 @@ def maintenance(minutes):
             taskMgr.doMethodLater(next, countdown, 'maintenance-task',
                                   extraArgs=[minutes])
     countdown(minutes)
+    
+@magicWord(category=CATEGORY_COMMUNITYMANAGER)
+def disableGM():
+    """
+    Temporarily disable GM features.
+    """
+    target = spellbook.getTarget()
+
+    if hasattr(target, 'oldAccess'):
+        return 'GM features are already disabled!\nTo enable, use ~enableGM.'
+
+    if not target.getAdminAccess():
+        return 'Target is not an admin!'
+
+    target.oldAccess = target.adminAccess
+    target.d_setAdminAccess(100)
+    return 'GM features are disabled!'
+    
+@magicWord(category=CATEGORY_COMMUNITYMANAGER)
+def enableGM():
+    """
+    Enable GM features.
+    """
+    target = spellbook.getTarget()
+
+    if not hasattr(target, 'oldAccess'):
+        return 'GM features are not disabled!'
+
+    target.d_setAdminAccess(target.oldAccess)
+    del target.oldAccess
+    return 'GM features are enabled!'
+
+@magicWord(category=CATEGORY_SYSADMIN, types=[str, str])
+def accessLevel(accessLevel, storage='PERSISTENT'):
+    """
+    Modify the target's access level.
+    """
+    accessName2Id = {
+        'user': CATEGORY_USER.defaultAccess,
+        'artist': CATEGORY_ARTIST.defaultAccess,
+        'moderator': CATEGORY_MODERATION.defaultAccess,
+        'communitymanager': CATEGORY_COMMUNITYMANAGER.defaultAccess,
+        'programmer': CATEGORY_DEVELOPER.defaultAccess,
+        'administrator': CATEGORY_ADMIN.defaultAccess,
+        'cosystemadministrator': CATEGORY_COSYSADMIN,
+        'systemadministrator': CATEGORY_SYSADMIN.defaultAccess
+    }
+    try:
+        accessLevel = int(accessLevel)
+    except:
+        if accessLevel not in accessName2Id:
+            return 'Invalid access level!'
+        accessLevel = accessName2Id[accessLevel]
+    if accessLevel not in accessName2Id.values():
+        return 'Invalid access level!'
+    target = spellbook.getTarget()
+    invoker = spellbook.getInvoker()
+    if invoker == target:
+        return "You can't set your own access level!"
+    if not accessLevel < invoker.getAdminAccess():
+        return "The target's access level must be lower than yours!"
+    if target.getAdminAccess() == accessLevel:
+        return "%s's access level is already %d!" % (target.getName(), accessLevel)
+    target.b_setAdminAccess(accessLevel)
+    temporary = storage.upper() in ('SESSION', 'TEMP', 'TEMPORARY')
+    if not temporary:
+        target.air.dbInterface.updateObject(
+            target.air.dbId,
+            target.getDISLid(),
+            target.air.dclassesByName['AccountAI'],
+            {'ADMIN_ACCESS': accessLevel})
+    if not temporary:
+        target.d_setSystemMessage(0, '%s set your access level to %d!' % (invoker.getName(), accessLevel))
+        return "%s's access level has been set to %d." % (target.getName(), accessLevel)
+    else:
+        target.d_setSystemMessage(0, '%s set your access level to %d temporarily!' % (invoker.getName(), accessLevel))
+        return "%s's access level has been set to %d temporarily." % (target.getName(), accessLevel)

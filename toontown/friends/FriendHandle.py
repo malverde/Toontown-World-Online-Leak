@@ -101,7 +101,7 @@ class FriendHandle:
                 scrubbed = 1
 
         newText = ' '.join(newwords)
-        return (newText, scrubbed)
+        return newText, scrubbed
 
     def replaceBadWords(self, text):
         words = text.split(' ')

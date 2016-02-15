@@ -1974,6 +1974,7 @@ dclass NewsManager : DistributedObject {
   setRoamingTrialerWeekendStart() broadcast;
   setRoamingTrialerWeekendEnd() broadcast;
   setInvasionStatus(uint8, string, uint32, uint8) broadcast;
+  setHolidays(string) broadcast;
   setHolidayIdList(uint32[]) broadcast ram;
   holidayNotify() broadcast;
   setWeeklyCalendarHolidays(weeklyCalendarHoliday []) required broadcast ram;
@@ -2953,17 +2954,21 @@ dclass DistributedGreenToonEffectMgr : DistributedObject {
 };
 
 dclass DistributedResistanceEmoteMgr : DistributedObject {
-  addResistanceEmote() airecv clsend;
+  addResistanceEmote(uint16 phraseId) clsend airecv;
 };
 
 dclass DistributedScavengerHuntTarget : DistributedObject {
   attemptScavengerHunt() airecv clsend;
 };
 
-dclass DistributedTrickOrTreatTarget : DistributedScavengerHuntTarget {
+dclass DistributedTrickOrTreatTarget : DistributedObject {
+  doScavengerHunt(uint32 avId, int8) broadcast;
+  requestScavengerHunt() airecv clsend;
 };
 
-dclass DistributedWinterCarolingTarget : DistributedScavengerHuntTarget {
+dclass DistributedWinterCarolingTarget : DistributedObject {
+  doScavengerHunt(int8) broadcast;
+  requestScavengerHunt() airecv clsend;
 };
 
 dclass DistributedDataStoreManager : DistributedObject {

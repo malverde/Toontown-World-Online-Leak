@@ -9,7 +9,7 @@ from direct.task import Task
 from direct.distributed.PyDatagram import *
 
 
-if (__debug__):
+if __debug__:
     import pdb
 
 

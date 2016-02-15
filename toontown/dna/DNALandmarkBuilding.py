@@ -32,6 +32,7 @@ class DNALandmarkBuilding(DNANode):
             node = nodePath.attachNewNode(ModelNode(self.name))
         else:
             node.wrtReparentTo(nodePath)
+            node.setAttrib(DepthOffsetAttrib.make(1))
             node.setName(name)
 
         node.node().setPreserveTransform(ModelNode.PTNet)

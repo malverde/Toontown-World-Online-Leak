@@ -1,7 +1,7 @@
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 import GenusPanel
 import FishGlobals
@@ -39,7 +39,6 @@ class FishBrowser(DirectScrolledList):
         self.defineoptions(kw, optiondefs)
         DirectScrolledList.__init__(self, parent)
         self.initialiseoptions(FishBrowser)
-        return None
 
     def destroy(self):
         DirectScrolledList.destroy(self)

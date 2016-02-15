@@ -4,10 +4,16 @@ from direct.distributed.PyDatagram import *
 from otp.distributed.DistributedDirectoryAI import DistributedDirectoryAI
 from otp.distributed.OtpDoGlobals import *
 
+# RPC
+if config.GetBool('want-rpc-server', False):
+    from toontown.rpc.ToontownRPCServer import ToontownRPCServer
+    from toontown.rpc.ToontownRPCHandler import ToontownRPCHandler
+
 class ToontownUberRepository(ToontownInternalRepository):
     def __init__(self, baseChannel, serverId):
         ToontownInternalRepository.__init__(self, baseChannel, serverId, dcSuffix='UD')
         self.wantUD = config.GetBool('want-ud', True)
+        self.adminAccess = 0
 
     def handleConnected(self):
         ToontownInternalRepository.handleConnected(self)
@@ -16,6 +22,12 @@ class ToontownUberRepository(ToontownInternalRepository):
             rootObj = DistributedDirectoryAI(self)
             rootObj.generateWithRequiredAndId(self.getGameDoId(), 0, 0)
         self.createGlobals()
+
+    def getAdminAccess(self):
+        return self.adminAccess
+
+    def setAdminAccess(self, access):
+        self.adminAccess = access
 
     def createGlobals(self):
         """

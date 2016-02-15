@@ -1,5 +1,5 @@
 #Embedded file name: toontown.estate.House
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import Place
@@ -49,8 +49,8 @@ class House(Place.Place):
           'stopped']),
          State.State('DFA', self.enterDFA, self.exitDFA, ['DFAReject', 'teleportOut', 'doorOut']),
          State.State('DFAReject', self.enterDFAReject, self.exitDFAReject, ['walk']),
-         State.State('doorIn', self.enterDoorIn, self.exitDoorIn, ['walk']),
-         State.State('doorOut', self.enterDoorOut, self.exitDoorOut, ['walk']),
+         State.State('doorIn', self.enterDoorIn, self.exitDoorIn, ['walk', 'stopped']),
+         State.State('doorOut', self.enterDoorOut, self.exitDoorOut, ['walk', 'stopped']),
          State.State('teleportIn', self.enterTeleportIn, self.exitTeleportIn, ['walk']),
          State.State('teleportOut', self.enterTeleportOut, self.exitTeleportOut, ['teleportIn']),
          State.State('quest', self.enterQuest, self.exitQuest, ['walk', 'doorOut']),

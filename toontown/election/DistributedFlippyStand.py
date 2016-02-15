@@ -1,5 +1,5 @@
 #Embedded file name: toontown.election.DistributedFlippyStand
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.nametag.NametagConstants import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
@@ -56,6 +56,6 @@ class DistributedFlippyStand(DistributedObject, FSM):
         DistributedObject.delete(self)
 
     def handleWheelbarrowCollisionSphereEnter(self, collEntry):
-        if base.localAvatar.numPies >= 0 and base.localAvatar.numPies < 20:
+        if 0 <= base.localAvatar.numPies < 20:
             self.sendUpdate('wheelbarrowAvatarEnter', [])
             self.restockSfx.play()

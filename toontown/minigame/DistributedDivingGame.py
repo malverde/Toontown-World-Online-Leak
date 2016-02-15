@@ -553,7 +553,7 @@ class DistributedDivingGame(DistributedMinigame):
         avatarScale = 0.025 * self.mapScaleRatio
         for avId in self.remoteAvIdList:
             avatar = base.cr.doId2do.get(avId, False)
-            if avatar != False:
+            if avatar:
                 self.mapAvatars[avId] = LaffMeter.LaffMeter(avatar.style, avatar.hp, avatar.maxHp)
                 self.mapAvatars[avId].reparentTo(self.mapModel)
                 self.mapAvatars[avId].setScale(avatarScale)

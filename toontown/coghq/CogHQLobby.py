@@ -4,7 +4,7 @@ from direct.fsm import State
 from toontown.hood import Place
 from toontown.building import Elevator
 from toontown.toonbase import ToontownGlobals
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from otp.nametag import NametagGlobals
 
@@ -24,8 +24,8 @@ class CogHQLobby(Place.Place):
           'doorOut',
           'stopped']),
          State.State('stopped', self.enterStopped, self.exitStopped, ['walk', 'teleportOut', 'elevator']),
-         State.State('doorIn', self.enterDoorIn, self.exitDoorIn, ['walk']),
-         State.State('doorOut', self.enterDoorOut, self.exitDoorOut, ['walk']),
+         State.State('doorIn', self.enterDoorIn, self.exitDoorIn, ['walk', 'stopped']),
+         State.State('doorOut', self.enterDoorOut, self.exitDoorOut, ['walk', 'stopped']),
          State.State('teleportIn', self.enterTeleportIn, self.exitTeleportIn, ['walk']),
          State.State('elevator', self.enterElevator, self.exitElevator, ['walk', 'stopped']),
          State.State('DFA', self.enterDFA, self.exitDFA, ['DFAReject']),

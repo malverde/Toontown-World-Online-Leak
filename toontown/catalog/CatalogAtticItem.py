@@ -20,19 +20,19 @@ class CatalogAtticItem(CatalogItem.CatalogItem):
             self.notify.warning(
                 'Avatar %s has no houseId associated.' %
                 avatar.doId)
-            return (None, ToontownGlobals.P_InvalidIndex)
+            return None, ToontownGlobals.P_InvalidIndex
         house = simbase.air.doId2do.get(houseId)
         if not house:
             self.notify.warning(
                 'House %s (for avatar %s) not instantiated.' %
                 (houseId, avatar.doId))
-            return (None, ToontownGlobals.P_InvalidIndex)
+            return None, ToontownGlobals.P_InvalidIndex
         numAtticItems = len(
             house.atticItems) + len(house.atticWallpaper) + len(house.atticWindows)
         numHouseItems = numAtticItems + len(house.interiorItems)
         if numHouseItems >= ToontownGlobals.MaxHouseItems and not self.replacesExisting():
-            return (house, ToontownGlobals.P_NoRoomForItem)
-        return (house, ToontownGlobals.P_ItemAvailable)
+            return house, ToontownGlobals.P_NoRoomForItem
+        return house, ToontownGlobals.P_ItemAvailable
 
     def requestPurchase(self, phone, callback):
         from toontown.toontowngui import TTDialog

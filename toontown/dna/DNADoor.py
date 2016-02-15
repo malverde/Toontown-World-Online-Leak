@@ -33,6 +33,8 @@ class DNADoor(DNANode):
         leftDoor.setColor(color, 0)
         leftHole.setColor((0, 0, 0, 1), 0)
         rightHole.setColor((0, 0, 0, 1), 0)
+        rightDoor.setAttrib(DepthOffsetAttrib.make(1))
+        leftDoor.setAttrib(DepthOffsetAttrib.make(1))
         doorTrigger = doorNodePath.find('door_*_trigger')
         doorTrigger.setScale(2, 2, 2)
         doorTrigger.wrtReparentTo(parentNode, 0)

@@ -1,7 +1,7 @@
 #Embedded file name: toontown.estate.ClosetGUI
 from direct.showbase.PythonUtil import Functor
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.makeatoon import ClothesGUI
 import ClosetGlobals
 from toontown.toonbase import TTLocalizer
@@ -93,12 +93,12 @@ class ClosetGUI(ClothesGUI.ClothesGUI):
              self.topsList[i + 1],
              self.topsList[i + 2],
              self.topsList[i + 3]))
-            i = i + 4
+            i += 4
 
         i = 0
         while i < len(self.bottomsList):
             self.bottoms.append((self.bottomsList[i], self.bottomsList[i + 1]))
-            i = i + 2
+            i += 2
 
         self.topChoice = 0
         self.bottomChoice = 0

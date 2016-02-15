@@ -281,7 +281,7 @@ def getNextRaceInfo(prevTrackId, genreString, padId):
         index += 1
         index %= len(trackList)
         trackId = trackList[index]
-    return (trackId, raceInfo[1], raceInfo[2])
+    return trackId, raceInfo[1], raceInfo[2]
 
 
 TrackPath = 'phase_6/models/karting/'

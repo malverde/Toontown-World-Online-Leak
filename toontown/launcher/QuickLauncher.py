@@ -10,7 +10,7 @@ from direct.showbase.EventManagerGlobal import *
 from direct.task.TaskManagerGlobal import *
 from direct.task.Task import Task
 from direct.directnotify.DirectNotifyGlobal import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.launcher.LauncherBase import LauncherBase
 from toontown.toonbase import TTLocalizer
 
@@ -256,10 +256,10 @@ class QuickLauncher(LauncherBase):
 
     def decompressMultifileDone(self):
         self.finalizePhase()
-        self.notify.info('Done updating multifiles in phase: ' + `(self.currentPhase)`)
+        self.notify.info('Done updating multifiles in phase: ' + `self.currentPhase`)
         self.progressSoFar += int(round(self.phaseOverallMap[self.currentPhase] * 100))
-        self.notify.info('progress so far ' + `(self.progressSoFar)`)
-        messenger.send('phaseComplete-' + `(self.currentPhase)`)
+        self.notify.info('progress so far ' + `self.progressSoFar`)
+        messenger.send('phaseComplete-' + `self.currentPhase`)
         self.resumeInstall()
 
     def finalizePhase(self):

@@ -1,5 +1,5 @@
 #Embedded file name: toontown.tutorial.TutorialForceAcknowledge
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toontowngui import TTDialog
 from toontown.toonbase import TTLocalizer
 
