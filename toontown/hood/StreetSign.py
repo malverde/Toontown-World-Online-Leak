@@ -1,7 +1,7 @@
 import os
 import shutil
 import datetime
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from direct.showbase import AppRunnerGlobal

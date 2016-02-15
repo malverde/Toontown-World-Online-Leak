@@ -1,5 +1,5 @@
 #Embedded file name: toontown.safezone.DistributedCheckers
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import *
@@ -360,7 +360,7 @@ class DistributedCheckers(DistributedNode.DistributedNode):
 
     def handleClicked(self, index):
         self.sound = Sequence(SoundInterval(self.clickSound))
-        if self.moveList == []:
+        if not self.moveList:
             if index not in self.mySquares and index not in self.myKings:
                 return
             self.moveList.append(index)
@@ -399,18 +399,18 @@ class DistributedCheckers(DistributedNode.DistributedNode):
             self.currentMove = index
             lastItem = self.board.squareList[self.moveList[len(self.moveList) - 1]]
             thisItem = self.board.squareList[index]
-            if self.mustJump == True:
+            if self.mustJump:
                 if lastItem.getNum() == index:
                     self.blinker.finish()
                     self.d_requestMove(self.moveList)
                     self.isMyTurn = False
                     self.moveList = []
                     return
-                if self.checkLegalJump(lastItem, thisItem, self.moverType) == True:
+                if self.checkLegalJump(lastItem, thisItem, self.moverType):
                     col = self.locatorList[index].getColor()
                     self.locatorList[index].show()
                     self.sound.start()
-                    if self.existsLegalJumpsFrom(index, self.moverType) == False:
+                    if not self.existsLegalJumpsFrom(index, self.moverType):
                         self.moveList.append(index)
                         self.blinker.finish()
                         self.d_requestMove(self.moveList)
@@ -427,7 +427,7 @@ class DistributedCheckers(DistributedNode.DistributedNode):
                         if self.moverType == 'king':
                             x.find('**/checker_k*').show()
                         self.locatorList[index].setColor(Vec4(0.5, 0.5, 0.5, 0.5))
-            elif self.checkLegalMove(lastItem, thisItem, self.moverType) == True:
+            elif self.checkLegalMove(lastItem, thisItem, self.moverType):
                 self.moveList.append(index)
                 col = self.locatorList[index].getColor()
                 self.locatorList[index].show()
@@ -547,7 +547,7 @@ class DistributedCheckers(DistributedNode.DistributedNode):
         self.sendUpdate('requestMove', [moveList])
 
     def setGameState(self, tableState, moveList):
-        if moveList != []:
+        if moveList:
             if self.board.squareList[moveList[0]].getState() == 1 or self.board.squareList[moveList[0]].getState() == 3:
                 playerColor = 'white'
             else:
@@ -616,37 +616,37 @@ class DistributedCheckers(DistributedNode.DistributedNode):
                 x.show()
                 x.find('**/checker_k*').show()
 
-        if isObserve == True:
+        if isObserve:
             self.playerNum = None
             self.playerColorString = None
             return
         self.mustJump = False
         self.hasNormalMoves = False
         for x in self.myKings:
-            if self.existsLegalJumpsFrom(x, 'king') == True:
+            if self.existsLegalJumpsFrom(x, 'king'):
                 self.mustJump = True
                 break
             else:
                 self.mustJump = False
 
-        if self.mustJump == False:
+        if not self.mustJump:
             for x in self.mySquares:
-                if self.existsLegalJumpsFrom(x, 'normal') == True:
+                if self.existsLegalJumpsFrom(x, 'normal'):
                     self.mustJump = True
                     break
                 else:
                     self.mustJump = False
 
-        if self.mustJump != True:
+        if not self.mustJump:
             for x in self.mySquares:
-                if self.existsLegalMovesFrom(x, 'normal') == True:
+                if self.existsLegalMovesFrom(x, 'normal'):
                     self.hasNormalMoves = True
                     break
                 else:
                     self.hasNormalMoves = False
-                if self.hasNormalMoves == False:
+                if not self.hasNormalMoves:
                     for x in self.myKings:
-                        if self.existsLegalMovesFrom(x, 'king') == True:
+                        if self.existsLegalMovesFrom(x, 'king'):
                             self.hasNormalMoves = True
                             break
                         else:
@@ -671,7 +671,7 @@ class DistributedCheckers(DistributedNode.DistributedNode):
             gamePeiceForAnimation.find('**/checker_k*').hide()
         gamePeiceForAnimation.reparentTo(self.boardNode)
         gamePeiceForAnimation.setPos(self.locatorList[moveList[0]].getPos())
-        if self.isRotated == True:
+        if self.isRotated:
             gamePeiceForAnimation.setH(180)
         for x in self.locatorList[moveList[0]].getChildren():
             x.hide()
@@ -708,7 +708,7 @@ class DistributedCheckers(DistributedNode.DistributedNode):
                     foundLegal = True
                     break
 
-        if move == []:
+        if not move:
             pass
         playSound = Sequence(SoundInterval(self.knockSound))
         playSound.start()

@@ -40,7 +40,8 @@ from direct.distributed.ClockDelta import *
 from toontown.parties import PartyGlobals
 
 # Pets!
-from toontown.pets.PetManagerAI import PetManagerAI
+if config.GetBool('want-pets', True):
+    from toontown.pets.PetManagerAI import PetManagerAI
 
 # Tasks!
 from toontown.quest.QuestManagerAI import QuestManagerAI
@@ -94,8 +95,11 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.useAllMinigames = self.config.GetBool('want-all-minigames', False)
         self.doLiveUpdates = self.config.GetBool('want-live-updates', True)
         self.baseXpMultiplier = self.config.GetFloat('base-xp-multiplier', 1.0)
+        self.wantHalloween = self.config.GetBool('want-halloween', False)
+	self.wantChristmas = self.config.GetBool('want-christmas', False)
         self.holidayManager = HolidayManagerAI(self)
-        self.PetManager = PetManagerAI(self)
+        if config.GetBool('want-pets', True):
+            self.PetManager = PetManagerAI(self)
         self.fishManager = FishManagerAI()
         self.questManager = QuestManagerAI(self)
         self.cogPageManager = CogPageManagerAI()
@@ -189,26 +193,29 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.newsManager = NewsManagerAI(self)
         self.newsManager.generateWithRequired(2)
 
-        self.notify.info('Creating Magic Words Manager')
-        self.magicWordManager = MagicWordManagerAI(self)
-        self.magicWordManager.generateWithRequired(2)
+        if config.GetBool('want-mw-manager', True):
+            self.notify.info('Creating Magic Words Manager')
+            self.magicWordManager = MagicWordManagerAI(self)
+            self.magicWordManager.generateWithRequired(2)
 
-        self.notify.info('Creating Friends Manager')
-        self.friendManager = FriendManagerAI(self)
-        self.friendManager.generateWithRequired(2)
+        if config.GetBool('want-friends-manager', True):
+            self.notify.info('Creating Friends Manager')
+            self.friendManager = FriendManagerAI(self)
+            self.friendManager.generateWithRequired(2)
 
         if config.GetBool('want-parties', True):
             self.notify.info('Creating Parties Manager')
             self.partyManager = DistributedPartyManagerAI(self)
             self.partyManager.generateWithRequired(2)
 
-            # setup our view of the global party manager ud
+            # Setup our view of the global party manager ud
             self.globalPartyMgr = self.generateGlobalObject(
                 OTP_DO_ID_GLOBAL_PARTY_MANAGER, 'GlobalPartyManager')
 
-        self.notify.info('Creating Estates')
-        self.estateManager = EstateManagerAI(self)
-        self.estateManager.generateWithRequired(2)
+        if config.GetBool('want-estates-manager', True):
+            self.notify.info('Creating Estates')
+            self.estateManager = EstateManagerAI(self)
+            self.estateManager.generateWithRequired(2)
 
         self.notify.info('Creating TrophyMgr')
         self.trophyMgr = DistributedTrophyMgrAI(self)
@@ -221,9 +228,9 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.notify.info('Creating Catalog Manager')
         self.catalogManager = CatalogManagerAI(self)
         self.catalogManager.generateWithRequired(2)
-
-        self.notify.info('Creating Pets Manager')
-        self.PetManager = PetManagerAI(self)
+        if config.GetBool('want-pets', True):
+            self.notify.info('Creating Pets Manager')
+            self.PetManager = PetManagerAI(self)
 
         self.notify.info('Creating Code Redemption Manager')
         self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)
@@ -248,7 +255,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.notify.info('Creating DG (Daisy Gardens) ')
         self.hoods.append(DGHoodAI.DGHoodAI(self))
         clearQueue()
-        self.notify.info('Creating BR')
+        self.notify.info('Creating BR (The Brrrgh) ')
         self.hoods.append(BRHoodAI.BRHoodAI(self))
         clearQueue()
         self.notify.info('Creating MML (Minnie Melody Land) ')
@@ -257,13 +264,13 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.notify.info('Creating DDL (Donalds Dream Land) ')
         self.hoods.append(DLHoodAI.DLHoodAI(self))
         clearQueue()
-        self.notify.info('Creating GZ')
+        self.notify.info('Creating GS (SpeedWay) ')
         self.hoods.append(GSHoodAI.GSHoodAI(self))
         clearQueue()
-        self.notify.info('Creating OZ')
+        self.notify.info('Creating OZ (Outdoor Zone)')
         self.hoods.append(OZHoodAI.OZHoodAI(self))
         clearQueue()
-        self.notify.info('Creating GZ')
+        self.notify.info('Creating GZ (Golf Zone) ')
         self.hoods.append(GZHoodAI.GZHoodAI(self))
         clearQueue()
         self.notify.info('Creating TF (Toonfest) ')

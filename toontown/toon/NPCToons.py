@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.nametag.NametagGroup import *
 from toontown.toonbase import ToontownGlobals
 import random
@@ -11604,7 +11604,7 @@ NPC_REGULAR),
 try:
     config = simbase.config
 except:
-    config = base.config
+    config = config
 
 if config.GetBool('want-new-toonhall', 1):
     NPCToonDict[2001] = (2513,
@@ -11646,6 +11646,53 @@ else:
      'm',
      1,
      NPC_REGULAR)
+
+# Flippy HQ helper
+HQnpcFriends = NPCToonDict[2001] = (2513,
+                     lnames[2001],
+                     ('dss',
+                      'ms',
+                      'm',
+                      'm',
+                      17,
+                      0,
+                      17,
+                      17,
+                      3,
+                      3,
+                      3,
+                      3,
+                      7,
+                      2),
+                     'm',
+                     1,
+                     NPC_REGULAR)
+# FO Buddy
+FOnpcFriends = NPCToonDict[91915] = [-1,
+                                      lnames[91915],
+                                      ('sss',
+                                       'l',
+                                       'm',
+                                       'm',
+                                       26,
+                                       26,
+                                       26,
+                                       26,
+                                       0,
+                                       0,
+                                       0,
+                                       0,
+                                       0,
+                                       0),
+                                      'm',
+                                      0,
+                                      NPC_REGULAR]
+# End
+
+
+
+
+
 del lnames
 BlockerPositions = {TTLocalizer.Flippy: (Point3(207.4, 18.81, -0.475), 90.0)}
 zone2NpcDict = {}

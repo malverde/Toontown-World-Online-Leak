@@ -1,5 +1,5 @@
 #Embedded file name: toontown.safezone.BRSafeZoneLoader
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 import SafeZoneLoader
 import BRPlayground

@@ -1,8 +1,12 @@
 from direct.distributed.AstronInternalRepository import AstronInternalRepository
 from otp.distributed.OtpDoGlobals import *
+from otp.ai.MagicWordGlobal import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.MsgTypes import *
 from panda3d.core import *
+from direct.distributed.PyDatagram import PyDatagram
+import traceback
+import sys
 
 ai_watchdog = ConfigVariableInt(
     'ai-watchdog', 15,
@@ -46,10 +50,10 @@ class ToontownInternalRepository(AstronInternalRepository):
         return task.cont
 
     def getAvatarIdFromSender(self):
-        return self.getMsgSender() & 0xFFFFFFFF
+        return int(self.getMsgSender() & 0xFFFFFFFF)
 
     def getAccountIdFromSender(self):
-        return (self.getMsgSender() >> 32) & 0xFFFFFFFF
+        return int((self.getMsgSender()>>32) & 0xFFFFFFFF)
 
     def setAllowClientSend(self, avId, dObj, fieldNameList=[]):
         dg = PyDatagram()
@@ -73,3 +77,21 @@ class ToontownInternalRepository(AstronInternalRepository):
             return False
 
         return True
+
+    def readerPollOnce(self):
+        try:
+            return AstronInternalRepository.readerPollOnce(self)
+        except SystemExit, KeyboardInterrupt:
+            raise
+        except Exception as e:
+            if self.getAvatarIdFromSender() > 100000000: # We don't want to boot, it's not worth booting them - all crashes are logged
+                # dg = PyDatagram()
+                # dg.addServerHeader(self.getMsgSender(), self.ourChannel, CLIENTAGENT_EJECT)
+                # dg.addUint16(153)
+                # dg.addString('You were disconnected to prevent a district reset.')
+                # self.send(dg)
+                self.writeServerEvent('INTERNAL-EXCEPTION', self.getAvatarIdFromSender(), self.getAccountIdFromSender(), repr(e), traceback.format_exc())
+                self.notify.warning('INTERNAL-EXCEPTION: %s (%s)' % (repr(e), self.getAvatarIdFromSender()))
+                print traceback.format_exc()
+                sys.exc_clear()
+                return 1

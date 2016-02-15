@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.coghq import DistributedCashbotBossCraneAI
@@ -185,7 +185,7 @@ class DistributedCashbotBossAI(
         v = Vec3(pos[0], pos[1], 0.0)
         if not v.normalize():
             v = Vec3(1, 0, 0)
-        v = v * 27
+        v *= 27
         angle = random.uniform(0.0, 2.0 * math.pi)
         radius = 10
         dx = radius * math.cos(angle)
@@ -565,6 +565,9 @@ def skipCFO():
 
 @magicWord(category=CATEGORY_ADMIN, types=[])
 def endcfo():
+    """
+    Defeats the CFO and ends Battle.
+    """
     toon = spellbook.getTarget()
     if toon:
         z = toon.zoneId
@@ -578,3 +581,62 @@ def endcfo():
         return "CFO not found!"
 
     return "Error!"
+    
+@magicWord(category=CATEGORY_ADMIN)
+def restartCraneRound():
+    """
+    Restarts the crane round in the CFO.
+    """
+    invoker = spellbook.getInvoker()
+    boss = None
+    for do in simbase.air.doId2do.values():
+        if isinstance(do, DistributedCashbotBossAI):
+            if invoker.doId in do.involvedToons:
+                boss = do
+                break
+    if not boss:
+        return "You aren't in a CFO!"
+    boss.exitIntroduction()
+    boss.b_setState('PrepareBattleThree')
+    boss.b_setState('BattleThree')
+    return 'Restarting the crane round...'
+
+@magicWord(category=CATEGORY_ADMIN)
+def bombCFO():
+    """
+    Damages the CFO by 1 hitpoint.
+    """
+    invoker = spellbook.getInvoker()
+    boss = None
+    for do in simbase.air.doId2do.values():
+        if isinstance(do, DistributedCashbotBossAI):
+            if invoker.doId in do.involvedToons:
+                boss = do
+                break
+    if not boss:
+        return "You aren't in a CFO!"
+    if boss.state not in 'BattleThree':
+        return "The CFO can't be destroyed yet. Try using skipCFO."
+    boss.magicWordHit(boss.bossDamage +1, invoker)
+    return 'Bombed the CFO'
+
+@magicWord(category=CATEGORY_ADMIN)
+def bombCFOMax():
+        """
+        Damages the CFO by MaxDamage.
+        """
+        invoker = spellbook.getInvoker()
+        boss = None
+        for do in simbase.air.doId2do.values():
+            if isinstance(do, DistributedCashbotBossAI):
+                if invoker.doId in do.involvedToons:
+                    boss = do
+                    break
+        if not boss:
+            return "You aren't in a CFO!"
+        if boss.state not in 'BattleThree':
+            return "The CFO can't be destroyed yet. Try using skipCFO."
+        boss.magicWordHit(boss.bossMaxDamage, invoker)
+        return 'Bombed the CFO'
+
+# TODO: Make a MW for stunning all Goons

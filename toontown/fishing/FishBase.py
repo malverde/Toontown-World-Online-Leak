@@ -23,7 +23,7 @@ class FishBase:
         self.weight = weight
 
     def getVitals(self):
-        return (self.genus, self.species, self.weight)
+        return self.genus, self.species, self.weight
 
     def getValue(self):
         return FishGlobals.getValue(self.genus, self.species, self.weight)

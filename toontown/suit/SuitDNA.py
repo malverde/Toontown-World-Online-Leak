@@ -1,5 +1,5 @@
 import random
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify.DirectNotifyGlobal import *
 from toontown.toonbase import TTLocalizer
 import random
@@ -243,7 +243,7 @@ class SuitDNA(AvatarDNA.AvatarDNA):
         offset = 0
         if level > 1:
             for i in range(1, level):
-                offset = offset + suitsPerLevel[i - 1]
+                offset += suitsPerLevel[i - 1]
 
         bottom = base + offset
         top = bottom + suitsPerLevel[level - 1]

@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
@@ -830,6 +830,12 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
                         avId, OTPLocalizer.WhisperTargetLeftVisit %
                         (friend.getName(),))
                     friend.d_teleportGiveup(base.localAvatar.doId)
+                else:
+                    def doTeleport(self):
+                        avatar = base.cr.doId2do[friend.getDoId()]
+                        base.localAvatar.gotoNode(avatar)
+                        base.localAvatar.b_teleportGreeting(friend.getDoId())
+                        self.acceptOnce('generate-%d' % friend.getDoId(), lambda: taskMgr.doMethodLater(1, doTeleport))
         base.transitions.irisIn()
         self.nextState = requestStatus.get('nextState', 'walk')
         base.localAvatar.attachCamera()
@@ -1041,11 +1047,13 @@ from otp.ai.MagicWordGlobal import *
 
 
 def hookTeleportInDone(place):
-    '''
+    """
     Called instead of Place.py's original
     teleportInDone function; indicates that
     the destination has been reached.
-    '''
+    :param place:
+    :type place:
+    """
     global HOOD
     teleportNotify.debug('Hooked TeleportInDone')
     if hasattr(place, 'fsm'):
@@ -1062,9 +1070,11 @@ def hookTeleportInDone(place):
 
 @magicWord(category=CATEGORY_ADMIN, types=[str])
 def tp(hood):
-    '''
+    """
     Teleport to hood.
-    '''
+    :param hood:
+    :type hood:
+    """
     global HOOD
     try:
         HOOD = hood.upper()

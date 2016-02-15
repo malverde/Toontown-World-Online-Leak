@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 import Playground
 from direct.task.Task import Task
 import random

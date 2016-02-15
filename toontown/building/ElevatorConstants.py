@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 ELEVATOR_NORMAL = 0
 ELEVATOR_VP = 1
 ELEVATOR_MINT = 2
@@ -8,6 +8,7 @@ ELEVATOR_OFFICE = 5
 ELEVATOR_STAGE = 6
 ELEVATOR_BB = 7
 ELEVATOR_COUNTRY_CLUB = 8
+ELEVATOR_FIELD = 9
 REJECT_NOREASON = 0
 REJECT_SHUFFLE = 1
 REJECT_MINLAFF = 2
@@ -22,7 +23,7 @@ if __dev__:
     try:
         config = simbase.config
     except:
-        config = base.config
+        config = config
 
     elevatorCountdown = config.GetFloat('elevator-countdown', -1)
     if elevatorCountdown != -1:
@@ -80,7 +81,15 @@ ElevatorData = {ELEVATOR_NORMAL: {'openTime': 2.0,
                                         'width': 5.875,
                                         'countdown': bboard.get('elevatorCountdown', 15.0),
                                         'sfxVolume': 1.0,
-                                        'collRadius': 4}}
+                                        'collRadius': 4},
+                ELEVATOR_FIELD: {'openTime': 2.0,
+                                 'closeTime': 2.0,
+                                 'width': 3.5,
+                                 'countdown': bboard.get('elevatorCountdown', 15.0),
+                                 'sfxVolume': 1.0,
+                                 'collRadius': 5}}
+
+
 TOON_BOARD_ELEVATOR_TIME = 1.0
 TOON_EXIT_ELEVATOR_TIME = 1.0
 TOON_VICTORY_EXIT_TIME = 1.0
@@ -129,3 +138,4 @@ ElevatorOutPointsFar = [[-4.6, -12.2, 0.1],
                         [4.6, -12.2, 0.1],
                         [-1.6, -13.2, 0.1],
                         [1.6, -13.2, 0.1]]
+

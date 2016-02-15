@@ -10,7 +10,6 @@ class TagTreasurePlannerAI(RegenTreasurePlannerAI.RegenTreasurePlannerAI):
         self.numPlayers = 0
         self.game = game
         RegenTreasurePlannerAI.RegenTreasurePlannerAI.__init__(self, zoneId, TreasureGlobals.TreasureTT, 'TagTreasurePlanner-' + str(zoneId), 3, 4, callback)
-        return None
 
     def initSpawnPoints(self):
         self.spawnPoints = [(0, 0, 0.1),

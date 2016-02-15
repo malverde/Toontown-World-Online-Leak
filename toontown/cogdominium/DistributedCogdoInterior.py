@@ -150,7 +150,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
             return
         self.shopOwnerNpc = NPCToons.createLocalNPC(self.shopOwnerNpcId)
         if not self.shopOwnerNpc:
-            self.notify.warning('No shopkeeper in this cogdominium, using FunnyFarm Sellbot FO NPCToons')
+            self.notify.warning('No shopkeeper in this cogdominium, using FunnyFarm, Sellbot, FO, NPCToons')
             random.seed(self.doId)
             shopkeeper = random.randint(7001, 7009)
             self.shopOwnerNpc = NPCToons.createLocalNPC(shopkeeper)
@@ -602,6 +602,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
                 self.acceptOnce('localToonLeft', self.__handleLocalToonLeftBarrelRoom)
                 self.barrelRoom.activate()
                 base.playMusic(self.waitMusic, looping=1, volume=0.7)
+                base.localAvatar.questMap.stop()
 
     def exitCollectBarrels(self):
         if self._wantBarrelRoom and not self.isBossFloor(self.currentFloor):

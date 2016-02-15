@@ -1,6 +1,6 @@
 from direct.distributed.DistributedObject import DistributedObject
 #lel copy+pasted imports
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from otp.ai.MagicWordGlobal import *

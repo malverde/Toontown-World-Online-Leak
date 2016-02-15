@@ -1,6 +1,5 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
 from direct.fsm import StateData
 from otp.otpgui import OTPDialog
 from direct.fsm import ClassicFSM

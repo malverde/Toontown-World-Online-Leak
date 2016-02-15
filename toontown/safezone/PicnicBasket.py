@@ -1,7 +1,7 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
@@ -66,7 +66,6 @@ class PicnicBasket(StateData.StateData):
                             'start'])],
             'start', 'final')
         self.parentFSM = parentFSM
-        return None
 
     def load(self):
         self.parentFSM.getStateNamed('picnicBasketBlock').addChild(self.fsm)
@@ -129,8 +128,7 @@ class PicnicBasket(StateData.StateData):
     def __handleNoTrolleyAck(self):
         ntbDoneStatus = self.noTrolleyBox.doneStatus
         if ntbDoneStatus == 'ok':
-            doneStatus = {}
-            doneStatus['mode'] = 'reject'
+            doneStatus = {'mode': 'reject'}
             messenger.send(self.doneEvent, [doneStatus])
         else:
             self.notify.error('Unrecognized doneStatus: ' + str(ntbDoneStatus))
@@ -139,8 +137,7 @@ class PicnicBasket(StateData.StateData):
         return None
 
     def handleRejectBoard(self):
-        doneStatus = {}
-        doneStatus['mode'] = 'reject'
+        doneStatus = {'mode': 'reject'}
         messenger.send(self.doneEvent, [doneStatus])
 
     def exitRequestBoard(self):
@@ -187,15 +184,11 @@ class PicnicBasket(StateData.StateData):
 
     def handlePlayMinigame(self, zoneId, minigameId):
         base.localAvatar.b_setParent(ToontownGlobals.SPHidden)
-        doneStatus = {}
-        doneStatus['mode'] = 'minigame'
-        doneStatus['zoneId'] = zoneId
-        doneStatus['minigameId'] = minigameId
+        doneStatus = {'mode': 'minigame', 'zoneId': zoneId, 'minigameId': minigameId}
         messenger.send(self.doneEvent, [doneStatus])
 
     def handlePicnicDone(self):
-        doneStatus = {}
-        doneStatus['mode'] = 'exit'
+        doneStatus = {'mode': 'exit'}
         messenger.send(self.doneEvent, [doneStatus])
 
     def exitTrolleyLeaving(self):
@@ -207,8 +200,7 @@ class PicnicBasket(StateData.StateData):
         return None
 
     def handleOffTrolley(self):
-        doneStatus = {}
-        doneStatus['mode'] = 'exit'
+        doneStatus = {'mode': 'exit'}
         messenger.send(self.doneEvent, [doneStatus])
         return None
 

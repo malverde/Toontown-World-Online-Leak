@@ -6,7 +6,7 @@ from toontown.toon import ToonDNA
 import random
 from direct.showbase import PythonUtil
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 CTArticle = 0
 CTString = 1
 CTBasePrice = 2
@@ -449,7 +449,7 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         return ToontownGlobals.P_ItemAvailable
 
     def getDeliveryTime(self):
-        return 1
+        return 60
 
     def getPicture(self, avatar):
         from toontown.toon import Toon
@@ -575,7 +575,7 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         return self.colorIndex - other.colorIndex
 
     def getHashContents(self):
-        return (self.clothingType, self.colorIndex)
+        return self.clothingType, self.colorIndex
 
     def getBasePrice(self):
         return ClothingTypes[self.clothingType][CTBasePrice]

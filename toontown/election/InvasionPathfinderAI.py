@@ -1,6 +1,6 @@
 import bisect
 import math
-from pandac.PandaModules import *
+from panda3d.core import *
 
 class InvasionPathfinderAI:
     VERTEX_EXTRUSION = 0.15
@@ -213,7 +213,7 @@ class InvasionPathfinderAI:
 
             # In order for an intersection to be happening, one point must be
             # on our left (negative X) and one on our right (positive X):
-            if not ((x1 < 0 and x2 > 0) or (x1 > 0 and x2 < 0)):
+            if not ((x1 < 0 < x2) or (x1 > 0 > x2)):
                 # This line has both points on one side of us, no intersection
                 # is possible. Skip it.
                 continue

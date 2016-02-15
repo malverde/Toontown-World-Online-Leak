@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
 from DistributedMinigame import *
@@ -924,7 +924,7 @@ class DistributedTargetGame(DistributedMinigame):
         toon = base.localAvatar
         toon.b_setAnimState('jumpAirborne', 1.0)
         toon.dropShadow.hide()
-        self.speedForward = self.speedForward * 0.5
+        self.speedForward *= 0.5
         self.gravity = 4
         newHpr = Point3(0, -68, 0)
         newPos = Point3(0, self.CAMERA_Y + self.TOON_Y + 15, 15)
@@ -1183,16 +1183,16 @@ class DistributedTargetGame(DistributedMinigame):
         toonPos = self.getAvatar(self.localAvId).getPos()
         dt = globalClock.getDt()
         if stateName == 'fall':
-            self.speedForward = self.speedForward - self.speedForward * self.umbrellaResistance * dt
-            self.laterial = self.laterial - self.laterial * self.umbrellaResistance * dt
+            self.speedForward -= self.speedForward * self.umbrellaResistance * dt
+            self.laterial -= self.laterial * self.umbrellaResistance * dt
             if toonPos[2] > 350.0:
                 diff = toonPos[2] - 350.0
                 self.speedForward += -diff * dt * 0.05
         else:
-            self.speedForward = self.speedForward - self.speedForward * self.airResistance * dt
-            self.laterial = self.laterial - self.laterial * self.airResistance * dt
+            self.speedForward -= self.speedForward * self.airResistance * dt
+            self.laterial -= self.laterial * self.airResistance * dt
         t = globalClock.getFrameTime() - self.__timeBase
-        self.distance = self.distance + dt * self.speedForward
+        self.distance += dt * self.speedForward
         if self.distance > self.maxDist:
             self.distance = self.maxDist
         if stateName in ['fall', 'bouncing']:
@@ -1300,9 +1300,9 @@ class DistributedTargetGame(DistributedMinigame):
                         self.playSound('bounce', ivolume)
                 pos[2] = 0.1
                 rebound = 0.5
-                self.speedForward = self.speedForward * rebound
-                self.driftX = self.driftX * rebound
-                self.driftY = self.driftY * rebound
+                self.speedForward *= rebound
+                self.driftX *= rebound
+                self.driftY *= rebound
                 toon = base.localAvatar
                 if self.zVel != 0:
                     signZ = self.zVel / abs(self.zVel)

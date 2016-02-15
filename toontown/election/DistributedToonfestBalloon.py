@@ -1,5 +1,5 @@
 #Embedded file name: toontown.election.DistributedToonfestBalloon
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.nametag.NametagConstants import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
@@ -28,7 +28,7 @@ class DistributedToonfestBalloon(DistributedObject, FSM):
         cs.setTangible(False)
         self.collisionNP = self.balloon.find('**/basket_wall_collision')
         self.collisionNP.node().addSolid(cs)
-        self.alec = NPCToons.createLocalNPC(2001)
+        self.alec = NPCToons.createLocalNPC(91915)
         self.alec.setPos(0.7, 0.7, 0.4)
         self.alec.setH(150)
         self.alec.setScale(1 / ToonfestBalloonGlobals.BalloonScale)

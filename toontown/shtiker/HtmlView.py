@@ -246,7 +246,7 @@ class HtmlView(DirectObject):
     def _translateRelativeCoordinates(self, x, y):
         sx = int((x - self.mouseLL[0]) / (self.mouseUR[0] - self.mouseLL[0]) * WEB_WIDTH_PIXELS)
         sy = WEB_HEIGHT_PIXELS - int((y - self.mouseLL[1]) / (self.mouseUR[1] - self.mouseLL[1]) * WEB_HEIGHT_PIXELS)
-        return (sx, sy)
+        return sx, sy
 
     def unload(self):
         self.ignoreAll()

@@ -21,7 +21,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
         pass
 
     def getInitialScale(self):
-        return (0.8, 0.8, 0.8)
+        return 0.8, 0.8, 0.8
 
     def setNewScale(self, sx, sy, sz):
         if sx + sy + sz < 5:
@@ -133,6 +133,9 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
                 issue='Used phone from other shard!')
             return
         item = CatalogItem.getItem(item)
+        if item.loyaltyRequirement(): # These items aren't purchasable! Hacker alert!
+            self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to purchase an unimplemented loyalty item!')
+            return 
         if isinstance(item, CatalogInvalidItem):
             self.air.writeServerEvent(
                 'suspicious',

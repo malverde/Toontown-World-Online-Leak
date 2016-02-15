@@ -1,7 +1,7 @@
 #Embedded file name: toontown.estate.TrunkGUI
 from direct.showbase.PythonUtil import Functor
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed import ClockDelta
 from direct.fsm import StateData
 from direct.task.Task import Task
@@ -247,22 +247,22 @@ class TrunkGUI(StateData.StateData):
         i = 0
         while i < len(self.hatList):
             self.hats.append((self.hatList[i], self.hatList[i + 1], self.hatList[i + 2]))
-            i = i + 3
+            i += 3
 
         i = 0
         while i < len(self.glassesList):
             self.glasses.append((self.glassesList[i], self.glassesList[i + 1], self.glassesList[i + 2]))
-            i = i + 3
+            i += 3
 
         i = 0
         while i < len(self.backpackList):
             self.backpacks.append((self.backpackList[i], self.backpackList[i + 1], self.backpackList[i + 2]))
-            i = i + 3
+            i += 3
 
         i = 0
         while i < len(self.shoesList):
             self.shoes.append((self.shoesList[i], self.shoesList[i + 1], self.shoesList[i + 2]))
-            i = i + 3
+            i += 3
 
         self.hatChoice = 0
         self.glassesChoice = 0

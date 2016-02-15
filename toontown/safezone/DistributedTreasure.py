@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.distributed import DistributedObject
@@ -129,33 +129,36 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         return
 
     def handleGrab(self, avId):
-        self.collNodePath.stash()
-        self.avId = avId
-        if self.cr.doId2do.has_key(avId):
-            av = self.cr.doId2do[avId]
-            self.av = av
-        else:
-            self.nodePath.detachNode()
+        try:
+            self.collNodePath.stash()
+            self.avId = avId
+            if self.cr.doId2do.has_key(avId):
+                av = self.cr.doId2do[avId]
+                self.av = av
+            else:
+                self.nodePath.detachNode()
+                return
+            if self.playSoundForRemoteToons or self.avId == base.localAvatar.getDoId():
+                base.playSfx(self.grabSound, node=self.nodePath)
+            if not self.fly:
+                self.nodePath.detachNode()
+                return
+            self.nodePath.wrtReparentTo(av)
+            if self.treasureFlyTrack:
+                self.treasureFlyTrack.finish()
+                self.treasureFlyTrack = None
+            avatarGoneName = self.av.uniqueName('disable')
+            self.accept(avatarGoneName, self.handleUnexpectedExit)
+            flytime = 1.0
+            track = Sequence(LerpPosInterval(self.nodePath, flytime, pos=Point3(0, 0, 3), startPos=self.nodePath.getPos(), blendType='easeInOut'), Func(self.nodePath.detachNode), Func(self.ignore, avatarGoneName))
+            if self.shadow:
+                self.treasureFlyTrack = Sequence(HideInterval(self.dropShadow), track, ShowInterval(self.dropShadow), name=self.uniqueName('treasureFlyTrack'))
+            else:
+                self.treasureFlyTrack = Sequence(track, name=self.uniqueName('treasureFlyTrack'))
+            self.treasureFlyTrack.start()
             return
-        if self.playSoundForRemoteToons or self.avId == base.localAvatar.getDoId():
-            base.playSfx(self.grabSound, node=self.nodePath)
-        if not self.fly:
+        except:
             self.nodePath.detachNode()
-            return
-        self.nodePath.wrtReparentTo(av)
-        if self.treasureFlyTrack:
-            self.treasureFlyTrack.finish()
-            self.treasureFlyTrack = None
-        avatarGoneName = self.av.uniqueName('disable')
-        self.accept(avatarGoneName, self.handleUnexpectedExit)
-        flytime = 1.0
-        track = Sequence(LerpPosInterval(self.nodePath, flytime, pos=Point3(0, 0, 3), startPos=self.nodePath.getPos(), blendType='easeInOut'), Func(self.nodePath.detachNode), Func(self.ignore, avatarGoneName))
-        if self.shadow:
-            self.treasureFlyTrack = Sequence(HideInterval(self.dropShadow), track, ShowInterval(self.dropShadow), name=self.uniqueName('treasureFlyTrack'))
-        else:
-            self.treasureFlyTrack = Sequence(track, name=self.uniqueName('treasureFlyTrack'))
-        self.treasureFlyTrack.start()
-        return
 
     def handleUnexpectedExit(self):
         self.notify.warning('While getting treasure, ' + str(self.avId) + ' disconnected.')
@@ -165,7 +168,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         return
 
     def getStareAtNodeAndOffset(self):
-        return (self.nodePath, Point3())
+        return self.nodePath, Point3()
 
     def startAnimation(self):
         pass

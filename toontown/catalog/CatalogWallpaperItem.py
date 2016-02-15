@@ -534,7 +534,7 @@ class CatalogWallpaperItem(CatalogSurfaceItem):
         c.setColorScale(*self.getBorderColor())
         sample.reparentTo(frame)
         self.hasPicture = True
-        return (frame, None)
+        return frame, None
 
     def output(self, store=-1):
         return 'CatalogWallpaperItem(%s, %s, %s, %s%s)' % (
@@ -672,7 +672,7 @@ def getWallpaperRange(fromIndex, toIndex, *otherRanges):
 
     for patternIndex in WallpaperTypes.keys():
         for fromIndex, toIndex in zip(froms, tos):
-            if patternIndex >= fromIndex and patternIndex <= toIndex:
+            if fromIndex <= patternIndex <= toIndex:
                 borderKeys = WallpaperTypes[patternIndex][WTBorderList]
                 for borderKey in borderKeys:
                     borderData = BorderTypes.get(borderKey)

@@ -7,13 +7,18 @@ import subprocess
 from pandac.PandaModules import *
 import pytz
 
+"""
+Reads codebase and strips out non-essential files, like server sided code, removes PYC files and clears out debugging tools
+"""
 
+
+# These are arguments that *can* be parsed by running python prepare_client.py -- (args)
 parser = argparse.ArgumentParser()
 parser.add_argument('--build-dir', default='build',
                     help='The directory in which to store the build files.')
 parser.add_argument('--src-dir', default='..',
                     help='The directory of the Toontown source code.')
-parser.add_argument('--server-ver', default='ttw-pre-alpha-2.5.0',
+parser.add_argument('--server-ver', default='Current server version',
                     help='The server version of this build.\n')
 parser.add_argument('--build-mfs', action='store_true',
                     help='When present, multifiles will be built.')
@@ -23,7 +28,7 @@ parser.add_argument('modules', nargs='*', default=['otp', 'toontown'],
                     help='The Toontown modules to be included in the build.')
 args = parser.parse_args()
 
-print 'Preparing the client...'
+print 'Preparing the client... Please wait'
 
 # Create a clean build directory for us to store our build material:
 if not os.path.exists(args.build_dir):
@@ -33,17 +38,21 @@ print 'Build directory = {0}'.format(args.build_dir)
 # Set the build version.
 serverVersion = args.server_ver
 print 'serverVersion = {0}'.format(serverVersion)
+print 'Set Client Server Version'
 
 # Copy the provided Toontown modules:
 
 # NonRepeatableRandomSourceUD.py, and NonRepeatableRandomSourceAI.py are
 # required to be included. This is because they are explicitly imported by the
 # DC file:
+print "Including NonRepeatableRandomSourceUD and NonRepeatableRandomSourceAI"
 includes = ('NonRepeatableRandomSourceUD.py', 'NonRepeatableRandomSourceAI.py')
 
 # This is a list of explicitly excluded files:
+print 'Excluding ServiceStart.py', 'ToontownUberRepository', 'ToontownAIRepository'
 excludes = ('ServiceStart.py', 'ToontownUberRepository', 'ToontownAIRepository')
 
+print "Removing _debug_ statements from build"
 def minify(f):
     """
     Returns the "minified" file data with removed __debug__ code blocks.
@@ -56,7 +65,6 @@ def minify(f):
 
     # The number of spaces in which the __debug__ condition is indented:
     indentLevel = 0
-
     for line in f:
         thisIndentLevel = len(line) - len(line.lstrip())
         if ('if __debug__:' not in line) and (not debugBlock):
@@ -83,7 +91,7 @@ def minify(f):
     return data
 
 for module in args.modules:
-    print 'Writing module...', module
+    print 'Writing modules... And not copying excluded files', module
     for root, folders, files in os.walk(os.path.join(args.src_dir, module)):
         outputDir = root.replace(args.src_dir, args.build_dir)
         if not os.path.exists(outputDir):
@@ -108,6 +116,7 @@ for module in args.modules:
 # PRC file data, (stripped) DC file, and time zone info.
 
 # First, we need the PRC file data:
+print 'Writing public_client.prc into _miraidata'
 configFileName = 'public_client.prc'
 configData = []
 with open(os.path.join(args.src_dir, 'config', configFileName)) as f:
@@ -189,4 +198,4 @@ if args.build_mfs:
     with open('local-patcher.ver', 'w') as f:
         f.write('RESOURCES = %r' % RESOURCES)
 
-print 'Done preparing the client.'
+print 'Done preparing the client. Run Build_client'

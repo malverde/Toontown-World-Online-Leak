@@ -3,7 +3,7 @@ from otp.otpbase import OTPGlobals
 import sys
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.otpbase import OTPLocalizer
 from direct.task import Task
 from otp.chat.ChatInputTyped import ChatInputTyped
@@ -285,7 +285,7 @@ class ChatInputWhiteListFrame(FSM.FSM, DirectFrame):
     def __execMessage(self, message):
         if not ChatInputTyped.ExecNamespace:
             ChatInputTyped.ExecNamespace = {}
-            exec 'from pandac.PandaModules import *' in globals(), self.ExecNamespace
+            exec 'from panda3d.core import *' in globals(), self.ExecNamespace
             self.importExecNamespace()
         try:
             return str(eval(message, globals(), ChatInputTyped.ExecNamespace))

@@ -85,15 +85,16 @@ class DistributedPairingGameAI(DistributedMinigameAI):
                 self.logAllPerfect()
 
         logAvId = self.avIdList[0]
-        #self.air.writeServerEvent('minigame_pairing', self.doId, '%s|%s|%s|%s|%s|%s|%s|%s' % (ToontownGlobals.PairingGameId,
-        # self.getSafezoneId(),
-        # self.avIdList,
-        # self.scoreDict[logAvId],
-        # self.gameDuration,
-        # self.matches,
-        # self.flips,
-        # lowFlipBonus))
-        # jjkoletar: again, are we really that interested in this data at this point?
+        # Logging
+        self.air.writeServerEvent('minigame_pairing', self.doId, '%s|%s|%s|%s|%s|%s|%s|%s' % (ToontownGlobals.PairingGameId,
+        self.getSafezoneId(),
+        self.avIdList,
+        self.scoreDict[logAvId],
+        self.gameDuration,
+        self.matches,
+        self.flips,
+        lowFlipBonus))
+
         self.gameFSM.request('cleanup')
         DistributedMinigameAI.gameOver(self)
 
@@ -155,9 +156,9 @@ class DistributedPairingGameAI(DistributedMinigameAI):
             for j in range(i + 1, len(faceUpList)):
                 cardB = faceUpList[j]
                 if self.cards[cardA].rank == self.cards[cardB].rank:
-                    return (cardA, cardB)
+                    return cardA, cardB
 
-        return (-1, -1)
+        return -1, -1
 
     def handleMatch(self, cardA, cardB):
         self.notify.debug('we got a match %d %d' % (cardA, cardB))

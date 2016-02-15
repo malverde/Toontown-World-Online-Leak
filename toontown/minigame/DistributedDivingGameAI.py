@@ -339,15 +339,16 @@ class DistributedDivingGameAI(DistributedMinigameAI):
         trackingString = 'MiniGame Stats : Diving Game'
         trackingString += '\nDistrict:%s' % self.getSafezoneId()
         for avId in self.scoreTracking.keys():
-            trackingString = trackingString + '\navId:%s fishHits:%s crabHits:%s treasureCatches:%s treasureDrops:%s treasureRecoveries:%s Score: %s' % (avId,
-             self.scoreTracking[avId][0],
-             self.scoreTracking[avId][1],
-             self.scoreTracking[avId][2],
-             self.scoreTracking[avId][3],
-             self.scoreTracking[avId][4],
-             self.scoreDict[avId])
+            trackingString += '\navId:%s fishHits:%s crabHits:%s treasureCatches:%s treasureDrops:%s treasureRecoveries:%s Score: %s' % (
+            avId,
+            self.scoreTracking[avId][0],
+            self.scoreTracking[avId][1],
+            self.scoreTracking[avId][2],
+            self.scoreTracking[avId][3],
+            self.scoreTracking[avId][4],
+            self.scoreDict[avId])
 
-        #jjkoletar: why. do we care atm? self.air.writeServerEvent('MiniGame Stats', None, trackingString)
+        self.air.writeServerEvent('MiniGame Stats', None, trackingString)
         return
 
     def enterInactive(self):
@@ -419,7 +420,7 @@ class DistributedDivingGameAI(DistributedMinigameAI):
             prop = props[i]
             low = prop[0]
             high = prop[1]
-            if num > low and num <= high:
+            if low < num <= high:
                 offset = int(10 * random.random())
                 self.sendUpdate('fishSpawn', [timestamp,
                  i,

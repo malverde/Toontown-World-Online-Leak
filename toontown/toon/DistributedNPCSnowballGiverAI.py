@@ -1,5 +1,5 @@
 from direct.task.Task import Task
-from pandac.PandaModules import *
+from panda3d.core import *
 from DistributedNPCToonBaseAI import *
 from toontown.quest import Quests
 from random import randrange

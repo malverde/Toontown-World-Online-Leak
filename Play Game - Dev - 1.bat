@@ -2,8 +2,12 @@
 
 set /P ttrUsername="Username: " || ^
 set ttrUsername=username
-set ttrPassword=password
+set /P ttrpassword="Paassword: " || ^
+set ttrpassword=password
 set TTR_PLAYCOOKIE=%ttrUsername%
+set TTR_PASSWORD=%ttrpassword%
+set username=%ttrUsername%
+set password=%ttrpassword%
 set TTR_GAMESERVER=192.99.144.208
 
 rem Read the contents of PPYTHON_PATH into %PPYTHON_PATH%:

@@ -88,7 +88,7 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
         for item in items:
             if item.getHashContents() in (1300, 1310, 1320, 1330, 1340, 1350):
                 do = DistributedBankAI(self.air, self, item)
-            elif item.getHashContents() >= 500 and item.getHashContents() <= 518:
+            elif 500 <= item.getHashContents() <= 518:
                 do = DistributedClosetAI(self.air, self, item)
                 do.setOwnerId(self.avId)
             elif item.getHashContents() == 1399:
@@ -241,7 +241,14 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
          h,
          p,
          r)
-        if item.getFlags() & FLCloset:
+        if item.getFlags() & FLTrunk:
+            if self.house.gender is 0:
+                if item.furnitureType - 4000 < 10:
+                    item.furnitureType += 10
+            elif item.furnitureType - 4000 > 10:
+                item.furnitureType -= 10
+            do = DistributedTrunkAI(self.air, self, item)
+        elif item.getFlags() & FLCloset:
             if self.house.gender is 0:
                 if item.furnitureType - 500 < 10:
                     item.furnitureType += 10
@@ -252,18 +259,12 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
             do = DistributedBankAI(self.air, self, item)
         elif item.getFlags() & FLPhone:
             do = DistributedPhoneAI(self.air, self, item)
-        elif item.getFlags() & FLTrunk:
-            if self.house.gender is 0:
-                if item.furnitureType - 500 > 10:
-                    item.furnitureType += 10
-                elif item.furnitureType - 500 > 10:
-                    item.furnitureType -= 10
-                do = DistributedTrunkAI(self.air, self, item)
         else:
             do = DistributedFurnitureItemAI(self.air, self, item)
+
         do.generateWithRequired(self.zoneId)
         self.items.append(do)
-        return (ToontownGlobals.FM_MovedItem, do.doId)
+        return ToontownGlobals.FM_MovedItem, do.doId
 
     def deleteItemFromAttic(self, blob, index):
         item = self.getAtticFurniture(self.atticItems, index)
@@ -301,7 +302,7 @@ class DistributedFurnitureManagerAI(DistributedObjectAI):
         return retcode
 
     def deleteWallpaperFromAttic(self, blob, index):
-        wallpaper = self.getAtticFurniture(blob, index)
+        wallpaper = self.getAtticFurniture(self.atticWallpaper, index)
         self.atticWallpaper.remove(wallpaper)
         self.b_setAtticWallpaper(self.getAtticWallpaper())
 

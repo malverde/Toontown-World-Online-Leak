@@ -9,4 +9,4 @@ class DistributedCogdoElevatorInt(DistributedElevatorInt):
         self.elevatorSphereNodePath.setZ(1.5)
 
     def _getDoorsClosedInfo(self):
-        return ('cogdoInterior', 'cogdoInterior')
+        return 'cogdoInterior', 'cogdoInterior'

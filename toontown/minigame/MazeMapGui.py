@@ -96,7 +96,7 @@ class MazeMapGui(DirectFrame):
         while x <= ulx + size:
             y = int(uly)
             while y <= uly + size:
-                if x > 0 and y > 0 and x < image.getXSize() and y < image.getYSize():
+                if y > 0 and 0 < x < image.getXSize() and y < image.getYSize():
                     image.setXelA(x, y, color)
                 y += 1
 
@@ -146,7 +146,7 @@ class MazeMapGui(DirectFrame):
         while x <= lr[0]:
             y = int(ul[1])
             while y <= lr[1]:
-                if x > 0 and y > 0 and x < self._maskResolution and y < self._maskResolution:
+                if y > 0 and 0 < x < self._maskResolution and y < self._maskResolution:
                     self._revealFunctions[self._revealFunction](x, y, center)
                 y += 1
 
@@ -171,10 +171,10 @@ class MazeMapGui(DirectFrame):
         ax += cellWidth
         ay = float(y) / self._mazeHeight * self._maskResolution
         ay += cellHeight
-        return (ax, ay)
+        return ax, ay
 
     def gui2pos(self, x, y):
-        return (x / self._maskResolution * 2.0 - 0.97, 0, y / self._maskResolution * -2.0 + 1.02)
+        return x / self._maskResolution * 2.0 - 0.97, 0, y / self._maskResolution * -2.0 + 1.02
 
     def _getToonMarker(self, toon):
         hType = toon.style.getType()

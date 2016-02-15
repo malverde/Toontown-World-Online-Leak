@@ -39,7 +39,7 @@ class CashbotCogHQLoader(CogHQLoader.CogHQLoader):
 
     def loadPlaceGeom(self, zoneId):
         self.notify.info('loadPlaceGeom: %s' % zoneId)
-        zoneId = zoneId - zoneId % 100
+        zoneId -= zoneId % 100
         if zoneId == ToontownGlobals.CashbotHQ:
             self.geom = loader.loadModel(self.cogHQExteriorModelPath)
             ddLinkTunnel = self.geom.find('**/LinkTunnel1')
