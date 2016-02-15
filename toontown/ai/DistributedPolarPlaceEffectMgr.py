@@ -13,7 +13,7 @@ class DistributedPolarPlaceEffectMgr(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.__init__(self, cr)
 
         def phraseSaid(phraseId):
-            helpPhrase = 104
+            helpPhrase = 103
             if phraseId == helpPhrase:
                 self.addPolarPlaceEffect()
 

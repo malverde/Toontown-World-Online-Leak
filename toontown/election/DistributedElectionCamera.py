@@ -2,7 +2,7 @@ from direct.distributed.DistributedNode import DistributedNode
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from toontown.battle import BattleProps
-from pandac.PandaModules import *
+from panda3d.core import *
 import math
 
 class DistributedElectionCamera(DistributedNode):
@@ -52,7 +52,7 @@ class DistributedElectionCamera(DistributedNode):
             h, p, r = testNode.getHpr()
             cH, cP, cR = testNode.getHpr(self.camera)
             p += 10
-            cP = cP + 190
+            cP += 190
             testNode.removeNode()
         else:
             return

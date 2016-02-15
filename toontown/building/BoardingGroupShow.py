@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from direct.task.Task import Task
@@ -107,7 +107,7 @@ class BoardingGroupShow:
                         offset,
                         wantToonRotation))
         boardingTrack.append(Func(self.cleanup))
-        return (boardingTrack, trackType)
+        return boardingTrack, trackType
 
     def __getOffsetPos(self, elevatorModel, offset):
         dest = elevatorModel.getPos(self.toon.getParent())

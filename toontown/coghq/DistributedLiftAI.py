@@ -47,7 +47,7 @@ class DistributedLiftAI(DistributedEntityAI.DistributedEntityAI):
         self.stateTimestamp = arrivalTimestamp
 
     def getStateTransition(self):
-        return (self.state, self.fromState, self.stateTimestamp)
+        return self.state, self.fromState, self.stateTimestamp
 
     def setAvatarEnter(self):
         avId = self.air.getAvatarIdFromSender()

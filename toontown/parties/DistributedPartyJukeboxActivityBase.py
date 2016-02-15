@@ -1,7 +1,7 @@
 #Embedded file name: toontown.parties.DistributedPartyJukeboxActivityBase
 from direct.actor.Actor import Actor
 from direct.task.Task import Task
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.otpbase.OTPBase import OTPBase
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
@@ -122,7 +122,7 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
         if self.gui.isLoaded():
             for i in range(len(songInfoList)):
                 songInfo = songInfoList[i]
-                self.__addSongToQueue(songInfo, isLocalQueue=index >= 0 and i == index)
+                self.__addSongToQueue(songInfo, isLocalQueue=0 <= index == i)
 
             self.gui.enableAddSongButton()
 
@@ -165,8 +165,8 @@ class DistributedPartyJukeboxActivityBase(DistributedPartyActivity):
         if self.music:
             if self.__checkPartyValidity() and hasattr(base.cr.playGame.getPlace().loader, 'music') and base.cr.playGame.getPlace().loader.music:
                 base.cr.playGame.getPlace().loader.music.stop()
-            self.music.setTime(0.0)
-            self.music.setLoopCount(getMusicRepeatTimes(length))
+            self.music.setTime(getMusicRepeatTimes(length))
+            self.music.setLoopCount(0)
             self.music.play()
             self.currentSongData = (phase, filename)
 

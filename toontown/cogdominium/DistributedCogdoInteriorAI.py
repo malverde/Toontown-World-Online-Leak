@@ -45,7 +45,7 @@ class DistributedCogdoInteriorAI(DistributedObjectAI, FSM.FSM):
         if len(npcIdList) == 0:
             if len(npcIdList) > 1:
                 pass
-            self.shopOwnerNpcId = npcIdList[0]
+            pass
         self.gameDone = 0
         self.bossBattleDone = 0
         self.curFloor = 0

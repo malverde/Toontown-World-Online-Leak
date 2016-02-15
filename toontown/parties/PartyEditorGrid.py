@@ -376,7 +376,7 @@ class PartyEditorGrid:
             yOffset = 0
         else:
             yOffset = 1
-        return (xOffsetLow, xOffsetHigh, yOffset)
+        return xOffsetLow, xOffsetHigh, yOffset
 
     def registerNewElement(self, gridElement, centerGridSquare, size):
         xOffsetLow, xOffsetHigh, yOffset = self.getXYOffsets(size)

@@ -47,7 +47,7 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
 
     def loadPlaceGeom(self, zoneId):
         self.notify.info('loadPlaceGeom: %s' % zoneId)
-        zoneId = zoneId - zoneId % 100
+        zoneId -= zoneId % 100
         self.notify.debug('zoneId = %d ToontownGlobals.LawbotHQ=%d' % (zoneId, ToontownGlobals.LawbotHQ))
         if zoneId == ToontownGlobals.LawbotHQ:
             self.geom = loader.loadModel(self.cogHQExteriorModelPath)

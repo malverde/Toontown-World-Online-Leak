@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from BattleBase import *
 from BattleProps import *
@@ -36,7 +36,7 @@ def addHit(dict, suitId, hitCount):
 
 def doFires(fires):
     if len(fires) == 0:
-        return (None, None)
+        return None, None
 
     suitFiresDict = {}
     for fire in fires:
@@ -88,7 +88,7 @@ def doFires(fires):
     retTrack.append(mtrack)
     camDuration = retTrack.getDuration()
     camTrack = MovieCamera.chooseFireShot(fires, suitFiresDict, camDuration)
-    return (retTrack, camTrack)
+    return retTrack, camTrack
 
 
 def __doSuitFires(fires):

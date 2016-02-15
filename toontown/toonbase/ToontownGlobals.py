@@ -13,6 +13,7 @@ DatabaseIdFromClassName = {'Account': AccountDatabaseChannelId}
 CogHQCameraFov = 60.0
 BossBattleCameraFov = 72.0
 MakeAToonCameraFov = 52.0
+CogdoFov = 56.9
 WantPromotion = 0
 PendingPromotion = 1
 
@@ -922,6 +923,7 @@ SuitInvasionEnd = 2
 SuitInvasionBulletin = 3
 NO_HOLIDAY = 0
 JULY4_FIREWORKS = 1
+VICTORY_RELEASE_FIREWORKS = 123
 NEWYEARS_FIREWORKS = 2
 HALLOWEEN = 3
 WINTER_DECORATIONS = 4
@@ -1883,7 +1885,7 @@ hood2Coords = {
         (296.844, 0, 0)]}
 
 
-# Gag Buffs variables...
+# Gag Buffs variables... Touching these variables can significantly impact fair-game-play.
 
 BMovementSpeed = 0
 BMovementSpeedMultiplier = 2.3

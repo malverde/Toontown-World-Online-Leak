@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.PythonUtil import lineInfo, Functor
 from direct.directnotify import DirectNotifyGlobal
@@ -694,8 +694,7 @@ class DistributedInGameEditor(DistributedObject.DistributedObject, Level.Level, 
         if len(filename) == 0:
             return
         eTree = {selectedEntId: {}}
-        eGroup = {}
-        eGroup[selectedEntId] = self.levelSpec.getEntitySpecCopy(selectedEntId)
+        eGroup = {selectedEntId: self.levelSpec.getEntitySpecCopy(selectedEntId)}
         for entId, spec in eGroup.items():
             eGroup[entId] = self.specPrePickle(spec)
 

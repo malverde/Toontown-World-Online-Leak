@@ -47,8 +47,8 @@ class GameSprite:
             self.prevZ = self.nodeObj.getZ()
             self.setX(self.getX() + self.velX * timeDelta)
             self.setZ(self.getZ() + self.velZ * timeDelta)
-            self.velX = self.velX * (1 - timeDelta * 4)
-            self.velZ = self.velZ * (1 - timeDelta * 4)
+            self.velX *= 1 - timeDelta * 4
+            self.velZ *= 1 - timeDelta * 4
 
     def setActive(self, active):
         if active:

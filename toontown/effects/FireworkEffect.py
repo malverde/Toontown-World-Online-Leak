@@ -1,5 +1,5 @@
 #Embedded file name: toontown.effects.FireworkEffect
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 import random
 from toontown.effects.FireworkGlobals import *

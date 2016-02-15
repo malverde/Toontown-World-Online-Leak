@@ -5,7 +5,7 @@ from direct.distributed.ClockDelta import *
 from direct.showbase.PythonUtil import Functor
 from direct.showbase.PythonUtil import StackTrace
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.fsm import FSM
 from direct.fsm import ClassicFSM
 from direct.fsm import State
@@ -2231,4 +2231,4 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                     bonusWeight = 0
             newWeight = defaultWeight + bonusWeight
             self.notify.debug('toon %d has weight of %d' % (toonId, newWeight))
-        return (newWeight, bonusWeight, numJurors)
+        return newWeight, bonusWeight, numJurors

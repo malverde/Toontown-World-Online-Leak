@@ -43,7 +43,7 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
 
     def loadPlaceGeom(self, zoneId):
         self.notify.info('loadPlaceGeom: %s' % zoneId)
-        zoneId = zoneId - zoneId % 100
+        zoneId -= zoneId % 100
         self.notify.debug('zoneId = %d ToontownGlobals.BossbotHQ=%d' % (zoneId, ToontownGlobals.BossbotHQ))
         if zoneId == ToontownGlobals.BossbotHQ:
             self.geom = loader.loadModel(self.cogHQExteriorModelPath)

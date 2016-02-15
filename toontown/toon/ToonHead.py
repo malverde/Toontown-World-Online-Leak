@@ -3,7 +3,7 @@ from direct.task import Task
 from toontown.toonbase import ToontownGlobals
 import string
 import random
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm.ClassicFSM import ClassicFSM
 from direct.fsm.State import State

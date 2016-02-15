@@ -82,7 +82,7 @@ class Purchase(PurchaseBase):
             if avId == base.localAvatar.doId:
                 localToonIndex = index
             if self.states[index] != PURCHASE_NO_CLIENT_STATE and self.states[index] != PURCHASE_DISCONNECTED_STATE:
-                numAvs = numAvs + 1
+                numAvs += 1
 
         layoutList = (None,
          (0,),
@@ -105,7 +105,7 @@ class Purchase(PurchaseBase):
                 if avId != base.localAvatar.doId:
                     if base.cr.doId2do.has_key(avId):
                         self.avInfoArray.append((avId, headFramePosList[layout[pos]], index))
-                        pos = pos + 1
+                        pos += 1
 
         self.headFrames = []
         for avInfo in self.avInfoArray:
@@ -708,7 +708,7 @@ class Purchase(PurchaseBase):
 
         self.metagamePlayAgainResult = False
         if numToons > 1:
-            if self.metagameRound > -1 and self.metagameRound < TravelGameGlobals.FinalMetagameRoundIndex:
+            if -1 < self.metagameRound < TravelGameGlobals.FinalMetagameRoundIndex:
                 self.metagamePlayAgainResult = True
         return self.metagamePlayAgainResult
 

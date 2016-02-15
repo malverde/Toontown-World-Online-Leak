@@ -15,7 +15,7 @@ class DNASign(DNANode):
 
         parentSignOrigin = parent.find('**/*sign_origin') or parent
         sign = node.copyTo(parentSignOrigin)
-
+        sign.setAttrib(DepthOffsetAttrib.make(1))
         sign.setDepthOffset(self.DEPTH_OFFSET)
 
         return sign

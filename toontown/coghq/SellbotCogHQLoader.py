@@ -48,7 +48,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
 
     def loadPlaceGeom(self, zoneId):
         self.notify.info('loadPlaceGeom: %s' % zoneId)
-        zoneId = zoneId - zoneId % 100
+        zoneId -= zoneId % 100
         if zoneId == ToontownGlobals.SellbotHQ:
             self.geom = loader.loadModel(self.cogHQExteriorModelPath)
             dgLinkTunnel = self.geom.find('**/Tunnel1')
@@ -134,7 +134,7 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
             cogSign.removeNode()
             self.geom.flattenMedium()
         elif zoneId == ToontownGlobals.SellbotLobby:
-            if base.config.GetBool('want-qa-regression', 0):
+            if config.GetBool('want-qa-regression', 0):
                 self.notify.info('QA-REGRESSION: COGHQ: Visit SellbotLobby')
             self.geom = loader.loadModel(self.cogHQLobbyModelPath)
             front = self.geom.find('**/frontWall')

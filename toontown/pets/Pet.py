@@ -1,5 +1,5 @@
 # Embedded file name: toontown.pets.Pet
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from direct.fsm.ClassicFSM import *
@@ -333,7 +333,7 @@ class Pet(Avatar.Avatar):
     def speakMood(self, mood):
         if self.moodModel:
             self.moodModel.hide()
-        if base.config.GetBool('want-speech-bubble', 1):
+        if config.GetBool('want-speech-bubble', 1):
             self.nametag.setChat(
                 random.choice(
                     TTLocalizer.SpokenMoods[mood]),

@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase import ToontownGlobals
@@ -144,7 +144,7 @@ class RaceResultsPanel(DirectFrame):
         padding = (seconds < 10 and ['0'] or [''])[0]
         time -= seconds
         fraction = str(time)[2:4]
-        fraction = fraction + '0' * (2 - len(fraction))
+        fraction += '0' * (2 - len(fraction))
         timeStr = "%d'%s%d''%s" % (minutes,
                                    padding,
                                    seconds,
@@ -623,7 +623,7 @@ class RaceWinningsPanel(DirectFrame):
                 pos=(0.5, 0, -0.25))
             if trophyId == RaceGlobals.GrandTouring or trophyId == RaceGlobals.TotalQuals or trophyId == RaceGlobals.TotalWins:
                 scale = self.trophyImage.getScale()
-                scale = scale * 0.5
+                scale *= 0.5
                 self.trophyImage.setScale(scale)
 
         base.trop = self
@@ -642,7 +642,7 @@ class RaceWinningsPanel(DirectFrame):
                                 TTLocalizer.KartTrophyDescriptions[x])), Func(
                             showCorrectTrophy, x), Wait(5)))
 
-        return (ticketSeq, winningsSeq)
+        return ticketSeq, winningsSeq
 
 
 class RaceEndPanel(DirectFrame):

@@ -8,7 +8,7 @@ from toontown.toonbase import ToontownGlobals
 from toontown.estate import DistributedCannon
 from toontown.estate import CannonGlobals
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toon import NPCToons
 from toontown.toon import ToonHead
 from toontown.toonbase import TTLocalizer
@@ -519,7 +519,7 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
         self.__loadToonInCannon()
 
     def __destroyToonModels(self):
-        if (0):
+        if 0:
             self.av.dropShadow.show()
             if self.dropShadow != None:
                 self.dropShadow.removeNode()
@@ -686,16 +686,9 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
         juror.setHpr(startHpr)
         self.jurorToon.loop('swim')
         self.jurorToon.setPosHpr(0, 0, -(self.jurorToon.getHeight() / 2.0), 0, 0, 0)
-        info = {}
-        info['avId'] = avId
-        info['trajectory'] = trajectory
-        info['launchTime'] = launchTime
-        info['timeOfImpact'] = timeOfImpact
-        info['hitWhat'] = hitWhat
-        info['toon'] = self.toonModel
-        info['hRot'] = self.cannonPosition[0]
-        info['haveWhistled'] = 0
-        info['maxCamPullback'] = CAMERA_PULLBACK_MIN
+        info = {'avId': avId, 'trajectory': trajectory, 'launchTime': launchTime, 'timeOfImpact': timeOfImpact,
+                'hitWhat': hitWhat, 'toon': self.toonModel, 'hRot': self.cannonPosition[0], 'haveWhistled': 0,
+                'maxCamPullback': CAMERA_PULLBACK_MIN}
         if self.localToonShooting:
             camera.reparentTo(juror)
             camera.setP(45.0)
@@ -745,10 +738,10 @@ class DistributedLawbotCannon(DistributedObject.DistributedObject):
     def __calcToonImpact(self, trajectory):
         t_groundImpact = trajectory.checkCollisionWithGround(GROUND_PLANE_MIN)
         if t_groundImpact >= trajectory.getStartTime():
-            return (t_groundImpact, self.HIT_GROUND)
+            return t_groundImpact, self.HIT_GROUND
         else:
             self.notify.error('__calcToonImpact: toon never impacts ground?')
-            return (0.0, self.HIT_GROUND)
+            return 0.0, self.HIT_GROUND
 
     def __handleCannonHit(self, collisionEntry):
         if self.av == None or self.flyColNode == None:

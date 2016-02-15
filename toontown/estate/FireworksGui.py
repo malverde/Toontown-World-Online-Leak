@@ -1,6 +1,6 @@
 #Embedded file name: toontown.estate.FireworksGui
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.gui.DirectScrolledList import *
 from toontown.toonbase import ToontownGlobals
 import FireworkItemPanel
@@ -96,4 +96,4 @@ class FireworksGui(DirectFrame):
         pass
 
     def getCurColor(self):
-        return (self.curColor, self.fadeColor)
+        return self.curColor, self.fadeColor

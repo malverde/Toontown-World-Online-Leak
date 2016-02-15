@@ -1,9 +1,8 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.distributed.ClockDelta import *
 from DistributedMinigame import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
@@ -274,7 +273,6 @@ class DistributedRaceGame(DistributedMinigame):
          -2.96)
         self.timer = None
         self.timerStartTime = None
-        return None
 
     def getTitle(self):
         return TTLocalizer.RaceGameTitle
@@ -675,7 +673,7 @@ class DistributedRaceGame(DistributedMinigame):
             if pos > bestPosIdx:
                 bestPosIdx = pos
                 best_lane = cur_lane
-            cur_lane = cur_lane + 1
+            cur_lane += 1
 
         bestPosIdx = min(RaceGameGlobals.NumberToWin, bestPosIdx)
         localToonPosition = self.avatarPositions[self.localAvId]
@@ -714,7 +712,7 @@ class DistributedRaceGame(DistributedMinigame):
     def getWalkDuration(self, squares_walked):
         walkDuration = abs(squares_walked / 1.2)
         if squares_walked > 4:
-            walkDuration = walkDuration * 0.3
+            walkDuration *= 0.3
         return walkDuration
 
     def moveAvatars(self, task):

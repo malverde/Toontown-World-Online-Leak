@@ -23,10 +23,10 @@ class DistributedTargetAI(DistributedObjectAI):
         self.time = CannonGlobals.CANNON_TIMEOUT
 
     def getPosition(self):
-        return (0, 0, 40)
+        return 0, 0, 40
 
     def getState(self):
-        return (self.enabled, 2 ** self.power, self.time)
+        return self.enabled, 2 ** self.power, self.time
 
     def d_updateState(self):
         self.sendUpdate('setState', self.getState())

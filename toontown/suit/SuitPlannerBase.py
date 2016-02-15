@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 import random
 import string
 from direct.directnotify import DirectNotifyGlobal
@@ -359,25 +359,6 @@ class SuitPlannerBase:
                          7,
                          8,
                          9),
-                     []],
-                    [10000,
-                     3,
-                     15,
-                     0,
-                     5,
-                     15,
-                     3,
-                     (1,
-                      5,
-                      10,
-                      40,
-                      60,
-                      80),
-                     (100,
-                         0,
-                         0,
-                         0),
-                     (7, 8, 9, 10),
                      []],
                     [11000,
                      3,

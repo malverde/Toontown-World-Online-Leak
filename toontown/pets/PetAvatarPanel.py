@@ -1,8 +1,7 @@
 # Embedded file name: toontown.pets.PetAvatarPanel
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
 from direct.showbase.PythonUtil import lerp
 from direct.showbase import DirectObject
 from direct.showbase.PythonUtil import Functor
@@ -293,7 +292,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
             messenger.send('clickedNametag', [avatar])
 
     def __handleCall(self):
-        if base.config.GetBool('want-qa-regression', 0):
+        if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: PET: Call')
         self.notify.debug('__handleCall(): doId=%s' % self.avatar.doId)
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_CALL)
@@ -304,7 +303,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         base.localAvatar.lock()
 
     def __handleFeed(self):
-        if base.config.GetBool('want-qa-regression', 0):
+        if config.GetBool('want-qa-regression', 0):
             self.notify.info('QA-REGRESSION: PET: Feed')
         self.notify.debug('__handleFeed(): doId=%s' % self.avatar.doId)
         base.localAvatar.b_setPetMovie(self.avId, PetConstants.PET_MOVIE_FEED)
@@ -315,7 +314,7 @@ class PetAvatarPanel(AvatarPanel.AvatarPanel):
         base.localAvatar.lock()
 
     def __handleScratch(self):
-        if base.config.GetBool('want-qa-regression', 1):
+        if config.GetBool('want-qa-regression', 1):
             self.notify.info('QA-REGRESSION: PET: Scratch')
         self.notify.debug('__handleScratch(): doId=%s' % self.avatar.doId)
         base.localAvatar.b_setPetMovie(

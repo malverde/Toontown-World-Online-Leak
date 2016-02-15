@@ -10,6 +10,7 @@ from toontown.catalog.CatalogChatItem import CatalogChatItem
 from toontown.catalog.CatalogClothingItem import CatalogClothingItem, getAllClothes
 from toontown.catalog.CatalogAccessoryItem import CatalogAccessoryItem
 from toontown.catalog.CatalogRentalItem import CatalogRentalItem
+from toontown.catalog.CatalogFurnitureItem import CatalogFurnitureItem
 from toontown.catalog.CatalogInvalidItem import CatalogInvalidItem
 import time
 
@@ -154,22 +155,21 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             shirt = CatalogClothingItem(1763, 0)
             return [shirt]
         # StormSellbot Shirt?
-        if code == 'StormSellbot':
+        if code == 'stormsellbot':
             shirt = CatalogClothingItem(111, 0)
             return [shirt]
         # Trunk, shouldn't REALLY be enabled... but... we'll add it back for later
-        if code == 'TRUNK':
+        if code == 'trunk':
             object = CatalogFurnitureItem(4000, 0)
             return [object]
             # Uh? Mgracer?
-            return [CatalogInvalidItem()]
         # Sue me - Sir Kippy
-        if code == 'ALPHA':
+        if code == 'alpha':
             shirt = CatalogClothingItem(1403, 0)
             shorts = CatalogClothingItem(1404, 0)
             return [shirt, shorts] # TODO: Give the correct alpha reward
         # Sue me - Sir Kippy
-        if code == 'BETA':
+        if code == 'beta':
             return CatalogClothingItem(118, 0) # TODO: Give it the correct item
             shirt = CatalogClothingItem(1405, 0)
             shorts = CatalogClothingItem(1406, 0)
@@ -182,7 +182,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
             else:
                 bot = CatalogClothingItem(2005, 0)
             return [shirt, bot]
-        return []
+        return [CatalogInvalidItem()]
 
     def requestCodeRedeem(self, todo0, todo1):
         pass

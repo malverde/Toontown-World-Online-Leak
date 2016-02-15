@@ -1,5 +1,5 @@
 # Embedded file name: toontown.catalog.CatalogWindowItem
-from pandac.PandaModules import *
+from panda3d.core import *
 import CatalogAtticItem
 import CatalogItem
 from toontown.toonbase import ToontownGlobals
@@ -47,7 +47,7 @@ class CatalogWindowItem(CatalogAtticItem.CatalogAtticItem):
         return retcode
 
     def getDeliveryTime(self):
-        return 1
+        return 4 * 60
 
     def getPicture(self, avatar):
         frame = self.makeFrame()
@@ -78,7 +78,7 @@ class CatalogWindowItem(CatalogAtticItem.CatalogAtticItem):
         model.setScale(0.4)
         model.reparentTo(frame)
         self.hasPicture = True
-        return (frame, None)
+        return frame, None
 
     def output(self, store=-1):
         return 'CatalogWindowItem(%s%s)' % (

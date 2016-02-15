@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from PurchaseManagerConstants import *
 import copy
@@ -103,7 +103,7 @@ class PurchaseManagerAI(DistributedObjectAI.DistributedObjectAI):
         for avId in self.playerIds:
             if avId not in self.newbieIds:
                 avIds.append(avId)
-            elif self.metagameRound > -1 and self.metagameRound < TravelGameGlobals.FinalMetagameRoundIndex:
+            elif -1 < self.metagameRound < TravelGameGlobals.FinalMetagameRoundIndex:
                 avIds.append(avId)
 
         return avIds

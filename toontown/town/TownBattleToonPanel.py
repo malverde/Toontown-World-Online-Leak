@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownBattleGlobals import *
 from direct.directnotify import DirectNotifyGlobal
@@ -6,7 +6,6 @@ import string
 from toontown.toon import LaffMeter
 from toontown.battle import BattleBase
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
 from toontown.toonbase import TTLocalizer
 
 class TownBattleToonPanel(DirectFrame):
@@ -106,7 +105,7 @@ class TownBattleToonPanel(DirectFrame):
             self.whichText['text'] = self.determineWhichText(numTargets, targetIndex, localNum, index)
         elif track == BattleBase.SOS or track == BattleBase.NPCSOS or track == BattleBase.PETSOS:
             self.sosText.show()
-        elif track >= MIN_TRACK_INDEX and track <= MAX_TRACK_INDEX:
+        elif MIN_TRACK_INDEX <= track <= MAX_TRACK_INDEX:
             self.undecidedText.hide()
             self.passNode.hide()
             self.gagNode.show()
@@ -134,7 +133,7 @@ class TownBattleToonPanel(DirectFrame):
                     returnStr += '-'
                 else:
                     returnStr += 'X'
-            elif targetIndex >= 0 and targetIndex <= 3:
+            elif 0 <= targetIndex <= 3:
                 if i == targetIndex:
                     returnStr += 'X'
                 else:

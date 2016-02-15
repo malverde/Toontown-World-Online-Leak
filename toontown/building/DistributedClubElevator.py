@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from toontown.building import ElevatorConstants
@@ -532,7 +532,7 @@ class DistributedClubElevator(DistributedElevatorFSM.DistributedElevatorFSM):
             self.deferredSlots = newSlots
         elif avId in self.cr.doId2do:
             if bailFlag == 1 and hasattr(self, 'clockNode'):
-                if timestamp < self.countdownTime and timestamp >= 0:
+                if self.countdownTime > timestamp >= 0:
                     self.countdown(self.countdownTime - timestamp)
                 else:
                     self.countdown(self.countdownTime)

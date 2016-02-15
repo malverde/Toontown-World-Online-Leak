@@ -9,7 +9,7 @@ def isGoofySpeedwayZone(zoneId):
 
 
 def isCogHQZone(zoneId):
-    return zoneId >= 10000 and zoneId < 15000
+    return 10000 <= zoneId < 15000
 
 
 def isMintInteriorZone(zoneId):
@@ -17,7 +17,7 @@ def isMintInteriorZone(zoneId):
 
 
 def isDynamicZone(zoneId):
-    return zoneId >= DynamicZonesBegin and zoneId < DynamicZonesEnd
+    return DynamicZonesBegin <= zoneId < DynamicZonesEnd
 
 
 def getStreetName(branchId):
@@ -87,7 +87,7 @@ def getWhereName(zoneId, isToon):
             zoneUtilNotify.error('No known zone: ' + str(zoneId))
     else:
         suffix = zoneId % 1000
-        suffix = suffix - suffix % 100
+        suffix -= suffix % 100
         if isCogHQZone(zoneId):
             if suffix == 0:
                 where = 'cogHQExterior'
@@ -138,14 +138,14 @@ def getCanonicalBranchZone(zoneId):
 
 
 def isWelcomeValley(zoneId):
-    return zoneId == WelcomeValleyToken or zoneId >= WelcomeValleyBegin and zoneId < WelcomeValleyEnd
+    return zoneId == WelcomeValleyToken or WelcomeValleyBegin <= zoneId < WelcomeValleyEnd
 
 
 def getCanonicalZoneId(zoneId):
     if zoneId == WelcomeValleyToken:
         zoneId = ToontownCentral
-    elif zoneId >= WelcomeValleyBegin and zoneId < WelcomeValleyEnd:
-        zoneId = zoneId % 2000
+    elif WelcomeValleyBegin <= zoneId < WelcomeValleyEnd:
+        zoneId %= 2000
         if zoneId < 1000:
             zoneId = zoneId + ToontownCentral
         else:
@@ -154,9 +154,9 @@ def getCanonicalZoneId(zoneId):
 
 
 def getTrueZoneId(zoneId, currentZoneId):
-    if zoneId >= WelcomeValleyBegin and zoneId < WelcomeValleyEnd or zoneId == WelcomeValleyToken:
+    if WelcomeValleyBegin <= zoneId < WelcomeValleyEnd or zoneId == WelcomeValleyToken:
         zoneId = getCanonicalZoneId(zoneId)
-    if currentZoneId >= WelcomeValleyBegin and currentZoneId < WelcomeValleyEnd:
+    if WelcomeValleyBegin <= currentZoneId < WelcomeValleyEnd:
         hoodId = getHoodId(zoneId)
         offset = currentZoneId - currentZoneId % 2000
         if hoodId == ToontownCentral:
@@ -239,4 +239,4 @@ def getWakeInfo(hoodId=None, zoneId=None):
     except AttributeError:
         pass
 
-    return (showWake, wakeWaterHeight)
+    return showWake, wakeWaterHeight

@@ -1,5 +1,5 @@
 from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.nametag.NametagGroup import NametagGroup
 from otp.nametag.Nametag import Nametag
 from direct.interval.IntervalGlobal import *
@@ -19,7 +19,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toontowngui import TeaserPanel
 from toontown.distributed.DelayDeletable import DelayDeletable
 
-if (__debug__):
+if __debug__:
     import pdb
 
 

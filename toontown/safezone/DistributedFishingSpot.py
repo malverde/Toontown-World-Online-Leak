@@ -1,8 +1,7 @@
 #Embedded file name: toontown.safezone.DistributedFishingSpot
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
 from direct.directtools.DirectGeometry import LineNodePath
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
@@ -286,7 +285,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
              itemDesc3])
 
     def getStareAtNodeAndOffset(self):
-        return (self.nodePath, Point3())
+        return self.nodePath, Point3()
 
     def __loadStuff(self):
         rodId = self.av.getFishingRod()
@@ -320,7 +319,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
             self.av.setPosHpr(0, 0, 0, 0, 0, 0)
 
     def __holdPole(self):
-        if self.poleNode != []:
+        if self.poleNode:
             self.__dropPole()
         np = NodePath('pole-holder')
         hands = self.av.getRightHands()
@@ -739,7 +738,7 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
         self.castTrack.setT(0.2 + self.power * 0.7)
         angle = rad2Deg(math.atan(deltaX / deltaY))
         if self.power < 0.25:
-            angle = angle * math.pow(self.power * 4, 3)
+            angle *= math.pow(self.power * 4, 3)
         if delta < 0:
             angle += 180
         minAngle = -FishGlobals.FishingAngleMax

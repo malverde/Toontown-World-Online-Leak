@@ -175,7 +175,7 @@ class DistributedTugOfWarGameAI(DistributedMinigameAI):
 
     def calcTimeBonus(self, task):
         delta = float(TugOfWarGameGlobals.TIME_BONUS_RANGE) / float(TugOfWarGameGlobals.GAME_DURATION)
-        self.timeBonus = self.timeBonus - delta
+        self.timeBonus -= delta
         taskMgr.doMethodLater(1, self.calcTimeBonus, self.taskName('timeBonusTimer'))
         return Task.done
 
