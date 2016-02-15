@@ -2,7 +2,6 @@ from panda3d.core import *
 from direct.actor import Actor
 from otp.avatar import Avatar
 from toontown.toonbase import ToontownGlobals
-from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 import GoonGlobals
 import SuitDNA

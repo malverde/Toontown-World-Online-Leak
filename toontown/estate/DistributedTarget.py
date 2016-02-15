@@ -1,7 +1,6 @@
 #Embedded file name: toontown.estate.DistributedTarget
 from direct.gui.DirectGui import *
 from panda3d.core import *
-from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from toontown.toonbase.ToontownGlobals import *
 from toontown.toonbase import ToontownTimer

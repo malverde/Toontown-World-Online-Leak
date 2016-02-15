@@ -6,7 +6,6 @@ from toontown.toonbase import ToontownGlobals
 from panda3d.core import *
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from otp.nametag import NametagGlobals
-from panda3d.core import *
 from toontown.dna import DNAUtil
 
 class CogHQExterior(BattlePlace.BattlePlace):

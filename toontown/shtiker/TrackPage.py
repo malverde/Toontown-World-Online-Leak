@@ -1,7 +1,6 @@
 from panda3d.core import *
 import ShtikerPage
 from direct.gui.DirectGui import *
-from panda3d.core import *
 from toontown.quest import Quests
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals

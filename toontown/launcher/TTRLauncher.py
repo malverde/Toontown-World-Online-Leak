@@ -27,7 +27,7 @@ class TTRLauncher(LauncherBase):
 
 	def __init__(self):
 		username = self.getPlayToken()
-		password = raw_input('Password:   ')
+		password = self.getPassword()
 		passwordencode = urllib.quote_plus(password)
 		print passwordencode
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
@@ -76,6 +76,9 @@ class TTRLauncher(LauncherBase):
 
 	def getPlayToken(self):
 		return self.getValue('TTR_PLAYCOOKIE')
+	
+	def getPassword(self):
+		return self.getValue('TTR_PASSWORD')
 
 	def getGameServer(self):
 		return self.getValue('TTR_GAMESERVER')

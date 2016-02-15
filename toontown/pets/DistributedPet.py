@@ -1,6 +1,5 @@
 # Embedded file name: toontown.pets.DistributedPet
 from panda3d.core import *
-from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.PythonUtil import *
 from direct.directnotify import DirectNotifyGlobal

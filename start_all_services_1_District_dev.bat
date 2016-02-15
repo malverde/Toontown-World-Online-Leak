@@ -1,0 +1,3 @@
+start start_astron_server
+start start_ai_Toontastic_Place_server_dev
+start start_uberdog_server_dev

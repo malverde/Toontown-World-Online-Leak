@@ -24,14 +24,13 @@ class DatabaseObject:
         self.readObject(toon, fields)
         return toon
 
-    if simbase.wantPets:
-
+    if config.GetBool('want-pets', True):
         def readPet(self):
             from toontown.pets import DistributedPetAI
             pet = DistributedPetAI.DistributedPetAI(self.air)
             self.readObject(pet, None)
             return pet
-
+    
         def readPetProxy(self):
             from toontown.pets import DistributedPetProxyAI
             petProxy = DistributedPetProxyAI.DistributedPetProxyAI(self.air)

@@ -5,6 +5,8 @@ import time
 from direct.distributed import DistributedSmoothNodeAI
 from direct.task import Task
 from direct.distributed.ClockDelta import *
+from direct.distributed.PyDatagram import PyDatagram
+from direct.distributed.MsgTypes import CLIENTAGENT_EJECT
 
 from otp.ai.AIBaseGlobal import *
 from otp.otpbase import OTPGlobals
@@ -414,6 +416,25 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         DistributedSmoothNodeAI.DistributedSmoothNodeAI.delete(self)
         DistributedPlayerAI.DistributedPlayerAI.delete(self)
         return
+
+    # Enable/Disable GM features - functions for MW
+    
+    def setAdminAccess(self, access):
+        self.adminAccess = access
+
+    def d_setAdminAccess(self, access):
+        self.sendUpdate('setAdminAccess', [access])
+
+    def b_setAdminAccess(self, access):
+        self.setAdminAccess(access)
+        self.d_setAdminAccess(access)
+
+    def getAdminAccess(self):
+        return self.adminAccess
+    
+    # Not currently used at the moment.
+    # def isAdmin(self):
+    #    return self.adminAccess >= MINIMUM_MAGICWORD_ACCESS
 
     def handleLogicalZoneChange(self, newZoneId, oldZoneId):
         DistributedAvatarAI.DistributedAvatarAI.handleLogicalZoneChange(self, newZoneId, oldZoneId)
@@ -1150,6 +1171,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def d_catalogGenAccessories(self):
         self.sendUpdate('catalogGenAccessories', [self.doId])
 
+    def getRedeemedCodes(self):
+        return self.redeemedCodes
+
     def setRedeemedCodes(self, redeemedCodes):
         self.redeemedCodes = redeemedCodes
 
@@ -1159,22 +1183,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def d_setRedeemedCodes(self, redeemedCodes):
         self.sendUpdate('setRedeemedCodes', [redeemedCodes])
-
-    def getRedeemedCodes(self, redeemedCodes):
-        return self.redeemedCodes
-
-    def isCodeRedeemed(self, code):
-        return code in self.redeemedCodes
-
-    def redeemCode(self, code):
-        if not self.isCodeRedeemed(code):
-            self.redeemedCodes.append(code)
-            self.b_setRedeemedCodes(self.redeemedCodes)
-
-    def removeCode(self, code):
-        if self.isCodeRedeemed(code):
-            self.redeemedCodes.remove(code)
-            self.b_setRedeemedCodes(self.redeemedCodes)
 
     def takeDamage(self, hpLost, quietly = 0, sendTotal = 1):
         # Assume that if they took damage, they're not in a safe zone.
@@ -1490,14 +1498,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         cogLevel = self.cogLevels[deptIndex]
         maxSuitType = SuitDNA.suitsPerDept - 1
         maxSuitLevel = (SuitDNA.levelsPerSuit-1) + maxSuitType
-        if cogLevel == maxSuitLevel:
-            self.notify.warning('Attempted to increment Cog level when at max Cog level.')
-            self.air.writeServerEvent(
-                'suspicious', self.doId,
-                'Attempted to increment Cog level when at max Cog level.')
-            return
         maxCogLevel = (SuitDNA.levelsPerSuit-1) + self.cogTypes[deptIndex]
-        if cogLevel == maxCogLevel:
+        if (cogLevel == maxCogLevel) or (cogLevel == maxSuitLevel):
             self.promotionStatus[deptIndex] = ToontownGlobals.PendingPromotion
             self.d_setPromotionStatus(self.promotionStatus)
         else:
@@ -4752,11 +4754,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 def setCE(CEValue, CEHood=0, CEExpire=0):
     """Set Cheesy Effect of the target."""
     CEHood *= 1000  #So the invoker only has to use '1' for DonaldsDock, '2' for TTC etc.
-    if not 0 <= CEValue <= 18:
+    if not 0 <= CEValue <= 20:
         return 'Invalid value %s specified for Cheesy Effect.' % CEValue
     if CEHood != 0 and not 100 < CEHood < ToontownGlobals.DynamicZonesBegin:
         return 'Invalid zoneId specified.'
     spellbook.getTarget().b_setCheesyEffect(CEValue, CEHood, time.time()+CEExpire)
+
+@magicWord(category=CATEGORY_SYSADMIN)
+def clearInventory():
+    """Clear target's Inventory"""
+    newInventory1 = InventoryBase.InventoryBase('inv')
+    inventory1 = newInventory1
+    inventory1.zeroInv()
+    spellbook.getTarget().d_setInventory(inventory1.makeNetString())
+    return "Cleared the inventory of %s" % (spellbook.getTarget().doId)
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[int], targetClasses=[DistributedToonAI], aliases=['hp', 'toonHp', 'currHp'])
 def setHp(hpVal):
@@ -4773,27 +4784,37 @@ def setMaxHp(hpVal):
     spellbook.getTarget().b_setMaxHp(hpVal)
     spellbook.getTarget().toonUp(hpVal)
 
-# @magicWord(category=CATEGORY_SYSADMIN, types=[str])
-# def textColor(color):
-#     """
-#     Modify the target's text color.
-#     """
-#     spellbook.getTarget().b_setTextColor(color)
-#     return 'Set your color to: %s' % color
-
 @magicWord(category=CATEGORY_SYSADMIN, types=[str])
-def remCode(code):
-    av = spellbook.getTarget()
-    if av.isCodeRedeemed(code):
-        av.removeCode(code)
-        return 'Player can now reuse the code %s' % code
-    else:
-        return "Player hasn't redeemed this code!"
+def textColor(color):
+    """
+    Modify the target's text color.
+    """
+    spellbook.getTarget().b_setTextColor(color)
+    return 'Set your color to: %s' % color
+# TODO: Toggle Staff Name Tags properly
+# @magicWord(category=CATEGORY_MODERATION, types=[str])
+# def staffnametag(command):
+#     spellbook.getTarget()
+#     if command == 'false':
+#         base.Avatar.getWantAdminTag = False
+#         return 'Staff NameTag Disabled.'
+#     elif command == 'true':
+#         base.Avatar.getWantAdminTag = True
+#         return 'Staff NameTag Enabled.'
+
+# @magicWord(category=CATEGORY_SYSADMIN, types=[str])
+# def remCode(code):
+#     av = spellbook.getTarget()
+#     if av.isCodeRedeemed(code):
+#         av.removeCode(code)
+#         return 'Player can now reuse the code %s' % code
+#     else:
+#         return "Player hasn't redeemed this code!"
 
 @magicWord(category=CATEGORY_SYSADMIN, types=[int])
 def squish(laff):
     """
-    Squish a toon.
+    Squish (deduct HP) target toon.
     """
     target = spellbook.getTarget()
     target.squish(laff)
@@ -4803,9 +4824,9 @@ def setTrackAccess(toonup, trap, lure, sound, throw, squirt, drop):
     """Set target's gag track access."""
     spellbook.getTarget().b_setTrackAccess([toonup, trap, lure, sound, throw, squirt, drop])
 
-@magicWord(category=CATEGORY_CHARACTERSTATS, types=[str])
+@magicWord(category=CATEGORY_ADMIN, types=[str])
 def maxToon(hasConfirmed='UNCONFIRMED'):
-    """Max out the toons stats, for end-level gameplay. Should only be (and is restricted to) casting on Administrators only."""
+    """Max out the invoker toons stats, for end-level gameplay. Should only be (and is restricted to) casting on Administrators only."""
     toon = spellbook.getInvoker()
 
     if hasConfirmed != 'CONFIRM':
@@ -5023,7 +5044,7 @@ def togGM():
 
 @magicWord(category=CATEGORY_MODERATION)
 def ghost():
-    """Set toon to invisible."""
+    """Set invoker toon to invisible."""
     if spellbook.getInvoker().ghostMode == 0:
         spellbook.getInvoker().b_setGhostMode(2)
         return 'Time to ninja!'
@@ -5063,7 +5084,7 @@ def setTickets(tixVal):
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[int])
 def setCogIndex(indexVal):
-    """Transform into a cog/suit. THIS SHOULD ONLY BE USED WHERE NEEDED, E.G. ELECTIONS"""
+    """Transform into a cog/suit (target). THIS SHOULD ONLY BE USED WHERE NEEDED."""
     if not -1 <= indexVal <= 3:
         return 'CogIndex value %s is invalid.' % str(indexVal)
     spellbook.getTarget().b_setCogIndex(indexVal)
@@ -5193,7 +5214,7 @@ def setTrophyScore(value):
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[int, int])
 def givePies(pieType, numPies=0):
-    """Give target Y number of X pies."""
+    """Give target Y number of X pies for target."""
     av = spellbook.getTarget()
     if pieType == -1:
         av.b_setNumPies(0)
@@ -5336,7 +5357,7 @@ def onlinelongav(doId):
 
 @magicWord(category=CATEGORY_OVERRIDE)
 def unlimitedGags():
-    """ Restock avatar's gags at the start of each round. """
+    """ Restock avatar's gags at the start of each round for target. """
     av = spellbook.getTarget() if spellbook.getInvokerAccess() >= 500 else spellbook.getInvoker()
     av.setUnlimitedGags(not av.unlimitedGags)
     return 'Toggled unlimited gags %s for %s' % ('ON' if av.unlimitedGags else 'OFF', av.getName())
@@ -5350,19 +5371,19 @@ def immortal():
 
 @magicWord(category=CATEGORY_CHARACTERSTATS)
 def sostoons():
-    """Restock all *good* VP SOS toons."""
+    """Restock all *good* VP SOS toons for target."""
     spellbook.getTarget().restockAllNPCFriends(99)
     return 'Restocked all NPC SOS toons successfully!'
 
 @magicWord(category=CATEGORY_CHARACTERSTATS)
 def unites():
-    """Restock all CFO phrases."""
+    """Restock all CFO phrases for target."""
     spellbook.getTarget().restockAllResistanceMessages(9999)
     return 'Restocked all unites successfully!'
 
 @magicWord(category=CATEGORY_OVERRIDE)
 def summons():
-    """ Restock all CJ summons. """
+    """ Restock all CJ summons for invoker. """
     av = spellbook.getInvoker()
     # Make sure we have every cog in our Cog Page.
     cogCount = []
@@ -5377,7 +5398,7 @@ def summons():
 
 @magicWord(category=CATEGORY_OVERRIDE)
 def pinkslips():
-    """ Restock (to 255) CEO pink slips. """
+    """ Restock (to 255) CEO pink slips for target. """
     spellbook.getTarget().b_setPinkSlips(255)
     return 'Restocked 255 pink slips successfully!'
 
@@ -5395,13 +5416,13 @@ def questTier(tier):
     av.b_setRewardHistory(tier, [])
     return "Set %s's quest tier to %d." % (av.getName(), tier)
 
-@magicWord(category=CATEGORY_CHARACTERSTATS, types=[int, int, int, int, int, int, int])
+@magicWord(category=CATEGORY_ADMIN, types=[int, int, int, int, int, int, int])
 def tracks(toonup, trap, lure, sound, throw, squirt, drop):
     """ Set access for each of the 7 gag tracks. """
     spellbook.getTarget().b_setTrackAccess([toonup, trap, lure, sound, throw, squirt, drop])
     return "Set track access accordingly."
 
-@magicWord(category=CATEGORY_CHARACTERSTATS, types=[str, int])
+@magicWord(category=CATEGORY_ADMIN, types=[str, int])
 def exp(track, amt):
     """ Set your experience to the amount specified for a single track. """
     trackIndex = TTLocalizer.BattleGlobalTracks.index(track)
@@ -5412,7 +5433,7 @@ def exp(track, amt):
 
 @magicWord(category=CATEGORY_CHARACTERSTATS, types=[str, str, int])
 def disguise(corp, type, level=0):
-    """ Set disguise type and level. """
+    """ Set disguise type and level for target. """
     # Idk if this is defined anywhere, but laziness got the best of me.
     corps = ['bossbot', 'lawbot', 'cashbot', 'sellbot']
     if corp not in corps:
@@ -5741,9 +5762,9 @@ def phrase(phraseStringOrId):
 @magicWord(category=CATEGORY_ADMIN, types=[int, str])
 def sos(count, name):
     """
-    Modifies the invoker's specified SOS card count.
+    Modifies the target's specified SOS card count.
     """
-    invoker = spellbook.getInvoker()
+    invoker = spellbook.getTarget()
     if not 0 <= count <= 1000:
         return 'Your SOS count must be in xrange (0-999).'
     for npcId, npcName in TTLocalizer.NPCToonNames.items():
@@ -6229,7 +6250,7 @@ def dnav1(part, value):
 @magicWord(category=CATEGORY_MODERATION, types=[int])
 def bringTheMadness():
 
-     #Applies the Pegboard Nerds Clothes
+     #Applies the Pegboard Nerds Clothes on target.
 
     invoker = spellbook.getTarget()
 
@@ -6262,7 +6283,7 @@ def bringTheMadness():
 @magicWord(category=CATEGORY_MODERATION, types=[int])
 def resistanceRanger():
     """
-    Applies the Resistance Ranger Clothes
+    Applies the Resistance Ranger Clothes on target.
     """
     invoker = spellbook.getTarget()
 
@@ -6318,7 +6339,7 @@ def suit(command, suitName = 'f'):
 @magicWord(category=CATEGORY_ADMIN, types=[int])
 def captainTheGod():
     """
-    Let's you be a god like Captain.
+    Applies clothes to Target. Let's you be a god like Captain.
     """
     invoker = spellbook.getTarget()
 

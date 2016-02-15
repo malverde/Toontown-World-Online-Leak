@@ -1,6 +1,5 @@
 from panda3d.core import *
 from direct.gui.DirectGui import *
-from panda3d.core import *
 from direct.showbase import DirectObject
 from toontown.friends import FriendHandle
 from otp.avatar import Avatar

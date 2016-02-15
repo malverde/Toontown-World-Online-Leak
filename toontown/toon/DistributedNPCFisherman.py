@@ -3,7 +3,6 @@ from direct.interval.LerpInterval import LerpPosHprInterval
 from otp.nametag.NametagConstants import *
 from DistributedNPCToonBase import *
 from direct.gui.DirectGui import *
-from panda3d.core import *
 import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.fishing import FishSellGUI
