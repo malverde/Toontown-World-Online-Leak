@@ -209,7 +209,7 @@ class DistributedCheckersAI(DistributedNodeAI):
         numPlayers = 0
         for x in self.parent.seats:
             if x != None:
-                numPlayers = numPlayers + 1
+                numPlayers += 1
                 continue
 
         if len(self.wantStart) == numPlayers and numPlayers >= 2:
@@ -258,7 +258,7 @@ class DistributedCheckersAI(DistributedNodeAI):
             self.playersTurn = 0
 
     def requestMove(self, moveList):
-        if self.checkLegalMoves(moveList) == True:
+        if self.checkLegalMoves(moveList):
             self.makeMove(moveList)
             self.advancePlayerTurn()
             self.d_sendTurn(self.playersTurn + 1)
@@ -277,11 +277,11 @@ class DistributedCheckersAI(DistributedNodeAI):
         if len(moveList) == 2:
             firstSquare = self.board.squareList[moveList[0]]
             secondSquare = self.board.squareList[moveList[1]]
-            if self.checkLegalMove(firstSquare, secondSquare, moveType) == True:
+            if self.checkLegalMove(firstSquare, secondSquare, moveType):
                 return True
             for x in range(len(moveList) - 1):
                 y = self.checkLegalJump(self.board.getSquare(moveList[x]), self.board.getSquare(moveList[x + 1]), moveType)
-                if y == False:
+                if not y:
                     return False
                 return True
                 return False
@@ -289,7 +289,7 @@ class DistributedCheckersAI(DistributedNodeAI):
         elif len(moveList) > 2:
             for x in range(len(moveList) - 1):
                 y = self.checkLegalJump(self.board.getSquare(moveList[x]), self.board.getSquare(moveList[x + 1]), moveType)
-                if y == False:
+                if not y:
                     return False
 
             return True
@@ -330,16 +330,16 @@ class DistributedCheckersAI(DistributedNodeAI):
                 self.board.squareList[lastElement].setState(4)
                 haveMoved = True
                 self.sendGameState(moveList)
-        if haveMoved == False:
+        if not haveMoved:
             spot1 = self.board.squareList[moveList[0]].getState()
             self.board.squareList[moveList[0]].setState(0)
             self.board.squareList[moveList[len(moveList) - 1]].setState(spot1)
             self.sendGameState(moveList)
         temp = self.playerNum
         self.playerNum = 1
-        if self.hasWon == True:
+        if self.hasWon:
             return None
-        if self.hasPeicesAndMoves(1, 3) == False:
+        if not self.hasPeicesAndMoves(1, 3):
             self.parent.announceWinner('Checkers', self.playersPlaying[1])
             self.fsm.request('gameOver')
             self.hasWon = True
@@ -347,7 +347,7 @@ class DistributedCheckersAI(DistributedNodeAI):
         self.playerNum = temp
         temp = self.playerNum
         self.playerNum = 2
-        if self.hasPeicesAndMoves(2, 4) == False:
+        if not self.hasPeicesAndMoves(2, 4):
             self.parent.announceWinner('Checkers', self.playersPlaying[0])
             self.fsm.request('gameOver')
             self.hasWon = True
@@ -357,15 +357,15 @@ class DistributedCheckersAI(DistributedNodeAI):
     def hasPeicesAndMoves(self, normalNum, kingNum):
         for x in self.board.squareList:
             if x.getState() == normalNum:
-                if self.existsLegalMovesFrom(x.getNum(), 'normal') == True:
+                if self.existsLegalMovesFrom(x.getNum(), 'normal'):
                     return True
-                if self.existsLegalJumpsFrom(x.getNum(), 'normal') == True:
+                if self.existsLegalJumpsFrom(x.getNum(), 'normal'):
                     return True
             self.existsLegalJumpsFrom(x.getNum(), 'normal') == True
             if x.getState() == kingNum:
-                if self.existsLegalMovesFrom(x.getNum(), 'king') == True:
+                if self.existsLegalMovesFrom(x.getNum(), 'king'):
                     return True
-                if self.existsLegalJumpsFrom(x.getNum(), 'king') == True:
+                if self.existsLegalJumpsFrom(x.getNum(), 'king'):
                     return True
             self.existsLegalJumpsFrom(x.getNum(), 'king') == True
 

@@ -141,7 +141,7 @@ class TwoDDrive:
                 orientToon(self.atRestHeading)
             else:
                 curHeading = getHeading(xVel, yVel)
-                if ((self.lastXVel and self.lastYVel) and not (xVel and yVel)):
+                if (self.lastXVel and self.lastYVel) and not (xVel and yVel):
                     def setAtRestHeading(task, self = self, angle = curHeading):
                         self.atRestHeading = angle
                         return Task.done

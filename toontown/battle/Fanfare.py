@@ -6,7 +6,7 @@ from toontown.toon.ToonDNA import *
 from toontown.suit.SuitDNA import *
 from direct.particles.ParticleEffect import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 import MovieUtil
 import MovieCamera
 from direct.directnotify import DirectNotifyGlobal
@@ -379,5 +379,5 @@ def doFanfare(delay, toon, panel):
             Wait(0.5),
             trumpetsVanish))
     if panel is not None:
-        return (seq, panel)
-    return (seq, None)
+        return seq, panel
+    return seq, None

@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from DistributedMinigame import *
 from direct.interval.IntervalGlobal import *
@@ -276,7 +276,7 @@ class DistributedCatchGame(DistributedMinigame):
         y = y * 2.0 - 1.0
         x *= self.StageHalfWidth
         y *= self.StageHalfHeight
-        return (x, y)
+        return x, y
 
     def showPosts(self):
         self.hidePosts()

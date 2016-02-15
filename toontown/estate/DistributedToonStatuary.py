@@ -2,7 +2,7 @@ from toontown.estate import DistributedStatuary
 from toontown.estate import DistributedLawnDecor
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toon import Toon
 from toontown.toon import ToonDNA
 import GardenGlobals

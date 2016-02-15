@@ -5,7 +5,7 @@ from direct.showbase import AppRunnerGlobal
 from direct.showbase import DirectObject
 from direct.showbase import PythonUtil
 import os
-from pandac.PandaModules import *
+from panda3d.core import *
 import re
 import sys
 import token
@@ -67,7 +67,7 @@ def readFile():
 
     while line is not None:
 
-        if line == []:
+        if not line:
             line = getLineOfTokens(gen)
             continue
 
@@ -633,7 +633,7 @@ class NPCMoviePlayer(DirectObject.DirectObject):
                 pass
                 #notify.error('invalid argument type')
 
-        return (quitButton, extraChatFlags, dialogueList)
+        return quitButton, extraChatFlags, dialogueList
 
     def parseChatConfirm(self, line):
         lineLength = len(line)

@@ -77,9 +77,9 @@ class UserFunnel:
         self.whatOSver()
 
     def checkForCFfile(self):
-        if firstRun() == True:
+        if firstRun():
             pass
-        elif os.path.isfile(self.cfCookieFile) == False:
+        elif not os.path.isfile(self.cfCookieFile):
             firstRun('write', True)
 
     def whatOSver(self):
@@ -135,7 +135,7 @@ class UserFunnel:
             return
 
     def setmilestone(self, ms):
-        if firstRun() == False:
+        if not firstRun():
             self.milestone = ms
         else:
             self.milestone = '%s_INITIAL' % ms
@@ -152,7 +152,7 @@ class UserFunnel:
     def getFunnelURL(self):
         if patcherVer() == ['OFFLINE']:
             return
-        if patcherVer() == []:
+        if not patcherVer():
             patcherHTTP = HTTPClient()
             if checkParamFile() == None:
                 patcherDoc = patcherHTTP.getDocument(URLSpec('http://download.toontown.com/english/currentVersion/content/patcher.ver'))
@@ -284,7 +284,7 @@ class UserFunnel:
     def prerun(self):
         self.getFunnelURL()
         self.buildURL()
-        if os.path.isfile(self.cfCookieFile) == True:
+        if os.path.isfile(self.cfCookieFile):
             if self.CurrentHost == 1 or self.CurrentHost == 2:
                 self.readInPandaCookie()
 
@@ -425,7 +425,7 @@ class HitBoxCookie:
         if iecBuffer[0] == '.':
             iecBuffer = iecBuffer[1:]
         if iecBuffer.find('/') == -1:
-            iecBuffer = iecBuffer + '/'
+            iecBuffer += '/'
         iecWrite.write(self.ctg[1] + '\n' + self.ctg[2] + '\n' + iecBuffer + '\n*\n')
         iecWrite.write(self.wss_gw[1] + '\n' + self.wss_gw[2] + '\n' + iecBuffer + '\n*\n')
         iecWrite.close()
@@ -514,7 +514,7 @@ def convertHitBoxPythontoIE():
     if sys.platform != 'win32':
         print 'System is not MS-Windows. I have not been setup to work with other systems yet. Sorry ' + sys.platform + ' user.'
         return
-    if os.path.isfile('cf.txt') == True:
+    if os.path.isfile('cf.txt'):
         return
     a = HitBoxCookie()
     a.loadPythonHitBoxCookies()

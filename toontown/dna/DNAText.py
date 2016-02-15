@@ -20,6 +20,7 @@ class DNAText(DNASceneElement):
 
         np = typesetter.generate(self.text)
         if np:
+            np.setAttrib(DepthOffsetAttrib.make(1))
             np.reparentTo(parent)
             return np
 

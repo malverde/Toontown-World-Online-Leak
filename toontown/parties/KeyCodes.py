@@ -1,5 +1,5 @@
 #Embedded file name: toontown.parties.KeyCodes
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.showbase.DirectObject import DirectObject
 ARROW_KEYCODE_MAP = {'arrow_up': 'u',
  'arrow_down': 'd',

@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.showbase.PythonUtil import reduceAngle
 from otp.movement import Impulse
 
@@ -56,7 +56,7 @@ class PetFlee(Impulse.Impulse):
         else:
             vForward = 0
         distanceLeft = self.maxDist - distance
-        if distanceLeft > 0.0 and vForward * dt > distanceLeft:
+        if 0.0 < distanceLeft < vForward * dt:
             vForward = distanceLeft / dt
         self.vel.setY(vForward)
         self.rotVel.setX(vH)

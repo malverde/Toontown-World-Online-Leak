@@ -36,7 +36,7 @@ def __scramble(tracks, tOffsets, rng):
             if newTOffsets != None:
                 newTOffsets.append(tOffsets[i])
 
-    return (newTracks, newTOffsets)
+    return newTracks, newTOffsets
 
 
 def angleToXY(angle, radius = 1.0):
@@ -83,7 +83,7 @@ def get_keypad(numRings, rng):
         track = RingTrack.RingTrack([action], [1.0])
         tracks.append(track)
 
-    return (tracks, None, 1.0)
+    return tracks, None, 1.0
 
 
 fullCirclePeriod = 6.0
@@ -98,7 +98,7 @@ def get_evenCircle(numRings, rng):
         tracks.append(track)
         tOffsets.append(float(i) / numRings)
 
-    return (tracks, tOffsets, fullCirclePeriod)
+    return tracks, tOffsets, fullCirclePeriod
 
 
 def get_followCircle(numRings, rng):
@@ -111,7 +111,7 @@ def get_followCircle(numRings, rng):
         tracks.append(track)
         tOffsets.append(float(i) * delay)
 
-    return (tracks, tOffsets, fullCirclePeriod)
+    return tracks, tOffsets, fullCirclePeriod
 
 
 def get_evenCircle_withStationaryCenterRings(numRings, rng):
@@ -132,7 +132,7 @@ def get_evenCircle_withStationaryCenterRings(numRings, rng):
         tracks.append(track)
         tOffsets.append(float(i) / numOuterRings)
 
-    return (tracks, tOffsets, fullCirclePeriod)
+    return tracks, tOffsets, fullCirclePeriod
 
 
 def __get_Slots(numRings, rng, vertical = 1):
@@ -155,7 +155,7 @@ def __get_Slots(numRings, rng, vertical = 1):
         tracks.append(track)
         tOffsets.append(float(i) / numRings * 0.5)
 
-    return (tracks, tOffsets, fullCirclePeriod)
+    return tracks, tOffsets, fullCirclePeriod
 
 
 def get_verticalSlots(numRings, rng):
@@ -187,7 +187,7 @@ def get_plus(numRings, rng):
         track = RingTrack.RingTrack(actions, durations)
         tracks.append(track)
 
-    return (tracks, [0] * numRings, plusPeriod)
+    return tracks, [0] * numRings, plusPeriod
 
 
 infinityPeriod = 5.0
@@ -226,7 +226,7 @@ def get_vertInfinity(numRings, rng):
         track = RingTrack.RingTrack(actions, durations)
         tracks.append(track)
 
-    return (tracks, infinityTOffsets[numRings - 1], infinityPeriod)
+    return tracks, infinityTOffsets[numRings - 1], infinityPeriod
 
 
 def get_horizInfinity(numRings, rng):
@@ -236,17 +236,17 @@ def get_horizInfinity(numRings, rng):
         track = RingTrack.RingTrack(actions, durations)
         tracks.append(track)
 
-    return (tracks, infinityTOffsets[numRings - 1], infinityPeriod)
+    return tracks, infinityTOffsets[numRings - 1], infinityPeriod
 
 
 def get_evenCircle_withStationaryCenterRings_FASTER(numRings, rng):
     tracks, tOffsets, period = get_evenCircle_withStationaryCenterRings(numRings, rng)
-    return (tracks, tOffsets, fullCirclePeriodFaster)
+    return tracks, tOffsets, fullCirclePeriodFaster
 
 
 def get_plus_FASTER(numRings, rng):
     tracks, tOffsets, period = get_plus(numRings, rng)
-    return (tracks, tOffsets, plusPeriodFaster)
+    return tracks, tOffsets, plusPeriodFaster
 
 
 allFuncs = [[get_keypad], [get_evenCircle,

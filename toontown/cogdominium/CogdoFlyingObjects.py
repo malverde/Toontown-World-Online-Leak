@@ -247,7 +247,7 @@ class CogdoFlyingPowerup(CogdoFlyingGatherable):
                     self.f.hide()
 
     def pickUp(self, toon, elapsedSeconds = 0.0):
-        if self.wasPickedUpByToon(toon) == True:
+        if self.wasPickedUpByToon(toon):
             return
         self._pickedUpList.append(toon.doId)
         self._isToonLocal = toon.isLocal()

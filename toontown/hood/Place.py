@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
@@ -1047,11 +1047,13 @@ from otp.ai.MagicWordGlobal import *
 
 
 def hookTeleportInDone(place):
-    '''
+    """
     Called instead of Place.py's original
     teleportInDone function; indicates that
     the destination has been reached.
-    '''
+    :param place:
+    :type place:
+    """
     global HOOD
     teleportNotify.debug('Hooked TeleportInDone')
     if hasattr(place, 'fsm'):
@@ -1068,9 +1070,11 @@ def hookTeleportInDone(place):
 
 @magicWord(category=CATEGORY_ADMIN, types=[str])
 def tp(hood):
-    '''
+    """
     Teleport to hood.
-    '''
+    :param hood:
+    :type hood:
+    """
     global HOOD
     try:
         HOOD = hood.upper()

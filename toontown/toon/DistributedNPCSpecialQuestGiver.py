@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from DistributedNPCToonBase import *
 from toontown.quest import QuestParser
 from toontown.quest import QuestChoiceGui
@@ -19,7 +19,7 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
 
     def announceGenerate(self):
         self.setAnimState('neutral', 0.9, None, None)
-        npcOrigin = self.cr.playGame.hood.loader.geom.find('**/npc_origin_' + `(self.posIndex)`)
+        npcOrigin = self.cr.playGame.hood.loader.geom.find('**/npc_origin_' + `self.posIndex`)
         if not npcOrigin.isEmpty():
             self.reparentTo(npcOrigin)
             self.clearMat()

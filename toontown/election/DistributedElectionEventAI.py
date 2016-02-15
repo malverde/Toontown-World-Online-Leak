@@ -230,7 +230,7 @@ class DistributedElectionEventAI(DistributedObjectAI, FSM):
         self.d_setState(state)
 
     def getState(self):
-        return (self.state, self.stateTime)
+        return self.state, self.stateTime
 
 @magicWord(category=CATEGORY_ADMIN, types=[str])
 def election(state):

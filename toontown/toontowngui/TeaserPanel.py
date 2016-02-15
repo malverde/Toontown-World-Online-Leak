@@ -1,7 +1,6 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.gui.DirectGui import *
 from direct.gui import DirectGuiGlobals
-from pandac.PandaModules import *
 from direct.directnotify import DirectNotifyGlobal
 import TTDialog
 from toontown.toonbase import TTLocalizer

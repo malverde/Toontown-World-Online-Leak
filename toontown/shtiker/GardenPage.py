@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 import ShtikerPage
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 from toontown.estate import FlowerBrowser
 from toontown.estate import GardenGlobals
@@ -388,7 +388,7 @@ class GardenTrophy(DirectFrame):
         order = ('C', 'D', 'B', 'A')
         scales = (0.25, 0.25, 0.22, 0.25)
         metalTrophy = ('wheelbarrel', 'shovels', 'flower', 'watering_can')
-        if self.level >= 0 and self.level < len(order):
+        if 0 <= self.level < len(order):
             modelStr = 'phase_5.5/models/estate/trophy'
             modelStr += order[level]
             self.gardenTrophy = loader.loadModel(modelStr)

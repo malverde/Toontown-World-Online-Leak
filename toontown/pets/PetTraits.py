@@ -60,10 +60,10 @@ class TraitDistribution:
         return self.TraitType == TraitDistribution.TraitTypes.INCREASING
 
     def getMinMax(self, szId):
-        return (self.Sz2MinMax[szId][0], self.Sz2MinMax[szId][1])
+        return self.Sz2MinMax[szId][0], self.Sz2MinMax[szId][1]
 
     def getGlobalMinMax(self):
-        return (self.GlobalMinMax[0], self.GlobalMinMax[1])
+        return self.GlobalMinMax[0], self.GlobalMinMax[1]
 
     def _getTraitPercent(self, traitValue):
         gMin, gMax = self.getGlobalMinMax()

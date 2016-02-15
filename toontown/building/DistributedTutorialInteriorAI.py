@@ -13,7 +13,7 @@ class DistributedTutorialInteriorAI(DistributedObjectAI):
         self.npcId = npcId
 
     def getZoneIdAndBlock(self):
-        return (self.zoneId, self.block)
+        return self.zoneId, self.block
 
     def getTutorialNpcId(self):
         return self.npcId

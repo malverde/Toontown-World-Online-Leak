@@ -82,7 +82,7 @@ class FishManagerAI:
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[str])
 def gibfish(fishName):
-    '''Sets a flag on the avatar, that upon casting a fishing rod (that is valid), gives the avatar the requested fish.'''
+    """Sets a flag on the avatar, that upon casting a fishing rod (that is valid), gives the avatar the requested fish."""
     for fishGenus in TTLocalizer.FishSpeciesNames:
         fishGenusSpeciesList = TTLocalizer.FishSpeciesNames[fishGenus]
         for speciesName in fishGenusSpeciesList:
@@ -96,7 +96,7 @@ def gibfish(fishName):
 
 @magicWord(category=CATEGORY_OVERRIDE)
 def nogibfish():
-    '''Deletes a request for a fish if it exists.'''
+    """Deletes a request for a fish if it exists."""
     if spellbook.getTarget().doId in simbase.air.fishManager.requestedFish:
         del simbase.air.fishManager.requestedFish[spellbook.getTarget().doId]
         return "Deleted %s's request for any fishes." % spellbook.getTarget().getName()

@@ -23,6 +23,9 @@ from toontown.dna import *
 
 # We only want Movers and Shakers for now
 ALLOWED_FO_TRACKS = ['s']
+if config.GetBool('want-lawbot-cogdo', False):
+    ALLOWED_FO_TRACKS += ['l']
+    
 DEFAULT_COGDO_RATIO = 0.5
 
 class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlannerBase.SuitPlannerBase):
@@ -1408,7 +1411,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         for level in possibleLevels:
             minFloors, maxFloors = SuitBuildingGlobals.SuitBuildingInfo[
                 level - 1][0]
-            if buildingHeight >= minFloors - 1 and buildingHeight <= maxFloors - 1:
+            if minFloors - 1 <= buildingHeight <= maxFloors - 1:
                 choices.append(level)
         if len(choices) == 0:
             return possibleLevels[0]
@@ -1491,7 +1494,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                 self.notify.debug('DistSuitPlannerAI: battle removed')
                 self.battleList.remove(currBattle)
             else:
-                currBattleIdx = currBattleIdx + 1
+                currBattleIdx += 1
 
         return None
 
@@ -1549,7 +1552,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                             return 0
 
             else:
-                battleIndex = battleIndex + 1
+                battleIndex += 1
 
         pointList = []
         for currPathPtSuit in range(suit.currWpt, suit.myPath.getNumPoints()):
@@ -1624,7 +1627,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         self.notify.debug(
             'pickLevelTypeAndTrack: %d %d %s' %
             (level, type, track))
-        return (level, type, track)
+        return level, type, track
 
 
 @magicWord(types=[str, int, int], category=CATEGORY_OVERRIDE)

@@ -126,7 +126,7 @@ class DistributedIceWorld(DistributedMinigamePhysicsWorld.DistributedMinigamePhy
         else:
             testTire = None
             self.bodyList.append((None, body))
-        return (testTire, body, geom)
+        return testTire, body, geom
 
     def placeBodies(self):
         for pair in self.odePandaRelationList:

@@ -8443,11 +8443,13 @@ TipDict = {TIP_NONE: ('',),
  TIP_GENERAL: ('Struggling to train your Drop Gag Track? Gag Buffs can boost your Accuracy by up to 3 times. Collect and complete Gag Buffs to get boosted Accuracy around Toontown.',
  	       'Watch out for Version 2.0 Cogs! They can be found at Bossbot HQ Factories, or rarely invading a District. Fight alongside your friends and receive more XP.',
  	       'Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters. They will not work inside Cog Buildings, Headquarters or Factories!',
+           'Gag Buffs usually last for 30 minutes. Keep a collection of Gag Buff ToonTasks and hand them in so you have one ready when needed!',
+           'There are many Gag Buffs to choose from! Movement Speed (increased), Gag Experience (double XP) and Gag Accuracy (better accuracy)! Stockpile these ToonTasks!',
  	       'Keep an eye on the News and Announcements for information about Global XP Boosters on every District and make every HIT on the Cogs count.',
                'Collect and complete Gag Buff ToonTasks to increase your Gag Accuracy or Movement Speed around Toontown.',
-               'Toon Troopers are here to help. If you are being troubled find one and ask for help.',
+               'Toon Troopers are here to help. Look for a Whistle or Fist Icon above their name to recognize them. If you are being troubled find one and ask for help.',
                'You can have up to 20 Toons in your Party! Let your friends know you are having a Party and invite them.',
-               'Parties only cost 50 Jellybeans to plan a Party. You can get that back by using the Cannons or other games in your Party!',
+               'It only costs 50 Jellybeans to plan a Party. You can get that back by using the Cannons or other games in your Party!',
                'You can report or ignore a Toon if they are troubling you or others.',
                'Quickly check your ToonTask progress by holding down the "End" key.',
                'Quickly check your Gags and Merits by holding down the "Home" key.',
@@ -8502,8 +8504,11 @@ TipDict = {TIP_NONE: ('',),
                'Earn Laff points at Goofy Speedway.',
                'Goofy Speedway has six different race tracks. '),
  TIP_STREET: ('Struggling to train your Drop Gag Track? Gag Buffs can boost your Accuracy by up to 3 times. Collect and complete Gag Buffs to get boosted Accuracy around Toontown.',
- 	      'There are four types of Cogs: Lawbots, Cashbots, Sellbots, and Bossbots.',
- 	      'Collect and complete Gag Buff ToonTasks to increase your Gag Accuracy or Movement Speed around Toontown.',	
+ 	          'Watch out for Version 2.0 Cogs! They can be found at Bossbot HQ Factories, or rarely invading a District. Fight alongside your friends and receive more XP.',
+ 	          'There are four types of Cogs: Lawbots, Cashbots, Sellbots, and Bossbots.',
+              'Gag Buffs usually last for 30 minutes. Keep a collection of Gag Buff ToonTasks and hand them in so you have one ready when needed!',
+              'There are many Gag Buffs to choose from! Movement Speed (increased), Gag Experience (double XP) and Gag Accuracy (better accuracy)! Stockpile these ToonTasks!',
+ 	          'Collect and complete Gag Buff ToonTasks to increase your Gag Accuracy or Movement Speed around Toontown.',
               'Each Gag Track has different amounts of accuracy and damage.',
               'Sound gags will affect all Cogs but will wake up any lured Cogs.',
               'Defeating Cogs in strategic order can greatly increase your chances of winning battles.',
@@ -8549,6 +8554,9 @@ TipDict = {TIP_NONE: ('',),
                 'Trolley Game difficulty varies by neighborhood; ' + lToontownCentral + ' has the easiest and ' + lDonaldsDreamland + ' has the hardest.',
                 'Certain Trolley Games can only be played in a group.'),
  TIP_COGHQ: ('Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters. They will not work inside Cog Buildings, Headquarters or Factories!',
+             'Watch out for Version 2.0 Cogs! They can be found at Bossbot HQ Factories, or rarely invading a District. Fight alongside your friends and receive more XP.',
+             'Gag Buffs usually last for 30 minutes. Keep a collection of Gag Buff ToonTasks and hand them in so you have one ready when needed!',
+             'There are many Gag Buffs to choose from! Movement Speed (increased), Gag Experience (double XP) and Gag Accuracy (better accuracy)! Stockpile these ToonTasks!',
              'You must complete your Sellbot Disguise before visiting the V.P.',
              'By defeating the VP you can get two SOS cards.',
              'You must complete your Cashbot Disguise before visiting the C.F.O.',
@@ -8786,6 +8794,9 @@ ResistanceToonupMenu = 'Toon-up'
 ResistanceToonupItem = '%s Toon-up'
 ResistanceToonupItemMax = 'Max'
 ResistanceToonupChat = 'Toons of the World, Toon-up!'
+ResistanceDanceMenu = 'Dance'
+ResistanceDanceItem = 'Make them %s'
+ResistanceDanceChat = 'Toons of the World, Dance with me!'
 ResistanceRestockMenu = 'Gag-up'
 ResistanceRestockItem = 'Gag-up %s'
 ResistanceRestockItemAll = 'All'
@@ -9085,7 +9096,6 @@ LawbotBossTaunts = ['%s, I find you in contempt of court!',
  'Strike that from the record.',
  'Your appeal has been rejected. I sentence you to sadness!',
  'Order in the court!']
-LawbotBossAreaAttackTaunt = "You're all in contempt of court!"
 WitnessToonName = 'Bumpy Bumblebehr'
 WitnessToonPrepareBattleTwo = "Oh no! They're putting only Cogs on the jury!\x07Quick, use the cannons and shoot some Toon jurors into the jury chairs.\x07We need %d to get a balanced scale."
 WitnessToonNoJuror = 'Oh oh, no Toon jurors. This will be a tough trial.'
@@ -9567,6 +9577,7 @@ WinterCarolingStart = 'Caroling has come to Toontown. Sing for your Snowman Head
 ExpandedClosetsStart = 'Attention Toons: For a limited time, Members can purchase the new 50 item Closet from the Cattlelog for the low price of 50 jellybeans!'
 KartingTicketsHolidayStart = 'Get double tickets from Practice races at Goofy Speedway today!'
 IdesOfMarchStart = 'Toons go GREEN!'
+FishingHolidayStart = "It's Fish Bingo! Step up to a pier and fish!"
 LogoutForced = 'You have done something wrong\n and are being logged out automatically,\n additionally your account may be frozen.\n Try going on a walk outside, it is fun.'
 CountryClubToonEnterElevator = '%s \nhas jumped in the golf kart.'
 CountryClubBossConfrontedMsg = '%s is battling the Club President!'
@@ -9969,5 +9980,70 @@ def getBuffPosterString(buffId):
 MoreOptionsPageTitle = 'Other Options'
 
 ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'
-ShardPageHelp = 'Each District is a copy of the Toontown World. Each district has different toons, and has randomized cog buildings! If you need a building for a task, but it\'s a cog building,Switch to a different district!To Switch Districts, click on a district\'s name!\nYou are currently in the district that\'s name color is GREEN!'
+
+# Boss Cog Taunts
+BossTaunts = [
+ "You can't stop this. We'll just keep on coming.",
+ 'Break time is over.',
+ "We can see you're having a Laff - but your Laff-ter can't stop our work.",
+ 'You toons need to be taught some manners.',
+ "We've only just started our business proposal. Not bored are you?"]
+
+SendCogBossTaunts = {
+ 's': [ # VP
+  "We're going door to door to give you dedious offer.",
+  "It's time for your estimated cost.",
+  'You toons never learn when to snatch up a great deal.',
+  "Call now and we'll reduce your laff, absolutely free of charge!",
+  'Sell, sell, sell!',
+  'Let us Sellbots give you a helping hand.',
+  'The deal has only just begun.',
+  'Going sad already? How about we settle a retirement plan.',
+  'Get them! Get them all!'
+ ],
+  'l': [ # CJ
+  'Order in the court!',
+  'The defendant is appearing to be proven guilty.',
+  'Justice is important to keep a stable society.',
+  'Toontown will be full of corruption and greed.',
+  'Toons do not understand the importance of the Cog order.',
+  'The state of your actions will prove you toons guilty.',
+  "Bah! Don't you tell me how to run a trial!",
+  'My decision will state what to legally do to you Toons.',
+  'This blindfold protects me from the horrible corruption!'
+ ]
+}
+VPRampMessage = "I don't have time for this, I'm late for my meeting!"
+
+VPDeathTaunt = "WAAAH!! YOU HAVEN'T SEEN THE LAST OF ME! WAIT UNTIL THE SELLBOT FACTORY PUTS ME BACK TOGETHER!"
+
+DirectedAttackBossTaunts = {
+ 's': [ # VP
+  'Have a free sample!',
+  'I see you over there!',
+  'My products are the best in all of Toontown!',
+  "Don't think I skipped you, %(toon)s!",
+  "Not even Flippy can save you!"
+ ]
+}
+
+VPSpinMessages = [
+ "Let's get these ideas going!",
+ "I wouldn't get too close. My patents protect these gears.",
+ 'Why worry about problems when you can shake them off?',
+ "I may be old, but I'm still reliable."
+]
+
+JumpBossTaunts = {
+ 's': [ # VP
+  'STOP!',
+  'Pay attention to my pitch!',
+  'This is a waste of my time!',
+  'Time to send you back to the playground!'
+ ],
+'l': [ # CJ
+  "You're all in contempt of court!"
+  ]
+}
+
 

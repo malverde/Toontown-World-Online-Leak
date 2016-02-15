@@ -1,5 +1,5 @@
 from direct.interval.IntervalGlobal import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import Place
@@ -87,11 +87,11 @@ class Playground(Place.Place):
             State.State('doorIn',
                         self.enterDoorIn,
                         self.exitDoorIn, [
-                            'walk']),
+                            'walk', 'stopped']),
             State.State('doorOut',
                         self.enterDoorOut,
                         self.exitDoorOut, [
-                            'walk']),
+                            'walk', 'stopped']),
             State.State('TFA',
                         self.enterTFA,
                         self.exitTFA, [

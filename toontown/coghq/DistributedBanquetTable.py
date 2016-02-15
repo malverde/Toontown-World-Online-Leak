@@ -1010,7 +1010,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         t = elapsed / self.waterPowerSpeed
         exponent = self.waterPowerExponent
         if t > 1:
-            t = t % 1
+            t %= 1
         power = 1 - math.pow(1 - t, exponent)
         if power > 1.0:
             power = 1.0
@@ -1123,7 +1123,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         keyRateDiff = self.keyRate - self.BASELINE_KEY_RATE
         diffPower = keyRateDiff / 300.0
         if self.power < 1 and diffPower > 0:
-            diffPower = diffPower * math.pow(1 - self.power, 1.25)
+            diffPower *= math.pow(1 - self.power, 1.25)
         newPower = self.power + diffPower
         if newPower > 1:
             newPower = 1

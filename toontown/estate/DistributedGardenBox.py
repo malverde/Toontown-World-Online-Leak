@@ -28,7 +28,7 @@ class DistributedGardenBox(DistributedLawnDecor.DistributedLawnDecor):
         else:
             self.defaultModel = 'phase_5.5/models/estate/planterD'
             self.collSphereOffset = 0.0
-            self.collSphereRadius = self.collSphereRadius * 1.41
+            self.collSphereRadius *= 1.41
             self.plotScale = Vec3(1.0, 1.0, 1.0)
     
     def setupShadow(self):

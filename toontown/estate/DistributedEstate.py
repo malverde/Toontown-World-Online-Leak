@@ -1,8 +1,7 @@
 #Embedded file name: toontown.estate.DistributedEstate
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 import math
@@ -303,7 +302,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         ts = 0
         if hasattr(task, 'ts'):
             ts = task.ts
-            if ts > HouseGlobals.HALF_DAY_PERIOD and ts < HouseGlobals.DAY_NIGHT_PERIOD - HouseGlobals.HALF_DAY_PERIOD:
+            if HouseGlobals.HALF_DAY_PERIOD < ts < HouseGlobals.DAY_NIGHT_PERIOD - HouseGlobals.HALF_DAY_PERIOD:
                 self.__stopBirds()
                 self.__startCrickets()
             else:

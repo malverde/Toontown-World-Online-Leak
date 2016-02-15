@@ -1,9 +1,10 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from direct.directnotify import DirectNotifyGlobal
 from otp.avatar import DistributedAvatar
 from otp.nametag import NametagGlobals
+from otp.nametag.NametagConstants import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.battle import BattleExperience
@@ -598,7 +599,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
                                         fromPos, deltaPos]), self.rollLeftTreads(
                                             rollTime, rollTreadRate), self.rollRightTreads(
                                                 rollTime, rollTreadRate)))
-        return (track, toHpr)
+        return track, toHpr
 
     def setupElevator(self, elevatorModel):
         self.elevatorModel = elevatorModel
@@ -1019,17 +1020,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
             extraAnim = Sequence()
             if attackCode == ToontownGlobals.BossCogSlowDirectedAttack:
                 extraAnim = ActorInterval(self, neutral)
-            seq = Sequence(
-                ParallelEndTogether(
-                    self.pelvis.hprInterval(
-                        1, VBase3(
-                            toToonH, 0, 0)), neutral1Anim), extraAnim, Parallel(
-                    Sequence(
-                        Wait(0.19), gearTrack, Func(
-                            gearRoot.detachNode), self.pelvis.hprInterval(
-                                0.2, VBase3(
-                                    0, 0, 0))), Sequence(
-                                        throwAnim, neutral2Anim)))
+            seq = Sequence(ParallelEndTogether(self.pelvis.hprInterval(1, VBase3(toToonH, 0, 0)), neutral1Anim), extraAnim, Parallel(Sequence(Wait(0.19), gearTrack, Func(gearRoot.detachNode), self.pelvis.hprInterval(0.2, VBase3(0, 0, 0))), Sequence(Func(self.setChatAbsolute, random.choice(TTLocalizer.DirectedAttackBossTaunts[self.dna.dept]) % {'toon': toon.getName()}, CFSpeech | CFTimeout), throwAnim, neutral2Anim)))
             self.doAnimate(seq, now=1, raised=1)
 
     def announceAreaAttack(self):

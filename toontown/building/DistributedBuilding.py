@@ -1,5 +1,5 @@
 #Embedded file name: toontown.building.DistributedBuilding
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.directtools.DirectGeometry import *
@@ -7,7 +7,6 @@ from ElevatorConstants import *
 from ElevatorUtils import *
 from SuitBuildingGlobals import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
 from toontown.toonbase import ToontownGlobals
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
@@ -559,7 +558,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         backgroundNP = loader.loadModel('phase_5/models/cogdominium/field_office_sign')
         backgroundNP.reparentTo(signOrigin)
         backgroundNP.setPosHprScale(0.0, 0.0, -1.2 + textHeight * 0.8 / zScale, 0.0, 0.0, 0.0, 20.0, 8.0, 8.0 * zScale)
-        backgroundNP.node().setEffect(DecalEffect.make())
+        backgroundNP.node().setAttrib(DepthOffsetAttrib.make(1))
         signTextNodePath = backgroundNP.attachNewNode(textNode.generate())
         signTextNodePath.setPosHprScale(0.0, 0.0, -0.13 + textHeight * 0.1 / zScale, 0.0, 0.0, 0.0, 0.8 / 20.0, 0.1, 0.1 / zScale)
         signTextNodePath.setColor(1.0, 1.0, 1.0, 1.0)
@@ -568,7 +567,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         else:
             frontNP = suitBuildingNP.find('**/*_front/+GeomNode;+s')
         backgroundNP.wrtReparentTo(frontNP)
-        frontNP.node().setEffect(DecalEffect.make())
+        signTextNodePath.setAttrib(DepthOffsetAttrib.make(1))
         suitBuildingNP.setName('cb' + str(self.block) + ':_landmark__DNARoot')
         suitBuildingNP.setPosHprScale(nodePath, 15.463, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0)
         if chr(self.track) == 's':
@@ -765,7 +764,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
             i += 1
 
         victoryRunTrack = Sequence(origPosTrack, openDoors, runOutAll)
-        return (victoryRunTrack, delayDeletes)
+        return victoryRunTrack, delayDeletes
 
     def animToCogdoFromCogdo(self, timeStamp):
         self.stopTransition()

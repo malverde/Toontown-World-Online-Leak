@@ -8,7 +8,7 @@ from toontown.distributed import DelayDelete
 from toontown.distributed.DelayDeletable import DelayDeletable
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.gui.DirectGui import *
 from direct.distributed.ClockDelta import *
 from direct.fsm.FSM import FSM
@@ -148,7 +148,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                         tPanels.tag2.setPos(0, 10, 0.43)
                         tPanels.tag2.setScale(0.117, 0.05, 0.05)
                         self.toonPanels.append(tPanels)
-                        whichToon = whichToon + 1
+                        whichToon += 1
                         color += 1
                 else:
                     color += 1
@@ -357,7 +357,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         av.cleanupPowerBar()
 
         def doneWithRewardMovie():
-            if self.exit == False:
+            if not self.exit:
                 self.notify.debug('doneWithRewardMovie')
                 self.sendUpdate('setDoneReward', [])
                 self._destroyDelayDelete()
@@ -368,7 +368,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
         self.rewardIval.start()
 
     def exitEarly(self):
-        if self.exit == False:
+        if not self.exit:
             self.notify.debug('doneWithRewardMovie')
             self.sendUpdate('setDoneReward', [])
             self._destroyDelayDelete()

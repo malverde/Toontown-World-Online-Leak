@@ -1,6 +1,6 @@
 import ShtikerPage
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.suit import SuitDNA
@@ -143,7 +143,7 @@ class DisguisePage(ShtikerPage.ShtikerPage):
                 self.holes[self.parts.index(part)].show()
                 part.hide()
                 previousPart = 0
-            partBitmask = partBitmask << 1
+            partBitmask <<= 1
 
     def updateMeritBar(self, dept):
         merits = base.localAvatar.cogMerits[dept]
@@ -179,7 +179,7 @@ class DisguisePage(ShtikerPage.ShtikerPage):
                 self.meterFaceHalf2.setColor(self.meterColor)
             else:
                 self.meterFaceHalf2.setColor(self.meterActiveColor)
-                progress = progress - 0.5
+                progress -= 0.5
             self.meterFaceHalf2.setR(180 * (progress / 0.5))
 
     def doTab(self, index):

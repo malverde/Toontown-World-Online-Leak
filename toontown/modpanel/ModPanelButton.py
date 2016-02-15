@@ -64,4 +64,4 @@ class ModPanelButton:
         messenger.send('save-file')
         
     def get_data(self):
-        return (self.name, self.command, self.button.get_pos())
+        return self.name, self.command, self.button.get_pos()

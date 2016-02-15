@@ -8,7 +8,7 @@ from toontown.toon import InventoryBase
 from toontown.battle import DistributedBattleFinalAI
 from toontown.building import SuitPlannerInteriorAI
 from toontown.battle import BattleBase
-from pandac.PandaModules import *
+from panda3d.core import *
 import SuitDNA
 import random
 import math
@@ -586,7 +586,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
 
     def progressRandomValue(self, fromValue, toValue, radius=0.2):
         t = self.progressValue(0, 1)
-        radius = radius * (1.0 - abs(t - 0.5) * 2.0)
+        radius *= 1.0 - abs(t - 0.5) * 2.0
         t += radius * random.uniform(-1, 1)
         t = max(min(t, 1.0), 0.0)
         return fromValue + (toValue - fromValue) * t

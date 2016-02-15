@@ -85,7 +85,7 @@ class CogdoMazeSuit(MazeSuit, FSM, CogdoMazeSplattable):
         return ival
 
     def hitByGag(self):
-        self.hp = self.hp - 1
+        self.hp -= 1
         self.doSplat()
         if self.hp <= 0:
             self.explode()

@@ -1,5 +1,5 @@
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
-from pandac.PandaModules import *
+from panda3d.core import *
 from otp.otpbase import OTPGlobals
 from otp.ai.MagicWordGlobal import *
 
@@ -42,16 +42,19 @@ def chatmode(mode=-1):
         0 : "user",
         1 : "moderator",
         2 : "administrator",
-        3 : "system administrator",
+        3 : "developer",
+        4 : "system administrator",
     }
     if base.cr.chatAgent is None:
         return "No ChatAgent found."
     if mode == -1:
         return "You are currently talking in the %s chat mode." % mode2name.get(base.cr.chatAgent.chatMode, "N/A")
-    if not 0 <= mode <= 3:
+    if not 0 <= mode <= 4:
         return "Invalid chat mode specified."
-    if mode == 3 and spellbook.getInvoker().getAdminAccess() < 500:
-        return "Chat mode 3 is reserved for system administrators."
+    if mode == 4 and spellbook.getInvoker().getAdminAccess() < 500:
+        return "Chat mode 4 is reserved for system administrators."
+    if mode == 3 and spellbook.getInvoker().getAdminAccess() < 405:
+        return "Chat mode 3 is reserved for Developers."
     if mode == 2 and spellbook.getInvoker().getAdminAccess() < 400:
         return "Chat mode 2 is reserved for administrators."
     if mode == 1 and spellbook.getInvoker().getAdminAccess() < 200:

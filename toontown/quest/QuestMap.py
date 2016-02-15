@@ -157,12 +157,12 @@ class QuestMap(DirectFrame):
 
     def transformAvPos(self, pos):
         if self.cornerPosInfo is None:
-            return (0, 0)
+            return 0, 0
         topRight = self.cornerPosInfo[0]
         bottomLeft = self.cornerPosInfo[1]
         relativeX = (pos.getX() - bottomLeft.getX()) / (topRight.getX() - bottomLeft.getX()) - 0.5
         relativeY = (pos.getY() - bottomLeft.getY()) / (topRight.getY() - bottomLeft.getY()) - 0.5
-        return (relativeX, relativeY)
+        return relativeX, relativeY
 
     def update(self, task):
         if self.av:
@@ -174,7 +174,7 @@ class QuestMap(DirectFrame):
         for buildingMarker in self.buildingMarkers:
             if not buildingMarker.isEmpty():
                 buildingMarker.setScale((math.sin(task.time * 16.0 + i * math.pi / 3.0) + 1) * 0.005 + 0.04)
-                i = i + 1
+                i += 1
 
         return Task.cont
 

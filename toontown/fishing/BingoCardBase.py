@@ -74,7 +74,7 @@ class BingoCardBase:
             return
         fishTuple = (genus, species)
         if self.cellList[id][0] == genus or fishTuple == FishGlobals.BingoBoot:
-            self.gameState = self.gameState | 1 << id
+            self.gameState |= 1 << id
             if self.checkForWin(id):
                 return BingoGlobals.WIN
             return BingoGlobals.UPDATE

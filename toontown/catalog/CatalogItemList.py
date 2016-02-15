@@ -1,6 +1,6 @@
 # Embedded file name: toontown.catalog.CatalogItemList
 import CatalogItem
-from pandac.PandaModules import *
+from panda3d.core import *
 import types
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.PyDatagramIterator import PyDatagramIterator
@@ -74,7 +74,7 @@ class CatalogItemList:
                 afterTime, store=self.store))
 
     def extractOldestItems(self, count):
-        return (self[0:count], self[count:])
+        return self[0:count], self[count:]
 
     def __encodeList(self):
         self.__blob = self.__makeBlob(self.store)

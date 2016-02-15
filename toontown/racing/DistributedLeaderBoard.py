@@ -4,7 +4,7 @@ from otp.otpbase import OTPTimer
 from toontown.toonbase import TTLocalizer
 from toontown.racing import KartShopGlobals
 from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToontownGlobals import *
 import random
 import cPickle
@@ -129,7 +129,7 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
         namePath = row.attachNewNode(nameText)
         namePath.setScale(TTLocalizer.DLBbuildTitleRow)
         namePath.setDepthWrite(0)
-        return (row, nameText)
+        return row, nameText
 
     def buildTrackRow(self):
         row = hidden.attachNewNode('trackRow')
@@ -141,7 +141,7 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
         namePath = row.attachNewNode(nameText)
         namePath.setScale(0.55)
         namePath.setDepthWrite(0)
-        return (row, nameText)
+        return row, nameText
 
     def buildLeaderRow(self):
         row = hidden.attachNewNode('leaderRow')

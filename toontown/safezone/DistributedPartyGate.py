@@ -163,7 +163,7 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
         base.cr.playGame.getPlace().setState('walk')
 
     def hourChange(self, currentHour):
-        currentHour = currentHour % 12
+        currentHour %= 12
         if currentHour == 0:
             currentHour = 12
         self.hourSoundInterval = Parallel()

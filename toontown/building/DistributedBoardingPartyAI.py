@@ -490,7 +490,7 @@ class DistributedBoardingPartyAI(
             elif boardOkay == BoardingPartyBase.BOARDCODE_BATTLE:
                 self.notify.debug('An avatar is in battle')
 
-        return (boardOkay, avatarsFailingRequirements, avatarsInBattle)
+        return boardOkay, avatarsFailingRequirements, avatarsInBattle
 
     def requestBoard(self, elevatorId):
         wantDisableGoButton = False

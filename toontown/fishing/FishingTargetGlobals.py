@@ -166,7 +166,7 @@ def getTargetCenter(zone):
     if info:
         return info[POS_START_INDEX:POS_END_INDEX]
     else:
-        return (0, 0, 0)
+        return 0, 0, 0
 
 
 def getTargetRadius(zone):

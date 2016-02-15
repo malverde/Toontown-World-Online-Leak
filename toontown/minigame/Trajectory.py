@@ -1,5 +1,5 @@
 from direct.directnotify import DirectNotifyGlobal
-from pandac.PandaModules import *
+from panda3d.core import *
 from math import *
 
 class Trajectory:
@@ -104,7 +104,7 @@ class Trajectory:
         c = (o - v).dot(o - v) - cylRadius * cylRadius
         bsmc = b * b - c
         if bsmc <= 0.0:
-            return (-1.0, -1.0)
+            return -1.0, -1.0
         sqrt_bsmc = sqrt(bsmc)
         t1 = -b - sqrt_bsmc
         t2 = -b + sqrt_bsmc
@@ -113,7 +113,7 @@ class Trajectory:
         mag = Vec2(self.__startVel[0], self.__startVel[1]).length()
         t1 = t1 / mag
         t2 = t2 / mag
-        return (t1 + self.__startTime, t2 + self.__startTime)
+        return t1 + self.__startTime, t2 + self.__startTime
 
     def checkCollisionWithCylinderSides(self, cylBottomCenter, cylRadius, cylHeight):
         if self.__reachesHeight(cylBottomCenter[2]) == 0:
@@ -124,7 +124,7 @@ class Trajectory:
         cylTopHeight = cylBottomCenter[2] + cylHeight
         if p1[2] > cylTopHeight and p2[2] > cylTopHeight:
             return -1.0
-        if p1[2] < cylTopHeight and p1[2] > cylBottomCenter[2]:
+        if cylTopHeight > p1[2] > cylBottomCenter[2]:
             if t1 > self.__startTime:
                 return t1
         return -1.0

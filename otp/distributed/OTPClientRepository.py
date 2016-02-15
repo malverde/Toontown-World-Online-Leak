@@ -16,7 +16,7 @@ from direct.showbase.GarbageReportScheduler import GarbageReportScheduler
 from direct.task import Task
 import gc
 import os
-from pandac.PandaModules import *
+from panda3d.core import *
 import random
 import string
 import sys

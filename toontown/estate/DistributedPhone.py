@@ -12,7 +12,7 @@ from direct.distributed import ClockDelta
 from direct.showbase import PythonUtil
 from direct.showutil import Rope
 from direct.directnotify.DirectNotifyGlobal import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 import string
 from toontown.quest import Quests
@@ -185,6 +185,7 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
     def __handlePhoneDone(self):
         self.sendUpdate('avatarExit', [])
         self.ignore(self.phoneGuiDoneEvent)
+        self.accept(self.phoneSphereEnterEvent, self.__handleEnterSphere)
         self.phoneGui = None
 
     def freeAvatar(self):
