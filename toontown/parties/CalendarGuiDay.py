@@ -228,6 +228,9 @@ class CalendarGuiDay(DirectFrame):
 				holidayName = 'Winter Holiday'
 				holidayDesc = 'Celebrate the Winter Holiday with Toontastic decorations,Cattlelog items and more!'
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
+			if self.myDate.weekday() == 4 or self.myDate.weekday() == 5:
+				holidayName = 'Fish Bingo!'
+				holidayDesc = 'Celebrate the weekend with bingo!'
 			# Janurary 4th - end of Winter
 			if self.myDate.month == 1 and self.myDate.day == 4:
 				holidayName = 'Winter Holiday End'
@@ -298,7 +301,7 @@ class CalendarGuiDay(DirectFrame):
 				holidayName = "Tax Day Invasion"
 				holidayDesc = "Number Crunchers are invading us. Apperntly we owe taxes! What are taxes?"
 				self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-            #
+			#
 			# if self.myDate.day == 15 and not self.myDate.month == 4:
 			# 	holidayName = "V2.0 Mover & Shakers"
 			# 	holidayDesc = "V2.0 Mover & Shakers Cogs are invading Toontown in masses! Stop them!"
@@ -318,7 +321,7 @@ class CalendarGuiDay(DirectFrame):
 			# 	holidayName = "Skelecog Legal Eagles"
 			# 	holidayDesc = "Skelecog Legal Eagles are invading Toontown in masses! Stop them!"
 			# 	self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-            #
+			#
 			# if self.myDate.day == 31 and self.myDate.month == 7:
 			# 	holidayName = "Skelecog Legal Eagles"
 			# 	holidayDesc = "Skelecog Legal Eagles are invading Toontown in masses! Stop them!"
@@ -363,7 +366,7 @@ class CalendarGuiDay(DirectFrame):
 			# 	holidayName = "Skelecog Legal Eagles"
 			# 	holidayDesc = "Skelecog Legal Eagles are invading Toontown in masses! Stop them!"
 			# 	self.addTitleAndDescToScrollList(holidayName, holidayDesc)
-            
+			
 			oncelyHolidays = base.cr.newsManager.getOncelyHolidaysForDate(self.myDate)
 			for holiday in oncelyHolidays:
 				holidayId = holiday[1]

@@ -4,7 +4,7 @@ import os
 
 # __debug__ is only 1 in dev builds; Mirai's builder will set it to 0 (and it will, in fact, remove entire if __debug__: sections)
 if __debug__:
-    loadPrcFile('config/dev.prc')
+    loadPrcFile('config/dev-client.prc')
 
 # The VirtualFileSystem, which has already initialized, doesn't see the mount
 # directives in the config(s) yet. We have to force it to load those manually:
@@ -65,7 +65,6 @@ DirectGuiGlobals.setDefaultFontFunc(ToontownGlobals.getInterfaceFont)
 launcher.setPandaErrorCode(7)
 import ToonBase
 ToonBase.ToonBase()
-from panda3d.core import *
 if base.win is None:
     print 'Unable to open window; aborting.'
     sys.exit()

@@ -43,7 +43,8 @@ from direct.distributed.ClockDelta import *
 from toontown.parties import PartyGlobals
 
 # Pets!
-from toontown.pets.PetManagerAI import PetManagerAI
+if config.GetBool('want-pets', True):
+    from toontown.pets.PetManagerAI import PetManagerAI
 
 # Tasks!
 from toontown.quest.QuestManagerAI import QuestManagerAI
@@ -101,7 +102,8 @@ class ToontownAIRepository(ToontownInternalRepository):
 	self.wantChristmas = self.config.GetBool('want-christmas', False)
         self.wantTopToons = self.config.GetBool('want-top-toons', False)
         self.holidayManager = HolidayManagerAI(self)
-        self.PetManager = PetManagerAI(self)
+        if config.GetBool('want-pets', True):
+            self.PetManager = PetManagerAI(self)
         self.fishManager = FishManagerAI()
         self.questManager = QuestManagerAI(self)
         self.cogPageManager = CogPageManagerAI()
@@ -232,9 +234,9 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.notify.info('Creating Catalog Manager')
         self.catalogManager = CatalogManagerAI(self)
         self.catalogManager.generateWithRequired(2)
-
-        self.notify.info('Creating Pets Manager')
-        self.PetManager = PetManagerAI(self)
+        if config.GetBool('want-pets', True):
+            self.notify.info('Creating Pets Manager')
+            self.PetManager = PetManagerAI(self)
 
         self.notify.info('Creating Code Redemption Manager')
         self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)

@@ -8,7 +8,7 @@ from toontown.effects.DistributedFireworkShowAI import DistributedFireworkShowAI
 from toontown.effects import FireworkShows
 import random
 import time
-import datetime
+from toontown.ai import HolidayGlobals
 
 
 class HolidayManagerAI:
@@ -38,32 +38,19 @@ class HolidayManagerAI:
 	def fireworksTick(self, task):
 		# The next tick will occur in exactly an hour.
 		task.delayTime = 3600
-		day = str(datetime.datetime.now().strftime("%d"))
-
 		#showName = config.GetString('hourly-fireworks-type', 'july4')
 
 		#if showName == 'july4':
 		 #   showType = ToontownGlobals.JULY4_FIREWORKS
-		 
-        #elif showName =='victoryreleasefireworks':
-		#    showType = ToontownGlobals.VICTORY_RELEASE_FIREWORKS
-
-		if str(datetime.datetime.now().strftime("%m")) == "12":
-			if day == "30" or day == "31":
+		show = HolidayGlobals.IsItFireworks()
+		if show == 'Nyear':
 				showType = ToontownGlobals.NEWYEARS_FIREWORKS
-
-		elif str(datetime.datetime.now().strftime("%m")) == "06":
-			if  day ==  "29" or day == "30":
-				showType = PartyGlobals.FireworkShows.Summer
-
-		elif str(datetime.datetime.now().strftime("%m")) == "07":
-			if  day ==  "01" or day == "02" or day == "03" or day == "04" or day == "05" or day == "06" or  day =="07" or day == "08" or day == "09" or day == "10" or day == "11" or day == "12" or day == "14" or day == "15":
-				showType = PartyGlobals.FireworkShows.Summer
-		elif str(datetime.datetime.now().strftime("%m")) == "02":
+		elif show == 'Summer':
+			showType = PartyGlobals.FireworkShows.Summer
+		elif show == 'Release':
 			showType = ToontownGlobals.VICTORY_RELEASE_FIREWORKS
-		else:
-				"""#print('Tried to spawn  a show with an invalid showType!!!')"""
-		return
+		elif show == 'None':
+			return
 	#	elif showName == 'random':
 	#		shows = [
 	#			ToontownGlobals.JULY4_FIREWORKS,

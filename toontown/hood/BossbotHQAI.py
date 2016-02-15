@@ -1,4 +1,3 @@
-
 from CogHoodAI import CogHoodAI
 from toontown.toonbase import ToontownGlobals
 from toontown.suit.DistributedBossbotBossAI import DistributedBossbotBossAI
@@ -73,8 +72,6 @@ class BossbotHQAI(CogHoodAI):
 
         # Make our doors.
         self.createDoor()
-        # Create Suit Planners in the cog playground
-        self.createSuitPlanner(ToontownGlobals.BossbotHQ)
 
         # Create Cog Golf Courses.
         kartPos = ((154.762, 37.169, 0),
