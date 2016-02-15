@@ -2,7 +2,6 @@ from panda3d.core import *
 from toontown.toonbase.ToontownGlobals import *
 from direct.task.TaskManagerGlobal import *
 from direct.gui.DirectGui import *
-from panda3d.core import *
 from toontown.distributed.ToontownMsgTypes import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui import OnscreenText
@@ -1246,9 +1245,11 @@ class NameShop(StateData.StateData):
     def __isFirstTime(self):
         if not self.makeAToon.nameList or self.makeAToon.warp:
             self.__createAvatar()
-            self.promptTutorial()
+            if config.GetBool('want-tutorial', True):
+                self.promptTutorial()
         else:
-            self.promptTutorial()
+            if config.GetBool('want-tutorial', True):
+                self.promptTutorial()
 
     def promptTutorial(self):
         self.promptTutorialDialog = TTDialog.TTDialog(

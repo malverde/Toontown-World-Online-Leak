@@ -4,7 +4,6 @@ from direct.gui.DirectGui import *
 from direct.showbase.PythonUtil import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.InputStateGlobal import inputState
-from panda3d.core import *
 import Avatar
 from direct.controls import ControlManager
 import DistributedAvatar

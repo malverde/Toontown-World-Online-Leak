@@ -8444,7 +8444,7 @@ TipDict = {TIP_NONE: ('',),
  	       'Watch out for Version 2.0 Cogs! They can be found at Bossbot HQ Factories, or rarely invading a District. Fight alongside your friends and receive more XP.',
  	       'Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters. They will not work inside Cog Buildings, Headquarters or Factories!',
            'Gag Buffs usually last for 30 minutes. Keep a collection of Gag Buff ToonTasks and hand them in so you have one ready when needed!',
-           'There are many Gag Buffs to choose from! Movemenet Speed, Gag Experience (double XP) and Gag Accuracy! Decide which are important to you and stockpile ToonTasks!',
+           'There are many Gag Buffs to choose from! Movement Speed (increased), Gag Experience (double XP) and Gag Accuracy (better accuracy)! Stockpile these ToonTasks!',
  	       'Keep an eye on the News and Announcements for information about Global XP Boosters on every District and make every HIT on the Cogs count.',
                'Collect and complete Gag Buff ToonTasks to increase your Gag Accuracy or Movement Speed around Toontown.',
                'Toon Troopers are here to help. Look for a Whistle or Fist Icon above their name to recognize them. If you are being troubled find one and ask for help.',
@@ -8504,9 +8504,10 @@ TipDict = {TIP_NONE: ('',),
                'Earn Laff points at Goofy Speedway.',
                'Goofy Speedway has six different race tracks. '),
  TIP_STREET: ('Struggling to train your Drop Gag Track? Gag Buffs can boost your Accuracy by up to 3 times. Collect and complete Gag Buffs to get boosted Accuracy around Toontown.',
+ 	          'Watch out for Version 2.0 Cogs! They can be found at Bossbot HQ Factories, or rarely invading a District. Fight alongside your friends and receive more XP.',
  	          'There are four types of Cogs: Lawbots, Cashbots, Sellbots, and Bossbots.',
               'Gag Buffs usually last for 30 minutes. Keep a collection of Gag Buff ToonTasks and hand them in so you have one ready when needed!',
-              'There are many Gag Buffs to choose from! Movemenet Speed, Gag Experience (double XP) and Gag Accuracy! Decide which are important to you and stockpile ToonTasks!',
+              'There are many Gag Buffs to choose from! Movement Speed (increased), Gag Experience (double XP) and Gag Accuracy (better accuracy)! Stockpile these ToonTasks!',
  	          'Collect and complete Gag Buff ToonTasks to increase your Gag Accuracy or Movement Speed around Toontown.',
               'Each Gag Track has different amounts of accuracy and damage.',
               'Sound gags will affect all Cogs but will wake up any lured Cogs.',
@@ -8553,8 +8554,9 @@ TipDict = {TIP_NONE: ('',),
                 'Trolley Game difficulty varies by neighborhood; ' + lToontownCentral + ' has the easiest and ' + lDonaldsDreamland + ' has the hardest.',
                 'Certain Trolley Games can only be played in a group.'),
  TIP_COGHQ: ('Gag Buffs only work in Playgrounds, Streets and outside Cog Headquarters. They will not work inside Cog Buildings, Headquarters or Factories!',
+             'Watch out for Version 2.0 Cogs! They can be found at Bossbot HQ Factories, or rarely invading a District. Fight alongside your friends and receive more XP.',
              'Gag Buffs usually last for 30 minutes. Keep a collection of Gag Buff ToonTasks and hand them in so you have one ready when needed!',
-             'There are many Gag Buffs to choose from! Movemenet Speed, Gag Experience (double XP) and Gag Accuracy! Decide which are important to you and stockpile ToonTasks!',
+             'There are many Gag Buffs to choose from! Movement Speed (increased), Gag Experience (double XP) and Gag Accuracy (better accuracy)! Stockpile these ToonTasks!',
              'You must complete your Sellbot Disguise before visiting the V.P.',
              'By defeating the VP you can get two SOS cards.',
              'You must complete your Cashbot Disguise before visiting the C.F.O.',
@@ -8792,6 +8794,9 @@ ResistanceToonupMenu = 'Toon-up'
 ResistanceToonupItem = '%s Toon-up'
 ResistanceToonupItemMax = 'Max'
 ResistanceToonupChat = 'Toons of the World, Toon-up!'
+ResistanceDanceMenu = 'Dance'
+ResistanceDanceItem = 'Make them %s'
+ResistanceDanceChat = 'Toons of the World, Dance with me!'
 ResistanceRestockMenu = 'Gag-up'
 ResistanceRestockItem = 'Gag-up %s'
 ResistanceRestockItemAll = 'All'
@@ -9572,6 +9577,7 @@ WinterCarolingStart = 'Caroling has come to Toontown. Sing for your Snowman Head
 ExpandedClosetsStart = 'Attention Toons: For a limited time, Members can purchase the new 50 item Closet from the Cattlelog for the low price of 50 jellybeans!'
 KartingTicketsHolidayStart = 'Get double tickets from Practice races at Goofy Speedway today!'
 IdesOfMarchStart = 'Toons go GREEN!'
+FishingHolidayStart = "It's Fish Bingo! Step up to a pier and fish!"
 LogoutForced = 'You have done something wrong\n and are being logged out automatically,\n additionally your account may be frozen.\n Try going on a walk outside, it is fun.'
 CountryClubToonEnterElevator = '%s \nhas jumped in the golf kart.'
 CountryClubBossConfrontedMsg = '%s is battling the Club President!'
@@ -9985,7 +9991,7 @@ BossTaunts = [
 
 SendCogBossTaunts = {
  's': [ # VP
-  "We're going door to door to give you an dedious offer.",
+  "We're going door to door to give you dedious offer.",
   "It's time for your estimated cost.",
   'You toons never learn when to snatch up a great deal.',
   "Call now and we'll reduce your laff, absolutely free of charge!",
@@ -10016,8 +10022,8 @@ DirectedAttackBossTaunts = {
   'Have a free sample!',
   'I see you over there!',
   'My products are the best in all of Toontown!',
-  "Don't think I skipped you, %(toon)s!"
-  "Not even Flippy can save you!" # TODO: Make this separate (put a comma) on line above
+  "Don't think I skipped you, %(toon)s!",
+  "Not even Flippy can save you!"
  ]
 }
 
