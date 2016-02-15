@@ -74,7 +74,7 @@ want-accessories #f
 want-news-tab #f
 want-news-page #f
 want-fishing #t
-want-parties #f
+want-parties #t
 # Estates
 want-pets #f
 want-gardening #f
