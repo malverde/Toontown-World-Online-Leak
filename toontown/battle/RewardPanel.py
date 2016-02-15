@@ -9,9 +9,7 @@ from toontown.coghq import CogDisguiseGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
-from panda3d.core import *
 from direct.gui.DirectGui import *
-from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 import BattleBase
 from direct.directnotify import DirectNotifyGlobal

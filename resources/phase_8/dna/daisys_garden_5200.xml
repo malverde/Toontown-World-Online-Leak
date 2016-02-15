@@ -4876,7 +4876,7 @@
 				</flat_building>
 			</group>
 			<group name="props" />
-			<interactive_prop name="interactive_prop_phase_8_models_char__dga_hydrant_DNARoot" code="interactive_prop_phase_8_models_char__dga_hydrant" anim="tt_a_ara_dga_hydrant_idle0" cell_id="0">
+			<interactive_prop name="interactive_prop_phase_8_models_char__dga_hydrant_DNARoot" code="interactive_prop_phase_8_models_char__dga_hydrant" anim="tt_a_ara_dga_hydrant_fightBoost" cell_id="0">
 				<pos x="427.821" y="-67.5297" z="7.62939e-006" />
 				<nhpr h="135" p="0" r="0" />
 			</interactive_prop>

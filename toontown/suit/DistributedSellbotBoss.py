@@ -4,7 +4,6 @@ from toontown.battle.BattleProps import *
 from direct.distributed.ClockDelta import *
 from direct.showbase.PythonUtil import Functor
 from direct.gui.DirectGui import *
-from panda3d.core import *
 from direct.fsm import FSM
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
@@ -323,7 +322,6 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 	def makeIntroductionMovie(self, delayDeletes):
 		track = Parallel()
 		camera.reparentTo(render)
-		camera.setPosHpr(0, 25, 30, 0, 0, 0)
 		localAvatar.setCameraFov(ToontownGlobals.CogHQCameraFov)
 		dooberTrack = Parallel()
 		if self.doobers:
@@ -431,13 +429,12 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 			(10,
 			 Sequence(
 				 Func(self.clearChat),
-				 Func(
-					 camera.setPosHpr, -23.1, 15.7, 17.2, -160, -2.4, 0))),
+				 camera.posHprInterval(5, (-0.3, -105.1, 5.4), (0, 0, 0), blendType='easeInOut'))),
 			(12, Func(self.setChatAbsolute, doobersAway, CFSpeech)),
 			(16,
 			 Parallel(
 				 Func(self.clearChat),
-				 Func(camera.setPosHpr, -25, -99, 10, -14, 10, 0),
+				 camera.posHprInterval(4, (-25, -99, 10), (-14, 10, 0), blendType='easeInOut'),
 				 IndirectInterval(dooberTrack, 14),
 				 IndirectInterval(toonTrack, 30))),
 			(18, Func(self.setChatAbsolute, welcomeToons, CFSpeech)),
@@ -464,12 +461,12 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 				 Func(self.cagedToon.loop, 'neutral'))),
 			(31,
 			 Sequence(
-				 Func(camera.setPosHpr, -20, -35, 10, -88, 25, 0),
+				 camera.posHprInterval(1, (-20, -35, 10), (-88, 25, 0), blendType='easeOut'),
 				 Func(self.setChatAbsolute, discoverToons, CFSpeech),
 				 Func(self.cagedToon.nametag3d.setScale, 1),
 				 Func(self.cagedToon.clearChat),
 				 ActorInterval(self, 'turn2Fb'))),
-			(34,
+			(35,
 			 Sequence(
 				 Func(self.clearChat),
 				 self.loseCogSuits(
@@ -478,11 +475,10 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 				 self.loseCogSuits(
 					 self.toonsB, self.battleBNode,
 					 (0, 18, 5, -180, 0, 0)))),
-			(37,
+			(38,
 			 Sequence(
 				 self.toonNormalEyes(self.involvedToons),
-				 Func(
-					 camera.setPosHpr, -23.4, -145.6, 44.0, -10.0, -12.5, 0),
+				 camera.posHprInterval(1, (-23.4, -145.6, 44.0), (-10.0, -12.5, 0), blendType='easeInOut'),
 				 Func(self.loop, 'Fb_neutral'),
 				 Func(self.rampA.request, 'retract'),
 				 Func(self.rampB.request, 'retract'),
@@ -492,9 +488,10 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 					 self.backupToonsToBattlePosition(
 						 self.toonsB, self.battleBNode),
 					 Sequence(
-						 Wait(2),
-						 Func(
-							 self.setChatAbsolute, attackToons, CFSpeech))))))
+						 Wait(3),
+						 camera.posHprInterval(1, (-25, -35, 20.5), (-90, 0, 0), blendType='easeOut'),
+						 Func(self.setChatAbsolute, attackToons, CFSpeech),
+						 Wait(3))))))
 		track.append(dialogTrack)
 		return Sequence(
 			Func(self.stickToonsToFloor),

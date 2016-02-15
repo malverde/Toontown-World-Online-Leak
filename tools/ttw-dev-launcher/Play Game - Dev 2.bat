@@ -1,6 +1,0 @@
-@echo off
-
-set TTR_GAMESERVER=52.5.86.108
-set /P PPYTHON_PATH=<PPYTHON_PATH
-%PPYTHON_PATH% -m launcher
-pause

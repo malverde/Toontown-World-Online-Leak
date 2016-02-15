@@ -5,6 +5,8 @@ import time
 from direct.distributed import DistributedSmoothNodeAI
 from direct.task import Task
 from direct.distributed.ClockDelta import *
+from direct.distributed.PyDatagram import PyDatagram
+from direct.distributed.MsgTypes import CLIENTAGENT_EJECT
 
 from otp.ai.AIBaseGlobal import *
 from otp.otpbase import OTPGlobals
@@ -18,7 +20,6 @@ from otp.otpbase import OTPLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.quest import QuestRewardCounter
 from toontown.quest import Quests
-from toontown.achievements import Achievements
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.battle import SuitBattleGlobals
 from toontown.catalog import CatalogItemList
@@ -96,7 +97,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.fishTank = None
         self.experience = None
         self.quests = []
-        self.achievements = []
         self.cogs = []
         self.cogCounts = []
         self.NPCFriendsDict = {}
@@ -709,8 +709,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 return
 
         self.friendsList.append((friendId, friendCode))
-        self.air.questManager.toonMadeFriend(self)
-        self.air.achievementsManager.toonMadeFriend(self.doId)
 
     def d_setMaxNPCFriends(self, max):
         self.sendUpdate('setMaxNPCFriends', [max])
@@ -733,46 +731,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def b_setMaxNPCFriends(self, max):
         self.setMaxNPCFriends(max)
         self.d_setMaxNPCFriends(max)
-
-    def setAchievements(self, achievements):
-        for i in xrange(len(achievements)):
-            if not achievements[i] in xrange(len(Achievements.AchievementsDict)):
-                print 'Unknown AchievementId %s' % (achievements[i])
-                del achievements[i]
-
-        self.achievements = achievements
-
-    def d_setAchievements(self, achievements):
-        for i in xrange(len(achievements)):
-            if not achievements[i] in xrange(len(Achievements.AchievementsDict)):
-                print 'Unknown AchievementId %s' % (achievements[i])
-                del achievements[i]
-
-            self.sendUpdate('setAchievements', args=[achievements])
-
-    def b_setAchievements(self, achievements):
-        self.setAchievements(achievements)
-        self.d_setAchievements(achievements)
-
-    def getAchievements(self):
-        return self.achievements
-
-    def addAchievement(self, achievementId):
-        if achievementId in xrange(len(Achievements.AchievementsDict)):
-            if not achievementId in self.achievements:
-                achievements = self.achievements
-                achievements.append(achievementId)
-
-                self.b_setAchievements(achievements)
-
-    def hasAchievement(self, achievementId):
-        if achievementId in self.achievements:
-            return 1
-
-            return 0
-
-    def getAchievements(self):
-        return self.achievements
 
     def getMaxNPCFriends(self):
         return self.maxNPCFriends
@@ -1540,14 +1498,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         cogLevel = self.cogLevels[deptIndex]
         maxSuitType = SuitDNA.suitsPerDept - 1
         maxSuitLevel = (SuitDNA.levelsPerSuit-1) + maxSuitType
-        if cogLevel == maxSuitLevel:
-            self.notify.warning('Attempted to increment Cog level when at max Cog level.')
-            self.air.writeServerEvent(
-                'suspicious', self.doId,
-                'Attempted to increment Cog level when at max Cog level.')
-            return
         maxCogLevel = (SuitDNA.levelsPerSuit-1) + self.cogTypes[deptIndex]
-        if cogLevel == maxCogLevel:
+        if (cogLevel == maxCogLevel) or (cogLevel == maxSuitLevel):
             self.promotionStatus[deptIndex] = ToontownGlobals.PendingPromotion
             self.d_setPromotionStatus(self.promotionStatus)
         else:
@@ -4802,30 +4754,11 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 def setCE(CEValue, CEHood=0, CEExpire=0):
     """Set Cheesy Effect of the target."""
     CEHood *= 1000  #So the invoker only has to use '1' for DonaldsDock, '2' for TTC etc.
-    if not 0 <= CEValue <= 18:
+    if not 0 <= CEValue <= 20:
         return 'Invalid value %s specified for Cheesy Effect.' % CEValue
     if CEHood != 0 and not 100 < CEHood < ToontownGlobals.DynamicZonesBegin:
         return 'Invalid zoneId specified.'
     spellbook.getTarget().b_setCheesyEffect(CEValue, CEHood, time.time()+CEExpire)
-
-@magicWord(category=CATEGORY_CHARACTERSTATS, types=[str, int])
-def achievements(command, achId):
-    invoker = spellbook.getInvoker()
-    if command.lower() == 'earn':
-        achievements = invoker.getAchievements()
-        achievements.append(achId)
-
-        invoker.b_setAchievements(achievements)
-        return 'Earnt Achievement %s' % (achId)
-    elif command.lower() == 'remove':
-        achievements = invoker.getAchievements()
-        achievements.remove(achId)
-
-        invoker.b_setAchievements(achievements)
-        return 'Removed Achievement %s' % (achId)
-    else:
-        return "Unknown Command '%s'" % (command)
-
 
 @magicWord(category=CATEGORY_SYSADMIN)
 def clearInventory():
