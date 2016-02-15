@@ -4,9 +4,7 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-server-version ttw-pre-alpha-2.5.2.1.2
-texture-anisotropic-degree 16
-preload-avatars #t
+server-version ttw-pre-alpha-2.5.2.1.5
 
 
 # Graphics:
@@ -21,6 +19,8 @@ smooth-lag 0.4
 texture-power-2 none
 gl-check-errors #f
 garbage-collect-states #f
+texture-anisotropic-degree 16
+preload-avatars #t
 
 
 # Debug settings
