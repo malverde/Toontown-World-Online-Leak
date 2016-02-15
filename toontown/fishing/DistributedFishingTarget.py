@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
@@ -73,7 +73,7 @@ class DistributedFishingTarget(DistributedNode.DistributedNode):
         x = radius * math.cos(angle) + self.centerPoint[0]
         y = radius * math.sin(angle) + self.centerPoint[1]
         z = self.centerPoint[2]
-        return (x, y, z)
+        return x, y, z
 
     def setState(self, stateIndex, angle, radius, time, timeStamp):
         ts = globalClockDelta.localElapsedTime(timeStamp)

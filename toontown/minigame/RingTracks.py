@@ -13,7 +13,7 @@ ll = (-1, -1)
 
 def ringLerp(t, a, b):
     omT = 1.0 - t
-    return (float(a[0]) * omT + float(b[0]) * t, float(a[1]) * omT + float(b[1]) * t)
+    return float(a[0]) * omT + float(b[0]) * t, float(a[1]) * omT + float(b[1]) * t
 
 
 def ringClerp(t, a, b):
@@ -31,59 +31,59 @@ def getSquareRingActions():
 
 
 def getVerticalSlotActions(x):
-    return ([RingAction.RingActionFunction(ringClerp, [(x, 1), (x, -1)]), RingAction.RingActionFunction(ringClerp, [(x, -1), (x, 1)])], [0.5, 0.5])
+    return [RingAction.RingActionFunction(ringClerp, [(x, 1), (x, -1)]), RingAction.RingActionFunction(ringClerp, [(x, -1), (x, 1)])], [0.5, 0.5]
 
 
 def getHorizontalSlotActions(y):
-    return ([RingAction.RingActionFunction(ringClerp, [(1, y), (-1, y)]), RingAction.RingActionFunction(ringClerp, [(-1, y), (1, y)])], [0.5, 0.5])
+    return [RingAction.RingActionFunction(ringClerp, [(1, y), (-1, y)]), RingAction.RingActionFunction(ringClerp, [(-1, y), (1, y)])], [0.5, 0.5]
 
 
 def getCircleRingActions():
 
     def circlePos(t):
-        return (math.sin(t * 2.0 * math.pi), math.cos(t * 2.0 * math.pi))
+        return math.sin(t * 2.0 * math.pi), math.cos(t * 2.0 * math.pi)
 
-    return ([RingAction.RingActionFunction(circlePos, [])], [1.0])
+    return [RingAction.RingActionFunction(circlePos, [])], [1.0]
 
 
 def getVerticalInfinityRingActions():
 
     def vertInfPos(t):
-        return (0.5 * math.sin(2.0 * t * 2.0 * math.pi), math.cos(t * 2.0 * math.pi))
+        return 0.5 * math.sin(2.0 * t * 2.0 * math.pi), math.cos(t * 2.0 * math.pi)
 
-    return ([RingAction.RingActionFunction(vertInfPos, [])], [1.0])
+    return [RingAction.RingActionFunction(vertInfPos, [])], [1.0]
 
 
 def getHorizontalInfinityRingActions():
 
     def horizInfPos(t):
-        return (math.sin(t * 2.0 * math.pi), 0.5 * math.sin(2.0 * t * 2.0 * math.pi))
+        return math.sin(t * 2.0 * math.pi), 0.5 * math.sin(2.0 * t * 2.0 * math.pi)
 
-    return ([RingAction.RingActionFunction(horizInfPos, [])], [1.0])
+    return [RingAction.RingActionFunction(horizInfPos, [])], [1.0]
 
 
 RingOffset = 0.4
 
 def getPlusUpRingActions():
-    return ([RingAction.RingActionFunction(ringClerp, [(0, RingOffset), (0, 1)]), RingAction.RingActionFunction(ringClerp, [(0, 1), (0, RingOffset)])], [0.5, 0.5])
+    return [RingAction.RingActionFunction(ringClerp, [(0, RingOffset), (0, 1)]), RingAction.RingActionFunction(ringClerp, [(0, 1), (0, RingOffset)])], [0.5, 0.5]
 
 
 def getPlusDownRingActions():
-    return ([RingAction.RingActionFunction(ringClerp, [(0, -RingOffset), (0, -1)]), RingAction.RingActionFunction(ringClerp, [(0, -1), (0, -RingOffset)])], [0.5, 0.5])
+    return [RingAction.RingActionFunction(ringClerp, [(0, -RingOffset), (0, -1)]), RingAction.RingActionFunction(ringClerp, [(0, -1), (0, -RingOffset)])], [0.5, 0.5]
 
 
 def getPlusRightRingActions():
-    return ([RingAction.RingActionFunction(ringClerp, [(RingOffset, 0), (1, 0)]), RingAction.RingActionFunction(ringClerp, [(1, 0), (RingOffset, 0)])], [0.5, 0.5])
+    return [RingAction.RingActionFunction(ringClerp, [(RingOffset, 0), (1, 0)]), RingAction.RingActionFunction(ringClerp, [(1, 0), (RingOffset, 0)])], [0.5, 0.5]
 
 
 def getPlusLeftRingActions():
-    return ([RingAction.RingActionFunction(ringClerp, [(-RingOffset, 0), (-1, 0)]), RingAction.RingActionFunction(ringClerp, [(-1, 0), (-RingOffset, 0)])], [0.5, 0.5])
+    return [RingAction.RingActionFunction(ringClerp, [(-RingOffset, 0), (-1, 0)]), RingAction.RingActionFunction(ringClerp, [(-1, 0), (-RingOffset, 0)])], [0.5, 0.5]
 
 
 def getHalfDomeRingActions():
 
     def halfDome(t):
-        return (math.cos(t * math.pi), -math.sin(t * math.pi))
+        return math.cos(t * math.pi), -math.sin(t * math.pi)
 
     x1 = -1.0
     x2 = -1.0 / 3.0

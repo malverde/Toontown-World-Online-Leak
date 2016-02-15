@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from otp.launcher.LauncherBase import LauncherBase
 import os
@@ -27,27 +27,32 @@ class TTRLauncher(LauncherBase):
 
 	def __init__(self):
 		username = self.getPlayToken()
-		password = raw_input('Password:   ')
+		password = self.getPassword()
+		passwordencode = urllib.quote_plus(password)
+		print passwordencode
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
-		param = {"username": str(username)}
-		params = urllib.urlencode(param)
 		print ("Sending username/password to server...")
 		connection = httplib.HTTPConnection("www.toontownworldonline.com")
-		connection.request("GET", "/api/login/login.php?username="+ username + "&password=" + password)
+		connection.request("GET", "/api/login/login.php?username="+ username + "&password=" + passwordencode)
 		response = connection.getresponse()
 
 		data = response.read()
 		# turn json into pythonic format
 		formattedData = json.loads(data)
 		if formattedData.get("success", True):
-			# we now have a gameserver, we can log in now.
+			# we now have a login, we can log in now.
 			print("Success! Starting the game...")
 			connection.close()
+		elif formattedData.get("banned"): # We are banned RIP
+			print("Sorry, you are banned from TTW!") # Lets be nice
+			connection.close() # Close connection TO our API
+			sys.exit() # And kill them so they cant log in
 		else:
 			# can't log in, probably because of invalid password
 			print("Unable to log into the game. Reason: " + formattedData.get("reason", {}))
 			connection.close()
 			sys.exit()
+			
 		self.http = HTTPClient()
 
 		self.logPrefix = 'ttw-'
@@ -71,6 +76,9 @@ class TTRLauncher(LauncherBase):
 
 	def getPlayToken(self):
 		return self.getValue('TTR_PLAYCOOKIE')
+	
+	def getPassword(self):
+		return self.getValue('TTR_PASSWORD')
 
 	def getGameServer(self):
 		return self.getValue('TTR_GAMESERVER')

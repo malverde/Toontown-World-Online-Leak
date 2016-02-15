@@ -1,5 +1,5 @@
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.task.Task import Task
 from direct.fsm import StateData
 from direct.showbase import AppRunnerGlobal
@@ -264,12 +264,12 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
 
     def __doScreenSizeLeft(self):
         if self.screenSizeIndex > 0:
-            self.screenSizeIndex = self.screenSizeIndex - 1
+            self.screenSizeIndex -= 1
             self.updateScreenSize()
 
     def __doScreenSizeRight(self):
         if self.screenSizeIndex < len(self.screenSizes) - 1:
-            self.screenSizeIndex = self.screenSizeIndex + 1
+            self.screenSizeIndex += 1
             self.updateScreenSize()
 
     def __apply(self):

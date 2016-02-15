@@ -26,7 +26,7 @@ from toontown.toonbase import ToontownGlobals
 import types
 import random
 import time
-from pandac.PandaModules import *
+from panda3d.core import *
 MetaItems = {100: getAllClothes(101, 102, 103, 104, 105, 106, 107, 108, 109, 109, 111, 115, 201, 202, 203, 204, 205, 206, 207, 208, 209, 209, 211, 215),
              300: getAllClothes(301, 302, 303, 304, 305, 308, 401, 403, 404, 405, 407, 451, 452, 453),
              2000: getChatRange(0, 1999),
@@ -77,7 +77,7 @@ def getAllChatItemsSold():
     return result
 
 
-class Sale():
+class Sale:
 
     def __init__(self, *args):
         self.args = args
@@ -338,6 +338,7 @@ MonthlySchedule = (
       CatalogWallpaperItem(13300),
       CatalogFlooringItem(11000),
       CatalogFlooringItem(11010))),
+    # CatalogFlooringItem(11020)
     (5, 25, 6, 25,
      (CatalogClothingItem(1400, 0),
       CatalogClothingItem(1401, 0),
@@ -366,6 +367,8 @@ MonthlySchedule = (
     (12, 4, 1, 4,
      (CatalogFurnitureItem(680),
       CatalogFurnitureItem(681),
+      # CatalogGardenItem(130, 1),
+      # CatalogGardenItem(131, 1),
       CatalogAnimatedFurnitureItem(10020),
       CatalogFurnitureItem(10030, 0))),
     (12, 4, 1, 4,
@@ -408,6 +411,13 @@ MonthlySchedule = (
      (CatalogClothingItem(1768, 0),
       CatalogClothingItem(1769, 0))),
     (1, 1, 12, 31,
+     #CatalogGardenItem(100, 1), #GARDENS
+      # CatalogGardenItem(101, 1),
+      # CatalogGardenItem(103, 1),
+      #       #CatalogGardenItem(104, 1),
+      #       CatalogToonStatueItem(105, endPoseIndex=108),
+      #       CatalogRentalItem(1, 2880, 1000),
+      #       CatalogGardenStarterItem(),
      (CatalogToonStatueItem(105, endPoseIndex=108),
       CatalogRentalItem(1, 2880, 1000),
       CatalogNametagItem(100),
@@ -477,6 +487,8 @@ MonthlySchedule = (
      ((3, 2910),
       CatalogFurnitureItem(680),
       CatalogFurnitureItem(681),
+      # CatalogGardenItem(130, 1), #MORE GARDEN STUFF
+      # CatalogGardenItem(131, 1),
       CatalogAnimatedFurnitureItem(10020),
       CatalogFurnitureItem(10030, 0),
       CatalogWallpaperItem(11000),
@@ -1173,7 +1185,7 @@ WeeklySchedule = (
      nextAvailablePole))
 
 
-class CatalogGenerator():
+class CatalogGenerator:
     notify = DirectNotifyGlobal.directNotify.newCategory('CatalogGenerator')
 
     def __init__(self):
@@ -1181,12 +1193,12 @@ class CatalogGenerator():
         self.__releasedItemLists = {}
 
     def getReleasedCatalogList(self, weekStart):
-        dayNumber = int(weekStart / 1440)
+        dayNumber = int(weekStart / (24 * 60))
         itemLists = self.__getReleasedItemLists(dayNumber, weekStart)
         return itemLists
 
     def generateMonthlyCatalog(self, avatar, weekStart):
-        dayNumber = int(weekStart / 1440)
+        dayNumber = int(weekStart / (24 * 60))
         itemLists = self.__getMonthlyItemLists(dayNumber, weekStart)
         monthlyCatalog = CatalogItemList.CatalogItemList()
         for list in itemLists:
@@ -1205,7 +1217,7 @@ class CatalogGenerator():
         self.notify.debug(
             'Generating catalog for %s for week %s.' %
             (avatar.doId, week))
-        if week >= 1 and week <= len(WeeklySchedule):
+        if 1 <= week <= len(WeeklySchedule):
             saleItem = 0
             schedule = WeeklySchedule[week - 1]
             if isinstance(schedule, Sale):

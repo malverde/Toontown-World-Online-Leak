@@ -135,7 +135,7 @@ class CogdoMazeLocalPlayer(CogdoMazePlayer):
         self._guiMgr.hideQuestArrow()
         self.ignore('control')
         self._guiMgr.setMessage('')
-        if self.exited == False:
+        if not self.exited:
             self.lostMemos()
 
     def exitDone(self):

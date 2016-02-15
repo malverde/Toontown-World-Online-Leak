@@ -3,7 +3,7 @@ from direct.distributed.ClockDelta import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import FSM
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.task import Task
 from toontown.fishing import BingoGlobals
 from toontown.fishing import BingoCardGui
@@ -194,17 +194,17 @@ class DistributedPondBingoManager(DistributedObject.DistributedObject, FSM.FSM):
         if request == 'Intro':
             return 'Intro'
         elif request == 'WaitCountdown':
-            return (request, args)
+            return request, args
         elif request == 'Playing':
             self.__generateCard()
             self.card.setJackpotText(str(self.jackpot))
-            return (request, args)
+            return request, args
         elif request == 'Intermission':
-            return (request, args)
+            return request, args
         elif request == 'GameOver':
-            return (request, args)
+            return request, args
         elif request == 'Reward':
-            return ('GameOver', args)
+            return 'GameOver', args
         else:
             self.notify.debug('filterOff: Invalid State Transition from, Off to %s' % request)
 
@@ -218,7 +218,7 @@ class DistributedPondBingoManager(DistributedObject.DistributedObject, FSM.FSM):
 
     def filterIntro(self, request, args):
         if request == 'WaitCountdown':
-            return (request, args)
+            return request, args
         else:
             self.notify.debug('filterIntro: Invalid State Transition from Intro to %s' % request)
 
@@ -234,7 +234,7 @@ class DistributedPondBingoManager(DistributedObject.DistributedObject, FSM.FSM):
 
     def filterWaitCountdown(self, request, args):
         if request == 'Playing':
-            return (request, args)
+            return request, args
         else:
             self.notify.debug('filterOff: Invalid State Transition from WaitCountdown to %s' % request)
 
@@ -257,9 +257,9 @@ class DistributedPondBingoManager(DistributedObject.DistributedObject, FSM.FSM):
 
     def filterPlaying(self, request, args):
         if request == 'Reward':
-            return (request, args)
+            return request, args
         elif request == 'GameOver':
-            return (request, args)
+            return request, args
         else:
             self.notify.debug('filterOff: Invalid State Transition from Playing to %s' % request)
 
@@ -280,9 +280,9 @@ class DistributedPondBingoManager(DistributedObject.DistributedObject, FSM.FSM):
 
     def filterReward(self, request, args):
         if request == 'WaitCountdown':
-            return (request, args)
+            return request, args
         elif request == 'Intermission':
-            return (request, args)
+            return request, args
         elif request == 'CloseEvent':
             return 'CloseEvent'
         elif request == 'Off':
@@ -302,9 +302,9 @@ class DistributedPondBingoManager(DistributedObject.DistributedObject, FSM.FSM):
 
     def filterGameOver(self, request, args):
         if request == 'WaitCountdown':
-            return (request, args)
+            return request, args
         elif request == 'Intermission':
-            return (request, args)
+            return request, args
         elif request == 'CloseEvent':
             return 'CloseEvent'
         elif request == 'Off':
@@ -330,7 +330,7 @@ class DistributedPondBingoManager(DistributedObject.DistributedObject, FSM.FSM):
 
     def filterIntermission(self, request, args):
         if request == 'WaitCountdown':
-            return (request, args)
+            return request, args
         elif request == 'Off':
             return 'Off'
         else:

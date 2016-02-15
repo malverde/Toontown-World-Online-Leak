@@ -1,5 +1,5 @@
 #Embedded file name: toontown.safezone.DistributedDGFlower
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedObject
 from toontown.toonbase import ToontownGlobals

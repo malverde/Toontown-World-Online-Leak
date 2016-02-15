@@ -1,5 +1,5 @@
 from direct.interval.IntervalGlobal import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 import random
@@ -9,7 +9,8 @@ EFFECT_RADIUS = 30
 RESISTANCE_TOONUP = 0
 RESISTANCE_RESTOCK = 1
 RESISTANCE_MONEY = 2
-resistanceMenu = [RESISTANCE_TOONUP, RESISTANCE_RESTOCK, RESISTANCE_MONEY]
+RESISTANCE_DANCE = 3
+resistanceMenu = [RESISTANCE_TOONUP, RESISTANCE_RESTOCK, RESISTANCE_MONEY, RESISTANCE_DANCE]
 resistanceDict = {RESISTANCE_TOONUP: {'menuName': TTL.ResistanceToonupMenu,
                                       'itemText': TTL.ResistanceToonupItem,
                                       'chatText': TTL.ResistanceToonupChat,
@@ -60,7 +61,12 @@ resistanceDict = {RESISTANCE_TOONUP: {'menuName': TTL.ResistanceToonupMenu,
                                                  4,
                                                  5,
                                                  6,
-                                                 7]}}
+                                                 7]},
+                  RESISTANCE_DANCE: {'menuName': TTL.ResistanceDanceMenu,
+                                     'itemText': TTL.ResistanceDanceItem,
+                                     'chatText': TTL.ResistanceDanceChat,
+                                     'values': ['Dance'],
+                                     'items': [0]}}
 
 
 def encodeId(menuIndex, itemIndex):
@@ -72,7 +78,7 @@ def encodeId(menuIndex, itemIndex):
 def decodeId(textId):
     menuIndex = int(textId / 100)
     itemIndex = textId % 100
-    return (menuIndex, itemIndex)
+    return menuIndex, itemIndex
 
 
 def validateId(textId):
@@ -179,6 +185,15 @@ def doEffect(textId, speakingToon, nearbyToons):
             p.renderer.setFromNode(icon)
 
         fadeColor = VBase4(0, 0, 1, 1)
+    
+    elif menuIndex == RESISTANCE_DANCE:
+        effect = BattleParticles.loadParticleFile('resistanceEffectSparkle.ptf')
+        fadeColor = VBase4(1, 0.5, 1, 1)
+        for toonId in nearbyToons:
+            toon = base.cr.doId2do.get(toonId)
+            if toon and not toon.ghostMode:
+				                toon.setAnimState('victory')
+    
     else:
         return
     recolorToons = Parallel()

@@ -195,7 +195,7 @@ class DistributedTravelGameAI(DistributedMinigameAI):
         availableVotes = self.currentVotes[avId]
         retVotes = min(votes, availableVotes)
         retVotes = max(votes, 0)
-        return (retVotes, retDir)
+        return retVotes, retDir
 
     def allAvatarsChosen(self):
         for avId in self.avatarChoices.keys():

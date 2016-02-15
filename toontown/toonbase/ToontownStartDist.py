@@ -111,7 +111,7 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
                 className = dclass.getName()
                 classDef = dcImports.get(className)
             if classDef is None:
-                self.notify.debug("No class definition for %s." % (className))
+                self.notify.debug("No class definition for %s." % className)
             else:
                 if isinstance(classDef, types.ModuleType):
                     if not hasattr(classDef, className):
@@ -128,7 +128,7 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
                         types.TypeType):
                     self.notify.error(
                         "Symbol %s is not a class name." %
-                        (className))
+                        className)
                 else:
                     dclass.setClassDef(classDef)
 
@@ -151,7 +151,7 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
                 moduleName = suffix[0]
                 suffix = suffix[1:]
                 if ownerDcSuffix in suffix:
-                    moduleName = moduleName + ownerDcSuffix
+                    moduleName += ownerDcSuffix
 
                 importSymbols = []
                 for i in range(dcFile.getNumImportSymbols(n)):
@@ -172,7 +172,7 @@ class ConnectionRepository_override(ConnectionRepository.ConnectionRepository):
             # in the DC file.
             for i in range(dcFile.getNumClasses()):
                 dclass = dcFile.getClass(i)
-                if ((dclass.getName() + ownerDcSuffix) in ownerImportSymbols):
+                if (dclass.getName() + ownerDcSuffix) in ownerImportSymbols:
                     number = dclass.getNumber()
                     className = dclass.getName() + ownerDcSuffix
 

@@ -4,9 +4,7 @@
 
 # Client settings
 window-title Toontown World Online [Pre-Alpha]
-server-version ttw-pre-alpha-2.5.2
-texture-anisotropic-degree 16
-preload-avatars #f
+server-version ttw-pre-alpha-2.5.2.1.5
 
 
 # Graphics:
@@ -21,6 +19,8 @@ smooth-lag 0.4
 texture-power-2 none
 gl-check-errors #f
 garbage-collect-states #f
+texture-anisotropic-degree 16
+preload-avatars #t
 
 
 # Debug settings
@@ -90,16 +90,16 @@ default-model-extension .bam
 
 # Systems and Beta Modifications
 # Modifications/temporary for unimplemented features go here.
-want-accessories #t
+want-accessories #f
 # Newsmanager
 want-news-tab #f
 want-news-page #f
 want-fishing #t
-want-parties #t
+want-parties #f
 # Estates
-want-pets #t
+want-pets #f
 want-gardening #f
-want-gifting #t
+want-gifting #f
 # Table games
 want-game-tables #f
 want-checkers-table #f
@@ -112,9 +112,8 @@ want-speedhack-fix #t
 # A few fun things for unfinished events and settings
 estate-day-night #t
 want-instant-parties #f
-want-toontorial #f
 want-doomsday #f
-want-cogdominiums #f
+want-cogdominiums #t
 
 
 # Chat system (server-sided/client-sided)
@@ -133,7 +132,7 @@ want-hourly-fireworks #t
 want-hourly-fireworks-type victoryreleasefireworks
 # Alternative than nerfing VP?
 easy-vp #f
-force-holiday-decorations 1, 6
+# force-holiday-decorations 0
 want-blueprint4-ARG #f
 want-april-toons #f
 
@@ -149,7 +148,7 @@ boarding-group-merges #t
 
 
 # Misc
-# force-skip-tutorial #t
+# force-skip-tutorial #f
 
 
 # Server:

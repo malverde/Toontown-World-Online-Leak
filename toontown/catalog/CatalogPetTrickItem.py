@@ -47,7 +47,6 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
     def getPicture(self, avatar):
         from toontown.pets import PetDNA, Pet
         pet = Pet.Pet(forGui=1)
-        i
         dna = PetDNA.getRandomPetDNA()
         pet.setDNA(dna)
         pet.setH(180)
@@ -70,7 +69,7 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
             track = Sequence(Wait(4), name=name)
         self.petPicture = pet
         self.hasPicture = True
-        return (model, track)
+        return model, track
 
     def cleanupPicture(self):
         CatalogItem.CatalogItem.cleanupPicture(self)

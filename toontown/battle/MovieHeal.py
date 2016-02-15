@@ -32,7 +32,7 @@ runHealTime = 1.0
 
 def doHeals(heals, hasInteractivePropHealBonus):
     if len(heals) == 0:
-        return (None, None)
+        return None, None
     track = Sequence()
     for h in heals:
         ival = __doHealLevel(h, hasInteractivePropHealBonus)
@@ -41,7 +41,7 @@ def doHeals(heals, hasInteractivePropHealBonus):
 
     camDuration = track.getDuration()
     camTrack = MovieCamera.chooseHealShot(heals, camDuration)
-    return (track, camTrack)
+    return track, camTrack
 
 
 def __doHealLevel(heal, hasInteractivePropHealBonus):

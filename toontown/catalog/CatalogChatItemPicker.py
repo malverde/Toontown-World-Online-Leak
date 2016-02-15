@@ -1,6 +1,6 @@
 # Embedded file name: toontown.catalog.CatalogChatItemPicker
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.showbase import DirectObject
 import CatalogItem
 from toontown.toonbase import ToontownGlobals

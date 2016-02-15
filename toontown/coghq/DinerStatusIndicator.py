@@ -51,7 +51,7 @@ class DinerStatusIndicator(NodePath, FSM.FSM):
         dark.wrtReparentTo(center)
         dark.setTexProjector(TextureStage.getDefault(), center, retVal)
         retVal.hide()
-        return (retVal, center)
+        return retVal, center
 
     def enterEating(self, timeToFinishFood):
         self.eatingIcon.show()

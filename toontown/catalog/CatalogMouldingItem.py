@@ -50,7 +50,7 @@ class CatalogMouldingItem(CatalogSurfaceItem):
         b.hide()
         c.hide()
         sample.reparentTo(frame)
-        return (frame, None)
+        return frame, None
 
     def output(self, store=-1):
         return 'CatalogMouldingItem(%s, %s%s)' % (
@@ -65,7 +65,7 @@ class CatalogMouldingItem(CatalogSurfaceItem):
         return self.colorIndex - other.colorIndex
 
     def getHashContents(self):
-        return (self.patternIndex, self.colorIndex)
+        return self.patternIndex, self.colorIndex
 
     def getBasePrice(self):
         return MouldingTypes[self.patternIndex][MTBasePrice]
@@ -143,7 +143,7 @@ def getMouldingRange(fromIndex, toIndex, *otherRanges):
 
     for patternIndex in MouldingTypes.keys():
         for fromIndex, toIndex in zip(froms, tos):
-            if patternIndex >= fromIndex and patternIndex <= toIndex:
+            if fromIndex <= patternIndex <= toIndex:
                 colors = MouldingTypes[patternIndex][MTColor]
                 if colors:
                     for n in range(len(colors)):

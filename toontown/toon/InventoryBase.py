@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase.ToontownBattleGlobals import *
 from direct.showbase import DirectObject
@@ -167,9 +167,9 @@ class InventoryBase(DirectObject.DirectObject):
     def getTrackAndLevel(self, propName):
         for track in range(0, len(Tracks)):
             if AvProps[track].count(propName):
-                return (tracks, AvProps[track].index(propName))
+                return tracks, AvProps[track].index(propName)
 
-        return (-1, -1)
+        return -1, -1
 
     def calcTotalProps(self):
         self.totalProps = 0
@@ -281,7 +281,7 @@ class InventoryBase(DirectObject.DirectObject):
                     if not filterPaidGags or not (unpaid and gagIsPaidOnly(track, level)):
                         result = self.addItem(track, level)
                     level -= 1
-                    while result <= 0 and level >= 0:
+                    while result <= 0 <= level:
                         if not filterPaidGags or not (unpaid and gagIsPaidOnly(track, level)):
                             result = self.addItem(track, level)
                         level -= 1

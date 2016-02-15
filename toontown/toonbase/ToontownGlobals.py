@@ -13,6 +13,7 @@ DatabaseIdFromClassName = {'Account': AccountDatabaseChannelId}
 CogHQCameraFov = 60.0
 BossBattleCameraFov = 72.0
 MakeAToonCameraFov = 52.0
+CogdoFov = 56.9
 WantPromotion = 0
 PendingPromotion = 1
 
@@ -1884,7 +1885,7 @@ hood2Coords = {
         (296.844, 0, 0)]}
 
 
-# Gag Buffs variables...
+# Gag Buffs variables... Touching these variables can significantly impact fair-game-play.
 
 BMovementSpeed = 0
 BMovementSpeedMultiplier = 2.3

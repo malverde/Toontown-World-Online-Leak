@@ -1,7 +1,6 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.gui.DirectGui import *
-from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
@@ -90,8 +89,7 @@ class Elevator(StateData.StateData):
             else:
                 self.fsm.request('requestBoard')
         elif DFAdoneStatus['mode'] == 'incomplete':
-            elevatorDoneStatus = {}
-            elevatorDoneStatus['where'] = 'reject'
+            elevatorDoneStatus = {'where': 'reject'}
             messenger.send(self.doneEvent, [elevatorDoneStatus])
         else:
             self.notify.error('Unrecognized doneStatus: ' + str(DFAdoneStatus))

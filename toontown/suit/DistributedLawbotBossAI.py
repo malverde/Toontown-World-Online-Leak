@@ -292,7 +292,7 @@ class DistributedLawbotBossAI(
                              (1, 1),
                              (1, 1, 1, 1, 1))
             listVersion = list(SuitBuildingGlobals.SuitBuildingInfo)
-            if config.GetBool('lawbot-boss-cheat', 0):
+            if config.GetBool('want-lawbot-boss-cheat', 0):
                 listVersion[13] = weakenedValue
                 SuitBuildingGlobals.SuitBuildingInfo = tuple(listVersion)
             return self.invokeSuitPlanner(13, 0)
@@ -561,7 +561,7 @@ class DistributedLawbotBossAI(
             dmgAdjust,
             0,
             0)
-        if config.GetBool('lawbot-boss-cheat', 0):
+        if config.GetBool('want-lawbot-boss-cheat', 0):
             self.b_setBossDamage(ToontownGlobals.LawbotBossMaxDamage - 1, 0, 0)
         self.battleThreeStart = globalClock.getFrameTime()
         for toonId in self.involvedToons:
@@ -1000,7 +1000,7 @@ class DistributedLawbotBossAI(
 
 
 @magicWord(category=CATEGORY_SYSADMIN)
-def skipcJ():
+def skipCJ():
     """
     Skips to the final round of the CJ.
     """
@@ -1016,12 +1016,13 @@ def skipcJ():
     if boss.state in ('PrepareBattleThree', 'BattleThree'):
         return "You can't skip this round."
     boss.exitIntroduction()
-    boss.b_setState('PrepareBattleThree')
+    boss.b_setState('PrepareBattleTwo')
+    # boss.b_setState('PrepareBattleThree') # We can't miss the Cannon Round!
     return 'Skipping the first round...'
 
 
 @magicWord(category=CATEGORY_ADMIN, types=[])
-def endcj():
+def endCJ():
     toon = spellbook.getTarget()
     if toon:
         z = toon.zoneId
@@ -1039,6 +1040,13 @@ def endcj():
 
 @magicWord(category=CATEGORY_ADMIN, types=[int])
 def fillJury(jurors=12):
+    """
+    :param jurors: Juror
+    :type jurors: Cog or Toon Juror
+    :return:
+    :rtype:
+    Adds Toon Jorours
+    """
     invoker = spellbook.getInvoker()
     boss = wt = None
     for do in simbase.air.doId2do.values():
@@ -1060,3 +1068,60 @@ def fillJury(jurors=12):
             chair.requestSuitJuror()
 
     return 'Jury filled with {0} toons!'.format(jurors)
+
+@magicWord(category=CATEGORY_ADMIN)
+def restartCannonRound():
+    """
+    Restarts the crane round in the CFO.
+    """
+    invoker = spellbook.getInvoker()
+    boss = None
+    for do in simbase.air.doId2do.values():
+        if isinstance(do, DistributedCashbotBossAI):
+            if invoker.doId in do.involvedToons:
+                boss = do
+                break
+    if not boss:
+        return "You aren't in a CJ!"
+    boss.exitIntroduction()
+    boss.b_setState('PrepareBattleTwo')
+    boss.b_setState('BattleTwo')
+    return 'Restarting to cannon round...'
+
+@magicWord(category=CATEGORY_ADMIN)
+def bombCJ():
+    """
+    Damaged CJ by 1 hitpoint.
+    """
+    invoker = spellbook.getInvoker()
+    boss = None
+    for do in simbase.air.doId2do.values():
+        if isinstance(do, DistributedLawbotBossAI):
+            if invoker.doId in do.involvedToons:
+                boss = do
+                break
+    if not boss:
+        return "You aren't in a CJ!"
+    if boss.state not in 'BattleThree':
+        return "The CJ can't be destroyed yet. Try using skipCJ."
+    boss.magicWordHit(boss.bossDamage + 1, invoker)
+    return 'Bombed the CJ'
+
+@magicWord(category=CATEGORY_ADMIN)
+def bombCJMax():
+    """
+    Bombs the CJ - ends it though like ~endCJ
+    """
+    invoker = spellbook.getInvoker()
+    boss = None
+    for do in simbase.air.doId2do.values():
+        if isinstance(do, DistributedLawbotBossAI):
+            if invoker.doId in do.involvedToons:
+                boss = do
+                break
+    if not boss:
+        return "You aren't in a CJ!"
+    if boss.state not in 'BattleThree':
+        return "The CJ can't be destroyed yet. Try using skipCJ."
+    boss.magicWordHit(boss.bossMaxDamage, invoker)
+    return 'Bombed the CJ'

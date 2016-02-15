@@ -136,9 +136,9 @@ def convertDistanceFromPartyGrid(d, index):
 
 def convertDegreesToPartyGrid(h):
     while h < 0.0:
-        h = h + 360.0
+        h += 360.0
 
-    h = h % 360.0
+    h %= 360.0
     return int(h / PartyGlobals.PartyGridHeadingConverter)
 
 
@@ -155,7 +155,7 @@ def getCenterPosFromGridSize(x, y, gridsize):
         yMod = PartyGlobals.PartyGridUnitLength[1] / 2.0
     else:
         yMod = 0
-    return (x + xMod, y + yMod)
+    return x + xMod, y + yMod
 
 
 def toRadians(angle):
@@ -197,10 +197,10 @@ class LineSegment:
         u1 = top1 / bot
         u2 = top2 / bot
         if compare is None:
-            return 0 <= u1 and u1 <= 1 and 0 <= u2 and u2 <= 1
+            return 0 <= u1 <= 1 and 0 <= u2 <= 1
         if compare == 'segment-ray':
-            return 0 <= u1 and u1 <= 1 and 0 <= u2
+            return 0 <= u1 <= 1 and 0 <= u2
         if compare == 'ray-ray':
             return 0 <= u1 and 0 <= u2
         if compare == 'ray-segment':
-            return 0 <= u1 and 0 <= u2 and u2 <= 1
+            return 0 <= u1 and 0 <= u2 <= 1

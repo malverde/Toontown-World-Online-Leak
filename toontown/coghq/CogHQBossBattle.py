@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from toontown.hood import Place
@@ -162,7 +162,7 @@ class CogHQBossBattle(BattlePlace.BattlePlace):
 
     def enterOuch(self):
         base.localAvatar.setTeleportAvailable(0)
-        #I think this is what we need to use for the laff during battle :)
+        # I think this is what we need to use for the laff during battle :)
         base.localAvatar.laffMeter.start()
 
     def exitOuch(self):

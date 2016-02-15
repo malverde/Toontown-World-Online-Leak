@@ -8,7 +8,7 @@ from toontown.toon import InventoryBase
 from toontown.battle import DistributedBattleFinalAI
 from toontown.building import SuitPlannerInteriorAI
 from toontown.battle import BattleBase
-from pandac.PandaModules import *
+from panda3d.core import *
 import SuitDNA
 import random
 import math
@@ -586,7 +586,7 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
 
     def progressRandomValue(self, fromValue, toValue, radius=0.2):
         t = self.progressValue(0, 1)
-        radius = radius * (1.0 - abs(t - 0.5) * 2.0)
+        radius *= 1.0 - abs(t - 0.5) * 2.0
         t += radius * random.uniform(-1, 1)
         t = max(min(t, 1.0), 0.0)
         return fromValue + (toValue - fromValue) * t
@@ -627,13 +627,14 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
             damage *= self.getDamageMultiplier()
             self.damageToon(toon, damage)
             currState = self.getCurrentOrNextState()
-            if attackCode == ToontownGlobals.BossCogElectricFence and (
+            if self.attackCode != ToontownGlobals.BossCogDizzyNow and self.attackCode != ToontownGlobals.BossCogAreaAttack:
+                if attackCode == ToontownGlobals.BossCogElectricFence and (
                     currState == 'RollToBattleTwo' or currState == 'BattleThree'):
-                if bpy < 0 and abs(bpx / bpy) > 0.5:
-                    if bpx < 0:
-                        self.b_setAttackCode(ToontownGlobals.BossCogSwatRight)
-                    else:
-                        self.b_setAttackCode(ToontownGlobals.BossCogSwatLeft)
+                    if bpy < 0 and abs(bpx / bpy) > 0.5:
+                        if bpx < 0:
+                            self.b_setAttackCode(ToontownGlobals.BossCogSwatRight)
+                        else:
+                            self.b_setAttackCode(ToontownGlobals.BossCogSwatLeft)
         return
 
     def d_showZapToon(self, avId, x, y, z, h, p, r, attackCode, timestamp):

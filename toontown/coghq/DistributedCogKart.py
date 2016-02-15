@@ -299,7 +299,7 @@ class DistributedCogKart(DistributedElevatorExt.DistributedElevatorExt):
             self.deferredSlots = newSlots
         elif self.cr.doId2do.has_key(avId):
             if bailFlag == 1 and hasattr(self, 'clockNode'):
-                if timestamp < self.countdownTime and timestamp >= 0:
+                if self.countdownTime > timestamp >= 0:
                     self.countdown(self.countdownTime - timestamp)
                 else:
                     self.countdown(self.countdownTime)

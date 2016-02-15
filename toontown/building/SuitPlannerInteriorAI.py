@@ -72,11 +72,7 @@ class SuitPlannerInteriorAI:
             for currActive in range(numActive - 1, -1, -1):
                 level = lvls[currActive]
                 type = self.__genNormalSuitType(level)
-                activeDict = {}
-                activeDict['type'] = type
-                activeDict['track'] = bldgTrack
-                activeDict['level'] = level
-                activeDict['revives'] = revives
+                activeDict = {'type': type, 'track': bldgTrack, 'level': level, 'revives': revives}
                 activeDicts.append(activeDict)
 
             infoDict['activeSuits'] = activeDicts
@@ -86,12 +82,8 @@ class SuitPlannerInteriorAI:
             for currReserve in range(numReserve):
                 level = lvls[currReserve + numActive]
                 type = self.__genNormalSuitType(level)
-                reserveDict = {}
-                reserveDict['type'] = type
-                reserveDict['track'] = bldgTrack
-                reserveDict['level'] = level
-                reserveDict['revives'] = revives
-                reserveDict['joinChance'] = joinChances[currReserve]
+                reserveDict = {'type': type, 'track': bldgTrack, 'level': level, 'revives': revives,
+                               'joinChance': joinChances[currReserve]}
                 reserveDicts.append(reserveDict)
 
             infoDict['reserveSuits'] = reserveDicts

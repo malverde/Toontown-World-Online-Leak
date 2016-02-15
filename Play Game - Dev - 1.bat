@@ -1,10 +1,11 @@
 @echo off
 
 set /P ttrUsername="Username: " || ^
-set /P ttrpassword="Password: " || ^
 set ttrUsername=username
+set /P ttrpassword="Paassword: " || ^
 set ttrpassword=password
 set TTR_PLAYCOOKIE=%ttrUsername%
+set TTR_PASSWORD=%ttrpassword%
 set username=%ttrUsername%
 set password=%ttrpassword%
 set TTR_GAMESERVER=192.99.144.208

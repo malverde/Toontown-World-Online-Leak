@@ -1,4 +1,4 @@
-from pandac.PandaModules import *
+from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
 from DistributedMinigame import *
@@ -721,7 +721,7 @@ class DistributedRingGame(DistributedMinigame):
         self.ringNode.setY(-distance)
         for ringGroup in self.ringGroups:
             groupY = ringGroup.getY(render)
-            if groupY <= self.Y_VIS_MAX and groupY >= self.Y_VIS_MIN:
+            if self.Y_VIS_MAX >= groupY >= self.Y_VIS_MIN:
                 ringGroup.setT(t)
 
         return Task.cont

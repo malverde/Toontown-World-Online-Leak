@@ -1,5 +1,5 @@
 from toontown.toonbase.ToonBaseGlobal import *
-from pandac.PandaModules import *
+from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
 from toontown.toonbase import ToontownGlobals
@@ -134,7 +134,7 @@ class DistributedTutorialInterior(DistributedObject.DistributedObject):
         del self.randomGenerator
         self.interior.flattenMedium()
         npcOrigin = self.interior.find(
-            '**/npc_origin_' + repr((self.cr.doId2do[self.npcId].posIndex)))
+            '**/npc_origin_' + repr(self.cr.doId2do[self.npcId].posIndex))
         if not npcOrigin.isEmpty():
             self.cr.doId2do[self.npcId].reparentTo(npcOrigin)
             self.cr.doId2do[self.npcId].clearMat()

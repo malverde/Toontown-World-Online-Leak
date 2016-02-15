@@ -108,7 +108,7 @@ class DistributedPicnicTableAI(DistributedNodeAI):
         if isEmpty == True or self.hasPicked == False:
             self.sendUpdateToAvatarId(avId, 'allowPick', [])
             self.allowPickers.append(avId)
-        if self.hasPicked == True:
+        if self.hasPicked:
             self.sendUpdateToAvatarId(avId, 'setZone', [self.game.zoneId])
         self.seats[seatIndex] = avId
         self.acceptOnce(self.air.getAvatarExitEvent(avId), self.__handleUnexpectedExit, extraArgs=[avId])
@@ -168,7 +168,7 @@ class DistributedPicnicTableAI(DistributedNodeAI):
         self.sendUpdateToAvatarId(avId, 'setZone', [self.game.zoneId])
 
     def requestGameZone(self):
-        if self.hasPicked == True:
+        if self.hasPicked:
             avId = self.air.getAvatarIdFromSender()
             if self.game:
                 self.game.playersObserving.append(avId)
@@ -217,7 +217,7 @@ class DistributedPicnicTableAI(DistributedNodeAI):
             numActive = 0
             for x in self.seats:
                 if x != None:
-                    numActive = numActive + 1
+                    numActive += 1
                     continue
 
             if self.game:
@@ -246,7 +246,7 @@ class DistributedPicnicTableAI(DistributedNodeAI):
         numActive = 0
         for x in self.seats:
             if x != None:
-                numActive = numActive + 1
+                numActive += 1
                 continue
 
         if numActive == 0 and self.game:

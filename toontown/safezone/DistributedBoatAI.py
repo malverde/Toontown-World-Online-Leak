@@ -70,4 +70,4 @@ class DistributedBoatAI(DistributedObjectAI):
             self.sendUpdate('setState', [self.state, self.stateTime])
 
     def getState(self):
-        return (self.state, self.stateTime)
+        return self.state, self.stateTime

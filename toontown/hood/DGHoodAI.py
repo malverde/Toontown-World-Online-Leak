@@ -4,6 +4,9 @@ from SZHoodAI import SZHoodAI
 from toontown.toon import NPCToons
 from toontown.safezone import ButterflyGlobals
 from toontown.safezone.DistributedButterflyAI import DistributedButterflyAI
+from toontown.ai import DistributedTrickOrTreatTargetAI
+from toontown.ai import DistributedWinterCarolingTargetAI
+from toontown.ai import HolidayGlobals
 
 
 class DGHoodAI(SZHoodAI):
@@ -17,6 +20,21 @@ class DGHoodAI(SZHoodAI):
         self.flower = DistributedDGFlowerAI(self.air)
         self.flower.generateWithRequired(self.HOOD)
         self.createButterflies()
+
+
+        if HolidayGlobals.WhatHolidayIsIt() == 'Winter':
+            self.WinterCarolingTargetManager = DistributedWinterCarolingTargetAI.DistributedWinterCarolingTargetAI(self.air)
+            self.WinterCarolingTargetManager.generateWithRequired(5626)
+            
+            self.WinterCarolingTargetManager = DistributedWinterCarolingTargetAI.DistributedWinterCarolingTargetAI(self.air)
+            self.WinterCarolingTargetManager.generateWithRequired(5626)
+
+        elif HolidayGlobals.WhatHolidayIsIt() == 'Halloween':
+            self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)
+            self.TrickOrTreatTargetManager.generateWithRequired(5620)
+
+            self.TrickOrTreatTargetManager = DistributedTrickOrTreatTargetAI.DistributedTrickOrTreatTargetAI(self.air)
+            self.TrickOrTreatTargetManager.generateWithRequired(5620)
 
     def createButterflies(self):
         playground = ButterflyGlobals.DG
