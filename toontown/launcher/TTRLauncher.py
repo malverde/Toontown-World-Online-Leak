@@ -39,14 +39,10 @@ class TTRLauncher(LauncherBase):
 		data = response.read()
 		# turn json into pythonic format
 		formattedData = json.loads(data)
-		if formattedData.get("success", True):
+		if formattedData.get("success") == True:
 			# we now have a login, we can log in now.
 			print("Success! Starting the game...")
 			connection.close()
-		elif formattedData.get("banned"): # We are banned RIP
-			print("Sorry, you are banned from TTW!") # Lets be nice
-			connection.close() # Close connection TO our API
-			sys.exit() # And kill them so they cant log in
 		else:
 			# can't log in, probably because of invalid password
 			print("Unable to log into the game. Reason: " + formattedData.get("reason", {}))
