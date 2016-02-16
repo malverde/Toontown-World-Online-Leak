@@ -13,6 +13,8 @@ from direct.task import Task
 from direct.distributed.ClockDelta import *
 import random
 from toontown.ai import HolidayGlobals
+from direct.distributed.ClockDelta import *
+import time
 RequestCard = {}
 
 
@@ -30,10 +32,25 @@ class DistributedPondBingoManagerAI(DistributedObjectAI):
 		self.shouldStop = False
 		self.lastUpdate = globalClockDelta.getRealNetworkTime()
 		self.cardId = 0
+		self.isbingoCount()
+		
+	def isbingoCount(self):
+		# Check seconds until next hour.
+		ts = time.time()
+		nextHour = 3600 - (ts % 3600)
+		taskMgr.doMethodLater(
+			nextHour,
+			self.isbingo,
+			'hourly-bingo-check')
+	def isbingo(self, task):
+		# The next tick will occur in exactly an hour.
+		task.delayTime = 3600
 		if HolidayGlobals.IsBingo() == True:
-			pass
+			self.shouldStop = False
 		else:
 			self.shouldStop = True
+		return task.again
+			
 
 	def setPondDoId(self, pondId):
 		self.pond = self.air.doId2do[pondId]
