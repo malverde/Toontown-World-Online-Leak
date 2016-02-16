@@ -16,6 +16,7 @@ import json
 import httplib
 from ClientServicesManager import FIXED_KEY
 import urllib
+from otp.ai.MagicWordGlobal import *
 
 def judgeName(name):
     return True
@@ -53,6 +54,7 @@ class LocalAccountDB:
                       'accountId': int(self.dbm[cookie]),
                       'databaseId': cookie,
                       'adminAccess': 0})
+            self.csm.account2Id[self.dbm[databaseId]] = cookie
         else:
             # Nope, let's return w/o account ID:
             callback({'success': True,
@@ -840,6 +842,7 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         # of race conditions.
         self.connection2fsm = {}
         self.account2fsm = {}
+        self.account2Id = {}
 
         # For processing name patterns.
         self.nameGenerator = NameGenerator()
@@ -987,3 +990,10 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         response = connection.getresponse()
         connection.close()
         self.air.writeServerEvent("player-reported", reporterId=reporterId, avId=avId, category=REPORT_REASONS[category])
+        
+@magicWord(category=CATEGORY_DEBUG, types=[int])
+def Account(accid):
+	""" Gets an API username from an account ID """
+	csmud = ClientServicesManagerUD()
+    api = csmud.account2Id[accid]
+	return api
