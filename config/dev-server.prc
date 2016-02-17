@@ -12,7 +12,7 @@ want-cheesy-expirations #t
 show-total-population #t
 shard-low-pop 1
 shard-mid-pop 3
-server-version ttw-pre-alpha-2.5.2.1.2
+server-version ttw-pre-alpha-2.5.2.1.5
 csmud-secret Yvv4Jr5TUDkX5M8gh64Z9Q4AUAQYdFNecyGgl2I5GOQf8CBh7LUZWpzKB9FBF
 
 
@@ -74,7 +74,7 @@ want-accessories #f
 want-news-tab #f
 want-news-page #f
 want-fishing #t
-want-parties #f
+want-parties #t
 # Estates
 want-pets #f
 want-gardening #f

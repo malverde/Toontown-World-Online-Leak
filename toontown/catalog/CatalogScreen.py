@@ -1,7 +1,6 @@
 # Embedded file name: toontown.catalog.CatalogScreen
 from panda3d.core import *
 from direct.gui.DirectGui import *
-from panda3d.core import *
 from direct.gui.DirectScrolledList import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toontowngui import TTDialog
