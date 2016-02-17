@@ -8794,6 +8794,9 @@ ResistanceToonupMenu = 'Toon-up'
 ResistanceToonupItem = '%s Toon-up'
 ResistanceToonupItemMax = 'Max'
 ResistanceToonupChat = 'Toons of the World, Toon-up!'
+ResistanceDanceMenu = 'Dance'
+ResistanceDanceItem = 'Make them %s'
+ResistanceDanceChat = 'Toons of the World, Dance with me!'
 ResistanceRestockMenu = 'Gag-up'
 ResistanceRestockItem = 'Gag-up %s'
 ResistanceRestockItemAll = 'All'
@@ -9574,6 +9577,7 @@ WinterCarolingStart = 'Caroling has come to Toontown. Sing for your Snowman Head
 ExpandedClosetsStart = 'Attention Toons: For a limited time, Members can purchase the new 50 item Closet from the Cattlelog for the low price of 50 jellybeans!'
 KartingTicketsHolidayStart = 'Get double tickets from Practice races at Goofy Speedway today!'
 IdesOfMarchStart = 'Toons go GREEN!'
+FishingHolidayStart = "It's Fish Bingo! Step up to a pier and fish!"
 LogoutForced = 'You have done something wrong\n and are being logged out automatically,\n additionally your account may be frozen.\n Try going on a walk outside, it is fun.'
 CountryClubToonEnterElevator = '%s \nhas jumped in the golf kart.'
 CountryClubBossConfrontedMsg = '%s is battling the Club President!'
@@ -9987,7 +9991,7 @@ BossTaunts = [
 
 SendCogBossTaunts = {
  's': [ # VP
-  "We're going door to door to give you an dedious offer.",
+  "We're going door to door to give you dedious offer.",
   "It's time for your estimated cost.",
   'You toons never learn when to snatch up a great deal.',
   "Call now and we'll reduce your laff, absolutely free of charge!",
@@ -10018,8 +10022,8 @@ DirectedAttackBossTaunts = {
   'Have a free sample!',
   'I see you over there!',
   'My products are the best in all of Toontown!',
-  "Don't think I skipped you, %(toon)s!"
-  "Not even Flippy can save you!" # TODO: Make this separate (put a comma) on line above
+  "Don't think I skipped you, %(toon)s!",
+  "Not even Flippy can save you!"
  ]
 }
 

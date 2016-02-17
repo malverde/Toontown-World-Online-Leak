@@ -94,7 +94,9 @@ def createMinigame(air, playerArray, trolleyZone, minigameZone = None, previousG
     try:
         mg = mgCtors[mgId](air, mgId)
     except KeyError:
-        raise Exception, 'unknown minigame ID: %s' % mgId
+        print ('unknown minigame ID: %s' % mgId)
+        mgId = ToontownGlobals.MazeGameId
+        mg = mgCtors[mgId](air, mgId)
 
     mg.setExpectedAvatars(playerArray)
     mg.setNewbieIds(newbieIds)

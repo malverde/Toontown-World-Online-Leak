@@ -1,10 +1,12 @@
 import random
 import re
 import time
-
+import httplib, urllib
 from direct.distributed import DistributedSmoothNodeAI
 from direct.task import Task
 from direct.distributed.ClockDelta import *
+from direct.distributed.PyDatagram import PyDatagram
+from direct.distributed.MsgTypes import CLIENTAGENT_EJECT
 
 from otp.ai.AIBaseGlobal import *
 from otp.otpbase import OTPGlobals
@@ -1496,14 +1498,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         cogLevel = self.cogLevels[deptIndex]
         maxSuitType = SuitDNA.suitsPerDept - 1
         maxSuitLevel = (SuitDNA.levelsPerSuit-1) + maxSuitType
-        if cogLevel == maxSuitLevel:
-            self.notify.warning('Attempted to increment Cog level when at max Cog level.')
-            self.air.writeServerEvent(
-                'suspicious', self.doId,
-                'Attempted to increment Cog level when at max Cog level.')
-            return
         maxCogLevel = (SuitDNA.levelsPerSuit-1) + self.cogTypes[deptIndex]
-        if cogLevel == maxCogLevel:
+        if (cogLevel == maxCogLevel) or (cogLevel == maxSuitLevel):
             self.promotionStatus[deptIndex] = ToontownGlobals.PendingPromotion
             self.d_setPromotionStatus(self.promotionStatus)
         else:
@@ -4758,7 +4754,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 def setCE(CEValue, CEHood=0, CEExpire=0):
     """Set Cheesy Effect of the target."""
     CEHood *= 1000  #So the invoker only has to use '1' for DonaldsDock, '2' for TTC etc.
-    if not 0 <= CEValue <= 18:
+    if not 0 <= CEValue <= 20:
         return 'Invalid value %s specified for Cheesy Effect.' % CEValue
     if CEHood != 0 and not 100 < CEHood < ToontownGlobals.DynamicZonesBegin:
         return 'Invalid zoneId specified.'
@@ -4964,15 +4960,18 @@ def kick(reason):
     simbase.air.send(dg)
     return "You kicked %s with reason '%s'." % (spellbook.getTarget().getName(), reason)
 
-@magicWord(category=CATEGORY_MODERATION, types=[str, bool, bool], access=400) # Set to 400 for now...
-def ban(reason="Unknown reason.", confirmed=False, overrideSelfBan=False):
-    """Ban the player from the game server."""
-    return 'banManager is not currently implemented!' # Disabled until we have a working banManager.
-    if not confirmed:
-        return "Are you sure you want to ban this player? Use '~~ban REASON True' if you are."
-    if not overrideSelfBan and spellbook.getTarget() == spellbook.getInvoker():
-        return "Are you sure you want to ban yourself? Use '~ban REASON True True' if you are."
-    spellbook.getTarget().ban(reason)
+@magicWord(category=CATEGORY_MODERATION, types=[str, str], access=400) # Set to 400 for now...
+def ban(username, reason):
+	"""Ban the player from the game server."""
+	dg = PyDatagram()
+	dg.addServerHeader(spellbook.getTarget().GetPuppetConnectionChannel(spellbook.getTarget().doId), simbase.air.ourChannel, CLIENTAGENT_EJECT)
+	dg.addUint16(155)
+	dg.addString(reason)
+	simbase.air.send(dg)
+	connection = httplib.HTTPConnection("www.toontownworldonline.com")
+	connection.request("GET", "/api/csmud/baner.php?username="+ username)
+	response = connection.getresponse()
+	return "Account Has been banned and kicked!"
 
 #This command has been disabled due to many breakingnessings. GG developers, you suck at sanity >:C
 '''

@@ -1,68 +1,69 @@
-from pandac.PandaModules import *
-from otp.otpbase import OTPGlobals
-from otp.otpbase import OTPLocalizer
-from toontown.toonbase import ToontownGlobals
+import copy
+from direct.controls.GravityWalker import GravityWalker
 from direct.directnotify import DirectNotifyGlobal
-from direct.distributed.ClockDelta import *
-from otp.avatar import DistributedPlayer
-from otp.avatar import Avatar, DistributedAvatar
-from otp.speedchat import SCDecoders
-from otp.chat import TalkAssistant
-from otp.nametag.NametagConstants import *
-from otp.margins.WhisperPopup import *
-import Toon
-from direct.task.Task import Task
-from direct.distributed import DistributedSmoothNode
 from direct.distributed import DistributedObject
+from direct.distributed import DistributedSmoothNode
+from direct.distributed.ClockDelta import *
+from direct.distributed.MsgTypes import *
 from direct.fsm import ClassicFSM
-from toontown.hood import ZoneUtil
-from toontown.distributed import DelayDelete
-from toontown.distributed.DelayDeletable import DelayDeletable
+from direct.interval.IntervalGlobal import Sequence, Wait, Func, Parallel, SoundInterval
 from direct.showbase import PythonUtil
-from toontown.catalog import CatalogItemList
-from toontown.catalog import CatalogItem
-import TTEmote
-from toontown.shtiker.OptionsPage import speedChatStyles
-from toontown.fishing import FishCollection
-from toontown.fishing import FishTank
-from toontown.suit import SuitDNA
-from toontown.coghq import CogDisguiseGlobals
-from toontown.toonbase import TTLocalizer
+from direct.task.Task import Task
+import operator
+from panda3d.core import *
+import random
+import time
+
 import Experience
 import InventoryNew
-from LaffMeter import LaffMeter
-from toontown.speedchat import TTSCDecoders
-from toontown.chat import ToonChatGarbler
+import TTEmote
+import Toon
+from otp.ai.MagicWordGlobal import *
+from toontown.toon.ModPanel import ModPanel
+from otp.avatar import Avatar, DistributedAvatar
+from otp.avatar import DistributedPlayer
+from otp.chat import TalkAssistant
+from otp.nametag.NametagConstants import *
+from otp.otpbase import OTPGlobals
+from otp.otpbase import OTPLocalizer
+from otp.speedchat import SCDecoders
+from toontown.catalog import CatalogItem
+from toontown.catalog import CatalogItemList
 from toontown.chat import ResistanceChat
-from direct.distributed.MsgTypes import *
+from toontown.chat import ToonChatGarbler
+from toontown.chat.ChatGlobals import *
+from otp.margins.WhisperPopup import *
+from toontown.coghq import CogDisguiseGlobals
+from toontown.distributed import DelayDelete
+from toontown.distributed import DelayDelete
+from toontown.distributed.DelayDeletable import DelayDeletable
 from toontown.effects.ScavengerHuntEffects import *
-from toontown.estate import FlowerCollection
-from toontown.estate import FlowerBasket
-from toontown.estate import GardenGlobals
 from toontown.estate import DistributedGagTree
-from otp.ai import MagicWordManager
+from toontown.estate import FlowerBasket
+from toontown.estate import FlowerCollection
 from toontown.estate import GardenDropGame
-from toontown.parties.PartyGlobals import InviteStatus, PartyStatus
-from toontown.parties.PartyInfo import PartyInfo
-from toontown.parties.InviteInfo import InviteInfo
-from toontown.parties.PartyReplyInfo import PartyReplyInfoBase
-from toontown.parties.SimpleMailBase import SimpleMailBase
-from toontown.parties import PartyGlobals
+from toontown.estate import GardenGlobals
+from toontown.fishing import FishCollection
+from toontown.fishing import FishTank
 from toontown.friends import FriendHandle
 from toontown.golf import GolfGlobals
-from direct.interval.IntervalGlobal import Sequence, Wait, Func, Parallel, SoundInterval
-from direct.controls.GravityWalker import GravityWalker
-from toontown.distributed import DelayDelete
-from toontown.toon.ModPanel import ModPanel
-from otp.ai.MagicWordGlobal import *
-import time
-import operator
-import random
-import copy
+from toontown.hood import ZoneUtil
+from toontown.parties import PartyGlobals
+from toontown.parties.InviteInfo import InviteInfo
+from toontown.parties.PartyGlobals import InviteStatus, PartyStatus
+from toontown.parties.PartyInfo import PartyInfo
+from toontown.parties.PartyReplyInfo import PartyReplyInfoBase
+from toontown.parties.SimpleMailBase import SimpleMailBase
+from toontown.shtiker.OptionsPage import speedChatStyles
+from toontown.speedchat import TTSCDecoders
+from toontown.suit import SuitDNA
+from toontown.toonbase import TTLocalizer
+from toontown.toonbase import ToontownGlobals
+from toontown.battle import BattleParticles
+
 if base.wantKarts:
     from toontown.racing.KartDNA import *
-if __debug__:
-    import pdb
+
 
 class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, DistributedSmoothNode.DistributedSmoothNode, DelayDeletable):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedToon')
