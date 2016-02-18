@@ -4965,7 +4965,7 @@ def ban(username, reason):
 	"""Ban the player from the game server."""
 	dg = PyDatagram()
 	dg.addServerHeader(spellbook.getTarget().GetPuppetConnectionChannel(spellbook.getTarget().doId), simbase.air.ourChannel, CLIENTAGENT_EJECT)
-	dg.addUint16(155)
+	dg.addUint16(122)
 	dg.addString(reason)
 	simbase.air.send(dg)
 	connection = httplib.HTTPConnection("www.toontownworldonline.com")
