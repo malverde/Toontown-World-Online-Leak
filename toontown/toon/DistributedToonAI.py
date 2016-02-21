@@ -1,7 +1,7 @@
 import random
 import re
 import time
-
+import httplib, urllib
 from direct.distributed import DistributedSmoothNodeAI
 from direct.task import Task
 from direct.distributed.ClockDelta import *
@@ -4960,15 +4960,18 @@ def kick(reason):
     simbase.air.send(dg)
     return "You kicked %s with reason '%s'." % (spellbook.getTarget().getName(), reason)
 
-@magicWord(category=CATEGORY_MODERATION, types=[str, bool, bool], access=400) # Set to 400 for now...
-def ban(reason="Unknown reason.", confirmed=False, overrideSelfBan=False):
-    """Ban the player from the game server."""
-    return 'banManager is not currently implemented!' # Disabled until we have a working banManager.
-    if not confirmed:
-        return "Are you sure you want to ban this player? Use '~~ban REASON True' if you are."
-    if not overrideSelfBan and spellbook.getTarget() == spellbook.getInvoker():
-        return "Are you sure you want to ban yourself? Use '~ban REASON True True' if you are."
-    spellbook.getTarget().ban(reason)
+@magicWord(category=CATEGORY_MODERATION, types=[str, str], access=400) # Set to 400 for now...
+def ban(username, reason):
+	"""Ban the player from the game server."""
+	dg = PyDatagram()
+	dg.addServerHeader(spellbook.getTarget().GetPuppetConnectionChannel(spellbook.getTarget().doId), simbase.air.ourChannel, CLIENTAGENT_EJECT)
+	dg.addUint16(122)
+	dg.addString(reason)
+	simbase.air.send(dg)
+	connection = httplib.HTTPConnection("www.toontownworldonline.com")
+	connection.request("GET", "/api/csmud/baner.php?username="+ username)
+	response = connection.getresponse()
+	return "Account Has been banned and kicked!"
 
 #This command has been disabled due to many breakingnessings. GG developers, you suck at sanity >:C
 '''
