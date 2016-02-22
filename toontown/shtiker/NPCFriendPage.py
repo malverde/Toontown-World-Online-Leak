@@ -14,7 +14,6 @@ class NPCFriendPage(ShtikerPage.ShtikerPage):
         self.friendPanel = NPCFriendPanel.NPCFriendPanel(parent=self)
         self.friendPanel.setScale(0.1225)
         self.friendPanel.setZ(-0.03)
-        return
 
     def unload(self):
         ShtikerPage.ShtikerPage.unload(self)
