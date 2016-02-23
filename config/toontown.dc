@@ -1713,6 +1713,8 @@ dclass DistributedEstate : DistributedObject {
   setSlot5Items(lawnItem items[] = []) required airecv db;
   setIdList(uint32 idList[]) broadcast ram;
   completeFlowerSale(uint8 sell) airecv clsend;
+  completeFishSale(uint8) airecv clsend;
+  thankSeller(int8, int8, int8);
   awardedTrophy(uint32 avId) broadcast;
   setClouds(uint8 clouds) required broadcast ram;
   cannonsOver() broadcast;
