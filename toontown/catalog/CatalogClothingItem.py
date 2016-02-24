@@ -606,14 +606,7 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         dg.addUint16(self.loyaltyDays)
 
     def isGift(self):
-        if self.getEmblemPrices():
-            return 0
-        elif self.loyaltyRequirement() > 0:
-            return 0
-        elif self.clothingType in LoyaltyClothingItems:
-            return 0
-        else:
-            return 1
+        return not self.getEmblemPrices()
 
 
 def getAllClothes(*clothingTypes):

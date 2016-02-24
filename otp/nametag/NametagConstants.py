@@ -214,3 +214,6 @@ WHISPER_COLORS = {
     ),
     # TODO: WTToontownBoardingGroup
 }
+
+def getFriendColor(handle):
+    return CCNormal

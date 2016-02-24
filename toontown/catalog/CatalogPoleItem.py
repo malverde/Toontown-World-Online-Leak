@@ -1,11 +1,9 @@
-# Embedded file name: toontown.catalog.CatalogPoleItem
 import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.fishing import FishGlobals
 from direct.actor import Actor
 from toontown.toonbase import TTLocalizer
 from direct.interval.IntervalGlobal import *
-
 
 class CatalogPoleItem(CatalogItem.CatalogItem):
     sequenceNumber = 0
@@ -18,8 +16,7 @@ class CatalogPoleItem(CatalogItem.CatalogItem):
         return 1
 
     def reachedPurchaseLimit(self, avatar):
-        return avatar.getFishingRod(
-        ) >= self.rodId or self in avatar.onOrder or self in avatar.mailboxContents
+        return avatar.getMaxFishingRod() >= self.rodId or self in avatar.onOrder or self in avatar.mailboxContents
 
     def saveHistory(self):
         return 1
@@ -28,34 +25,28 @@ class CatalogPoleItem(CatalogItem.CatalogItem):
         return TTLocalizer.PoleTypeName
 
     def getName(self):
-        return TTLocalizer.FishingRod % TTLocalizer.FishingRodNameDict[
-            self.rodId]
+        return TTLocalizer.FishingRod % TTLocalizer.FishingRodNameDict[self.rodId]
 
     def recordPurchase(self, avatar, optional):
         if self.rodId < 0 or self.rodId > FishGlobals.MaxRodId:
-            self.notify.warning(
-                'Invalid fishing pole: %s for avatar %s' %
-                (self.rodId, avatar.doId))
+            self.notify.warning('Invalid fishing pole: %s for avatar %s' % (self.rodId, avatar.doId))
             return ToontownGlobals.P_InvalidIndex
-        if self.rodId < avatar.getFishingRod():
-            self.notify.warning(
-                'Avatar already has pole: %s for avatar %s' %
-                (self.rodId, avatar.doId))
+        if self.rodId < avatar.getMaxFishingRod():
+            self.notify.warning('Avatar already has pole: %s for avatar %s' % (self.rodId, avatar.doId))
             return ToontownGlobals.P_ItemUnneeded
         avatar.b_setFishingRod(self.rodId)
+        avatar.b_setMaxFishingRod(self.rodId)
         return ToontownGlobals.P_ItemAvailable
 
     def isGift(self):
         return 0
 
     def getDeliveryTime(self):
-        return 1
+        return 24 * 60
 
     def getPicture(self, avatar):
         rodPath = FishGlobals.RodFileDict.get(self.rodId)
-        pole = Actor.Actor(
-            rodPath, {
-                'cast': 'phase_4/models/props/fishing-pole-chan'})
+        pole = Actor.Actor(rodPath, {'cast': 'phase_4/models/props/fishing-pole-chan'})
         pole.setPosHpr(1.47, 0, -1.67, 90, 55, -90)
         pole.setScale(0.8)
         pole.setDepthTest(1)
@@ -66,18 +57,17 @@ class CatalogPoleItem(CatalogItem.CatalogItem):
         CatalogPoleItem.sequenceNumber += 1
         track = Sequence(Func(pole.pose, 'cast', 130), Wait(100), name=name)
         self.hasPicture = True
-        return frame, track
+        return (frame, track)
 
     def getAcceptItemErrorText(self, retcode):
         if retcode == ToontownGlobals.P_ItemAvailable:
             return TTLocalizer.CatalogAcceptPole
-        if retcode == ToontownGlobals.P_ItemUnneeded:
+        elif retcode == ToontownGlobals.P_ItemUnneeded:
             return TTLocalizer.CatalogAcceptPoleUnneeded
         return CatalogItem.CatalogItem.getAcceptItemErrorText(self, retcode)
 
-    def output(self, store=-1):
-        return 'CatalogPoleItem(%s%s)' % (
-            self.rodId, self.formatOptionalData(store))
+    def output(self, store = -1):
+        return 'CatalogPoleItem(%s%s)' % (self.rodId, self.formatOptionalData(store))
 
     def getFilename(self):
         return FishGlobals.RodFileDict.get(self.rodId)
@@ -94,7 +84,6 @@ class CatalogPoleItem(CatalogItem.CatalogItem):
     def decodeDatagram(self, di, versionNumber, store):
         CatalogItem.CatalogItem.decodeDatagram(self, di, versionNumber, store)
         self.rodId = di.getUint8()
-        price = FishGlobals.RodPriceDict[self.rodId]
 
     def encodeDatagram(self, dg, store):
         CatalogItem.CatalogItem.encodeDatagram(self, dg, store)
@@ -102,7 +91,7 @@ class CatalogPoleItem(CatalogItem.CatalogItem):
 
 
 def nextAvailablePole(avatar, duplicateItems):
-    rodId = avatar.getFishingRod() + 1
+    rodId = avatar.getMaxFishingRod() + 1
     if rodId > FishGlobals.MaxRodId:
         return None
     item = CatalogPoleItem(rodId)
@@ -117,7 +106,7 @@ def nextAvailablePole(avatar, duplicateItems):
 
 def getAllPoles():
     list = []
-    for rodId in range(0, FishGlobals.MaxRodId + 1):
+    for rodId in xrange(0, FishGlobals.MaxRodId + 1):
         list.append(CatalogPoleItem(rodId))
 
     return list

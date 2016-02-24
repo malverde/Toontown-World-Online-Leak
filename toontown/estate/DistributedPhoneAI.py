@@ -1,21 +1,13 @@
-# Embedded file name: toontown.estate.DistributedPhoneAI
 from direct.directnotify import DirectNotifyGlobal
-from toontown.estate.DistributedFurnitureItemAI import DistributedFurnitureItemAI
-from toontown.toonbase import ToontownGlobals
-from toontown.catalog import CatalogItem
-from toontown.catalog.CatalogInvalidItem import CatalogInvalidItem
-from toontown.catalog import GiftAvatar
-from toontown.catalog.CatalogItemList import CatalogItemList
 from direct.distributed.ClockDelta import *
-import time
-import PhoneGlobals
+from toontown.estate.DistributedFurnitureItemAI import DistributedFurnitureItemAI
+from PhoneGlobals import *
 
-import base64
+from toontown.toonbase import ToontownGlobals
+from toontown.catalog import CatalogItem, CatalogInvalidItem, GiftAvatar
+from toontown.catalog.CatalogItemList import CatalogItemList
+
 import json
-import time
-
-MAX_MAILBOX = 10
-MAX_ON_ORDER = 10
 
 class LoadGiftAvatar:
 
@@ -29,224 +21,237 @@ class LoadGiftAvatar:
 
     def start(self):
         self.air.dbInterface.queryObject(self.air.dbId, self.targetId, self.__gotAvatar)
-
+    
     def copyDict(self, dict, *keys):
         return {key: dict[key] for key in keys}
-
+    
     def __gotAvatar(self, dclass, fields):
         if dclass != self.air.dclassesByName['DistributedToonAI']:
             return
-
+        
         for key in ('setDNAString', 'setMailboxContents', 'setGiftSchedule', 'setDeliverySchedule'):
-            fields[key] = base64.b64encode(fields[key][0])
-
+            fields[key] = fields[key][0].encode('base64')
+        
         newDict = self.copyDict(fields, 'setDNAString', 'setMailboxContents', 'setGiftSchedule', 'setDeliverySchedule', 'setHat', 'setGlasses', 'setBackpack',
                                 'setShoes', 'setHatList', 'setGlassesList', 'setBackpackList', 'setShoes', 'setShoesList', 'setCustomMessages', 'setEmoteAccess',
-                                'setClothesTopsList', 'setClothesBottomsList', 'setPetTrickPhrases')
-
+                                'setClothesTopsList', 'setClothesBottomsList', 'setPetTrickPhrases', 'setNametagStyles')
+        
         self.callback(self.avId, self.targetId, newDict, self.optional)
         del self.phone.fsms[self.avId]
 
-
 class DistributedPhoneAI(DistributedFurnitureItemAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedPhoneAI')
-
-    def __init__(self, air, furnitureMgr, item):
-        DistributedFurnitureItemAI.__init__(self, air, furnitureMgr, item)
-        self.avId = None
+    notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPhoneAI")
+    
+    def __init__(self, air, furnitureMgr, catalogItem):
+        DistributedFurnitureItemAI.__init__(self, air, furnitureMgr, catalogItem)
         self.fsms = {}
-
-    def setInitialScale(self, sx, sy, sz):
-        pass
-
+        self.initialScale = (0.8, 0.8, 0.8)
+        self.inUse = False
+        self.currAvId = 0
+    
+    def calcHouseItems(self, avatar):
+        houseId = avatar.houseId
+        
+        if not houseId:
+            self.notify.warning('Avatar %s has no houseId associated.' % avatar.doId)
+            return 0
+            
+        house = simbase.air.doId2do.get(houseId)
+        if not house:
+            self.notify.warning('House %s (for avatar %s) not instantiated.' % (houseId, avatar.doId))
+            return 0
+            
+        mgr = house.interior.furnitureManager
+        attic = (mgr.atticItems, mgr.atticWallpaper, mgr.atticWindows)
+        numHouseItems = len(CatalogItemList(house.getInteriorItems(), store=CatalogItem.Customization | CatalogItem.Location))
+        numAtticItems = sum(len(x) for x in attic)
+        
+        return numHouseItems + numAtticItems
+        
+    def setInitialScale(self, scale):
+        self.initialScale = scale
+    
     def getInitialScale(self):
-        return 0.8, 0.8, 0.8
-
-    def setNewScale(self, sx, sy, sz):
-        if sx + sy + sz < 5:
-            return
-        self.sendUpdate('setInitialScale', [sx, sy, sz])
+        return self.initialScale
 
     def avatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
-        if self.avId:
-            if self.avId == avId:
-                self.air.writeServerEvent(
-                    'suspicious', avId=avId, issue='Tried to use a phone twice!')
-                return
-            self.sendUpdateToAvatarId(avId, 'freeAvatar', [])
+        if self.inUse:
+            self.ejectAvatar(avId)
             return
+            
         av = self.air.doId2do.get(avId)
-        if not av:
-            return
-        if not av.houseId:
-            self.sendUpdateToAvatarId(avId, 'freeAvatar', [])
-            return
-        if len(
-            av.monthlyCatalog) == 0 and len(
-            av.weeklyCatalog) == 0 and len(
-                av.backCatalog) == 0:
-            self.d_setMovie(
-                PhoneGlobals.PHONE_MOVIE_EMPTY,
-                avId,
-                globalClockDelta.getRealNetworkTime())
-            taskMgr.doMethodLater(
-                1, self.__resetMovie, 'resetMovie-%d' %
-                self.getDoId(), extraArgs=[])
-            self.notify.debug('No Catalogs')
-            return
-        self.air.questManager.toonCalledClarabelle(av)
-        self.notify.debug('Loading the catalog')
-        self.avId = avId
-        self.d_setMovie(PhoneGlobals.PHONE_MOVIE_PICKUP, avId,
-                        globalClockDelta.getRealNetworkTime())
-        house = self.air.doId2do.get(av.houseId)
-        if house:
-            numItems = len(house.interiorItems) + len(house.atticItems) + len(house.atticWallpaper) + \
-                len(house.atticWindows) + len(house.interiorWallpaper) + len(house.interiorWindows)
-            self.sendUpdateToAvatarId(avId, 'setLimits', [numItems])
-        else:
-            self.air.dbInterface.queryObject(
-                self.air.dbId, av.houseId, self.__gotHouse)
-        av.b_setCatalogNotify(ToontownGlobals.NoItems, av.mailboxNotify)
-
-    def __gotHouse(self, dclass, fields):
-        if dclass != self.air.dclassesByName['DistributedHouseAI']:
-            return
-        numItems = len(CatalogItemList(fields['setInteriorItems'][0],
-                                       store=CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticItems'][0],
-                                                                                               store=CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticWallpaper'][0],
-                                                                                                                                                       store=CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticWindows'][0],
-                                                                                                                                                                                                               store=CatalogItem.Customization)) + len(CatalogItemList(fields['setInteriorWallpaper'][0],
-                                                                                                                                                                                                                                                                       store=CatalogItem.Customization)) + len(CatalogItemList(fields['setInteriorWindows'][0],
-                                                                                                                                                                                                                                                                                                                               store=CatalogItem.Customization))
-        self.sendUpdateToAvatarId(
-            fields['setAvatarId'][0],
-            'setLimits',
-            [numItems])
-
+        if av:
+            self.setInUse(avId)
+            self.sendUpdateToAvatarId(avId, 'setLimits', [self.calcHouseItems(av)])
+            self.d_setMovie(PHONE_MOVIE_PICKUP, avId)
+            av.b_setCatalogNotify(0, av.mailboxNotify)
+            
+            self.air.questManager.toonCalledClarabelle(av)
+            
     def avatarExit(self):
-        avId = self.air.getAvatarIdFromSender()
-        if avId != self.avId:
-            self.air.writeServerEvent(
-                'suspicious',
-                avId=avId,
-                issue="Tried to exit a phone they weren't using!")
+        if not self.inUse:
+            self.notify.warning('Requested avatarExit but phone isn\'t in use!')
             return
-        self.avId = None
-        self.d_setMovie(PhoneGlobals.PHONE_MOVIE_HANGUP, avId,
-                        globalClockDelta.getRealNetworkTime())
-        taskMgr.doMethodLater(
-            1, self.__resetMovie, 'resetMovie-%d' %
-            self.getDoId(), extraArgs=[])
-
-    def freeAvatar(self):
-        pass
-
-    def setLimits(self, todo0):
-        pass
-
-    def setMovie(self, todo0, todo1, todo2):
-        pass
-
-    def d_setMovie(self, mode, avId, time):
-        self.sendUpdate('setMovie', [mode, avId, time])
-
-    def __resetMovie(self):
-        self.d_setMovie(PhoneGlobals.PHONE_MOVIE_CLEAR, 0,
-                        globalClockDelta.getRealNetworkTime())
-
-    def requestPurchaseMessage(self, context, item, optional, gifting=False):
         avId = self.air.getAvatarIdFromSender()
-        if avId != self.avId:
-            self.air.writeServerEvent(
-                'suspicious',
-                avId=avId,
-                issue='Tried to purchase while not using the phone!')
+        if avId != self.currAvId:
+            self.notify.warning('Requested avatarExit from unknown avatar %s' %avId)
             return
+        self.d_setMovie(PHONE_MOVIE_HANGUP, avId)
+        taskMgr.doMethodLater(1, self.resetMovie, self.taskName('resetMovie'))
+        self.setFree()
+        
+    def setFree(self):
+        self.inUse = False
+        self.currAvId = 0
+        
+    def setInUse(self, avId):
+        self.inUse = True
+        self.currAvId = avId
+        
+    def d_setMovie(self, movie, avId):
+        self.sendUpdate('setMovie', args=[movie, avId, globalClockDelta.getRealNetworkTime(bits=32)])
+        
+    def ejectAvatar(self, avId):
+        self.sendUpdateToAvatarId(avId, 'freeAvatar', [])
+        
+    def __getCaller(self):
+        avId = self.air.getAvatarIdFromSender()
+        if avId != self.currAvId:
+            self.air.writeServerEvent('suspicious', avId, 'tried purchasing item, but not using phone')
+            self.notify.warning('%d tried purchasing item, but not using phone' % avId)
+            return
+            
         av = self.air.doId2do.get(avId)
         if not av:
-            self.air.writeServerEvent(
-                'suspicious',
-                avId=avId,
-                issue='Used phone from other shard!')
+            self.air.writeServerEvent('suspicious', avId, 'tried purchasing item, but not on shard')
+            self.notify.warning('%d tried purchasing item, but not on shard' % avId)
             return
-        item = CatalogItem.getItem(item)
-        if item.loyaltyRequirement(): # These items aren't purchasable! Hacker alert!
-            self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to purchase an unimplemented loyalty item!')
-            return 
-        if isinstance(item, CatalogInvalidItem):
-            self.air.writeServerEvent(
-                'suspicious',
-                avId=avId,
-                issue='Tried to purchase invalid catalog item.')
-            return
-        if item.loyaltyRequirement():
-            self.air.writeServerEvent(
-                'suspicious',
-                avId=avId,
-                issue='Tried to purchase an unimplemented loyalty item!')
-            return
-        if item in av.backCatalog:
-            price = item.getPrice(CatalogItem.CatalogTypeBackorder)
-        elif item in av.weeklyCatalog or item in av.monthlyCatalog:
-            price = item.getPrice(0)
-        else:
-            return
-        if item.getDeliveryTime():
-            if len(av.onOrder) > 3:
-                self.sendUpdateToAvatarId(
-                    avId, 'requestPurchaseResponse', [
-                        context, ToontownGlobals.P_OnOrderListFull])
-                return
+            
+        return av
+    
+    def checkPurchaseLimit(self, recipient, item):
+        if len(recipient.mailboxContents) + len(recipient.onOrder) + len(recipient.onGiftOrder) + 1 >= ToontownGlobals.MaxMailboxContents:
+            return ToontownGlobals.P_MailboxFull
+        elif item.reachedPurchaseLimit(recipient):
+            return ToontownGlobals.P_ReachedPurchaseLimit
 
-            if len(av.mailboxContents) + \
-                    len(av.onOrder) >= ToontownGlobals.MaxMailboxContents:
-                self.sendUpdateToAvatarId(
-                    avId, 'requestPurchaseResponse', [
-                        context, ToontownGlobals.P_MailboxFull])
-            if not av.takeMoney(price):
-                return
-            if not av.subtractEmblems(eblems):
-                return
-            item.deliveryDate = int(time.time() / 60) + item.getDeliveryTime()
-            av.onOrder.append(item)
-            av.b_setDeliverySchedule(av.onOrder)
-            self.sendUpdateToAvatarId(
-                avId, 'requestPurchaseResponse', [
-                    context, ToontownGlobals.P_ItemOnOrder])
+        return ToontownGlobals.P_ItemOnOrder
+    
+    def chargeAvatar(self, av, money, emblems):
+        av.takeMoney(money)
+        av.subtractEmblems(emblems)
+    
+    def attemptPurchase(self, context, av, blob, optional, gifting=False):
+        avId = av.doId
+        item = CatalogItem.getItem(blob, CatalogItem.Customization)
+        
+        if isinstance(item, CatalogInvalidItem.CatalogInvalidItem):
+            self.air.writeServerEvent('suspicious', avId, 'tried purchasing invalid item')
+            self.notify.warning('%d tried purchasing invalid item' % avId)
+            return ToontownGlobals.P_NotInCatalog
+        elif (not item.hasEmblemPrices()) and item not in av.backCatalog and item not in av.weeklyCatalog and item not in av.monthlyCatalog:
+            self.air.writeServerEvent('suspicious', avId, 'tried purchasing non-existing item')
+            self.notify.warning('%d tried purchasing non-existing item' % avId)
+            return ToontownGlobals.P_NotInCatalog
+        
+        if gifting and not item.isGift():
+            return ToontownGlobals.P_NotAGift
+
+        price = item.getPrice(CatalogItem.CatalogTypeBackorder if item in av.backCatalog else 0)
+        
+        if price > av.getTotalMoney() or (item.hasEmblemPrices() and not av.isEnoughEmblemsToBuy(item.getEmblemPrices())):
+            return ToontownGlobals.P_NotEnoughMoney
+        
+        if gifting:
+            return self.requestGiftAvatarOperation(avId, gifting, [context, item, price], self.attemptGiftPurchase)
         else:
-            if not av.takeMoney(price):
-                return
-            resp = item.recordPurchase(av, optional)
-            if resp < 0:
-                av.addMoney(price)
-            self.sendUpdateToAvatarId(
-                avId, 'requestPurchaseResponse', [
-                    context, resp])
-    # TODO - take Emblem
-    def requestPurchaseResponse(self, context, targetId, blob, optional):
+            returnCode = self.checkPurchaseLimit(av, item)
+            
+            if returnCode != ToontownGlobals.P_ItemOnOrder:
+                return returnCode
+
+            if item.getDeliveryTime():
+                self.chargeAvatar(av, price, item.getEmblemPrices())
+                av.addToDeliverySchedule(item, item.getDeliveryTime())
+                # av.addStat(ToontownGlobals.STAT_ITEMS)
+            else:
+                returnCode = item.recordPurchase(av, optional)
+                
+                if returnCode == ToontownGlobals.P_ItemAvailable:
+                    self.chargeAvatar(av, price, item.getEmblemPrices())
+                    # av.addStat(ToontownGlobals.STAT_ITEMS)
+
+            return returnCode
+
+        return None
+    
+    def attemptGiftPurchase(self, avId, targetId, avatar, optional):
         av = self.air.doId2do.get(avId)
-
+        
         if not av:
             return
 
-        returnCode = self.requestPurchaseMessage(context, av, blob, optional, gifting=targetId)
+        recipient = GiftAvatar.createFromFields(avatar)
+        context = optional[0]
+        item = optional[1]
+        returnCode = self.checkPurchaseLimit(recipient, item)
+            
+        if returnCode != ToontownGlobals.P_ItemOnOrder:
+            self.sendGiftPurchaseResponse(context, avId, returnCode)
+            return
 
+        self.chargeAvatar(av, optional[2], item.getEmblemPrices())
+        recipient.addToGiftSchedule(avId, targetId, item, item.getDeliveryTime())
+        # av.addStat(ToontownGlobals.STAT_ITEMS)
+
+        self.sendGiftPurchaseResponse(context, avId, ToontownGlobals.P_ItemOnOrder)
+    
+    def sendGiftPurchaseResponse(self, context, avId, returnCode):
+        # if returnCode in (ToontownGlobals.P_ItemOnOrder, ToontownGlobals.P_ItemAvailable):
+        #     messenger.send('topToonsManager-event', [avId, TopToonsGlobals.CAT_CATALOG | TopToonsGlobals.CAT_GIFTS, 1])
+
+        self.sendUpdateToAvatarId(avId, 'requestGiftPurchaseResponse', [context, returnCode])
+
+    def requestPurchaseMessage(self, context, blob, optional):
+        av = self.__getCaller()
+
+        if not av:
+            return
+
+        returnCode = self.attemptPurchase(context, av, blob, optional)
+        
+        # if returnCode in (ToontownGlobals.P_ItemOnOrder, ToontownGlobals.P_ItemAvailable):
+        #     messenger.send('topToonsManager-event', [av.doId, TopToonsGlobals.CAT_CATALOG, 1])
+        
+        self.sendUpdateToAvatarId(av.doId, 'requestPurchaseResponse', [context, returnCode])
+        
+    def requestGiftPurchaseMessage(self, context, targetId, blob, optional):
+        av = self.__getCaller()
+        
+        if not av:
+            return
+        
+        returnCode = self.attemptPurchase(context, av, blob, optional, gifting=targetId)
+        
         if returnCode:
-            self.requestGiftPurchaseResponse(context, av.doId, returnCode)
-
-    def requestGiftPurchaseMessage(self, doId):
-        self.requestGiftAvatarOperation(self.air.getAvatarIdFromSender(), doId, None, self.requestGiftPurchaseResponse)
-
+            self.sendGiftPurchaseResponse(context, av.doId, returnCode)
+    
+    def requestGiftAvatar(self, doId):
+        self.requestGiftAvatarOperation(self.air.getAvatarIdFromSender(), doId, None, self.sendGiftAvatarResponse)
+    
     def requestGiftAvatarOperation(self, avId, doId, optional, callback):
         if avId in self.fsms:
-            return
-
+            return ToontownGlobals.P_TooFast
+        
         loadOperation = LoadGiftAvatar(self, avId, doId, optional, callback)
         loadOperation.start()
         self.fsms[avId] = loadOperation
         return None
-
-    def requestGiftPurchaseResponse(self, avId, targetId, avatar, optional):
+    
+    def sendGiftAvatarResponse(self, avId, targetId, avatar, optional):
         self.sendUpdateToAvatarId(avId, 'setGiftAvatar', [json.dumps(avatar)])
+
+    def resetMovie(self, task):
+        self.d_setMovie(PHONE_MOVIE_CLEAR, 0)
+        return task.done

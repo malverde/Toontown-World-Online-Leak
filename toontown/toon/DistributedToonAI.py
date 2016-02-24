@@ -265,7 +265,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         from toontown.toon.DistributedNPCToonBaseAI import DistributedNPCToonBaseAI
         if not isinstance(self, DistributedNPCToonBaseAI):
             self.sendUpdate('setDefaultShard', [self.air.districtId])
-        self.accept('CATALOG_addGift_UD2Toon_%d' % self.doId, self.__handleAddGift)
 
         if self.isPlayerControlled():
             # Begin checking if clients are still alive
@@ -2453,47 +2452,47 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getCatalogNotify(self):
         return self.catalogNotify, self.mailboxNotify
 
-    def b_setDeliverySchedule(self, onOrder, doUpdateLater = True):
+    def addToDeliverySchedule(self, item, minutes=0):
+        if config.GetBool('want-instant-delivery', False):
+            minutes = 0
+
+        item.deliveryDate = int(time.time() / 60. + minutes + .5)
+        self.onOrder.append(item)
+        self.b_setDeliverySchedule(self.onOrder)
+
+    def b_setDeliverySchedule(self, onOrder, doUpdateLater=True):
         self.setDeliverySchedule(onOrder, doUpdateLater)
         self.d_setDeliverySchedule(onOrder)
 
     def d_setDeliverySchedule(self, onOrder):
-        self.sendUpdate('setDeliverySchedule', [onOrder.getBlob(store=CatalogItem.Customization | CatalogItem.DeliveryDate)])
+        self.sendUpdate('setDeliverySchedule',
+                        [onOrder.getBlob(store=CatalogItem.Customization | CatalogItem.DeliveryDate)])
 
-    def setDeliverySchedule(self, onOrder, doUpdateLater = True):
+    def d_setGiftSchedule(self, onGiftOrder):
+        self.sendUpdate('setGiftSchedule',
+                        [self.onGiftOrder.getBlob(store=CatalogItem.Customization | CatalogItem.DeliveryDate)])
+
+    def setDeliverySchedule(self, onOrder, doUpdateLater=True):
         self.setBothSchedules(onOrder, None)
-        return
-        self.onOrder = CatalogItemList.CatalogItemList(onOrder, store=CatalogItem.Customization | CatalogItem.DeliveryDate)
-        if hasattr(self, 'name'):
-            if doUpdateLater and self.air.doLiveUpdates and hasattr(self, 'air'):
-                taskName = self.uniqueName('next-delivery')
-                taskMgr.remove(taskName)
-                now = int(time.time() / 60 + 0.5)
-                nextItem = None
-                nextTime = self.onOrder.getNextDeliveryDate()
-                nextItem = self.onOrder.getNextDeliveryItem()
-                if nextItem != None:
-                    pass
-                if nextTime != None:
-                    duration = max(10.0, nextTime * 60 - time.time())
-                    taskMgr.doMethodLater(duration, self.__deliverPurchase, taskName)
-        return
 
     def getDeliverySchedule(self):
         return self.onOrder.getBlob(store=CatalogItem.Customization | CatalogItem.DeliveryDate)
 
-    def b_setBothSchedules(self, onOrder, onGiftOrder, doUpdateLater = True):
+    def b_setBothSchedules(self, onOrder, onGiftOrder, doUpdateLater=True):
         self.setBothSchedules(onOrder, onGiftOrder, doUpdateLater)
         self.d_setDeliverySchedule(onOrder)
+        self.d_setGiftSchedule(onGiftOrder)
 
-    def setBothSchedules(self, onOrder, onGiftOrder, doUpdateLater = True):
+    def setBothSchedules(self, onOrder, onGiftOrder, doUpdateLater=True):
         if onOrder != None:
-            self.onOrder = CatalogItemList.CatalogItemList(onOrder, store=CatalogItem.Customization | CatalogItem.DeliveryDate)
+            self.onOrder = CatalogItemList.CatalogItemList(onOrder,
+                                                           store=CatalogItem.Customization | CatalogItem.DeliveryDate)
         if onGiftOrder != None:
-            self.onGiftOrder = CatalogItemList.CatalogItemList(onGiftOrder, store=CatalogItem.Customization | CatalogItem.DeliveryDate)
+            self.onGiftOrder = CatalogItemList.CatalogItemList(onGiftOrder,
+                                                               store=CatalogItem.Customization | CatalogItem.DeliveryDate)
         if not hasattr(self, 'air') or self.air == None:
             return
-        if doUpdateLater and self.air.doLiveUpdates and hasattr(self, 'name'):
+        if doUpdateLater and hasattr(self, 'name'):
             taskName = 'next-bothDelivery-%s' % self.doId
             now = int(time.time() / 60 + 0.5)
             nextItem = None
@@ -2537,33 +2536,18 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         now = int(time.time() / 60 + 0.5)
         delivered, remaining = self.onOrder.extractDeliveryItems(now)
         deliveredGifts, remainingGifts = self.onGiftOrder.extractDeliveryItems(now)
-        #simbase.air.deliveryManager.sendDeliverGifts(self.getDoId(), now) TODO DeliveryManager
-        giftItem = CatalogItemList.CatalogItemList(deliveredGifts, store=CatalogItem.Customization | CatalogItem.DeliveryDate)
+        giftItem = CatalogItemList.CatalogItemList(deliveredGifts,
+                                                   store=CatalogItem.Customization | CatalogItem.DeliveryDate)
         if len(giftItem) > 0:
-            self.air.writeServerEvent('Getting Gift', avId=self.doId, msg='sender %s receiver %s gift %s' % (giftItem[0].giftTag, self.doId, giftItem[0].getName()))
+            self.air.writeServerEvent('Getting Gift', self.doId, 'sender %s receiver %s gift %s' % (
+            giftItem[0].giftTag, self.doId, giftItem[0].getName()))
         self.b_setMailboxContents(self.mailboxContents + delivered + deliveredGifts)
         self.b_setCatalogNotify(self.catalogNotify, ToontownGlobals.NewItems)
         self.b_setBothSchedules(remaining, remainingGifts)
         return Task.done
 
-    def setGiftSchedule(self, onGiftOrder, doUpdateLater = True):
+    def setGiftSchedule(self, onGiftOrder, doUpdateLater=True):
         self.setBothSchedules(None, onGiftOrder)
-        return
-        self.onGiftOrder = CatalogItemList.CatalogItemList(onGiftOrder, store=CatalogItem.Customization | CatalogItem.DeliveryDate)
-        if doUpdateLater and self.air.doLiveUpdates and hasattr(self, 'air') and hasattr(self, 'name'):
-            taskName = self.uniqueName('next-gift')
-            taskMgr.remove(taskName)
-            now = int(time.time() / 60 + 0.5)
-            nextItem = None
-            nextTime = self.onGiftOrder.getNextDeliveryDate()
-            nextItem = self.onGiftOrder.getNextDeliveryItem()
-            if nextItem != None:
-                pass
-            if nextTime != None:
-                duration = max(10.0, nextTime * 60 - time.time())
-                duration += 30
-                taskMgr.doMethodLater(duration, self.__deliverGiftPurchase, taskName)
-        return
 
     def getGiftSchedule(self):
         return self.onGiftOrder.getBlob(store=CatalogItem.Customization | CatalogItem.DeliveryDate)
@@ -2573,22 +2557,15 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         delivered, remaining = self.onGiftOrder.extractDeliveryItems(now)
         self.notify.info('Gift Delivery for %s: %s.' % (self.doId, delivered))
         self.b_setMailboxContents(self.mailboxContents + delivered)
-        simbase.air.deliveryManager.sendDeliverGifts(self.getDoId(), now)
         self.b_setCatalogNotify(self.catalogNotify, ToontownGlobals.NewItems)
         return Task.done
-
-    def __handleAddGift(self, blob, ctx):
-        store = CatalogItem.Customization | CatalogItem.DeliveryDate | CatalogItem.GiftTag
-        self.onGiftOrder.append(CatalogItem.getItem(blob, store=store))
-        self.b_setBothSchedules(self.onOrder, self.onGiftOrder)
-        self.sendUpdate('CATALOG_addGift_UD2Toon_resp', [self.doId, ctx])
 
     def __deliverPurchase(self, task):
         now = int(time.time() / 60 + 0.5)
         delivered, remaining = self.onOrder.extractDeliveryItems(now)
         self.notify.info('Delivery for %s: %s.' % (self.doId, delivered))
         self.b_setMailboxContents(self.mailboxContents + delivered)
-        self.b_setDeliverySchedule(None, remaining) #TODO: Does this for sure fix crash when AI crashes?
+        self.b_setDeliverySchedule(remaining)
         self.b_setCatalogNotify(self.catalogNotify, ToontownGlobals.NewItems)
         return Task.done
 
@@ -2760,11 +2737,18 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.b_setEmblems(newEmblems)
 
     def subtractEmblems(self, emblemsToSubtract):
+        if len(emblemsToSubtract) < ToontownGlobals.NumEmblemTypes:
+            return True
+
         newEmblems = self.emblems[:]
         for i in xrange(ToontownGlobals.NumEmblemTypes):
+            if newEmblems[i] < emblemsToSubtract[i]:
+                return False
+
             newEmblems[i] -= emblemsToSubtract[i]
 
         self.b_setEmblems(newEmblems)
+        return True
 
     def isEnoughEmblemsToBuy(self, itemEmblemPrices):
         for emblemIndex, emblemPrice in enumerate(itemEmblemPrices):
@@ -6531,3 +6515,8 @@ def unlocks():
         invoker.b_setPetTrickPhrases(range(7))
 
     return 'Unlocked teleport access, emotions, and pet trick phrases!'
+
+@magicWord(category=CATEGORY_ADMIN, types=[int, int])
+def emblems(silver=10, gold=10):
+    spellbook.getTarget().addEmblems((gold, silver))
+    return 'Restocked with Gold: %s Silver: %d' % (gold, silver)

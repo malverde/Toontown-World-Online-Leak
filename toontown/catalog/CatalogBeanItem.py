@@ -1,15 +1,13 @@
-# Embedded file name: toontown.catalog.CatalogBeanItem
 import CatalogItem
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import TTLocalizer
 from otp.otpbase import OTPLocalizer
 from direct.interval.IntervalGlobal import *
 
-
 class CatalogBeanItem(CatalogItem.CatalogItem):
     sequenceNumber = 0
 
-    def makeNewItem(self, beanAmount, tagCode=1):
+    def makeNewItem(self, beanAmount, tagCode = 1):
         self.beanAmount = beanAmount
         self.giftCode = tagCode
         CatalogItem.CatalogItem.makeNewItem(self)
@@ -52,11 +50,10 @@ class CatalogBeanItem(CatalogItem.CatalogItem):
         beanJar.setPos(0, 0, 0)
         beanJar.setScale(2.5)
         self.hasPicture = True
-        return frame, None
+        return (frame, None)
 
-    def output(self, store=-1):
-        return 'CatalogBeanItem(%s%s)' % (
-            self.beanAmount, self.formatOptionalData(store))
+    def output(self, store = -1):
+        return 'CatalogBeanItem(%s%s)' % (self.beanAmount, self.formatOptionalData(store))
 
     def compareTo(self, other):
         return self.beanAmount - other.beanAmount

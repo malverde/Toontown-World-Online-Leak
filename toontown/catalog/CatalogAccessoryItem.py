@@ -407,12 +407,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
         dg.addUint16(self.loyaltyDays)
 
     def isGift(self):
-        if self.loyaltyRequirement() > 0:
-            return 0
-        elif self.accessoryType in LoyaltyAccessoryItems:
-            return 0
-        else:
-            return 1
+        return not self.getEmblemPrices()
 
 
 def getAllAccessories(*accessoryTypes):

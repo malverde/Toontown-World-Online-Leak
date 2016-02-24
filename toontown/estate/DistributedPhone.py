@@ -1,4 +1,3 @@
-#Embedded file name: toontown.estate.DistributedPhone
 from toontown.toonbase import ToontownGlobals
 import PhoneGlobals
 from toontown.catalog import CatalogScreen
@@ -15,7 +14,6 @@ from direct.showutil import Rope
 from direct.directnotify.DirectNotifyGlobal import *
 from panda3d.core import *
 from direct.interval.IntervalGlobal import *
-import string
 from toontown.quest import Quests
 from direct.task import Task
 
@@ -104,7 +102,7 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
         if self.initialScale:
             mount.setScale(*self.initialScale)
             self.usedInitialScale = 1
-        phoneSphere = CollisionSphere(0, -0.66, 0, 0.2)
+        phoneSphere = CollisionSphere(0, -0.88, 0, 0.2)
         phoneSphere.setTangible(0)
         phoneSphereNode = CollisionNode(self.phoneSphereEvent)
         phoneSphereNode.setIntoCollideMask(ToontownGlobals.WallBitmask)
@@ -167,18 +165,19 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
             self.usedInitialScale = 1
 
     def __handleEnterSphere(self, collEntry):
-        if self.smoothStarted:
+        if self.phoneGui or self.smoothStarted:
             return
+
         if base.localAvatar.doId == self.lastAvId and globalClock.getFrameTime() <= self.lastTime + 0.5:
             self.notify.debug('Ignoring duplicate entry for avatar.')
             return
+
         if self.hasLocalAvatar:
             self.freeAvatar()
-        if config.GetBool('want-pets', 1):
-            base.localAvatar.lookupPetDNA()
+
         self.notify.debug('Entering Phone Sphere....')
         taskMgr.remove(self.uniqueName('ringDoLater'))
-        self.ignore(self.phoneSphereEnterEvent)
+        base.localAvatar.obscureMoveFurnitureButton(1)
         self.cr.playGame.getPlace().detectedPhoneCollision()
         self.hasLocalAvatar = 1
         self.sendUpdate('avatarEnter', [])
@@ -186,7 +185,8 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
     def __handlePhoneDone(self):
         self.sendUpdate('avatarExit', [])
         self.ignore(self.phoneGuiDoneEvent)
-        self.accept(self.phoneSphereEnterEvent, self.__handleEnterSphere)
+        base.localAvatar.obscureMoveFurnitureButton(0)
+        self.setPos(self.getPos())
         self.phoneGui = None
 
     def freeAvatar(self):
@@ -198,7 +198,6 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
                 base.cr.playGame.getPlace().setState('walk')
             self.hasLocalAvatar = 0
         self.ignore(self.pickupMovieDoneEvent)
-        self.accept(self.phoneSphereEnterEvent, self.__handleEnterSphere)
         self.lastTime = globalClock.getFrameTime()
 
     def setLimits(self, numHouseItems):
@@ -210,21 +209,17 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
         self.ignore(self.pickupMovieDoneEvent)
         if avId != 0:
             self.lastAvId = avId
+
         self.lastTime = globalClock.getFrameTime()
         isLocalToon = avId == base.localAvatar.doId
         avatar = self.cr.doId2do.get(avId)
         self.notify.debug('setMovie: %s %s %s' % (mode, avId, isLocalToon))
+
         if mode == PhoneGlobals.PHONE_MOVIE_CLEAR:
             self.notify.debug('setMovie: clear')
             self.numHouseItems = None
             if self.phoneInUse:
                 self.clearInterval()
-            self.phoneInUse = 0
-        elif mode == PhoneGlobals.PHONE_MOVIE_EMPTY:
-            self.notify.debug('setMovie: empty')
-            if isLocalToon:
-                self.phoneDialog = TTDialog.TTDialog(dialogName='PhoneEmpty', style=TTDialog.Acknowledge, text=TTLocalizer.DistributedPhoneEmpty, text_wordwrap=15, fadeScreen=1, command=self.__clearDialog)
-            self.numHouseItems = None
             self.phoneInUse = 0
         elif mode == PhoneGlobals.PHONE_MOVIE_PICKUP:
             self.notify.debug('setMovie: gui')
@@ -266,13 +261,9 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
         self.sendUpdate('requestPurchaseMessage', [context, blob, optional])
 
     def requestGiftPurchase(self, item, targetDoID, callback, optional = -1):
-        print 'in the client phone'
         blob = item.getBlob(store=CatalogItem.Customization)
         context = self.getCallbackContext(callback, [item])
-        self.sendUpdate('requestGiftPurchaseMessage', [context,
-         targetDoID,
-         blob,
-         optional])
+        self.sendUpdate('requestGiftPurchaseMessage', [context, targetDoID, blob, optional])
 
     def requestPurchaseResponse(self, context, retcode):
         self.doCallbackContext(context, [retcode])
@@ -368,7 +359,7 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
         w = 0.05
         shakeOnce = Sequence(Func(phone.setR, r), Wait(w), Func(phone.setR, -r), Wait(w))
         shakeSeq = Sequence()
-        for i in range(16):
+        for i in xrange(16):
             shakeSeq.append(shakeOnce)
 
         ringIval = Parallel(Func(base.playSfx, self.ringSfx), shakeSeq, Func(phone.setR, 0))
