@@ -7,6 +7,7 @@ from toontown.ai import HolidayManagerAI
 # from toontown.ai import NewsInvasionAI
 from toontown.ai import HolidayGlobals
 import time
+from direct.distributed.ClockDelta import *
 
 class NewsManagerAI(DistributedObjectAI):
 	notify = DirectNotifyGlobal.directNotify.newCategory("NewsManagerAI")
@@ -19,10 +20,26 @@ class NewsManagerAI(DistributedObjectAI):
 		# self.NewsInvasionAI.startInvTick()
 		self.HolidayManagerAI.startFireworksTick()
 		self.HolidayName = []
+		self.HolidayToday = HolidayGlobals.WhatHolidayIsItAI()
+		
+    def isbingoCount(self):
+		# Check seconds until next hour.
+        ts = time.time()
+        nextHour = 3600 - (ts % 3600)
+        taskMgr.doMethodLater(			
+            nextHour,
+            self.GetHoliday,
+            'hourly-holiday-check')
+    
+    def GetHoliday(self, task):
+        task.delayTime = 3600
+        print ("Holiday List is stale, getting new one!")
+        self.HolidayToday = HolidayGlobals.WhatHolidayIsItAI()
+        
 
 	def __announceIfHoliday(self, avatar):
 		try:
-			holidayList = HolidayGlobals.WhatHolidayIsItAI()
+			holidayList = self.HolidayToday
 			Holiday1 = holidayList[0]
 			Holiday2 = holidayList[1]
 			self.sendUpdateToAvatarId(avatar.getDoId(),
@@ -32,7 +49,7 @@ class NewsManagerAI(DistributedObjectAI):
                                         'setHolidays',
                                         [Holiday2])
 		except:
-			holidayList = HolidayGlobals.WhatHolidayIsItAI()
+			holidayList = self.HolidayToday
 			Holiday1 = holidayList[0]
 			self.sendUpdateToAvatarId(avatar.getDoId(),
                                         'setHolidays',
