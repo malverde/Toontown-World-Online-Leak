@@ -1893,3 +1893,9 @@ BGagAccuracy = 1
 BGagAccuracyMultiplier = 2.0
 BGagExperience = 2
 BGagExperienceMultiplier = 2
+
+
+# Estates fish selling
+FISHSALE_NONE = 0
+FISHSALE_COMPLETE = 1
+FISHSALE_TROPHY = 2
