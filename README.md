@@ -3,7 +3,7 @@
 # IMPORTANT PLEASE READ! #
 
 # Current Version
-# 2.5.2.1.5
+# 2.5.2.1.6
 
 ### How to run tests ###
 Run the latest available development build. Look at patches to test against for desired results.
