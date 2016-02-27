@@ -1045,9 +1045,4 @@ class DistributedFishingSpot(DistributedObject.DistributedObject):
                 self.fsm.request('waiting', [False])
 
     def __allowSellFish(self):
-        if base.wantBingo:
-            if self.pond.hasPondBingoManager():
-                hoodId = base.cr.playGame.getPlaceId()
-                if hoodId == ToontownGlobals.MyEstate:
-                    return True
-        return False
+        return base.wantBingo and self.pond.hasPondBingoManager()
