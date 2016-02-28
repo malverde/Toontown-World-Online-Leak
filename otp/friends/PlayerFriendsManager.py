@@ -98,7 +98,7 @@ class PlayerFriendsManager(DistributedObjectGlobal):
             self.playerFriendsList.add(id)
             self.playerId2Info[id] = info
             messenger.send(OTPGlobals.PlayerFriendAddEvent, [id, info, isNewFriend])
-        elif self.playerId2Info.has_key(id):
+        elif id in self.playerId2Info:
             if not self.playerId2Info[id].onlineYesNo and info.onlineYesNo:
                 self.playerId2Info[id] = info
                 messenger.send('playerOnline', [id])
@@ -175,11 +175,11 @@ class PlayerFriendsManager(DistributedObjectGlobal):
 
     def askAvatarOnline(self, avId):
         returnValue = 0
-        if self.cr.doId2do.has_key(avId):
+        if avId in self.cr.doId2do:
             returnValue = 1
-        if self.playerAvId2avInfo.has_key(avId):
+        if avId in self.playerAvId2avInfo:
             playerId = self.findPlayerIdFromAvId(avId)
-            if self.playerId2Info.has_key(playerId):
+            if playerId in self.playerId2Info:
                 playerInfo = self.playerId2Info[playerId]
                 if playerInfo.onlineYesNo:
                     returnValue = 1
