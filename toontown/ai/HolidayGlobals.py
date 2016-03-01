@@ -74,6 +74,8 @@ elif int(datetime.datetime.now().strftime("%m")) == 4: # April
 	Xp = 2.0
 elif int(datetime.datetime.now().strftime("%m")) == 7 and day == 29 or day == 30: # July
     Xp = 3.0
+elif datetime.datetime.today().weekday() == 5 or datetime.datetime.today().weekday() == 6 or int(datetime.datetime.now().strftime("%m")) == 2:
+    Xp = 1.5
 else:
     Xp = 1.0
 
@@ -85,6 +87,8 @@ elif int(datetime.datetime.now().strftime("%m")) == 7 and day < 16: # July
     Show = 'Summer'
 elif int(datetime.datetime.now().strftime("%m")) == 12 and day == 30 or day == 31: # December
     Show = 'Nyear'
+else:
+    Show = None
 
 # Invasions logic
 
