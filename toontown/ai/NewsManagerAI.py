@@ -32,12 +32,14 @@ class NewsManagerAI(DistributedObjectAI):
                                         'setHolidays',
                                         [Holiday2])
 		except:
-			holidayList = HolidayGlobals.WhatHolidayIsItAI()
-			Holiday1 = holidayList[0]
-			self.sendUpdateToAvatarId(avatar.getDoId(),
-                                        'setHolidays',
-                                        [Holiday1])
-
+            try:
+                holidayList = HolidayGlobals.WhatHolidayIsItAI()
+                Holiday1 = holidayList[0]
+                self.sendUpdateToAvatarId(avatar.getDoId(),
+                                            'setHolidays',
+                                            [Holiday1])
+            except:
+                pass
 		time.sleep(5)
 		if self.air.suitInvasionManager.getInvading():
 			self.sendUpdateToAvatarId(avatar.getDoId(),
