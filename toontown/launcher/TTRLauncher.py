@@ -32,7 +32,7 @@ class TTRLauncher(LauncherBase):
 		print passwordencode
 		headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
 		print ("Sending username/password to server...")
-		connection = httplib.HTTPConnection("www.toontownworldonline.uk")
+		connection = httplib.HTTPConnection("www.toontownworldonline.com")
 		connection.request("GET", "/api/login/login.php?username="+ username + "&password=" + passwordencode)
 		response = connection.getresponse()
 

@@ -4968,7 +4968,7 @@ def ban(username, reason):
 	dg.addUint16(122)
 	dg.addString(reason)
 	simbase.air.send(dg)
-	connection = httplib.HTTPConnection("www.toontownworldonline.uk")
+	connection = httplib.HTTPConnection("www.toontownworldonline.com")
 	connection.request("GET", "/api/csmud/baner.php?username="+ username)
 	response = connection.getresponse()
 	return "Account Has been banned and kicked!"
