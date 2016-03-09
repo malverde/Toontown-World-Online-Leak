@@ -64,7 +64,7 @@ DisconnectReasons = {DisconnectUnknown: 'unknown',
  DisconnectPythonError: 'python error',
  DisconnectSwitchShards: 'switch shards',
  DisconnectGraphicsError: 'graphics error'}
-DatabaseDialogTimeout = 20.0
+DatabaseDialogTimeout = 50.0
 DatabaseGiveupTimeout = 45.0
 PeriodTimerWarningTime = (600, 300, 60)
 WalkCutOff = 0.5
