@@ -1300,7 +1300,7 @@ class OTPClientRepository(ClientRepositoryBase):
         avId = self.handlerArgs['avId']
         self.uberZoneInterest = self.addInterest(base.localAvatar.defaultShard, OTPGlobals.UberZone, 'uberZone', 'uberZoneInterestComplete')
         self.acceptOnce('uberZoneInterestComplete', self.uberZoneInterestComplete)
-        self.waitForDatabaseTimeout(20, requestName='waitingForUberZone')
+        self.waitForDatabaseTimeout(50, requestName='waitingForUberZone')
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def uberZoneInterestComplete(self):
