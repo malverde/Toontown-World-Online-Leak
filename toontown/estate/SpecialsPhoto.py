@@ -1,4 +1,3 @@
-#Embedded file name: toontown.estate.SpecialsPhoto
 from direct.directnotify import DirectNotifyGlobal
 from panda3d.core import *
 from direct.interval.IntervalGlobal import *
@@ -10,13 +9,14 @@ import random
 class DirectRegion(NodePath):
     notify = DirectNotifyGlobal.directNotify.newCategory('DirectRegion')
 
-    def __init__(self, parent = aspect2d):
+    def __init__(self, parent=aspect2d):
         NodePath.__init__(self)
         self.assign(parent.attachNewNode('DirectRegion'))
 
     def destroy(self):
         self.unload()
         self.parent = None
+        return
 
     def setBounds(self, *bounds):
         self.bounds = bounds
@@ -85,6 +85,7 @@ class SpecialsPhoto(NodePath):
         self.soundTrack = None
         self.track = None
         self.specialsFrame = None
+        return
 
     def destroy(self):
         self.hide()
@@ -100,6 +101,7 @@ class SpecialsPhoto(NodePath):
         del self.soundTrack
         del self.track
         self.parent = None
+        return
 
     def update(self, type):
         self.type = type
@@ -135,7 +137,7 @@ class SpecialsPhoto(NodePath):
         if specialsIndex == -1:
             nodePath = self.attachNewNode('blank')
             return nodePath
-        elif 105 <= specialsIndex <= 108:
+        if specialsIndex >= 105 and specialsIndex <= 108:
             from toontown.estate import DistributedToonStatuary
             self.toonStatuary = DistributedToonStatuary.DistributedToonStatuary(None)
             self.toonStatuary.setupStoneToon(base.localAvatar.style)
@@ -168,6 +170,7 @@ class SpecialsPhoto(NodePath):
                 nodePath.setColorScale(colorTuple[0], colorTuple[1], colorTuple[2], 1.0)
             nodePath.setScale(GardenGlobals.Specials[specialsIndex]['photoScale'] * 0.5)
             return nodePath
+        return
 
     def show(self, showBackground = 0):
         self.notify.debug('show')
@@ -178,8 +181,9 @@ class SpecialsPhoto(NodePath):
             if hasattr(self, 'specialsDisplayRegion'):
                 self.specialsDisplayRegion.unload()
             self.hide()
-        self.actor = self.loadModel(self.type)
-        self.specialsFrame = self.makeSpecialsFrame(self.actor)
+        if self.type != -1:
+            self.actor = self.loadModel(self.type)
+            self.specialsFrame = self.makeSpecialsFrame(self.actor)
         if showBackground:
             if not hasattr(self, 'background'):
                 background = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
@@ -211,6 +215,7 @@ class SpecialsPhoto(NodePath):
         if hasattr(self, 'toonStatuary'):
             if self.toonStatuary.toon:
                 self.toonStatuary.deleteToon()
+        return
 
     def changeVariety(self, variety):
         self.variety = variety

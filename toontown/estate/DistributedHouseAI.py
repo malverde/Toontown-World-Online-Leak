@@ -1,20 +1,21 @@
-#Embedded file name: toontown.estate.DistributedHouseAI
-from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.estate.DistributedHouseInteriorAI import DistributedHouseInteriorAI
 from toontown.estate.DistributedHouseDoorAI import DistributedHouseDoorAI
 from toontown.estate.DistributedMailboxAI import DistributedMailboxAI
+from toontown.estate.GardenManagerAI import GardenManagerAI
 from toontown.building import DoorTypes
 from toontown.catalog.CatalogItemList import CatalogItemList
 from otp.ai.MagicWordGlobal import *
 from toontown.catalog.CatalogFurnitureItem import *
 from toontown.catalog.CatalogItem import Customization, WindowPlacement, Location
 
+
 class DistributedHouseAI(DistributedObjectAI):
-    notify = DirectNotifyGlobal.directNotify.newCategory('DistributedHouseAI')
+    notify = directNotify.newCategory('DistributedHouseAI')
 
     def __init__(self, air):
         DistributedObjectAI.__init__(self, air)
+
         self.houseType = 0
         self.gardenPos = 0
         self.avatarId = 0
@@ -23,6 +24,9 @@ class DistributedHouseAI(DistributedObjectAI):
         self.housePos = 0
         self.gender = 1
         self.isInteriorInitialized = 1
+        self.gardenManager = None
+        self.gardenData = ''
+
         self.atticItems = CatalogItemList(store=Customization)
         self.interiorItems = CatalogItemList(store=Customization)
         self.interiorWallpaper = CatalogItemList(store=Customization)
@@ -33,34 +37,49 @@ class DistributedHouseAI(DistributedObjectAI):
 
     def announceGenerate(self):
         DistributedObjectAI.announceGenerate(self)
-        self.interiorZone = self.air.allocateZone(owner=self.air.estateManager)
+        self.interiorZone = self.air.allocateZone()
+
         self.door = DistributedHouseDoorAI(self.air, self.getDoId(), DoorTypes.EXT_STANDARD)
         self.door.setSwing(3)
         self.door.generateWithRequired(self.zoneId)
+
         self.interiorDoor = DistributedHouseDoorAI(self.air, self.getDoId(), DoorTypes.INT_STANDARD)
         self.interiorDoor.setSwing(3)
         self.interiorDoor.setOtherDoor(self.door)
         self.interiorDoor.generateWithRequired(self.interiorZone)
+
         self.door.setOtherDoor(self.interiorDoor)
+
         self.interior = DistributedHouseInteriorAI(self.air, self)
         self.interior.setHouseIndex(self.housePos)
         self.interior.setHouseId(self.getDoId())
         self.interior.generateWithRequired(self.interiorZone)
+
         if self.avatarId:
             self.mailbox = DistributedMailboxAI(self.air, self)
             self.mailbox.generateWithRequired(self.zoneId)
+
+        if config.GetBool('want-gardening', False):
+            self.createGardenManager()
+
         if not self.isInteriorInitialized:
             self.notify.info('Initializing interior...')
             self.interior.initialize()
             self.b_setInteriorInitialized(1)
+
         self.sendUpdate('setHouseReady', [])
 
     def delete(self):
         self.door.requestDelete()
         self.interiorDoor.requestDelete()
         self.interior.requestDelete()
+
         if self.avatarId:
             self.mailbox.requestDelete()
+
+        if self.gardenManager is not None:
+            self.gardenManager.delete()
+
         self.air.deallocateZone(self.interiorZone)
         DistributedObjectAI.delete(self)
 
@@ -97,7 +116,7 @@ class DistributedHouseAI(DistributedObjectAI):
         self.sendUpdate('setGardenPos', [pos])
 
     def b_setGardenPos(self, pos):
-        self.setGardenPow(pos)
+        self.setGardenPos(pos)
         self.d_setGardenPos(pos)
 
     def getGardenPos(self):
@@ -265,8 +284,7 @@ class DistributedHouseAI(DistributedObjectAI):
         self.interior.furnitureManager.saveToHouse()
         if item.getFlags() & FLTrunk:
             self.atticItems.append(item)
-            
-        if item.replacesExisting() and item.hasExisting():
+        elif item.replacesExisting() and item.hasExisting():
             if item.getFlags() & FLCloset:
                 closets = ClosetToClothes.keys()
                 for itItem in self.interiorItems:
@@ -276,13 +294,11 @@ class DistributedHouseAI(DistributedObjectAI):
                         item.posHpr = posHpr
                         self.interiorItems.append(item)
                         break
-
                 for itItem in self.atticItems:
                     if itItem.furnitureType in closets:
                         self.atticItems.remove(itItem)
                         self.atticItems.append(item)
                         break
-
         else:
             self.atticItems.append(item)
         self.d_setAtticItems(self.atticItems.getBlob())
@@ -301,6 +317,59 @@ class DistributedHouseAI(DistributedObjectAI):
         self.d_setAtticWallpaper(self.atticWallpaper.getBlob())
         self.interior.furnitureManager.loadFromHouse()
 
+    def setGardenData(self, gardenData):
+        self.gardenData = gardenData
+
+    def d_setGardenData(self, gardenData):
+        self.sendUpdate('setGardenData', [gardenData])
+
+    def b_setGardenData(self, gardenData):
+        self.setGardenData(gardenData)
+        self.d_setGardenData(gardenData)
+
+    def getGardenData(self):
+        return self.gardenData
+
+    def hasGardenData(self):
+        return self.gardenData != ''
+
+    def placeStarterGarden(self):
+        av = self.air.doId2do.get(self.avatarId)
+        if av is None:
+            return
+
+        if av.getGardenStarted():
+            self.notify.warning('Avatar %s tried to start their garden twice!' % self.avatarId)
+            return
+
+        # State that the avatar has started gardening
+        av.b_setGardenStarted(1)
+
+        # Create the GardenManagerAI
+        self.gardenManager = GardenManagerAI(self.air, self)
+        self.gardenManager.loadGarden()
+
+    def createGardenManager(self):
+        if not self.avatarId:
+            return
+
+        av = self.air.doId2do.get(self.avatarId)
+        if av is not None:
+            if av.getGardenStarted():
+                self.gardenManager = GardenManagerAI(self.air, self)
+                self.gardenManager.loadGarden()
+            return
+
+        def __gotOwner(dclass, fields, self=self):
+            if dclass != self.air.dclassesByName['DistributedToonAI']:
+                return
+
+            gardenStarted = fields['setGardenStarted'][0]
+            if gardenStarted:
+                self.gardenManager = GardenManagerAI(self.air, self)
+                self.gardenManager.loadGarden()
+
+        self.air.dbInterface.queryObject(self.air.dbId, self.avatarId, __gotOwner)
 
 @magicWord(category=CATEGORY_OVERRIDE, types=[int])
 def houseType(type = 0):

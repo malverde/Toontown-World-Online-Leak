@@ -1,128 +1,86 @@
-#Embedded file name: toontown.estate.DistributedGarden
-from panda3d.core import *
-from toontown.toonbase.ToonBaseGlobal import *
-from direct.gui.DirectGui import *
-from direct.distributed.ClockDelta import *
-from toontown.toonbase import ToontownGlobals
-from direct.distributed import DistributedObject
-from direct.directnotify import DirectNotifyGlobal
-from direct.fsm import ClassicFSM
-from direct.fsm import State
-from toontown.toon import Toon
-from direct.showbase import RandomNumGen
-from toontown.toonbase import TTLocalizer
-import random
-import random
-import cPickle
-from direct.showbase import PythonUtil
-from toontown.hood import Place
-import Estate
-import HouseGlobals
+from direct.distributed.DistributedObject import DistributedObject
 
-class DistributedGarden(DistributedObject.DistributedObject):
+from toontown.estate import HouseGlobals
+
+
+class DistributedGarden(DistributedObject):
     notify = directNotify.newCategory('DistributedGarden')
 
+    PROPS = {
+        HouseGlobals.PROP_ICECUBE: 'phase_8/models/props/icecube.bam',
+        HouseGlobals.PROP_FLOWER: 'phase_8/models/props/flower_treasure.bam',
+        HouseGlobals.PROP_SNOWFLAKE: 'phase_8/models/props/snowflake_treasure.bam'
+    }
+
     def __init__(self, cr):
-        self.notify.debug('init')
-        DistributedObject.DistributedObject.__init__(self, cr)
+        DistributedObject.__init__(self, cr)
+
         self.lt = base.localAvatar
         self.props = []
         self.pos = None
         self.radius = 0
         self.gridCells = 20
         self.propTable = [None] * self.gridCells
-        for i in range(len(self.propTable)):
+
+        for i in xrange(len(self.propTable)):
             self.propTable[i] = [None] * self.gridCells
 
         self.dx = 1.0 / self.gridCells
         self.occupied = []
 
-    def generate(self):
-        DistributedObject.DistributedObject.generate(self)
-
-    def announceGenerate(self):
-        DistributedObject.DistributedObject.announceGenerate(self)
-
-    def disable(self):
-        DistributedObject.DistributedObject.disable(self)
-
-    def unload(self):
-        pass
-
     def delete(self):
         for prop in self.props:
             prop[0].removeNode()
-            del prop[0]
-            del prop
 
-        del self.props
-        self.props = None
-        self.unload()
+        self.props = []
 
     def sendNewProp(self, prop, x, y, z):
-        self.notify.debug('sendNewProp')
-        print 'new prop (%d) = %s,%s,%s' % (prop,
-         x,
-         y,
-         z)
-        if prop == HouseGlobals.PROP_ICECUBE:
-            model = loader.loadModel('phase_8/models/props/icecube')
-        elif prop == HouseGlobals.PROP_FLOWER:
-            model = loader.loadModel('phase_8/models/props/flower_treasure')
-        elif prop == HouseGlobals.PROP_SNOWFLAKE:
-            model = loader.loadModel('phase_8/models/props/snowflake_treasure')
-        model.reparentTo(hidden)
+        path = self.PROPS.get(prop)
+        if path is None:
+            self.notify.warning('Unknown prop: %s' % prop)
+            return
+
+        model = loader.loadModel(path)
         model.setPos(x, y, z)
         model.setScale(0.2)
         model.setBillboardPointEye()
         model.reparentTo(render)
-        self.props.append([model,
-         x,
-         y,
-         z])
+
+        self.props.append([model, x, y, z])
 
     def getPropPos(self, i, j):
-        pos = [self.pos[0] - self.radius + 2 * self.radius * i, self.pos[1] - self.radius + 2 * self.radius * j, self.pos[2]]
-        return pos
+        return [self.pos[0] - self.radius + 2 * self.radius * i,
+                self.pos[1] - self.radius + 2 * self.radius * j,
+                self.pos[2]]
 
     def loadProp(self, prop, i, j):
         pos = self.getPropPos(i, j)
-        if prop == HouseGlobals.PROP_ICECUBE:
-            model = loader.loadModel('phase_8/models/props/icecube')
-        elif prop == HouseGlobals.PROP_FLOWER:
-            model = loader.loadModel('phase_8/models/props/flower_treasure')
-        elif prop == HouseGlobals.PROP_SNOWFLAKE:
-            model = loader.loadModel('phase_8/models/props/snowflake_treasure')
-        else:
-            self.notify.error('cant find prop: %s' % prop)
-        model.reparentTo(hidden)
+        path = self.PROPS.get(prop)
+        if path is None:
+            self.notify.warning('Unknown prop: %s' % prop)
+            return
+
+        model = loader.loadModel(path)
         model.setPos(pos[0], pos[1], pos[2])
         model.setScale(0.2)
         model.setBillboardPointEye()
         model.reparentTo(render)
 
     def setAddProp(self, prop, i, j):
-        self.notify.debug('addProp')
         self.props.append([prop, i, j])
         self.loadProp(prop, i, j)
-        self.b_setProps(self, props)
+        self.b_setProps(self, self.props)
 
     def b_setProps(self, props):
-        self.notify.debug('b_setProps')
         self.setProps(props)
         self.d_setProps(props)
 
     def d_setProps(self, props):
-        self.notify.debug('d_setProps')
-        aProps = []
-        for prop in props:
-            aProps = aProps + prop
-
-        self.sendUpdate('setProps', [aProps])
+        self.sendUpdate('setProps', [props])
 
     def setProps(self, props):
-        self.notify.debug('setProps')
         self.props = props
+
         for prop in self.props:
             pInd, i, j = prop
             self.propTable[i, j] = pInd

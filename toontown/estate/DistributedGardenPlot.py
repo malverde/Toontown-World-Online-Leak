@@ -1,4 +1,3 @@
-#Embedded file name: toontown.estate.DistributedGardenPlot
 import DistributedLawnDecor
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase.ShowBase import *
@@ -26,12 +25,14 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
         self.defaultModel = 'phase_5.5/models/estate/dirt_mound'
         self.colorScaler = Vec4(1, 1, 1, 1)
         self.plantingGui = None
+        return
 
     def delete(self):
         if self.plantingGui:
             self.plantingGui.destroy()
             self.plantingGui = None
         DistributedLawnDecor.DistributedLawnDecor.delete(self)
+        return
 
     def announceGenerate(self):
         self.plotType = GardenGlobals.whatCanBePlanted(self.ownerIndex, self.plot)
@@ -56,6 +57,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             self.collSphereOffset = 0.0
         self.notify.debug('announceGenerate')
         DistributedLawnDecor.DistributedLawnDecor.announceGenerate(self)
+        return
 
     def loadModel(self):
         self.rotateNode = self.plantPath.attachNewNode('rotate')
@@ -69,6 +71,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             self.model.reparentTo(self.rotateNode)
             self.model.setColorScale(self.colorScaler)
             self.stick2Ground()
+        return
 
     def setupShadow(self):
         pass
@@ -104,10 +107,10 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
         return plantText
 
     def canBePlanted(self):
-        retval = True
         if not base.localAvatar.doId == self.getOwnerId():
-            retval = False
-        return retval
+            return False
+
+        return True
 
     def plantSomething(self):
         whatCanBePlanted = GardenGlobals.whatCanBePlanted(self.ownerIndex, self.plot)
@@ -149,6 +152,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             self.resultDialog = TTDialog.TTDialog(style=TTDialog.Acknowledge, text=TTLocalizer.ResultPlantedNothing, command=self.popupFlowerPlantingGuiAgain)
         else:
             self.finishInteraction()
+        return
 
     def popupFlowerPlantingGui(self):
         base.localAvatar.hideGardeningGui()
@@ -161,18 +165,21 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
         self.resultDialog.destroy()
         self.resultDialog = None
         self.finishInteraction()
+        return
 
     def popupFlowerPlantingGuiAgain(self, value):
         self.notify.debug('value=%d' % value)
         self.resultDialog.destroy()
         self.resultDialog = None
         self.popupFlowerPlantingGui()
+        return
 
     def popupItemPlantingGuiAgain(self, value):
         self.notify.debug('value=%d' % value)
         self.resultDialog.destroy()
         self.resultDialog = None
         self.popupItemPlantingGui()
+        return
 
     def __handleItemPlantingDone(self, willPlant = 0, recipeStr = '', selectedSpecial = -1):
         self.ignore(self.plantingGuiDoneEvent)
@@ -194,7 +201,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
                 if species >= 0 and variety >= 0:
                     if GardenGlobals.PlantAttributes[species]['plantType'] == GardenGlobals.STATUARY_TYPE:
                         successPlanting = True
-                        if 205 <= species <= 208:
+                        if species >= 205 and species <= 208:
                             successToonStatue = True
                         else:
                             self.sendUpdate('plantStatuary', [species])
@@ -211,6 +218,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             self.finishInteraction()
         if successToonStatue:
             self.popupToonStatueSelectionGui(species)
+        return
 
     def popupItemPlantingGui(self):
         base.localAvatar.hideGardeningGui()
@@ -229,6 +237,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
         self.resultDialog.destroy()
         self.resultDialog = None
         self.popupToonStatueSelectionGui(species)
+        return
 
     def __handleToonStatueSelectionDone(self, species, willPlant = 0, recipeStr = '', dnaCode = -1):
         self.ignore(self.toonStatueSelectionDoneEvent)
@@ -241,6 +250,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             self.sendUpdate('plantToonStatuary', [species, dnaCode])
         else:
             self.popupItemPlantingGui()
+        return
 
     def popupTreePlantingGui(self):
         base.localAvatar.hideGardeningGui()
@@ -259,6 +269,7 @@ class DistributedGardenPlot(DistributedLawnDecor.DistributedLawnDecor):
             self.sendUpdate('plantGagTree', [gagTrack, gagLevel])
         else:
             self.finishInteraction()
+        return
 
     def setMovie(self, mode, avId):
         if mode == GardenGlobals.MOVIE_PLANT:

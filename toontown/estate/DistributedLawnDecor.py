@@ -1,5 +1,4 @@
-#Embedded file name: toontown.estate.DistributedLawnDecor
-from panda3d.core import *
+from pandac.PandaModules import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed import ClockDelta
 from direct.showbase.PythonUtil import lerp
@@ -48,6 +47,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         self.shadowScale = 1
         self.expectingReplacement = 0
         self.movie = None
+        return
 
     def setHeading(self, h):
         self.notify.debug('setting h')
@@ -98,6 +98,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
             self.model = loader.loadModel(self.defaultModel)
             self.model.setScale(0.4, 0.4, 0.1)
             self.model.reparentTo(self.rotateNode)
+        return
 
     def setupShadow(self):
         self.shadowJoint = self.rotateNode.attachNewNode('shadow')
@@ -146,6 +147,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
             self.nodePath.removeNode()
             self.nodePath = None
         taskMgr.remove(self.uniqueName('adjust tree'))
+        return
 
     def setPos(self, x, y, z):
         DistributedNode.DistributedNode.setPos(self, x, y, z)
@@ -174,7 +176,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
             picker.traverse(render)
             if queue.getNumEntries() > 0:
                 queue.sortEntries()
-                for index in range(queue.getNumEntries()):
+                for index in xrange(queue.getNumEntries()):
                     entry = queue.getEntry(index)
                     if recurseParent(entry.getIntoNode(), 'terrain_DNARoot'):
                         self.movieNode.setZ(entry.getSurfacePoint(self)[2])
@@ -183,7 +185,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         picker.traverse(render)
         if queue.getNumEntries() > 0:
             queue.sortEntries()
-            for index in range(queue.getNumEntries()):
+            for index in xrange(queue.getNumEntries()):
                 entry = queue.getEntry(index)
                 if recurseParent(entry.getIntoNode(), 'terrain_DNARoot'):
                     self.setZ(entry.getSurfacePoint(render)[2] + self.stickUp + 0.1)
@@ -315,6 +317,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         if self.movie:
             self.movie.finish()
             self.movie = None
+        return
 
     def doDigupTrack(self, avId):
         toon = base.cr.doId2do.get(avId)

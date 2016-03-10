@@ -1,4 +1,3 @@
-#Embedded file name: toontown.estate.EstateManager
 from panda3d.core import *
 from toontown.toonbase import ToontownGlobals
 from direct.distributed import DistributedObject
@@ -17,6 +16,7 @@ class EstateManager(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.availableZones = 0
         self.popupInfo = None
+        return
 
     def disable(self):
         self.notify.debug("i'm disabling EstateManager rightnow.")
@@ -26,6 +26,7 @@ class EstateManager(DistributedObject.DistributedObject):
             self.popupInfo.destroy()
             self.popupInfo = None
         DistributedObject.DistributedObject.disable(self)
+        return
 
     def allocateMyEstateZone(self):
         self.getLocalEstateZone(base.localAvatar.getDoId())

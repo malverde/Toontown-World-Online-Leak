@@ -5834,7 +5834,7 @@ WindowViewTypeName = 'Window View'
 PetTrickTypeName = 'Doodle Training'
 GardenTypeName = 'Garden Supplies'
 RentalTypeName = 'Rental Item'
-#GardenStarterTypeName = 'Gardening Kit'
+GardenStarterTypeName = 'Gardening Kit'
 NametagTypeName = 'Name tag'
 AccessoryTypeName = 'Accessory'
 CatalogItemTypeNames = {0: 'INVALID_ITEM',
@@ -5852,7 +5852,7 @@ CatalogItemTypeNames = {0: 'INVALID_ITEM',
  12: BeanTypeName,
  13: GardenTypeName,
  14: RentalTypeName,
- #15: GardenStarterTypeName,
+ 15: GardenStarterTypeName,
  16: NametagTypeName,
  17: 'TOON_STATUE',
  18: 'ANIMATED FURNITURE',

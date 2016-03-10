@@ -974,7 +974,7 @@ dclass DistributedToon : DistributedPlayer {
   setGlasses(uint8 idx = 0, uint8 textureIdx = 0, uint8 colorIdx = 0) required broadcast db ownrecv;
   setBackpack(uint8 idx = 0, uint8 textureIdx = 0, uint8 colorIdx = 0) required broadcast db ownrecv;
   setShoes(uint8 idx = 0, uint8 textureIdx = 0, uint8 colorIdx = 0) required broadcast db ownrecv;
-  setGardenSpecials(gardenSpecial specials[] = []) required ownrecv db airecv;
+  setGardenSpecials(gardenSpecial [] = []) required ownrecv db airecv;
   setEarnedExperience(uint16 earnedExp[]) ownrecv;
   setTunnelIn(int16 timestamp, int16/10 endX, int16/10 x, int16/10 y, int16/100 z, int32/100 h) ownsend broadcast;
   setTunnelOut(int16 timestamp, int16/10 startX, int16/10 startY, int16/10 x, int16/10 y, int16/100 z, int32/100 h) ownsend broadcast;
@@ -1090,7 +1090,7 @@ dclass DistributedToon : DistributedPlayer {
   cogSummonsResponse(string returnCode, uint32 suitIndex, uint32 doId) ownrecv;
   reqUseSpecial(int32 special) ownsend airecv;
   useSpecialResponse(string returnCode) ownrecv;
-  setGardenStarted(uint8 bStarted = 0) required ownrecv db;
+  setGardenStarted(uint8 = 0) required ownrecv db;
   sendToGolfCourse(uint32 zoneId) ownrecv;
   setGolfHistory(uint16 history[18] = [0*18]) required ownrecv db;
   setPackedGolfHoleBest(uint8 packedHoleBest[18] = [0*18]) required ownrecv db;
@@ -1736,6 +1736,7 @@ dclass DistributedHouse : DistributedObject {
   setInteriorWallpaper(blob interiorWallpaper = "") required db;
   setAtticWindows(blob atticWindows = "") required db;
   setInteriorWindows(blob interiorWindows = "") required db;
+  setGardenData(blob = "") required db;
   setDeletedItems(blob deletedItems = "") required db;
   setInteriorInitialized(uint8 initialized = 0) required db;
   setCannonEnabled(uint8 enabled) required;
@@ -3180,10 +3181,10 @@ dclass DistributedLawnDecor : DistributedNode {
 
 dclass DistributedGardenPlot : DistributedLawnDecor {
   plantFlower(uint8 todo0, uint8 todo1) airecv clsend;
-  plantGagTree(uint8 todo0, uint8 todo1) airecv clsend;
-  plantStatuary(uint8 todo0) airecv clsend;
-  plantToonStatuary(uint8 todo0, uint16 todo1) airecv clsend;
-  plantNothing(uint8 todo0) airecv clsend;
+  plantGagTree(uint8, uint8) airecv clsend;
+  plantStatuary(uint8) airecv clsend;
+  plantToonStatuary(uint8, uint16) airecv clsend;
+  plantNothing(uint8) airecv clsend;
 };
 
 dclass DistributedGardenBox : DistributedLawnDecor {
@@ -3191,37 +3192,35 @@ dclass DistributedGardenBox : DistributedLawnDecor {
 };
 
 dclass DistributedStatuary : DistributedLawnDecor {
-  setTypeIndex(uint8 typeIndex) required broadcast ram;
-  setWaterLevel(int8 waterLevel) required broadcast ram;
-  setGrowthLevel(int8 growthLevel) required broadcast ram;
+  setTypeIndex(uint8) required broadcast ram;
 };
 
 dclass DistributedToonStatuary : DistributedStatuary {
-  setOptional(uint16 optional) required broadcast ram;
+  setOptional(uint16) required broadcast ram;
 };
 
 dclass DistributedAnimatedStatuary : DistributedStatuary {
 };
 
 dclass DistributedChangingStatuary : DistributedStatuary {
-  setGrowthLevel(int8 growthLevel) required broadcast ram;
+  setGrowthLevel(int8) required broadcast ram;
 };
 
 dclass DistributedPlantBase : DistributedLawnDecor {
-  setTypeIndex(uint8 typeIndex) required broadcast ram;
-  setWaterLevel(int8 waterLevel) required broadcast ram;
-  setGrowthLevel(int8 growthLevel) required broadcast ram;
+  setTypeIndex(uint8) required broadcast ram;
+  setWaterLevel(int8) required broadcast ram;
+  setGrowthLevel(int8) required broadcast ram;
   waterPlant() airecv clsend;
   waterPlantDone() airecv clsend;
 };
 
 dclass DistributedFlower : DistributedPlantBase {
-  setTypeIndex(uint8 typeIndex) required broadcast ram;
-  setVariety(uint8 variety) required broadcast ram;
+  setTypeIndex(uint8) required broadcast ram;
+  setVariety(uint8) required broadcast ram;
 };
 
 dclass DistributedGagTree : DistributedPlantBase {
-  setWilted(int8 wilted) required broadcast ram;
+  setWilted(int8) required broadcast ram;
   requestHarvest() airecv clsend;
 };
 
