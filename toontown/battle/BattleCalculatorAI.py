@@ -11,6 +11,8 @@ from direct.showbase.PythonUtil import lerp
 from otp.ai.MagicWordGlobal import *
 from toontown.hood import ZoneUtil
 from toontown.ai import HolidayGlobals
+from direct.distributed.ClockDelta import *
+import time
 
 battleSkip = 0
 
@@ -39,8 +41,23 @@ class BattleCalculatorAI:
 	propAndOrganicBonusStack = config.GetBool(
 		'prop-and-organic-bonus-stack', 0)
 
-	def __init__(self, battle, tutorialFlag=0):
+	def isbingoCount(self):
+		# Check seconds until next hour.
+		ts = time.time()
+		nextHour = 3600 - (ts % 3600)
+		taskMgr.doMethodLater(
+			nextHour,
+			self.NewXp,
+			'hourly-Xp')
+
+	def NewXp(self, task):
+		# The next tick will occur in exactly an hour.
+		task.delayTime = 3600
 		self.XpMultiplier = HolidayGlobals.WhatIsXp()
+		return task.again
+
+	def __init__(self, battle, tutorialFlag=0):
+		self.XpMultiplier = 1
 		self.battle = battle
 		self.SuitAttackers = {}
 		self.currentlyLuredSuits = {}
