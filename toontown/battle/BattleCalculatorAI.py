@@ -41,7 +41,7 @@ class BattleCalculatorAI:
 	propAndOrganicBonusStack = config.GetBool(
 		'prop-and-organic-bonus-stack', 0)
 
-	def isbingoCount(self):
+	def newXP(self):
 		# Check seconds until next hour.
 		ts = time.time()
 		nextHour = 3600 - (ts % 3600)
@@ -58,6 +58,7 @@ class BattleCalculatorAI:
 
 	def __init__(self, battle, tutorialFlag=0):
 		self.XpMultiplier = 1
+		self.newXP()
 		self.battle = battle
 		self.SuitAttackers = {}
 		self.currentlyLuredSuits = {}
