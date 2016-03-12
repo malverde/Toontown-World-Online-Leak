@@ -28,6 +28,7 @@ from toontown.estate import DistributedStatuary
 import GardenDropGame
 import GardenProgressMeter
 from toontown.estate import FlowerSellGUI
+from toontown.fishing import FishSellGUI
 from toontown.toontowngui import TTDialog
 
 class DistributedEstate(DistributedObject.DistributedObject):
@@ -48,6 +49,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         self.idList = []
         base.estate = self
         self.flowerGuiDoneEvent = 'flowerGuiDone'
+        self.fishGuiDoneEvent = 'fishGuiDone'
 
     def disable(self):
         self.notify.debug('disable')
@@ -55,6 +57,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
         self.__stopCrickets()
         DistributedObject.DistributedObject.disable(self)
         self.ignore('enterFlowerSellBox')
+        self.ignore('enterFishSellBox')
 
     def delete(self):
         self.notify.debug('delete')
@@ -71,6 +74,7 @@ class DistributedEstate(DistributedObject.DistributedObject):
             else:
                 self.loadAirplane()
         self.loadFlowerSellBox()
+        self.loadFishSellBox()
         self.oldClear = base.win.getClearColor()
         base.win.setClearColor(Vec4(0.09, 0.55, 0.21, 1.0))
 
@@ -376,6 +380,45 @@ class DistributedEstate(DistributedObject.DistributedObject):
         self.acceptOnce(self.flowerGuiDoneEvent, self.__handleSaleDone)
         self.flowerGui = FlowerSellGUI.FlowerSellGUI(self.flowerGuiDoneEvent)
         self.accept('stoppedAsleep', self.__handleSaleDone)
+
+    def loadFishSellBox(self):
+        self.fishSellBox = loader.loadModel('phase_4/models/minigames/treasure_chest.bam')
+        self.fishSellBox.setPos(45, -165.75, 0.025)
+        self.fishSellBox.setH(210)
+        self.fishSellBox.reparentTo(render)
+        cSphere = CollisionSphere(0.0, 0.0, 0.0, 2.25)
+        cSphere.setTangible(0)
+        colNode = CollisionNode('FishSellBox')
+        colNode.addSolid(cSphere)
+        cSpherePath = self.fishSellBox.attachNewNode(colNode)
+        cSpherePath.hide()
+        cSpherePath.setCollideMask(ToontownGlobals.WallBitmask)
+        self.accept('enterFishSellBox', self.__touchedFishSellBox)
+
+    def __touchedFishSellBox(self, entry):
+        if base.localAvatar.doId in self.idList:
+            if base.localAvatar.fishTank.getFish():
+                self.popupFishGUI()
+
+    def __handleFishSaleDone(self, sell=0):
+        self.ignore(self.fishGuiDoneEvent)
+        self.sendUpdate('completeFishSale', [sell])
+        self.ignore('stoppedAsleep')
+        self.fishGui.destroy()
+        self.fishGui = None
+
+    def popupFishGUI(self):
+        self.acceptOnce(self.fishGuiDoneEvent, self.__handleFishSaleDone)
+        self.fishGui = FishSellGUI.FishSellGUI(self.fishGuiDoneEvent)
+        self.accept('stoppedAsleep', self.__handleFishSaleDone)
+
+    def thankSeller(self, mode, fish, maxFish):
+        if mode == ToontownGlobals.FISHSALE_TROPHY:
+            base.localAvatar.setSystemMessage(0, TTLocalizer.STOREOWNER_TROPHY % (fish, maxFish))
+        elif mode == ToontownGlobals.FISHSALE_COMPLETE:
+            base.localAvatar.setSystemMessage(0, TTLocalizer.STOREOWNER_THANKSFISH)
+        elif mode == ToontownGlobals.FISHSALE_NONE:
+            base.localAvatar.setSystemMessage(0, TTLocalizer.STOREOWNER_NOFISH)
 
     def closedAwardDialog(self, value):
         self.awardDialog.destroy()

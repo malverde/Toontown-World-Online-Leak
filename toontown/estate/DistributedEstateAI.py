@@ -9,6 +9,7 @@ from toontown.fishing.DistributedFishingPondAI import DistributedFishingPondAI
 from toontown.fishing.DistributedFishingTargetAI import DistributedFishingTargetAI
 from toontown.fishing.DistributedPondBingoManagerAI import DistributedPondBingoManagerAI
 from toontown.fishing import FishingTargetGlobals
+from toontown.fishing import FishGlobals
 from toontown.safezone.DistributedFishingSpotAI import DistributedFishingSpotAI
 from toontown.safezone.SZTreasurePlannerAI import SZTreasurePlannerAI
 from toontown.safezone import TreasureGlobals
@@ -498,6 +499,21 @@ class DistributedEstateAI(DistributedObjectAI):
 
     def completeFlowerSale(self, todo0):
         pass
+
+    def completeFishSale(self, sell):
+        avId = self.air.getAvatarIdFromSender()
+        av = self.air.doId2do.get(avId)
+        if av:
+            if sell:
+                trophyResult = self.air.fishManager.creditFishTank(av)
+                if trophyResult:
+                    self.sendUpdateToAvatarId(avId, 'thankSeller',
+                                              [ToontownGlobals.FISHSALE_TROPHY, len(av.fishCollection),
+                                               FishGlobals.getTotalNumFish()])
+                else:
+                    self.sendUpdateToAvatarId(avId, 'thankSeller', [ToontownGlobals.FISHSALE_COMPLETE, 0, 0])
+            else:
+                        self.sendUpdateToAvatarId(avId, 'thankSeller', [ToontownGlobals.FISHSALE_NONE, 0, 0])
 
     def awardedTrophy(self, todo0):
         pass

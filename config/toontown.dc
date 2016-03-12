@@ -1119,6 +1119,7 @@ dclass DistributedToon : DistributedPlayer {
   setDISLid(uint32 id) ram db airecv;
   flagAv(uint32 avId, uint16 reason, string params[]) airecv ownsend;
   setBuffs(uint32[] = []) required ownrecv db;
+  attemptSubtractNPCFriend(uint32 npcId) ownsend airecv;
   magicFanfare() broadcast;
   magicTeleportRequest(uint32 requesterId) ownrecv;
   magicTeleportResponse(uint32 requesterId, uint32 hoodId) ownsend airecv;
@@ -1713,6 +1714,8 @@ dclass DistributedEstate : DistributedObject {
   setSlot5Items(lawnItem items[] = []) required airecv db;
   setIdList(uint32 idList[]) broadcast ram;
   completeFlowerSale(uint8 sell) airecv clsend;
+  completeFishSale(uint8) airecv clsend;
+  thankSeller(int8, int8, int8);
   awardedTrophy(uint32 avId) broadcast;
   setClouds(uint8 clouds) required broadcast ram;
   cannonsOver() broadcast;
