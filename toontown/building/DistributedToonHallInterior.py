@@ -86,11 +86,9 @@ class DistributedToonHallInterior(DistributedToonInterior):
         self.dnaStore = base.cr.playGame.dnaStore
         self.randomGenerator = random.Random()
         self.randomGenerator.seed(self.zoneId)
-        interior = self.randomDNAItem('TI_hall', self.dnaStore.findNode)
+        interior = loader.loadModel('phase_3.5/models/modules/tt_m_ara_int_toonhall')
         self.interior = interior.copyTo(render)
         hoodId = ZoneUtil.getCanonicalHoodId(self.zoneId)
-        self.colors = ToonInteriorColors.colors[hoodId]
-        self.replaceRandomInModel(self.interior)
         doorModelName = 'door_double_round_ul'
         if doorModelName[-1:] == 'r':
             doorModelName = doorModelName[:-1] + 'l'
