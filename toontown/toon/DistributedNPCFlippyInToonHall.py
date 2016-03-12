@@ -7,7 +7,7 @@ class DistributedNPCFlippyInToonHall(DistributedNPCToon):
         DistributedNPCToon.__init__(self, cr)
 
     def getCollSphereRadius(self):
-        return 4
+        return 5
 
     def initPos(self):
         self.clearMat()
