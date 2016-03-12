@@ -832,7 +832,8 @@ class NewsManager(DistributedObject.DistributedObject):
 def DecorateHoliday(holiday):
 	""" Decorates a client for a holiday """
 	if holiday == 'Winter':
-		NewsManager.startChristmas(NewsManager.NewsManager)
+		base.localAvatar.chatMgr.chatInputSpeedChat.addCarolMenu()
+		base.localAvatar.chatMgr.chatInputSpeedChat.addWinterMenu()
 		return "Decorated for the holiday!"
 		
 	elif holiday == 'Halloween':
@@ -840,6 +841,21 @@ def DecorateHoliday(holiday):
 		return "Decorated for the holiday!"
 		
 	elif holiday == 'Phrases':
+		base.localAvatar.chatMgr.chatInputSpeedChat.addCarolMenu()
+		base.localAvatar.chatMgr.chatInputSpeedChat.addWinterMenu()
+		base.localAvatar.chatMgr.chatInputSpeedChat.addAprilToonsMenu()
+        base.localAvatar.chatMgr.chatInputSpeedChat.addSellbotFieldOfficeMenu()
+        base.localAvatar.chatMgr.chatInputSpeedChat.addVictoryPartiesMenu()
+        base.localAvatar.chatMgr.chatInputSpeedChat.addHalloweenMenu()
+        base.localAvatar.chatMgr.chatInputSpeedChat.addSillyPhaseOneMenu()
+        base.localAvatar.chatMgr.chatInputSpeedChat.addSillyPhaseTwoMenu()
+        base.localAvatar.chatMgr.chatInputSpeedChat.addSillyPhaseThreeMenu()
+        base.localAvatar.chatMgr.chatInputSpeedChat.addSillyPhaseFourMenu()
+        base.localAvatar.chatMgr.chatInputSpeedChat.addSillyPhaseFiveMenu()
+        base.localAvatar.chatMgr.chatInputSpeedChat.addSellbotNerfMenu()
+        base.localAvatar.chatMgr.chatInputSpeedChat.addJellybeanJamMenu(TTSCJellybeanJamMenu.JellybeanJamPhases.TROLLEY)
+        base.localAvatar.chatMgr.chatInputSpeedChat.addJellybeanJamMenu(TTSCJellybeanJamMenu.JellybeanJamPhases.FISHING)
+        base.localAvatar.chatMgr.chatInputSpeedChat.addSellbotInvasionMenu()
 		return "Given Holiday Phrases!"
 	elif holiday == 'April':
 		base.localAvatar.controlManager.currentControls.setGravity(ToontownGlobals.GravityValue * 0.75)
