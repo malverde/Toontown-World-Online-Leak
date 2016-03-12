@@ -5,6 +5,7 @@ from direct.showbase import Audio3DManager
 from toontown.toonbase import ToontownGlobals
 import cPickle
 from DistributedToonInterior import DistributedToonInterior
+from toontown.dna.DNADoor import DNADoor
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.distributed import DistributedObject
@@ -89,6 +90,8 @@ class DistributedToonHallInterior(DistributedToonInterior):
         interior = loader.loadModel('phase_3.5/models/modules/tt_m_ara_int_toonhall')
         self.interior = interior.copyTo(render)
         hoodId = ZoneUtil.getCanonicalHoodId(self.zoneId)
+        self.colors = ToonInteriorColors.colors[hoodId]
+        self.replaceRandomInModel(self.interior)
         doorModelName = 'door_double_round_ul'
         if doorModelName[-1:] == 'r':
             doorModelName = doorModelName[:-1] + 'l'
