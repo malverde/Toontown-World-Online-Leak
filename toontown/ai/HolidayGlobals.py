@@ -63,7 +63,11 @@ if int(datetime.datetime.now().strftime("%m")) == 4: # April
 else:
     HolidayName = 'None'
 
-
+if int(datetime.datetime.now().strftime("%m")) == 3 and day >= 1 and day <= 25: # April
+    HolidayName = 'April Toons'
+    holidays.append(HolidayName)
+else:
+    HolidayName = 'None'
 # AI/Client logic
 
 # XP Booster logic
@@ -85,6 +89,8 @@ elif int(datetime.datetime.now().strftime("%m")) == 7 and day < 16: # July
     Show = 'Summer'
 elif int(datetime.datetime.now().strftime("%m")) == 12 and day == 30 or day == 31: # December
     Show = 'Nyear'
+else: 
+	Show = None
 
 # Invasions logic
 
