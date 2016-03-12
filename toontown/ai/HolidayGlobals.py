@@ -85,6 +85,8 @@ elif int(datetime.datetime.now().strftime("%m")) == 7 and day < 16: # July
     Show = 'Summer'
 elif int(datetime.datetime.now().strftime("%m")) == 12 and day == 30 or day == 31: # December
     Show = 'Nyear'
+else:
+    Show = None
 
 # Invasions logic
 

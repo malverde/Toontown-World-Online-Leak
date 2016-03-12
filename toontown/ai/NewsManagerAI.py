@@ -20,28 +20,28 @@ class NewsManagerAI(DistributedObjectAI):
         # self.NewsInvasionAI.startInvTick()
         self.HolidayManagerAI.startFireworksTick()
         self.HolidayName = []
-        self.HolidayToday = HolidayGlobals.WhatHolidayIsItAI()
-
-    def isbingoCount(self):
-        # Check seconds until next hour.
-        ts = time.time()
-        nextHour = 3600 - (ts % 3600)
-        taskMgr.doMethodLater(			
-            nextHour,
-            self.GetHoliday,
-            'hourly-holiday-check')
+        self.HolidayList = []
+        self.isHolidayAI()
     
-    def GetHoliday(self, task):
-        task.delayTime = 3600
-        print ("Holiday List is stale, getting new one!")
-        self.HolidayToday = HolidayGlobals.WhatHolidayIsItAI()
-        
+    def isHolidayAI(self):
+		# Check seconds until next hour.
+		ts = time.time()
+		nextHour = 3600 - (ts % 3600)
+		taskMgr.doMethodLater(
+			nextHour,
+			self.NewHoliday,
+			'hourly-Update')
+
+	def NewHoliday(self, task):
+		# The next tick will occur in exactly an hour.
+		task.delayTime = 3600
+		self.HolidayList = HolidayGlobals.WhatHolidayIsItAI()
+		return task.again
 
     def __announceIfHoliday(self, avatar):
         try:
-            holidayList = HolidayGlobals.WhatHolidayIsItAI()
-            Holiday1 = holidayList[0]
-            Holiday2 = holidayList[1]
+            Holiday1 = self.HolidayList[0]
+            Holiday2 = self.HolidayList[1]
             self.sendUpdateToAvatarId(avatar.getDoId(),
                                     'setHolidays',
                                     [ Holiday1])
@@ -50,8 +50,7 @@ class NewsManagerAI(DistributedObjectAI):
                                         [Holiday2])
         except:
             try:
-                holidayList = HolidayGlobals.WhatHolidayIsItAI()
-                Holiday1 = holidayList[0]
+                Holiday1 = self.HolidayList[0]
                 self.sendUpdateToAvatarId(avatar.getDoId(),
                                             'setHolidays',
                                             [Holiday1])
