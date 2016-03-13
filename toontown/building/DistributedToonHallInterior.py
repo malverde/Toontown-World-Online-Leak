@@ -59,7 +59,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
 		self.interior.flattenMedium()
 		self.enterSetup()
 	
-	def NpcMaker(self):
+	def NpcMaker(self, phrases):
 		self.npcs = True
 		self.dimn = NPCToons.createLocalNPC(2018)
 		self.dimn.reparentTo(self.interior.find('**/npc_origin_2'))
@@ -102,7 +102,10 @@ class DistributedToonHallInterior(DistributedToonInterior):
 		self.prepostera.addActive()
 		self.prepostera.startBlink()
 		self.prepostera.loop('victory')
-		phrases = ['Toons be as silly as you can to bring the silly meter to its Maximum!', 'Keep being silly!', 'Doctor Surlee how is the resarch going?', 'Doctor Dimm, any shocking discoveries?', 'The Silly Levels are rising!', 'Gadzooks! The Silly Meter has come back to life!', "It's rising every day, and will reach the top soon!"]
+		if phrases == 'April':
+			phrases = ['Toons be as silly as you can to bring the silly meter to its Maximum!', 'Keep being silly!', 'Doctor Surlee how is the resarch going?', 'Doctor Dimm, any shocking discoveries?', 'The Silly Levels are rising!', 'Gadzooks! The Silly Meter has come back to life!', "It's rising every day, and will reach the top soon!"]
+		else:
+			phrases = ['You did it!', 'The sillymeter maxed out', 'Looks like we will need to repair this!']
 		self.Talk = Sequence(Wait(3), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(5), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(10), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(5), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(5), Func(self.prepostera.setChatAbsolute,  random.choice(phrases), CFSpeech | CFTimeout), Wait(5), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(5), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(5))
 		self.Talk.loop()
 		
@@ -188,7 +191,34 @@ class DistributedToonHallInterior(DistributedToonInterior):
 			self.sillyMeter.loop('arrowTube')
 			self.sillyMeter.loop('phaseFour')
 			self.phase4Sfx.play()
-			self.NpcMaker()
+			self.NpcMaker('April')
+		elif HolidayGlobals.WhatHolidayIsIt() == 'Phase_5':
+			self.sillyMeter = Actor.Actor(
+			'phase_4/models/props/tt_a_ara_ttc_sillyMeter_default',
+				{
+					'arrowTube': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_arrowFluid',
+					'phaseOne': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseOne',
+					'phaseTwo': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseTwo',
+					'phaseThree': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseThree',
+					'phaseFour': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFour',
+					'phaseFourToFive': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFourToFive',
+					'phaseFive': 'phase_4/models/props/tt_a_ara_ttc_sillyMeter_phaseFive'})
+			thermometerLocator = self.sillyMeter.findAllMatches(
+				'**/uvj_progressBar')[1]
+			thermometerMesh = self.sillyMeter.find('**/tube')
+			thermometerMesh.setTexProjector(
+				thermometerMesh.findTextureStage('default'),
+				thermometerLocator, self.sillyMeter)
+			self.sillyMeter.flattenMedium()
+			self.sillyMeter.makeSubpart(
+				'arrow', ['uvj_progressBar*', 'def_springA'])
+			self.sillyMeter.makeSubpart(
+				'meter', ['def_pivot'], [
+					'uvj_progressBar*', 'def_springA'])
+			self.sillyMeter.reparentTo(self.interior)
+			self.sillyMeter.loop('phaseFive')
+			self.phase5Sfx.play()
+			self.NpcMaker('phase5')
 		else:
 			self.SillyMeter = loader.loadModel(
 			'phase_3.5/models/modules/tt_m_ara_int_sillyMeterFlat')

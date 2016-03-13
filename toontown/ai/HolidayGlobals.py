@@ -63,8 +63,8 @@ if int(datetime.datetime.now().strftime("%m")) == 4: # April
 else:
     HolidayName = 'None'
 
-if int(datetime.datetime.now().strftime("%m")) == 3 and day >= 1 and day <= 25: # April
-    HolidayName = 'April Toons'
+if int(datetime.datetime.now().strftime("%m")) == 4 and day == 12 or day == 13: # End of april sillyOmeter
+    HolidayName = 'Phase_5'
     holidays.append(HolidayName)
 else:
     HolidayName = 'None'
