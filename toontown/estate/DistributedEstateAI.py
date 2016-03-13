@@ -556,8 +556,11 @@ class DistributedEstateAI(DistributedObjectAI):
         self.d_setSlot5Items(self.items[5])
 
     def placeStarterGarden(self, avatar):
+        items = []
         if avatar.getGardenStarted():
             return
-        manager = GardenManagerAI(self.air, houseIndex)
+        avId = avatar.getDoId()
+        houseIndex = self.toons.index(avId)
+        manager = GardenManagerAI.GardenManagerAI(self.air, houseIndex)
         manager.createBlankGarden()
         avatar.b_setGardenStarted(1)
