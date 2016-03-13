@@ -91,7 +91,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
 		rHand = self.surlee.find('**/rightHand')
 		placeholder = rHand.attachNewNode('ClipBoard')
 		clipBoard.reparentTo(placeholder)
-		placeholder.setH(180)
+		clipBoard.setH(180)
 		placeholder.setScale(1.0)
 		placeholder.setPos(0, 0, 0.1)
 		
