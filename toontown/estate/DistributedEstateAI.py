@@ -561,6 +561,6 @@ class DistributedEstateAI(DistributedObjectAI):
             return
         avId = avatar.getDoId()
         houseIndex = self.toons.index(avId)
-        manager = GardenManagerAI.GardenManagerAI(self.air, houseIndex)
+        manager = GardenManagerAI(self.air, houseIndex)
         manager.createBlankGarden()
         avatar.b_setGardenStarted(1)
