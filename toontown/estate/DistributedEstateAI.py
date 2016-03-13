@@ -27,6 +27,7 @@ import GardenGlobals
 from DistributedCannonAI import *
 from DistributedTargetAI import *
 import CannonGlobals
+import DistributedHouseAI
 
 
 # planted, waterLevel, lastCheck, growthLevel, optional
@@ -361,12 +362,13 @@ class Garden:
         av.b_setTrackBonusLevel(bonus)
 
     def update(self):
-        pass
-        #print self.data
-        # dclass = self.air.dclassesByName['DistributedGardenAI']
-        # self.air.dbInterface.updateObject(self.air.dbId, dclass, sendNewProp, data)
-        # self.air.dbGlobalCursor.gardens.update({'avId': self.avId}, {'$set': self.data}, upsert=True)
-
+        self.house = DistributedHouseAI.DistributedHouseAI(self.air)
+        gardenData = PyDatagram()
+        gardenData.addUint8(len(self.plots))
+        for plot in self.plots:
+            plot.pack(gardenData)
+        self.house.b_setGardenData(gardenData.getMessage())
+        
 class GardenManager:
     def __init__(self, mgr):
         self.mgr = mgr
