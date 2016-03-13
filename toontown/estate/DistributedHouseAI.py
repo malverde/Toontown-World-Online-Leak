@@ -63,6 +63,22 @@ class DistributedHouseAI(DistributedObjectAI):
             self.mailbox.requestDelete()
         self.air.deallocateZone(self.interiorZone)
         DistributedObjectAI.delete(self)
+    
+    def setGardenData(self, gardenData):
+        self.gardenData = gardenData
+
+    def d_setGardenData(self, gardenData):
+        self.sendUpdate('setGardenData', [gardenData])
+
+    def b_setGardenData(self, gardenData):
+        self.setGardenData(gardenData)
+        self.d_setGardenData(gardenData)
+
+    def getGardenData(self):
+        return self.gardenData
+
+    def hasGardenData(self):
+        return self.gardenData != ''
 
     def setHousePos(self, pos):
         self.housePos = pos
