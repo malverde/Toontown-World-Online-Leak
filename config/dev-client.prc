@@ -131,8 +131,8 @@ force-player-understandable #t
 
 # Holidays and Events (server-sided/client-sided)
 want-arg-manager #f
-want-mega-invasions #f
-mega-invasion-cog-type bw
+want-mega-invasions #t
+mega-invasion-cog-type bs
 want-hourly-fireworks #f
 # want-flippy-pet-intro #f
 want-hourly-fireworks-type victoryreleasefireworks
