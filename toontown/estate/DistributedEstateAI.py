@@ -19,6 +19,7 @@ from toontown.estate.DistributedGardenPlotAI import DistributedGardenPlotAI
 from DistributedCannonAI import *
 from DistributedTargetAI import *
 import CannonGlobals
+from GardenManagerAI import GardenManagerAI
 
 class Rental:
 
@@ -562,13 +563,14 @@ class DistributedEstateAI(DistributedObjectAI):
         houseIndex = self.toons.index(avId)
         plots = GardenGlobals.estatePlots[houseIndex]
         boxes = GardenGlobals.estateBoxes[houseIndex]
+        manager = GardenManagerAI.GardenManagerAI(self.air, houseIndex)
         for i in xrange(len(boxes)):
             items.append([2,
              i,
              0,
              0,
              0])
-            box = DistributedGardenBoxAI(self.air)
+            box = DistributedGardenBoxAI(self.air, manager, houseIndex)
             box.setPlot(i)
             box.setOwnerIndex(houseIndex)
             box.setTypeIndex(boxes[i][3])
@@ -582,7 +584,7 @@ class DistributedEstateAI(DistributedObjectAI):
              0,
              0,
              0])
-            plot = DistributedGardenPlotAI(self.air)
+            plot = DistributedGardenPlotAI(self.air, manager, houseIndex)
             plot.setPlot(i)
             plot.setOwnerIndex(houseIndex)
             if plots[i][3] != GardenGlobals.FLOWER_TYPE:
