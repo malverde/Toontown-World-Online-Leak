@@ -760,7 +760,45 @@ plots5 = (
     (-16.6, 52.7, 0.0, GAG_TREE_TYPE),
     (-55, 70, 213.0, STATUARY_TYPE)
 )
-
+BOX_ONE = 1
+BOX_TWO = 2
+BOX_THREE = 3
+flowerBoxes0 = ((-62.5, -52.5, 182.0, BOX_ONE),
+ (-52, -52, 182, BOX_ONE),
+ (-64.5, -42, 92.0, BOX_THREE),
+ (-49, -43, 266.0, BOX_THREE),
+ (-57, -33, 0.0, BOX_TWO)
+)
+flowerBoxes1 = ((85.0, -67.0, 26.0, BOX_ONE),
+ (75, -72, 26.0, BOX_ONE),
+ (91.0, -74.0, -63.0, BOX_THREE),
+ (77, -81, 117.0, BOX_THREE),
+ (88, -86, 206.0, BOX_TWO)
+)
+flowerBoxes2 = ((-62, -112, 350.0, BOX_ONE),
+ (-72, -110, 350.0, BOX_ONE),
+ (-62, -122, 257.0, BOX_THREE),
+ (-76, -118, 79.0, BOX_THREE),
+ (-71, -129, 169.0, BOX_TWO)
+)
+flowerBoxes3 = ((72, 5, 265.0, BOX_ONE),
+ (72.5, 16, 265.0, BOX_ONE),
+ (63, 3, 178.0, BOX_THREE),
+ (64, 19, 355.0, BOX_THREE),
+ (54, 12, 86.0, BOX_TWO)
+)
+flowerBoxes4 = ((35.5, 70, 152.0, BOX_ONE),
+ (46, 66, 152.0, BOX_ONE),
+ (36.5, 79.5, 71.0, BOX_THREE),
+ (51.5, 74, 247.0, BOX_THREE),
+ (47, 86, -19.0, BOX_TWO)
+)
+flowerBoxes5 = ((-26.5, 37.5, 318.0, BOX_ONE),
+ (-33, 46, 318.0, BOX_ONE),
+ (-32, 30, 217.0, BOX_THREE),
+ (-42, 42, 37.0, BOX_THREE),
+ (-45, 31, 124.0, BOX_TWO)
+)
 estatePlots = (
     plots0,
     plots1,
