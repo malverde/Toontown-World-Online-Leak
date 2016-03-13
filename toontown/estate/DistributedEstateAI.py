@@ -556,42 +556,8 @@ class DistributedEstateAI(DistributedObjectAI):
         self.d_setSlot5Items(self.items[5])
 
     def placeStarterGarden(self, avatar):
-        items = []
         if avatar.getGardenStarted():
             return
-        avId = avatar.getDoId()
-        houseIndex = self.toons.index(avId)
-        plots = GardenGlobals.estatePlots[houseIndex]
-        boxes = GardenGlobals.estateBoxes[houseIndex]
-        manager = GardenManagerAI.GardenManagerAI(self.air, houseIndex)
-        for i in xrange(len(boxes)):
-            items.append([2,
-             i,
-             0,
-             0,
-             0])
-            box = DistributedGardenBoxAI(self.air, manager, houseIndex)
-            box.setPlot(i)
-            box.setOwnerIndex(houseIndex)
-            box.setTypeIndex(boxes[i][3])
-            box.setPosition(boxes[i][0], boxes[i][1], 20)
-            box.setHeading(boxes[i][2])
-            box.generateWithRequired(self.zoneId)
-
-        for i in xrange(len(plots)):
-            items.append([1,
-             i,
-             0,
-             0,
-             0])
-            plot = DistributedGardenPlotAI(self.air, manager, houseIndex)
-            plot.setPlot(i)
-            plot.setOwnerIndex(houseIndex)
-            if plots[i][3] != GardenGlobals.FLOWER_TYPE:
-                plot.setPosition(plots[i][0], plots[i][1], 20)
-                plot.setHeading(plots[i][2])
-            plot.generateWithRequired(self.zoneId)
-
-        self.items[houseIndex] = items
-        self.updateItems()
+        manager = GardenManagerAI(self.air, houseIndex)
+        manager.createBlankGarden()
         avatar.b_setGardenStarted(1)
