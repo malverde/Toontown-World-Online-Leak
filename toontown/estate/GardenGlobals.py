@@ -807,6 +807,12 @@ estatePlots = (
     plots4,
     plots5
 )
+estateBoxes = (flowerBoxes0,
+ flowerBoxes1,
+ flowerBoxes2,
+ flowerBoxes3,
+ flowerBoxes4,
+ flowerBoxes5)
 
 def getGardenPlots(houseIndex):
     return estatePlots[houseIndex]
