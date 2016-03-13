@@ -18,12 +18,15 @@ from toontown.hood import ZoneUtil
 from toontown.toon import ToonDNA
 from toontown.toon import ToonHead
 from toontown.ai import HolidayGlobals
+from toontown.toon import NPCToons
+from otp.nametag.NametagConstants import *
 
 
 class DistributedToonHallInterior(DistributedToonInterior):
 
 	def __init__(self, cr):
 		DistributedToonInterior.__init__(self, cr)
+		self.npcs = False
 		
 	def setup(self):
 		self.dnaStore = base.cr.playGame.dnaStore
@@ -56,6 +59,53 @@ class DistributedToonHallInterior(DistributedToonInterior):
 		self.interior.flattenMedium()
 		self.enterSetup()
 	
+	def NpcMaker(self):
+		self.npcs = True
+		self.dimn = NPCToons.createLocalNPC(2018)
+		self.dimn.reparentTo(self.interior.find('**/npc_origin_2'))
+		self.dimn.setPickable(0)
+		self.dimn.initializeBodyCollisions('toon')
+		self.dimn.addActive()
+		self.dimn.startBlink()
+		self.dimn.setH(180)
+		self.dimn.loop('scientistWork')
+		meter = loader.loadModel('phase_4/models/props/tt_m_prp_acs_sillyReader')
+		rHand = self.dimn.find('**/rightHand')
+		placeholder = rHand.attachNewNode('ClipBoard')
+		meter.reparentTo(placeholder)
+		placeholder.setH(180)
+		placeholder.setScale(1.0)
+		placeholder.setPos(0, 0, 0.1)
+		
+		self.surlee = NPCToons.createLocalNPC(2019)
+		self.surlee.reparentTo(self.interior.find('**/npc_origin_1'))
+		self.surlee.setPickable(0)
+		self.surlee.initializeBodyCollisions('toon')
+		self.surlee.addActive()
+		self.surlee.startBlink()
+		self.surlee.rightHands = []
+		self.surlee.setupToonNodes()
+		self.surlee.setH(180)
+		self.surlee.loop('scientistJealous')
+		clipBoard = loader.loadModel('phase_4/models/props/tt_m_prp_acs_clipboard')
+		rHand = self.surlee.find('**/rightHand')
+		placeholder = rHand.attachNewNode('ClipBoard')
+		clipBoard.reparentTo(placeholder)
+		placeholder.setH(180)
+		placeholder.setScale(1.0)
+		placeholder.setPos(0, 0, 0.1)
+		
+		self.prepostera = NPCToons.createLocalNPC(2020)
+		self.prepostera.reparentTo(self.interior.find('**/npc_origin_3'))
+		self.prepostera.setPickable(0)
+		self.prepostera.initializeBodyCollisions('toon')
+		self.prepostera.addActive()
+		self.prepostera.startBlink()
+		self.prepostera.loop('victory')
+		phrases = ['Toons be as silly as you can to bring the silly meter to its Maximum!', 'Keep being silly!', 'Doctor Surlee how is the resarch going?', 'Doctor Dimm, any shocking discoveries?', 'The Silly Levels are rising!', 'Gadzooks! The Silly Meter has come back to life!', "It's rising every day, and will reach the top soon!"]
+		self.Talk = Sequence(Wait(3), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(5), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(10), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(5), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(5), Func(self.prepostera.setChatAbsolute,  random.choice(phrases), CFSpeech | CFTimeout), Wait(5), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(5), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(5))
+		self.Talk.loop()
+		
 	def enterSetup(self):
 		ropes = loader.loadModel('phase_4/models/modules/tt_m_ara_int_ropes')
 		ropes.reparentTo(self.interior)
@@ -138,6 +188,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
 			self.sillyMeter.loop('arrowTube')
 			self.sillyMeter.loop('phaseFour')
 			self.phase4Sfx.play()
+			self.NpcMaker()
 		else:
 			self.SillyMeter = loader.loadModel(
 			'phase_3.5/models/modules/tt_m_ara_int_sillyMeterFlat')
@@ -252,9 +303,29 @@ class DistributedToonHallInterior(DistributedToonInterior):
 		self.restoreCam()
 		self.ignoreAll()
 		self.cleanUpCollisions()
-		self.sillyMeter.hide()
+		self.sillyMeter.removeNode()
 		self.cleanUpSounds()
 		DistributedToonInterior.disable(self)
+		if self.npcs == True:
+			self.dimn.stopBlink()
+			self.dimn.removeActive()
+			self.dimn.cleanup()
+			self.dimn.removeNode()
+
+			self.surlee.stopBlink()
+			self.surlee.removeActive()
+			self.surlee.cleanup()
+			self.surlee.removeNode()
+			
+			self.Talk.finish()
+			self.prepostera.stopBlink()
+			self.prepostera.removeActive()
+			self.prepostera.cleanup()
+			self.prepostera.removeNode()
+		else:
+			self.flatDuck.removeNode()
+			self.flatMonkey.removeNode()
+			self.flatHorse.removeNode()
 
 	def delete(self):
 		DistributedToonInterior.delete(self)
