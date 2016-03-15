@@ -91,7 +91,7 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
         self.ignore('enter' + self.cSphereNode.getName())
 
     def getCollSphereRadius(self):
-        return 4
+        return 5
 
     def __initCollisions(self):
         self.cSphere = CollisionTube(0.0, 1.0, 0.0, 0.0, 1.0, 5.0, self.getCollSphereRadius())
