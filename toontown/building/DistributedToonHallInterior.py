@@ -220,10 +220,9 @@ class DistributedToonHallInterior(DistributedToonInterior):
 			self.phase5Sfx.play()
 			self.NpcMaker('phase5')
 		else:
-			self.SillyMeter = loader.loadModel(
+			self.sillyMeter = loader.loadModel(
 			'phase_3.5/models/modules/tt_m_ara_int_sillyMeterFlat')
-			self.flatSillyMeter.reparentTo(self.interior)
-			self.SillyMeter.show()
+			self.sillyMeter.reparentTo(self.interior)
 			self.flatDuck.show()
 			self.flatMonkey.show()
 			self.flatHorse.show()
