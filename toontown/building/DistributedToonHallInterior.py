@@ -62,7 +62,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
 	def NpcMaker(self, phrases):
 		self.npcs = True
 		self.dimn = NPCToons.createLocalNPC(2018)
-		self.dimn.reparentTo(self.interior.find('**/npc_origin_2'))
+		self.dimn.reparentTo(self.interior.find('**/npc_origin_1'))
 		self.dimn.setPickable(0)
 		self.dimn.initializeBodyCollisions('toon')
 		self.dimn.addActive()
@@ -78,7 +78,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
 		placeholder.setPos(0, 0, 0.1)
 		
 		self.surlee = NPCToons.createLocalNPC(2019)
-		self.surlee.reparentTo(self.interior.find('**/npc_origin_1'))
+		self.surlee.reparentTo(self.interior.find('**/npc_origin_2'))
 		self.surlee.setPickable(0)
 		self.surlee.initializeBodyCollisions('toon')
 		self.surlee.addActive()
@@ -101,7 +101,15 @@ class DistributedToonHallInterior(DistributedToonInterior):
 		self.prepostera.initializeBodyCollisions('toon')
 		self.prepostera.addActive()
 		self.prepostera.startBlink()
-		self.prepostera.loop('victory')
+		self.prepostera.setH(90)
+		self.prepostera.loop('scientistEmcee')
+		clipBoard = loader.loadModel('phase_4/models/props/tt_m_prp_acs_clipboard')
+		rHand = self.prepostera.find('**/rightHand')
+		placeholder = rHand.attachNewNode('ClipBoard')
+		clipBoard.reparentTo(placeholder)
+		clipBoard.setH(180)
+		placeholder.setScale(1.0)
+		placeholder.setPos(0, 0, 0.1)
 		if phrases == 'April':
 			phrases = ['Toons be as silly as you can to bring the silly meter to its Maximum!', 'Keep being silly!', 'Doctor Surlee how is the resarch going?', 'Doctor Dimm, any shocking discoveries?', 'The Silly Levels are rising!', 'Gadzooks! The Silly Meter has come back to life!', "It's rising every day, and will reach the top soon!"]
 		else:
