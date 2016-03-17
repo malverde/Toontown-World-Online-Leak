@@ -42,7 +42,28 @@ class TTRLauncher(LauncherBase):
 		if formattedData.get("success") == True:
 			# we now have a login, we can log in now.
 			print("Success! Starting the game...")
-			connection.close()
+			if formattedData.get("access") == "Dev":
+				connection.close()
+				want = self.getValue('IMPERSONATE')
+				if want == None or str(want) == "0":
+					print "Dont want to impersonate"
+					pass
+				else:
+					print "who do you want to log in as?"
+					user = raw_input("")
+					os.environ['TTR_PLAYCOOKIE'] = user
+
+			elif formattedData.get("access") == "Sysadm":
+				connection.close()
+				want = self.getValue('IMPERSONATE')
+				if want == None or str(want) == "0":
+					print "Dont want to impersonate"
+					pass
+				else:
+					print "who do you want to log in as?"
+					user = raw_input("")
+					os.environ['TTR_PLAYCOOKIE'] = user
+
 		else:
 			# can't log in, probably because of invalid password
 			print("Unable to log into the game. Reason: " + formattedData.get("reason", {}))
