@@ -237,7 +237,7 @@ class NewsManager(DistributedObject.DistributedObject):
 
 
     def startApril(self):
-        base.localAvatar.controlManager.currentControls.setGravity(ToontownGlobals.GravityValue * 0.75)
+        base.localAvatar.controlManager.currentControls.setGravity(ToontownGlobals.GravityValue * 0.55)
         base.localAvatar.chatMgr.chatInputSpeedChat.addAprilToonsMenu()
         print ("April Toons!")
 
