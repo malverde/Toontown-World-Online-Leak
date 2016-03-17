@@ -2803,6 +2803,57 @@ def zone(zoneId):
     
     #End of V1 MW
 
+@magicWord(category=CATEGORY_ADMIN, types=[int])
+def gotoGagShop():
+    """
+    Goes to zone 9504 - gag shop
+    """
+    base.cr.sendSetZoneMsg(9504)
+    return 'You have been moved.'
+
+@magicWord(category=CATEGORY_ADMIN, types=[int])
+def gotocashbotlobby():
+    """
+    Goes to zone cashbot lobby
+    """
+    base.cr.sendSetZoneMsg(12100)
+    return 'You have been moved.'
+
+
+@magicWord(category=CATEGORY_ADMIN, types=[int])
+def gotobossbotlobby():
+    """
+    Goes to zone bossbot lobby
+    """
+    base.cr.sendSetZoneMsg(10100)
+    return 'You have been moved.'
+
+@magicWord(category=CATEGORY_ADMIN, types=[int])
+def gotolawbotlobby():
+    """
+    Goes to zone lawbot lobby
+    """
+    base.cr.sendSetZoneMsg(13100)
+    return 'You have been moved.'
+
+@magicWord(category=CATEGORY_ADMIN, types=[int])
+def gotoddhq():
+    """
+    Goes to zone Donalds Dock HQ
+    """
+    base.cr.sendSetZoneMsg(1507)
+    return 'You have been moved.'
+
+
+@magicWord(category=CATEGORY_ADMIN, types=[int])
+def Mario():
+    """
+    WIP movement speed boost
+    """
+    base.localAvatar.physControls.avatarControlForwardSpeed = 100
+    return 'Boosted.'
+
+
 @magicWord(category=CATEGORY_MODERATION)
 def modPanel():
     invoker = spellbook.getInvoker()
