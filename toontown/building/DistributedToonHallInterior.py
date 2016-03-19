@@ -20,6 +20,8 @@ from toontown.toon import ToonHead
 from toontown.ai import HolidayGlobals
 from toontown.toon import NPCToons
 from otp.nametag.NametagConstants import *
+from toontown.pets import Pet
+from toontown.pets import PetDNA
 
 
 class DistributedToonHallInterior(DistributedToonInterior):
@@ -58,6 +60,28 @@ class DistributedToonHallInterior(DistributedToonInterior):
 		del self.randomGenerator
 		self.interior.flattenMedium()
 		self.enterSetup()
+	
+	def PetMaker(self):
+		self.fluffy = Pet.Pet()
+		self.fluffy.addActive()
+		self.fluffy.setDNA(PetDNA.getRandomPetDNA())
+		self.fluffy.setName('Lab Pet 01')
+		self.fluffy.setPickable(0)
+		self.fluffy.reparentTo(self.interior.find('**/npc_origin_1'))
+		self.fluffy.setX(5)
+		self.fluffy.setH(90)
+		self.fluffy.enterNeutralHappy()
+		self.fluffy.initializeBodyCollisions('pet')
+		self.pet2 = Pet.Pet()
+		self.pet2.addActive()
+		self.pet2.setDNA(PetDNA.getRandomPetDNA())
+		self.pet2.setName('Lab Pet 02')
+		self.pet2.setPickable(0)
+		self.pet2.reparentTo(self.interior.find('**/npc_origin_2'))
+		self.pet2.setX(5)
+		self.pet2.setH(90)
+		self.pet2.loop('dance')
+		self.pet2.initializeBodyCollisions('pet')
 	
 	def NpcMaker(self, phrases):
 		self.npcs = True
@@ -104,7 +128,6 @@ class DistributedToonHallInterior(DistributedToonInterior):
 		self.prepostera.setH(90)
 		self.prepostera.loop('scientistEmcee')
 		clipBoard = loader.loadModel('phase_4/models/props/tt_m_prp_acs_clipboard')
-		rHand = self.prepostera.find('**/rightHand')
 		placeholder = rHand.attachNewNode('ClipBoard')
 		clipBoard.reparentTo(placeholder)
 		clipBoard.setH(180)
@@ -116,6 +139,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
 			phrases = ['You did it!', 'The sillymeter maxed out', 'Looks like we will need to repair this!']
 		self.Talk = Sequence(Wait(3), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(5), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(10), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(5), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(5), Func(self.prepostera.setChatAbsolute,  random.choice(phrases), CFSpeech | CFTimeout), Wait(5), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(5), Func(self.prepostera.setChatAbsolute, random.choice(phrases), CFSpeech | CFTimeout), Wait(5))
 		self.Talk.loop()
+		self.PetMaker()
 		
 	def enterSetup(self):
 		ropes = loader.loadModel('phase_4/models/modules/tt_m_ara_int_ropes')
@@ -359,6 +383,16 @@ class DistributedToonHallInterior(DistributedToonInterior):
 			self.prepostera.removeActive()
 			self.prepostera.cleanup()
 			self.prepostera.removeNode()
+			
+			self.fluffy.removeActive()
+			self.fluffy.enterOff()
+			self.fluffy.cleanup()
+			self.fluffy.removeNode()
+
+			self.pet2.removeActive()
+			self.pet2.enterOff()
+			self.pet2.cleanup()
+			self.pet2.removeNode()
 		else:
 			self.flatDuck.removeNode()
 			self.flatMonkey.removeNode()
