@@ -396,9 +396,8 @@ class DistributedEstate(DistributedObject.DistributedObject):
         self.accept('enterFishSellBox', self.__touchedFishSellBox)
 
     def __touchedFishSellBox(self, entry):
-        if base.localAvatar.doId in self.idList:
-            if base.localAvatar.fishTank.getFish():
-                self.popupFishGUI()
+        if base.localAvatar.fishTank.getFish():
+            self.popupFishGUI()
 
     def __handleFishSaleDone(self, sell=0):
         self.ignore(self.fishGuiDoneEvent)
