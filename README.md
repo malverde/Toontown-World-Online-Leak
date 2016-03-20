@@ -1,4 +1,26 @@
 # README #
+#Next TIME DON't THREATAN TO DOX AND SWAT ME EVERYONE ENJOY THE TOONTOWN WORLD SOURCE CODE#
+#REESE AND DAVID TRY TO MANIPULATE YOU INTO GIVING YOUR PERSONAL STUFF SUCH AS PHONE NUMBER AND EMAILS AND EVERYTHING#
+#THEY WILL EVEN TRY TO TAKE YOUR PASSWORDS BY OPENING TEAM VIEWER AND TRYING TO CLICK OFF YOUR PASSWORD BOX SO THEY CAN SEE THE PASSWORD YOU TYPE#
+
+Trust No On...
+
+| |    ___  __ _| | _____  __| |
+| |   / _ \/ _` | |/ / _ \/ _` |
+| |__|  __/ (_| |   <  __/ (_| |
+|_____\___|\__,_|_|\_\___|\__,_|
+
+| |__  _   _ 
+| '_ \| | | |
+| |_) | |_| |
+|_.__/ \__, |
+       |___/ 
+		
+ __  __    _    _ __     _______ ____  ____  _____ 
+|  \/  |  / \  | |\ \   / / ____|  _ \|  _ \| ____|
+| |\/| | / _ \ | | \ \ / /|  _| | |_) | | | |  _|  
+| |  | |/ ___ \| |__\ V / | |___|  _ <| |_| | |___ 
+|_|  |_/_/   \_\_____\_/  |_____|_| \_\____/|_____|
 
 # IMPORTANT PLEASE READ! #
 
