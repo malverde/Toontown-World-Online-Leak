@@ -1,0 +1,10 @@
+Mac users:
+First open up terminal , then use this command and put path to the ttw directory after cd
+For example cd downloads/toontown-world
+Create 3 more tabs 
+Type command sh and after u use space once drag and drop The file named start astron with an .sh at the end
+Do the same for uberdog and ai for other 2 tabs
+Then edit the start game dev .sh and change the ip to localhost or the number for it
+Then launch it
+(In the future i will create an application for u guys to run to play)
+Windows users: (to do )
